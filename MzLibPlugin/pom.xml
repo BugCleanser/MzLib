@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <artifactId>MzLibPlugin</artifactId>
+    <packaging>jar</packaging>
+    
+    <parent>
+        <groupId>mz.lib</groupId>
+        <artifactId>MzLib</artifactId>
+        <version>${revision}</version>
+    </parent>
+    
+    <name>MzLibPlugin</name>
+    
+    <properties>
+        <java.version>8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+        <finalName>MzLib-${revision}</finalName>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>io.github.karlatemp</groupId>
+            <artifactId>unsafe-accessor</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.rylinaux</groupId>
+            <artifactId>PlugMan</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../libs/PlugManX-2.3.1.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>
