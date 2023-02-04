@@ -13,9 +13,8 @@ public class PaperModule extends AbsModule
 		super(MzLib.instance);
 	}
 	
-	@Override
-	public void onEnable()
+	public boolean isPaper()
 	{
+		return isPaper;
 	}
-
 }

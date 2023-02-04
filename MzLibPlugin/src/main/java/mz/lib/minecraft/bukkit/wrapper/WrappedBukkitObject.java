@@ -1,5 +1,6 @@
 package mz.lib.minecraft.bukkit.wrapper;
 
+import mz.lib.minecraft.bukkit.paper.*;
 import mz.lib.wrapper.*;
 
 import java.lang.annotation.*;
@@ -11,6 +12,8 @@ public interface WrappedBukkitObject extends WrappedObject
 	@Override
 	default Class<?> getAnnotationClass(Class<? extends WrappedObject> wrapper)
 	{
+		if(wrapper.getDeclaredAnnotation(PaperOnly.class)!=null&&!PaperModule.instance.isPaper())
+			return null;
 		WrappedBukkitClass a=wrapper.getDeclaredAnnotation(WrappedBukkitClass.class);
 		if(a!=null)
 			for(String n:BukkitWrapper.cov(BukkitWrapper.inVersion(a.value())))
