@@ -119,6 +119,11 @@
             <id>bungeecord-repo</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
+    
+        <repository>
+            <id>PlugMan</id>
+            <url>https://raw.githubusercontent.com/TheBlackEntity/PlugMan/repository/</url>
+        </repository>
     </repositories>
     
     <dependencyManagement>
@@ -160,7 +165,8 @@
             <dependency>
                 <groupId>com.rylinaux</groupId>
                 <artifactId>PlugMan</artifactId>
-                <version>2.3.1</version>
+                <version>2.2.9</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
