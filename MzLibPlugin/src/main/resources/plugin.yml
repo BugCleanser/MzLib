@@ -1,0 +1,7 @@
+name: MzLib
+version: ${project.version}
+authors: [ "Meng Zhao", "Lv Yitian" ]
+main: mz.lib.minecraft.bukkit.MzLib
+loadbefore: [ QuickShop ]
+softdepend: [ PlugMan ]
+api-version: 1.13

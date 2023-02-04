@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <artifactId>MzLibAgent</artifactId>
+    <packaging>jar</packaging>
+    
+    <parent>
+        <groupId>mz.lib</groupId>
+        <artifactId>MzLib</artifactId>
+        <version>${revision}</version>
+    </parent>
+    
+    <name>MzLibAgent</name>
+    
+    <properties>
+        <java.version>8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+        <finalName>MzLibAgent</finalName>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>io.github.karlatemp</groupId>
+            <artifactId>unsafe-accessor</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

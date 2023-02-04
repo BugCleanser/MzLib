@@ -28,7 +28,7 @@ public class InstrumentationGetterAgent
 		}
 		catch(Throwable e)
 		{
-			throw TypeUtil.throwException(e);
+			throw new RuntimeException(e);
 		}
 		return bos.toByteArray();
 	}

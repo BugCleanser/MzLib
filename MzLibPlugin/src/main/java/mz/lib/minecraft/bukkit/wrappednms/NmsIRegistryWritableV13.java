@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import com.mojang.serialization.Lifecycle;
 import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.warppedmojang.WrappedLifecycleV16;
 import mz.lib.minecraft.bukkit.wrapper.*;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
@@ -10,5 +10,5 @@ import mz.lib.wrapper.WrappedObject;
 public interface NmsIRegistryWritableV13 extends WrappedBukkitObject
 {
 	@WrappedMethod("a")
-	WrappedObject add(int id,NmsResourceKey resKey,WrappedObject obj,Lifecycle lifecycle);
+	WrappedObject add(int id, NmsResourceKey resKey, WrappedObject obj, WrappedLifecycleV16 lifecycle);
 }

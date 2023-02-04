@@ -1,7 +1,0 @@
-name: MzLib
-authors: ["Meng Zhao","Lv Yitian"]
-version: 10.0.1-pre48
-main: mz.lib.minecraft.bukkit.MzLib
-loadbefore: [QuickShop]
-softdepend: [PlugMan]
-api-version: 1.13

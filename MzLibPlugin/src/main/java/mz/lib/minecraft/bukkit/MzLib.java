@@ -60,7 +60,7 @@ public class MzLib extends MzPlugin
 		if(ClassUtil.findLoadedClass(Event.class.getClassLoader(),"org.bukkit.event.entity.EntityDropItemEvent")==null)
 			ClassUtil.loadClass("org.bukkit.event.entity.EntityDropItemEvent",FileUtil.readInputStream(this.getResource("org/bukkit/event/entity/EntityDropItemEvent.class")),Event.class.getClassLoader());
 		
-		if(PaperModule.instance.isPaper())
+		if(PaperModule.instance.isPaper)
 			PaperModule.instance.load();
 		
 		RegistrarRegistrar.instance.load();

@@ -1,7 +1,6 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.common.collect.BiMap;
-import com.mojang.serialization.Lifecycle;
 import mz.lib.Optional;
 import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcObject2IntMapV13_18;
@@ -93,7 +92,7 @@ public interface NmsRegistryMaterials extends WrappedBukkitObject
 	}
 	
 	@WrappedBukkitFieldAccessor({@VersionName(minVer=16,value="@0",maxVer=18.2f),@VersionName(minVer=18.2f,value="@3")})
-	Map<Object,Lifecycle> getLifecycleMapV16();
+	Map<Object,Object> getLifecycleMapV16();
 	
 	@WrappedBukkitMethod(@VersionName("@0"))
 	int getId(WrappedObject obj);
