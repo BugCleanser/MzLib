@@ -6,6 +6,7 @@ import mz.lib.minecraft.bukkit.message.MessageComponent;
 import mz.lib.minecraft.bukkit.message.WrappedComponentPaper;
 import mz.lib.minecraft.bukkit.message.WrappedPaperAdventure;
 import mz.lib.minecraft.bukkit.module.AbsModule;
+import mz.lib.minecraft.bukkit.paper.*;
 import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutChat;
 import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
 import mz.lib.wrapper.WrappedObject;
@@ -44,7 +45,7 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 				try
 				{
 					component=packet.getComponentPaper().getRaw();
-					packet.setComponentPaper(WrappedObject.getStatic(mz.lib.minecraft.bukkit.paper.WrappedComponentPaper.class));
+					packet.setComponentPaper(WrappedObject.getStatic(WrappedComponentPaperV17.class));
 				}
 				catch(Throwable e)
 				{

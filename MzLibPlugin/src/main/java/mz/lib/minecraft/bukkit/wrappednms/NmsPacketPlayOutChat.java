@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.Optional;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.paper.WrappedComponentPaper;
+import mz.lib.minecraft.bukkit.paper.WrappedComponentPaperV17;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -14,10 +14,10 @@ public interface NmsPacketPlayOutChat extends NmsPacket
 {
 	@Optional
 	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	WrappedComponentPaper getComponentPaper();
+	WrappedComponentPaperV17 getComponentPaper();
 	@Optional
 	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	NmsPacketPlayOutChat setComponentPaper(WrappedComponentPaper component);
+	NmsPacketPlayOutChat setComponentPaper(WrappedComponentPaperV17 component);
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))
 	BaseComponent[] getMd5MsgV_19();
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))
