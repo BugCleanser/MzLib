@@ -22,7 +22,7 @@
     
     <build>
         <defaultGoal>clean package</defaultGoal>
-        <finalName>MzLib-${revision}</finalName>
+        <finalName>MzLib v${revision}</finalName>
         
         <plugins>
             <plugin>

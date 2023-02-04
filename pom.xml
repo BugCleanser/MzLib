@@ -19,7 +19,7 @@
     <properties>
         <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <revision>10.0.1-pre48</revision>
+        <revision>10.0.1-pre48-test6</revision>
     </properties>
     
     <build>
