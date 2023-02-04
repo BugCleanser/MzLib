@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="17" jdk_type="JavaSDK">
+	<contentEntry url="file://$MODULE_DIR$">
+		<excludeFolder url="file://$MODULE_DIR$/src/mz/lib/minecraft/bukkit/recipeold"/>
+		<excludeFolder url="file://$MODULE_DIR$/src/mz/lib/fengjianold"/>
+	</contentEntry>
+	<lib name="tools.jar" scope="PROVIDED"/>
+	<lib name="ExcellentEnchants.jar" scope="PROVIDED"/>
+	<lib name="ByteBuddyAgent" scope="COMPILE">
+		<relative-module-cls project-related="file://$PROJECT_DIR$/ByteBuddyAgent"/>
+	</lib>
+	<lib name="UnsafeAccessor" scope="PROVIDED"/>
+	<lib name="DeEnchantment-1.1.0-all.jar" scope="PROVIDED"/>
+	<lib name="CustomCraft.jar" scope="PROVIDED"/>
+	<lib name="spigot-1.12.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/../../library/spigot-1.12.jar!/"/>
+	</lib>
+	<lib name="ViaBackwards-4.3.1.jar" scope="PROVIDED"/>
+	<lib name="ViaRewind-2.0.2.jar" scope="PROVIDED"/>
+	<lib name="ViaVersion-4.3.1.jar" scope="PROVIDED"/>
+	<lib name="spigot-1.16.5.jar" scope="PROVIDED"/>
+	<lib name="GoldenEnchants.jar" scope="PROVIDED"/>
+	<lib name="worldedit.jar" scope="PROVIDED"/>
+	<lib name="Spigot-1.12.2.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/../../library/Spigot-1.12.2.jar!/"/>
+	</lib>
+	<lib name="Spigot-1.17.1.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/../../library/Spigot-1.17.1.jar!/"/>
+	</lib>
+	<lib name="Tuinity-1.17.1.jar" scope="PROVIDED"/>
+	<levels>
+		<level name="spigot-lib-1.19.3" value="project"/>
+		<level name="akarin-1.14.4" value="project"/>
+		<level name="paper-1.13.2" value="project"/>
+		<level name="spigot-1.19" value="project"/>
+		<level name="yarn-1.14" value="project"/>
+		<level name="Paper-1.12.2" value="project"/>
+		<level name="EcoEnchants v9.15.3" value="project"/>
+	</levels>
+</component>

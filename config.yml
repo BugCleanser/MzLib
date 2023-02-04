@@ -1,0 +1,23 @@
+configVersion: 1
+hotLoadingTips: true
+func:
+  QuickShopSupport: true #1.12的旧版QuickShop支持
+  showDropName: true
+  showEnchant:  #附魔显示
+    RomanNumLimit: 50 #罗马数字上限，超过的等级显示为阿拉伯数字
+  showItemOnHand: #主手物品展示
+    enable: true #是否启用
+    max: 5 #每个消息包含keys的最大数量，超过则忽略这条消息
+    keys: #会被替换为手中物品的关键字，游戏中将i替换为1~9则表示快捷栏特定物品
+     - "{i}"
+     - "[i]"
+     - "%i"
+    commands: #聊天消息之外要使用此功能的（聊天）命令
+     - say
+     - tell
+     - broadcast
+     - bc
+     - m
+     - r
+mapOffset: 16384 #MzLib使用的地图id起始点，请使其远离服务器用的地图
+defaultLang: zh_cn #控制台、命令方块等使用的语言
