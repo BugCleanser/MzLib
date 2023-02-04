@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkit.warppedmojang;
+package mz.lib.minecraft.bukkit.wrappedmojang;
 
 import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
