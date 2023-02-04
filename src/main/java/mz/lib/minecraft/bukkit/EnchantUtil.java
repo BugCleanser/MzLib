@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.*;
+import mz.lib.MapEntry;
+import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.event.SetItemEvent;
 import mz.lib.minecraft.bukkit.event.ShowItemEvent;
 import mz.lib.minecraft.bukkit.itemstack.EnchantedBookBuilder;
@@ -12,21 +13,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import su.nightexpress.excellentenchants.api.enchantment.ExcellentEnchant;
-import su.nightexpress.goldenenchants.manager.enchants.GoldenEnchant;
-import top.iseason.kotlin.deenchantment.manager.DeEnchantmentWrapper;
 
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.stream.*;
 
 public final class EnchantUtil
 {

@@ -2,7 +2,7 @@ package mz.lib.minecraft.bungee;
 
 import com.sun.tools.javac.util.ByteBuffer;
 import mz.lib.MzConnection;
-import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
@@ -22,7 +22,7 @@ public final class ConnectionUtilBC
 	}
 	public static MzConnection toMzConnection(ServerInfo server,String channel)
 	{
-		BungeeCord.getInstance().registerChannel(channel);
+		ProxyServer.getInstance().registerChannel(channel);
 		MzConnection[] mzc={null};
 		Listener listener=new Listener()
 		{
@@ -37,7 +37,7 @@ public final class ConnectionUtilBC
 				}
 			}
 		};
-		BungeeCord.getInstance().getPluginManager().registerListener(MzLibBC.instance,listener);
+		ProxyServer.getInstance().getPluginManager().registerListener(MzLibBC.instance,listener);
 		return mzc[0]=new MzConnection(new OutputStream()
 		{
 			ProxiedPlayer pp;
@@ -77,8 +77,8 @@ public final class ConnectionUtilBC
 			@Override
 			public void close() throws IOException
 			{
-				BungeeCord.getInstance().getPluginManager().unregisterListener(listener);
-				BungeeCord.getInstance().unregisterChannel(channel);
+				ProxyServer.getInstance().getPluginManager().unregisterListener(listener);
+				ProxyServer.getInstance().unregisterChannel(channel);
 			}
 		});
 	}
