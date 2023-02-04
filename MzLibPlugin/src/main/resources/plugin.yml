@@ -1,6 +1,6 @@
 name: MzLib
 version: ${project.version}
-authors: [ "Meng Zhao", "Lv Yitian" ]
+authors: [ "Meng Zhao", "Lv Yitian" , "Yurinann"]
 main: mz.lib.minecraft.bukkit.MzLib
 loadbefore: [ QuickShop ]
 softdepend: [ PlugMan ]
