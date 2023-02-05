@@ -27,16 +27,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
             
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.8.7
-          
-      - name: Package with Maven
-        run: mvn -B package --file pom.xml
+      - name: Package with Gradle
+        run: gradlew shadowJar
 
       - name: Target Staging
-        run: mkdir staging && cp target/*.jar staging
+        run: mkdir staging && cp MzLibPlugin/build/libs/*-all.jar staging && cp MzLibAgent/build/libs/*-all.jar staging
           
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2

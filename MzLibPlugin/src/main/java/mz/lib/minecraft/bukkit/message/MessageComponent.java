@@ -147,7 +147,14 @@ public abstract class MessageComponent implements Cloneable
 			r.extra=md5.getExtra().stream().map(e->parse(e)).collect(Collectors.toList());
 		r.color=md5.getColor();
 		if(BukkitWrapper.version>=16)
-			r.fontV16=md5.getFont();
+		{
+			try{
+				r.fontV16=mz.lib.TypeUtil.cast(md5.getClass().getMethod("getFont").invoke(md5));
+			}catch(Throwable t){
+				mz.lib.TypeUtil.throwException(t);
+				return null;
+			}
+		}
 		r.bold=md5.isBold();
 		r.italic=md5.isItalic();
 		r.underlined=md5.isUnderlined();

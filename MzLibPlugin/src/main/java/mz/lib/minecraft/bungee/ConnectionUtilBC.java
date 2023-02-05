@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bungee;
 
-import com.sun.tools.javac.util.ByteBuffer;
+import java.io.ByteArrayOutputStream;
 import mz.lib.MzConnection;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -41,21 +41,21 @@ public final class ConnectionUtilBC
 		return mzc[0]=new MzConnection(new OutputStream()
 		{
 			ProxiedPlayer pp;
-			ByteBuffer buf=new ByteBuffer();
+			ByteArrayOutputStream buf=new ByteArrayOutputStream();
 			@Override
 			public void write(int b) throws IOException
 			{
-				buf.appendByte(b);
+				buf.write(b);
 			}
 			@Override
 			public void write(byte[] b) throws IOException
 			{
-				buf.appendBytes(b);
+				buf.write(b, 0, b.length);
 			}
 			@Override
 			public void write(byte[] b,int off,int len) throws IOException
 			{
-				buf.appendBytes(b,off,len);
+				buf.write(b,off,len);
 			}
 			@Override
 			public void flush() throws IOException
@@ -71,8 +71,9 @@ public final class ConnectionUtilBC
 						throw new NoPlayerInServerException();
 					}
 				}
-				pp.sendData(channel,buf.elems);
-				buf=new ByteBuffer();
+				pp.sendData(channel,buf.toByteArray());
+				try{buf.close();}catch(Throwable t){}
+				buf=new ByteArrayOutputStream();
 			}
 			@Override
 			public void close() throws IOException

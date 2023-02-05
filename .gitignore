@@ -1,3 +1,5 @@
+.gradle/
+build/
 ### Maven ###
 target/
 pom.xml.tag
