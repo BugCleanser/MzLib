@@ -1,10 +1,10 @@
 package mz.lib.minecraft.bukkit;
 
-import com.sun.tools.javac.util.ByteBuffer;
 import mz.lib.MzConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,22 +25,22 @@ public final class ConnectionUtil
 		});
 		return mzc[0]=new MzConnection(new OutputStream()
 		{
-			ByteBuffer buf=new ByteBuffer();
+			ByteArrayOutputStream buf=new ByteArrayOutputStream();
 			Player p;
 			@Override
 			public void write(int b) throws IOException
 			{
-				buf.appendByte(b);
+				buf.write(b);
 			}
 			@Override
 			public void write(byte[] b) throws IOException
 			{
-				buf.appendBytes(b);
+				buf.write(b, 0, b.length);
 			}
 			@Override
 			public void write(byte[] b,int off,int len) throws IOException
 			{
-				buf.appendBytes(b,off,len);
+				buf.write(b,off,len);
 			}
 			@Override
 			public void flush() throws IOException
@@ -56,8 +56,9 @@ public final class ConnectionUtil
 						throw new NoPlayerInServerException();
 					}
 				}
-				p.sendPluginMessage(MzLib.instance,channel,buf.elems);
-				buf=new ByteBuffer();
+				p.sendPluginMessage(MzLib.instance,channel,buf.toByteArray());
+				try{buf.close();}catch(Throwable t){}
+				buf=new ByteArrayOutputStream();
 			}
 			@Override
 			public void close() throws IOException
