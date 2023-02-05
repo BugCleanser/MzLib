@@ -38,7 +38,11 @@ public interface BitMap extends MzMap
 		if(mzTag().containsKey("mapDataCompressed"))
 			mzTag().remove("mapDataCompressed");
 		//mzTag().set("mapDataCompressed",WrappedObject.allocInstance(NmsNBTTagByteArray.class).setData(FileUtil.deflate(bits)));
-		mzTag().set("mapDataBase64",NmsNBTTagString.newInstance(new String(Base64.getEncoder().encode(FileUtil.deflate(bits)),StandardCharsets.ISO_8859_1)));
+		setBits(new String(Base64.getEncoder().encode(FileUtil.deflate(bits)),StandardCharsets.ISO_8859_1));
+	}
+	default void setBits(String base64)
+	{
+		mzTag().set("mapDataBase64",NmsNBTTagString.newInstance(base64));
 	}
 	default byte[] getBits()
 	{
