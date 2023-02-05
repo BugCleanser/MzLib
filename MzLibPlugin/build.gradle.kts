@@ -12,10 +12,10 @@ plugins {
 
 tasks {
     named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("MzLibPlugin")
+        archiveBaseName.set("MzLib")
+        archiveName=archiveBaseName.get()+" v"+archiveVersion.get()+".jar";
         mergeServiceFiles()
         manifest {
-            
         }
     }
 }
