@@ -1,5 +1,3 @@
-.gradle/
-build/
 ### Maven ###
 target/
 pom.xml.tag
@@ -11,6 +9,10 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+### Gradle ###
+.gradle/
+build/
+out/
 
 ### Eclipse ###
 .metadata
