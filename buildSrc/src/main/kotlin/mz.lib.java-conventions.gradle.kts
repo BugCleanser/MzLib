@@ -49,7 +49,9 @@ publishing {
         from(components["java"])
     }
 }
-
+tasks.processResources{
+    expand("version" to project.version)
+}
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
 }
