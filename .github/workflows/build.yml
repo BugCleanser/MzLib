@@ -27,7 +27,7 @@ jobs:
             ${{ runner.os }}-maven-
             
       - name: Package with Gradle
-        run: gradlew shadowJar
+        run: ./gradlew shadowJar
 
       - name: Target Staging
         run: mkdir staging && cp MzLibPlugin/build/libs/*-all.jar staging && cp MzLibAgent/build/libs/*-all.jar staging
