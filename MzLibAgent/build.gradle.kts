@@ -16,6 +16,8 @@ dependencies {
 tasks {
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set("MzLibAgent")
+        archiveName=archiveBaseName.get()+".jar";
+        destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile,"target"))
         mergeServiceFiles()
         manifest {
             attributes(mapOf("Premain-Class" to "mz.lib.InstrumentationGetterAgent"))
