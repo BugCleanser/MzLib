@@ -1,8 +1,9 @@
-name: Build with Maven
+name: Build with Gradle
 
 on:
   workflow_dispatch:
   push:
+  pull_request:
 
 jobs:
   build:
@@ -17,17 +18,23 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-          
-      - name: Cache local Maven repository
+          cache: gradle
+            
+      - name: Cache local Gradle repository
         uses: actions/cache@v3.2.4
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-gradle-
+            
+      - name: make gradle wrapper executable
+        run: chmod +x ./gradlew
             
       - name: Package with Gradle
-        run: chmod 7777 gradlew && ./gradlew shadowJar
+        run: ./gradlew shadowJar --no-daemon
 
       - name: Target Staging
         run: mkdir staging && cp target/*.jar staging
