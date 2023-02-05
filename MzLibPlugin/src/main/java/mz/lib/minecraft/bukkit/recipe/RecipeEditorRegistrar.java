@@ -6,6 +6,7 @@ import mz.lib.minecraft.bukkit.gui.*;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IRegistrar;
 import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkit.wrappednms.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class RecipeEditorRegistrar extends AbsModule implements IRegistrar<Recip
 	@Override
 	public void onEnable()
 	{
+		reg(NmsAutoRecipe.class);
+		
 		reg(ShapedRecipeEditor.instance);
 	}
 }
