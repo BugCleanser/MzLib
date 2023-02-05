@@ -14,6 +14,7 @@ tasks {
     named<ShadowJar>("shadowJar") {
         archiveBaseName.set("MzLib")
         archiveName=archiveBaseName.get()+" v"+archiveVersion.get()+".jar";
+        destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile,"target"))
         mergeServiceFiles()
         manifest {
         }
