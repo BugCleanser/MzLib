@@ -1,4 +1,12 @@
-# MzLib
+<div align=center> 
+
+<img src="https://raw.githubusercontent.com/BugCleanser/MzLib/main/.github/assets/banner.png"/>
+
+***A base plugin and library in Bukkit***
+
+</div>
+ 
+---
 
 ## 构建
 1. Clone 此项目；
