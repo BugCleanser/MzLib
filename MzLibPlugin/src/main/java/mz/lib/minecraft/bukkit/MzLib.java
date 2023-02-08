@@ -37,10 +37,49 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.reflect.Method;
+import java.util.function.Consumer;
+
+import io.github.karlatemp.unsafeaccessor.ModuleAccess;
+import io.github.karlatemp.unsafeaccessor.Root;
 import java.util.*;
 
 public class MzLib extends MzPlugin
 {
+        static{
+          try{
+          Root.getUnsafe().ensureClassInitialized(Class.forName("sun.misc.Unsafe"));
+	  Lookup trusted = Root.getTrusted();
+	  Class<?> reflection = Class.forName("jdk.internal.reflect.Reflection");
+	  Object[] tmparr = new Object[] { null };
+	  trusted.findStaticSetter(reflection, "ALL_MEMBERS", java.util.Set.class).invokeWithArguments(tmparr);
+	  trusted.findStaticSetter(reflection, "WILDCARD", String.class).invokeWithArguments(tmparr);
+	  trusted.findStaticSetter(reflection, "methodFilterMap", java.util.Map.class).invokeWithArguments(tmparr);
+	  trusted.findStaticSetter(reflection, "fieldFilterMap", java.util.Map.class).invokeWithArguments(tmparr);
+	  ModuleAccess modacc = Root.getModuleAccess();
+	  Class<?> module = Class.forName("java.lang.Module");
+		try {
+			MethodHandle ena = trusted.findSetter(module, "enableNativeAccess", java.lang.Boolean.TYPE);
+			tmparr = new Object[] { modacc.getALL_UNNAMED_MODULE(), true };
+			try {
+				ena.invokeWithArguments(tmparr);
+			} catch (Throwable e) {
+			}
+			tmparr[0] = modacc.getEVERYONE_MODULE();
+			try {
+				ena.invokeWithArguments(tmparr);
+			} catch (Throwable e) {
+			}
+		} catch (Throwable e) {
+		}
+                try{
+		  Root.openAccess(Class.forName("jdk.internal.module.IllegalAccessLogger").getDeclaredField("logger")).set(null,
+				null);
+		}catch(Throwable t){}
+        }catch(Throwable t){}
+        }
 	public static MzLib instance;
 	{
 		instance=this;
