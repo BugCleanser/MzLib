@@ -45,7 +45,7 @@ public interface NmsAutoRecipe extends WrappedBukkitObject, NothingBukkit
 		{
 			if(!ItemStackBuilder.isAir(ObcItemStack.asCraftMirror(WrappedObject.wrap(NmsSlot.class,s).getItem()).getRaw()))
 			{
-				((Chunk)null).getEntities()
+				((Chunk)null).getEntities();
 			}
 		}
 		return false;
