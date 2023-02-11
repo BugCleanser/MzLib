@@ -41,7 +41,7 @@ public class RecipeEditorRegistrar extends AbsModule implements IRegistrar<Recip
 	@Override
 	public void onEnable()
 	{
-		reg(NmsAutoRecipe.class);
+		//reg(NmsAutoRecipe.class);
 		
 		reg(ShapedRecipeEditor.instance);
 	}

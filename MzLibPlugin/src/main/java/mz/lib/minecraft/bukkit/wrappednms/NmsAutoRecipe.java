@@ -7,7 +7,6 @@ import mz.lib.minecraft.bukkit.wrappedobc.*;
 import mz.lib.minecraft.bukkit.wrapper.*;
 import mz.lib.nothing.*;
 import mz.lib.wrapper.*;
-import org.bukkit.*;
 import org.bukkit.entity.*;
 
 import java.util.*;
@@ -45,7 +44,6 @@ public interface NmsAutoRecipe extends WrappedBukkitObject, NothingBukkit
 		{
 			if(!ItemStackBuilder.isAir(ObcItemStack.asCraftMirror(WrappedObject.wrap(NmsSlot.class,s).getItem()).getRaw()))
 			{
-				((Chunk)null).getEntities();
 			}
 		}
 		return false;
