@@ -30,6 +30,8 @@ public interface NmsPacketPlayOutSpawnEntity extends NmsPacket
 	
 	@WrappedBukkitFieldAccessor(@VersionName(value="@0",minVer=14))
 	NmsEntityTypes getEntityTypeV14();
+	@WrappedBukkitFieldAccessor(@VersionName(value="@0",minVer=14))
+	NmsPacketPlayOutSpawnEntity setEntityTypeV14(NmsEntityTypes type);
 	@WrappedBukkitFieldAccessor(@VersionName(value="@6",maxVer=14))
 	int getMainEntityTypeV_14();
 	@WrappedBukkitFieldAccessor(@VersionName(value="@7",maxVer=14))

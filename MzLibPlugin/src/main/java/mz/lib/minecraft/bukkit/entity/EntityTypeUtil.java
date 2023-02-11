@@ -22,6 +22,10 @@ public class EntityTypeUtil
 	{
 		return fromId(NmsIRegistry.getEntityTypesV13().getKey(type));
 	}
+	public static NmsEntityTypes toNmsV13(EntityType type)
+	{
+		return NmsIRegistry.getEntityTypesV13().get(NmsMinecraftKey.newInstance(type.getName()),NmsEntityTypes.class);
+	}
 	@SuppressWarnings("deprecation")
 	public static EntityType fromId(NmsMinecraftKey id)
 	{
