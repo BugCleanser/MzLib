@@ -12,7 +12,7 @@ public class DebugMethodsSubcommand extends AbsLastCommandProcessor
     public static DebugMethodsSubcommand instance=new DebugMethodsSubcommand();
     public DebugMethodsSubcommand()
     {
-        super(true,null,"methods");
+        super(false,null,"methods");
     }
 
     @CommandHandler

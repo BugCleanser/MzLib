@@ -31,7 +31,7 @@ public class DebugSlotCommand extends AbsLastCommandProcessor implements ISimple
 	public static DebugSlotCommand instance=new DebugSlotCommand();
 	public DebugSlotCommand()
 	{
-		super(true,null,"slot");
+		super(false,null,"slot");
 	}
 	
 	List<Player> debugPlayers=new LinkedList<>();

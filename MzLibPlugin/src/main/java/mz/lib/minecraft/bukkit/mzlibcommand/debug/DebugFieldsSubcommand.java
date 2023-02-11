@@ -12,7 +12,7 @@ public class DebugFieldsSubcommand extends AbsLastCommandProcessor
     public static DebugFieldsSubcommand instance=new DebugFieldsSubcommand();
     public DebugFieldsSubcommand()
     {
-        super(true,null,"fields");
+        super(false,null,"fields");
     }
 
     @CommandHandler
