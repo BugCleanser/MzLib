@@ -57,7 +57,7 @@ mzlib.command.sunday.success = §a已将世界%{world}设为§m星期日§a晴�
 
 mzlib.command.give.effect = 给予玩家一个MZ物品
 mzlib.command.give.success = §a得到了%{item}
-mzlib.command.give.other.success = §a将%{item}给予了%{player}
+mzlib.command.give.other.success = §a将%{item}§a给予了%{player}
 
 mzlib.command.respawn.effect = 复活一个玩家
 mzlib.command.respawn.success = §a复活了玩家%{player}
