@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.*;
+import mz.lib.minecraft.bukkit.entity.*;
 import mz.lib.minecraft.bukkit.wrapper.*;
 import org.bukkit.entity.*;
 

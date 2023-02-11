@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkit;
 
 import com.google.common.collect.Lists;
+import mz.lib.minecraft.bukkit.entity.*;
 import mz.lib.minecraft.bukkit.event.SendEntityMetadataEvent;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.AbsModule;
