@@ -8,6 +8,7 @@ import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
+import mz.lib.minecraft.bukkit.item.*;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.message.MessageComponent;
 import mz.lib.minecraft.bukkit.message.TextMessageComponent;
@@ -49,6 +50,9 @@ public class ItemInfoSubcommand extends AbsLastCommandProcessor
 			msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.num"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{num\\}",isb.getCount()+"")))),sender,isb.getCount()+""));
 			if(isb.hasTag())
 				msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.tag"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{tag\\}",isb.tag().toString())))),sender,isb.tag().toString()));
+			MzItem mzItem=MzItem.get(is);
+			if(mzItem!=null)
+				mzItem.attachItemInfo(msg);
 			MessageComponent.merge(msg.toArray(new MessageComponent[0])).send(sender);
 		}
 		else

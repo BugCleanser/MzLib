@@ -5,6 +5,7 @@ import mz.lib.Ref;
 import mz.lib.StringUtil;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.message.*;
 import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagByte;
 import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
@@ -52,6 +53,11 @@ public interface MzItem extends MzObject
 	default String getTranslatedKey()
 	{
 		return null;
+	}
+	
+	@CallEach
+	default void attachItemInfo(List<MessageComponent> msgs)
+	{
 	}
 	
 	@CallEach
