@@ -10,7 +10,7 @@ mzlib.hotloading = §eMzLib热加载中，如遇到显示问题请退出游戏�
 
 mzlib.showItemOnHand.format = §l%{item}
 
-mzlib.chat.shiftCopy = §f%{value}\n§7shift+左键复制到聊天栏
+mzlib.chat.shiftCopy = §7shift+左键复制到聊天栏: §f%{value}
 
 mzlib.dropName.displayName = [%{name}§f]
 mzlib.dropName.rawName = %{name}
@@ -78,6 +78,7 @@ mzlib.command.iteminfo.childId = §a子ID: %{childId}
 mzlib.command.iteminfo.num = §a数量: %{num}
 mzlib.command.iteminfo.tag = §atag: %{tag}
 mzlib.command.iteminfo.mzitem = §aMz物品: %{id}
+mzlib.command.iteminfo.mzitem.nameKey = §a名称键名: %{nameKey}
 
 mzlib.command.resetRecipes.effect = 重置所有原版配方
 mzlib.command.resetRecipes.success = §a重置了所有原版配方

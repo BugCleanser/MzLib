@@ -57,6 +57,8 @@ public interface MzItem extends MzObject
 	default void attachItemInfo(List<MessageComponent> msgs,Player sender)
 	{
 		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
+		if(getTranslatedKey()!=null)
+			msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.mzitem.nameKey"),new MapEntry<>("%\\{nameKey}",getTranslatedKey())),sender,getTranslatedKey()));
 	}
 	
 	@CallEach
