@@ -14,10 +14,10 @@ public interface NmsPacketPlayOutChat extends NmsPacket
 {
 	@Optional
 	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	WrappedComponentPaperV17 getComponentPaper();
+	WrappedComponentPaperV17 getComponentPaperV17();
 	@Optional
 	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	NmsPacketPlayOutChat setComponentPaper(WrappedComponentPaperV17 component);
+	NmsPacketPlayOutChat setComponentPaperV17(WrappedComponentPaperV17 component);
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))
 	BaseComponent[] getMd5MsgV_19();
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))

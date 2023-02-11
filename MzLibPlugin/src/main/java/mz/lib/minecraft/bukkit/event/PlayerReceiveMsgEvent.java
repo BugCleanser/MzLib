@@ -42,13 +42,10 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 				if(c.get())
 					return;
 				Object component=null;
-				try
+				if(BukkitWrapper.v17&&PaperModule.instance.isPaper())
 				{
-					component=packet.getComponentPaper().getRaw();
-					packet.setComponentPaper(WrappedObject.getStatic(WrappedComponentPaperV17.class));
-				}
-				catch(Throwable e)
-				{
+					component=WrappedObject.getRaw(packet.getComponentPaperV17());
+					packet.setComponentPaperV17(WrappedObject.wrap(WrappedComponentPaperV17.class,null));
 				}
 				BaseComponent[] md5=null;
 				if(BukkitWrapper.version<19)
@@ -60,17 +57,11 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 					packet.setMd5MsgV_19(null);
 				}
 				else if(component!=null)
-				{
 					msg=MessageComponent.parse(WrappedPaperAdventure.asJsonString(WrappedObject.wrap(WrappedComponentPaper.class,component),Locale.forLanguageTag(player.getLocale())));
-				}
 				else if(BukkitWrapper.version<19)
-				{
 					msg=MessageComponent.parse(packet.getNmsMsgV_19());
-				}
 				else
-				{
 					msg=MessageComponent.parse(packet.getJsonV19());
-				}
 				PlayerReceiveMsgEvent e=new PlayerReceiveMsgEvent(player,msg);
 				Bukkit.getPluginManager().callEvent(e);
 				if(e.isCancelled())

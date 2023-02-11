@@ -71,9 +71,9 @@ public class SendEntityMetadataEvent extends Event implements Cancellable
 	public List<Object> toNmsDatas()
 	{
 		if(BukkitWrapper.version<19.3f)
-			return datas.stream().map(WrappedObject::getRaw).collect(Collectors.toList());
+			return datas.stream().map(i->i.getRaw()).collect(Collectors.toList());
 		else
-			return datas.stream().map(NmsDataWatcherSerializedItemV193::newInstance).map(WrappedObject::getRaw).collect(Collectors.toList());
+			return datas.stream().map(NmsDataWatcherSerializedItemV193::newInstance).map(i->i.getRaw()).collect(Collectors.toList());
 	}
 	@Override
 	public HandlerList getHandlers()

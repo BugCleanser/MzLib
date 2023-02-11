@@ -25,7 +25,7 @@ public interface NmsPacketPlayOutMap extends NmsPacket
 	default NmsPacketPlayOutMap setIcons(List<NmsMapIcon> icons)
 	{
 		if(BukkitWrapper.v17)
-			setIconsV17(icons.stream().map(WrappedObject::getRaw).collect(Collectors.toList()));
+			setIconsV17(icons.stream().map(i->i.getRaw()).collect(Collectors.toList()));
 		else
 		{
 			NmsMapIconArray a=NmsMapIconArray.newInstance(icons.size());

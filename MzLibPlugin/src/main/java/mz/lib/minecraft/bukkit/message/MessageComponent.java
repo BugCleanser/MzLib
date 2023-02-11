@@ -82,9 +82,7 @@ public abstract class MessageComponent implements Cloneable
 	{
 		List<MessageComponent> r=new ArrayList<>();
 		for(JsonElement json:array)
-		{
 			r.add(parse(json));
-		}
 		return r;
 	}
 	public static MessageComponent parse(JsonElement json)
@@ -108,9 +106,7 @@ public abstract class MessageComponent implements Cloneable
 		else if(json.isJsonPrimitive())
 			return new TextMessageComponent(json.getAsJsonPrimitive().getAsString());
 		else if(json.isJsonArray())
-		{
 			return merge(parseAll(json.getAsJsonArray()).toArray(new MessageComponent[0]));
-		}
 		throw new IllegalArgumentException();
 	}
 	public static MessageComponent parse(BaseComponent[] md5)

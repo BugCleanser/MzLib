@@ -41,6 +41,14 @@ public interface WrappedObject
 	void setRaw(Object raw);
 	Object getRaw();
 	
+	static Object getRaw(WrappedObject wrappedObject)
+	{
+		if(wrappedObject==null)
+			return null;
+		else
+			return wrappedObject.getRaw();
+	}
+	
 	static <T extends WrappedObject> T allocInstance(Class<T> wrapper)
 	{
 		return wrap(wrapper,ClassUtil.newInstance(getRawClass(wrapper)));
@@ -433,6 +441,8 @@ public interface WrappedObject
 							}
 							throw e.getCause();
 						}
+						else
+							throw e;
 					}
 					cl.getDeclaredField("objects").set(null,objects.toArray());
 					synchronized(cache)
