@@ -247,12 +247,9 @@ public class ItemStackBuilder implements Supplier<ItemStack>
 	}
 	public static String getDropName(ItemStack is,CommandSender sender)
 	{
-		if(sender instanceof Player)
-		{
-			ShowItemEvent event=new ShowItemEvent((Player) sender,is);
-			Bukkit.getPluginManager().callEvent(event);
-			is=event.item.get();
-		}
+		ShowItemEvent event=new ShowItemEvent(sender instanceof Player?(Player) sender:null,is);
+		Bukkit.getPluginManager().callEvent(event);
+		is=event.item.get();
 		return getDropName0(is,sender);
 	}
 	public static String getDropNameWithNum(String dropName,int num,CommandSender sender)

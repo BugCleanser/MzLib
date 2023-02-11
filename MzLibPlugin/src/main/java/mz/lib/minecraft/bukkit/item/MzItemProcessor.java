@@ -84,9 +84,7 @@ public class MzItemProcessor extends AbsModule
 	{
 		MzItem mi=MzItem.get(event.item.get());
 		if(mi!=null)
-		{
 			mi.onShow(event.player);
-		}
 	}
 	
 	@EventHandler(priority=EventPriority.LOW)
