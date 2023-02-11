@@ -39,21 +39,21 @@ public class ItemInfoSubcommand extends AbsLastCommandProcessor
 			MzLib.sendPluginMessage(sender,MzLib.instance,LangUtil.getTranslated(sender,"mzlib.command.iteminfo"));
 			List<MessageComponent> msg=new ArrayList<>();
 			msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.id"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{id\\}",isb.getId())))),sender,isb.getId()));
-			msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.material"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{material\\}",is.getType().name())))),sender,is.getType().name()));
-			msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.nameKey"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nameKey\\}",ItemStackBuilder.getTranslateKey(is))))),sender,ItemStackBuilder.getTranslateKey(is)));
-			msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.name"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{locale\\}",sender.getLocale()),new MapEntry<>("%\\{name\\}",LangUtil.getTranslated(sender,ItemStackBuilder.getTranslateKey(is)))))),sender,LangUtil.getTranslated(sender,ItemStackBuilder.getTranslateKey(is))));
+			msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.material"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{material\\}",is.getType().name())))),sender,is.getType().name()));
+			msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.nameKey"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nameKey\\}",ItemStackBuilder.getTranslateKey(is))))),sender,ItemStackBuilder.getTranslateKey(is)));
+			msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.name"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{locale\\}",sender.getLocale()),new MapEntry<>("%\\{name\\}",LangUtil.getTranslated(sender,ItemStackBuilder.getTranslateKey(is)))))),sender,LangUtil.getTranslated(sender,ItemStackBuilder.getTranslateKey(is))));
 			if(!BukkitWrapper.v13)
 			{
-				msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.numId"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{numId\\}",isb.get().getType().getId()+"")))),sender,isb.get().getType().getId()+""));
-				msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.childId"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{childId\\}",isb.getChildId()+"")))),sender,isb.getChildId()+""));
+				msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.numId"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{numId\\}",isb.get().getType().getId()+"")))),sender,isb.get().getType().getId()+""));
+				msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.childId"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{childId\\}",isb.getChildId()+"")))),sender,isb.getChildId()+""));
 			}
-			msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.num"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{num\\}",isb.getCount()+"")))),sender,isb.getCount()+""));
+			msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.num"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{num\\}",isb.getCount()+"")))),sender,isb.getCount()+""));
 			if(isb.hasTag())
-				msg.add(TextMessageComponent.textCopy("\n"+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.tag"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{tag\\}",isb.tag().toString())))),sender,isb.tag().toString()));
+				msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.tag"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{tag\\}",isb.tag().toString())))),sender,isb.tag().toString()));
 			MzItem mzItem=MzItem.get(is);
 			if(mzItem!=null)
-				mzItem.attachItemInfo(msg);
-			MessageComponent.merge(msg.toArray(new MessageComponent[0])).send(sender);
+				mzItem.attachItemInfo(msg,sender);
+			MessageComponent.mergeLines(msg.toArray(new MessageComponent[0])).send(sender);
 		}
 		else
 			MzLib.sendPluginMessage(sender,MzLib.instance,LangUtil.getTranslated(sender,"mzlib.command.iteminfo.error"));

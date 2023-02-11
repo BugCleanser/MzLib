@@ -1,8 +1,6 @@
 package mz.lib.minecraft.bukkit.item;
 
-import mz.lib.ListUtil;
-import mz.lib.Ref;
-import mz.lib.StringUtil;
+import mz.lib.*;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.message.*;
@@ -56,8 +54,9 @@ public interface MzItem extends MzObject
 	}
 	
 	@CallEach
-	default void attachItemInfo(List<MessageComponent> msgs)
+	default void attachItemInfo(List<MessageComponent> msgs,Player sender)
 	{
+		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
 	}
 	
 	@CallEach

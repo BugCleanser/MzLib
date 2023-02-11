@@ -47,7 +47,6 @@ mzlib.command.default.usage = §c用法:
 mzlib.command.default.usage.part = §a/%{cmd} §b%{effect}
 mzlib.command.default.usage.args = §a/%{cmd} §2%{args}
 
-mzlib.command.debug.slot.effect = 切换槽位调试模式
 mzlib.command.debug.slot.success = §a槽位调试模式已设为%{state}
 mzlib.command.debug.slot.rawSlot = §b原始槽位：%{rawSlot}
 mzlib.command.debug.slot.slotNumber = §b物品栏槽位：%{slotNumber}
@@ -69,6 +68,7 @@ mzlib.command.enchant.error = §e请手持一个物品
 
 mzlib.command.iteminfo = §a物品信息：
 mzlib.command.iteminfo.effect = 得到手中物品的信息
+mzlib.command.iteminfo.error = §e请手持一个物品
 mzlib.command.iteminfo.id = §aID: %{id}
 mzlib.command.iteminfo.material = §a材料: %{material}
 mzlib.command.iteminfo.nameKey = §a名称键名: %{nameKey}
@@ -77,7 +77,7 @@ mzlib.command.iteminfo.numId = §a数字ID: %{numId}
 mzlib.command.iteminfo.childId = §a子ID: %{childId}
 mzlib.command.iteminfo.num = §a数量: %{num}
 mzlib.command.iteminfo.tag = §atag: %{tag}
-mzlib.command.iteminfo.error = §e请手持一个物品
+mzlib.command.iteminfo.mzitem = §aMz物品: %{id}
 
 mzlib.command.resetRecipes.effect = 重置所有原版配方
 mzlib.command.resetRecipes.success = §a重置了所有原版配方
@@ -107,7 +107,6 @@ mzlib.command.loadMap.file = 地图文件路径
 
 
 mzlib.inputBox.OK = §a完成
-mzlib.inputBox.return = §5§n[返回]
 mzlib.menu.help = §a帮助
 mzlib.menu.return = §5返回
 mzlib.menu.pageUp = §a上一页

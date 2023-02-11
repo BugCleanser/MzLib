@@ -167,6 +167,17 @@ public abstract class MessageComponent implements Cloneable
 			r.cme=ClickMsgEvent.parse(md5.getClickEvent());
 		return r;
 	}
+	public static MessageComponent mergeLines(MessageComponent ...msgs)
+	{
+		List<MessageComponent> a=new ArrayList<>();
+		for(int i=0;i<msgs.length;i++)
+		{
+			if(i!=0)
+				a.add(new TextMessageComponent("\n"));
+			a.add(msgs[i]);
+		}
+		return merge(a.toArray(new MessageComponent[0]));
+	}
 	public static MessageComponent merge(MessageComponent ...msgs)
 	{
 		if(msgs.length==0)
