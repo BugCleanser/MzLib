@@ -2,15 +2,20 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.wrappedfastutil.WfIntList;
-import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
-import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
-import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.wrapper.*;
 
 import java.util.Iterator;
 
 @WrappedBukkitClass({@VersionName(value="nms.PacketPlayOutEntityDestroy",maxVer=17),@VersionName(value="net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy",minVer=17)})
 public interface NmsPacketPlayOutEntityDestroy extends NmsPacket
 {
+	static NmsPacketPlayOutEntityDestroy newInstance(int ...ids)
+	{
+		return WrappedObject.getStatic(NmsPacketPlayOutEntityDestroy.class).staticNewInstance(ids);
+	}
+	@WrappedBukkitConstructor
+	NmsPacketPlayOutEntityDestroy staticNewInstance(int ...ids);
 	default Iterator<Integer> getIds()
 	{
 		if(BukkitWrapper.version>=18)

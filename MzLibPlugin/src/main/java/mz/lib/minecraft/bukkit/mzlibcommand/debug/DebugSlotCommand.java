@@ -3,16 +3,14 @@ package mz.lib.minecraft.bukkit.mzlibcommand.debug;
 import mz.lib.ListUtil;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkit.LangUtil;
-import mz.lib.minecraft.bukkit.MzLib;
-import mz.lib.minecraft.bukkit.WrappedInventoryClickEvent;
+import mz.lib.minecraft.bukkit.*;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
 import mz.lib.minecraft.bukkit.slot.CursorSlot;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.ISimpleModule;
 import mz.lib.minecraft.bukkit.module.ModuleData;
-import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;
+import mz.lib.minecraft.bukkit.wrappednms.*;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.entity.Player;
@@ -37,7 +35,7 @@ public class DebugSlotCommand extends AbsLastCommandProcessor implements ISimple
 	List<Player> debugPlayers=new LinkedList<>();
 	boolean forcePlace;
 	
-	@CommandHandler(effect="mzlib.command.debug.slot.effect")
+	@CommandHandler
 	void execute(Player sender)
 	{
 		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.debug.slot.success"),new MapEntry<>("%\\{state\\}",LangUtil.getTranslated(sender,ListUtil.toggle(debugPlayers,sender)?"mzlib.value.on":"mzlib.value.off"))));
