@@ -66,11 +66,11 @@ mzlib.command.enchant.effect = 附魔手中的物品
 mzlib.command.enchant.level = 等级
 mzlib.command.enchant.error = §e请手持一个物品
 
-mzlib.command.iteminfo = §a物品信息：
+mzlib.command.iteminfo = §a物品信息:
 mzlib.command.iteminfo.effect = 得到手中物品的信息
 mzlib.command.iteminfo.error = §e请手持一个物品
 mzlib.command.iteminfo.id = §aID: %{id}
-mzlib.command.iteminfo.material = §a材料: %{material}
+mzlib.command.iteminfo.material = §aMaterial: %{material}
 mzlib.command.iteminfo.nameKey = §a名称键名: %{nameKey}
 mzlib.command.iteminfo.name = §a名称（%{locale}）: %{name}
 mzlib.command.iteminfo.numId = §a数字ID: %{numId}
@@ -85,8 +85,6 @@ mzlib.command.resetRecipes.success = §a重置了所有原版配方
 
 mzlib.command.reload.effect = 重载配置
 mzlib.command.reload.success = §a重载了配置
-
-mzlib.command.js.effect = 运行js脚本
 
 mzlib.command.playerinfo.effect = 显示玩家信息
 mzlib.command.playerinfo = §a玩家信息：
@@ -106,6 +104,12 @@ mzlib.command.loadMap.x = 横向地图数量
 mzlib.command.loadMap.y = 纵向地图数量
 mzlib.command.loadMap.file = 地图文件路径
 
+mzlib.item.debugFish = §b调试鱼
+mzlib.item.debugFish.lore = §7右键方块或实体
+mzlib.item.debugFish.blockinfo = §a方块信息:
+mzlib.item.debugFish.blockinfo.material = §aMaterial: %{material}
+mzlib.item.debugFish.entityinfo = §a方块信息:
+mzlib.item.debugFish.entityinfo.entitytype = §aEntityType: %{entitytype}
 
 mzlib.inputBox.OK = §a完成
 mzlib.menu.help = §a帮助

@@ -42,6 +42,7 @@ public class MzItemRegistrar extends AbsModule implements IRegistrar<Class<MzIte
 	public void onEnable()
 	{
 		reg(UnknownMzItem.class);
+		reg(DebugFish.class);
 		reg(BitMap.class);
 	}
 }
