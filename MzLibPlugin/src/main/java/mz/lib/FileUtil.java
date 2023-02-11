@@ -101,7 +101,7 @@ public final class FileUtil
 	{
 		exportDir(jar,jarDir,dir,true);
 	}
-	public static void exportDir(JarFile jar,String jarDir,File dir,boolean cover)
+	public static void exportDir(JarFile jar,String jarDir,File dir,boolean replace)
 	{
 		if(dir.isFile())
 			throw new IllegalArgumentException("dir");
@@ -126,7 +126,7 @@ public final class FileUtil
 					{
 						if(!f.exists())
 							f.createNewFile();
-						else if(!cover)
+						else if(!replace)
 							break l1;
 						try(FileOutputStream fos=new FileOutputStream(f))
 						{
