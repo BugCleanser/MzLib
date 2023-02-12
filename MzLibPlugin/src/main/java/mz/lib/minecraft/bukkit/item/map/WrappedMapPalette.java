@@ -16,6 +16,11 @@ public interface WrappedMapPalette extends WrappedObject
 	{
 		return WrappedObject.getStatic(WrappedMapPalette.class).staticGetDistance(c1,c2);
 	}
+	@SuppressWarnings("deprecation")
+	static byte matchColor(Color color)
+	{
+		return MapPalette.matchColor(color);
+	}
 	
 	@WrappedFieldAccessor("colors")
 	Color[] staticGetColors();
