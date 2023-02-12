@@ -15,6 +15,10 @@ public class RGB
 	{
 		this(color.getRed(),color.getGreen(),color.getBlue());
 	}
+	public RGB(int color)
+	{
+		this(new Color(color));
+	}
 	
 	public static RGB zero()
 	{
