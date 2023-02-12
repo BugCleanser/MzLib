@@ -7,8 +7,7 @@ import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
 import mz.lib.minecraft.bukkit.command.argparser.ArgInfo;
 import mz.lib.minecraft.bukkit.entity.PlayerUtil;
-import mz.lib.minecraft.bukkit.item.map.BitMap;
-import mz.lib.minecraft.bukkit.item.map.MzMapCanvas;
+import mz.lib.minecraft.bukkit.item.map.*;
 import mz.lib.mzlang.MzObject;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -57,9 +56,34 @@ public class LoadMapSubcommand extends AbsLastCommandProcessor
 						BufferedImage s=tar.getSubimage(i*128,j*128,128,128);
 						BitMap item=MzObject.newInstance(BitMap.class);
 						MzMapCanvas canvas=new MzMapCanvas(128,128);
-						for(int k=0;k!=128;k++)
-							for(int l=0;l!=128;l++)
-								canvas.setPixel(k,l,new Color(s.getRGB(k,l),true));
+						RGB[][] temp=new RGB[128][128];
+						for(int k=0;k<128;k++)
+							for(int l=0;l<128;l++)
+								temp[k][l]=new RGB(new Color(s.getRGB(k,l)));
+						for(int l=0;l<128;l++)
+							for(int k=0;k<128;k++)
+							{
+								byte n=WrappedMapPalette.matchColor(temp[k][l].toColor());
+								canvas.setPixel0(k,l,n);
+								RGB err=temp[k][l].subtract(new RGB(WrappedMapPalette.getColors()[n<0?n+256:n]));
+								if(k+1<128)
+								{
+									temp[k+1][l]=temp[k+1][l].add(err.multiply(7./16));
+									err=err.multiply(9./16);
+								}
+								if(l+1<128)
+								{
+									if(k>0)
+									{
+										temp[k-1][l+1]=temp[k-1][l+1].add(err.multiply(3./9));
+										err=err.multiply(6./9);
+									}
+									temp[k][l+1]=temp[k][l+1].add(err.multiply(5./6));
+									err=err.multiply(1./6);
+									if(k+1<128)
+										temp[k+1][l+1]=temp[k+1][l+1].add(err);
+								}
+							}
 						item.setBits(canvas.data);
 						PlayerUtil.give(sender,item.getItemStack().getRaw());
 					}

@@ -59,48 +59,10 @@ public class MzMapCanvas implements Cloneable
 		return MapPalette.getColor(getPixel0(x,y));
 	}
 	
+	@Deprecated
 	public void setPixel(int x,int y,Color pixel)
 	{
-		setPixel0(x,y,matchColor(pixel));
-	}
-	
-	public static byte matchColor(Color rgb)
-	{
-		int index = 1;
-		double minDist = Double.MAX_VALUE;
-		Color[] colors=WrappedMapPalette.getColors();
-		for (int i=1;i<colors.length;i++)
-		{
-			Color color=colors[i];
-			double dist=WrappedMapPalette.getDistance(rgb, color);
-			if (dist < minDist)
-			{
-				minDist=dist;
-				index=i;
-			}
-		}
-		
-		double[] probabilities = new double[colors.length];
-		double sum = 0;
-		for (int i = 1; i < colors.length; i++)
-		{
-			double dist=WrappedMapPalette.getDistance(rgb,colors[i]);
-			double probability = Math.exp(-0.5 * Math.pow(dist/minDist,2));
-			sum+=probability;
-			probabilities[i]=sum;
-		}
-		
-		for (int i=1;i<colors.length;i++)
-			probabilities[i]/=sum;
-		
-		double randomValue=MzLib.rand.nextDouble();
-		for (int i=1;i<colors.length; i++)
-		{
-			if (randomValue<probabilities[i])
-				return (byte)i;
-		}
-		
-		return (byte) index;
+		setPixel0(x,y,WrappedMapPalette.matchColor(pixel));
 	}
 	
 	public void sub(MzMapCanvas sub,int x,int y)
