@@ -1,6 +1,7 @@
 package mz.lib;
 
 import java.awt.*;
+import static java.lang.Math.*;
 
 public class RGB
 {
@@ -39,5 +40,9 @@ public class RGB
 	public RGB divide(double num)
 	{
 		return new RGB((int)(r/num),(int)(g/num),(int)(b/num));
+	}
+	public Color toColor()
+	{
+		return new Color(max(0,min(255,r)),max(0,min(255,g)),max(0,min(255,b)));
 	}
 }
