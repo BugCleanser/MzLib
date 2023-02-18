@@ -4,7 +4,7 @@ import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.wrappednms.NmsEntityFishingHook;
 import mz.lib.nothing.Nothing;
 import org.bukkit.entity.FishHook;
-import org.bukkit.event.HandlerList;
+import org.bukkit.event.*;
 import org.bukkit.event.entity.EntityEvent;
 
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @see NmsEntityFishingHook
  */
-public class FishingHookClearEvent extends EntityEvent implements IFutureEvent
+public class FishingHookClearEvent extends EntityEvent implements IFutureEvent, Cancellable
 {
 	static
 	{

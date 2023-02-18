@@ -2,8 +2,7 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.module.IModule;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import org.bukkit.event.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * @see IModule
  */
-public class ModuleEnableEvent extends Event implements IFutureEvent
+public class ModuleEnableEvent extends Event implements IFutureEvent, Cancellable
 {
 	public final IModule module;
 	
