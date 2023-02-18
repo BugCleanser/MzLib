@@ -42,10 +42,10 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 				if(c.get())
 					return;
 				Object component=null;
-				if(BukkitWrapper.v17&&PaperModule.instance.isPaper())
+				if(BukkitWrapper.version>=16.5f&&PaperModule.instance.isPaper())
 				{
-					component=WrappedObject.getRaw(packet.getComponentPaperV17());
-					packet.setComponentPaperV17(WrappedObject.wrap(WrappedComponentPaperV17.class,null));
+					component=WrappedObject.getRaw(packet.getComponentPaperV165());
+					packet.setComponentPaperV165(WrappedObject.wrap(WrappedComponentPaperV165.class,null));
 				}
 				BaseComponent[] md5=null;
 				if(BukkitWrapper.version<19)

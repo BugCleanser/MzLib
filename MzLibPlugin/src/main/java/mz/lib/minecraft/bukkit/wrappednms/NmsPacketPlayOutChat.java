@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.Optional;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.paper.WrappedComponentPaperV17;
+import mz.lib.minecraft.bukkit.paper.WrappedComponentPaperV165;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -13,11 +13,11 @@ import java.util.UUID;
 public interface NmsPacketPlayOutChat extends NmsPacket
 {
 	@Optional
-	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	WrappedComponentPaperV17 getComponentPaperV17();
+	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",minVer=16.5f,maxVer=19),@VersionName(value="adventure$content",minVer=19)})
+	WrappedComponentPaperV165 getComponentPaperV165();
 	@Optional
-	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",maxVer=19),@VersionName(value="adventure$content",minVer=19)})
-	NmsPacketPlayOutChat setComponentPaperV17(WrappedComponentPaperV17 component);
+	@WrappedBukkitFieldAccessor({@VersionName(value="adventure$message",minVer=16.5f,maxVer=19),@VersionName(value="adventure$content",minVer=19)})
+	NmsPacketPlayOutChat setComponentPaperV165(WrappedComponentPaperV165 component);
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))
 	BaseComponent[] getMd5MsgV_19();
 	@WrappedBukkitFieldAccessor(@VersionName(value="components",maxVer=19))
