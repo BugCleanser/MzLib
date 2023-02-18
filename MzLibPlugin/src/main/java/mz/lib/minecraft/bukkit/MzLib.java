@@ -1,89 +1,89 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.ClassUtil;
-import mz.lib.FileUtil;
-import mz.lib.minecraft.bukkit.command.IMainCommand;
-import mz.lib.minecraft.bukkit.command.MainCommand;
-import mz.lib.minecraft.bukkit.command.argparser.ArgParserRegistrar;
+import io.github.karlatemp.unsafeaccessor.*;
+import mz.lib.*;
+import mz.lib.minecraft.bukkit.command.*;
+import mz.lib.minecraft.bukkit.command.argparser.*;
 import mz.lib.minecraft.bukkit.entity.*;
-import mz.lib.minecraft.bukkit.event.PlayerReadyEvent;
-import mz.lib.minecraft.bukkit.event.PlayerReceiveMsgEvent;
-import mz.lib.minecraft.bukkit.event.PlayerUseItemEvent;
-import mz.lib.minecraft.bukkit.event.SendEntityMetadataEvent;
-import mz.lib.minecraft.bukkit.event.SetItemEvent;
-import mz.lib.minecraft.bukkit.event.ShowInventoryItemEvent;
-import mz.lib.minecraft.bukkit.event.ShowItemEvent;
-import mz.lib.minecraft.bukkit.event.WindowOpenEvent;
-import mz.lib.minecraft.bukkit.gui.ViewList;
-import mz.lib.minecraft.bukkit.gui.inventory.AnvilUI;
-import mz.lib.minecraft.bukkit.gui.inventory.InventoryUI;
-import mz.lib.minecraft.bukkit.item.MzItemProcessor;
-import mz.lib.minecraft.bukkit.item.MzItemRegistrar;
-import mz.lib.minecraft.bukkit.item.OriginalItemFilterRegistrar;
-import mz.lib.minecraft.bukkit.item.map.MzMapProcessor;
-import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkit.event.*;
+import mz.lib.minecraft.bukkit.gui.*;
+import mz.lib.minecraft.bukkit.gui.inventory.*;
+import mz.lib.minecraft.bukkit.item.*;
+import mz.lib.minecraft.bukkit.item.map.*;
+import mz.lib.minecraft.bukkit.module.*;
 import mz.lib.minecraft.bukkit.mzlibcommand.*;
-import mz.lib.minecraft.bukkit.mzlibcommand.debug.DebugSlotCommand;
-import mz.lib.minecraft.bukkit.nothing.NothingRegistrar;
-import mz.lib.minecraft.bukkit.paper.PaperModule;
+import mz.lib.minecraft.bukkit.mzlibcommand.debug.*;
+import mz.lib.minecraft.bukkit.nothing.*;
+import mz.lib.minecraft.bukkit.paper.*;
 import mz.lib.minecraft.bukkit.permission.*;
 import mz.lib.minecraft.bukkit.recipe.*;
-import mz.lib.minecraft.bukkit.wrappednms.NmsEntity;
-import mz.lib.minecraft.bukkit.wrappednms.NmsNetworkManager;
-import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
-import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;
-import mz.lib.nothing.Nothing;
+import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.nothing.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
-import org.bukkit.event.Event;
+import org.bukkit.event.*;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles.Lookup;
-
-import io.github.karlatemp.unsafeaccessor.ModuleAccess;
-import io.github.karlatemp.unsafeaccessor.Root;
+import java.lang.invoke.*;
+import java.lang.invoke.MethodHandles.*;
 import java.util.*;
 
 public class MzLib extends MzPlugin
 {
-        static{
-          try{
-          Root.getUnsafe().ensureClassInitialized(Class.forName("sun.misc.Unsafe"));
-	  Lookup trusted = Root.getTrusted();
-	  Class<?> reflection = Class.forName("jdk.internal.reflect.Reflection");
-	  Object[] tmparr = new Object[] { null };
-	  trusted.findStaticSetter(reflection, "ALL_MEMBERS", java.util.Set.class).invokeWithArguments(tmparr);
-	  trusted.findStaticSetter(reflection, "WILDCARD", String.class).invokeWithArguments(tmparr);
-	  trusted.findStaticSetter(reflection, "methodFilterMap", java.util.Map.class).invokeWithArguments(tmparr);
-	  trusted.findStaticSetter(reflection, "fieldFilterMap", java.util.Map.class).invokeWithArguments(tmparr);
-	  ModuleAccess modacc = Root.getModuleAccess();
-	  Class<?> module = Class.forName("java.lang.Module");
-		try {
-			MethodHandle ena = trusted.findSetter(module, "enableNativeAccess", java.lang.Boolean.TYPE);
-			tmparr = new Object[] { modacc.getALL_UNNAMED_MODULE(), true };
-			try {
-				ena.invokeWithArguments(tmparr);
-			} catch (Throwable e) {
-			}
-			tmparr[0] = modacc.getEVERYONE_MODULE();
-			try {
-				ena.invokeWithArguments(tmparr);
-			} catch (Throwable e) {
-			}
-		} catch (Throwable e) {
-		}
-                try{
-		  Root.openAccess(Class.forName("jdk.internal.module.IllegalAccessLogger").getDeclaredField("logger")).set(null,
-				null);
-		}catch(Throwable t){}
-        }catch(Throwable t){}
-        }
 	public static MzLib instance;
 	{
 		instance=this;
 	}
 	public static Random rand=new Random();
+	
+	static
+	{
+		try
+		{
+			Root.getUnsafe().ensureClassInitialized(Class.forName("sun.misc.Unsafe"));
+			Lookup trusted=Root.getTrusted();
+			Class<?> reflection=Class.forName("jdk.internal.reflect.Reflection");
+			Object[] tmparr=new Object[]{null};
+			trusted.findStaticSetter(reflection,"ALL_MEMBERS",java.util.Set.class).invokeWithArguments(tmparr);
+			trusted.findStaticSetter(reflection,"WILDCARD",String.class).invokeWithArguments(tmparr);
+			trusted.findStaticSetter(reflection,"methodFilterMap",java.util.Map.class).invokeWithArguments(tmparr);
+			trusted.findStaticSetter(reflection,"fieldFilterMap",java.util.Map.class).invokeWithArguments(tmparr);
+			ModuleAccess modacc=Root.getModuleAccess();
+			Class<?> module=Class.forName("java.lang.Module");
+			try
+			{
+				MethodHandle ena=trusted.findSetter(module,"enableNativeAccess",java.lang.Boolean.TYPE);
+				tmparr=new Object[]{modacc.getALL_UNNAMED_MODULE(),true};
+				try
+				{
+					ena.invokeWithArguments(tmparr);
+				}
+				catch(Throwable e)
+				{
+				}
+				tmparr[0]=modacc.getEVERYONE_MODULE();
+				try
+				{
+					ena.invokeWithArguments(tmparr);
+				}
+				catch(Throwable e)
+				{
+				}
+			}
+			catch(Throwable e)
+			{
+			}
+			try
+			{
+				Root.openAccess(Class.forName("jdk.internal.module.IllegalAccessLogger").getDeclaredField("logger")).set(null,null);
+			}
+			catch(Throwable t)
+			{
+			}
+		}
+		catch(Throwable t)
+		{
+		}
+	}
 	
 	public void onEnable()
 	{
@@ -92,7 +92,7 @@ public class MzLib extends MzPlugin
 		LangUtil.instance.load();
 		
 		if(getConfig().getBoolean("hotLoadingTips",true))
-			for(Player p:Bukkit.getOnlinePlayers())
+			for(Player p: Bukkit.getOnlinePlayers())
 				sendPluginMessage(p,LangUtil.getTranslated(p,"mzlib.hotloading"));
 		
 		if(ClassUtil.findLoadedClass(Event.class.getClassLoader(),"org.bukkit.event.entity.EntityDropItemEvent")==null)
