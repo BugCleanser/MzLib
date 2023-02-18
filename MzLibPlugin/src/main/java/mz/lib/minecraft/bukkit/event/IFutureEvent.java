@@ -5,7 +5,7 @@ import org.bukkit.event.Cancellable;
 
 import java.util.List;
 
-public interface IFutureEvent extends Cancellable
+public interface IFutureEvent
 {
 	List<TypeUtil.Runnable> getTasks();
 	default void doAfter(TypeUtil.Runnable task)
