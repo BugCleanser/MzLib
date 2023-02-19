@@ -57,7 +57,7 @@ public class MzLib extends MzPlugin
 				{
 					ena.invokeWithArguments(tmparr);
 				}
-				catch(Throwable e)
+				catch(Throwable ignored)
 				{
 				}
 				tmparr[0]=modacc.getEVERYONE_MODULE();
@@ -65,7 +65,7 @@ public class MzLib extends MzPlugin
 				{
 					ena.invokeWithArguments(tmparr);
 				}
-				catch(Throwable e)
+				catch(Throwable ignored)
 				{
 				}
 			}
@@ -106,16 +106,6 @@ public class MzLib extends MzPlugin
 		IModule.ModuleModule.instance.load();
 		
 		NothingRegistrar.instance.load();
-		try
-		{
-			Nothing.install(NmsEntity.class);
-			Nothing.install(NmsNetworkManager.class);
-			Nothing.install(NmsRecipeItemStack.class);
-		}
-		catch(Throwable e)
-		{
-			e.printStackTrace();
-		}
 		
 		ArgParserRegistrar.instance.load();
 		IMainCommand.Module.instance.load();

@@ -40,7 +40,10 @@ public class NothingRegistrar extends AbsModule implements IRegistrar<Class<? ex
 	{
 		Nothing.init();
 		
+		reg(NmsEntity.class);
 		reg(NmsEntityFishingHook.class);
+		reg(NmsNetworkManager.class);
+		reg(NmsRecipeItemStack.class);
 	}
 	
 	@Override
