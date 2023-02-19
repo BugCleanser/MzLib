@@ -15,11 +15,6 @@ import java.util.List;
  */
 public class FishingHookClearEvent extends EntityEvent implements IFutureEvent, Cancellable
 {
-	static
-	{
-		Nothing.install(NmsEntityFishingHook.class);
-	}
-	
 	public FishingHookClearReason reason;
 	public FishingHookClearEvent(FishHook hook,FishingHookClearReason reason)
 	{

@@ -5,6 +5,7 @@ import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IRegistrar;
 import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkit.wrappednms.*;
 import mz.lib.nothing.*;
 
 public class NothingRegistrar extends AbsModule implements IRegistrar<Class<? extends Nothing>>
@@ -38,6 +39,8 @@ public class NothingRegistrar extends AbsModule implements IRegistrar<Class<? ex
 	public void onEnable()
 	{
 		Nothing.init();
+		
+		reg(NmsEntityFishingHook.class);
 	}
 	
 	@Override
