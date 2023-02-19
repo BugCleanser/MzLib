@@ -116,8 +116,6 @@ public class NothingMethod
 						node.instructions.insert(AsmUtil.arrayNode(AsmUtil.toList(AsmUtil.ldcNode(1)),Object.class));
 					}
 					l.add(AsmUtil.varLoadNode(Object[].class,customVars.get(((CustomVar)a).value())));
-					if(!WrappedObject.class.isAssignableFrom(pts[i]))
-						l.add(AsmUtil.arrayLoadNode(Object.class,AsmUtil.toList(AsmUtil.ldcNode(0))));
 					args.add(l);
 				}
 				else if(a instanceof StackTop)
