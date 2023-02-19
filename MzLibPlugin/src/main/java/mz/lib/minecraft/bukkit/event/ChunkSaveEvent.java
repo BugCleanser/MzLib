@@ -1,12 +1,18 @@
 package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.*;
+import org.bukkit.*;
 import org.bukkit.event.*;
 
 import java.util.*;
 
 public class ChunkSaveEvent implements IFutureEvent
 {
+	public final Chunk chunk;
+	public ChunkSaveEvent(Chunk chunk)
+	{
+		this.chunk=chunk;
+	}
 	
 	public static HandlerList handlers=new HandlerList();
 	public boolean cancelled=false;
