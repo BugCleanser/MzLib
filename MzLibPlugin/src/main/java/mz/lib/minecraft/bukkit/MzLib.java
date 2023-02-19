@@ -2,6 +2,7 @@ package mz.lib.minecraft.bukkit;
 
 import io.github.karlatemp.unsafeaccessor.*;
 import mz.lib.*;
+import mz.lib.minecraft.bukkit.block.*;
 import mz.lib.minecraft.bukkit.command.*;
 import mz.lib.minecraft.bukkit.command.argparser.*;
 import mz.lib.minecraft.bukkit.entity.*;
@@ -135,6 +136,8 @@ public class MzLib extends MzPlugin
 		MzItemRegistrar.instance.load();
 		MzItemProcessor.instance.load();
 		MzMapProcessor.instance.load();
+		
+		MzBlockProcessor.instance.load();
 		
 		QuickShopSupportModule.instance.load();
 		
