@@ -1,10 +1,10 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.message.legacy.showonmouse;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.message.MessageComponent;
+import mz.lib.minecraft.message.legacy.MessageComponent;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import org.bukkit.inventory.ItemStack;
 

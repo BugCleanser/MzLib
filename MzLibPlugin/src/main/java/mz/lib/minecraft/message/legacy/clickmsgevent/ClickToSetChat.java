@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.legacy.clickmsgevent;
 
 /**
  * 设置点击消息的玩家的聊天栏

@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message;
+package mz.lib.minecraft.message.legacy;
 
 import com.google.gson.JsonObject;
 

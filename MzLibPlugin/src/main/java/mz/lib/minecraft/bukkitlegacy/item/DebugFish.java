@@ -3,7 +3,7 @@ package mz.lib.minecraft.bukkitlegacy.item;
 import mz.lib.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
-import mz.lib.minecraft.message.*;
+import mz.lib.minecraft.message.legacy.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.entity.*;

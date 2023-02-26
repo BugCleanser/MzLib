@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message;
+package mz.lib.minecraft.message.legacy;
 
 import mz.lib.Optional;
 import mz.lib.wrapper.WrappedClass;

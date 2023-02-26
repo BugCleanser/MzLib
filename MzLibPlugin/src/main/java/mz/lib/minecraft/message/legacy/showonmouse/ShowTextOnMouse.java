@@ -1,9 +1,9 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.message.legacy.showonmouse;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import mz.lib.minecraft.message.MessageComponent;
-import mz.lib.minecraft.message.TextMessageComponent;
+import mz.lib.minecraft.message.legacy.MessageComponent;
+import mz.lib.minecraft.message.legacy.TextMessageComponent;
 
 public class ShowTextOnMouse extends ShowOnMouse
 {

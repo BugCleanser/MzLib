@@ -8,7 +8,7 @@ import mz.lib.minecraft.bukkitlegacy.gui.inventory.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.bukkitlegacy.module.*;
-import mz.lib.minecraft.message.*;
+import mz.lib.minecraft.message.legacy.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;

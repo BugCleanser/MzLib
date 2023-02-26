@@ -4,9 +4,10 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.paper.*;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.ProtocolUtil;
-import mz.lib.minecraft.message.MessageComponent;
-import mz.lib.minecraft.message.WrappedComponentPaper;
-import mz.lib.minecraft.message.WrappedPaperAdventure;
+import mz.lib.minecraft.md5.message.*;
+import mz.lib.minecraft.message.legacy.MessageComponent;
+import mz.lib.minecraft.message.legacy.WrappedComponentPaper;
+import mz.lib.minecraft.message.legacy.WrappedPaperAdventure;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkitlegacy.paper.*;
 import mz.mzlib.*;
@@ -55,7 +56,7 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 				MessageComponent msg;
 				if(md5!=null)
 				{
-					msg=MessageComponent.parse(md5);
+					msg=MessageMd5Util.parse(md5);
 					packet.setMd5MsgV_19(null);
 				}
 				else if(component!=null)

@@ -1,11 +1,9 @@
 package mz.lib.minecraft;
 
 import mz.lib.minecraft.item.*;
+import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.nbt.*;
 import mz.lib.minecraft.permission.*;
-import mz.mzlib.item.*;
-import mz.mzlib.nbt.*;
-import mz.mzlib.permission.*;
 
 import java.util.*;
 
@@ -33,4 +31,6 @@ public abstract class Factory
 	public abstract PermissionDefault permissionDefaultFalse();
 	public abstract PermissionDefault permissionDefaultOp();
 	public abstract PermissionDefault permissionDefaultNotOp();
+	
+	public abstract MessageColor getMessageColor(String name);
 }

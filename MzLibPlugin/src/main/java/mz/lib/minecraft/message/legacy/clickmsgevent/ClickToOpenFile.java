@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.legacy.clickmsgevent;
 
 @Deprecated
 public class ClickToOpenFile extends ClickMsgEvent

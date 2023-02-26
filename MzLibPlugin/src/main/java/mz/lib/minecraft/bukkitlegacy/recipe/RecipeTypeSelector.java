@@ -6,7 +6,7 @@ import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.bukkitlegacy.gui.inventory.ListVisitor;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
-import mz.lib.minecraft.message.*;
+import mz.lib.minecraft.message.legacy.*;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
