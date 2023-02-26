@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkit.recipelegacy;
+package mz.lib.minecraft.bukkitlegacy.recipelegacy;
 
 import mz.lib.wrapper.WrappedClass;
 import mz.lib.wrapper.WrappedFieldAccessor;

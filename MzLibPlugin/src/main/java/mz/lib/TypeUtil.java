@@ -10,10 +10,13 @@ import java.util.function.BiFunction;
 
 public final class TypeUtil
 {
-	public @Deprecated
-	TypeUtil()
+	public static boolean isNull(Object obj)
 	{
+		if(obj==null)
+			return true;
+		return obj instanceof WrappedObject && ((WrappedObject)obj).isNull();
 	}
+	
 	public static RuntimeException throwException(final Throwable e)
 	{
 		TypeUtil.throwException0(e);

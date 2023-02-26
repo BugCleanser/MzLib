@@ -1,8 +1,7 @@
-package mz.lib.minecraft.bukkit.recipeold;
+package mz.lib.minecraft.bukkitlegacy.recipeold;
 
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
+import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
