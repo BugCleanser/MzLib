@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkitlegacy.message;
+package mz.lib.minecraft.message;
 
 import com.google.gson.JsonObject;
 
@@ -15,8 +15,8 @@ public class ScoreComponent extends MessageComponent
 	public ScoreComponent(JsonObject json)
 	{
 		super(json);
-		this.name=MessageComponent.getString(json.get("score").getAsJsonObject().get("name"));
-		this.objective=MessageComponent.getString(json.get("score").getAsJsonObject().get("objective"));
+		this.name=getString(json.get("score").getAsJsonObject().get("name"));
+		this.objective=getString(json.get("score").getAsJsonObject().get("objective"));
 	}
 	
 	@Override

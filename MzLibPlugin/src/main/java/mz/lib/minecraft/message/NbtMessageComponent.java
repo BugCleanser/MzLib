@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkitlegacy.message;
+package mz.lib.minecraft.message;
 
 import com.google.gson.JsonObject;
 
@@ -23,17 +23,17 @@ public class NbtMessageComponent extends MessageComponent
 	public NbtMessageComponent(JsonObject json)
 	{
 		super(json);
-		nbt=MessageComponent.getString(json.get("nbt"));
+		nbt=getString(json.get("nbt"));
 		if(json.has("interpret"))
-			interpret=MessageComponent.getBoolean(json.get("interpret"));
+			interpret=getBoolean(json.get("interpret"));
 		if(json.has("separator"))
-			separator=MessageComponent.parse(json.get("separator"));
+			separator=parse(json.get("separator"));
 		if(json.has("block"))
-			block=MessageComponent.getString(json.get("block"));
+			block=getString(json.get("block"));
 		if(json.has("entity"))
-			entity=MessageComponent.getString(json.get("entity"));
+			entity=getString(json.get("entity"));
 		if(json.has("storage"))
-			storage=MessageComponent.getString(json.get("storage"));
+			storage=getString(json.get("storage"));
 	}
 	
 	@Override

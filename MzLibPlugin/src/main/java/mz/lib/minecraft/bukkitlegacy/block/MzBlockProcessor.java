@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkitlegacy.block;
 
 import com.google.common.collect.*;
+import mz.lib.minecraft.block.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.item.*;

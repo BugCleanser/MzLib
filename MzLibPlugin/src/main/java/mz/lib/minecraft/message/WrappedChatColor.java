@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkitlegacy.message;
+package mz.lib.minecraft.message;
 
 import mz.lib.Optional;
 import mz.lib.wrapper.WrappedClass;

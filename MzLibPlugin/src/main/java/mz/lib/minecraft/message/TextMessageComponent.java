@@ -1,10 +1,10 @@
-package mz.lib.minecraft.bukkitlegacy.message;
+package mz.lib.minecraft.message;
 
 import com.google.gson.JsonObject;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
 import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.message.showonmouse.ShowTextOnMouse;
+import mz.lib.minecraft.message.showonmouse.ShowTextOnMouse;
 import org.bukkit.command.CommandSender;
 
 public class TextMessageComponent extends MessageComponent

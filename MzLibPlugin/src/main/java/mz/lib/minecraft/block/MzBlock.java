@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkitlegacy.block;
+package mz.lib.minecraft.block;
 
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.mzlang.*;

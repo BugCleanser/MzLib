@@ -1,4 +1,4 @@
-package mz.lib.minecraft.bukkitlegacy.message.clickmsgevent;
+package mz.lib.minecraft.message.clickmsgevent;
 
 /**
  * 左键消息将会打开url

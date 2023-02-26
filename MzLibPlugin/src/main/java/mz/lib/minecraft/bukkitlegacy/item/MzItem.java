@@ -7,6 +7,7 @@ import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagByte;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
+import mz.lib.minecraft.message.*;
 import mz.lib.mzlang.CallEach;
 import mz.lib.mzlang.FinalProp;
 import mz.lib.mzlang.MzObject;

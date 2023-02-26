@@ -1,7 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.gui;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.event.ModuleDisableEvent;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import org.bukkit.entity.HumanEntity;

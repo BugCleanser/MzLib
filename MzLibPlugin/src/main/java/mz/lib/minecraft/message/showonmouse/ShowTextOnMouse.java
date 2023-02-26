@@ -1,9 +1,9 @@
-package mz.lib.minecraft.bukkitlegacy.message.showonmouse;
+package mz.lib.minecraft.message.showonmouse;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import mz.lib.minecraft.bukkitlegacy.message.MessageComponent;
-import mz.lib.minecraft.bukkitlegacy.message.TextMessageComponent;
+import mz.lib.minecraft.message.MessageComponent;
+import mz.lib.minecraft.message.TextMessageComponent;
 
 public class ShowTextOnMouse extends ShowOnMouse
 {
