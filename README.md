@@ -20,7 +20,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 ## 特性
 - **多语言支持!** MzLib 将自动获取每个玩家客户端所设置的语言并用于显示！
 - **地图画支持!** MzLib 提供了地图画相关的 API，并支持从图片文件加载地图画！
-- **附魔支持!** MzLib 附魔指令兼容多语言（支持中文），且代理附魔显示，将原版乱码替代为罗马数字与阿拉伯数字！
+- **附魔支持!** MzLib 附魔指令支持多语言，且代理附魔显示，将原版乱码替代为罗马数字与阿拉伯数字！
 - **掉落物名称显示!** MzLib 通过网络数据包修改实时显示掉落物名称，不会影响实体本身的数据，且支持多语言！
 - **手持物品展示!** MzLib 通过网络数据包修改将聊天消息中的 `%i` 替换为手中物品信息，并支持修改更多命令参数！
 
@@ -42,9 +42,11 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载 MzLibAgent；
 2. 将插件本体放入服务端根目录（与核心同级）；
 3. 在服务端的启动参数内添加 `-javaagent:MzLibAgent.jar`（需在 `java` 参数之后，`-jar` 参数之前）；
-4. 重启服务器以使用 MzLib。
+4. 执行 `/stop` 重启服务器以使用 MzLib。
 
 ## 构建
+构建 MzLib 需要 Java8 及以上。
+
 1. Clone 此项目；
 2. 执行 `./gradlew shadowJar` 命令；
 3. 最终构建产物生成在项目根目录的 `out` 文件夹中。
@@ -111,4 +113,4 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 </details>
 
 ## 鸣谢
-本项目中包含的部分源码来自 ow2.asm 开源项目（开源地址：https://gitlab.ow2.org/asm/asm ）
+- https://gitlab.ow2.org/asm/asm （本项目中包含的部分代码来源）
