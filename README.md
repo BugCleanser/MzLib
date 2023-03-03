@@ -16,7 +16,22 @@
 MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功能。
 > 本插件同时在 [Mcbbs](https://www.mcbbs.net/thread-1250793-1-1.html) 上发布。
 
+## 特性
+- **多语言支持!** MzLib 将自动获取每个玩家客户端所设置的语言并用于显示！
+- **地图画支持!** MzLib 提供了地图画相关的 API，并支持从图片文件加载地图画！
+- **附魔支持!** MzLib 附魔指令兼容多语言（支持中文），且代理附魔显示，将原版乱码替代为罗马数字与阿拉伯数字！
+- **掉落物名称显示!** MzLib 通过网络数据包修改实时显示掉落物名称，不会影响实体本身的数据，且支持多语言！
+- **手持物品展示!** MzLib 通过网络数据包修改将聊天消息中的 `%i` 替换为手中物品信息，并支持修改更多命令参数！
+
+更多特性及插件配置详见 [Wiki](https://github.com/BugCleanser/MzLib/wiki)。
+
 ## 安装
+本插件需要 Java8 及以上，理论支持在 Spigot 1.12+ 的所有原生服务端及其下游上运行，不兼容 Hybrid 服务端（如 CatServer、Mohist 等）。
+
+支持在 Windows、Linux、Docker 环境下运行，其中在 Docker 容器中运行可能需要安装 MzLibAgent。
+
+<br>
+
 本体安装：
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载插件本体；
 2. 将插件本体放入服务端的 `plugins` 文件夹内；
@@ -26,7 +41,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 
 <br>
 
-MzLibAgent 安装：
+MzLibAgent 安装（常见于 Docker 环境下）：
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载 MzLibAgent；
 2. 将插件本体放入服务端根目录（与核心同级）；
 3. 在服务端的启动参数内添加 `-javaagent:MzLibAgent.jar`（需在 `java` 参数之后，`-jar` 参数之前）；
@@ -40,6 +55,13 @@ MzLibAgent 安装：
 ### FAQ
 - Q: `PlugManX` 依赖下载失败如何解决？
 - A: 请参考此教程: [CSDN](https://blog.csdn.net/cxxxxxxxxxxxxx/article/details/106152542)
+
+## 附属插件
+- (官方) LoginAUI 铁砧登录页面 [Mcbbs](https://www.mcbbs.net/thread-1324546-1-1.html)
+- (官方) MzBackwards 回跨版本显示优化 [Mcbbs](https://www.mcbbs.net/thread-1369629-1-1.html)
+- (官方) MzItemStack 自定义物品堆叠 [Mcbbs](https://www.mcbbs.net/thread-1370314-1-1.html)
+
+若您希望我们收录您基于 MzLib 开发的附属插件，可以在 [Issue](https://github.com/BugCleanser/MzLib/issues) 处提交您的插件信息！
 
 ## 支持与捐赠
 若您觉得 MzLib 为您带来了有效的帮助，您可以选择捐赠以支持我们的工作！
