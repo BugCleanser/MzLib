@@ -27,7 +27,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 更多特性、功能、效果展示及插件配置详见 [Wiki](https://github.com/BugCleanser/MzLib/wiki)。
 
 ## 安装
-> 本插件需要 Java8 及以上，理论支持在 Spigot 1.12+ 的所有原生服务端及其下游上运行，不兼容 Hybrid 服务端（如 CatServer、Mohist 等）。
+> 本插件需要 Java 8 及以上，理论支持在 Spigot 1.12+ 的所有原生服务端及其下游上运行，不兼容 Hybrid 服务端（如 CatServer、Mohist 等）。
 > 
 > 支持在 Windows、Linux、Docker 环境下运行，其中在 Docker 容器中运行可能需要安装 MzLibAgent。
 
@@ -45,7 +45,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 4. 执行 `/stop` 重启服务器以使用 MzLib。
 
 ## 构建
-构建 MzLib 需要 Java8 及以上。
+构建 MzLib 需要 Java 8 及以上。
 
 1. Clone 此项目；
 2. 执行 `./gradlew shadowJar` 命令；
@@ -68,7 +68,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 ![Plzzz](.github/assets/Plzzz.png)
 ![Pay](.github/assets/MzLibWePay.png)
 
-您也可以选择为我们的 Mcbbs 发布帖增加一个免费的三连！
+您也可以选择为我们的 [Mcbbs](https://www.mcbbs.net/thread-1250793-1-1.html) 发布帖增加一个免费的三连！
 
 ![3L](.github/assets/3L.png)
 
@@ -78,7 +78,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 非常感谢您对此项目作出的任何贡献！
 
-### 代码贡献者
+### 仓库贡献者
 <a href="https://github.com/BugCleanser/MzLib/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=BugCleanser/MzLib" />
 </a>
