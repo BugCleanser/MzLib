@@ -1,6 +1,9 @@
 name: 问题反馈
 description: 描述问题并提交，帮助我们对其进行检查与修复。
+title: "[Bug] "
 labels: ["Type: Bug"]
+assignees: [ mzmzpwq, Yurinann ]
+
 body:
   - type: textarea
     attributes:
@@ -68,7 +71,7 @@ body:
           required: true
         - label: 我已经阅读了 MzLib 的 Wiki 且确定此问题不是由于错误的配置文件引起的。
           required: true
-        - label: 在我未认真阅读完检查部分时，我选择了所有的 Checkbox。
+        - label: 我在未认真阅读完检查部分的情况下选择了这个 Checkbox。
           required: false
         - label: 我确定 MzLib 没有运行在其不支持的环境上。
           required: true
