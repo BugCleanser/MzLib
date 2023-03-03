@@ -7,6 +7,7 @@
 ![Code-Size](https://img.shields.io/github/languages/code-size/BugCleanser/MzLib?style=flat-square)
 ![Release](https://img.shields.io/github/v/release/BugCleanser/MzLib?style=flat-square)
 ![Actions](https://img.shields.io/github/actions/workflow/status/BugCleanser/MzLib/build.yml?style=flat-square)
+![Group](https://img.shields.io/badge/group-750455476-yellow?style=flat-square)
 
 </div>
 
@@ -23,25 +24,21 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 - **掉落物名称显示!** MzLib 通过网络数据包修改实时显示掉落物名称，不会影响实体本身的数据，且支持多语言！
 - **手持物品展示!** MzLib 通过网络数据包修改将聊天消息中的 `%i` 替换为手中物品信息，并支持修改更多命令参数！
 
-更多特性及插件配置详见 [Wiki](https://github.com/BugCleanser/MzLib/wiki)。
+更多特性、功能、效果展示及插件配置详见 [Wiki](https://github.com/BugCleanser/MzLib/wiki)。
 
 ## 安装
-本插件需要 Java8 及以上，理论支持在 Spigot 1.12+ 的所有原生服务端及其下游上运行，不兼容 Hybrid 服务端（如 CatServer、Mohist 等）。
+> 本插件需要 Java8 及以上，理论支持在 Spigot 1.12+ 的所有原生服务端及其下游上运行，不兼容 Hybrid 服务端（如 CatServer、Mohist 等）。
+> 
+> 支持在 Windows、Linux、Docker 环境下运行，其中在 Docker 容器中运行可能需要安装 MzLibAgent。
 
-支持在 Windows、Linux、Docker 环境下运行，其中在 Docker 容器中运行可能需要安装 MzLibAgent。
-
-<br>
-
-本体安装：
+### 本体安装
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载插件本体；
 2. 将插件本体放入服务端的 `plugins` 文件夹内；
 3. 使用 [PlugManX](https://www.spigotmc.org/resources/plugmanx.88135/) 热加载 或执行 `/stop` 命令重启服务器以使用 MzLib。
 
 > 如果按照以上步骤启动时报错（提示需安装 MzLibAgent），请参照下方安装步骤安装 MzLibAgent。若报错中未出现此提示，请提交问题反馈。
 
-<br>
-
-MzLibAgent 安装（常见于 Docker 环境下）：
+### MzLibAgent 安装（常见于 Docker 环境下）
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载 MzLibAgent；
 2. 将插件本体放入服务端根目录（与核心同级）；
 3. 在服务端的启动参数内添加 `-javaagent:MzLibAgent.jar`（需在 `java` 参数之后，`-jar` 参数之前）；
@@ -75,6 +72,18 @@ MzLibAgent 安装（常见于 Docker 环境下）：
 
 感谢您成为开源项目的支持者！
 
+## 贡献
+详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+非常感谢您对此项目作出的任何贡献！
+
+### 贡献者
+<a href="https://github.com/BugCleanser/MzLib/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=BugCleanser/MzLib" />
+</a>
+
+## 更新记录
+详见 [CHANGELOG.md](CHANGELOG.md)。
+
 ## 开源协议
 本项目源码采用 [Mozilla Public License Version 2.0](https://www.mozilla.org/en-US/MPL/) 开源协议。
 
@@ -100,3 +109,6 @@ MzLibAgent 安装（常见于 Docker 环境下）：
 > *以上文字来自 [深入理解开源许可证（Open Source Licenses In Depth）](https://github.com/shaokeyibb/open-source-licenses-in-depth) 。*
 
 </details>
+
+## 鸣谢
+本项目中包含的部分源码来自 ow2.asm 开源项目（开源地址：https://gitlab.ow2.org/asm/asm ）
