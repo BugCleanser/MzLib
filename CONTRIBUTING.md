@@ -1,5 +1,14 @@
 # 贡献
-若您想要为 MzLib 项目贡献自己的力量，这里有许多方式及指南。
+若您想要为 MzLib 项目贡献自己的力量，以下是一些我们推荐的方式及相关的指南。
+
+## [反馈问题](https://github.com/BugCleanser/MzLib/issues/new?assignees=mzmzpwq%2CYurinann&labels=Type%3A+Bug&template=bug_report.yml&title=%5BBug%5D+)
+根据 Issue Template 详细的反馈一个符合标准的问题。
+
+## [提交建议](https://github.com/BugCleanser/MzLib/issues/new?assignees=mzmzpwq%2CYurinann&labels=Type%3A+Bug&template=bug_report.yml&title=%5BBug%5D+)
+根据 Issue Template 详细的提交一个符合标准的建议。
+
+## 测试最新构建
+在 [Github Actions](https://github.com/BugCleanser/MzLib/actions) 处测试我们的最新构建，并对可能出现的问题进行反馈。
 
 ## 代码贡献
 我们欢迎您参与 MzLib 的开发！
