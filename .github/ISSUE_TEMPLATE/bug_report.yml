@@ -54,6 +54,14 @@ body:
       placeholder: 10.0.1-pre48-test10
     validations:
       required: true
+      
+  - type: input
+    attributes:
+      label: 系统版本
+      description: 请填写您使用的系统版本。
+      placeholder: Windows Server 2022 Datacenter
+    validations:
+      required: true
 
   - type: textarea
     attributes:
