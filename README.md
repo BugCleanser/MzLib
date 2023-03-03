@@ -36,7 +36,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 2. 将插件本体放入服务端的 `plugins` 文件夹内；
 3. 使用 [PlugManX](https://www.spigotmc.org/resources/plugmanx.88135/) 热加载 或执行 `/stop` 命令重启服务器以使用 MzLib。
 
-> 如果按照以上步骤启动时报错（提示需安装 MzLibAgent），请参照下方安装步骤安装 MzLibAgent。若报错中未出现此提示，请提交问题反馈。
+> 如果按照以上步骤启动时报错（提示需安装 MzLibAgent），请参照下方安装步骤安装 MzLibAgent。若报错中不含此提示或在安装后仍然报错，请在 Issues 处提交问题反馈。
 
 ### MzLibAgent 安装（常见于 Docker 环境下）
 1. 在 [官网](https://mz.bugcleaner.cn:6/res/BukkitPlugins)，[Releases (稳定)](https://github.com/BugCleanser/MzLib/releases) 或 [Actions (测试)](https://github.com/BugCleanser/MzLib/actions) 下载 MzLibAgent；
@@ -52,7 +52,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 3. 最终构建产物生成在项目根目录的 `out` 文件夹中。
 
 ### FAQ
-- Q: `PlugManX` 依赖下载失败如何解决？
+- Q: `PlugManX`依赖下载失败如何解决？
 - A: 请参考此教程: [CSDN](https://blog.csdn.net/cxxxxxxxxxxxxx/article/details/106152542)
 
 ## 附属插件
@@ -60,7 +60,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 - (官方) MzBackwards 回跨版本显示优化 [Mcbbs](https://www.mcbbs.net/thread-1369629-1-1.html)
 - (官方) MzItemStack 自定义物品堆叠 [Mcbbs](https://www.mcbbs.net/thread-1370314-1-1.html)
 
-若您希望我们收录您基于 MzLib 开发的附属插件，可以在 [Issue](https://github.com/BugCleanser/MzLib/issues) 处提交您的插件信息！
+若您希望我们收录您基于 MzLib 开发的附属插件，可以在 [Issues](https://github.com/BugCleanser/MzLib/issues) 处提交您的插件信息！
 
 ## 支持与捐赠
 若您觉得 MzLib 为您带来了有效的帮助，您可以选择捐赠以支持我们的工作！
@@ -70,7 +70,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 
 您也可以选择为我们的 [Mcbbs](https://www.mcbbs.net/thread-1250793-1-1.html) 发布帖增加一个免费的三连！
 
-![3L](.github/assets/3L.png)
+[![3L](.github/assets/3L.png)](https://www.mcbbs.net/thread-1250793-1-1.html)
 
 感谢您成为开源项目的支持者！
 
