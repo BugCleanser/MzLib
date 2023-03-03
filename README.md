@@ -76,7 +76,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 非常感谢您对此项目作出的任何贡献！
 
-### 贡献者
+### 代码贡献者
 <a href="https://github.com/BugCleanser/MzLib/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=BugCleanser/MzLib" />
 </a>
