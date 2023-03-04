@@ -6,6 +6,7 @@ import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
 import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.minecraft.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class RecipeEditorRegistrar extends AbsModule implements IRegistrar<Recip
 	public static RecipeEditorRegistrar instance=new RecipeEditorRegistrar();
 	public RecipeEditorRegistrar()
 	{
-		super(MzLib.instance,RegistrarRegistrar.instance,ViewList.Module.instance);
+		super(MzLib.instance,RegistrarRegistrar.instance,UIStack.Module.instance);
 	}
 	
 	public List<RecipeEditor<?>> recipeEditors=new ArrayList<>();

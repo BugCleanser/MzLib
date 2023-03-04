@@ -1,7 +1,6 @@
 package mz.lib.minecraft.nbt;
 
 import mz.lib.minecraft.*;
-import mz.mzlib.*;
 
 import java.util.*;
 

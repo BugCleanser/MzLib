@@ -4,6 +4,7 @@ import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.command.*;
 import mz.lib.minecraft.bukkitlegacy.mzlibcommand.debug.*;
 import mz.lib.minecraft.bukkitlegacy.permission.*;
+import mz.lib.minecraft.command.*;
 
 public class MzLibCommandModule extends MainCommand
 {

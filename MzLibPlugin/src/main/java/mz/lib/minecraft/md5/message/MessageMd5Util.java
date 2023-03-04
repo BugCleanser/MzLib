@@ -1,9 +1,9 @@
 package mz.lib.minecraft.md5.message;
 
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.message.legacy.*;
-import mz.lib.minecraft.message.legacy.clickmsgevent.*;
-import mz.lib.minecraft.message.legacy.showonmouse.*;
+import mz.lib.minecraft.message.*;
+import mz.lib.minecraft.message.clickmsgevent.*;
+import mz.lib.minecraft.message.showonmouse.*;
 import net.md_5.bungee.api.*;
 import net.md_5.bungee.api.chat.*;
 

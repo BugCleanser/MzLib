@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand.debug;
 
-import mz.lib.minecraft.bukkitlegacy.command.AbsFrontCommandProcessor;
+import mz.lib.minecraft.command.AbsFrontCommandProcessor;
 import org.bukkit.permissions.*;
 
 public class DebugSubcommand extends AbsFrontCommandProcessor

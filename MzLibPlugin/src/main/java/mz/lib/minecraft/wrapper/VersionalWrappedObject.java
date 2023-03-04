@@ -2,7 +2,6 @@ package mz.lib.minecraft.wrapper;
 
 import mz.lib.minecraft.*;
 import mz.lib.wrapper.*;
-import mz.mzlib.*;
 
 import java.lang.annotation.*;
 import java.lang.reflect.*;

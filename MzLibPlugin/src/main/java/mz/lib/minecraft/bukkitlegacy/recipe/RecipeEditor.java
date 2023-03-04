@@ -4,11 +4,12 @@ import mz.lib.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
-import mz.lib.minecraft.bukkitlegacy.gui.inventory.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.bukkitlegacy.module.*;
-import mz.lib.minecraft.message.legacy.*;
+import mz.lib.minecraft.ui.*;
+import mz.lib.minecraft.ui.inventory.*;
+import mz.lib.minecraft.message.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -130,7 +131,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	@Override
 	public void editElement(int index,HumanEntity player)
 	{
-		ViewList.get(player).go(new RecipeEditorCase(list.get(index)));
+		UIStack.get(player).go(new RecipeEditorCase(list.get(index)));
 	}
 	
 	public static NmsRecipeItemStack getRecipeItemStack(ItemStack item)

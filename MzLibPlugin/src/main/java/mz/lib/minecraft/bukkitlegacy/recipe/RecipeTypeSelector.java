@@ -3,10 +3,11 @@ package mz.lib.minecraft.bukkitlegacy.recipe;
 import mz.lib.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
-import mz.lib.minecraft.bukkitlegacy.gui.inventory.ListVisitor;
+import mz.lib.minecraft.ui.*;
+import mz.lib.minecraft.ui.inventory.ListVisitor;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
-import mz.lib.minecraft.message.legacy.*;
+import mz.lib.minecraft.message.*;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,6 @@ public class RecipeTypeSelector extends ListVisitor<RecipeEditor<?>>
 	@Override
 	public void onClickElement(int index,ClickType t,HumanEntity player)
 	{
-		ViewList.get(player).go(list.get(index));
+		UIStack.get(player).go(list.get(index));
 	}
 }

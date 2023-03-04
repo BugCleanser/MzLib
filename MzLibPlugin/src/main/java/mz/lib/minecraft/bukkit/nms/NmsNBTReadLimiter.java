@@ -4,7 +4,6 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.NBTReadLimiter",maxVer=17),@VersionalName(value="net.minecraft.nbt.NBTReadLimiter",minVer=17)})
 public interface NmsNBTReadLimiter extends VersionalWrappedObject

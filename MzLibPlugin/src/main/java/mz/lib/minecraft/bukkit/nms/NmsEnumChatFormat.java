@@ -2,12 +2,11 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.*;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.EnumChatFormat",maxVer=17),@VersionalName(value="net.minecraft.EnumChatFormat",minVer=17)})
-public interface NmsEnumChatFormat extends VersionalWrappedObject, MessageColor
+public interface NmsEnumChatFormat extends VersionalWrappedObject
 {
 	static NmsEnumChatFormat fromName(String name)
 	{

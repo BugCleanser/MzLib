@@ -2,7 +2,6 @@ package mz.lib.minecraft.nothing;
 
 import com.google.common.collect.Lists;
 import mz.lib.minecraft.*;
-import mz.mzlib.*;
 import mz.lib.nothing.Nothing;
 import mz.lib.nothing.NothingByteCode;
 import mz.lib.nothing.NothingInject;

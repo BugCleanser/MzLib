@@ -1,10 +1,11 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 
 import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.command.AbsLastCommandProcessor;
-import mz.lib.minecraft.bukkitlegacy.command.CommandHandler;
+import mz.lib.minecraft.command.AbsLastCommandProcessor;
+import mz.lib.minecraft.command.CommandHandler;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.bukkitlegacy.recipe.*;
+import mz.lib.minecraft.ui.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.*;
@@ -26,6 +27,6 @@ public class RecipesSubcommand extends AbsLastCommandProcessor
 	@CommandHandler
 	public void execute(Player sender)
 	{
-		ViewList.get(sender).start(RecipeTypeSelector.instance);
+		UIStack.get(sender).start(RecipeTypeSelector.instance);
 	}
 }

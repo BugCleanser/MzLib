@@ -4,14 +4,12 @@ import com.google.gson.JsonObject;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.nbt.*;
 import mz.lib.minecraft.VersionalName;
-import mz.mzlib.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.minecraft.wrapper.VersionalWrappedFieldAccessor;
 import mz.lib.minecraft.wrapper.VersionalWrappedMethod;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.nbt.*;
 import org.bukkit.NamespacedKey;
 
 import java.io.DataInput;

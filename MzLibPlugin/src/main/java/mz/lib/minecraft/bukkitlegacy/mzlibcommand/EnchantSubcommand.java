@@ -2,9 +2,9 @@ package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 
 import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.command.AbsLastCommandProcessor;
-import mz.lib.minecraft.bukkitlegacy.command.CommandHandler;
-import mz.lib.minecraft.bukkitlegacy.command.argparser.ArgInfo;
+import mz.lib.minecraft.command.AbsLastCommandProcessor;
+import mz.lib.minecraft.command.CommandHandler;
+import mz.lib.minecraft.command.argparser.ArgInfo;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;

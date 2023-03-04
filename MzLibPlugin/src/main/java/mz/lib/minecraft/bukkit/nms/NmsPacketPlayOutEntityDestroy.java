@@ -3,7 +3,7 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.bukkit.fastutil.WfIntList;
+import mz.lib.minecraft.bukkit.fastutil.FuIntList;
 import mz.lib.wrapper.*;
 import mz.mzlib.*;
 import mz.mzlib.wrapper.*;
@@ -47,5 +47,5 @@ public interface NmsPacketPlayOutEntityDestroy extends NmsPacket
 	@VersionalWrappedFieldAccessor(@VersionalName(value="@0",maxVer=17))
 	int[] getIdsV_17();
 	@VersionalWrappedFieldAccessor(@VersionalName(value="@0",minVer=17))
-	WfIntList getIdsV17();
+	FuIntList getIdsV17();
 }

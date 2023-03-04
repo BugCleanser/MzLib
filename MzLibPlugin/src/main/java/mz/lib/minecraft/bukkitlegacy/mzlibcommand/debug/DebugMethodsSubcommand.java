@@ -1,8 +1,8 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand.debug;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.command.AbsLastCommandProcessor;
-import mz.lib.minecraft.bukkitlegacy.command.CommandHandler;
+import mz.lib.minecraft.command.AbsLastCommandProcessor;
+import mz.lib.minecraft.command.CommandHandler;
 import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Method;
