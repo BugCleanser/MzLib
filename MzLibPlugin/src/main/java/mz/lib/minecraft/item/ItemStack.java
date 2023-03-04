@@ -140,28 +140,28 @@ public interface ItemStack
 	{
 		return newInstance("crafting_table");
 	}
-	static ItemStack newSkull(String name,String url)
+	static ItemStack newSkull(String url)
 	{
-		return newSkull(name,UUID.nameUUIDFromBytes(url.getBytes(StringUtil.UTF8)),Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\""+url+"\"}}}").getBytes(StringUtil.UTF8)));
+		return newSkull(null,UUID.nameUUIDFromBytes(url.getBytes(StringUtil.UTF8)),Base64.getEncoder().encodeToString(("{\"textures\":{\"SKIN\":{\"url\":\""+url+"\"}}}").getBytes(StringUtil.UTF8)));
 	}
 	static ItemStack questionMark()
 	{
-		return newSkull(null,"http://textures.minecraft.net/texture/65b95da1281642daa5d022adbd3e7cb69dc0942c81cd63be9c3857d222e1c8d9");
+		return newSkull("http://textures.minecraft.net/texture/65b95da1281642daa5d022adbd3e7cb69dc0942c81cd63be9c3857d222e1c8d9");
 	}
 	static ItemStack returnArrow()
 	{
-		return newSkull(null,"http://textures.minecraft.net/texture/d9ed8bcbafbe99787325239048b8099407a098e7077c9b4c3b478b289b9149fd");
+		return newSkull("http://textures.minecraft.net/texture/d9ed8bcbafbe99787325239048b8099407a098e7077c9b4c3b478b289b9149fd");
 	}
 	static ItemStack leftArrow()
 	{
-		return newSkull(null,"http://textures.minecraft.net/texture/3866a889e51ca79c5d200ea6b5cfd0a655f32fea38b8138598c72fb200b97b9");
+		return newSkull("http://textures.minecraft.net/texture/3866a889e51ca79c5d200ea6b5cfd0a655f32fea38b8138598c72fb200b97b9");
 	}
 	static ItemStack rightArrow()
 	{
-		return newSkull(null,"http://textures.minecraft.net/texture/dfbf1402a04064cebaa96b77d5455ee93b685332e264c80ca36415df992fb46c");
+		return newSkull("http://textures.minecraft.net/texture/dfbf1402a04064cebaa96b77d5455ee93b685332e264c80ca36415df992fb46c");
 	}
 	static ItemStack checkmark()
 	{
-		return newSkull(null,"http://textures.minecraft.net/texture/ce2a530f42726fa7a31efab8e43dadee188937cf824af88ea8e4c93a49c57294");
+		return newSkull("http://textures.minecraft.net/texture/ce2a530f42726fa7a31efab8e43dadee188937cf824af88ea8e4c93a49c57294");
 	}
 }
