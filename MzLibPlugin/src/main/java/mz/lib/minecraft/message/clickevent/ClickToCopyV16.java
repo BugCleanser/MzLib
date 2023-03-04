@@ -1,6 +1,6 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.clickevent;
 
-public class ClickToCopyV16 extends ClickMsgEvent
+public class ClickToCopyV16 extends ClickEvent
 {
 	public String text;
 	

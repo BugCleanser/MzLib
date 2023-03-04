@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
 import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.message.showonmouse.ShowTextOnMouse;
+import mz.lib.minecraft.message.hoverevent.ShowTextOnMouse;
 import org.bukkit.command.CommandSender;
 
 public class TextMessageComponent extends MessageComponent
@@ -27,7 +27,7 @@ public class TextMessageComponent extends MessageComponent
 	}
 	public static TextMessageComponent textCopy(String text,String locale,String value)
 	{
-		return (TextMessageComponent)new TextMessageComponent(text).setInsertion(value).setShowOnMouse(new ShowTextOnMouse(StringUtil.replaceStrings(LangUtil.getTranslated(locale,"mzlib.chat.shiftCopy"),new MapEntry<>("%\\{value\\}",value))));
+		return (TextMessageComponent)new TextMessageComponent(text).setInsertion(value).setHoverEvent(new ShowTextOnMouse(StringUtil.replaceStrings(LangUtil.getTranslated(locale,"mzlib.chat.shiftCopy"),new MapEntry<>("%\\{value\\}",value))));
 	}
 	public TextMessageComponent setText(String text)
 	{
@@ -41,5 +41,11 @@ public class TextMessageComponent extends MessageComponent
 		JsonObject r=super.toJson();
 		r.addProperty("text",text);
 		return r;
+	}
+	
+	@Override
+	public String toTextImpl(String locale)
+	{
+		return text;
 	}
 }

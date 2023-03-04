@@ -19,6 +19,8 @@ public interface NbtObject extends NbtElement
 		return r;
 	}
 	
+	boolean containsKey(String key);
+	
 	NbtElement get(String key);
 	void set(String key,NbtElement value);
 }

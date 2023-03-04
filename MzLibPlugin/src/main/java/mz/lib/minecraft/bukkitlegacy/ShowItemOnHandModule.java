@@ -6,7 +6,7 @@ import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
 import mz.lib.minecraft.message.TranslateMessageComponent;
-import mz.lib.minecraft.message.showonmouse.ShowItemOnMouse;
+import mz.lib.minecraft.message.hoverevent.ShowItemOnMouse;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import org.bukkit.Bukkit;
@@ -93,7 +93,7 @@ public final class ShowItemOnHandModule extends AbsModule
 				if(pl!=null)
 				{
 					ItemStack item=ObcItemStack.ensure(pl.getInventory().getItem(Integer.parseInt(s[2]))).getRaw();
-					msg.extra.add(0,new TextMessageComponent(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.showItemOnHand.format"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item,sender)))).setShowOnMouse(new ShowItemOnMouse(item)));
+					msg.extra.add(0,new TextMessageComponent(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.showItemOnHand.format"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item,sender)))).setHoverEvent(new ShowItemOnMouse(item)));
 				}
 				msg.extra.add(1,new TextMessageComponent(s[3]));
 			}

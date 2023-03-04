@@ -1,6 +1,7 @@
 package mz.lib.minecraft.message;
 
 import com.google.gson.JsonObject;
+import mz.lib.minecraft.bukkitlegacy.*;
 
 import java.util.List;
 
@@ -40,5 +41,16 @@ public class TranslateMessageComponent extends MessageComponent
 		if(with!=null&&with.size()>0)
 			r.add("with",toJson(with));
 		return r;
+	}
+	
+	@Override
+	public String toTextImpl(String locale)
+	{
+		Object[] args;
+		if(with!=null)
+			args=with.stream().map(m->m.toText(locale)).toArray(String[]::new);
+		else
+			args=new Object[0];
+		return String.format(LangUtil.getTranslated(locale,translate),args);
 	}
 }

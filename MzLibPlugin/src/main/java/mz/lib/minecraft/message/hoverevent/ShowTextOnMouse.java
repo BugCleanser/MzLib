@@ -1,11 +1,11 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.message.hoverevent;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
 
-public class ShowTextOnMouse extends ShowOnMouse
+public class ShowTextOnMouse extends HoverEvent
 {
 	public MessageComponent text;
 	

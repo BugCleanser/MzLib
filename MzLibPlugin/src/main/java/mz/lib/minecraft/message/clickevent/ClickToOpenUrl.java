@@ -1,9 +1,9 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.clickevent;
 
 /**
  * 左键消息将会打开url
  */
-public class ClickToOpenUrl extends ClickMsgEvent
+public class ClickToOpenUrl extends ClickEvent
 {
 	/**
 	 * 打开的url

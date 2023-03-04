@@ -94,7 +94,7 @@ public interface NmsItemStack extends VersionalWrappedObject, ItemStack
 		setTag((NmsNBTTagCompound) tag);
 	}
 	
-	default String getTranslateKey()
+	default String getTranslationKey()
 	{
 		if(getItem().isNull())
 			return NmsItem.fromStringId("air").getTranslateKey(this);

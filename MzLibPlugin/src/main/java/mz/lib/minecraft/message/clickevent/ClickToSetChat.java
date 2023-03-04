@@ -1,9 +1,9 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.clickevent;
 
 /**
  * 设置点击消息的玩家的聊天栏
  */
-public class ClickToSetChat extends ClickMsgEvent
+public class ClickToSetChat extends ClickEvent
 {
 	/**
 	 * 设置的聊天栏

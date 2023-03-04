@@ -53,4 +53,10 @@ public class NbtMessageComponent extends MessageComponent
 			r.addProperty("storage",storage);
 		return r;
 	}
+	
+	@Override
+	public String toTextImpl(String locale)
+	{
+		return "<nbt>";
+	}
 }

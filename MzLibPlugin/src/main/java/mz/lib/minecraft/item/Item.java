@@ -8,6 +8,16 @@ public interface Item
 	{
 		return Factory.instance.getItem(id);
 	}
+	static Item fromId(String id)
+	{
+		return fromId(Identifier.newInstance(id));
+	}
 	
 	Identifier getId();
+	
+	Item AIR=fromId("air");
+	Item CLOCK=fromId("clock");
+	Item CRAFTING_TABLE=fromId("crafting_table");
+	Item ENCHANTED_BOOK=fromId("enchanted_book");
+	Item ENDER_EYE=fromId("ender_eye");
 }

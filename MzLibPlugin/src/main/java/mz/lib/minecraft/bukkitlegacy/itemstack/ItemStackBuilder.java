@@ -203,7 +203,7 @@ public class ItemStackBuilder implements Supplier<ItemStack>
 	}
 	public static String getTranslateKey(ItemStack is)
 	{
-		return toNms(is).getTranslateKey();
+		return toNms(is).getTranslationKey();
 	}
 	public static String getDropName0(ItemStack is,CommandSender sender)
 	{

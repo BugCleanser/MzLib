@@ -29,4 +29,10 @@ public class SelectorMessageComponent extends MessageComponent
 			r.addProperty("separator",separator);
 		return r;
 	}
+	
+	@Override
+	public String toTextImpl(String locale)
+	{
+		return "<selector>";
+	}
 }

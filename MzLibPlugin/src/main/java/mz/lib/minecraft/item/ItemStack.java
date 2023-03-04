@@ -1,9 +1,16 @@
 package mz.lib.minecraft.item;
 
+import com.google.common.collect.*;
+import com.google.gson.*;
+import com.google.gson.stream.*;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.Server;
+import mz.lib.minecraft.bukkitlegacy.*;
+import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.nbt.*;
+import org.bukkit.*;
+import org.bukkit.inventory.meta.*;
 
 import java.util.*;
 
@@ -41,9 +48,13 @@ public interface ItemStack
 	
 	NbtObject getTag();
 	void setTag(NbtObject tag);
+	default boolean hasTag()
+	{
+		return !TypeUtil.isNull(getTag());
+	}
 	default NbtObject tag()
 	{
-		if(TypeUtil.isNull(getTag()))
+		if(!hasTag())
 		{
 			NbtObject r=NbtObject.newInstance();
 			setTag(r);
@@ -52,10 +63,82 @@ public interface ItemStack
 		return getTag();
 	}
 	
-	static ItemStack air()
+	default boolean hasDisplay()
 	{
-		return newInstance("air");
+		return hasTag()&&getTag().containsKey("display");
 	}
+	default NbtObject display()
+	{
+		if(!hasDisplay())
+			tag().set("display",NbtObject.newInstance());
+		return (NbtObject)getTag().get("display");
+	}
+	default boolean hasDisplayName()
+	{
+		return hasDisplay()&&display().containsKey("Name");
+	}
+	default String getDisplayNameV_13()
+	{
+		return ((NbtString)display().get("Name")).getValue();
+	}
+	default MessageComponent getDisplayName()
+	{
+		if(!Server.instance.v13)
+			return new TextMessageComponent(getDisplayNameV_13());
+		return MessageComponent.parse(getDisplayNameV_13());
+	}
+	
+	default boolean hasEnchants()
+	{
+		if(!hasTag())
+			return false;
+		return getTag().containsKey(Server.instance.v13?"Enchantments":"ench");
+	}
+	default NbtList enchants()
+	{
+		if(!hasEnchants())
+			tag().set(Server.instance.v13?"Enchantments":"ench",NbtList.newInstance());
+		return (NbtList)tag().get(Server.instance.v13?"Enchantments":"ench");
+	}
+	
+	String getTranslationKey();
+	default String getName(String locale)
+	{
+		String prefix="";
+		if(getItem()==Item.ENCHANTED_BOOK)
+			prefix="§e";
+		else if(hasEnchants())
+			prefix="§b";
+		if(hasDisplayName())
+		{
+			String displayName;
+			if(Server.instance.v13)
+			{
+				NmsIChatBaseComponent c;
+				try
+				{
+					c=NmsIChatBaseComponent.NmsChatSerializer.jsonToComponent(new ItemStackBuilder(is).display().getString("Name"));
+					TypeUtil.<MalformedJsonException>fakeThrow();
+				}
+				catch(MalformedJsonException|JsonSyntaxException e)
+				{
+					c=new TextMessageComponent(new ItemStackBuilder(is).display().getString("Name")).toNms();
+				}
+				displayName=ObcChatMessage.fromComponentV13(LangUtil.translated(c,LangUtil.getLang(sender)));
+			}
+			else
+				displayName=getDisplayNameV_13();
+			return StringUtil.replaceStrings(LangUtil.getTranslated(sender,new ItemStackBuilder(is).tag().getBool("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+displayName))));
+		}
+		if(is.getType()==Material.WRITTEN_BOOK)
+		{
+			BookMeta im=(BookMeta) is.getItemMeta();
+			if(im.hasTitle())
+				return StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
+		}
+		return StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+LangUtil.getTranslated(sender,getTranslateKey(is))))));
+	}
+	
 	static ItemStack whiteStainedGlassPane()
 	{
 		return newInstance("stained_glass_pane",(short) 0,"white_stained_glass_pane");
@@ -120,14 +203,6 @@ public interface ItemStack
 	{
 		return newInstance("planks",(short) 0,"oak_planks");
 	}
-	static ItemStack clock()
-	{
-		return newInstance("clock");
-	}
-	static ItemStack enderEye()
-	{
-		return newInstance("ender_eye");
-	}
 	static ItemStack newSkull(String name,UUID id,String value)
 	{
 		ItemStack is = newInstance("skull",3,"player_head");
@@ -135,10 +210,6 @@ public interface ItemStack
 		if(name!=null)
 			((NbtObject)is.tag().get("SkullOwner")).set("Name",NbtString.newInstance(name));
 		return is;
-	}
-	static ItemStack craftingTable()
-	{
-		return newInstance("crafting_table");
 	}
 	static ItemStack newSkull(String url)
 	{

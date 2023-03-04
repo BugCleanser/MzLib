@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.message.hoverevent;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,7 +8,7 @@ import mz.lib.minecraft.message.TextMessageComponent;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import org.bukkit.entity.Entity;
 
-public class ShowEntityOnMouse extends ShowOnMouse
+public class ShowEntityOnMouse extends HoverEvent
 {
 	public String name;
 	public String type;

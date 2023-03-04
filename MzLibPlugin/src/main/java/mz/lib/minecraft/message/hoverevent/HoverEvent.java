@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.message.hoverevent;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -6,14 +6,13 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.md5.message.*;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.mzlib.*;
-import net.md_5.bungee.api.chat.HoverEvent;
 
 /**
  * 表示移动鼠标到消息上后显示的信息
  */
-public abstract class ShowOnMouse
+public abstract class HoverEvent
 {
-	public static ShowOnMouse parse(JsonObject json)
+	public static HoverEvent parse(JsonObject json)
 	{
 		switch(MessageComponent.getString(json.get("action")).toLowerCase())
 		{
@@ -27,7 +26,7 @@ public abstract class ShowOnMouse
 				throw new IllegalArgumentException("unknown action "+json.get("action")+" of hoverEvent");
 		}
 	}
-	public static ShowOnMouse parse(HoverEvent hoverEvent)
+	public static HoverEvent parse(net.md_5.bungee.api.chat.HoverEvent hoverEvent)
 	{
 		JsonObject json=new JsonObject();
 		json.addProperty("action",hoverEvent.getAction().name());

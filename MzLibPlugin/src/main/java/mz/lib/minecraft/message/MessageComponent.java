@@ -5,8 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import mz.lib.minecraft.message.clickmsgevent.ClickMsgEvent;
-import mz.lib.minecraft.message.showonmouse.ShowOnMouse;
+import mz.lib.minecraft.message.clickevent.ClickEvent;
+import mz.lib.minecraft.message.hoverevent.HoverEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  */
 public abstract class MessageComponent implements Cloneable
 {
-	public List<MessageComponent> extra;
 	public String color;
 	public String fontV16;
 	public Boolean bold=false;
@@ -26,8 +25,9 @@ public abstract class MessageComponent implements Cloneable
 	public Boolean strikethrough=false;
 	public Boolean obfuscated=false;
 	public String insertion;
-	public ClickMsgEvent cme;
-	public ShowOnMouse som;
+	public ClickEvent clickEvent;
+	public HoverEvent hoverEvent;
+	public List<MessageComponent> extra;
 	
 	public MessageComponent()
 	{
@@ -53,9 +53,9 @@ public abstract class MessageComponent implements Cloneable
 		if(json.has("insertion"))
 			insertion=getString(json.get("insertion"));
 		if(json.has("hoverEvent"))
-			som=ShowOnMouse.parse(json.get("hoverEvent").getAsJsonObject());
+			hoverEvent=HoverEvent.parse(json.get("hoverEvent").getAsJsonObject());
 		if(json.has("clickEvent"))
-			cme=ClickMsgEvent.parse(json.get("clickEvent").getAsJsonObject());
+			clickEvent=ClickEvent.parse(json.get("clickEvent").getAsJsonObject());
 	}
 	public static MessageComponent parse(String json)
 	{
@@ -135,10 +135,10 @@ public abstract class MessageComponent implements Cloneable
 			r.addProperty("obfuscated",obfuscated);
 		if(color!=null)
 			r.addProperty("color",color);
-		if(som!=null)
-			r.add("hoverEvent",som.toJson());
-		if(cme!=null)
-			r.add("clickEvent",cme.toJson());
+		if(hoverEvent!=null)
+			r.add("hoverEvent",hoverEvent.toJson());
+		if(clickEvent!=null)
+			r.add("clickEvent",clickEvent.toJson());
 		if(extra!=null&&!extra.isEmpty())
 			r.add("extra",toJson(extra));
 		return r;
@@ -158,35 +158,35 @@ public abstract class MessageComponent implements Cloneable
 		return this;
 	}
 	
-	public ShowOnMouse getShowOnMouse()
+	public HoverEvent getHoverEvent()
 	{
-		return som;
+		return hoverEvent;
 	}
 	/**
 	 * 设置移动鼠标到消息上后显示的信息
 	 *
-	 * @param som 移动鼠标到消息上后显示的信息
+	 * @param hoverEvent 移动鼠标到消息上后显示的信息
 	 * @return this
 	 */
-	public MessageComponent setShowOnMouse(ShowOnMouse som)
+	public MessageComponent setHoverEvent(HoverEvent hoverEvent)
 	{
-		this.som=som;
+		this.hoverEvent=hoverEvent;
 		return this;
 	}
 	
-	public ClickMsgEvent getClickMsgEvent()
+	public ClickEvent getClickEvent()
 	{
-		return cme;
+		return clickEvent;
 	}
 	/**
 	 * 设置点击消息的作用
 	 *
-	 * @param cme 点击消息的作用
+	 * @param clickEvent 点击消息的作用
 	 * @return this
 	 */
-	public MessageComponent setClickMsgEvent(ClickMsgEvent cme)
+	public MessageComponent setClickEvent(ClickEvent clickEvent)
 	{
-		this.cme=cme;
+		this.clickEvent=clickEvent;
 		return this;
 	}
 	
@@ -248,6 +248,81 @@ public abstract class MessageComponent implements Cloneable
 	{
 		this.obfuscated=obfuscated;
 		return this;
+	}
+	
+	public abstract String toTextImpl(String locale);
+	public String toText(String locale)
+	{
+		StringBuilder r=new StringBuilder();
+		switch(color.toLowerCase())
+		{
+			case "black":
+				r.append("§0");
+				break;
+			case "dark_blue":
+				r.append("§1");
+				break;
+			case "dark_green":
+				r.append("§2");
+				break;
+			case "dark_aqua":
+				r.append("§3");
+				break;
+			case "dark_red":
+				r.append("§4");
+				break;
+			case "dark_purple":
+				r.append("§5");
+				break;
+			case "gold":
+				r.append("§6");
+				break;
+			case "gray":
+				r.append("§7");
+				break;
+			case "dark_gray":
+				r.append("§8");
+				break;
+			case "blue":
+				r.append("§9");
+				break;
+			case "green":
+				r.append("§a");
+				break;
+			case "aqua":
+				r.append("§b");
+				break;
+			case "red":
+				r.append("§c");
+				break;
+			case "light_purple":
+				r.append("§d");
+				break;
+			case "yellow":
+				r.append("§e");
+				break;
+			case "white":
+				r.append("§f");
+				break;
+			case "reset":
+				r.append("§r");
+				break;
+		}
+		if(bold)
+			r.append("§l");
+		if(italic)
+			r.append("§o");
+		if(underlined)
+			r.append("§n");
+		if(strikethrough)
+			r.append("§m");
+		if(obfuscated)
+			r.append("§k");
+		r.append(toTextImpl(locale));
+		if(extra!=null)
+			for(MessageComponent e:extra)
+				r.append(e.toText(locale));
+		return r.toString();
 	}
 	
 	@Override

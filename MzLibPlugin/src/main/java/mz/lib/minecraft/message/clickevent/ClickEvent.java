@@ -1,16 +1,15 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.message.clickevent;
 
 import com.google.gson.JsonObject;
 import mz.lib.minecraft.message.MessageComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
 
 /**
  * 左键消息的作用
  */
-public abstract class ClickMsgEvent
+public abstract class ClickEvent
 {
 	@SuppressWarnings("deprecation")
-	public static ClickMsgEvent parse(JsonObject json)
+	public static ClickEvent parse(JsonObject json)
 	{
 		String value=MessageComponent.getString(json.get("value"));
 		switch(MessageComponent.getString(json.get("action")).toLowerCase())
@@ -31,7 +30,7 @@ public abstract class ClickMsgEvent
 				throw new IllegalArgumentException("unknown action "+json.get("action")+" of clickEvent");
 		}
 	}
-	public static ClickMsgEvent parse(ClickEvent clickEvent)
+	public static ClickEvent parse(net.md_5.bungee.api.chat.ClickEvent clickEvent)
 	{
 		JsonObject json=new JsonObject();
 		json.addProperty("action",clickEvent.getAction().name());
