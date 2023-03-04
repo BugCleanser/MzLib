@@ -39,5 +39,5 @@ body:
           required: true
         - label: 我在未认真阅读完检查部分的情况下选择了这个 Checkbox。
           required: false
-        - label: 我确定此功能不会影响到 MzLib 的现有架构。
+        - label: 我已经查找了 MzLib 现有的全部 Issues 并确定此建议没有被重复提交。
           required: true
