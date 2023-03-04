@@ -6,8 +6,6 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.nbt.*;
-import mz.mzlib.wrapper.*;
 
 import java.util.List;
 import java.util.UUID;
