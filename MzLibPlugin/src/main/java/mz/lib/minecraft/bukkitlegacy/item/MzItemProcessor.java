@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkitlegacy.item;
 
 import mz.lib.Ref;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.command.argparser.AbsArgParser;
 import mz.lib.minecraft.command.argparser.ArgParserRegistrar;
@@ -57,7 +57,7 @@ public class MzItemProcessor extends AbsModule
 			@Override
 			public String getTypeName(CommandSender player,double max,double min)
 			{
-				return LangUtil.getTranslated(player,"mzlib.command.default.type.mzitem");
+				return MinecraftLanguages.translate(player,"mzlib.command.default.type.mzitem");
 			}
 		});
 	}

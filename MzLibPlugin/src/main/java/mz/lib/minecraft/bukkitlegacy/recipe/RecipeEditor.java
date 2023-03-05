@@ -1,8 +1,8 @@
 package mz.lib.minecraft.bukkitlegacy.recipe;
 
 import mz.lib.*;
+import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
@@ -22,7 +22,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	public RecipeEditor(IModule module)
 	{
 		super(module,"",new ArrayList<>());
-		this.titleModifier=(p,c)->c.set(new TextMessageComponent(StringUtil.replaceStrings(LangUtil.getTranslated(p,"mzlib.recipesEditor.kindRecipe.title"),new MapEntry<>("%\\{type}",getDisplayName(p)))).toNms());
+		this.titleModifier=(p,c)->c.set(new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.translate(p,"mzlib.recipesEditor.kindRecipe.title"),new MapEntry<>("%\\{type}",getDisplayName(p)))).toNms());
 	}
 	
 	public abstract ItemStack getIcon();
@@ -59,7 +59,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	
 	public String getDisplayName(HumanEntity player)
 	{
-		return LangUtil.getTranslated(player,"mzlib.recipesEditor.types."+getName());
+		return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types."+getName());
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 		
 		public void setSaveButton(int index)
 		{
-			setButton(index,p->new ItemStackBuilder(Material.END_CRYSTAL).setName(LangUtil.getTranslated(p,"mzlib.recipesEditor.save")).get(),(t,p)->
+			setButton(index,p->new ItemStackBuilder(Material.END_CRYSTAL).setName(MinecraftLanguages.translate(p,"mzlib.recipesEditor.save")).get(),(t,p)->
 			{
 				save(this,p);
 				unregister(getId(recipe));

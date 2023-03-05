@@ -20,4 +20,5 @@ public interface Item
 	Item CRAFTING_TABLE=fromId("crafting_table");
 	Item ENCHANTED_BOOK=fromId("enchanted_book");
 	Item ENDER_EYE=fromId("ender_eye");
+	Item WRITTEN_BOOK=fromId("written_book");
 }

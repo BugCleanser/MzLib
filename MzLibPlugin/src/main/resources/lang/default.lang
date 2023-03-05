@@ -1,5 +1,0 @@
-mzlib.dropName.displayName = [%{name}§f]
-mzlib.dropName.rawName = %{name}
-mzlib.dropName.bookTitle = §n%{name}
-mzlib.dropName.oneItem = %{name}
-mzlib.dropName.multipleItems = %{name}§f *%{num}

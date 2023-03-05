@@ -1,7 +1,7 @@
 package mz.lib.minecraft.ui.inventory;
 
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import org.bukkit.Material;
@@ -30,7 +30,7 @@ public abstract class ListEditor<T> extends ListVisitor<T>
 		super.refresh();
 		
 		if(page==getMaxPage())
-			setButton(list.size()%36+9,p->new ItemStackBuilder(Material.NETHER_STAR).setName(LangUtil.getTranslated(p,"mzlib.listEditor.add")).get(),(t,p)->
+			setButton(list.size()%36+9,p->new ItemStackBuilder(Material.NETHER_STAR).setName(MinecraftLanguages.translate(p,"mzlib.listEditor.add")).get(),(t,p)->
 			{
 				T e=newElement(p);
 				list.add(list.size(),e);
@@ -47,7 +47,7 @@ public abstract class ListEditor<T> extends ListVisitor<T>
 	@Override
 	public ItemStack generaldutyIconDecorate(HumanEntity player,ItemStack icon)
 	{
-		return new ItemStackBuilder(icon.clone()).addLore(LangUtil.getTranslated(player,"mzlib.listEditor.edit"),LangUtil.getTranslated(player,"mzlib.listEditor.insertBefore"),LangUtil.getTranslated(player,"mzlib.listEditor.remove")).get();
+		return new ItemStackBuilder(icon.clone()).addLore(MinecraftLanguages.translate(player,"mzlib.listEditor.edit"),MinecraftLanguages.translate(player,"mzlib.listEditor.insertBefore"),MinecraftLanguages.translate(player,"mzlib.listEditor.remove")).get();
 	}
 	public abstract T newElement(HumanEntity player);
 	public abstract void regElement(int index);

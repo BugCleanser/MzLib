@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import mz.lib.ListUtil;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class PlayerArgParser extends AbsArgParser<Player>
 	@Override
 	public String getTypeName(CommandSender player,double max, double min)
 	{
-		return StringUtil.replaceStrings(LangUtil.getTranslated(player,"mzlib.command.default.type.player"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{min\\}",min+""),new MapEntry<>("%\\{max\\}",max+""))));
+		return StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.command.default.type.player"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{min\\}",min+""),new MapEntry<>("%\\{max\\}",max+""))));
 	}
 	@Override
 	public boolean checkFront(CommandSender sender, String arg,double min,double max)

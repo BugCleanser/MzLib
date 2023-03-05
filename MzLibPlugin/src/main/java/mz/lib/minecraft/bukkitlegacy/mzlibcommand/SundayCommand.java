@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import mz.lib.ListUtil;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.command.CommandHandler;
@@ -23,7 +23,7 @@ public class SundayCommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return LangUtil.getTranslated(sender,"mzlib.command.sunday.effect");
+		return MinecraftLanguages.translate(sender,"mzlib.command.sunday.effect");
 	}
 	
 	@CommandHandler
@@ -33,6 +33,6 @@ public class SundayCommand extends AbsLastCommandProcessor
 		w.setTime(1000);
 		w.setStorm(false);
 		w.setThundering(false);
-		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.sunday.success"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{world\\}",w.getName())))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.sunday.success"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{world\\}",w.getName())))));
 	}
 }

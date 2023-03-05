@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkitlegacy.item;
 
 import mz.lib.*;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagByte;
@@ -57,9 +57,9 @@ public interface MzItem extends MzObject
 	@CallEach
 	default void attachItemInfo(List<MessageComponent> msgs,Player sender)
 	{
-		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
+		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
 		if(getTranslatedKey()!=null)
-			msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.iteminfo.mzitem.nameKey"),new MapEntry<>("%\\{nameKey}",getTranslatedKey())),sender,getTranslatedKey()));
+			msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.iteminfo.mzitem.nameKey"),new MapEntry<>("%\\{nameKey}",getTranslatedKey())),sender,getTranslatedKey()));
 	}
 	
 	@CallEach
@@ -90,10 +90,10 @@ public interface MzItem extends MzObject
 			ItemStackBuilder isb=new ItemStackBuilder(getItemStack());
 			if(!isb.hasName())
 			{
-				isb.setName(LangUtil.getTranslated(player,getTranslatedKey()));
+				isb.setName(MinecraftLanguages.translate(player,getTranslatedKey()));
 				mzTag().set("namefix",NmsNBTTagByte.newInstance((byte)1));
 			}
-			String[] extra=StringUtil.split(LangUtil.getTranslated(player,getTranslatedKey()+".lore"),"\n");
+			String[] extra=StringUtil.split(MinecraftLanguages.translate(player,getTranslatedKey()+".lore"),"\n");
 			if(extra.length>0)
 			{
 				mzTag().set("lorefixoffset",NmsNBTTagByte.newInstance((byte) isb.getLore().size()));

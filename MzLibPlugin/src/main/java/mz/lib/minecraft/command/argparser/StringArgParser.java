@@ -1,6 +1,6 @@
 package mz.lib.minecraft.command.argparser;
 
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import org.bukkit.command.CommandSender;
 
 public class StringArgParser extends AbsArgParser<String>
@@ -25,7 +25,7 @@ public class StringArgParser extends AbsArgParser<String>
 	@Override
 	public String getTypeName(CommandSender player,double max,double min)
 	{
-		return LangUtil.getTranslated(player,"mzlib.command.default.type.string");
+		return MinecraftLanguages.translate(player,"mzlib.command.default.type.string");
 	}
 	
 	@Override

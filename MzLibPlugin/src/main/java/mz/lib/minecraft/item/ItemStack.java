@@ -1,16 +1,11 @@
 package mz.lib.minecraft.item;
 
 import com.google.common.collect.*;
-import com.google.gson.*;
-import com.google.gson.stream.*;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.Server;
-import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.nbt.*;
-import org.bukkit.*;
-import org.bukkit.inventory.meta.*;
 
 import java.util.*;
 
@@ -105,38 +100,22 @@ public interface ItemStack
 	default String getName(String locale)
 	{
 		String prefix="";
-		if(getItem()==Item.ENCHANTED_BOOK)
+		if(Objects.equals(getItem(),Item.ENCHANTED_BOOK))
 			prefix="§e";
 		else if(hasEnchants())
 			prefix="§b";
 		if(hasDisplayName())
 		{
-			String displayName;
-			if(Server.instance.v13)
-			{
-				NmsIChatBaseComponent c;
-				try
-				{
-					c=NmsIChatBaseComponent.NmsChatSerializer.jsonToComponent(new ItemStackBuilder(is).display().getString("Name"));
-					TypeUtil.<MalformedJsonException>fakeThrow();
-				}
-				catch(MalformedJsonException|JsonSyntaxException e)
-				{
-					c=new TextMessageComponent(new ItemStackBuilder(is).display().getString("Name")).toNms();
-				}
-				displayName=ObcChatMessage.fromComponentV13(LangUtil.translated(c,LangUtil.getLang(sender)));
-			}
-			else
-				displayName=getDisplayNameV_13();
-			return StringUtil.replaceStrings(LangUtil.getTranslated(sender,new ItemStackBuilder(is).tag().getBool("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+displayName))));
+			String displayName=getDisplayName().toText(locale);
+			return String.format(MinecraftLanguages.translate(locale,tag().get("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),prefix+displayName);
 		}
-		if(is.getType()==Material.WRITTEN_BOOK)
+		if(Objects.equals(getItem(),Item.WRITTEN_BOOK))
 		{
 			BookMeta im=(BookMeta) is.getItemMeta();
 			if(im.hasTitle())
-				return StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
+				return StringUtil.replaceStrings(MinecraftLanguages.translate(locale,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
 		}
-		return StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+LangUtil.getTranslated(sender,getTranslateKey(is))))));
+		return StringUtil.replaceStrings(MinecraftLanguages.getTranslated(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+MinecraftLanguages.getTranslated(sender,getTranslateKey(is))))));
 	}
 	
 	static ItemStack whiteStainedGlassPane()

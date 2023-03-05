@@ -12,8 +12,8 @@ mzlib.showItemOnHand.format = §l%{item}
 
 mzlib.chat.shiftCopy = §7shift+左键复制到聊天栏: §f%{value}
 
-mzlib.dropName.displayName = [%{name}§f]
-mzlib.dropName.rawName = %{name}
+mzlib.dropName.displayName = [%s§f]
+mzlib.dropName.rawName = %s
 mzlib.dropName.bookTitle = §n%{name}
 mzlib.dropName.oneItem = %{name}
 mzlib.dropName.multipleItems = %{name}§f *%{num}

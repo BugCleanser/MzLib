@@ -1,16 +1,11 @@
-package mz.lib.minecraft.bukkitlegacy;
+package mz.lib.minecraft;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
-import mz.lib.FileUtil;
-import mz.lib.StringUtil;
-import mz.lib.TypeUtil;
-import mz.lib.minecraft.*;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.mzlib.*;
+import mz.lib.*;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.obc.ObcChatMessage;
+import mz.lib.minecraft.bukkitlegacy.MzLib;
+import mz.lib.module.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,11 +19,10 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 
-public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolder>
+public class MinecraftLanguages extends MzModule
 {
 	public final Map<Plugin,LangFolder> autoUnregs=new ConcurrentHashMap<>();
 	public Map<LangFolder,Map<String,Map<String,String>>> pluginLangs=new ConcurrentHashMap<>();
@@ -37,11 +31,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	private JsonObject versionAssets;
 	private final Map<String,Map<String,String>> mcLangs=new HashMap<>();
 	
-	public static LangUtil instance=new LangUtil();
-	public LangUtil()
-	{
-		super(MzLib.instance);
-	}
+	public static MinecraftLanguages instance=new MinecraftLanguages();
 	
 	public static class LangFolder
 	{
@@ -64,16 +54,16 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	@EventHandler
 	void onPluginDisable(PluginDisableEvent event)
 	{
-		LangUtil.unregLang(event.getPlugin());
+		MinecraftLanguages.unregLang(event.getPlugin());
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		File lang=new File(MzLib.instance.getDataFolder(),"lang");
+		File lang=new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"lang");
 		try
 		{
-			FileUtil.exportDir(new JarFile(MzLib.instance.getFile()),"lang",lang,false);
+			FileUtil.exportDir(new JarFile(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getFile()),"lang",lang,false);
 		}
 		catch(Throwable e)
 		{
@@ -85,7 +75,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	{
 		if(versionManifest!=null)
 			return versionManifest;
-		File f=new File(MzLib.instance.getDataFolder(),"version_manifest.json");
+		File f=new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"version_manifest.json");
 		if(f.exists())
 		{
 			try(FileInputStream fis=new FileInputStream(f))
@@ -97,11 +87,11 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			}
 			catch(Throwable e)
 			{
-				MzLib.instance.getLogger().warning("MC版本清单读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("MC版本清单读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		MzLib.instance.getLogger().info("正在下载MC版本清单");
+		mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().info("正在下载MC版本清单");
 		JsonObject r=null;
 		try(InputStream dis=FileUtil.openConnectionCheckRedirects(new URL("https://bmclapi2.bangbang93.com/mc/game/version_manifest.json").openConnection()))
 		{
@@ -125,7 +115,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 				versionManifest=r;
 			}
 			else
-				MzLib.instance.getLogger().warning("下载MC版本清单失败");
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("下载MC版本清单失败");
 		}
 		return r;
 	}
@@ -133,7 +123,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	{
 		if(versionInfo!=null)
 			return versionInfo;
-		File f=new File(new File(MzLib.instance.getDataFolder(),"MCVersionInfo"),Server.instance.MCVersion+".json");
+		File f=new File(new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"MCVersionInfo"),Server.instance.MCVersion+".json");
 		if(f.exists())
 		{
 			try(FileInputStream fis=new FileInputStream(f))
@@ -145,11 +135,11 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			}
 			catch(Throwable e)
 			{
-				MzLib.instance.getLogger().warning("当前MC版本信息读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("当前MC版本信息读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		MzLib.instance.getLogger().info("正在下载当前MC版本信息");
+		mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().info("正在下载当前MC版本信息");
 		JsonObject[] rn=new JsonObject[]{null};
 		try
 		{
@@ -177,7 +167,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			if(rn[0]==null)
 			{
 				versionManifest=null;
-				new File(MzLib.instance.getDataFolder(),"version_manifest.json").delete();
+				new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"version_manifest.json").delete();
 				return getVersionInfo();
 			}
 		}
@@ -186,7 +176,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			if(rn[0]!=null)
 				versionInfo=rn[0];
 			else
-				MzLib.instance.getLogger().warning("当前MC版本信息下载失败");
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("当前MC版本信息下载失败");
 		}
 		return versionInfo;
 	}
@@ -194,7 +184,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	{
 		if(versionAssets!=null)
 			return versionAssets;
-		File f=new File(new File(MzLib.instance.getDataFolder(),"MCVersionAssets"),Server.instance.MCVersion+".json");
+		File f=new File(new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"MCVersionAssets"),Server.instance.MCVersion+".json");
 		if(f.exists())
 		{
 			try(FileInputStream fis=new FileInputStream(f))
@@ -206,11 +196,11 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			}
 			catch(Throwable e)
 			{
-				MzLib.instance.getLogger().warning("当前MC版本资源列表读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("当前MC版本资源列表读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
 				e.printStackTrace();
 			}
 		}
-		MzLib.instance.getLogger().info("正在下载当前MC版本资源列表");
+		mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().info("正在下载当前MC版本资源列表");
 		JsonObject[] rn=new JsonObject[]{null};
 		try(InputStream dis=FileUtil.openConnectionCheckRedirects(new URL(getVersionInfo().get("assetIndex").getAsJsonObject().get("url").getAsString().replace("https://launchermeta.mojang.com","https://bmclapi2.bangbang93.com").replace("https://piston-meta.mojang.com","https://bmclapi2.bangbang93.com").replace("https://launcher.mojang.com","https://bmclapi2.bangbang93.com")).openConnection()))
 		{
@@ -232,13 +222,13 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			if(rn[0]!=null)
 				versionAssets=rn[0];
 			else
-				MzLib.instance.getLogger().warning("当前MC版本资源列表下载失败");
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("当前MC版本资源列表下载失败");
 		}
 		return versionAssets;
 	}
 	public static byte[] getAsset(String file)
 	{
-		File f=new File(new File(new File(MzLib.instance.getDataFolder(),"MCAssets"),Server.instance.MCVersion),file);
+		File f=new File(new File(new File(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getDataFolder(),"MCAssets"),Server.instance.MCVersion),file);
 		if(f.exists())
 		{
 			try(FileInputStream fis=new FileInputStream(f))
@@ -247,7 +237,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			}
 			catch(Throwable e)
 			{
-				MzLib.instance.getLogger().warning("MC资源("+file+")读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
+				mz.lib.minecraft.bukkitlegacy.MzLib.instance.getLogger().warning("MC资源("+file+")读取失败： "+e.getClass().getSimpleName()+" "+e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -310,26 +300,6 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 			throw TypeUtil.throwException(e);
 		}
 	}
-	public static Map<String,String> loadLangProperties(String properties)
-	{
-		Properties p=new Properties();
-		try
-		{
-			p.load(new StringReader(properties));
-		}
-		catch(Throwable e)
-		{
-			throw TypeUtil.throwException(e);
-		}
-		return TypeUtil.cast(p);
-	}
-	@SuppressWarnings("serial")
-	public static Map<String,String> loadLangJson(String json)
-	{
-		return TypeUtil.cast(new Gson().fromJson(json,new TypeToken<Map<String,String>>()
-		{
-		}.getType()));
-	}
 	public static Map<String,String> getLang(String lang)
 	{
 		if(instance.mcLangs.containsKey(lang))
@@ -366,7 +336,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 		instance.unregister(instance.autoUnregs.get(plugin));
 		instance.autoUnregs.remove(plugin);
 	}
-	public static String getTranslated(String locale,String key)
+	public static String translate(String locale,String key)
 	{
 		if(key==null)
 			return "null";
@@ -396,9 +366,9 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 		}
 		return key;
 	}
-	public static String getTranslated(CommandSender player,String key)
+	public static String translate(CommandSender player,String key)
 	{
-		return getTranslated(getLang(player),key);
+		return translate(getLang(player),key);
 	}
 	public static boolean hasKey(String locale,String key)
 	{
@@ -422,7 +392,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	{
 		if(component.has("translate"))
 		{
-			component.add("text",new JsonPrimitive(getTranslated(locale,component.get("translate").getAsString())));
+			component.add("text",new JsonPrimitive(translate(locale,component.get("translate").getAsString())));
 		}
 		if(component.has("extra"))
 		{
@@ -487,7 +457,7 @@ public class LangUtil extends AbsModule implements IRegistrar<LangUtil.LangFolde
 	{
 		if(player!=null)
 			return player.getLocale();
-		return MzLib.instance.getConfig().getString("defaultLang","en_us");
+		return mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getString("defaultLang","en_us");
 	}
 	public static String getLang(CommandSender sender)
 	{

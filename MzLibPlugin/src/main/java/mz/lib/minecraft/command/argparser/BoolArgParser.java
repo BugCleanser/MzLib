@@ -1,7 +1,7 @@
 package mz.lib.minecraft.command.argparser;
 
 import com.google.common.collect.Lists;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -16,13 +16,13 @@ public class BoolArgParser extends AbsPrimitiveArgParser<Boolean>
 	@Override
 	public Boolean parse(CommandSender sender,String arg) throws Throwable
 	{
-		return arg.equalsIgnoreCase(LangUtil.getTranslated(sender,"mzlib.value.true"));
+		return arg.equalsIgnoreCase(MinecraftLanguages.translate(sender,"mzlib.value.true"));
 	}
 	
 	@Override
 	public List<String> getDefaultPreset(CommandSender sender,double max,double min)
 	{
-		return Lists.newArrayList(LangUtil.getTranslated(sender,"mzlib.value.true"),LangUtil.getTranslated(sender,"mzlib.value.false"));
+		return Lists.newArrayList(MinecraftLanguages.translate(sender,"mzlib.value.true"),MinecraftLanguages.translate(sender,"mzlib.value.false"));
 	}
 	
 	@Override

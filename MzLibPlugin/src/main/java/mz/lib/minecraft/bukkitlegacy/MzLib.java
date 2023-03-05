@@ -2,6 +2,7 @@ package mz.lib.minecraft.bukkitlegacy;
 
 import io.github.karlatemp.unsafeaccessor.*;
 import mz.lib.*;
+import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkit.paper.*;
 import mz.lib.minecraft.bukkitlegacy.block.*;
@@ -89,11 +90,11 @@ public class MzLib extends MzPlugin
 	{
 		this.saveDefaultConfig();
 		
-		LangUtil.instance.load();
+		MinecraftLanguages.instance.load();
 		
 		if(getConfig().getBoolean("hotLoadingTips",true))
 			for(Player p: Bukkit.getOnlinePlayers())
-				sendPluginMessage(p,LangUtil.getTranslated(p,"mzlib.hotloading"));
+				sendPluginMessage(p,MinecraftLanguages.translate(p,"mzlib.hotloading"));
 		
 		if(ClassUtil.findLoadedClass(Event.class.getClassLoader(),"org.bukkit.event.entity.EntityDropItemEvent")==null)
 			ClassUtil.loadClass("org.bukkit.event.entity.EntityDropItemEvent",FileUtil.readInputStream(this.getResource("org/bukkit/event/entity/EntityDropItemEvent.class")),Event.class.getClassLoader());

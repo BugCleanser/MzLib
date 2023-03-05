@@ -2,7 +2,7 @@ package mz.lib.minecraft.command;
 
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.MinecraftLanguages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.permissions.Permission;
 
@@ -26,12 +26,12 @@ public interface ICommandProcessor
 	{
 		if(this.isMustOp()&&!sender.isOp())
 		{
-			sender.sendMessage(LangUtil.getTranslated(sender,"mzlib.command.default.op.error"));
+			sender.sendMessage(MinecraftLanguages.translate(sender,"mzlib.command.default.op.error"));
 			return new ArrayList<>();
 		}
 		else if(!this.hasPermission(sender))
 		{
-			sender.sendMessage(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.default.permission.error"),new MapEntry<>("%\\{permission}",getPermission().getName())));
+			sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.default.permission.error"),new MapEntry<>("%\\{permission}",getPermission().getName())));
 			return new ArrayList<>();
 		}
 		return null;

@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkitlegacy.recipe;
 
 import mz.lib.*;
-import mz.lib.minecraft.bukkitlegacy.*;
+import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.ui.*;
 import mz.lib.minecraft.ui.inventory.ListVisitor;
@@ -17,14 +17,14 @@ public class RecipeTypeSelector extends ListVisitor<RecipeEditor<?>>
 	public static RecipeTypeSelector instance=new RecipeTypeSelector();
 	public RecipeTypeSelector()
 	{
-		super(RecipeEditorRegistrar.instance,p->new TextMessageComponent(LangUtil.getTranslated(p,"mzlib.recipesEditor.types.title")).toNms(),RecipeEditorRegistrar.instance.recipeEditors);
+		super(RecipeEditorRegistrar.instance,p->new TextMessageComponent(MinecraftLanguages.translate(p,"mzlib.recipesEditor.types.title")).toNms(),RecipeEditorRegistrar.instance.recipeEditors);
 	}
 	
 	@Override
 	public ItemStack getIcon(int index,HumanEntity player)
 	{
 		RecipeEditor<?> editor=list.get(index);
-		return new ItemStackBuilder(editor.getIcon().clone()).setName(StringUtil.replaceStrings(LangUtil.getTranslated(player,"mzlib.recipesEditor.kindRecipe.name"),new MapEntry<>("%\\{type}",editor.getDisplayName(player)))).get();
+		return new ItemStackBuilder(editor.getIcon().clone()).setName(StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.recipesEditor.kindRecipe.name"),new MapEntry<>("%\\{type}",editor.getDisplayName(player)))).get();
 	}
 	
 	@Override
