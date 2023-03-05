@@ -22,7 +22,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	public RecipeEditor(IModule module)
 	{
 		super(module,"",new ArrayList<>());
-		this.titleModifier=(p,c)->c.set(new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.translate(p,"mzlib.recipesEditor.kindRecipe.title"),new MapEntry<>("%\\{type}",getDisplayName(p)))).toNms());
+		this.titleModifier=(p,c)->c.set(new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.get(p,"mzlib.recipesEditor.kindRecipe.title"),new MapEntry<>("%\\{type}",getDisplayName(p)))).toNms());
 	}
 	
 	public abstract ItemStack getIcon();
@@ -59,7 +59,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	
 	public String getDisplayName(HumanEntity player)
 	{
-		return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types."+getName());
+		return MinecraftLanguages.get(player,"mzlib.recipesEditor.types."+getName());
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 		
 		public void setSaveButton(int index)
 		{
-			setButton(index,p->new ItemStackBuilder(Material.END_CRYSTAL).setName(MinecraftLanguages.translate(p,"mzlib.recipesEditor.save")).get(),(t,p)->
+			setButton(index,p->new ItemStackBuilder(Material.END_CRYSTAL).setName(MinecraftLanguages.get(p,"mzlib.recipesEditor.save")).get(),(t,p)->
 			{
 				save(this,p);
 				unregister(getId(recipe));

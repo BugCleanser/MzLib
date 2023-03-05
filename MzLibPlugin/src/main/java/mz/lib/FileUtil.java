@@ -181,4 +181,12 @@ public final class FileUtil
 		}while(redir);
 		return in;
 	}
+	
+	public static void delete(File file)
+	{
+		if(file.isDirectory())
+			for(File f:file.listFiles())
+				delete(f);
+		file.delete();
+	}
 }

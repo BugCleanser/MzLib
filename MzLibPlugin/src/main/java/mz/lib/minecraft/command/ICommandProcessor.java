@@ -26,12 +26,12 @@ public interface ICommandProcessor
 	{
 		if(this.isMustOp()&&!sender.isOp())
 		{
-			sender.sendMessage(MinecraftLanguages.translate(sender,"mzlib.command.default.op.error"));
+			sender.sendMessage(MinecraftLanguages.get(sender,"mzlib.command.default.op.error"));
 			return new ArrayList<>();
 		}
 		else if(!this.hasPermission(sender))
 		{
-			sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.default.permission.error"),new MapEntry<>("%\\{permission}",getPermission().getName())));
+			sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.default.permission.error"),new MapEntry<>("%\\{permission}",getPermission().getName())));
 			return new ArrayList<>();
 		}
 		return null;

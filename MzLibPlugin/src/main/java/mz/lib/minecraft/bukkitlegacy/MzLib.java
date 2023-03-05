@@ -94,7 +94,7 @@ public class MzLib extends MzPlugin
 		
 		if(getConfig().getBoolean("hotLoadingTips",true))
 			for(Player p: Bukkit.getOnlinePlayers())
-				sendPluginMessage(p,MinecraftLanguages.translate(p,"mzlib.hotloading"));
+				sendPluginMessage(p,MinecraftLanguages.get(p,"mzlib.hotloading"));
 		
 		if(ClassUtil.findLoadedClass(Event.class.getClassLoader(),"org.bukkit.event.entity.EntityDropItemEvent")==null)
 			ClassUtil.loadClass("org.bukkit.event.entity.EntityDropItemEvent",FileUtil.readInputStream(this.getResource("org/bukkit/event/entity/EntityDropItemEvent.class")),Event.class.getClassLoader());

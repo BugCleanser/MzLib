@@ -27,7 +27,7 @@ public class OfflinePlayerArgParser extends AbsArgParser<OfflinePlayer>
 	@Override
 	public String getTypeName(CommandSender player,double max, double min)
 	{
-		return StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.command.default.type.offlinePlayer"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{min\\}",min+""),new MapEntry<>("%\\{max\\}",max+""))));
+		return StringUtil.replaceStrings(MinecraftLanguages.get(player,"mzlib.command.default.type.offlinePlayer"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{min\\}",min+""),new MapEntry<>("%\\{max\\}",max+""))));
 	}
 	@Override
 	public boolean checkFront(CommandSender sender, String arg,double min,double max)

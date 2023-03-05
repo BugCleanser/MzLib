@@ -135,7 +135,7 @@ public interface IMainCommand extends TabExecutor
 		List<String> usage=executeOrUsages(sender,label,args);
 		if(usage!=null&&usage.size()>0)
 		{
-			MzLib.sendPluginMessage(sender,getPlugin(),MinecraftLanguages.translate(sender,"mzlib.command.default.usage"));
+			MzLib.sendPluginMessage(sender,getPlugin(),MinecraftLanguages.get(sender,"mzlib.command.default.usage"));
 			usage.forEach(sender::sendMessage);
 		}
 		return false;

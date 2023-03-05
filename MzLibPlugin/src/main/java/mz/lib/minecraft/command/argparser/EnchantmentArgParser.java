@@ -21,7 +21,7 @@ public class EnchantmentArgParser extends AbsArgParser<Enchantment>
 	{
 		for(Enchantment e: Enchantment.values())
 		{
-			if(MinecraftLanguages.translate(sender,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))).equals(arg))
+			if(MinecraftLanguages.get(sender,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))).equals(arg))
 				return e;
 		}
 		return null;
@@ -30,7 +30,7 @@ public class EnchantmentArgParser extends AbsArgParser<Enchantment>
 	@Override
 	public String getTypeName(CommandSender player,double max,double min)
 	{
-		return MinecraftLanguages.translate(player,"mzlib.command.default.type.enchantName");
+		return MinecraftLanguages.get(player,"mzlib.command.default.type.enchantName");
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class EnchantmentArgParser extends AbsArgParser<Enchantment>
 		List<String> r=new ArrayList<>();
 		for(Enchantment e: Enchantment.values())
 		{
-			r.add(MinecraftLanguages.translate(player,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))));
+			r.add(MinecraftLanguages.get(player,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))));
 		}
 		return r;
 	}
@@ -49,7 +49,7 @@ public class EnchantmentArgParser extends AbsArgParser<Enchantment>
 	{
 		for(Enchantment e: Enchantment.values())
 		{
-			if(StringUtil.startsWithIgnoreCase(MinecraftLanguages.translate(sender,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))),arg))
+			if(StringUtil.startsWithIgnoreCase(MinecraftLanguages.get(sender,EnchantUtil.getTranslateKey(EnchantUtil.getEnchantKey(e))),arg))
 				return true;
 		}
 		return false;

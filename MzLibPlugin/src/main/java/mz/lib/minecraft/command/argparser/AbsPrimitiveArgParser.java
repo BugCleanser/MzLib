@@ -16,6 +16,6 @@ public abstract class AbsPrimitiveArgParser<T> extends AbsArgParser<T>
 	@Override
 	public String getTypeName(CommandSender player,double max,double min)
 	{
-		return StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.command.default.type."+TypeUtil.toPrimitive(getType()).getName()),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)));
+		return StringUtil.replaceStrings(MinecraftLanguages.get(player,"mzlib.command.default.type."+TypeUtil.toPrimitive(getType()).getName()),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)));
 	}
 }

@@ -20,7 +20,7 @@ public class EventListenerRegistrar implements IRegistrar<IEventListener<?>>
 	@Override
 	public boolean register(MzModule module,IEventListener<?> obj)
 	{
-		registered.computeIfAbsent(obj.getType(),t->new ConcurrentHashSet<>()).add(obj);
+		registered.computeIfAbsent(obj.getType(),t->Collections.synchronizedSet(new TreeSet<>())).add(obj);
 		return true;
 	}
 	

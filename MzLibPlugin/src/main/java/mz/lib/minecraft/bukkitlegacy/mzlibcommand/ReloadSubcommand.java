@@ -18,13 +18,13 @@ public class ReloadSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.reload.effect");
+		return MinecraftLanguages.get(sender,"mzlib.command.reload.effect");
 	}
 	
 	@CommandHandler
 	public void execute(CommandSender sender)
 	{
 		MzLib.instance.reloadConfig();
-		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.reload.success"));
+		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.get(sender,"mzlib.command.reload.success"));
 	}
 }

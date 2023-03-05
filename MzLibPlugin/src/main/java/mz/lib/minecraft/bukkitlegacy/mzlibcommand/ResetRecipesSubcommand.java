@@ -19,13 +19,13 @@ public class ResetRecipesSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.resetRecipes.effect");
+		return MinecraftLanguages.get(sender,"mzlib.command.resetRecipes.effect");
 	}
 	
 	@CommandHandler
 	public void execute(CommandSender sender)
 	{
 		Bukkit.resetRecipes();
-		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.resetRecipes.success"));
+		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.get(sender,"mzlib.command.resetRecipes.success"));
 	}
 }

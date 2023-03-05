@@ -62,7 +62,7 @@ public interface ILastCommandProcessor extends ICommandProcessor
 		for(FinalCommandExecutor e: getExecutors())
 		{
 			if(e.hasPermission(sender))
-				r.add(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.default.usage.args"),new MapEntry<>("%\\{cmd}",usedName),new MapEntry<>("%\\{args}",e.getUsage(sender))));
+				r.add(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.default.usage.args"),new MapEntry<>("%\\{cmd}",usedName),new MapEntry<>("%\\{args}",e.getUsage(sender))));
 		}
 		return r;
 	}

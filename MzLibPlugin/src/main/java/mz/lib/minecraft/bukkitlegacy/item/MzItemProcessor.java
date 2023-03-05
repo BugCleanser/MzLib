@@ -57,7 +57,7 @@ public class MzItemProcessor extends AbsModule
 			@Override
 			public String getTypeName(CommandSender player,double max,double min)
 			{
-				return MinecraftLanguages.translate(player,"mzlib.command.default.type.mzitem");
+				return MinecraftLanguages.get(player,"mzlib.command.default.type.mzitem");
 			}
 		});
 	}

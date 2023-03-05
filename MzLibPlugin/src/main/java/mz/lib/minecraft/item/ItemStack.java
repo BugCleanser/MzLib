@@ -107,13 +107,13 @@ public interface ItemStack
 		if(hasDisplayName())
 		{
 			String displayName=getDisplayName().toText(locale);
-			return String.format(MinecraftLanguages.translate(locale,tag().get("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),prefix+displayName);
+			return String.format(MinecraftLanguages.get(locale,tag().get("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),prefix+displayName);
 		}
 		if(Objects.equals(getItem(),Item.WRITTEN_BOOK))
 		{
 			BookMeta im=(BookMeta) is.getItemMeta();
 			if(im.hasTitle())
-				return StringUtil.replaceStrings(MinecraftLanguages.translate(locale,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
+				return StringUtil.replaceStrings(MinecraftLanguages.get(locale,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
 		}
 		return StringUtil.replaceStrings(MinecraftLanguages.getTranslated(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+MinecraftLanguages.getTranslated(sender,getTranslateKey(is))))));
 	}

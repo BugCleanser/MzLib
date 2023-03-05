@@ -25,19 +25,19 @@ public class GiveSubcommand extends AbsLastCommandProcessor
 	public void execute(Player sender,MzItem item)
 	{
 		PlayerUtil.give(sender,item.getItemStack().getRaw());
-		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.give.success"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item.getItemStack().getRaw(),sender))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.give.success"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item.getItemStack().getRaw(),sender))));
 	}
 	
 	@CommandHandler
 	public void execute(CommandSender sender,Player target,MzItem item)
 	{
 		PlayerUtil.give(target,item.getItemStack().getRaw());
-		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.give.other.success"),new MapEntry<>("%\\{player\\}",target.getName()),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item.getItemStack().getRaw(),sender))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.give.other.success"),new MapEntry<>("%\\{player\\}",target.getName()),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item.getItemStack().getRaw(),sender))));
 	}
 	
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.give.effect");
+		return MinecraftLanguages.get(sender,"mzlib.command.give.effect");
 	}
 }

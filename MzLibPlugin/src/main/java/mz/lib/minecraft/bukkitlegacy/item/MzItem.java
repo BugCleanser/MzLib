@@ -9,7 +9,6 @@ import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.minecraft.message.*;
 import mz.lib.mzlang.CallEach;
-import mz.lib.mzlang.FinalProp;
 import mz.lib.mzlang.MzObject;
 import mz.lib.mzlang.PropAccessor;
 import org.bukkit.NamespacedKey;
@@ -28,10 +27,8 @@ public interface MzItem extends MzObject
 {
 	Map<NamespacedKey,Class<? extends MzItem>> mzItems=new ConcurrentHashMap<>();
 	
-	@FinalProp
 	@PropAccessor("itemStack")
 	MzItem setItemStack(ObcItemStack is);
-	@FinalProp
 	default MzItem setItemStack(ItemStack is)
 	{
 		return setItemStack(ObcItemStack.ensure(is));
@@ -57,9 +54,9 @@ public interface MzItem extends MzObject
 	@CallEach
 	default void attachItemInfo(List<MessageComponent> msgs,Player sender)
 	{
-		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
+		msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.iteminfo.mzitem"),new MapEntry<>("%\\{id}",getKey().toString())),sender,getKey().toString()));
 		if(getTranslatedKey()!=null)
-			msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.iteminfo.mzitem.nameKey"),new MapEntry<>("%\\{nameKey}",getTranslatedKey())),sender,getTranslatedKey()));
+			msgs.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.iteminfo.mzitem.nameKey"),new MapEntry<>("%\\{nameKey}",getTranslatedKey())),sender,getTranslatedKey()));
 	}
 	
 	@CallEach
@@ -90,10 +87,10 @@ public interface MzItem extends MzObject
 			ItemStackBuilder isb=new ItemStackBuilder(getItemStack());
 			if(!isb.hasName())
 			{
-				isb.setName(MinecraftLanguages.translate(player,getTranslatedKey()));
+				isb.setName(MinecraftLanguages.get(player,getTranslatedKey()));
 				mzTag().set("namefix",NmsNBTTagByte.newInstance((byte)1));
 			}
-			String[] extra=StringUtil.split(MinecraftLanguages.translate(player,getTranslatedKey()+".lore"),"\n");
+			String[] extra=StringUtil.split(MinecraftLanguages.get(player,getTranslatedKey()+".lore"),"\n");
 			if(extra.length>0)
 			{
 				mzTag().set("lorefixoffset",NmsNBTTagByte.newInstance((byte) isb.getLore().size()));

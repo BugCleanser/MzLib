@@ -335,7 +335,7 @@ public class FinalCommandExecutor
 	{	
 		if(!this.senderType.isAssignableFrom(sender.getClass()))
 		{
-			sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,senderTypeError),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{type\\}",this.senderType.getSimpleName())))));
+			sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,senderTypeError),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{type\\}",this.senderType.getSimpleName())))));
 			return;
 		}
 		args=StringUtil.mergeStrings(this.argParsers.size()-1,this.argParsers.size(),args);
@@ -368,7 +368,7 @@ public class FinalCommandExecutor
 			if(this.argInfos[i].name().equals(""))
 				sb.append(this.argParsers.get(i).getTypeName(player,Math.min(this.argInfos[i].max(),this.argParsers.get(i).getMax()),Math.max(this.argInfos[i].min(),this.argParsers.get(i).getMin())));
 			else
-				sb.append(MinecraftLanguages.translate(player,this.argInfos[i].name()));
+				sb.append(MinecraftLanguages.get(player,this.argInfos[i].name()));
 			sb.append('>');
 		}
 		return sb.toString();

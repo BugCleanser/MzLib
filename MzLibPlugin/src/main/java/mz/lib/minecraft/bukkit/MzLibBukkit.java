@@ -4,10 +4,14 @@ import org.bukkit.plugin.java.*;
 
 public class MzLibBukkit extends JavaPlugin
 {
+	public static MzLibBukkit instance;
+	{
+		instance=this;
+	}
+	
 	@Override
 	public void onEnable()
 	{
-		MzLibBukkitModule.instance=new MzLibBukkitModule(this);
 		MzLibBukkitModule.instance.load();
 	}
 	

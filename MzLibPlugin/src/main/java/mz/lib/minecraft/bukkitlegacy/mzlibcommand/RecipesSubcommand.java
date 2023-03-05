@@ -21,7 +21,7 @@ public class RecipesSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.recipes.effect");
+		return MinecraftLanguages.get(sender,"mzlib.command.recipes.effect");
 	}
 	
 	@CommandHandler

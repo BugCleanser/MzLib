@@ -27,7 +27,7 @@ public class TextMessageComponent extends MessageComponent
 	}
 	public static TextMessageComponent textCopy(String text,String locale,String value)
 	{
-		return (TextMessageComponent)new TextMessageComponent(text).setInsertion(value).setHoverEvent(new ShowTextOnMouse(StringUtil.replaceStrings(MinecraftLanguages.translate(locale,"mzlib.chat.shiftCopy"),new MapEntry<>("%\\{value\\}",value))));
+		return (TextMessageComponent)new TextMessageComponent(text).setInsertion(value).setHoverEvent(new ShowTextOnMouse(StringUtil.replaceStrings(MinecraftLanguages.get(locale,"mzlib.chat.shiftCopy"),new MapEntry<>("%\\{value\\}",value))));
 	}
 	public TextMessageComponent setText(String text)
 	{

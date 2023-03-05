@@ -29,7 +29,7 @@ public class LoadMapSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.loadMap.effect");
+		return MinecraftLanguages.get(sender,"mzlib.command.loadMap.effect");
 	}
 	
 	@CommandHandler

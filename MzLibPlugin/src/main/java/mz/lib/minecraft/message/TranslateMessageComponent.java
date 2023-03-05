@@ -51,6 +51,6 @@ public class TranslateMessageComponent extends MessageComponent
 			args=with.stream().map(m->m.toText(locale)).toArray(String[]::new);
 		else
 			args=new Object[0];
-		return String.format(MinecraftLanguages.translate(locale,translate),args);
+		return String.format(MinecraftLanguages.get(locale,translate),args);
 	}
 }
