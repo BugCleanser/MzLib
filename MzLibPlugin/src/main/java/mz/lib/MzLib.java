@@ -28,6 +28,8 @@ public class MzLib extends MzModule
 	@Override
 	public void onLoad()
 	{
+		reg(RegistrableRegistrar.instance);
+		
 		Nothing.init();
 		reg(NothingRegistrar.instance);
 		
