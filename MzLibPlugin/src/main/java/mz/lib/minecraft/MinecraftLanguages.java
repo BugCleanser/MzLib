@@ -3,7 +3,6 @@ package mz.lib.minecraft;
 import mz.lib.*;
 import mz.lib.lang.*;
 import mz.lib.minecraft.event.entity.player.*;
-import mz.lib.minecraft.event.player.*;
 import mz.lib.minecraft.task.*;
 import mz.lib.module.*;
 import java.io.*;
@@ -70,13 +69,14 @@ public class MinecraftLanguages extends MzModule
 		Map<String,String> l=getLang(locale);
 		return l!=null&&l.containsKey(key);
 	}
+	
 	@EventHandler
 	public void onPlayerLocaleChange(PlayerLocaleChangeEvent event)
 	{
 		reg(new SyncTask(()->
 		{
-			if(event.getPlayer().isOnline())
-				event.getPlayer().updateInventory();
+			if(event.getEntity().isOnline())
+				event.getEntity().updateInventory();
 		}));
 	}
 }
