@@ -39,8 +39,8 @@ public class Function
 	}
 	public static List<Function> getFunctions(Class<?> clazz)
 	{
-		List<Function> r=Lists.newArrayList(clazz.getDeclaredConstructors()).stream().map(c->new Function(c)).collect(Collectors.toList());
-		r.addAll(Lists.newArrayList(clazz.getDeclaredMethods()).stream().map(c->new Function(c)).collect(Collectors.toList()));
+		List<Function> r=Lists.newArrayList(clazz.getDeclaredConstructors()).stream().map(Function::new).collect(Collectors.toList());
+		r.addAll(Lists.newArrayList(clazz.getDeclaredMethods()).stream().map(Function::new).collect(Collectors.toList()));
 		return r;
 	}
 	public Executable getExecutable()
