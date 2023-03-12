@@ -18,10 +18,10 @@ import mz.lib.minecraft.bukkitlegacy.mzlibcommand.debug.*;
 import mz.lib.minecraft.bukkitlegacy.recipe.*;
 import mz.lib.minecraft.command.*;
 import mz.lib.minecraft.command.argparser.*;
+import mz.lib.minecraft.feature.*;
 import mz.lib.minecraft.ui.*;
 import mz.lib.minecraft.ui.inventory.*;
 import org.bukkit.*;
-import org.bukkit.entity.*;
 import org.bukkit.event.*;
 
 import java.lang.invoke.*;

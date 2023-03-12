@@ -1,15 +1,17 @@
-package mz.lib.minecraft.bukkitlegacy;
+package mz.lib.minecraft.feature;
 
 import mz.lib.*;
 import mz.lib.minecraft.*;
+import mz.lib.minecraft.bukkitlegacy.*;
+import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.event.PlayerReceiveMsgEvent;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
 import mz.lib.minecraft.message.TranslateMessageComponent;
 import mz.lib.minecraft.message.hoverevent.ShowItemOnMouse;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
+import mz.lib.module.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,20 +24,22 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ShowItemOnHandModule extends AbsModule
+public final class ShowItemOnHandModule extends MzModule
 {
 	public static ShowItemOnHandModule instance=new ShowItemOnHandModule();
-	private ShowItemOnHandModule()
+	
+	@Override
+	public void onLoad()
 	{
-		super(MzLib.instance,ProtocolUtil.instance);
+		depend(ProtocolUtil.instance);
 	}
-
+	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
 	{
-		if(!MzLib.instance.getConfig().getBoolean("func.showItemOnHand.enable",true))
+		if(!mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getBoolean("func.showItemOnHand.enable",true))
 			return;
-		if(StringUtil.containsIgnoreCase(MzLib.instance.getConfig().getStringList("func.showItemOnHand.commands"),event.getMessage().split(" ")[0].substring(1)))
+		if(StringUtil.containsIgnoreCase(mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getStringList("func.showItemOnHand.commands"),event.getMessage().split(" ")[0].substring(1)))
 		{
 			AsyncPlayerChatEvent e = new AsyncPlayerChatEvent(false, event.getPlayer(), event.getMessage(), null);
 			onPlayerChat(e);
@@ -47,10 +51,10 @@ public final class ShowItemOnHandModule extends AbsModule
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event)
 	{
-		if(!MzLib.instance.getConfig().getBoolean("func.showItemOnHand.enable",true))
+		if(!mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getBoolean("func.showItemOnHand.enable",true))
 			return;
 		String msg=event.getMessage().replace("￼","[obj]");
-		List<String> keys=MzLib.instance.getConfig().getStringList("func.showItemOnHand.keys");
+		List<String> keys=mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getStringList("func.showItemOnHand.keys");
 		if(StringUtil.sum(msg,ListUtil.mergeLists(keys.stream().map(k->
 		{
 			List<String> r=new ArrayList<>();
@@ -58,7 +62,7 @@ public final class ShowItemOnHandModule extends AbsModule
 			for(char i='1';i<='9';i++)
 				r.add(k.replace('i',i));
 			return r;
-		}).toArray(List[]::new)))<=MzLib.instance.getConfig().getInt("func.showItemOnHand.max",5))
+		}).toArray(List[]::new)))<=mz.lib.minecraft.bukkitlegacy.MzLib.instance.getConfig().getInt("func.showItemOnHand.max",5))
 		{
 			String n="￼"+event.getPlayer().getName()+"￼"+event.getPlayer().getInventory().getHeldItemSlot()+"￼";
 			for(String key: keys)
