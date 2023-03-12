@@ -31,4 +31,8 @@ public interface NbtPrimitive extends NbtElement
 	{
 		return getValue().floatValue();
 	}
+	default double toDouble()
+	{
+		return getValue().doubleValue();
+	}
 }
