@@ -11,7 +11,7 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.EnchantUtil;
 import mz.lib.minecraft.MinecraftLanguages;
-import mz.lib.minecraft.bukkitlegacy.event.ShowItemEvent;
+import mz.lib.minecraft.event.entity.player.ShowItemEvent;
 import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.message.*;
 import mz.mzlib.*;

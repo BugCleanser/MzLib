@@ -4,6 +4,7 @@ import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkitlegacy.nothing.*;
 import mz.lib.minecraft.bukkitlegacy.recipe.*;
 import mz.lib.minecraft.nothing.*;
+import mz.lib.minecraft.recipe.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.nothing.*;
 import mz.lib.wrapper.WrappedConstructor;

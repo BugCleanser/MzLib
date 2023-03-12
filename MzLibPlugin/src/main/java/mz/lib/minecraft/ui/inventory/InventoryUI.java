@@ -2,9 +2,9 @@ package mz.lib.minecraft.ui.inventory;
 
 import mz.lib.*;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.entity.PlayerUtil;
-import mz.lib.minecraft.bukkitlegacy.event.ShowInventoryItemEvent;
-import mz.lib.minecraft.bukkitlegacy.event.WindowOpenEvent;
+import mz.lib.minecraft.entity.PlayerUtil;
+import mz.lib.minecraft.event.entity.player.ShowInventoryItemEvent;
+import mz.lib.minecraft.event.entity.player.WindowOpenEvent;
 import mz.lib.minecraft.ui.UIStack;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;

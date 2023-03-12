@@ -43,8 +43,4 @@ public class UnloadableClassLoader extends ClassLoader
 	{
 		classes.remove(name);
 	}
-	public void close()
-	{
-		classes.clear();
-	}
 }

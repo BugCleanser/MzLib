@@ -4,7 +4,7 @@ import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.event.PlayerReceiveMsgEvent;
+import mz.lib.minecraft.event.entity.player.PlayerReceiveMsgEvent;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
