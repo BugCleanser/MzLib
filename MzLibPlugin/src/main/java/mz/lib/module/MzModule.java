@@ -60,9 +60,9 @@ public abstract class MzModule
 		onUnload();
 		List<MzModule> r=new ArrayList<>();
 		r.add(this);
-		for(MzModule i:submodules)
+		for(MzModule i:getSubmodules())
 			r.addAll(i.unload());
-		submodules.clear();
+		getSubmodules().clear();
 		for(MzModule m:loadedModules)
 			if(m.depends.contains(this))
 				r.addAll(m.unload());
