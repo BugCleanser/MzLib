@@ -3,15 +3,15 @@ package mz.lib.minecraft.event.entity.player;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.ProtocolUtil;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.mzlib.*;
+import mz.lib.module.MzModule;
+import mz.lib.*;
 import mz.lib.minecraft.bukkit.nms.NmsItemStack;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayOutSetSlot;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayOutWindowItems;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import mz.lib.minecraft.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
@@ -49,17 +49,14 @@ public class ShowInventoryItemEvent extends ShowItemEvent
 		this.cancelled=cancelled;
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
-		{
-			super(MzLib.instance,ProtocolUtil.instance);
-		}
 		
 		@Override
-		public void onEnable()
+		public void onLoad()
 		{
+			depend(ProtocolUtil.instance);
 			reg(new ProtocolUtil.SendListener<>(EventPriority.HIGHEST,NmsPacketPlayOutSetSlot.class,(player,packet,cancelled)->
 			{
 				if(cancelled.get())

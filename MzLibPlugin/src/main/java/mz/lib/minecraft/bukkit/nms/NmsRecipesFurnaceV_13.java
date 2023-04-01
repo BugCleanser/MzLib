@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.bukkitlegacy.nothing.*;
+import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.Optional;
 import mz.lib.minecraft.nothing.*;
@@ -10,7 +10,7 @@ import mz.lib.nothing.*;
 import mz.lib.wrapper.WrappedFieldAccessor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.wrapper.*;
+import mz.lib.wrapper.*;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 

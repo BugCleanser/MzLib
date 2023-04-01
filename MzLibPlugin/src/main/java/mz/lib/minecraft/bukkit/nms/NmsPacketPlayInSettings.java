@@ -4,7 +4,7 @@ import mz.lib.DoubleKeyList;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.ProtocolUtil;
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.minecraft.wrapper.VersionalWrappedFieldAccessor;
 import org.bukkit.entity.Player;
@@ -30,12 +30,15 @@ public interface NmsPacketPlayInSettings extends NmsPacket
 	@VersionalWrappedFieldAccessor({@VersionalName("locale"),@VersionalName(value="a",maxVer=16),@VersionalName(value="b",minVer=17)})
 	NmsPacketPlayInSettings setLocale(String locale);
 	
-	class Module extends AbsModule
+	class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
 		{
-			super(MzLib.instance);
+			this.load();
+		}
+		@Override
+		public void onLoad()
+		{
 			reg(new ProtocolUtil.ReceiveListener<>(EventPriority.MONITOR,NmsPacketPlayInSettings.class,(pl,pa,c)->
 			{
 				tasks.remove2(pl).forEach(t->

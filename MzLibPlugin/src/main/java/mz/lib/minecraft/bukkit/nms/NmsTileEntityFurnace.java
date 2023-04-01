@@ -2,18 +2,19 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.nothing.*;
+import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.nothing.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.wrapper.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.Optional;
 
 @VersionalWrappedClass({@VersionalName(value="nms.TileEntityFurnace",maxVer=17),@VersionalName(value="net.minecraft.world.level.block.entity.TileEntityFurnace",minVer=17)})
 public interface NmsTileEntityFurnace extends VersionalWrappedObject, VersionalNothing

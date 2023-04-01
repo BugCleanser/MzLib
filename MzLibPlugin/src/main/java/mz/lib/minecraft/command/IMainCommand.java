@@ -5,9 +5,9 @@ import mz.lib.ListMap;
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.module.MzModule;
+import mz.lib.module.IRegistrar;
+import mz.lib.module.RegistrarRegistrar;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
@@ -18,7 +18,7 @@ import java.util.*;
 
 public interface IMainCommand extends TabExecutor
 {
-	static class Module extends AbsModule implements IRegistrar<IMainCommand>
+	static class Module extends MzModule implements IRegistrar<IMainCommand>
 	{
 		public static Module instance=new Module();
 		
@@ -26,11 +26,13 @@ public interface IMainCommand extends TabExecutor
 		public SimpleCommandMap commandMap;
 		public Field SimpleCommandMapKnownCommands;
 		public Map<String,Command> knownCommands;
-		
+		@Override
+		public void onLoad()
+		{
+			depend(RegistrarRegistrar.instance);
+		}
 		public Module()
 		{
-			super(MzLib.instance,RegistrarRegistrar.instance);
-			
 			try
 			{
 				newPluginCommand=PluginCommand.class.getDeclaredConstructor(String.class,Plugin.class);
@@ -54,14 +56,14 @@ public interface IMainCommand extends TabExecutor
 			return IMainCommand.class;
 		}
 		@Override
-		public boolean register(IMainCommand obj)
+		public boolean register(MzModule module,IMainCommand obj)
 		{
 			commands.add(obj.getPlugin(),obj);
 			regCommand(obj);
 			return true;
 		}
 		@Override
-		public void unregister(IMainCommand obj)
+		public void unregister(MzModule module,IMainCommand obj)
 		{
 			unregCommand(obj);
 			commands.removeValue(obj);

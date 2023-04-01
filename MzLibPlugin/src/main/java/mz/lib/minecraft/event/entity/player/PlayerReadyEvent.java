@@ -2,8 +2,8 @@ package mz.lib.minecraft.event.entity.player;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.nothing.*;
+import mz.lib.module.MzModule;
+import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayInSettings;
 import mz.lib.minecraft.bukkit.nms.NmsPlayerConnection;
 import mz.lib.minecraft.nothing.*;
@@ -27,19 +27,16 @@ public class PlayerReadyEvent extends PlayerEvent
 		super(player);
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
-		{
-			super(MzLib.instance,NothingRegistrar.instance);
-		}
 		
 		public Set<Player> readyPlayers=new CopyOnWriteArraySet<>();
 		
 		@Override
-		public void onEnable()
+		public void onLoad()
 		{
+			depend(NothingRegistrar.instance);
 			readyPlayers.addAll(Bukkit.getOnlinePlayers());
 			reg(NothingPlayerConnection.class);
 		}

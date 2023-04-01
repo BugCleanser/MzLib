@@ -1,11 +1,12 @@
 package mz.lib.minecraft.entity;
 
 import mz.lib.minecraft.*;
+import mz.lib.minecraft.Player;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.*;
-import mz.lib.minecraft.bukkitlegacy.module.*;
+import mz.lib.module.*;
 import mz.lib.wrapper.*;
-import mz.mzlib.*;
+import mz.lib.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
 
@@ -30,12 +31,13 @@ public class EntityViewWatcher
 		this.data=new ConcurrentHashMap<>();
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
+		@Override
+		public void onLoad()
 		{
-			super(MzLib.instance,ProtocolUtil.instance);
+			depend(ProtocolUtil.instance);
 			reg(new ProtocolUtil.SendListener<>(EventPriority.MONITOR,NmsPacketPlayOutSpawnEntity.class,(pl,pa,c)->all.computeIfAbsent(pl,p->new ConcurrentHashMap<>()).put(pa.getEntityId(),new EntityViewWatcher(pa.getEntityType()))));
 			reg(new ProtocolUtil.SendListener<>(EventPriority.MONITOR,NmsPacketPlayOutSpawnEntityExperienceOrb.class,(pl,pa,c)->all.computeIfAbsent(pl,p->new ConcurrentHashMap<>()).put(pa.getEntityId(),new EntityViewWatcher(EntityType.EXPERIENCE_ORB))));
 			reg(new ProtocolUtil.SendListener<>(EventPriority.MONITOR,NmsPacketPlayOutNamedEntitySpawn.class,(pl,pa,c)->all.computeIfAbsent(pl,p->new ConcurrentHashMap<>()).put(pa.getEntityId(),new EntityViewWatcher(EntityType.PLAYER))));

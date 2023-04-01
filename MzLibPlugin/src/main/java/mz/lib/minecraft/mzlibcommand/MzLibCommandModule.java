@@ -1,9 +1,9 @@
 package mz.lib.minecraft.mzlibcommand;
 
 import mz.lib.minecraft.bukkitlegacy.*;
-import mz.lib.minecraft.bukkitlegacy.command.*;
-import mz.lib.minecraft.bukkitlegacy.mzlibcommand.debug.*;
-import mz.lib.minecraft.bukkitlegacy.permission.*;
+import mz.lib.minecraft.command.*;
+import mz.lib.minecraft.mzlibcommand.debug.*;
+import mz.lib.minecraft.permission.*;
 import mz.lib.minecraft.command.*;
 import mz.lib.minecraft.mzlibcommand.debug.*;
 
@@ -17,9 +17,9 @@ public class MzLibCommandModule extends MainCommand
 	}
 	
 	@Override
-	public void onEnable()
+	public void onLoad()
 	{
-		super.onEnable();
+		super.onLoad();
 		reg(ReloadSubcommand.instance.permission);
 		reg(DebugSubcommand.instance.permission);
 		reg(GiveSubcommand.instance.permission);

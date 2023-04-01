@@ -1,7 +1,7 @@
 package mz.lib.minecraft.entity;
 
 import mz.lib.minecraft.*;
-import mz.mzlib.*;
+import mz.lib.*;
 import mz.lib.minecraft.bukkit.nms.NmsContainer;
 import mz.lib.minecraft.bukkit.nms.NmsEntityItem;
 import mz.lib.minecraft.bukkit.nms.NmsEntityPlayer;

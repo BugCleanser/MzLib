@@ -5,7 +5,7 @@ import mz.lib.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.event.entity.FishingHookClearEvent;
 import mz.lib.minecraft.event.entity.FishingHookClearEvent.FishingHookClearReason;
-import mz.lib.minecraft.bukkitlegacy.nothing.*;
+import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.bukkit.obc.ObcEntity;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.nothing.*;

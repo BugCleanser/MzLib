@@ -3,7 +3,7 @@ package mz.lib.minecraft.mzlang;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.mzlang.*;
-import mz.mzlib.*;
+import mz.lib.*;
 
 import java.lang.reflect.*;
 

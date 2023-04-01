@@ -1,15 +1,17 @@
 package mz.lib.minecraft.item.map;
 
 import mz.lib.IncrementalIdMap;
+import mz.lib.MzLib;
 import mz.lib.minecraft.*;
+import mz.lib.minecraft.Player;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.entity.*;
 import mz.lib.minecraft.event.entity.SendEntityMetadataEvent;
 import mz.lib.minecraft.event.entity.player.ShowInventoryItemEvent;
 import mz.lib.minecraft.item.MzItem;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.mzlib.*;
+import mz.lib.module.MzModule;
+import mz.lib.*;
 import mz.lib.minecraft.bukkit.nms.NmsDataWatcherItem;
 import mz.lib.minecraft.bukkit.nms.NmsEntityItemFrame;
 import mz.lib.minecraft.bukkit.nms.NmsItemStack;
@@ -27,13 +29,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MzMapProcessor extends AbsModule
+public class MzMapProcessor extends MzModule
 {
 	public static MzMapProcessor instance=new MzMapProcessor();
-	public MzMapProcessor()
-	{
-		super(MzLib.instance,ProtocolUtil.instance);
-	}
 	
 	public Map<Player,IncrementalIdMap<MzMap>> views=new ConcurrentHashMap<>();
 	public Map<Player,Map<Integer,Integer>> hotbarRefs=new ConcurrentHashMap<>();
@@ -86,8 +84,8 @@ public class MzMapProcessor extends AbsModule
 						b.put(event.player,new ConcurrentHashMap<>());
 					b.get(event.player).put(id,new MzMapCanvas(128,128));
 					fs.put(event.entityId,id);
-					new ItemStackBuilder(mzitem.getItemStack()).setMapId(id+MzLib.instance.getConfig().getInt("mapOffset",16384));
-					((MzMap)mzitem).redraw(event.player,0,0,128,128);
+					new ItemStackBuilder(mzitem.getItemStack()).setMapId(id+ MzLib.instance.getConfig().getInt("mapOffset",16384));
+					((MzMap)mzitem).redraw((org.bukkit.entity.Player)event.player.getRaw(),0,0,128,128);
 				}
 				break;
 			}
@@ -100,7 +98,7 @@ public class MzMapProcessor extends AbsModule
 		if(event.getWhoClicked() instanceof Player&&event.getWhoClicked().getGameMode()!=GameMode.CREATIVE)
 			if(MzItem.get(event.getCurrentItem()) instanceof MzMap||MzItem.get(event.getCursor()) instanceof MzMap)
 			{
-				Bukkit.getScheduler().runTask(MzLib.instance,()->((Player)event.getWhoClicked()).updateInventory());
+				Bukkit.getScheduler().runTask(MzLib.instance,()->((org.bukkit.entity.Player)event.getWhoClicked()).updateInventory());
 			}
 	}
 	
@@ -139,7 +137,7 @@ public class MzMapProcessor extends AbsModule
 					b.get(event.player).put(id,new MzMapCanvas(128,128));
 					hotbarRefs.get(event.player).put(slot,id);
 					event.item.setMapId(id+MzLib.instance.getConfig().getInt("mapOffset",16384));
-					((MzMap)mzitem).redraw(event.player,0,0,128,128);
+					((MzMap)mzitem).redraw((org.bukkit.entity.Player) event.player.getRaw(),0,0,128,128);
 				}
 			}
 		}

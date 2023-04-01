@@ -2,7 +2,7 @@ package mz.lib.minecraft.event.entity.player;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.entity.PlayerUtil;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -31,13 +31,9 @@ public class PlayerUseItemEvent extends PlayerEvent
 		this.hand=hand;
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
-		{
-			super(MzLib.instance);
-		}
 		
 		@EventHandler(priority=EventPriority.LOW)
 		public void onPlayerInteract(PlayerInteractEvent event)

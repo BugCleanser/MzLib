@@ -43,4 +43,8 @@ public class MzLib extends MzModule
 	{
 		Nothing.uninstallAll();
 	}
+
+    public String getName() {
+		return "mzlib";
+    }
 }

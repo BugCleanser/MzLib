@@ -1,20 +1,21 @@
 package mz.lib.minecraft.item;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.module.MzModule;
+import mz.lib.module.IRegistrar;
+import mz.lib.module.RegistrarRegistrar;
 import mz.lib.minecraft.bukkit.nms.NmsRecipeItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.function.Predicate;
 
-public class OriginalItemFilterRegistrar extends AbsModule implements IRegistrar<OriginalItemFilterRegistrar.OriginalItemFilter>
+public class OriginalItemFilterRegistrar extends MzModule implements IRegistrar<OriginalItemFilterRegistrar.OriginalItemFilter>
 {
 	public static OriginalItemFilterRegistrar instance=new OriginalItemFilterRegistrar();
-	public OriginalItemFilterRegistrar()
+	@Override
+	public void onLoad()
 	{
-		super(MzLib.instance,RegistrarRegistrar.instance);
+		depend(RegistrarRegistrar.instance);
 	}
 	
 	public static class OriginalItemFilter
@@ -33,14 +34,14 @@ public class OriginalItemFilterRegistrar extends AbsModule implements IRegistrar
 	}
 	
 	@Override
-	public boolean register(OriginalItemFilter obj)
+	public boolean register(MzModule module,OriginalItemFilter obj)
 	{
 		NmsRecipeItemStack.originalItemFilters.add(obj.value);
 		return true;
 	}
 	
 	@Override
-	public void unregister(OriginalItemFilter obj)
+	public void unregister(MzModule module,OriginalItemFilter obj)
 	{
 		NmsRecipeItemStack.originalItemFilters.remove(obj.value);
 	}

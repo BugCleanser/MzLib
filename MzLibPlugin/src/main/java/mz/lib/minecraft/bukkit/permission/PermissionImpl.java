@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.permission;
 
 import mz.lib.minecraft.permission.*;
-import mz.mzlib.permission.*;
+import mz.lib.minecraft.permission.*;
 
 import java.util.*;
 

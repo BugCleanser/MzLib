@@ -3,8 +3,8 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.*;
-import mz.mzlib.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.wrapper.*;
 
 @VersionalWrappedClass(@VersionalName(minVer=19.3f,value="net.minecraft.core.registries.BuiltInRegistries"))
 public interface NmsBuiltInRegistriesV193 extends VersionalWrappedObject

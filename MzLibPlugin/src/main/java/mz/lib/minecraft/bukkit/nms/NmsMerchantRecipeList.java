@@ -4,7 +4,7 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.wrapper.*;
+import mz.lib.wrapper.*;
 
 import java.util.Iterator;
 import java.util.List;

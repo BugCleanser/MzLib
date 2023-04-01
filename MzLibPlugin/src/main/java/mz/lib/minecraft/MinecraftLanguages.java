@@ -5,6 +5,9 @@ import mz.lib.lang.*;
 import mz.lib.minecraft.event.entity.player.*;
 import mz.lib.minecraft.task.*;
 import mz.lib.module.*;
+import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.command.Command;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +37,11 @@ public class MinecraftLanguages extends MzModule
 			throw TypeUtil.throwException(e);
 		}
 	}
+	public static Map<String,String> getLang(CommandSource sender)
+	{
+		//TODO: unimplemented
+		throw new NotImplementedException();
+	}
 	public static Map<String,String> getLang(String lang)
 	{
 		if(instance.officialLanguages.containsKey(lang))
@@ -52,6 +60,11 @@ public class MinecraftLanguages extends MzModule
 			r=DefaultLanguagesResources.loadProperties(new String(as,StringUtil.UTF8));
 		instance.officialLanguages.put(lang,r);
 		return r;
+	}
+	public static String get(CommandSource sender,String key)
+	{
+		//TODO: unimplemented
+		throw new NotImplementedException();
 	}
 	public static String get(String locale,String key)
 	{

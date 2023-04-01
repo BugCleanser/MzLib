@@ -1,6 +1,6 @@
 package mz.lib.minecraft.ui;
 
-import mz.lib.minecraft.bukkitlegacy.module.IModule;
+import mz.lib.module.MzModule;
 import org.bukkit.entity.HumanEntity;
 
 import java.util.ArrayList;
@@ -8,8 +8,8 @@ import java.util.List;
 
 public abstract class UI
 {
-	public IModule module;
-	public UI(IModule module)
+	public MzModule module;
+	public UI(MzModule module)
 	{
 		this.module=module;
 		if(module!=null)

@@ -1,13 +1,13 @@
 package mz.lib.minecraft.command;
 
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainCommand extends AbsModule implements IMainCommand
+public class MainCommand extends MzModule implements IMainCommand
 {
 	public @Deprecated
 	Plugin plugin;
@@ -16,11 +16,14 @@ public class MainCommand extends AbsModule implements IMainCommand
 	
 	public MainCommand(Plugin plugin,ICommandProcessor processor)
 	{
-		super(plugin,IMainCommand.Module.instance);
 		this.plugin=plugin;
 		this.processor=processor;
 	}
-	
+	@Override
+	public void onLoad()
+	{
+		depend(IMainCommand.Module.instance);
+	}
 	@Override
 	public List<String> executeOrUsages(CommandSender sender,String usedName,String[] args)
 	{
@@ -37,10 +40,9 @@ public class MainCommand extends AbsModule implements IMainCommand
 	{
 		return this.processor;
 	}
-	
-	@Override
+
 	public String getName()
 	{
-		return super.getName()+":"+processor.getNames()[0];
+		return plugin.getName()+":"+processor.getNames()[0];
 	}
 }

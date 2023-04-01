@@ -1,7 +1,8 @@
 package mz.lib.minecraft.bukkitlegacy;
 
 import com.google.common.collect.Lists;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
+import mz.lib.module.MzModule;
 import mz.lib.nothing.NothingRegistrar;
 import mz.lib.nothing.LocalVar;
 import mz.lib.nothing.Nothing;
@@ -15,13 +16,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Optional;
 
-public class QuickShopSupportModule extends AbsModule
+public class QuickShopSupportModule extends MzModule
 {
 	public static QuickShopSupportModule instance=new QuickShopSupportModule();
-	public QuickShopSupportModule()
-	{
-		super(MzLib.instance,NothingRegistrar.instance);
-	}
 	
 	@WrappedClass("org.maxgamer.quickshop.Util.NMS")
 	public interface FengjianQSNMS extends WrappedObject, Nothing
@@ -52,8 +49,9 @@ public class QuickShopSupportModule extends AbsModule
 	}
 	
 	@Override
-	public void onEnable()
+	public void onLoad()
 	{
+		depend(NothingRegistrar.instance);
 		if(MzLib.instance.getConfig().getBoolean("func.QuickShopSupport",true)&& Bukkit.getPluginManager().getPlugin("QuickShop")!=null)
 		{
 			try

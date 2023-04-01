@@ -2,7 +2,8 @@ package mz.lib.minecraft.item;
 
 import mz.lib.*;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.bukkitlegacy.message.*;
+import mz.lib.minecraft.Server;
+import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.message.*;
 import org.bukkit.*;
 import org.bukkit.block.*;
@@ -14,9 +15,9 @@ import java.util.*;
 public interface DebugFish extends MzItem
 {
 	@Override
-	default NamespacedKey getKey()
+	default Identifier getKey()
 	{
-		return new NamespacedKey(MzLib.instance,"debug_fish");
+		return Factory.instance.newIdentifier(MzLib.instance.getName(),"debug_fish");
 	}
 	@Override
 	default String getRawIdV_13()

@@ -2,10 +2,9 @@ package mz.lib.minecraft.bukkitlegacy;
 
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.module.MzModule;
+import mz.lib.module.IRegistrar;
+import mz.lib.module.RegistrarRegistrar;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -16,21 +15,21 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ListenerRegistrar extends AbsModule implements IRegistrar<Listener>
+public class ListenerRegistrar extends MzModule implements IRegistrar<Listener>
 {
 	public static ListenerRegistrar instance=new ListenerRegistrar();
-	public ListenerRegistrar()
+	@Override
+	public void onLoad()
 	{
-		super(MzLib.instance,RegistrarRegistrar.instance);
+		depend(RegistrarRegistrar.instance);
 	}
-	
 	@Override
 	public Class<Listener> getType()
 	{
 		return Listener.class;
 	}
 	@Override
-	public boolean register(IModule module,Listener obj)
+	public boolean register(MzModule module,Listener obj)
 	{
 		try
 		{
@@ -72,7 +71,7 @@ public class ListenerRegistrar extends AbsModule implements IRegistrar<Listener>
 	}
 	
 	@Override
-	public void unregister(Listener obj)
+	public void unregister(MzModule module,Listener obj)
 	{
 		try
 		{

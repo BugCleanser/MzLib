@@ -1,9 +1,10 @@
 package mz.lib.minecraft.item;
 
 import mz.lib.*;
+import mz.lib.minecraft.Identifier;
 import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.message.*;
+import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagByte;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
@@ -25,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public interface MzItem extends MzObject
 {
-	Map<NamespacedKey,Class<? extends MzItem>> mzItems=new ConcurrentHashMap<>();
+	Map<Identifier,Class<? extends MzItem>> mzItems=new ConcurrentHashMap<>();
 	
 	@PropAccessor("itemStack")
 	MzItem setItemStack(ObcItemStack is);
@@ -36,7 +37,7 @@ public interface MzItem extends MzObject
 	@PropAccessor("itemStack")
 	ObcItemStack getItemStack();
 	
-	NamespacedKey getKey();
+	Identifier getKey();
 	String getRawIdV_13();
 	default int getChildIdV_13()
 	{
@@ -80,7 +81,7 @@ public interface MzItem extends MzObject
 		setItemStack(setKey(ItemStackBuilder.forFlattening(getRawIdV_13(),getChildIdV_13(),getRawIdV13()).get(),getKey()));
 	}
 	@CallEach
-	default void onShow(Player player)
+	default void onShow(mz.lib.minecraft.Player player)
 	{
 		if(getTranslatedKey()!=null)
 		{

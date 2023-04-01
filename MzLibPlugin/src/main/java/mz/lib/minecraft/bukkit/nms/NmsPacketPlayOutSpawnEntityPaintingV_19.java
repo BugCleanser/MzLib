@@ -2,8 +2,8 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
-import mz.mzlib.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.wrapper.*;
 
 import java.util.*;
 

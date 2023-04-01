@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.wrapper.*;
 
 @VersionalWrappedClass(@VersionalName(value="net.minecraft.world.level.saveddata.maps.WorldMap$b",minVer=17))
 public interface WorldMapDataV17 extends VersionalWrappedObject

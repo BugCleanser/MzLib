@@ -5,8 +5,8 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.wrapper.WrappedMethod;
-import mz.mzlib.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.wrapper.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 

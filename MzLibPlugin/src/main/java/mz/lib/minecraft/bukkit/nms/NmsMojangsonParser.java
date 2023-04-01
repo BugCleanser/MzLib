@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.wrapper.*;
+import mz.lib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.MojangsonParser",maxVer=17),@VersionalName(value="net.minecraft.nbt.MojangsonParser",minVer=17)})
 public interface NmsMojangsonParser extends VersionalWrappedObject

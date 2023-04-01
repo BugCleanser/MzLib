@@ -4,8 +4,8 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.Enchantment",maxVer=17),@VersionalName(value="net.minecraft.world.item.enchantment.Enchantment",minVer=17)})
 public interface NmsEnchantment extends VersionalWrappedObject

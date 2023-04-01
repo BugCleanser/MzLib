@@ -4,18 +4,20 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.obc.*;
 import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
-import mz.lib.minecraft.bukkitlegacy.nothing.*;
-import mz.lib.minecraft.bukkitlegacy.wrappedobc.*;
+import mz.lib.minecraft.nothing.*;
+import mz.lib.minecraft.bukkit.obc.*;
 import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.nothing.*;
 import mz.lib.wrapper.*;
-import mz.mzlib.*;
-import mz.mzlib.bukkit.obc.*;
-import mz.mzlib.wrapper.*;
+import mz.lib.*;
+import mz.lib.minecraft.bukkit.obc.*;
+import mz.lib.wrapper.*;
 import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.Optional;
 
 @VersionalWrappedClass({@VersionalName(value="nms.AutoRecipe",maxVer=17),@VersionalName(value="net.minecraft.recipebook.AutoRecipe",minVer=17)})
 public interface NmsAutoRecipe extends VersionalWrappedObject, VersionalNothing
@@ -24,7 +26,7 @@ public interface NmsAutoRecipe extends VersionalWrappedObject, VersionalNothing
 	NmsContainerRecipeBookV13 getCraftContainerV13();
 	
 	@VersionalNothingInject(name = @VersionalName("a"), args = {NmsEntityPlayer.class,NmsIRecipe.class,boolean.class}, location = NothingLocation.FRONT)
-	default Optional<Void> fillIngredientsFront(@LocalVar(1) NmsEntityPlayer player,@LocalVar(2) NmsIRecipe recipe,@LocalVar(3) boolean craftAll)
+	default Optional<Void> fillIngredientsFront(@LocalVar(1) NmsEntityPlayer player, @LocalVar(2) NmsIRecipe recipe, @LocalVar(3) boolean craftAll)
 	{
 		if(recipe.isNull())
 			return Nothing.doReturn(null);

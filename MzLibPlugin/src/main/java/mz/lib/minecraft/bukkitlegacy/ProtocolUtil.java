@@ -3,26 +3,22 @@ package mz.lib.minecraft.bukkitlegacy;
 import com.google.common.collect.Lists;
 import mz.lib.Ref;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.module.MzModule;
+import mz.lib.module.IRegistrar;
+import mz.lib.module.RegistrarRegistrar;
 import mz.lib.minecraft.bukkit.nms.NmsEntityPlayer;
 import mz.lib.minecraft.bukkit.nms.NmsPacket;
 import mz.lib.minecraft.bukkit.obc.ObcEntity;
 import mz.lib.wrapper.WrappedObject;
 import org.apache.logging.log4j.util.TriConsumer;
-import org.bukkit.entity.Player;
+import mz.lib.minecraft.Player;
 import org.bukkit.event.EventPriority;
 
 import java.util.*;
 
-public final class ProtocolUtil extends AbsModule implements IRegistrar<ProtocolUtil.PacketListener>
+public final class ProtocolUtil extends MzModule implements IRegistrar<ProtocolUtil.PacketListener>
 {
 	public static ProtocolUtil instance=new ProtocolUtil();
-	public ProtocolUtil()
-	{
-		super(MzLib.instance,RegistrarRegistrar.instance);
-	}
 	
 	public static abstract class PacketListener<T extends NmsPacket>
 	{
@@ -56,7 +52,12 @@ public final class ProtocolUtil extends AbsModule implements IRegistrar<Protocol
 		return PacketListener.class;
 	}
 	@Override
-	public boolean register(PacketListener obj)
+	public void onLoad()
+	{
+		depend(RegistrarRegistrar.instance);
+	}
+	@Override
+	public boolean register(MzModule module,PacketListener obj)
 	{
 		if(obj instanceof SendListener)
 			ProtocolUtil.regSendListener(obj.priority,obj.type,obj.listener);
@@ -67,7 +68,7 @@ public final class ProtocolUtil extends AbsModule implements IRegistrar<Protocol
 		return true;
 	}
 	@Override
-	public void unregister(PacketListener obj)
+	public void unregister(MzModule module,PacketListener obj)
 	{
 		if(obj instanceof SendListener)
 			ProtocolUtil.unregSendListener(obj.priority,obj.type,obj.listener);

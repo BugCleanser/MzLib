@@ -3,7 +3,7 @@ package mz.lib.minecraft.ui.inventory;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.module.IModule;
+import mz.lib.module.MzModule;
 import org.bukkit.entity.*;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -15,12 +15,12 @@ public abstract class ListVisitor<T> extends Menu
 	public List<T> list;
 	public int page=0;
 	
-	public ListVisitor(IModule module,String title,List<T> list)
+	public ListVisitor(MzModule module,String title,List<T> list)
 	{
 		super(module,54,title);
 		this.list=list;
 	}
-	public ListVisitor(IModule module,Function<Player,NmsIChatBaseComponent> titleGetter,List<T> list)
+	public ListVisitor(MzModule module,Function<Player,NmsIChatBaseComponent> titleGetter,List<T> list)
 	{
 		super(module,54,titleGetter);
 		this.list=list;

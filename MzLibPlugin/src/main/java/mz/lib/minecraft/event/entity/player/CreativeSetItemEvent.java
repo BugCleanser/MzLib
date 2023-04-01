@@ -3,11 +3,11 @@ package mz.lib.minecraft.event.entity.player;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.ProtocolUtil;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayInSetCreativeSlot;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import mz.lib.minecraft.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -31,12 +31,13 @@ public class CreativeSetItemEvent extends Event implements Cancellable
 		this.item=item;
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
+		@Override
+		public void onLoad()
 		{
-			super(MzLib.instance,ProtocolUtil.instance);
+			depend(ProtocolUtil.instance);
 			reg(new ProtocolUtil.ReceiveListener<>(EventPriority.LOW,NmsPacketPlayInSetCreativeSlot.class,(player,packet,cancelled)->
 			{
 				if(cancelled.get())

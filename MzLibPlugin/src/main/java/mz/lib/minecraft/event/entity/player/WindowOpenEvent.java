@@ -3,12 +3,12 @@ package mz.lib.minecraft.event.entity.player;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.ProtocolUtil;
 import mz.lib.minecraft.bukkitlegacy.event.*;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.module.MzModule;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayOutOpenWindow;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import mz.lib.minecraft.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
@@ -20,22 +20,19 @@ public class WindowOpenEvent extends PlayerEvent implements Cancellable
 	public NmsIChatBaseComponent title;
 	public WindowOpenEvent(Player player,NmsIChatBaseComponent title)
 	{
-		super(player);
+		super((org.bukkit.entity.Player) player.getRaw());
 		WrappedObject.wrap(WrappedEvent.class,this).setAsync(!Bukkit.getServer().isPrimaryThread());
 		this.player=player;
 		this.title=title;
 	}
 	
-	public static class Module extends AbsModule
+	public static class Module extends MzModule
 	{
 		public static Module instance=new Module();
-		public Module()
-		{
-			super(MzLib.instance,ProtocolUtil.instance);
-		}
 		@Override
-		public void onEnable()
+		public void onLoad()
 		{
+			depend(ProtocolUtil.instance);
 			reg(new ProtocolUtil.SendListener<>(EventPriority.LOW,NmsPacketPlayOutOpenWindow.class,(pl,pa,c)->
 			{
 				WindowOpenEvent event=new WindowOpenEvent(pl,pa.getTitle());

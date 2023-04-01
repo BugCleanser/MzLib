@@ -1,7 +1,7 @@
 package mz.lib.minecraft.mzlang;
 
 import mz.lib.minecraft.*;
-import mz.mzlib.*;
+import mz.lib.*;
 
 import java.lang.annotation.*;
 

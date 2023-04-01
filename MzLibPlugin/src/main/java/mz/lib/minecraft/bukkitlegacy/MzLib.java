@@ -6,14 +6,14 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.block.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkit.paper.*;
-import mz.lib.minecraft.bukkitlegacy.command.*;
-import mz.lib.minecraft.bukkitlegacy.gui.*;
+import mz.lib.minecraft.command.*;
+import mz.lib.minecraft.ui.*;
 import mz.lib.minecraft.entity.*;
 import mz.lib.minecraft.item.*;
 import mz.lib.minecraft.item.map.*;
-import mz.lib.minecraft.bukkitlegacy.module.*;
-import mz.lib.minecraft.bukkitlegacy.mzlibcommand.*;
-import mz.lib.minecraft.bukkitlegacy.recipe.*;
+import mz.lib.module.*;
+import mz.lib.minecraft.mzlibcommand.*;
+import mz.lib.minecraft.recipe.*;
 import mz.lib.minecraft.command.*;
 import mz.lib.minecraft.command.argparser.*;
 import mz.lib.minecraft.event.entity.*;
@@ -25,6 +25,7 @@ import mz.lib.minecraft.recipe.*;
 import mz.lib.minecraft.ui.*;
 import mz.lib.minecraft.ui.inventory.*;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 
 import java.lang.invoke.*;
@@ -88,7 +89,8 @@ public class MzLib extends MzPlugin
 		{
 		}
 	}
-	
+
+	@Override
 	public void onEnable()
 	{
 		this.saveDefaultConfig();
@@ -107,7 +109,7 @@ public class MzLib extends MzPlugin
 		
 		RegistrarRegistrar.instance.load();
 		ListenerRegistrar.instance.load();
-		IModule.ModuleModule.instance.load();
+		//IModule.ModuleModule.instance.load();
 		
 		ArgParserRegistrar.instance.load();
 		IMainCommand.Module.instance.load();

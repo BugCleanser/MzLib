@@ -1,6 +1,6 @@
 package mz.lib.minecraft.mzlibcommand;
 
-import mz.lib.minecraft.bukkitlegacy.command.*;
+import mz.lib.minecraft.command.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
 import mz.lib.minecraft.command.*;
 import mz.lib.minecraft.entity.*;

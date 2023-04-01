@@ -3,7 +3,7 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.mzlib.wrapper.*;
+import mz.lib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.LocaleI18n",maxVer=13)})
 public interface NmsLocaleI18nV_13 extends VersionalWrappedObject
