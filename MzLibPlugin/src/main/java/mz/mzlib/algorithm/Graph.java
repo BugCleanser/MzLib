@@ -1,11 +1,12 @@
 package mz.mzlib.algorithm;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -18,6 +19,7 @@ public class Graph<NodeKey,NodeValue,EdgeData>
 		public Node(NodeValue value)
 		{
 			this.value=value;
+			outEdges=new ArrayList<>();
 		}
 	}
 	public class OutEdge
@@ -87,10 +89,25 @@ public class Graph<NodeKey,NodeValue,EdgeData>
 	
 	public void topologySearch(NodeKey beginning,Consumer<NodeKey> proc)
 	{
-		TreeMap<Integer,Set<NodeKey>> order=new TreeMap<>();
-		depthFirstSearch(beginning,(k,d)->order.computeIfAbsent(d,t->new HashSet<>()).add(k));
-		for(Set<NodeKey> i:order.values())
-			for(NodeKey j:i)
-				proc.accept(j);
+		Map<NodeKey,Integer> degreeIn=new HashMap<>();
+		for(Map.Entry<NodeKey,Node> i:nodes.entrySet())
+			degreeIn.put(i.getKey(),0);
+		for(Map.Entry<NodeKey,Node> i:nodes.entrySet())
+		{
+			for(OutEdge j:i.getValue().outEdges)
+				degreeIn.compute(j.target,(k,v)->Objects.requireNonNull(v)+1);
+		}
+		Queue<NodeKey> q=new ArrayDeque<>();
+		for(Map.Entry<NodeKey,Integer> i:degreeIn.entrySet())
+			if(i.getValue()==0)
+				q.add(i.getKey());
+		while(!q.isEmpty())
+		{
+			NodeKey now=q.poll();
+			proc.accept(now);
+			for(OutEdge i:getNode(now).outEdges)
+				if(degreeIn.compute(i.target,(k,v)->Objects.requireNonNull(v)-1)==0)
+					q.add(i.target);
+		}
 	}
 }
