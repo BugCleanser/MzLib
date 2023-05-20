@@ -1,7 +1,6 @@
 package mz.mzlib.javautil;
 
 import io.github.karlatemp.unsafeaccessor.Root;
-import mz.mzlib.algorithm.Graph;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
@@ -130,23 +129,4 @@ public class ClassUtil
 						q.add(c);
 		}
 	}
-//	public static void forEachSuperTopology0(Class<?> clazz,Consumer<Class<?>> proc)
-//	{
-//		Graph<Class<?>,Void,Void> g=new Graph<>();
-//		forEachSuperUnique(clazz,c->
-//		{
-//			g.putNode(c,null);
-//			if(c!=Object.class)
-//			{
-//				g.putNode(c.getSuperclass(),null);
-//				g.addEdge(c.getSuperclass(),c,null);
-//			}
-//			for(Class<?> i:c.getInterfaces())
-//			{
-//				g.putNode(i,null);
-//				g.addEdge(i,c,null);
-//			}
-//		});
-//		g.topologySearch(Object.class,proc);
-//	}
 }
