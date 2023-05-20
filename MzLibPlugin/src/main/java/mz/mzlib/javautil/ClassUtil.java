@@ -7,7 +7,12 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -99,21 +104,49 @@ public class ClassUtil
 	 */
 	public static void forEachSuperTopology(Class<?> clazz,Consumer<Class<?>> proc)
 	{
-		Graph<Class<?>,Void,Void> g=new Graph<>();
+		Map<Class<?>,Integer> degreeIn=new HashMap<>();
+		Map<Class<?>,Set<Class<?>>> edgeOut=new HashMap<>();
 		forEachSuperUnique(clazz,c->
 		{
-			g.putNode(c,null);
 			if(c!=Object.class)
 			{
-				g.putNode(c.getSuperclass(),null);
-				g.addEdge(c.getSuperclass(),c,null);
+				edgeOut.computeIfAbsent(c.getSuperclass(),k->new HashSet<>()).add(c);
+				degreeIn.compute(c,(k,v)->(v!=null?v:0)+1);
 			}
-			for(Class<?> i:c.getInterfaces())
-			{
-				g.putNode(i,null);
-				g.addEdge(i,c,null);
-			}
+			for(Class<?> i:clazz.getInterfaces())
+				edgeOut.computeIfAbsent(i,k->new HashSet<>()).add(c);
+			degreeIn.compute(c,(k,v)->(v!=null?v:0)+clazz.getInterfaces().length);
 		});
-		g.topologySearch(Object.class,proc);
+		Queue<Class<?>> q=new ArrayDeque<>();
+		q.add(Object.class);
+		while(!q.isEmpty())
+		{
+			Class<?> now=q.poll();
+			proc.accept(now);
+			Set<Class<?>> es=edgeOut.get(now);
+			if(es!=null)
+				for(Class<?> c:es)
+					if(degreeIn.compute(c,(k,v)->Objects.requireNonNull(v)-1)==0)
+						q.add(c);
+		}
 	}
+//	public static void forEachSuperTopology0(Class<?> clazz,Consumer<Class<?>> proc)
+//	{
+//		Graph<Class<?>,Void,Void> g=new Graph<>();
+//		forEachSuperUnique(clazz,c->
+//		{
+//			g.putNode(c,null);
+//			if(c!=Object.class)
+//			{
+//				g.putNode(c.getSuperclass(),null);
+//				g.addEdge(c.getSuperclass(),c,null);
+//			}
+//			for(Class<?> i:c.getInterfaces())
+//			{
+//				g.putNode(i,null);
+//				g.addEdge(i,c,null);
+//			}
+//		});
+//		g.topologySearch(Object.class,proc);
+//	}
 }
