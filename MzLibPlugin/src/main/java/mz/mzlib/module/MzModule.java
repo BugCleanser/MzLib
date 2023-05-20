@@ -32,7 +32,7 @@ public abstract class MzModule
 		if(registeredObjects.containsKey(object))
 			throw new IllegalStateException("Try to register the object but it has been registered: "+object+".");
 		List<IRegistrar<?>> registers=new ArrayList<>();
-		ClassUtil.forEachSuper(object.getClass(),c->
+		ClassUtil.forEachSuperUnique(object.getClass(),c->
 		{
 			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c))
 				if(i.isRegistrable(object))

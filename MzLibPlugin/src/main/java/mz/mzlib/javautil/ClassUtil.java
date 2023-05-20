@@ -1,11 +1,14 @@
 package mz.mzlib.javautil;
 
 import io.github.karlatemp.unsafeaccessor.Root;
+import mz.mzlib.algorithm.Graph;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class ClassUtil
@@ -74,6 +77,43 @@ public class ClassUtil
 	
 	public static void forEachSuper(Class<?> clazz,Consumer<Class<?>> proc)
 	{
-		throw new UnsupportedOperationException();
+		proc.accept(clazz);
+		if(clazz!=Object.class)
+			forEachSuper(clazz.getSuperclass(),proc);
+		for(Class<?> i:clazz.getInterfaces())
+			forEachSuper(i,proc);
+	}
+	public static void forEachSuperUnique(Class<?> clazz,Consumer<Class<?>> proc)
+	{
+		Set<Class<?>> history=new HashSet<>();
+		forEachSuper(clazz,c->
+		{
+			if(history.add(c))
+				proc.accept(c);
+		});
+	}
+	
+	/**
+	 * Iterate through all super classes in topological order
+	 * From super to children
+	 */
+	public static void forEachSuperTopology(Class<?> clazz,Consumer<Class<?>> proc)
+	{
+		Graph<Class<?>,Void,Void> g=new Graph<>();
+		forEachSuperUnique(clazz,c->
+		{
+			g.putNode(c,null);
+			if(c!=Object.class)
+			{
+				g.putNode(c.getSuperclass(),null);
+				g.addEdge(c.getSuperclass(),c,null);
+			}
+			for(Class<?> i:c.getInterfaces())
+			{
+				g.putNode(i,null);
+				g.addEdge(i,c,null);
+			}
+		});
+		g.topologySearch(Object.class,proc);
 	}
 }
