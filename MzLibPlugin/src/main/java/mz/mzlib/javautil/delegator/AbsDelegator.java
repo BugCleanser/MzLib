@@ -22,6 +22,7 @@ public abstract class AbsDelegator implements Delegator
 	@SuppressWarnings("all")
 	public Delegator clone()
 	{
+		//TODO: NPE
 		return clone0();
 	}
 }
