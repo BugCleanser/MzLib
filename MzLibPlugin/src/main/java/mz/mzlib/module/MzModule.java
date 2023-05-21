@@ -57,11 +57,11 @@ public abstract class MzModule
 				throw new IllegalStateException("Try to unload the module("+object+") but it's not loaded by this module("+this+").");
 			((MzModule)object).isLoaded=false;
 			submodules.remove(object);
-			((MzModule)object).onUnload();
 			for(MzModule i:new HashSet<>(((MzModule)object).submodules))
 				((MzModule)object).unregister(i);
 			for(Object i:new HashSet<>(((MzModule)object).registeredObjects.keySet()))
 				((MzModule)object).unregister(i);
+			((MzModule)object).onUnload();
 		}
 		List<IRegistrar<?>> removed=registeredObjects.remove(object);
 		if(removed==null)
