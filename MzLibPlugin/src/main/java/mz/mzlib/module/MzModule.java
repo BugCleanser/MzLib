@@ -35,7 +35,7 @@ public abstract class MzModule
 		ClassUtil.forEachSuperUnique(object.getClass(),c->
 		{
 			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c))
-				if(i.isRegistrable(object))
+				if(i.isRegistrable(RuntimeUtil.forceCast(object)))
 				{
 					i.register(this,RuntimeUtil.forceCast(object));
 					registers.add(i);

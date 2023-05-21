@@ -3,7 +3,7 @@ package mz.mzlib.module;
 public interface IRegistrar<T>
 {
 	Class<T> getType();
-	default boolean isRegistrable(Object object)
+	default boolean isRegistrable(T object)
 	{
 		return true;
 	}

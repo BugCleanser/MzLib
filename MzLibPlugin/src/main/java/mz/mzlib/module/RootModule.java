@@ -1,6 +1,7 @@
 package mz.mzlib.module;
 
 import mz.mzlib.javautil.Instance;
+import mz.mzlib.javautil.delegator.DelegatorClassRegistrar;
 
 import java.util.HashSet;
 
@@ -32,6 +33,8 @@ public class RootModule extends MzModule implements Instance
 	{
 		register(Instance.InstanceRegistrar.instance);
 		register(RegistrarRegistrar.instance);
+		
+		register(DelegatorClassRegistrar.instance);
 	}
 	@Override
 	public void onUnload()
