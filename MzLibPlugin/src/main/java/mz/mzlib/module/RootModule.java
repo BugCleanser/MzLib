@@ -32,6 +32,7 @@ public class RootModule extends MzModule implements Instance
 	public void onLoad()
 	{
 		register(Instance.InstanceRegistrar.instance);
+		InstanceRegistrar.instance.register(this,this);
 		register(RegistrarRegistrar.instance);
 		
 		register(DelegatorClassRegistrar.instance);
@@ -39,5 +40,6 @@ public class RootModule extends MzModule implements Instance
 	@Override
 	public void onUnload()
 	{
+		InstanceRegistrar.instance.unregister(this,this);
 	}
 }
