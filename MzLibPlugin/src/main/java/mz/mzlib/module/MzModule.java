@@ -4,18 +4,18 @@ import mz.mzlib.javautil.ClassUtil;
 import mz.mzlib.javautil.CopyOnWriteSet;
 import mz.mzlib.javautil.RuntimeUtil;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MzModule
 {
 	public boolean isLoaded=false;
 	public Set<MzModule> submodules=new CopyOnWriteSet<>();
-	public Map<Object,List<IRegistrar<?>>> registeredObjects=new ConcurrentHashMap<>();
+	public Map<Object,Stack<IRegistrar<?>>> registeredObjects=new ConcurrentHashMap<>();
 	
 	public void register(Object object)
 	{
@@ -31,19 +31,49 @@ public abstract class MzModule
 		}
 		if(registeredObjects.containsKey(object))
 			throw new IllegalStateException("Try to register the object but it has been registered: "+object+".");
-		List<IRegistrar<?>> registers=new ArrayList<>();
+		Set<IRegistrar<?>> registrars=new HashSet<>();
 		ClassUtil.forEachSuperUnique(object.getClass(),c->
 		{
 			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c))
 				if(i.isRegistrable(RuntimeUtil.forceCast(object)))
-				{
-					i.register(this,RuntimeUtil.forceCast(object));
-					registers.add(i);
-				}
+					registrars.add(i);
 		});
-		if(registers.isEmpty()&&!(object instanceof MzModule))
+		if(registrars.isEmpty()&&!(object instanceof MzModule))
 			throw new UnsupportedOperationException("Try to register the object but found no registrar: "+object+".");
-		registeredObjects.put(object,registers);
+		
+		Stack<IRegistrar<?>> workedRegistrarsRecord=new Stack<>();
+		
+		Set<IRegistrar<?>> untreatedRegistrars=new HashSet<>(registrars);
+		Set<IRegistrar<?>> processLater=new HashSet<>();
+		Set<IRegistrar<?>> workedRegistrars=new HashSet<>();
+		int cnt=0;
+		while(!untreatedRegistrars.isEmpty())
+		{
+			Iterator<IRegistrar<?>> it=untreatedRegistrars.iterator();
+			IRegistrar<?> now=it.next();
+			it.remove();
+			
+			if(workedRegistrars.containsAll(now.getDependencies()))
+			{
+				now.register(this,RuntimeUtil.forceCast(object));
+				workedRegistrars.add(now);
+				workedRegistrarsRecord.push(now);
+				cnt++;
+			}
+			else
+				processLater.add(now);
+			
+			if(untreatedRegistrars.isEmpty())
+			{
+				if(cnt==0)
+					throw new IllegalStateException("Circular dependency or nonexistent dependencies: "+processLater+".");
+				cnt=0;
+				untreatedRegistrars=processLater;
+				processLater=new HashSet<>();
+			}
+		}
+		
+		registeredObjects.put(object,workedRegistrarsRecord);
 	}
 	public void unregister(Object object)
 	{
@@ -63,11 +93,12 @@ public abstract class MzModule
 				((MzModule)object).unregister(i);
 			((MzModule)object).onUnload();
 		}
-		List<IRegistrar<?>> removed=registeredObjects.remove(object);
+		Stack<IRegistrar<?>> removed=registeredObjects.remove(object);
 		if(removed==null)
 			throw new IllegalStateException("Try to unregister the object but it's not registered: "+object+".");
-		for(IRegistrar<?> i:removed)
+		while(!removed.isEmpty())
 		{
+			IRegistrar<?> i=removed.pop();
 			Set<IRegistrar<?>> key=RegistrarRegistrar.instance.registrars.get(i.getType());
 			if(key==null||!key.contains(i))
 				throw new IllegalStateException("Try to unregister an object("+object+") but the registrar("+i+") has been unloaded.");
