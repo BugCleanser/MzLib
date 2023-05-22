@@ -177,7 +177,7 @@ public class CopyOnWriteMap<K,V> extends AbstractMap<K,V>
 	}
 	
 	@Override
-	public synchronized V computeIfAbsent(K key,@Nonnull Function<? super K,? extends V> mappingFunction)
+	public synchronized V computeIfAbsent(K key,Function<? super K,? extends V> mappingFunction)
 	{
 		Map<K,V> next=copier.apply(delegate);
 		V result=next.computeIfAbsent(key,mappingFunction);
@@ -186,7 +186,7 @@ public class CopyOnWriteMap<K,V> extends AbstractMap<K,V>
 	}
 	
 	@Override
-	public synchronized V computeIfPresent(K key,@Nonnull BiFunction<? super K,? super V,? extends V> remappingFunction)
+	public synchronized V computeIfPresent(K key,BiFunction<? super K,? super V,? extends V> remappingFunction)
 	{
 		Map<K,V> next=copier.apply(delegate);
 		V result=next.computeIfPresent(key,remappingFunction);
@@ -195,7 +195,7 @@ public class CopyOnWriteMap<K,V> extends AbstractMap<K,V>
 	}
 	
 	@Override
-	public synchronized V compute(K key,@Nonnull BiFunction<? super K,? super V,? extends V> remappingFunction)
+	public synchronized V compute(K key,BiFunction<? super K,? super V,? extends V> remappingFunction)
 	{
 		Map<K,V> next=copier.apply(delegate);
 		V result=next.compute(key,remappingFunction);
@@ -204,7 +204,7 @@ public class CopyOnWriteMap<K,V> extends AbstractMap<K,V>
 	}
 	
 	@Override
-	public synchronized V merge(K key,@Nonnull V value,@Nonnull BiFunction<? super V,? super V,? extends V> remappingFunction)
+	public synchronized V merge(K key,V value,BiFunction<? super V,? super V,? extends V> remappingFunction)
 	{
 		Map<K,V> next=copier.apply(delegate);
 		V result=next.merge(key,value,remappingFunction);

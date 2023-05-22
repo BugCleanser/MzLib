@@ -66,7 +66,7 @@ public class CopyOnWriteSet<T> extends AbstractSet<T>
 		return delegate.toArray();
 	}
 	@Override
-	public <T1> T1[] toArray(@Nonnull T1[] a)
+	public <T1> T1[] toArray(T1[] a)
 	{
 		return delegate.toArray(a);
 	}
@@ -87,12 +87,12 @@ public class CopyOnWriteSet<T> extends AbstractSet<T>
 		return result;
 	}
 	@Override
-	public boolean containsAll(@Nonnull Collection<?> c)
+	public boolean containsAll(Collection<?> c)
 	{
 		return delegate.containsAll(c);
 	}
 	@Override
-	public synchronized boolean addAll(@Nonnull Collection<? extends T> c)
+	public synchronized boolean addAll(Collection<? extends T> c)
 	{
 		Set<T> next=copier.apply(delegate);
 		boolean result=next.addAll(c);
@@ -100,7 +100,7 @@ public class CopyOnWriteSet<T> extends AbstractSet<T>
 		return result;
 	}
 	@Override
-	public synchronized boolean retainAll(@Nonnull Collection<?> c)
+	public synchronized boolean retainAll(Collection<?> c)
 	{
 		Set<T> next=copier.apply(delegate);
 		boolean result=next.retainAll(c);
