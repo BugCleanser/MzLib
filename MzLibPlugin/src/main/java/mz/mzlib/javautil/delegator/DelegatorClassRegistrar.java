@@ -13,8 +13,8 @@ public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Deleg
 {
 	public static DelegatorClassRegistrar instance=new DelegatorClassRegistrar();
 	
-	public Map<Class<? extends Delegator>,DelegatorClassRegistration> delegatorRegistrations=new CopyOnWriteMap<>();
-	public Map<Class<? extends Delegator>,MethodHandle> delegatorConstructors=new CopyOnWriteMap<>();
+	public Map<Class<? extends Delegator>,DelegatorClassRegistration> registrations=new CopyOnWriteMap<>();
+	public Map<Class<? extends Delegator>,MethodHandle> constructors=new CopyOnWriteMap<>();
 	
 	@Override
 	public Class<Class<? extends Delegator>> getType()
@@ -30,12 +30,12 @@ public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Deleg
 	@Override
 	public void register(MzModule module,Class<? extends Delegator> object)
 	{
-	
+		registrations.put(object,new DelegatorClassRegistration(object));
 	}
 	@Override
 	public void unregister(MzModule module,Class<? extends Delegator> object)
 	{
-		delegatorRegistrations.remove(object);
-		delegatorConstructors.remove(object);
+		registrations.remove(object);
+		constructors.remove(object);
 	}
 }
