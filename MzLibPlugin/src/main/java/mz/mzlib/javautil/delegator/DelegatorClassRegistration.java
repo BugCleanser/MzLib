@@ -11,13 +11,18 @@ public class DelegatorClassRegistration
 	public Class<? extends Delegator> clazz;
 	public Class<?> delegateClass=null;
 	public Map<Method,Member> delegateMembers=new HashMap<>();
-	public volatile MethodHandle constructor=null;
 	
 	public DelegatorClassRegistration(Class<? extends Delegator> clazz)
 	{
 		this.clazz=clazz;
 	}
 	
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
+	private MethodHandle constructor=null;
+	@SuppressWarnings("DeprecatedIsStillUsed")
+	@Deprecated
+	private volatile MethodHandle volatileConstructor=null;
 	public MethodHandle getConstructor()
 	{
 		MethodHandle con=constructor;
@@ -25,12 +30,14 @@ public class DelegatorClassRegistration
 		{
 			synchronized(this)
 			{
-				con=constructor;
+				con=volatileConstructor;
 				if(con==null)
 				{
 					
-					//con=constructor=not null;
+					//con=not null;
+					volatileConstructor=con;
 				}
+				constructor=con;
 			}
 		}
 		return con;

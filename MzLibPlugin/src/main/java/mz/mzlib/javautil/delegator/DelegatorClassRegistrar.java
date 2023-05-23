@@ -1,18 +1,18 @@
 package mz.mzlib.javautil.delegator;
 
-import mz.mzlib.javautil.CopyOnWriteMap;
 import mz.mzlib.javautil.Instance;
 import mz.mzlib.javautil.RuntimeUtil;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Delegator>>, Instance
 {
 	public static DelegatorClassRegistrar instance=new DelegatorClassRegistrar();
 	
-	public Map<Class<? extends Delegator>,DelegatorClassRegistration> registrations=new CopyOnWriteMap<>();
+	public Map<Class<? extends Delegator>,DelegatorClassRegistration> registrations=new ConcurrentHashMap<>();
 	
 	@Override
 	public Class<Class<? extends Delegator>> getType()

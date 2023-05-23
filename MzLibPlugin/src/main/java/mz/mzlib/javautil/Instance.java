@@ -6,6 +6,7 @@ import mz.mzlib.module.RootModule;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface Instance
@@ -14,7 +15,7 @@ public interface Instance
 	{
 		public static InstanceRegistrar instance=new InstanceRegistrar();
 		
-		Map<Class<? extends Instance>,List<Instance>> instances=new CopyOnWriteMap<>();
+		Map<Class<? extends Instance>,List<Instance>> instances=new ConcurrentHashMap<>();
 		{
 			register(RootModule.instance,this);
 		}

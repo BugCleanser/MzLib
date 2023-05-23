@@ -4,14 +4,15 @@ import mz.mzlib.javautil.*;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
 {
 	public static RegistrarRegistrar instance=new RegistrarRegistrar();
 	
-	public final Map<Class<?>,Set<IRegistrar<?>>> registrars=new CopyOnWriteMap<>();
+	public final Map<Class<?>,Set<IRegistrar<?>>> registrars=new ConcurrentHashMap<>();
 	{
-		registrars.put(IRegistrar.class,CollectionUtil.addAll(new CopyOnWriteSet<>(),this));
+		registrars.put(IRegistrar.class,CollectionUtil.addAll(new ConcurrentHashSet<>(),this));
 	}
 	
 	@Override
@@ -24,7 +25,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
 	{
 		synchronized(registrars)
 		{
-			registrars.computeIfAbsent(object.getType(),t->new CopyOnWriteSet<>()).add(object);
+			registrars.computeIfAbsent(object.getType(),t->new ConcurrentHashSet<>()).add(object);
 		}
 	}
 	@Override
