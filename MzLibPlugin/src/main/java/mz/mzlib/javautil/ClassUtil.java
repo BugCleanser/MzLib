@@ -13,6 +13,18 @@ public class ClassUtil
 {
 	private ClassUtil() {}
 	
+	public static Method getDeclaredMethod(Class<?> clazz,Method method)
+	{
+		try
+		{
+			return clazz.getDeclaredMethod(method.getName(),method.getParameterTypes());
+		}
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.forceThrow(e);
+		}
+	}
+	
 	public static MethodHandle findMethod(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes)
 	{
 		try

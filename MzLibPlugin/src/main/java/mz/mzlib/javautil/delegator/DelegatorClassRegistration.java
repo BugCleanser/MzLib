@@ -17,6 +17,11 @@ public class DelegatorClassRegistration
 		this.clazz=clazz;
 	}
 	
+	public void put(Method method,Member member)
+	{
+		delegateMembers.put(method,member);
+	}
+	
 	@SuppressWarnings("DeprecatedIsStillUsed")
 	@Deprecated
 	private MethodHandle constructor=null;
