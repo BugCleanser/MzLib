@@ -1,9 +1,10 @@
 package mz.mzlib.javautil;
 
+import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Pair<First,Second> implements Map.Entry<First,Second>,Comparable<Pair<First,Second>>
+public class Pair<First,Second> implements Comparable<Pair<First,Second>>
 {
 	public First first;
 	public Second second;
@@ -21,27 +22,14 @@ public class Pair<First,Second> implements Map.Entry<First,Second>,Comparable<Pa
 			return resultFirst;
 		return RuntimeUtil.<Comparable<Second>>forceCast(second).compareTo(o.second);
 	}
-	@Override
-	public First getKey()
+	public Map.Entry<First,Second> toMapEntry()
 	{
-		return first;
-	}
-	@Override
-	public Second getValue()
-	{
-		return second;
-	}
-	@Override
-	public Second setValue(Second value)
-	{
-		Second last=second;
-		second=value;
-		return last;
+		return new AbstractMap.SimpleEntry<>(first,second);
 	}
 	@Override
 	public boolean equals(Object o)
 	{
-		return o instanceof Map.Entry&&Objects.equals(first,((Map.Entry<?,?>)o).getKey())&&Objects.equals(second,((Map.Entry<?,?>)o).getValue());
+		return o instanceof Pair&& Objects.equals(first,((Pair<?,?>)o).first)&&Objects.equals(second,((Pair<?,?>)o).second);
 	}
 	@Override
 	public int hashCode()
