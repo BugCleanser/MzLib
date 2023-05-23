@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class CopyOnWriteSet<T> extends AbstractSet<T>
 {
 	public Function<Set<T>,Set<T>> copier;
-	public Set<T> delegate;
+	public volatile Set<T> delegate;
 	
 	public CopyOnWriteSet(Function<Set<T>,Set<T>> copier,Set<T> delegate)
 	{
