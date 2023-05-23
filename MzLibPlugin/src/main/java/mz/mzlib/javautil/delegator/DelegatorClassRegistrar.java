@@ -1,20 +1,15 @@
 package mz.mzlib.javautil.delegator;
 
-import mz.mzlib.javautil.CopyOnWriteMap;
-import mz.mzlib.javautil.Instance;
-import mz.mzlib.javautil.RuntimeUtil;
-import mz.mzlib.module.IRegistrar;
-import mz.mzlib.module.MzModule;
+import mz.mzlib.javautil.*;
+import mz.mzlib.module.*;
 
-import java.lang.invoke.MethodHandle;
-import java.util.Map;
+import java.util.*;
 
 public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Delegator>>, Instance
 {
 	public static DelegatorClassRegistrar instance=new DelegatorClassRegistrar();
 	
 	public Map<Class<? extends Delegator>,DelegatorClassRegistration> registrations=new CopyOnWriteMap<>();
-	public Map<Class<? extends Delegator>,MethodHandle> constructors=new CopyOnWriteMap<>();
 	
 	@Override
 	public Class<Class<? extends Delegator>> getType()
@@ -36,6 +31,5 @@ public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Deleg
 	public void unregister(MzModule module,Class<? extends Delegator> object)
 	{
 		registrations.remove(object);
-		constructors.remove(object);
 	}
 }

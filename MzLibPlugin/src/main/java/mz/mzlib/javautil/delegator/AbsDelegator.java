@@ -23,26 +23,27 @@ public abstract class AbsDelegator implements Delegator
 	@Override
 	public String toString()
 	{
-		return Objects.toString(delegate);
+		return Objects.toString(this.getDelegate());
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return Objects.hashCode(delegate);
+		return Objects.hashCode(this.getDelegate());
 	}
 	
 	@Override
 	public boolean equals(Object obj)
 	{
-		return obj instanceof Delegator&&Objects.equals(delegate,((Delegator)obj).getDelegate()) || Objects.equals(delegate,obj);
+		return obj instanceof Delegator&&Objects.equals(this.getDelegate(),((Delegator)obj).getDelegate());
 	}
 	
 	@Override
 	@SuppressWarnings("all")
 	public Delegator clone()
 	{
-		//TODO: NPE
+		if(this.getDelegate()==null)
+			return Delegator.create(this.getClass(),null);
 		return clone0();
 	}
 }
