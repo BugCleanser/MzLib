@@ -1,9 +1,12 @@
 package mz.mzlib.javautil.delegator;
 
-import mz.mzlib.javautil.*;
-import mz.mzlib.module.*;
+import mz.mzlib.javautil.CopyOnWriteMap;
+import mz.mzlib.javautil.Instance;
+import mz.mzlib.javautil.RuntimeUtil;
+import mz.mzlib.module.IRegistrar;
+import mz.mzlib.module.MzModule;
 
-import java.util.*;
+import java.util.Map;
 
 public class DelegatorClassRegistrar implements IRegistrar<Class<? extends Delegator>>, Instance
 {

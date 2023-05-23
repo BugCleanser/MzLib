@@ -27,28 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.util;
 
-import mz.mzlib.asm.AnnotationVisitor;
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.ClassReader;
-import mz.mzlib.asm.ClassVisitor;
-import mz.mzlib.asm.ClassWriter;
-import mz.mzlib.asm.FieldVisitor;
-import mz.mzlib.asm.Label;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.ModuleVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.RecordComponentVisitor;
-import mz.mzlib.asm.Type;
-import mz.mzlib.asm.TypePath;
-import mz.mzlib.asm.TypeReference;
+import mz.mzlib.asm.*;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.asm.tree.TryCatchBlockNode;
-import mz.mzlib.asm.tree.analysis.Analyzer;
-import mz.mzlib.asm.tree.analysis.AnalyzerException;
-import mz.mzlib.asm.tree.analysis.BasicValue;
 import mz.mzlib.asm.tree.analysis.Frame;
-import mz.mzlib.asm.tree.analysis.SimpleVerifier;
+import mz.mzlib.asm.tree.analysis.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;

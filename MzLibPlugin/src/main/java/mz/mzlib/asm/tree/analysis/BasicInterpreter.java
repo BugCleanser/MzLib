@@ -31,14 +31,7 @@ import mz.mzlib.asm.ConstantDynamic;
 import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
-import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.FieldInsnNode;
-import mz.mzlib.asm.tree.IntInsnNode;
-import mz.mzlib.asm.tree.InvokeDynamicInsnNode;
-import mz.mzlib.asm.tree.LdcInsnNode;
-import mz.mzlib.asm.tree.MethodInsnNode;
-import mz.mzlib.asm.tree.MultiANewArrayInsnNode;
-import mz.mzlib.asm.tree.TypeInsnNode;
+import mz.mzlib.asm.tree.*;
 
 import java.util.List;
 

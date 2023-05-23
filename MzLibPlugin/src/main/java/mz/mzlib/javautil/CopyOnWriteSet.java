@@ -1,12 +1,6 @@
 package mz.mzlib.javautil;
 
-import javax.annotation.Nonnull;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;

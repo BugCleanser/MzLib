@@ -29,16 +29,7 @@ package mz.mzlib.asm.tree.analysis;
 
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
-import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.IincInsnNode;
-import mz.mzlib.asm.tree.InsnList;
-import mz.mzlib.asm.tree.JumpInsnNode;
-import mz.mzlib.asm.tree.LabelNode;
-import mz.mzlib.asm.tree.LookupSwitchInsnNode;
-import mz.mzlib.asm.tree.MethodNode;
-import mz.mzlib.asm.tree.TableSwitchInsnNode;
-import mz.mzlib.asm.tree.TryCatchBlockNode;
-import mz.mzlib.asm.tree.VarInsnNode;
+import mz.mzlib.asm.tree.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

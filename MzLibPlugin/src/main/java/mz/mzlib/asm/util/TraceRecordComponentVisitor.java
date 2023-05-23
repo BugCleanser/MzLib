@@ -27,11 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.util;
 
-import mz.mzlib.asm.AnnotationVisitor;
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.RecordComponentVisitor;
-import mz.mzlib.asm.TypePath;
+import mz.mzlib.asm.*;
 
 /**
  * A {@link RecordComponentVisitor} that prints the record components it visits with a {@link

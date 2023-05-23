@@ -28,12 +28,7 @@
 
 package mz.mzlib.asm.commons;
 
-import mz.mzlib.asm.ConstantDynamic;
-import mz.mzlib.asm.Handle;
-import mz.mzlib.asm.Label;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.Type;
+import mz.mzlib.asm.*;
 
 /**
  * A {@link MethodVisitor} providing a more detailed API to generate and transform instructions.

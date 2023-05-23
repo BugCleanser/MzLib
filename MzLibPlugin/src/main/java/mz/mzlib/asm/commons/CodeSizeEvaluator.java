@@ -27,11 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.commons;
 
-import mz.mzlib.asm.ConstantDynamic;
-import mz.mzlib.asm.Handle;
-import mz.mzlib.asm.Label;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.Opcodes;
+import mz.mzlib.asm.*;
 
 /**
  * A {@link MethodVisitor} that approximates the size of the methods it visits.

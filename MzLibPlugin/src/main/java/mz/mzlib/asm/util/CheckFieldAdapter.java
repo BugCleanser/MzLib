@@ -27,12 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.util;
 
-import mz.mzlib.asm.AnnotationVisitor;
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.FieldVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.TypePath;
-import mz.mzlib.asm.TypeReference;
+import mz.mzlib.asm.*;
 
 /**
  * A {@link FieldVisitor} that checks that its methods are properly used.

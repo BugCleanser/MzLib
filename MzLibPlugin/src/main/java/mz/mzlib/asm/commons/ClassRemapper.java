@@ -28,15 +28,7 @@
 
 package mz.mzlib.asm.commons;
 
-import mz.mzlib.asm.AnnotationVisitor;
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.ClassVisitor;
-import mz.mzlib.asm.FieldVisitor;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.ModuleVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.RecordComponentVisitor;
-import mz.mzlib.asm.TypePath;
+import mz.mzlib.asm.*;
 
 import java.util.List;
 

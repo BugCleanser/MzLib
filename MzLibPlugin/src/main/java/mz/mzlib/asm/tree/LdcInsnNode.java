@@ -27,11 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.tree;
 
-import mz.mzlib.asm.ConstantDynamic;
-import mz.mzlib.asm.Handle;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.Type;
+import mz.mzlib.asm.*;
 
 import java.util.Map;
 

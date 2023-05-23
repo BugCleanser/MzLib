@@ -4,11 +4,7 @@ import mz.mzlib.javautil.ClassUtil;
 import mz.mzlib.javautil.CopyOnWriteSet;
 import mz.mzlib.javautil.RuntimeUtil;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MzModule

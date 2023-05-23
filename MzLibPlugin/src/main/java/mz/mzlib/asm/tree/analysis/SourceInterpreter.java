@@ -29,11 +29,7 @@ package mz.mzlib.asm.tree.analysis;
 
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
-import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.FieldInsnNode;
-import mz.mzlib.asm.tree.InvokeDynamicInsnNode;
-import mz.mzlib.asm.tree.LdcInsnNode;
-import mz.mzlib.asm.tree.MethodInsnNode;
+import mz.mzlib.asm.tree.*;
 
 import java.util.HashSet;
 import java.util.List;

@@ -28,12 +28,7 @@
 
 package mz.mzlib.asm.commons;
 
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.ByteVector;
-import mz.mzlib.asm.ClassReader;
-import mz.mzlib.asm.ClassVisitor;
-import mz.mzlib.asm.ClassWriter;
-import mz.mzlib.asm.Label;
+import mz.mzlib.asm.*;
 
 /**
  * A ModuleTarget attribute. This attribute is specific to the OpenJDK and may change in the future.

@@ -31,25 +31,9 @@ import mz.mzlib.asm.Label;
 import mz.mzlib.asm.MethodVisitor;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
-import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.InsnList;
-import mz.mzlib.asm.tree.InsnNode;
-import mz.mzlib.asm.tree.JumpInsnNode;
-import mz.mzlib.asm.tree.LabelNode;
-import mz.mzlib.asm.tree.LocalVariableNode;
-import mz.mzlib.asm.tree.LookupSwitchInsnNode;
-import mz.mzlib.asm.tree.MethodNode;
-import mz.mzlib.asm.tree.TableSwitchInsnNode;
-import mz.mzlib.asm.tree.TryCatchBlockNode;
+import mz.mzlib.asm.tree.*;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A {@link MethodVisitor} that removes JSR instructions and inlines the

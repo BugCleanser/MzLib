@@ -28,11 +28,7 @@
 
 package mz.mzlib.asm.tree;
 
-import mz.mzlib.asm.Label;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.TypePath;
-import mz.mzlib.asm.TypeReference;
+import mz.mzlib.asm.*;
 
 import java.util.List;
 

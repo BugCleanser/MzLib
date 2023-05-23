@@ -29,22 +29,8 @@ package mz.mzlib.asm.util;
 
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
-import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.FrameNode;
-import mz.mzlib.asm.tree.InsnList;
-import mz.mzlib.asm.tree.InsnNode;
-import mz.mzlib.asm.tree.JumpInsnNode;
-import mz.mzlib.asm.tree.LabelNode;
-import mz.mzlib.asm.tree.LookupSwitchInsnNode;
-import mz.mzlib.asm.tree.MethodNode;
-import mz.mzlib.asm.tree.TableSwitchInsnNode;
-import mz.mzlib.asm.tree.TryCatchBlockNode;
-import mz.mzlib.asm.tree.TypeInsnNode;
-import mz.mzlib.asm.tree.analysis.Analyzer;
-import mz.mzlib.asm.tree.analysis.AnalyzerException;
-import mz.mzlib.asm.tree.analysis.Frame;
-import mz.mzlib.asm.tree.analysis.Interpreter;
-import mz.mzlib.asm.tree.analysis.Value;
+import mz.mzlib.asm.tree.*;
+import mz.mzlib.asm.tree.analysis.*;
 
 import java.util.Collections;
 import java.util.List;

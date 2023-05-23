@@ -27,17 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.mzlib.asm.util;
 
-import mz.mzlib.asm.AnnotationVisitor;
-import mz.mzlib.asm.Attribute;
-import mz.mzlib.asm.ClassWriter;
-import mz.mzlib.asm.ConstantDynamic;
-import mz.mzlib.asm.Handle;
-import mz.mzlib.asm.Label;
-import mz.mzlib.asm.MethodVisitor;
-import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.Type;
-import mz.mzlib.asm.TypePath;
-import mz.mzlib.asm.TypeReference;
+import mz.mzlib.asm.*;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.asm.tree.analysis.Analyzer;
 import mz.mzlib.asm.tree.analysis.AnalyzerException;
@@ -46,12 +36,7 @@ import mz.mzlib.asm.tree.analysis.BasicVerifier;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A {@link MethodVisitor} that checks that its methods are properly used. More precisely this
