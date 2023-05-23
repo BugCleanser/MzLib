@@ -1,7 +1,6 @@
 package mz.mzlib.module;
 
 import mz.mzlib.javautil.ClassUtil;
-import mz.mzlib.javautil.ConcurrentHashSet;
 import mz.mzlib.javautil.RuntimeUtil;
 
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class MzModule
 {
 	public boolean isLoaded=false;
-	public Set<MzModule> submodules=new ConcurrentHashSet<>();
+	public Set<MzModule> submodules=ConcurrentHashMap.newKeySet();
 	public Map<Object,Stack<IRegistrar<?>>> registeredObjects=new ConcurrentHashMap<>();
 	
 	public void register(Object object)

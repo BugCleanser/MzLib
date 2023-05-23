@@ -12,7 +12,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
 	
 	public final Map<Class<?>,Set<IRegistrar<?>>> registrars=new ConcurrentHashMap<>();
 	{
-		registrars.put(IRegistrar.class,CollectionUtil.addAll(new ConcurrentHashSet<>(),this));
+		registrars.put(IRegistrar.class,CollectionUtil.addAll(ConcurrentHashMap.newKeySet(),this));
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
 	{
 		synchronized(registrars)
 		{
-			registrars.computeIfAbsent(object.getType(),t->new ConcurrentHashSet<>()).add(object);
+			registrars.computeIfAbsent(object.getType(),t->ConcurrentHashMap.newKeySet()).add(object);
 		}
 	}
 	@Override
