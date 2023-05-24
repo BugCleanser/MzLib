@@ -1,7 +1,7 @@
 package mz.mzlib.module;
 
-import mz.mzlib.javautil.ClassUtil;
-import mz.mzlib.javautil.RuntimeUtil;
+import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

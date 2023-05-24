@@ -1,6 +1,6 @@
 package mz.mzlib.mc.bukkit;
 
-import mz.mzlib.javautil.Instance;
+import mz.mzlib.util.Instance;
 import mz.mzlib.module.RootModule;
 import org.bukkit.plugin.java.JavaPlugin;
 

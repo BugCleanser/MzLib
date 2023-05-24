@@ -1,4 +1,4 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 public class RuntimeUtil
 {
@@ -17,4 +17,16 @@ public class RuntimeUtil
 	public static <T extends Throwable> void declareThrow() throws T {}
 	@SuppressWarnings("RedundantThrows")
 	public static <T extends Throwable> void declareThrow(Class<T> clazz) throws T {}
+	public static Throwable runAndCatch(ThrowableRunnable runnable)
+	{
+		try
+		{
+			runnable.runWithThrowable();
+		}
+		catch(Throwable e)
+		{
+			return e;
+		}
+		return null;
+	}
 }

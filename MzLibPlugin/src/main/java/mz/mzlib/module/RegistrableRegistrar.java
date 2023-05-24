@@ -1,6 +1,6 @@
 package mz.mzlib.module;
 
-import mz.mzlib.javautil.Instance;
+import mz.mzlib.util.Instance;
 
 public class RegistrableRegistrar implements IRegistrar<Registrable>, Instance
 {

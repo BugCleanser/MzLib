@@ -1,4 +1,4 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 import java.util.HashMap;
 import java.util.Map;

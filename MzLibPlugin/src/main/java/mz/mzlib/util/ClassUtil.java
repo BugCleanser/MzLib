@@ -1,11 +1,16 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
+import net.bytebuddy.agent.ByteBuddyAgent;
+import net.bytebuddy.agent.Installer;
 
-import java.io.ObjectStreamField;
+import javax.tools.ToolProvider;
+import java.io.FileOutputStream;
+import java.lang.instrument.ClassDefinition;
+import java.lang.instrument.Instrumentation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
@@ -17,6 +22,9 @@ import java.util.function.Consumer;
 public class ClassUtil
 {
 	private ClassUtil() {}
+	
+	public static ClassLoader sysClassLoader=ClassLoader.getSystemClassLoader();
+	public static ClassLoader extClassLoader=sysClassLoader.getParent();
 	
 	public static Method getDeclaredMethod(Class<?> clazz,Method method)
 	{
@@ -141,9 +149,90 @@ public class ClassUtil
 		}
 	}
 	
+	public static Instrumentation agentInstrumentation;
+	public static class AgentInstrumentationGetter
+	{
+		public static Instrumentation agentInstrumentation;
+		static
+		{
+			agentInstrumentation=Installer.getInstrumentation();
+		}
+	}
+	public static Instrumentation getAgentInstrumentation()
+	{
+		if(agentInstrumentation==null)
+		{
+			try
+			{
+				agentInstrumentation=(Instrumentation)Class.forName("mz.mzlib.util.InstrumentationGetter",false,sysClassLoader).getDeclaredField("instrumentation").get(null);
+			}
+			catch(ClassNotFoundException|NoSuchFieldException|IllegalAccessException ignore)
+			{
+				try
+				{
+					try
+					{
+						ByteBuddyAgent.install();
+					}
+					catch(Throwable e)
+					{
+						System.err.println("无法注入JavaAgent");
+						if(ToolProvider.getSystemJavaCompiler()==null)
+							System.err.println("请使用JDK，推荐zulu jdk(zulu.org)");
+						System.err.println("请删除启动参数-XX:+DisableAttachMechanism和-Djdk.attach.allowAttachSelf=false");
+						System.err.println("也可以尝试安装MzLibAgent（注：这不是一个插件）");
+						throw RuntimeUtil.forceThrow(e);
+					}
+					String className=ClassUtil.class.getName()+"$AgentInstrumentationGetter";
+					if(RuntimeUtil.runAndCatch(()->Class.forName(className,false,ClassLoader.getSystemClassLoader())) instanceof ClassNotFoundException)
+					{
+						byte[] bs=IOUtil.readAll(ClassUtil.class.getClassLoader().getResourceAsStream(className.replace('.','/')+".class"));
+						Root.getUnsafe().defineClass(className,bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
+					}
+					Class<?> clazz=Class.forName(className,true,ClassLoader.getSystemClassLoader());
+					agentInstrumentation=RuntimeUtil.forceCast(clazz.getField("agentInstrumentation").get(null));
+				}
+				catch(Throwable e)
+				{
+					RuntimeUtil.forceThrow(e);
+				}
+			}
+		}
+		return agentInstrumentation;
+	}
+	
 	public static Class<?> defineClass(ClassLoader classLoader,String name,byte[] byteCode)
 	{
-	
+		synchronized(ClassUtil.class)
+		{
+			try
+			{
+				try
+				{
+					try
+					{
+						getAgentInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/','.'),false,classLoader),byteCode));
+						return Class.forName(name.replace('/','.'),false,classLoader);
+					}
+					catch(VerifyError e)
+					{
+						try(FileOutputStream fos=new FileOutputStream(name.replace('/','.')+".class"))
+						{
+							fos.write(byteCode);
+						}
+						throw e;
+					}
+				}
+				catch(ClassNotFoundException ignore)
+				{
+					return Root.getUnsafe().defineClass(name,byteCode,0,byteCode.length,classLoader,null);
+				}
+			}
+			catch(Throwable e)
+			{
+				throw RuntimeUtil.forceThrow(e);
+			}
+		}
 	}
 	
 	public static void makeReference(Class<?> clazz,Object target)

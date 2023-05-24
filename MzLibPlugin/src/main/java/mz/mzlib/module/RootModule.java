@@ -1,7 +1,7 @@
 package mz.mzlib.module;
 
-import mz.mzlib.javautil.Instance;
-import mz.mzlib.javautil.delegator.DelegatorClassAnalyzerRegistrar;
+import mz.mzlib.util.Instance;
+import mz.mzlib.util.delegator.DelegatorClassAnalyzerRegistrar;
 
 import java.util.HashSet;
 

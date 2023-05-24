@@ -1,6 +1,6 @@
-package mz.mzlib.javautil.delegator;
+package mz.mzlib.util.delegator;
 
-import mz.mzlib.javautil.RuntimeUtil;
+import mz.mzlib.util.RuntimeUtil;
 
 public interface Delegator
 {

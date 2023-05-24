@@ -1,4 +1,4 @@
-package mz.mzlib.javautil.delegator;
+package mz.mzlib.util.delegator;
 
 public abstract class DelegatorClassAnalyzer
 {

@@ -1,6 +1,6 @@
 package mz.mzlib.module;
 
-import mz.mzlib.javautil.*;
+import mz.mzlib.util.*;
 
 import java.util.Map;
 import java.util.Set;

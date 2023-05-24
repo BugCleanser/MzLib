@@ -1,6 +1,6 @@
 package mz.mzlib.mc.bukkit;
 
-import mz.mzlib.javautil.Instance;
+import mz.mzlib.util.Instance;
 import mz.mzlib.mc.MzLibMinecraft;
 import mz.mzlib.module.MzModule;
 

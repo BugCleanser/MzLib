@@ -17,7 +17,7 @@ tasks {
         manifest {
             attributes(
                 mapOf(
-                    "Premain-Class" to "mz.lib.InstrumentationGetterAgent",
+                    "Premain-Class" to "mz.mzlib.util.InstrumentationGetterAgent",
                     "Can-Redefine-Classes" to "true"
                 )
             )

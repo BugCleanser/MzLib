@@ -1,4 +1,4 @@
-package mz.mzlib.javautil.delegator;
+package mz.mzlib.util.delegator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

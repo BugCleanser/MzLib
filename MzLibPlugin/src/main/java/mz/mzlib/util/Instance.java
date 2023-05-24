@@ -1,4 +1,4 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;

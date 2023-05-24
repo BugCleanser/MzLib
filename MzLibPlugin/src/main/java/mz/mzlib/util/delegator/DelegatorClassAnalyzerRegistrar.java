@@ -1,7 +1,6 @@
-package mz.mzlib.javautil.delegator;
+package mz.mzlib.util.delegator;
 
-import mz.mzlib.javautil.ClassUtil;
-import mz.mzlib.javautil.Instance;
+import mz.mzlib.util.Instance;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 

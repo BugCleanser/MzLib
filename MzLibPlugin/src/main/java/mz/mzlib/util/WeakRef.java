@@ -1,4 +1,4 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;

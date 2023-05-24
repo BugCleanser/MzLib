@@ -1,4 +1,4 @@
-package mz.mzlib.javautil;
+package mz.mzlib.util;
 
 import com.google.common.collect.Lists;
 import mz.mzlib.asm.Opcodes;

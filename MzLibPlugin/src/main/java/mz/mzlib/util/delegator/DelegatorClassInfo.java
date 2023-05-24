@@ -1,13 +1,15 @@
-package mz.mzlib.javautil.delegator;
+package mz.mzlib.util.delegator;
 
-import mz.mzlib.javautil.WeakMap;
+import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.WeakMap;
+import mz.mzlib.util.WeakRef;
 
 import java.lang.invoke.MethodHandle;
 import java.util.Map;
 
 public class DelegatorClassInfo
 {
-	public static Map<Class<? extends Delegator>,DelegatorClassInfo> cache=new WeakMap<>();
+	public static Map<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=new WeakMap<>();
 	
 	@Deprecated
 	@SuppressWarnings("DeprecatedIsStillUsed")
@@ -22,8 +24,9 @@ public class DelegatorClassInfo
 			DelegatorClassInfo result=new DelegatorClassInfo();
 			for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers)
 				i.analyse(k,result);
-			return result;
-		});
+			ClassUtil.makeReference(clazz,result);
+			return new WeakRef<>(result);
+		}).get();
 	}
 	
 	@Deprecated
