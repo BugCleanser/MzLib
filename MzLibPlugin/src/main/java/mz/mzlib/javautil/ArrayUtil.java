@@ -74,4 +74,72 @@ public class ArrayUtil
 		else
 			throw new ClassCastException("It's not a primitive array: "+array+".");
 	}
+	
+	public static int[] unbox(Integer[] array)
+	{
+		return Arrays.stream(array).mapToInt(Integer::intValue).toArray();
+	}
+	public static long[] unbox(Long[] array)
+	{
+		return Arrays.stream(array).mapToLong(Long::longValue).toArray();
+	}
+	public static double[] unbox(Double[] array)
+	{
+		return Arrays.stream(array).mapToDouble(Double::doubleValue).toArray();
+	}
+	public static byte[] unbox(Byte[] array)
+	{
+		byte[] result=new byte[array.length];
+		for(int i=0;i<result.length;i++)
+			result[i]=array[i];
+		return result;
+	}
+	public static boolean[] unbox(Boolean[] array)
+	{
+		boolean[] result=new boolean[array.length];
+		for(int i=0;i<result.length;i++)
+			result[i]=array[i];
+		return result;
+	}
+	public static char[] unbox(Character[] array)
+	{
+		char[] result=new char[array.length];
+		for(int i=0;i<result.length;i++)
+			result[i]=array[i];
+		return result;
+	}
+	public static short[] unbox(Short[] array)
+	{
+		short[] result=new short[array.length];
+		for(int i=0;i<result.length;i++)
+			result[i]=array[i];
+		return result;
+	}
+	public static float[] unbox(Float[] array)
+	{
+		float[] result=new float[array.length];
+		for(int i=0;i<result.length;i++)
+			result[i]=array[i];
+		return result;
+	}
+	public static Object unbox(Object[] array)
+	{
+		if(array instanceof Integer[])
+			return unbox((Integer[])array);
+		else if(array instanceof Long[])
+			return unbox((Long[])array);
+		else if(array instanceof Double[])
+			return unbox((Double[])array);
+		else if(array instanceof Byte[])
+			return unbox((Byte[])array);
+		else if(array instanceof Boolean[])
+			return unbox((Boolean[])array);
+		else if(array instanceof Short[])
+			return unbox((Short[])array);
+		else if(array instanceof Character[])
+			return unbox((Character[])array);
+		else if(array instanceof Float[])
+			return unbox((Float[])array);
+		throw new ClassCastException("It's not a primitive wrapper array: "+Arrays.toString(array)+".");
+	}
 }
