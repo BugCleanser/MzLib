@@ -23,12 +23,15 @@ public class WeakMap<K,V> extends AbstractMap<K,V>
 	@Override
 	public int size()
 	{
+		for(WeakRef<K> i:delegate.keySet())
+			if(i.get()==null)
+				delegate.remove(i);
 		return delegate.size();
 	}
 	@Override
 	public boolean isEmpty()
 	{
-		return delegate.isEmpty();
+		return size()==0;
 	}
 	@Override
 	public boolean containsKey(Object key)
@@ -68,26 +71,38 @@ public class WeakMap<K,V> extends AbstractMap<K,V>
 	@Override
 	public Set<K> keySet()
 	{
-		return delegate.keySet().stream().map(WeakRef::get).collect(Collectors.toSet());
+		return delegate.keySet().stream().map(WeakRef::get).filter(Objects::nonNull).collect(Collectors.toSet());
 	}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public Collection<V> values()
 	{
+		size();
 		return delegate.values();
 	}
 	@Override
 	public Set<Entry<K,V>> entrySet()
 	{
-		return Collections.unmodifiableSet(delegate.entrySet().stream().map(e->new AbstractMap.SimpleEntry<>(e.getKey().get(),e.getValue())).collect(Collectors.toSet()));
+		return Collections.unmodifiableSet(delegate.entrySet().stream().map(e->new AbstractMap.SimpleEntry<>(e.getKey().get(),e.getValue())).filter(e->e.getKey()!=null).collect(Collectors.toSet()));
 	}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public boolean equals(Object o)
 	{
-		return o instanceof WeakMap&&Objects.equals(delegate,((WeakMap<?,?>)o).delegate) || super.equals(o);
+		size();
+		if(o instanceof WeakMap)
+		{
+			((WeakMap<?, ?>)o).size();
+			if(Objects.equals(delegate,((WeakMap<?,?>)o).delegate))
+				return true;
+		}
+		return super.equals(o);
 	}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public int hashCode()
 	{
+		size();
 		return delegate.hashCode();
 	}
 	@Override
@@ -95,14 +110,22 @@ public class WeakMap<K,V> extends AbstractMap<K,V>
 	{
 		return delegate.getOrDefault(new WeakRef<>(key),defaultValue);
 	}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void forEach(BiConsumer<? super K,? super V> action)
 	{
-		delegate.forEach((k,v)->action.accept(k.get(),v));
+		size();
+		delegate.forEach((k,v)->
+		{
+			if(k.get()!=null)
+				action.accept(k.get(),v);
+		});
 	}
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Override
 	public void replaceAll(BiFunction<? super K,? super V,? extends V> function)
 	{
+		size();
 		delegate.replaceAll((k,v)->function.apply(k.get(),v));
 	}
 	@Override

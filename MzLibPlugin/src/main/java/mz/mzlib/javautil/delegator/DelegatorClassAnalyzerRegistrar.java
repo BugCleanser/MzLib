@@ -1,5 +1,6 @@
 package mz.mzlib.javautil.delegator;
 
+import mz.mzlib.javautil.ClassUtil;
 import mz.mzlib.javautil.Instance;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
@@ -16,6 +17,7 @@ public class DelegatorClassAnalyzerRegistrar implements IRegistrar<DelegatorClas
 	@Override
 	public Class<DelegatorClassAnalyzer> getType()
 	{
+		//TODO: ClassUtil
 		return DelegatorClassAnalyzer.class;
 	}
 	@Override
