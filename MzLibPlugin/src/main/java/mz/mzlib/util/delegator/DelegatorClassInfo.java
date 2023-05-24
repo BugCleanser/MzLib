@@ -24,7 +24,7 @@ public class DelegatorClassInfo
 			DelegatorClassInfo result=new DelegatorClassInfo();
 			for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers)
 				i.analyse(k,result);
-			ClassUtil.makeReference(clazz,result);
+			ClassUtil.makeReference(clazz.getClassLoader(),result);
 			return new WeakRef<>(result);
 		}).get();
 	}

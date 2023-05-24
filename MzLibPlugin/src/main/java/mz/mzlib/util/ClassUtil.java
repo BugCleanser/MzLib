@@ -235,15 +235,15 @@ public class ClassUtil
 		}
 	}
 	
-	public static void makeReference(Class<?> clazz,Object target)
+	public static void makeReference(ClassLoader classLoader,Object target)
 	{
 		try
 		{
-			String attachedName=clazz.getName()+"$0MzAttachedObjects";
+			String attachedName="0MzAttachedObjects";
 			Class<?> attached;
 			try
 			{
-				attached=Class.forName(attachedName,false,clazz.getClassLoader());
+				attached=Class.forName(attachedName,false,classLoader);
 			}
 			catch(ClassNotFoundException e)
 			{
@@ -253,7 +253,7 @@ public class ClassUtil
 				cn.visitEnd();
 				ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
 				cn.accept(cw);
-				attached=defineClass(clazz.getClassLoader(),attachedName,cw.toByteArray());
+				attached=defineClass(classLoader,attachedName,cw.toByteArray());
 				attached.getDeclaredField("instance").set(null,ConcurrentHashMap.newKeySet());
 			}
 			RuntimeUtil.<Set<Object>>forceCast(attached.getDeclaredField("instance").get(null)).add(target);
