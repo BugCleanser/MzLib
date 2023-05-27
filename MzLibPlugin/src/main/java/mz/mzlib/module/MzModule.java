@@ -29,7 +29,7 @@ public abstract class MzModule
 		Set<IRegistrar<?>> registrars=new HashSet<>();
 		ClassUtil.forEachSuperUnique(object.getClass(),c->
 		{
-			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c))
+			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c).toArray(new IRegistrar[0]))
 				if(i.isRegistrable(RuntimeUtil.forceCast(object)))
 					registrars.add(i);
 		});

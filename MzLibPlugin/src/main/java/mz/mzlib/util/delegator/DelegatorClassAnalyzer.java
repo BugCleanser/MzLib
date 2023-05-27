@@ -1,6 +1,6 @@
 package mz.mzlib.util.delegator;
 
-public abstract class DelegatorClassAnalyzer
+public interface DelegatorClassAnalyzer
 {
-	public abstract void analyse(Class<? extends Delegator> clazz,DelegatorClassInfo info);
+	void analyse(DelegatorClassInfo info);
 }
