@@ -2,7 +2,7 @@ package mz.mzlib.util;
 
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.module.RootModule;
+import mz.mzlib.MzLib;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public interface Instance
 		
 		Map<Class<? extends Instance>,List<Instance>> instances=new ConcurrentHashMap<>();
 		{
-			register(RootModule.instance,this);
+			register(MzLib.instance,this);
 		}
 		
 		@Override

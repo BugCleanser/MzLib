@@ -1,7 +1,7 @@
 package mz.mzlib.mc.bukkit;
 
 import mz.mzlib.util.Instance;
-import mz.mzlib.module.RootModule;
+import mz.mzlib.MzLib;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MzLibBukkitPlugin extends JavaPlugin implements Instance
@@ -14,13 +14,13 @@ public class MzLibBukkitPlugin extends JavaPlugin implements Instance
 	@Override
 	public void onEnable()
 	{
-		RootModule.instance.load();
-		RootModule.instance.register(MzLibBukkit.instance);
+		MzLib.instance.load();
+		MzLib.instance.register(MzLibBukkit.instance);
 	}
 	
 	@Override
 	public void onDisable()
 	{
-		RootModule.instance.unload();
+		MzLib.instance.unload();
 	}
 }
