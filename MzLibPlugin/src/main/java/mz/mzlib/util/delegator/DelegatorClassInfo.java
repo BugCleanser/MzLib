@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DelegatorClassInfo
 {
 	public Class<? extends Delegator> delegatorClass;
+	public Class<?> delegateClass=null;
 	public Map<Method,Member> delegations=new ConcurrentHashMap<>();
 	public DelegatorClassInfo(Class<? extends Delegator> delegatorClass)
 	{

@@ -23,6 +23,6 @@ public interface Delegator
 		return create(clazz,null);
 	}
 	
-	@DelegationMethod("clone")
+	@DelegatorMethod("clone")
 	Delegator clone0();
 }
