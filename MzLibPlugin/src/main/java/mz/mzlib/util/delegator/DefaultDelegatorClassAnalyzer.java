@@ -13,23 +13,46 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 	@Override
 	public Class<?> analyseClass(ClassLoader classLoader,Annotation annotation)
 	{
-		try
+		if(annotation instanceof DelegatorClass)
+			return ((DelegatorClass)annotation).value();
+		else if(annotation instanceof DelegatorClassForName)
 		{
-			if(annotation instanceof DelegatorClass)
-				return ((DelegatorClass)annotation).value();
-			else if(annotation instanceof DelegatorClassForName)
-				return Class.forName(((DelegatorClassForName)annotation).value(),false,classLoader);
-			return null;
+			Throwable lastException=null;
+			for(String i:((DelegatorClassForName)annotation).value())
+			{
+				try
+				{
+					return Class.forName(i,false,classLoader);
+				}
+				catch(Throwable e)
+				{
+					lastException=e;
+				}
+			}
+			throw RuntimeUtil.forceThrow(lastException);
 		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.forceThrow(e);
-		}
+		return null;
 	}
 	
 	@Override
-	public Member analyseMember(Class<?> delegateClass,Annotation annotation)
+	public Member analyseMember(Class<?> delegateClass,Annotation annotation,Class<?>[] argTypes)
 	{
+		if(annotation instanceof DelegatorMethod)
+		{
+			Throwable lastException=null;
+			for(String i:((DelegatorMethod)annotation).value())
+			{
+				try
+				{
+					return delegateClass.getDeclaredMethod(i,argTypes);
+				}
+				catch(Throwable e)
+				{
+					lastException=e;
+				}
+			}
+			throw RuntimeUtil.forceThrow(lastException);
+		}
 		return null;
 	}
 }
