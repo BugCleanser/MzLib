@@ -5,6 +5,7 @@ import mz.mzlib.module.RegistrarRegistrar;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.delegator.DefaultDelegatorClassAnalyzer;
 import mz.mzlib.util.delegator.DelegatorClassAnalyzerRegistrar;
+import mz.mzlib.util.delegator.ExtendedDelegatorClassAnalyzer;
 
 import java.util.HashSet;
 
@@ -40,6 +41,7 @@ public class MzLib extends MzModule implements Instance
 		
 		register(DelegatorClassAnalyzerRegistrar.instance);
 		register(DefaultDelegatorClassAnalyzer.instance);
+		register(ExtendedDelegatorClassAnalyzer.instance);
 	}
 	@Override
 	public void onUnload()

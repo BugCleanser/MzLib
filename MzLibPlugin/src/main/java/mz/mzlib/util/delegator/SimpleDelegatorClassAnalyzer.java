@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 
 public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 {
-	Class<?> analyseClass(Annotation annotation);
+	Class<?> analyseClass(ClassLoader classLoader,Annotation annotation);
 	Member analyseMember(Class<?> delegateClass,Annotation annotation);
 	
 	@Override
@@ -16,12 +16,12 @@ public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 		Class<?> delegateClass=null;
 		for(Annotation i:info.delegatorClass.getDeclaredAnnotations())
 		{
-			delegateClass=analyseClass(i);
+			delegateClass=analyseClass(info.delegatorClass.getClassLoader(),i);
 			if(delegateClass!=null)
 				break;
 		}
 		if(delegateClass==null)
-			throw new RuntimeException("awa");
+			throw new IllegalStateException("Multi delegate class: "+info.delegatorClass);
 		info.delegateClass=delegateClass;
 		for(Method i:info.delegatorClass.getDeclaredMethods())
 			if(Modifier.isAbstract(i.getModifiers()))
