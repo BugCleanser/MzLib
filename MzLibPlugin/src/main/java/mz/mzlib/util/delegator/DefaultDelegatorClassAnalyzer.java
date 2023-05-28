@@ -5,6 +5,7 @@ import mz.mzlib.util.RuntimeUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
+import java.util.Arrays;
 
 public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyzer,Instance
 {
@@ -35,24 +36,48 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 	}
 	
 	@Override
-	public Member analyseMember(Class<?> delegateClass,Annotation annotation,Class<?>[] argTypes)
+	public Member analyseMember(Class<?> delegateClass,Annotation annotation,Class<?> returnType,Class<?>[] argTypes)
 	{
-		if(annotation instanceof DelegatorMethod)
+		try
 		{
-			Throwable lastException=null;
-			for(String i:((DelegatorMethod)annotation).value())
+			if(annotation instanceof DelegatorConstructor)
 			{
-				try
+				return delegateClass.getDeclaredConstructor(argTypes);
+			}
+			else if(annotation instanceof DelegatorMethod)
+			{
+				Throwable lastException=null;
+				for(String i: ((DelegatorMethod)annotation).value())
 				{
-					return delegateClass.getDeclaredMethod(i,argTypes);
+					try
+					{
+						return delegateClass.getDeclaredMethod(i,argTypes);
+					}
+					catch(Throwable e)
+					{
+						lastException=e;
+					}
 				}
-				catch(Throwable e)
+				throw RuntimeUtil.forceThrow(lastException);
+			}
+			else if(annotation instanceof DelegatorFieldAccessor)
+			{
+				switch(argTypes.length)
 				{
-					lastException=e;
+					case 0:
+						//awa
+						break;
+					case 1:
+						break;
+					default:
+						throw new IllegalArgumentException("Too many args: "+Arrays.toString(argTypes)+".");
 				}
 			}
-			throw RuntimeUtil.forceThrow(lastException);
+			return null;
 		}
-		return null;
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.forceThrow(e);
+		}
 	}
 }

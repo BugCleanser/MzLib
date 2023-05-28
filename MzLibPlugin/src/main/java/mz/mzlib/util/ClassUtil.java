@@ -14,6 +14,7 @@ import java.lang.instrument.Instrumentation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +26,14 @@ public class ClassUtil
 	
 	public static ClassLoader sysClassLoader=ClassLoader.getSystemClassLoader();
 	public static ClassLoader extClassLoader=sysClassLoader.getParent();
+	
+	public static List<? extends Member> getDeclaredMembers(Class<?> clazz)
+	{
+		List<Member> result=new ArrayList<>(Arrays.asList(clazz.getDeclaredConstructors()));
+		result.addAll(Arrays.asList(clazz.getDeclaredFields()));
+		result.addAll(Arrays.asList(clazz.getDeclaredMethods()));
+		return result;
+	}
 	
 	public static Method getDeclaredMethod(Class<?> clazz,Method method)
 	{

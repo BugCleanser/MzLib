@@ -10,7 +10,7 @@ import java.lang.reflect.Modifier;
 public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 {
 	Class<?> analyseClass(ClassLoader classLoader,Annotation annotation);
-	Member analyseMember(Class<?> delegateClass,Annotation annotation,Class<?>[] argTypes);
+	Member analyseMember(Class<?> delegateClass,Annotation annotation,Class<?> returnType,Class<?>[] argTypes);
 	
 	@Override
 	default void analyse(DelegatorClassInfo info)
@@ -28,6 +28,9 @@ public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 		for(Method i:info.delegatorClass.getDeclaredMethods())
 			if(Modifier.isAbstract(i.getModifiers()))
 			{
+				Class<?> returnType=i.getReturnType();
+				if(Delegator.class.isAssignableFrom(returnType))
+					returnType=DelegatorClassInfo.get(RuntimeUtil.forceCast(returnType)).getDelegateClass();
 				Class<?>[] argTypes=i.getParameterTypes();
 				for(int j=0;j<argTypes.length;j++)
 				{
@@ -36,7 +39,7 @@ public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 				}
 				for(Annotation j: i.getDeclaredAnnotations())
 				{
-					Member m=analyseMember(delegateClass,j,argTypes);
+					Member m=analyseMember(delegateClass,j,returnType,argTypes);
 					if(m!=null)
 						info.delegations.put(i,m);
 				}
