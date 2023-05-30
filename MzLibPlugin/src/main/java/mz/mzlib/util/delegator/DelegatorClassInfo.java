@@ -87,7 +87,7 @@ public class DelegatorClassInfo
 			cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"0MzDelegatorClass",null,AsmUtil.getDesc(AbsDelegator.class),new String[0]);
 			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,Object.class),null,new String[0]);
 			mn.instructions.add(AsmUtil.nodeVarLoad(Object.class,0));
-			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getDesc(AbsDelegator.class),"<init>",mn.desc,false));
+			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getDesc(AbsDelegator.class),mn.name,mn.desc,false));
 			mn.visitEnd();
 			cn.methods.add(mn);
 			//TODO
