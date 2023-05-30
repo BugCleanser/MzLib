@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class AsmUtil
 {
-	public static FieldNode nodeGetField(ClassNode cn,String name)
+	public static FieldNode getFieldNode(ClassNode cn,String name)
 	{
 		for(FieldNode f: cn.fields)
 		{
@@ -21,7 +21,7 @@ public class AsmUtil
 		}
 		return null;
 	}
-	public static MethodNode nodeGetMethod(ClassNode clazz,String name,String desc)
+	public static MethodNode getMethodNode(ClassNode clazz,String name,String desc)
 	{
 		for(MethodNode m: clazz.methods)
 		{
@@ -368,7 +368,7 @@ public class AsmUtil
 			}
 			else if(ClassUtil.getPrimitive(src).isPrimitive())
 			{
-				InsnList r=toList(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,getType(src),ClassUtil.getPrimitive(src).getName()+"Value",getDesc(new Class[0],ClassUtil.getPrimitive(src))));
+				InsnList r=toList(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,getType(src),ClassUtil.getPrimitive(src).getName()+"Value",getDesc(ClassUtil.getPrimitive(src),new Class[0])));
 				r.add(nodeCast(tar,ClassUtil.getPrimitive(src)));
 				return r;
 			}
@@ -381,7 +381,7 @@ public class AsmUtil
 		}
 		else if(src.isPrimitive())
 		{
-			InsnList r=toList(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(ClassUtil.getWrapper(src)),"valueOf",getDesc(new Class[]{src},ClassUtil.getWrapper(src)),false));
+			InsnList r=toList(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(ClassUtil.getWrapper(src)),"valueOf",getDesc(ClassUtil.getWrapper(src),new Class[]{src}),false));
 			r.add(nodeCast(tar,ClassUtil.getWrapper(src)));
 			return r;
 		}
@@ -428,13 +428,13 @@ public class AsmUtil
 	}
 	public static String getDesc(Method method)
 	{
-		return getDesc(method.getParameterTypes(),method.getReturnType());
+		return getDesc(method.getReturnType(),method.getParameterTypes());
 	}
 	public static String getDesc(Constructor<?> constructor)
 	{
-		return getDesc(constructor.getParameterTypes(),void.class);
+		return getDesc(void.class,constructor.getParameterTypes());
 	}
-	public static String getDesc(Class<?>[] argsTypes,Class<?> retType)
+	public static String getDesc(Class<?> retType,Class<?> ...argsTypes)
 	{
 		StringBuilder r=new StringBuilder("(");
 		for(Class<?> a:argsTypes)

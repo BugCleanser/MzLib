@@ -16,7 +16,6 @@ public class DelegatorClassAnalyzerRegistrar implements IRegistrar<DelegatorClas
 	@Override
 	public Class<DelegatorClassAnalyzer> getType()
 	{
-		//TODO: ClassUtil
 		return DelegatorClassAnalyzer.class;
 	}
 	@Override

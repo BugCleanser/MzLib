@@ -1,10 +1,14 @@
 package mz.mzlib.util.delegator;
 
-import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.WeakMap;
-import mz.mzlib.util.WeakRef;
+import mz.mzlib.asm.ClassWriter;
+import mz.mzlib.asm.Opcodes;
+import mz.mzlib.asm.tree.ClassNode;
+import mz.mzlib.asm.tree.MethodInsnNode;
+import mz.mzlib.asm.tree.MethodNode;
+import mz.mzlib.util.*;
 
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -77,6 +81,25 @@ public class DelegatorClassInfo
 	}
 	void genAClassAndPhuckTheJvm()
 	{
-	
+		try
+		{
+			ClassNode cn=new ClassNode();
+			cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"0MzDelegatorClass",null,AsmUtil.getDesc(AbsDelegator.class),new String[0]);
+			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,Object.class),null,new String[0]);
+			mn.instructions.add(AsmUtil.nodeVarLoad(Object.class,0));
+			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getDesc(AbsDelegator.class),"<init>",mn.desc,false));
+			mn.visitEnd();
+			cn.methods.add(mn);
+			//TODO
+			cn.visitEnd();
+			ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+			cn.accept(cw);
+			SimpleClassLoader cl=new SimpleClassLoader();
+			constructor=ClassUtil.unreflect(cl.defineClass1(cn.name,cw.toByteArray()).getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Object.class,new Class[]{Object.class}));
+		}
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.forceThrow(e);
+		}
 	}
 }
