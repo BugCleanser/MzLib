@@ -88,6 +88,7 @@ public class DelegatorClassInfo
 			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,Object.class),null,new String[0]);
 			mn.instructions.add(AsmUtil.nodeVarLoad(Object.class,0));
 			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getDesc(AbsDelegator.class),mn.name,mn.desc,false));
+			mn.instructions.add(AsmUtil.nodeReturn(void.class));
 			mn.visitEnd();
 			cn.methods.add(mn);
 			//TODO
