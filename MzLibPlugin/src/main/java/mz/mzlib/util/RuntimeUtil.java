@@ -29,4 +29,9 @@ public class RuntimeUtil
 		}
 		return null;
 	}
+	public static <T> T require(T object,ThrowablePredicate<T> con)
+	{
+		assert con.test(object);
+		return object;
+	}
 }
