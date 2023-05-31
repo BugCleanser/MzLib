@@ -1,7 +1,10 @@
 package mz.lib.minecraft.bukkit.item.map;
 
-import mz.lib.wrapper.*;
-import org.bukkit.map.*;
+import mz.lib.wrapper.WrappedClass;
+import mz.lib.wrapper.WrappedFieldAccessor;
+import mz.lib.wrapper.WrappedMethod;
+import mz.lib.wrapper.WrappedObject;
+import org.bukkit.map.MapPalette;
 
 import java.awt.*;
 

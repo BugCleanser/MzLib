@@ -27,19 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
+import mz.asm.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import mz.asm.*;
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.ClassVisitor;
-import mz.asm.FieldVisitor;
-import mz.asm.MethodVisitor;
-import mz.asm.ModuleVisitor;
-import mz.asm.Opcodes;
-import mz.asm.RecordComponentVisitor;
-import mz.asm.TypePath;
 
 /**
  * A node that represents a class.

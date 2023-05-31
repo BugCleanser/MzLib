@@ -27,6 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.commons;
 
+import mz.asm.ClassVisitor;
+import mz.asm.FieldVisitor;
+import mz.asm.MethodVisitor;
+import mz.asm.Opcodes;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
@@ -36,11 +41,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-
-import mz.asm.ClassVisitor;
-import mz.asm.FieldVisitor;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
 
 /**
  * A {@link ClassVisitor} that adds a serial version unique identifier to a class if missing. A

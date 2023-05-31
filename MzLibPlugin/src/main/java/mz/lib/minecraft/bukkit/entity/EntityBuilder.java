@@ -1,6 +1,9 @@
 package mz.lib.minecraft.bukkit.entity;
 
-import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntityTypes;
+import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagCompound;
+import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagLong;
+import mz.lib.minecraft.bukkit.wrappednms.NmsWorld;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcEntity;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcWorld;
 import mz.lib.wrapper.WrappedObject;

@@ -1,20 +1,23 @@
 package mz.lib.minecraft.bukkit;
 
 import com.google.common.collect.Lists;
-import mz.lib.minecraft.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.entity.EntityViewWatcher;
 import mz.lib.minecraft.bukkit.event.SendEntityMetadataEvent;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.AbsModule;
-import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntity;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntityItem;
+import mz.lib.minecraft.bukkit.wrappednms.NmsItemStack;
+import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutEntityMetadata;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerLocaleChangeEvent;
 
-import java.util.*;
+import java.util.Optional;
 
 public class ShowDropNameModule extends AbsModule
 {

@@ -28,10 +28,10 @@
 
 package mz.asm.commons;
 
-import java.util.ArrayList;
-
 import mz.asm.Opcodes;
 import mz.asm.signature.SignatureVisitor;
+
+import java.util.ArrayList;
 
 /**
  * A {@link SignatureVisitor} that remaps types with a {@link Remapper}.

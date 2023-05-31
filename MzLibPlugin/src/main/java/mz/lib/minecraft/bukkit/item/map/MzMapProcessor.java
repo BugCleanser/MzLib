@@ -1,8 +1,9 @@
 package mz.lib.minecraft.bukkit.item.map;
 
 import mz.lib.IncrementalIdMap;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.ProtocolUtil;
+import mz.lib.minecraft.bukkit.entity.EntityTypeUtil;
 import mz.lib.minecraft.bukkit.event.SendEntityMetadataEvent;
 import mz.lib.minecraft.bukkit.event.ShowInventoryItemEvent;
 import mz.lib.minecraft.bukkit.item.MzItem;
@@ -13,10 +14,11 @@ import mz.lib.minecraft.bukkit.wrappednms.NmsEntityItemFrame;
 import mz.lib.minecraft.bukkit.wrappednms.NmsItemStack;
 import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutEntityDestroy;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryClickEvent;

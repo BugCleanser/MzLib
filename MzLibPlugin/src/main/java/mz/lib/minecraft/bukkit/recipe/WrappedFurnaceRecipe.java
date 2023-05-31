@@ -1,7 +1,9 @@
 package mz.lib.minecraft.bukkit.recipe;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;

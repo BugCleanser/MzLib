@@ -1,9 +1,13 @@
 package mz.lib.minecraft.bukkit.item;
 
-import mz.lib.*;
+import mz.lib.ListUtil;
+import mz.lib.MapEntry;
+import mz.lib.Ref;
+import mz.lib.StringUtil;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkit.message.*;
+import mz.lib.minecraft.bukkit.message.MessageComponent;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
 import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagByte;
 import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;

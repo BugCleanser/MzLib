@@ -27,17 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import java.io.PrintWriter;
+import mz.asm.*;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.ClassVisitor;
-import mz.asm.FieldVisitor;
-import mz.asm.MethodVisitor;
-import mz.asm.ModuleVisitor;
-import mz.asm.Opcodes;
-import mz.asm.RecordComponentVisitor;
-import mz.asm.TypePath;
+import java.io.PrintWriter;
 
 /**
  * A {@link ClassVisitor} that prints the classes it visits with a {@link Printer}. This class

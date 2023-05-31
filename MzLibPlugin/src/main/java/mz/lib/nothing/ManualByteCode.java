@@ -1,6 +1,6 @@
 package mz.lib.nothing;
 
-import mz.asm.tree.*;
+import mz.asm.tree.AbstractInsnNode;
 import mz.lib.AsmUtil;
 
 import java.lang.annotation.ElementType;

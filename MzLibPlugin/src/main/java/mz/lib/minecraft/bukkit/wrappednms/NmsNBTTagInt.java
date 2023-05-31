@@ -2,7 +2,8 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.gson.JsonPrimitive;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;
 

@@ -28,17 +28,9 @@
 
 package mz.asm.commons;
 
-import java.util.List;
+import mz.asm.*;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.ClassVisitor;
-import mz.asm.FieldVisitor;
-import mz.asm.MethodVisitor;
-import mz.asm.ModuleVisitor;
-import mz.asm.Opcodes;
-import mz.asm.RecordComponentVisitor;
-import mz.asm.TypePath;
+import java.util.List;
 
 /**
  * A {@link ClassVisitor} that remaps types with a {@link Remapper}.

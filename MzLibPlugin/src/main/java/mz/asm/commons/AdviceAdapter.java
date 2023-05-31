@@ -27,17 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.commons;
 
+import mz.asm.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import mz.asm.ConstantDynamic;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.Type;
 
 /**
  * A {@link MethodVisitor} to insert before, after and around advices in methods and constructors.

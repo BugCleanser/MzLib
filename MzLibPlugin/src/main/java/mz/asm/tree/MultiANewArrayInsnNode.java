@@ -27,11 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.Map;
-
-import mz.asm.*;
 import mz.asm.MethodVisitor;
 import mz.asm.Opcodes;
+import mz.asm.Type;
+
+import java.util.Map;
 
 /**
  * A node that represents a MULTIANEWARRAY instruction.

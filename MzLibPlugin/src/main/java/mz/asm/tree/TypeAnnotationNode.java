@@ -27,9 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import mz.asm.*;
 import mz.asm.Opcodes;
 import mz.asm.TypePath;
+import mz.asm.TypeReference;
 
 /**
  * A node that represents a type annotation.

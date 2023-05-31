@@ -1,7 +1,9 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
 
 @WrappedBukkitClass({@VersionName(value="nms.EntityChicken",maxVer=17),@VersionName(value="net.minecraft.world.entity.animal.EntityChicken",minVer=17)})
 public interface NmsEntityChicken extends NmsEntityLiving

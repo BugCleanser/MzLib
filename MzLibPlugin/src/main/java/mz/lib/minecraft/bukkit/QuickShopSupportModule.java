@@ -1,7 +1,6 @@
 package mz.lib.minecraft.bukkit;
 
 import com.google.common.collect.Lists;
-import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.nothing.NothingRegistrar;
 import mz.lib.nothing.LocalVar;

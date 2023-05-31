@@ -27,10 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.List;
-
-import mz.asm.*;
 import mz.asm.ModuleVisitor;
+import mz.asm.Opcodes;
+import mz.asm.Type;
+
+import java.util.List;
 
 /**
  * A node that represents an exported package with its name and the module that can access to it.

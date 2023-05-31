@@ -3,17 +3,19 @@ package mz.lib.minecraft.bukkit.wrappednms;
 import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.event.FishingHookClearEvent;
 import mz.lib.minecraft.bukkit.event.FishingHookClearEvent.FishingHookClearReason;
-import mz.lib.minecraft.bukkit.nothing.*;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkit;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkitInject;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcEntity;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
-import mz.lib.nothing.*;
+import mz.lib.nothing.LocalVar;
+import mz.lib.nothing.NothingLocation;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.FishHook;
 import org.bukkit.entity.HumanEntity;
 
-import java.util.*;
+import java.util.Optional;
 
 @WrappedBukkitClass({@VersionName(value="nms.EntityFishingHook",maxVer=17),@VersionName(value="net.minecraft.world.entity.projectile.EntityFishingHook",minVer=17)})
 public interface NmsEntityFishingHook extends NmsIProjectile, NothingBukkit

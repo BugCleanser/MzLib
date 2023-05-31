@@ -27,12 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.Opcodes;
-import mz.asm.RecordComponentVisitor;
-import mz.asm.TypePath;
-import mz.asm.TypeReference;
+import mz.asm.*;
 
 /**
  * A {@link RecordComponentVisitor} that checks that its methods are properly used.

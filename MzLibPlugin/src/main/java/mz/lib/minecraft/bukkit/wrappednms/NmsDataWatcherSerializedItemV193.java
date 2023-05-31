@@ -1,8 +1,11 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.wrapper.*;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
+import mz.lib.wrapper.WrappedObject;
 
 @WrappedBukkitClass(@VersionName(minVer=19.3f,value="net.minecraft.network.syncher.DataWatcher$b"))
 public interface NmsDataWatcherSerializedItemV193 extends WrappedBukkitObject

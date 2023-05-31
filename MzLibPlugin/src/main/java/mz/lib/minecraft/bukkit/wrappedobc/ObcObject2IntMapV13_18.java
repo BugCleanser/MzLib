@@ -1,8 +1,9 @@
 package mz.lib.minecraft.bukkit.wrappedobc;
 
-import mz.lib.*;
+import mz.lib.Optional;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 @Optional

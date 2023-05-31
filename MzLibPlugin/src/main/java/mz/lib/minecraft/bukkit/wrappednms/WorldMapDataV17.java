@@ -1,7 +1,9 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 
 @WrappedBukkitClass(@VersionName(value="net.minecraft.world.level.saveddata.maps.WorldMap$b",minVer=17))
 public interface WorldMapDataV17 extends WrappedBukkitObject

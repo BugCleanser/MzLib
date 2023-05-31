@@ -27,23 +27,14 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
+import mz.asm.*;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import mz.asm.*;
-import mz.asm.Attribute;
-import mz.asm.ClassReader;
-import mz.asm.ConstantDynamic;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.Opcodes;
-import mz.asm.Type;
-import mz.asm.TypePath;
-import mz.asm.TypeReference;
 
 /**
  * An abstract converter from visit events to text.

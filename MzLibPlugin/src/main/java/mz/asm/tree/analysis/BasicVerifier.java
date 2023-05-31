@@ -27,14 +27,14 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.List;
-
 import mz.asm.Opcodes;
 import mz.asm.Type;
 import mz.asm.tree.AbstractInsnNode;
 import mz.asm.tree.FieldInsnNode;
 import mz.asm.tree.InvokeDynamicInsnNode;
 import mz.asm.tree.MethodInsnNode;
+
+import java.util.List;
 
 /**
  * An extended {@link BasicInterpreter} that checks that bytecode instructions are correctly used.

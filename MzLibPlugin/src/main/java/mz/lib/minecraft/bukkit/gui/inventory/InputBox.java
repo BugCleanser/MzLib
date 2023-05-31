@@ -1,9 +1,9 @@
 package mz.lib.minecraft.bukkit.gui.inventory;
 
 import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.wrappednms.NmsContainer;
 import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;

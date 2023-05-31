@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.List;
-
 import mz.asm.Opcodes;
 import mz.asm.Type;
+
+import java.util.List;
 
 /**
  * An extended {@link BasicVerifier} that performs more precise verifications. This verifier

@@ -27,11 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
+import mz.asm.MethodVisitor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import mz.asm.MethodVisitor;
 
 /**
  * A node that represents a bytecode instruction. <i>An instruction can appear at most once in at

@@ -1,11 +1,14 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.nothing.*;
-import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
-import mz.lib.minecraft.bukkit.wrapper.*;
 import mz.lib.Optional;
-import mz.lib.nothing.*;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkit;
+import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
+import mz.lib.nothing.LocalVar;
+import mz.lib.nothing.NothingInject;
+import mz.lib.nothing.NothingLocation;
 import mz.lib.wrapper.WrappedFieldAccessor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;

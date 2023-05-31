@@ -27,13 +27,13 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import mz.asm.*;
 import mz.asm.ClassVisitor;
 import mz.asm.ModuleVisitor;
 import mz.asm.Opcodes;
+import mz.asm.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A node that represents a module declaration.

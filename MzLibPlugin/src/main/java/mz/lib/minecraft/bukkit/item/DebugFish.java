@@ -1,14 +1,21 @@
 package mz.lib.minecraft.bukkit.item;
 
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.message.*;
-import org.bukkit.*;
-import org.bukkit.block.*;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
+import mz.lib.MapEntry;
+import mz.lib.Ref;
+import mz.lib.StringUtil;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.message.MessageComponent;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface DebugFish extends MzItem
 {

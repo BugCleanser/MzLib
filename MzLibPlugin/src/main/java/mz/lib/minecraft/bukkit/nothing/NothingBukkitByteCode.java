@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.nothing;
 
-import mz.lib.minecraft.bukkit.VersionName;
 import mz.asm.Opcodes;
+import mz.lib.minecraft.bukkit.VersionName;
 
 import java.lang.annotation.Target;
 

@@ -27,9 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.Set;
-
 import mz.asm.tree.AbstractInsnNode;
+
+import java.util.Set;
 
 /**
  * A {@link Value} which keeps track of the bytecode instructions that can produce it.

@@ -3,7 +3,9 @@ package mz.lib.minecraft.bukkit.wrappednms;
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedObject;
 
 import java.util.Map;

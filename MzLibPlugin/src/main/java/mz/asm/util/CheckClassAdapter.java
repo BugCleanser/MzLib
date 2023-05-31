@@ -27,6 +27,13 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
+import mz.asm.*;
+import mz.asm.tree.ClassNode;
+import mz.asm.tree.MethodNode;
+import mz.asm.tree.TryCatchBlockNode;
+import mz.asm.tree.analysis.Frame;
+import mz.asm.tree.analysis.*;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,29 +42,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.ClassReader;
-import mz.asm.ClassVisitor;
-import mz.asm.ClassWriter;
-import mz.asm.FieldVisitor;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.ModuleVisitor;
-import mz.asm.Opcodes;
-import mz.asm.RecordComponentVisitor;
-import mz.asm.Type;
-import mz.asm.TypePath;
-import mz.asm.TypeReference;
-import mz.asm.tree.ClassNode;
-import mz.asm.tree.MethodNode;
-import mz.asm.tree.TryCatchBlockNode;
-import mz.asm.tree.analysis.Analyzer;
-import mz.asm.tree.analysis.AnalyzerException;
-import mz.asm.tree.analysis.BasicValue;
-import mz.asm.tree.analysis.Frame;
-import mz.asm.tree.analysis.SimpleVerifier;
 
 /**
  * A {@link ClassVisitor} that checks that its methods are properly used. More precisely this class

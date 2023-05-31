@@ -2,7 +2,9 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.gson.JsonObject;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedObject;
 
 @WrappedBukkitClass({@VersionName(value="nms.MojangsonParser",maxVer=17),@VersionName(value="net.minecraft.nbt.MojangsonParser",minVer=17)})

@@ -27,9 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.Map;
-
 import mz.asm.MethodVisitor;
+
+import java.util.Map;
 
 /**
  * A node that represents a local variable instruction. A local variable instruction is an

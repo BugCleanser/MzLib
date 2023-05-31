@@ -1,15 +1,19 @@
 package mz.lib.minecraft.bukkit.entity;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.module.*;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.ProtocolUtil;
+import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.wrapper.*;
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.wrapper.WrappedObject;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventPriority;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityViewWatcher
 {

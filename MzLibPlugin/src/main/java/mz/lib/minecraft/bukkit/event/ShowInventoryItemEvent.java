@@ -2,7 +2,6 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.ProtocolUtil;
-import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.wrappednms.NmsItemStack;
 import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutSetSlot;

@@ -2,11 +2,7 @@ package mz.lib.minecraft.bukkit.nothing;
 
 import com.google.common.collect.Lists;
 import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
-import mz.lib.nothing.Nothing;
-import mz.lib.nothing.NothingByteCode;
-import mz.lib.nothing.NothingInject;
-import mz.lib.nothing.NothingLocation;
-import mz.lib.nothing.NothingPriority;
+import mz.lib.nothing.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

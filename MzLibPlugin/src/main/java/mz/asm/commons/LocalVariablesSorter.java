@@ -27,12 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.commons;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.Type;
-import mz.asm.TypePath;
+import mz.asm.*;
 
 /**
  * A {@link MethodVisitor} that renumbers local variables in their order of appearance. This adapter

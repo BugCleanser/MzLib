@@ -1,9 +1,9 @@
 package mz.lib.minecraft.bukkit.mzlibcommand;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.command.*;
-import mz.lib.minecraft.bukkit.mzlibcommand.debug.*;
-import mz.lib.minecraft.bukkit.permission.*;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.command.MainCommand;
+import mz.lib.minecraft.bukkit.mzlibcommand.debug.DebugSubcommand;
+import mz.lib.minecraft.bukkit.permission.PermissionRegistrar;
 
 public class MzLibCommandModule extends MainCommand
 {

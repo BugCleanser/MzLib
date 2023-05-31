@@ -1,24 +1,24 @@
 package mz.lib.minecraft.bukkit.mzlibcommand;
 
-import mz.lib.*;
+import mz.lib.StringUtil;
+import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
 import mz.lib.minecraft.bukkit.command.argparser.ArgInfo;
 import mz.lib.minecraft.bukkit.entity.PlayerUtil;
-import mz.lib.minecraft.bukkit.item.map.*;
-import mz.lib.mzlang.MzObject;
+import mz.lib.minecraft.bukkit.item.map.BitMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.*;
+import java.net.URL;
 
 public class LoadMapSubcommand extends AbsLastCommandProcessor
 {

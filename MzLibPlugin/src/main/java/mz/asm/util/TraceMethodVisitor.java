@@ -27,13 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.TypePath;
+import mz.asm.*;
 
 /**
  * A {@link MethodVisitor} that prints the methods it visits with a {@link Printer}.

@@ -27,8 +27,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.signature;
 
-import mz.asm.*;
 import mz.asm.Opcodes;
+import mz.asm.Type;
 
 /**
  * A visitor to visit a generic signature. The methods of this interface must be called in one of

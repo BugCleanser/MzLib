@@ -2,7 +2,6 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.ProtocolUtil;
-import mz.lib.minecraft.bukkit.entity.PlayerUtil;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutOpenWindow;
@@ -10,12 +9,9 @@ import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.inventory.Inventory;
 
 public class WindowOpenEvent extends PlayerEvent implements Cancellable
 {

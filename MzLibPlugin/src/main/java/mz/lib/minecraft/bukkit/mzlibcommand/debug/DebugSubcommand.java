@@ -1,7 +1,8 @@
 package mz.lib.minecraft.bukkit.mzlibcommand.debug;
 
 import mz.lib.minecraft.bukkit.command.AbsFrontCommandProcessor;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class DebugSubcommand extends AbsFrontCommandProcessor
 {

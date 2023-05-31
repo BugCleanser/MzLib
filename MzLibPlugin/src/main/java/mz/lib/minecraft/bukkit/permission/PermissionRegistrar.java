@@ -1,9 +1,11 @@
 package mz.lib.minecraft.bukkit.permission;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.module.*;
-import org.bukkit.*;
-import org.bukkit.permissions.*;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.module.AbsModule;
+import mz.lib.minecraft.bukkit.module.IRegistrar;
+import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
+import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permission;
 
 public class PermissionRegistrar extends AbsModule implements IRegistrar<Permission>
 {

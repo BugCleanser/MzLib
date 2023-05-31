@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.commons;
 
+import mz.asm.Type;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import mz.asm.Type;
 
 /**
  * A named method descriptor.

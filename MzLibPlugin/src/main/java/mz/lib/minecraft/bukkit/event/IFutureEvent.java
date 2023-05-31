@@ -1,7 +1,6 @@
 package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.TypeUtil;
-import org.bukkit.event.Cancellable;
 
 import java.util.List;
 

@@ -2,27 +2,37 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.common.collect.Lists;
 import io.github.karlatemp.unsafeaccessor.Root;
-import mz.asm.*;
+import mz.asm.ClassWriter;
+import mz.asm.Opcodes;
 import mz.asm.tree.*;
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.*;
+import mz.lib.AsmUtil;
+import mz.lib.ClassUtil;
+import mz.lib.Ref;
+import mz.lib.TypeUtil;
+import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkit.nothing.NothingBukkitInject;
 import mz.lib.minecraft.bukkit.nothing.NothingBukkit;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkitInject;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.nothing.*;
+import mz.lib.nothing.ManualByteCode;
+import mz.lib.nothing.Nothing;
+import mz.lib.nothing.NothingLocation;
+import mz.lib.nothing.NothingMethod;
 import mz.lib.wrapper.WrappedArray;
 import mz.lib.wrapper.WrappedArrayClass;
 import mz.lib.wrapper.WrappedObject;
-import org.bukkit.*;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.*;
-import java.util.function.*;
+import java.util.WeakHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @WrappedBukkitClass({@VersionName(value="nms.RecipeItemStack",maxVer=17),@VersionName(value="net.minecraft.world.item.crafting.RecipeItemStack",minVer=17)})

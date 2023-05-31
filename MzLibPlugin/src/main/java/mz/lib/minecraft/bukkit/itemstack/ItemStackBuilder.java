@@ -1,8 +1,11 @@
 package mz.lib.minecraft.bukkit.itemstack;
 
 import com.google.common.collect.Lists;
-import com.google.gson.*;
-import com.google.gson.stream.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import mz.lib.ListUtil;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
@@ -10,9 +13,9 @@ import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.EnchantUtil;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.event.ShowItemEvent;
-import mz.lib.minecraft.bukkit.message.*;
-import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent.NmsChatSerializer;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
 import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent.NmsChatSerializer;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcChatMessage;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import mz.lib.minecraft.bukkit.wrappedobc.ObcMagicNumbers;

@@ -27,13 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.Map;
+import mz.asm.*;
 
-import mz.asm.ConstantDynamic;
-import mz.asm.Handle;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.Type;
+import java.util.Map;
 
 /**
  * A node that represents an LDC instruction.

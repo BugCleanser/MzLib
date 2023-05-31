@@ -2,7 +2,6 @@ package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.common.collect.Lists;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
 import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;

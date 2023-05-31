@@ -1,9 +1,10 @@
 package mz.lib.minecraft.bukkit.wrapper;
 
 import com.google.common.collect.Lists;
-import mz.lib.*;
+import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.VersionName;
 import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
 

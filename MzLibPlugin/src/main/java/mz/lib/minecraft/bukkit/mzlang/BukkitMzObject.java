@@ -1,10 +1,10 @@
 package mz.lib.minecraft.bukkit.mzlang;
 
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.mzlang.*;
+import mz.lib.ClassUtil;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.mzlang.MzObject;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
 
 public interface BukkitMzObject extends MzObject
 {

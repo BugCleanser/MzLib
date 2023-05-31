@@ -1,11 +1,12 @@
 package mz.lib.minecraft.bukkit.recipe;
 
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.gui.*;
+import mz.lib.MapEntry;
+import mz.lib.StringUtil;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.gui.inventory.ListVisitor;
-import mz.lib.minecraft.bukkit.itemstack.*;
-import mz.lib.minecraft.bukkit.message.*;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

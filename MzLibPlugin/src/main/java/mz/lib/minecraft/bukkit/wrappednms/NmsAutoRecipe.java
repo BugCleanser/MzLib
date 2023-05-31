@@ -1,15 +1,22 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.itemstack.*;
-import mz.lib.minecraft.bukkit.nothing.*;
-import mz.lib.minecraft.bukkit.wrappedobc.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.nothing.*;
-import mz.lib.wrapper.*;
-import org.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.ProtocolUtil;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkit;
+import mz.lib.minecraft.bukkit.nothing.NothingBukkitInject;
+import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
+import mz.lib.nothing.LocalVar;
+import mz.lib.nothing.Nothing;
+import mz.lib.nothing.NothingLocation;
+import mz.lib.wrapper.WrappedObject;
+import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Optional;
 
 @WrappedBukkitClass({@VersionName(value="nms.AutoRecipe",maxVer=17),@VersionName(value="net.minecraft.recipebook.AutoRecipe",minVer=17)})
 public interface NmsAutoRecipe extends WrappedBukkitObject, NothingBukkit

@@ -1,30 +1,38 @@
 package mz.lib.minecraft.bukkit;
 
-import io.github.karlatemp.unsafeaccessor.*;
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.command.*;
-import mz.lib.minecraft.bukkit.command.argparser.*;
-import mz.lib.minecraft.bukkit.entity.*;
+import io.github.karlatemp.unsafeaccessor.ModuleAccess;
+import io.github.karlatemp.unsafeaccessor.Root;
+import mz.lib.ClassUtil;
+import mz.lib.FileUtil;
+import mz.lib.minecraft.bukkit.command.IMainCommand;
+import mz.lib.minecraft.bukkit.command.MainCommand;
+import mz.lib.minecraft.bukkit.command.argparser.ArgParserRegistrar;
+import mz.lib.minecraft.bukkit.entity.EntityViewWatcher;
 import mz.lib.minecraft.bukkit.event.*;
-import mz.lib.minecraft.bukkit.gui.*;
-import mz.lib.minecraft.bukkit.gui.inventory.*;
-import mz.lib.minecraft.bukkit.item.*;
-import mz.lib.minecraft.bukkit.item.map.*;
-import mz.lib.minecraft.bukkit.module.*;
-import mz.lib.minecraft.bukkit.mzlibcommand.*;
-import mz.lib.minecraft.bukkit.mzlibcommand.debug.*;
-import mz.lib.minecraft.bukkit.nothing.*;
-import mz.lib.minecraft.bukkit.paper.*;
-import mz.lib.minecraft.bukkit.permission.*;
-import mz.lib.minecraft.bukkit.recipe.*;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
+import mz.lib.minecraft.bukkit.gui.ViewList;
+import mz.lib.minecraft.bukkit.gui.inventory.AnvilUI;
+import mz.lib.minecraft.bukkit.gui.inventory.InventoryUI;
+import mz.lib.minecraft.bukkit.item.MzItemProcessor;
+import mz.lib.minecraft.bukkit.item.MzItemRegistrar;
+import mz.lib.minecraft.bukkit.item.OriginalItemFilterRegistrar;
+import mz.lib.minecraft.bukkit.item.map.MzMapProcessor;
+import mz.lib.minecraft.bukkit.module.IModule;
+import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkit.mzlibcommand.MzLibCommandModule;
+import mz.lib.minecraft.bukkit.mzlibcommand.SundayCommand;
+import mz.lib.minecraft.bukkit.mzlibcommand.debug.DebugSlotCommand;
+import mz.lib.minecraft.bukkit.nothing.NothingRegistrar;
+import mz.lib.minecraft.bukkit.paper.PaperModule;
+import mz.lib.minecraft.bukkit.permission.PermissionRegistrar;
+import mz.lib.minecraft.bukkit.recipe.RecipeEditorRegistrar;
+import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
-import java.lang.invoke.*;
-import java.lang.invoke.MethodHandles.*;
-import java.util.*;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.util.Random;
 
 public class MzLib extends MzPlugin
 {

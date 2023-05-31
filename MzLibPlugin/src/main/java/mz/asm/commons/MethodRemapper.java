@@ -28,12 +28,7 @@
 
 package mz.asm.commons;
 
-import mz.asm.AnnotationVisitor;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.TypePath;
+import mz.asm.*;
 
 /**
  * A {@link MethodVisitor} that remaps types with a {@link Remapper}.

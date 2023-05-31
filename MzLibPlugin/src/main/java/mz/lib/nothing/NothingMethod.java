@@ -1,33 +1,17 @@
 package mz.lib.nothing;
 
 import com.google.common.collect.Lists;
-import mz.lib.AsmUtil;
-import mz.lib.ClassUtil;
-import mz.lib.ListUtil;
-import mz.lib.MapEntry;
-import mz.lib.TypeUtil;
-import mz.lib.wrapper.WrappedObject;
 import mz.asm.Label;
 import mz.asm.Opcodes;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.FieldInsnNode;
-import mz.asm.tree.InsnList;
-import mz.asm.tree.InsnNode;
-import mz.asm.tree.JumpInsnNode;
-import mz.asm.tree.LabelNode;
-import mz.asm.tree.MethodInsnNode;
-import mz.asm.tree.MethodNode;
-import mz.asm.tree.VarInsnNode;
+import mz.asm.tree.*;
+import mz.lib.*;
+import mz.lib.wrapper.WrappedObject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 import java.util.Optional;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 

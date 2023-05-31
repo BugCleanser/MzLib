@@ -1,6 +1,8 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.wrapper.*;
+import mz.lib.wrapper.WrappedClass;
+import mz.lib.wrapper.WrappedFieldAccessor;
+import mz.lib.wrapper.WrappedObject;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 

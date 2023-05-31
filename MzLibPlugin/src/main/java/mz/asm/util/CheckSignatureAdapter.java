@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import java.util.EnumSet;
-
 import mz.asm.Opcodes;
 import mz.asm.signature.SignatureVisitor;
+
+import java.util.EnumSet;
 
 /**
  * A {@link SignatureVisitor} that checks that its methods are properly used.

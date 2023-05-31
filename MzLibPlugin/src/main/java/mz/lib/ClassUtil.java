@@ -2,16 +2,18 @@ package mz.lib;
 
 import com.google.common.collect.Lists;
 import io.github.karlatemp.unsafeaccessor.Root;
-import mz.asm.tree.*;
-import mz.lib.wrapper.WrappedObject;
-import net.bytebuddy.agent.ByteBuddyAgent;
-import net.bytebuddy.agent.Installer;
 import mz.asm.ClassWriter;
 import mz.asm.MethodVisitor;
 import mz.asm.Opcodes;
+import mz.asm.tree.ClassNode;
+import mz.lib.wrapper.WrappedObject;
+import net.bytebuddy.agent.ByteBuddyAgent;
+import net.bytebuddy.agent.Installer;
 
 import javax.tools.ToolProvider;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;

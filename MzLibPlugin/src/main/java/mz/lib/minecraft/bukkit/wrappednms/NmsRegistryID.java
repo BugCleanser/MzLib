@@ -1,7 +1,10 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 
 @WrappedBukkitClass({@VersionName(value="nms.RegistryID",maxVer=17),@VersionName(value="net.minecraft.util.RegistryID",minVer=17)})
 public interface NmsRegistryID extends WrappedBukkitObject

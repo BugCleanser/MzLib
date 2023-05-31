@@ -28,15 +28,10 @@
 
 package mz.asm.commons;
 
+import mz.asm.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import mz.asm.*;
-import mz.asm.Attribute;
-import mz.asm.ByteVector;
-import mz.asm.ClassReader;
-import mz.asm.ClassWriter;
-import mz.asm.Label;
 
 /**
  * A ModuleHashes attribute. This attribute is specific to the OpenJDK and may change in the future.

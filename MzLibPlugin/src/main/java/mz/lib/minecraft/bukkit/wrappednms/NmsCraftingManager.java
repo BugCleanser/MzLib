@@ -6,10 +6,8 @@ import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.FurnaceRecipe;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @WrappedBukkitClass({@VersionName(value="nms.CraftingManager",maxVer=17),@VersionName(value="net.minecraft.world.item.crafting.CraftingManager",minVer=17)})
 public interface NmsCraftingManager extends WrappedBukkitObject

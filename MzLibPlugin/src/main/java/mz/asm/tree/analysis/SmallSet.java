@@ -27,11 +27,7 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.AbstractSet;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An immutable set of at most two elements, optimized for speed compared to a generic set

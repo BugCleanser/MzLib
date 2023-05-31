@@ -3,11 +3,12 @@ package mz.lib.minecraft.bukkit.mzlibcommand;
 import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
-import mz.lib.minecraft.bukkit.gui.*;
-import mz.lib.minecraft.bukkit.recipe.*;
+import mz.lib.minecraft.bukkit.gui.ViewList;
+import mz.lib.minecraft.bukkit.recipe.RecipeTypeSelector;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class RecipesSubcommand extends AbsLastCommandProcessor
 {

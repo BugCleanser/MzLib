@@ -27,17 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.commons;
 
+import mz.asm.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import mz.asm.ClassVisitor;
-import mz.asm.ConstantDynamic;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.Type;
 
 /**
  * A {@link MethodVisitor} with convenient methods to generate code. For example, using this

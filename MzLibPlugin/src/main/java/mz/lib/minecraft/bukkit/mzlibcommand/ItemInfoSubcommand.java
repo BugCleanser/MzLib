@@ -8,7 +8,7 @@ import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
-import mz.lib.minecraft.bukkit.item.*;
+import mz.lib.minecraft.bukkit.item.MzItem;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.message.MessageComponent;
 import mz.lib.minecraft.bukkit.message.TextMessageComponent;
@@ -16,7 +16,8 @@ import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 import java.util.ArrayList;
 import java.util.List;

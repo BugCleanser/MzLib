@@ -6,7 +6,6 @@ import mz.lib.ListUtil;
 import mz.lib.Ref;
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.MzLib;
-import mz.lib.minecraft.bukkit.MzPlugin;
 import mz.lib.minecraft.bukkit.event.ModuleDisableEvent;
 import mz.lib.minecraft.bukkit.event.ModuleEnableEvent;
 import org.bukkit.Bukkit;

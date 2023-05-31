@@ -1,8 +1,10 @@
 package mz.lib.wrapper;
 
-import mz.asm.*;
-import mz.asm.tree.*;
-import mz.lib.*;
+import mz.asm.Opcodes;
+import mz.asm.tree.ClassNode;
+import mz.asm.tree.MethodNode;
+import mz.lib.AsmUtil;
+import mz.lib.TypeUtil;
 
 import java.lang.reflect.Array;
 

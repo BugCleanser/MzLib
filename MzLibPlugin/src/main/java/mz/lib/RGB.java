@@ -1,7 +1,9 @@
 package mz.lib;
 
 import java.awt.*;
-import static java.lang.Math.*;
+
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public class RGB
 {

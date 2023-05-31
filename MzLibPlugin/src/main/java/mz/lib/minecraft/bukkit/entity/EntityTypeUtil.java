@@ -1,8 +1,10 @@
 package mz.lib.minecraft.bukkit.entity;
 
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import org.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntityTypes;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIRegistry;
+import mz.lib.minecraft.bukkit.wrappednms.NmsMinecraftKey;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import org.bukkit.entity.EntityType;
 
 public class EntityTypeUtil
 {

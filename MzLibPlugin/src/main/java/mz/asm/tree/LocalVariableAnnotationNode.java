@@ -28,13 +28,9 @@
 
 package mz.asm.tree;
 
-import java.util.List;
-
 import mz.asm.*;
-import mz.asm.Label;
-import mz.asm.MethodVisitor;
-import mz.asm.Opcodes;
-import mz.asm.TypePath;
+
+import java.util.List;
 
 /**
  * A node that represents a type annotation on a local or resource variable.

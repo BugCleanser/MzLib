@@ -2,9 +2,9 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.wrappednms.NmsEntityFishingHook;
-import mz.lib.nothing.Nothing;
 import org.bukkit.entity.FishHook;
-import org.bukkit.event.*;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityEvent;
 
 import java.util.LinkedList;

@@ -1,24 +1,26 @@
 package mz.lib.wrapper;
 
-import com.google.common.collect.*;
+import com.google.common.collect.Lists;
 import io.github.karlatemp.unsafeaccessor.Root;
-import mz.asm.*;
+import mz.asm.ClassWriter;
+import mz.asm.Opcodes;
 import mz.asm.Type;
-import mz.asm.tree.*;
-import mz.lib.*;
+import mz.asm.tree.ClassNode;
+import mz.asm.tree.FieldNode;
+import mz.asm.tree.MethodNode;
 import mz.lib.Optional;
+import mz.lib.*;
 
-import javax.annotation.*;
-
-import static mz.lib.AsmUtil.*;
-
-import java.io.*;
-import java.lang.annotation.*;
-import java.lang.invoke.*;
+import java.io.FileOutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+
+import static mz.lib.AsmUtil.*;
 
 /**
  * wrapped nms class or craft bukkit class

@@ -27,23 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
+import mz.asm.*;
+import mz.asm.signature.SignatureReader;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import mz.asm.*;
-import mz.asm.Attribute;
-import mz.asm.Handle;
-import mz.asm.Label;
-import mz.asm.Opcodes;
-import mz.asm.Type;
-import mz.asm.TypePath;
-import mz.asm.TypeReference;
-import mz.asm.signature.SignatureReader;
+import java.util.*;
 
 /**
  * A {@link Printer} that prints a disassembled view of the classes it visits.

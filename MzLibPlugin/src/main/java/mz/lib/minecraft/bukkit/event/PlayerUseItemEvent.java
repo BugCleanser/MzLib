@@ -1,6 +1,5 @@
 package mz.lib.minecraft.bukkit.event;
 
-import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.entity.PlayerUtil;
 import mz.lib.minecraft.bukkit.module.AbsModule;

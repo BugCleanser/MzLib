@@ -1,17 +1,20 @@
 package mz.lib.mzlang;
 
-import com.google.common.collect.*;
-import io.github.karlatemp.unsafeaccessor.*;
-import mz.asm.*;
-import mz.asm.tree.*;
+import com.google.common.collect.Lists;
+import io.github.karlatemp.unsafeaccessor.Root;
+import mz.asm.ClassWriter;
+import mz.asm.Opcodes;
+import mz.asm.tree.ClassNode;
+import mz.asm.tree.MethodNode;
 import mz.lib.*;
-import mz.lib.wrapper.*;
+import mz.lib.wrapper.WrappedObject;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public interface MzObject
 {

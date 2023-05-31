@@ -1,9 +1,10 @@
 package mz.lib.minecraft.bukkit.module;
 
-import mz.lib.Ref;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ISimpleModule extends IModule
 {

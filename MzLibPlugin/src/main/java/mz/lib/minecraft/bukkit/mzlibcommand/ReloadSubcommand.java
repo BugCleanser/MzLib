@@ -5,7 +5,8 @@ import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.bukkit.command.CommandHandler;
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class ReloadSubcommand extends AbsLastCommandProcessor
 {

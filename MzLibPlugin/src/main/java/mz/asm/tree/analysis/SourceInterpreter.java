@@ -27,17 +27,13 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
+import mz.asm.Opcodes;
+import mz.asm.Type;
+import mz.asm.tree.*;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import mz.asm.Opcodes;
-import mz.asm.Type;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.FieldInsnNode;
-import mz.asm.tree.InvokeDynamicInsnNode;
-import mz.asm.tree.LdcInsnNode;
-import mz.asm.tree.MethodInsnNode;
 
 /**
  * An {@link Interpreter} for {@link SourceValue} values.

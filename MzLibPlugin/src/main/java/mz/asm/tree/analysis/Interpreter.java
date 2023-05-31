@@ -27,12 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.List;
-
 import mz.asm.Opcodes;
 import mz.asm.Type;
 import mz.asm.tree.AbstractInsnNode;
 import mz.asm.tree.TryCatchBlockNode;
+
+import java.util.List;
 
 /**
  * A semantic bytecode interpreter. More precisely, this interpreter only manages the computation of

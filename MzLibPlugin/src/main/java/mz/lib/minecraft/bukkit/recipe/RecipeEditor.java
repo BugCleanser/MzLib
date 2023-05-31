@@ -1,19 +1,27 @@
 package mz.lib.minecraft.bukkit.recipe;
 
-import mz.lib.*;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.gui.*;
-import mz.lib.minecraft.bukkit.gui.inventory.*;
-import mz.lib.minecraft.bukkit.itemstack.*;
-import mz.lib.minecraft.bukkit.message.*;
-import mz.lib.minecraft.bukkit.module.*;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
+import mz.lib.MapEntry;
+import mz.lib.Ref;
+import mz.lib.StringUtil;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.gui.ViewList;
+import mz.lib.minecraft.bukkit.gui.inventory.ListEditor;
+import mz.lib.minecraft.bukkit.gui.inventory.Menu;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
+import mz.lib.minecraft.bukkit.module.IModule;
+import mz.lib.minecraft.bukkit.module.IRegistrar;
+import mz.lib.minecraft.bukkit.wrappednms.NmsContainer;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
+import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> implements IRegistrar<T>
 {

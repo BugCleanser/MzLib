@@ -2,11 +2,10 @@ package mz.lib.minecraft.bukkit.recipe;
 
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.MzLib;
-import mz.lib.minecraft.bukkit.gui.*;
+import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IRegistrar;
 import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
-import mz.lib.minecraft.bukkit.wrappednms.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -27,27 +27,13 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import java.util.Collections;
-import java.util.List;
-
 import mz.asm.Opcodes;
 import mz.asm.Type;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.FrameNode;
-import mz.asm.tree.InsnList;
-import mz.asm.tree.InsnNode;
-import mz.asm.tree.JumpInsnNode;
-import mz.asm.tree.LabelNode;
-import mz.asm.tree.LookupSwitchInsnNode;
-import mz.asm.tree.MethodNode;
-import mz.asm.tree.TableSwitchInsnNode;
-import mz.asm.tree.TryCatchBlockNode;
-import mz.asm.tree.TypeInsnNode;
-import mz.asm.tree.analysis.Analyzer;
-import mz.asm.tree.analysis.AnalyzerException;
-import mz.asm.tree.analysis.Frame;
-import mz.asm.tree.analysis.Interpreter;
-import mz.asm.tree.analysis.Value;
+import mz.asm.tree.*;
+import mz.asm.tree.analysis.*;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An {@link Analyzer} subclass which checks that methods provide stack map frames where expected

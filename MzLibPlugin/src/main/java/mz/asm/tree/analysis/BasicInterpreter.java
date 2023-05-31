@@ -27,20 +27,13 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.List;
-
 import mz.asm.ConstantDynamic;
 import mz.asm.Handle;
 import mz.asm.Opcodes;
 import mz.asm.Type;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.FieldInsnNode;
-import mz.asm.tree.IntInsnNode;
-import mz.asm.tree.InvokeDynamicInsnNode;
-import mz.asm.tree.LdcInsnNode;
-import mz.asm.tree.MethodInsnNode;
-import mz.asm.tree.MultiANewArrayInsnNode;
-import mz.asm.tree.TypeInsnNode;
+import mz.asm.tree.*;
+
+import java.util.List;
 
 /**
  * An {@link Interpreter} for {@link BasicValue} values.

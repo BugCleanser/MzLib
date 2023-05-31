@@ -27,15 +27,9 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.List;
-
 import mz.asm.*;
-import mz.asm.AnnotationVisitor;
-import mz.asm.Attribute;
-import mz.asm.ClassVisitor;
-import mz.asm.FieldVisitor;
-import mz.asm.Opcodes;
-import mz.asm.TypePath;
+
+import java.util.List;
 
 /**
  * A node that represents a field.

@@ -3,7 +3,10 @@ package mz.lib.minecraft.bukkit.wrappedobc;
 import mz.lib.minecraft.bukkit.VersionName;
 import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent.NmsChatSerializer;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedObject;
 
 @WrappedBukkitClass(@VersionName("obc.util.CraftChatMessage"))

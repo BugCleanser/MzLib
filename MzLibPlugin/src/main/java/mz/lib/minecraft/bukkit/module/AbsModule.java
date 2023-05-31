@@ -1,11 +1,14 @@
 package mz.lib.minecraft.bukkit.module;
 
-import com.google.common.collect.*;
+import com.google.common.collect.Sets;
 import mz.lib.Ref;
 import mz.lib.minecraft.bukkit.ListenerRegistrar;
 import org.bukkit.plugin.Plugin;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbsModule extends Ref<Boolean> implements IModule
 {

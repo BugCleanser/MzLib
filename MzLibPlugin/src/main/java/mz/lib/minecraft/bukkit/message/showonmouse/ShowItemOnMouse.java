@@ -6,7 +6,6 @@ import com.google.gson.JsonPrimitive;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.message.MessageComponent;
 import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagCompound;
-import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import org.bukkit.inventory.ItemStack;
 
 public class ShowItemOnMouse extends ShowOnMouse

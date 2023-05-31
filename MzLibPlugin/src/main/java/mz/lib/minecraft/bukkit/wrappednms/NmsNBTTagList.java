@@ -12,7 +12,10 @@ import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @WrappedBukkitClass({@VersionName(value="nms.NBTTagList",maxVer=17),@VersionName(value="net.minecraft.nbt.NBTTagList",minVer=17)})

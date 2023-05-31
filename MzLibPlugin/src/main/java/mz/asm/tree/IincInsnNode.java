@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.Map;
-
 import mz.asm.MethodVisitor;
 import mz.asm.Opcodes;
+
+import java.util.Map;
 
 /**
  * A node that represents an IINC instruction.

@@ -27,8 +27,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import mz.asm.*;
 import mz.asm.ClassVisitor;
+import mz.asm.Type;
 
 /**
  * A node that represents an inner class. This inner class is not necessarily a member of the {@link

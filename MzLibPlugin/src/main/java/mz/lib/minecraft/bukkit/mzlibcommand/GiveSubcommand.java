@@ -11,7 +11,8 @@ import mz.lib.minecraft.bukkit.item.MzItem;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.*;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 
 public class GiveSubcommand extends AbsLastCommandProcessor
 {

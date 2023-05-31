@@ -1,13 +1,15 @@
 package mz.lib;
 
-import com.google.common.collect.*;
-import mz.asm.tree.*;
-import mz.lib.wrapper.WrappedObject;
+import com.google.common.collect.Lists;
 import mz.asm.Opcodes;
 import mz.asm.Type;
+import mz.asm.tree.*;
+import mz.lib.wrapper.WrappedObject;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Objects;
 
 public class AsmUtil
 {

@@ -27,7 +27,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.signature;
 
-import mz.asm.*;
+import mz.asm.ClassVisitor;
+import mz.asm.MethodVisitor;
 
 /**
  * A parser for signature literals, as defined in the Java Virtual Machine Specification (JVMS), to

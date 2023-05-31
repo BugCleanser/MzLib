@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.List;
-
-import mz.asm.*;
 import mz.asm.MethodVisitor;
+import mz.asm.Type;
+
+import java.util.List;
 
 /**
  * A node that represents a try catch block.

@@ -1,15 +1,16 @@
 package mz.lib.minecraft.bukkit.gui.inventory;
 
-import mz.lib.*;
+import mz.lib.Ref;
+import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.entity.PlayerUtil;
 import mz.lib.minecraft.bukkit.event.ShowInventoryItemEvent;
 import mz.lib.minecraft.bukkit.event.WindowOpenEvent;
+import mz.lib.minecraft.bukkit.gui.GUI;
 import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.gui.GUI;
 import mz.lib.minecraft.bukkit.wrappednms.NmsContainer;
 import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import org.bukkit.entity.HumanEntity;
@@ -21,7 +22,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 

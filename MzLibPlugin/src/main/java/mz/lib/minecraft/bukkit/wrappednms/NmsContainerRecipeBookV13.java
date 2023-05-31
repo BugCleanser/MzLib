@@ -1,7 +1,8 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
 
 @WrappedBukkitClass({@VersionName(value="nms.ContainerRecipeBook",maxVer=17),@VersionName(value="net.minecraft.world.inventory.ContainerRecipeBook",minVer=17)})
 public interface NmsContainerRecipeBookV13 extends NmsContainer

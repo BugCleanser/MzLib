@@ -28,14 +28,14 @@
 
 package mz.asm.commons;
 
-import java.util.Collections;
-import java.util.Comparator;
-
-import mz.asm.*;
 import mz.asm.MethodVisitor;
 import mz.asm.Opcodes;
+import mz.asm.Type;
 import mz.asm.tree.MethodNode;
 import mz.asm.tree.TryCatchBlockNode;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A {@link MethodVisitor} adapter to sort the exception handlers. The handlers are sorted in a

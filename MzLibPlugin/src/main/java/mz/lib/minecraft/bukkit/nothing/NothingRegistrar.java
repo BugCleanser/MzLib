@@ -5,8 +5,11 @@ import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IRegistrar;
 import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.nothing.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntity;
+import mz.lib.minecraft.bukkit.wrappednms.NmsEntityFishingHook;
+import mz.lib.minecraft.bukkit.wrappednms.NmsNetworkManager;
+import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
+import mz.lib.nothing.Nothing;
 
 public class NothingRegistrar extends AbsModule implements IRegistrar<Class<? extends Nothing>>
 {

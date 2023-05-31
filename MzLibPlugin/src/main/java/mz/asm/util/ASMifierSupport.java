@@ -21,10 +21,10 @@
  */
 package mz.asm.util;
 
-import java.util.Map;
-
-import mz.asm.*;
+import mz.asm.Attribute;
 import mz.asm.Label;
+
+import java.util.Map;
 
 /**
  * An {@link Attribute} that can generate the ASM code to create an equivalent

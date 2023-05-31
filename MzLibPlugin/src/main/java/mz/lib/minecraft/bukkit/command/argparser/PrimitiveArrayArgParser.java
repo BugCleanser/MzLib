@@ -3,8 +3,6 @@ package mz.lib.minecraft.bukkit.command.argparser;
 import mz.lib.TypeUtil;
 import org.bukkit.command.CommandSender;
 
-import java.lang.reflect.Array;
-
 public class PrimitiveArrayArgParser<T> extends AbsArrayArgParser<Object>
 {
 	public PrimitiveArrayArgParser(Class<T> type)

@@ -27,11 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mz.asm.tree.JumpInsnNode;
 import mz.asm.tree.LabelNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A method subroutine (corresponds to a JSR instruction).

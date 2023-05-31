@@ -1,17 +1,20 @@
 package mz.lib.minecraft.bukkit.item.map;
 
-import mz.lib.*;
+import mz.lib.FileUtil;
+import mz.lib.RGB;
 import mz.lib.minecraft.bukkit.MzLib;
-import mz.lib.minecraft.bukkit.entity.*;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.mzlang.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagByteArray;
+import mz.lib.minecraft.bukkit.wrappednms.NmsNBTTagString;
+import mz.lib.mzlang.MzObject;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 public interface BitMap extends MzMap

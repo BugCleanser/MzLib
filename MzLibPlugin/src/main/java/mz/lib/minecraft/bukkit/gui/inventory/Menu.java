@@ -1,18 +1,19 @@
 package mz.lib.minecraft.bukkit.gui.inventory;
 
 import mz.lib.minecraft.bukkit.LangUtil;
-import mz.lib.minecraft.bukkit.gui.ViewList;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsContainer;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
+import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Material;
-import org.bukkit.entity.*;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;

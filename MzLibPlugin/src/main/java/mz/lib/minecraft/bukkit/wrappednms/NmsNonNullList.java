@@ -1,11 +1,15 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedObject;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WrappedBukkitClass({@VersionName(value="nms.NonNullList",maxVer=17),@VersionName(value="net.minecraft.core.NonNullList",minVer=17)})
 public interface NmsNonNullList extends WrappedBukkitObject,Iterable<WrappedObject>

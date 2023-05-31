@@ -2,7 +2,9 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.module.IModule;
-import org.bukkit.event.*;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 
 import java.util.LinkedList;
 import java.util.List;

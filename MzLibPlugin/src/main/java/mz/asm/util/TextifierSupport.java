@@ -21,10 +21,10 @@
  */
 package mz.asm.util;
 
-import java.util.Map;
-
-import mz.asm.*;
+import mz.asm.Attribute;
 import mz.asm.Label;
+
+import java.util.Map;
 
 /**
  * An {@link Attribute} that can print a readable representation of itself.

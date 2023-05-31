@@ -1,11 +1,9 @@
 package mz.lib.minecraft.bukkit.item.map;
 
-import mz.lib.minecraft.bukkit.*;
 import org.bukkit.map.MapPalette;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
 
 public class MzMapCanvas implements Cloneable
 {

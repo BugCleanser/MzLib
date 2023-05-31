@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.Map;
-
 import mz.asm.Label;
 import mz.asm.MethodVisitor;
+
+import java.util.Map;
 
 /** An {@link AbstractInsnNode} that encapsulates a {@link Label}. */
 public class LabelNode extends AbstractInsnNode {

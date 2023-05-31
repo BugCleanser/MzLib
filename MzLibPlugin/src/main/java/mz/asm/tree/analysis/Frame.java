@@ -27,19 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import mz.asm.tree.*;
 import mz.asm.Opcodes;
 import mz.asm.Type;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.IincInsnNode;
-import mz.asm.tree.InvokeDynamicInsnNode;
-import mz.asm.tree.LabelNode;
-import mz.asm.tree.MethodInsnNode;
-import mz.asm.tree.MultiANewArrayInsnNode;
-import mz.asm.tree.VarInsnNode;
+import mz.asm.tree.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A symbolic execution stack frame. A stack frame contains a set of local variable slots, and an

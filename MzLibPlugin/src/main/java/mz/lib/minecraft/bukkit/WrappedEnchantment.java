@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedClass;
 import mz.lib.wrapper.WrappedFieldAccessor;
 import mz.lib.wrapper.WrappedObject;

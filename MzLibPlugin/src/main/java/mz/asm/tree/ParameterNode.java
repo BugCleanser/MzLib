@@ -27,8 +27,8 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import mz.asm.*;
 import mz.asm.MethodVisitor;
+import mz.asm.Opcodes;
 
 /**
  * A node that represents a parameter of a method.

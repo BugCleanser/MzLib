@@ -1,11 +1,11 @@
 package mz.lib.minecraft.bukkit.gui.inventory;
 
 import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Player;
 
-import java.util.function.*;
+import java.util.function.Function;
 
 /**
  * ChestUI

@@ -1,12 +1,14 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.NamespacedKey;
 
-import java.util.*;
+import java.util.UUID;
 
 @WrappedBukkitClass({@VersionName(value="nms.MinecraftKey",maxVer=17),@VersionName(value="net.minecraft.resources.MinecraftKey",minVer=17)})
 public interface NmsMinecraftKey extends WrappedBukkitObject

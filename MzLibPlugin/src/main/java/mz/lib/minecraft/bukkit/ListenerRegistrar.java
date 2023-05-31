@@ -6,7 +6,6 @@ import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.minecraft.bukkit.module.IModule;
 import mz.lib.minecraft.bukkit.module.IRegistrar;
 import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
-import org.bukkit.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;

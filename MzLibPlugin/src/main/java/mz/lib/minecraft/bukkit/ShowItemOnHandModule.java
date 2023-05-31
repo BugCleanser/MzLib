@@ -1,6 +1,8 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.*;
+import mz.lib.ListUtil;
+import mz.lib.MapEntry;
+import mz.lib.StringUtil;
 import mz.lib.minecraft.bukkit.event.PlayerReceiveMsgEvent;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.message.MessageComponent;
@@ -20,7 +22,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.*;
 
 public final class ShowItemOnHandModule extends AbsModule
 {

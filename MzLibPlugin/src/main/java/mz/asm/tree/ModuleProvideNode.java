@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
-import java.util.List;
-
-import mz.asm.*;
 import mz.asm.ModuleVisitor;
+import mz.asm.Type;
+
+import java.util.List;
 
 /**
  * A node that represents a service and its implementation provided by the current module.

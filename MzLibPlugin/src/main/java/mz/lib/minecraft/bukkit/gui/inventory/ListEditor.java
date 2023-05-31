@@ -1,19 +1,17 @@
 package mz.lib.minecraft.bukkit.gui.inventory;
 
 import mz.lib.minecraft.bukkit.LangUtil;
-import mz.lib.minecraft.bukkit.MzLib;
 import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.module.IModule;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import org.bukkit.Bukkit;
+import mz.lib.minecraft.bukkit.wrappednms.NmsIChatBaseComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.function.*;
+import java.util.function.Function;
 
 public abstract class ListEditor<T> extends ListVisitor<T>
 {

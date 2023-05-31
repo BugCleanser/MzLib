@@ -1,14 +1,12 @@
 package mz.lib.minecraft.bukkit.command;
 
-import java.lang.annotation.Annotation;
-import java.lang.invoke.MethodHandle;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.Lists;
+import io.github.karlatemp.unsafeaccessor.Root;
+import mz.lib.ListUtil;
+import mz.lib.MapEntry;
+import mz.lib.StringUtil;
+import mz.lib.TypeUtil;
+import mz.lib.minecraft.bukkit.LangUtil;
 import mz.lib.minecraft.bukkit.command.argparser.ArgInfo;
 import mz.lib.minecraft.bukkit.command.argparser.IArgParser;
 import org.bukkit.command.BlockCommandSender;
@@ -18,14 +16,14 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.CommandMinecart;
 
-import com.google.common.collect.Lists;
-
-import io.github.karlatemp.unsafeaccessor.Root;
-import mz.lib.ListUtil;
-import mz.lib.MapEntry;
-import mz.lib.StringUtil;
-import mz.lib.TypeUtil;
-import mz.lib.minecraft.bukkit.LangUtil;
+import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class FinalCommandExecutor
 {

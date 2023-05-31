@@ -1,7 +1,10 @@
 package mz.lib.minecraft.bukkit.command.argparser;
 
 import com.google.common.collect.Lists;
-import mz.lib.*;
+import mz.lib.ListUtil;
+import mz.lib.MapEntry;
+import mz.lib.StringUtil;
+import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.LangUtil;
 import org.bukkit.command.CommandSender;
 

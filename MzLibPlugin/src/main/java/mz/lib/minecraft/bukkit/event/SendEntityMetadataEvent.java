@@ -2,20 +2,26 @@ package mz.lib.minecraft.bukkit.event;
 
 import mz.lib.ClassUtil;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.ProtocolUtil;
+import mz.lib.minecraft.bukkit.entity.EntityViewWatcher;
 import mz.lib.minecraft.bukkit.module.AbsModule;
-import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
+import mz.lib.minecraft.bukkit.wrappednms.NmsDataWatcherItem;
+import mz.lib.minecraft.bukkit.wrappednms.NmsDataWatcherObject;
+import mz.lib.minecraft.bukkit.wrappednms.NmsDataWatcherSerializedItemV193;
+import mz.lib.minecraft.bukkit.wrappednms.NmsPacketPlayOutEntityMetadata;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SendEntityMetadataEvent extends Event implements Cancellable

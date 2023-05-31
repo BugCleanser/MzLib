@@ -27,10 +27,10 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree;
 
+import mz.asm.MethodVisitor;
+
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
-
-import mz.asm.MethodVisitor;
 
 /**
  * A doubly linked list of {@link AbstractInsnNode} objects. <i>This implementation is not thread

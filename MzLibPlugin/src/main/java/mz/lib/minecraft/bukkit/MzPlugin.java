@@ -13,9 +13,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.*;
+import java.util.stream.Collectors;
 
 public class MzPlugin extends JavaPlugin
 {

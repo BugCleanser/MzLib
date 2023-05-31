@@ -27,23 +27,14 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.tree.analysis;
 
+import mz.asm.Opcodes;
+import mz.asm.Type;
+import mz.asm.tree.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import mz.asm.Opcodes;
-import mz.asm.Type;
-import mz.asm.tree.AbstractInsnNode;
-import mz.asm.tree.IincInsnNode;
-import mz.asm.tree.InsnList;
-import mz.asm.tree.JumpInsnNode;
-import mz.asm.tree.LabelNode;
-import mz.asm.tree.LookupSwitchInsnNode;
-import mz.asm.tree.MethodNode;
-import mz.asm.tree.TableSwitchInsnNode;
-import mz.asm.tree.TryCatchBlockNode;
-import mz.asm.tree.VarInsnNode;
 
 /**
  * A semantic bytecode analyzer. <i>This class does not fully check that JSR and RET instructions

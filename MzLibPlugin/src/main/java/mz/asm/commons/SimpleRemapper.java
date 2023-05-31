@@ -28,7 +28,7 @@
 
 package mz.asm.commons;
 
-import mz.asm.*;
+import mz.asm.Type;
 
 import java.util.Collections;
 import java.util.Map;

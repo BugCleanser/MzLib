@@ -27,12 +27,12 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
+import mz.asm.Opcodes;
+import mz.asm.signature.SignatureVisitor;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import mz.asm.Opcodes;
-import mz.asm.signature.SignatureVisitor;
 
 /**
  * A {@link SignatureVisitor} that builds the Java generic type declaration corresponding to the

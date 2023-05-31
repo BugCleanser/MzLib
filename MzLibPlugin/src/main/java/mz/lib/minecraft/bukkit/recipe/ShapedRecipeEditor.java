@@ -1,17 +1,18 @@
 package mz.lib.minecraft.bukkit.recipe;
 
-import com.google.common.collect.*;
-import mz.lib.minecraft.bukkit.itemstack.*;
+import com.google.common.collect.Lists;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkit.wrappednms.*;
-import mz.lib.minecraft.bukkit.wrappedobc.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import mz.lib.wrapper.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
+import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.wrapper.WrappedObject;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShapedRecipeEditor extends RecipeEditor<NmsShapedRecipes>
 {

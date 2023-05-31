@@ -27,11 +27,11 @@
 // THE POSSIBILITY OF SUCH DAMAGE.
 package mz.asm.util;
 
-import java.util.HashSet;
-
-import mz.asm.*;
+import mz.asm.ClassVisitor;
 import mz.asm.ModuleVisitor;
 import mz.asm.Opcodes;
+
+import java.util.HashSet;
 
 /**
  * A {@link ModuleVisitor} that checks that its methods are properly used.

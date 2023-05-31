@@ -1,9 +1,11 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.bukkit.entity.*;
-import mz.lib.minecraft.bukkit.wrapper.*;
-import org.bukkit.entity.*;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.entity.EntityTypeUtil;
+import mz.lib.minecraft.bukkit.wrapper.BukkitWrapper;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitFieldAccessor;
+import org.bukkit.entity.EntityType;
 
 import java.util.UUID;
 

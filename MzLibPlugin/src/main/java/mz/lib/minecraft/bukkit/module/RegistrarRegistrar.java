@@ -2,7 +2,6 @@ package mz.lib.minecraft.bukkit.module;
 
 import com.google.common.collect.Lists;
 import mz.lib.minecraft.bukkit.MzLib;
-import mz.lib.minecraft.bukkit.ProtocolUtil;
 
 public class RegistrarRegistrar extends AbsModule implements IRegistrar<IRegistrar>
 {
