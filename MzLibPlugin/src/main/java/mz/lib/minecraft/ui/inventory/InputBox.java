@@ -38,8 +38,8 @@ public class InputBox extends AnvilUI
 	public void refresh()
 	{
 		this.setItem(0,new ItemStackBuilder(Material.PAPER).setName(getName()).get());
-		this.setItem(1,p->ItemStackBuilder.returnArrow().setName(MinecraftLanguages.get(p,"mzlib.menu.return")).get());
-		this.setItem(2,p->ItemStackBuilder.checkmark().setLore(errMsg==null?new String[0]:new String[]{errMsg.apply(p)}).setName(MinecraftLanguages.get(p,"mzlib.inputBox.OK")).get());
+		this.setItem(1,p->ItemStackBuilder.returnArrow().setName(MinecraftLanguages.translate(p,"mzlib.menu.return")).get());
+		this.setItem(2,p->ItemStackBuilder.checkmark().setLore(errMsg==null?new String[0]:new String[]{errMsg.apply(p)}).setName(MinecraftLanguages.translate(p,"mzlib.inputBox.OK")).get());
 		this.refreshAfter();
 	}
 	

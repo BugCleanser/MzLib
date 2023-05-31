@@ -23,13 +23,13 @@ public class RespawnSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.get(sender,"mzlib.command.respawn.effect");
+		return MinecraftLanguages.translate(sender,"mzlib.command.respawn.effect");
 	}
 	
 	@CommandHandler
 	public void execute(CommandSender sender,Player player)
 	{
 		player.spigot().respawn();
-		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.respawn.success"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{player\\}",player.getName())))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.respawn.success"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{player\\}",player.getName())))));
 	}
 }

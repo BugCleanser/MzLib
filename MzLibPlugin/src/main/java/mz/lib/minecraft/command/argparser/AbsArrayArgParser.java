@@ -43,7 +43,7 @@ public abstract class AbsArrayArgParser<T> extends AbsArgParser<Object>
 	{
 		if(min<0)
 			min=0;
-		return StringUtil.replaceStrings(MinecraftLanguages.get(player,"mzlib.command.default.type.array"),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)),new MapEntry<>("%\\{component\\}",getComponentParser().getTypeName(player,Double.MAX_VALUE,Double.MIN_VALUE)));
+		return StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.command.default.type.array"),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)),new MapEntry<>("%\\{component\\}",getComponentParser().getTypeName(player,Double.MAX_VALUE,Double.MIN_VALUE)));
 	}
 	
 	@Override

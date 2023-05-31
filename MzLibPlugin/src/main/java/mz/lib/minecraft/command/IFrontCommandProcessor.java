@@ -33,7 +33,7 @@ public interface IFrontCommandProcessor extends ICommandProcessor
 		for(ICommandProcessor s: getSubcommands())
 		{
 			if(s.hasPermission(sender))
-				r.add(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.default.usage.part"),new MapEntry<>("%\\{cmd}",usedName+" "+s.getNames()[0]),new MapEntry<>("%\\{effect}",s.getEffect(sender))));
+				r.add(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.default.usage.part"),new MapEntry<>("%\\{cmd}",usedName+" "+s.getNames()[0]),new MapEntry<>("%\\{effect}",s.getEffect(sender))));
 		}
 		return r;
 	}

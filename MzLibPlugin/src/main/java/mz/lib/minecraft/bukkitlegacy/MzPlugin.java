@@ -23,7 +23,7 @@ public class MzPlugin extends JavaPlugin
 	}
 	public static void sendPluginMessage(CommandSender sender,Plugin p,String msg)
 	{
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()),new MapEntry<>("%\\{msg}",msg)))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()),new MapEntry<>("%\\{msg}",msg)))));
 	}
 	public void sendPluginMessage(CommandSender sender,MessageComponent msg)
 	{
@@ -31,7 +31,7 @@ public class MzPlugin extends JavaPlugin
 	}
 	public static void sendPluginMessage(CommandSender sender,Plugin p,MessageComponent msg)
 	{
-		String[] msgs=(" "+StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()))))+" ").split("%\\{msg}");
+		String[] msgs=(" "+StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()))))+" ").split("%\\{msg}");
 		msgs[0]=msgs[0].substring(1);
 		msgs[msgs.length-1]=msgs[msgs.length-1].substring(0,msgs[msgs.length-1].length()-1);
 		List<MessageComponent> m=Lists.newArrayList(new TextMessageComponent(msgs[0]));

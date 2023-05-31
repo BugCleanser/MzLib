@@ -10,7 +10,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.get(player,"mzlib.recipesEditor.types.unsavedRecipe");
+			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.unsavedRecipe");
 		}
 	},
 	FIXED()
@@ -18,7 +18,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.get(player,"mzlib.recipesEditor.types.fixedRecipe");
+			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.fixedRecipe");
 		}
 	},
 	DISABLED()
@@ -26,7 +26,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.get(player,"mzlib.recipesEditor.types.disabledRecipe");
+			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.disabledRecipe");
 		}
 	};
 	

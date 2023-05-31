@@ -236,16 +236,16 @@ public class ItemStackBuilder implements Supplier<ItemStack>
 				{
 					displayName=im.getDisplayName();
 				}
-				return StringUtil.replaceStrings(MinecraftLanguages.get(sender,new ItemStackBuilder(is).tag().getBool("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+displayName))));
+				return StringUtil.replaceStrings(MinecraftLanguages.translate(sender,new ItemStackBuilder(is).tag().getBool("rawName",false)?"mzlib.dropName.displayName":"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+displayName))));
 			}
 		}
 		if(is.getType()==Material.WRITTEN_BOOK)
 		{
 			BookMeta im=(BookMeta) is.getItemMeta();
 			if(im.hasTitle())
-				return StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
+				return StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.dropName.bookTitle"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+im.getTitle()))));
 		}
-		return StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+MinecraftLanguages.get(sender,getTranslateKey(is))))));
+		return StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.dropName.rawName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",prefix+MinecraftLanguages.translate(sender,getTranslateKey(is))))));
 	}
 	public static String getDropName(ItemStack is,CommandSender sender)
 	{
@@ -257,9 +257,9 @@ public class ItemStackBuilder implements Supplier<ItemStack>
 	public static String getDropNameWithNum(String dropName,int num,CommandSender sender)
 	{
 		if(num==1)
-			return StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.dropName.oneItem"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",dropName))));
+			return StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.dropName.oneItem"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",dropName))));
 		else
-			return StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.dropName.multipleItems"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",dropName),new MapEntry<>("%\\{num\\}",num+""))));
+			return StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.dropName.multipleItems"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",dropName),new MapEntry<>("%\\{num\\}",num+""))));
 	}
 	public static String getDropNameWithNum0(ItemStack is,CommandSender sender)
 	{
@@ -534,7 +534,7 @@ public class ItemStackBuilder implements Supplier<ItemStack>
 	}
 	public ItemStackBuilder setTranslated(String locale,String translatedKey)
 	{
-		return setName(MinecraftLanguages.get(locale,translatedKey)).setLore(StringUtil.split(MinecraftLanguages.get(locale,translatedKey+".lore"),"\n"));
+		return setName(MinecraftLanguages.translate(locale,translatedKey)).setLore(StringUtil.split(MinecraftLanguages.translate(locale,translatedKey+".lore"),"\n"));
 	}
 	public static JsonObject setDefaultNonItalic(JsonObject json)
 	{

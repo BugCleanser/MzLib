@@ -36,13 +36,13 @@ public abstract class ListVisitor<T> extends Menu
 		this.setRetButton(0);
 		this.setExtra(ItemStackBuilder.blueStainedGlassPane().setName("§0").get(),1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
 		if(page>0)
-			this.setButton(46,p->ItemStackBuilder.leftArrow().setName(MinecraftLanguages.get(p,"mzlib.menu.pageUp")).get(),(t,p)->
+			this.setButton(46,p->ItemStackBuilder.leftArrow().setName(MinecraftLanguages.translate(p,"mzlib.menu.pageUp")).get(),(t,p)->
 			{
 				page--;
 				refresh();
 			});
 		if(page<getMaxPage())
-			this.setButton(52,p->ItemStackBuilder.rightArrow().setName(MinecraftLanguages.get(p,"mzlib.menu.pageDown")).get(),(t,p)->
+			this.setButton(52,p->ItemStackBuilder.rightArrow().setName(MinecraftLanguages.translate(p,"mzlib.menu.pageDown")).get(),(t,p)->
 			{
 				page++;
 				refresh();

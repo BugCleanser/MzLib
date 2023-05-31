@@ -38,7 +38,7 @@ public class DebugSlotCommand extends AbsLastCommandProcessor implements ISimple
 	@CommandHandler
 	void execute(Player sender)
 	{
-		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.debug.slot.success"),new MapEntry<>("%\\{state\\}",MinecraftLanguages.get(sender,ListUtil.toggle(debugPlayers,sender)?"mzlib.value.on":"mzlib.value.off"))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.debug.slot.success"),new MapEntry<>("%\\{state\\}",MinecraftLanguages.translate(sender,ListUtil.toggle(debugPlayers,sender)?"mzlib.value.on":"mzlib.value.off"))));
 	}
 	
 	@EventHandler(ignoreCancelled=true, priority=EventPriority.LOWEST)
@@ -47,8 +47,8 @@ public class DebugSlotCommand extends AbsLastCommandProcessor implements ISimple
 		if(debugPlayers.contains(event.getWhoClicked()))
 		{
 			MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,event.getAction().name());
-			MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(event.getWhoClicked(),"mzlib.command.debug.slot.rawSlot"),new MapEntry<>("%\\{rawSlot\\}",event.getRawSlot()+"")));
-			MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.get(event.getWhoClicked(),"mzlib.command.debug.slot.slotNumber"),new MapEntry<>("%\\{slotNumber\\}",event.getSlot()+"")));
+			MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(event.getWhoClicked(),"mzlib.command.debug.slot.rawSlot"),new MapEntry<>("%\\{rawSlot\\}",event.getRawSlot()+"")));
+			MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,StringUtil.replaceStrings(MinecraftLanguages.translate(event.getWhoClicked(),"mzlib.command.debug.slot.slotNumber"),new MapEntry<>("%\\{slotNumber\\}",event.getSlot()+"")));
 			if(event.getSlot()>=0&&(!new CursorSlot(event.getWhoClicked()).isEmpty()))
 			{
 				if(event.getClick()==ClickType.RIGHT||event.getClick()==ClickType.LEFT)
@@ -71,7 +71,7 @@ public class DebugSlotCommand extends AbsLastCommandProcessor implements ISimple
 			if(!event.isCancelled())
 			{
 				event.setCancelled(true);
-				MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,MinecraftLanguages.get(event.getWhoClicked(),"mzlib.command.debug.slot.forcePlace"));
+				MzLib.sendPluginMessage(event.getWhoClicked(),MzLib.instance,MinecraftLanguages.translate(event.getWhoClicked(),"mzlib.command.debug.slot.forcePlace"));
 				switch(event.getAction())
 				{
 					case PLACE_ONE:

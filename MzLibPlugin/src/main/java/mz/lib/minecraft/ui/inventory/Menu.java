@@ -43,7 +43,7 @@ public abstract class Menu extends ChestUI
 	}
 	public void setRetButton(int slot)
 	{
-		this.setButton(slot,p->ItemStackBuilder.returnArrow().setName(MinecraftLanguages.get(p,"mzlib.menu.return")).get(),(t,p)->ret(p));
+		this.setButton(slot,p->ItemStackBuilder.returnArrow().setName(MinecraftLanguages.translate(p,"mzlib.menu.return")).get(),(t,p)->ret(p));
 	}
 	@Override
 	public void clear()

@@ -1,11 +1,7 @@
 package mz.lib.module;
 
-import io.github.karlatemp.unsafeaccessor.*;
 import mz.lib.*;
-import mz.lib.event.EventListener;
 
-import java.lang.invoke.*;
-import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -31,41 +27,18 @@ public abstract class MzModule
 	{
 		if(isLoaded())
 			return;
-		loadedModules.add(this);
-		for(Method m:this.getClass().getMethods())
-		{
-			EventHandler a=m.getDeclaredAnnotation(EventHandler.class);
-			if(a!=null)
-			{
-				MethodHandle mh=ClassUtil.unreflect(m);
-				reg(new EventListener<>(TypeUtil.cast(m.getParameterTypes()[0]),a.order(),e->
-				{
-					try
-					{
-						mh.invokeWithArguments(this,e);
-					}
-					catch(Throwable ex)
-					{
-						throw TypeUtil.throwException(ex);
-					}
-				}));
-			}
-		}
 		onLoad();
+		loadedModules.add(this);
 	}
 	public List<MzModule> unload()
 	{
 		if(!isLoaded())
 			return new ArrayList<>();
-		onUnload();
 		List<MzModule> r=new ArrayList<>();
 		r.add(this);
 		for(MzModule i:submodules)
 			r.addAll(i.unload());
 		submodules.clear();
-		for(MzModule m:loadedModules)
-			if(m.depends.contains(this))
-				r.addAll(m.unload());
 		registeredObjects.forEach((i,l)->
 		{
 			for(Object j:l)

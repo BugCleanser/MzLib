@@ -353,7 +353,7 @@ public final class EnchantUtil
 							if(!filterProxyEnchant(enchant))
 								return;
 							int lvl=e.getShort("lvl");
-							lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.get(event.getLocale(),getTranslateKey(nKey))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
+							lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.translate(event.getLocale(),getTranslateKey(nKey))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
 							size[0]++;
 						});
 						event.item.tag().set("EnchantsFix",NmsNBTTagInt.newInstance(size[0]));
@@ -372,7 +372,7 @@ public final class EnchantUtil
 							if(!filterProxyEnchant(enchant))
 								return;
 							short lvl=e.getShort("lvl");
-							lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.get(event.getLocale(),getTranslateKey(getNms(id)))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
+							lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.translate(event.getLocale(),getTranslateKey(getNms(id)))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
 							size[0]++;
 						});
 						event.item.tag().set("EnchantsFix",NmsNBTTagInt.newInstance(size[0]));
@@ -399,7 +399,7 @@ public final class EnchantUtil
 								if(enchant==null)
 									return;
 								short lvl=e.getShort("lvl");
-								lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.get(event.getLocale(),getTranslateKey(nKey))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
+								lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.translate(event.getLocale(),getTranslateKey(nKey))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
 							});
 						}
 						else
@@ -411,7 +411,7 @@ public final class EnchantUtil
 								if(enchant==null)
 									return;
 								short lvl=e.getShort("lvl");
-								lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.get(event.getLocale(),getTranslateKey(getNms(id)))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
+								lore.add((enchant.isCursed()?"§c":"§7")+MinecraftLanguages.translate(event.getLocale(),getTranslateKey(getNms(id)))+(enchant.getMaxLevel()==1&&lvl==1?"":(" "+getEnchantLevel(lvl))));
 							});
 						}
 						lore.addAll(eb.getLore());

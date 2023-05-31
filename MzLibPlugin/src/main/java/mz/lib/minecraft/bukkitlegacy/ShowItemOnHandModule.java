@@ -94,7 +94,7 @@ public final class ShowItemOnHandModule extends AbsModule
 				if(pl!=null)
 				{
 					ItemStack item=ObcItemStack.ensure(pl.getInventory().getItem(Integer.parseInt(s[2]))).getRaw();
-					msg.extra.add(0,new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.showItemOnHand.format"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item,sender)))).setHoverEvent(new ShowItemOnMouse(item)));
+					msg.extra.add(0,new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.showItemOnHand.format"),new MapEntry<>("%\\{item\\}",ItemStackBuilder.getDropNameWithNum(item,sender)))).setHoverEvent(new ShowItemOnMouse(item)));
 				}
 				msg.extra.add(1,new TextMessageComponent(s[3]));
 			}

@@ -1,6 +1,5 @@
 package mz.lib.minecraft.bukkit;
 
-import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.permission.*;
 import mz.lib.minecraft.bukkit.task.*;
@@ -10,7 +9,7 @@ import org.bukkit.*;
 
 public class MzLibBukkitModule extends MzModule
 {
-	public static MzLibBukkitModule instance=new MzLibBukkitModule(MzLibBukkit.instance);
+	public static MzLibBukkitModule instance;
 	public MzLibBukkit plugin;
 	public MzLibBukkitModule(MzLibBukkit plugin)
 	{
@@ -32,8 +31,5 @@ public class MzLibBukkitModule extends MzModule
 			Bukkit.getPluginManager().addPermission(p.delegation);
 			return true;
 		},(m,p)->Bukkit.getPluginManager().removePermission(p.delegation)));
-		
-		MzLib.instance.dataFolder=plugin.getDataFolder();
-		reg(MzLibMinecraft.instance);
 	}
 }

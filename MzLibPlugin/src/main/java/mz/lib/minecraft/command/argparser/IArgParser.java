@@ -37,8 +37,8 @@ public interface IArgParser<T>
 	default String getErrMsg(CommandSender player,String name,double max,double min)
 	{
 		if(name!=null)
-			return StringUtil.replaceStrings(MinecraftLanguages.get(MinecraftLanguages.getLang(player),"mzlib.command.default.errMsgWithName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",MinecraftLanguages.get(player,name)),new MapEntry<>("%\\{type\\}",getTypeName(player,max,min)))));
-		return StringUtil.replaceStrings(MinecraftLanguages.get(MinecraftLanguages.getLang(player),"mzlib.command.default.errMsg"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{type\\}",getTypeName(player,max,min)))));
+			return StringUtil.replaceStrings(MinecraftLanguages.translate(MinecraftLanguages.getLang(player),"mzlib.command.default.errMsgWithName"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",MinecraftLanguages.translate(player,name)),new MapEntry<>("%\\{type\\}",getTypeName(player,max,min)))));
+		return StringUtil.replaceStrings(MinecraftLanguages.translate(MinecraftLanguages.getLang(player),"mzlib.command.default.errMsg"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{type\\}",getTypeName(player,max,min)))));
 	}
 	
 	T parse(CommandSender sender, String arg) throws Throwable;

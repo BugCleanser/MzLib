@@ -25,7 +25,7 @@ public class PlayerInfoSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.get(sender,"mzlib.command.playerinfo.effect");
+		return MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.effect");
 	}
 	
 	@CommandHandler
@@ -37,16 +37,16 @@ public class PlayerInfoSubcommand extends AbsLastCommandProcessor
 	@CommandHandler(permission="mz.lib.command.playerinfo.other")
 	public void execute(CommandSender sender,Player player)
 	{
-		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.get(sender,"mzlib.command.playerinfo"));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.name"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",player.getName())))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.id"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{id\\}",player.getEntityId()+"")))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.uid"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{uid\\}",player.getUniqueId()+"")))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.locale"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{locale\\}",player.getLocale())))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.shift"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{shift\\}",MinecraftLanguages.get(sender,player.isSneaking()?"mzlib.value.true":"mzlib.value.false"))))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.walkSpeed"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{walkSpeed\\}",player.getWalkSpeed()+"")))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.flySpeed"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{flySpeed\\}",player.getFlySpeed()+"")))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.health"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{health\\}",player.getHealth()+"")))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.mainHand"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nbt\\}",new ItemStackBuilder(player.getInventory().getItemInMainHand()).toString())))));
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.get(sender,"mzlib.command.playerinfo.offHand"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nbt\\}",new ItemStackBuilder(player.getInventory().getItemInOffHand()).toString())))));
+		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.playerinfo"));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.name"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{name\\}",player.getName())))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.id"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{id\\}",player.getEntityId()+"")))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.uid"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{uid\\}",player.getUniqueId()+"")))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.locale"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{locale\\}",player.getLocale())))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.shift"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{shift\\}",MinecraftLanguages.translate(sender,player.isSneaking()?"mzlib.value.true":"mzlib.value.false"))))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.walkSpeed"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{walkSpeed\\}",player.getWalkSpeed()+"")))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.flySpeed"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{flySpeed\\}",player.getFlySpeed()+"")))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.health"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{health\\}",player.getHealth()+"")))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.mainHand"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nbt\\}",new ItemStackBuilder(player.getInventory().getItemInMainHand()).toString())))));
+		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.playerinfo.offHand"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{nbt\\}",new ItemStackBuilder(player.getInventory().getItemInOffHand()).toString())))));
 	}
 }

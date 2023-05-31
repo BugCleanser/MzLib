@@ -25,7 +25,7 @@ public class StringArgParser extends AbsArgParser<String>
 	@Override
 	public String getTypeName(CommandSender player,double max,double min)
 	{
-		return MinecraftLanguages.get(player,"mzlib.command.default.type.string");
+		return MinecraftLanguages.translate(player,"mzlib.command.default.type.string");
 	}
 	
 	@Override

@@ -16,13 +16,13 @@ public class BoolArgParser extends AbsPrimitiveArgParser<Boolean>
 	@Override
 	public Boolean parse(CommandSender sender,String arg) throws Throwable
 	{
-		return arg.equalsIgnoreCase(MinecraftLanguages.get(sender,"mzlib.value.true"));
+		return arg.equalsIgnoreCase(MinecraftLanguages.translate(sender,"mzlib.value.true"));
 	}
 	
 	@Override
 	public List<String> getDefaultPreset(CommandSender sender,double max,double min)
 	{
-		return Lists.newArrayList(MinecraftLanguages.get(sender,"mzlib.value.true"),MinecraftLanguages.get(sender,"mzlib.value.false"));
+		return Lists.newArrayList(MinecraftLanguages.translate(sender,"mzlib.value.true"),MinecraftLanguages.translate(sender,"mzlib.value.false"));
 	}
 	
 	@Override

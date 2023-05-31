@@ -38,12 +38,12 @@ public class EnchantSubcommand extends AbsLastCommandProcessor
 			sender.getInventory().setItemInMainHand(is);
 		}
 		else
-			MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.get(sender,"mzlib.command.enchant.error"));
+			MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.enchant.error"));
 	}
 	
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.get(sender,"mzlib.command.enchant.effect");
+		return MinecraftLanguages.translate(sender,"mzlib.command.enchant.effect");
 	}
 }

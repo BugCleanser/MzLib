@@ -30,7 +30,7 @@ public abstract class ListEditor<T> extends ListVisitor<T>
 		super.refresh();
 		
 		if(page==getMaxPage())
-			setButton(list.size()%36+9,p->new ItemStackBuilder(Material.NETHER_STAR).setName(MinecraftLanguages.get(p,"mzlib.listEditor.add")).get(),(t,p)->
+			setButton(list.size()%36+9,p->new ItemStackBuilder(Material.NETHER_STAR).setName(MinecraftLanguages.translate(p,"mzlib.listEditor.add")).get(),(t,p)->
 			{
 				T e=newElement(p);
 				list.add(list.size(),e);
@@ -47,7 +47,7 @@ public abstract class ListEditor<T> extends ListVisitor<T>
 	@Override
 	public ItemStack generaldutyIconDecorate(HumanEntity player,ItemStack icon)
 	{
-		return new ItemStackBuilder(icon.clone()).addLore(MinecraftLanguages.get(player,"mzlib.listEditor.edit"),MinecraftLanguages.get(player,"mzlib.listEditor.insertBefore"),MinecraftLanguages.get(player,"mzlib.listEditor.remove")).get();
+		return new ItemStackBuilder(icon.clone()).addLore(MinecraftLanguages.translate(player,"mzlib.listEditor.edit"),MinecraftLanguages.translate(player,"mzlib.listEditor.insertBefore"),MinecraftLanguages.translate(player,"mzlib.listEditor.remove")).get();
 	}
 	public abstract T newElement(HumanEntity player);
 	public abstract void regElement(int index);
