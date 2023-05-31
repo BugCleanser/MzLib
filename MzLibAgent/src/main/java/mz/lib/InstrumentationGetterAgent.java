@@ -15,19 +15,21 @@ public class InstrumentationGetterAgent
 	}
 	public static byte[] readInputStream(InputStream inputStream)
 	{
-		byte[] buffer=new byte[4096];
+		byte[] buffer=new byte[1024];
 		int len=0;
-		try(ByteArrayOutputStream bos=new ByteArrayOutputStream())
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();
+		try
 		{
 			while((len=inputStream.read(buffer))!=-1)
 			{
 				bos.write(buffer,0,len);
 			}
-			return bos.toByteArray();
+			bos.close();
 		}
 		catch(Throwable e)
 		{
 			throw new RuntimeException(e);
 		}
+		return bos.toByteArray();
 	}
 }
