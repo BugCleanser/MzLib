@@ -3,8 +3,8 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.entity.*;
 import mz.lib.minecraft.wrapper.*;
-import mz.lib.*;
-import mz.lib.wrapper.*;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.entity.*;
 
 import java.util.UUID;

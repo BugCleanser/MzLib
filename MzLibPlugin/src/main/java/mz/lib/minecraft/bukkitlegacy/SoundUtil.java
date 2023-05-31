@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkitlegacy;
 
 import mz.lib.minecraft.*;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.Sound;
 
 public class SoundUtil

@@ -1,13 +1,17 @@
 package mz.lib.minecraft.command.argparser;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.module.MzModule;
-import mz.lib.module.IRegistrar;
-import mz.lib.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
+import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
 
-public class ArgParserRegistrar extends MzModule implements IRegistrar<IArgParser>
+public class ArgParserRegistrar extends AbsModule implements IRegistrar<IArgParser>
 {
 	public static ArgParserRegistrar instance=new ArgParserRegistrar();
+	public ArgParserRegistrar()
+	{
+		super(MzLib.instance,RegistrarRegistrar.instance);
+	}
 	
 	@Override
 	public Class<IArgParser> getType()
@@ -15,21 +19,20 @@ public class ArgParserRegistrar extends MzModule implements IRegistrar<IArgParse
 		return IArgParser.class;
 	}
 	@Override
-	public boolean register(MzModule module,IArgParser obj)
+	public boolean register(IArgParser obj)
 	{
 		IArgParser.setDefault(obj);
 		return true;
 	}
 	@Override
-	public void unregister(MzModule module,IArgParser obj)
+	public void unregister(IArgParser obj)
 	{
 		IArgParser.defaultArgParsers.remove(obj.getType(),obj);
 	}
 	
 	@Override
-	public void onLoad()
+	public void onEnable()
 	{
-		depend(RegistrarRegistrar.instance);
 		reg(new BoolArgParser());
 		reg(new ByteArgParser());
 		reg(new CharArgParser());

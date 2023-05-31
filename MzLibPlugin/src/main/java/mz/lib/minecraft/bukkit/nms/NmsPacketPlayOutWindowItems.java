@@ -4,7 +4,7 @@ import io.github.karlatemp.unsafeaccessor.Root;
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
-import mz.lib.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.minecraft.wrapper.VersionalWrappedFieldAccessor;
 import mz.lib.wrapper.WrappedObject;

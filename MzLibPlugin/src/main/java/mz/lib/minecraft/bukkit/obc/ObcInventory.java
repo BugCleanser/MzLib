@@ -4,7 +4,7 @@ import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkit.nms.NmsIInventory;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedMethod;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.inventory.Inventory;
 
 @VersionalWrappedClass(@VersionalName("obc.inventory.CraftInventory"))

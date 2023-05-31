@@ -3,9 +3,9 @@ package mz.lib.minecraft.bukkit.task;
 import mz.lib.minecraft.bukkit.*;
 import mz.lib.minecraft.task.*;
 import mz.lib.module.*;
-import mz.lib.module.*;
-import mz.lib.minecraft.bukkit.*;
-import mz.lib.minecraft.task.*;
+import mz.module.*;
+import mz.mzlib.bukkit.*;
+import mz.mzlib.task.*;
 import org.bukkit.*;
 import org.bukkit.scheduler.*;
 

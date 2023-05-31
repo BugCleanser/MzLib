@@ -6,7 +6,7 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedFieldAccessor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

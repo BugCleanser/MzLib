@@ -11,7 +11,7 @@ import mz.lib.nothing.LocalVar;
 import mz.lib.nothing.Nothing;
 import mz.lib.nothing.NothingLocation;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;

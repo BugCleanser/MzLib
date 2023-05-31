@@ -5,7 +5,7 @@ import mz.lib.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class RegistrarRegistrar extends MzModule implements IRegistrar<IRegistrar<?>>
+public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
 {
 	public static RegistrarRegistrar instance=new RegistrarRegistrar();
 	public RegistrarRegistrar()

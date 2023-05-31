@@ -5,8 +5,8 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.*;
-import mz.lib.wrapper.*;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.IRegistry",maxVer=17),@VersionalName(value="net.minecraft.core.IRegistry",minVer=17)})
 public interface NmsIRegistry extends VersionalWrappedObject

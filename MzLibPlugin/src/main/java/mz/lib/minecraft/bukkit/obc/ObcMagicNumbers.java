@@ -5,7 +5,7 @@ import mz.lib.minecraft.bukkit.nms.NmsItem;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.Material;
 
 @VersionalWrappedClass(@VersionalName("obc.util.CraftMagicNumbers"))

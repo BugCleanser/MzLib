@@ -4,7 +4,7 @@ import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkit.nms.NmsICommandListener;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedMethod;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass(@VersionalName("obc.command.CraftBlockCommandSender"))
 public interface ObcBlockCommandSender extends VersionalWrappedObject

@@ -7,8 +7,8 @@ import mz.lib.minecraft.event.entity.player.ShowInventoryItemEvent;
 import mz.lib.minecraft.event.entity.player.WindowOpenEvent;
 import mz.lib.minecraft.ui.UIStack;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.module.MzModule;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import mz.lib.minecraft.ui.UI;
 import mz.lib.minecraft.bukkit.nms.NmsContainer;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent;
@@ -35,7 +35,7 @@ public abstract class InventoryUI extends UI implements InventoryHolder
 	public BiConsumer<Player,Ref<NmsIChatBaseComponent>> titleModifier;
 	public BiConsumer<Player,ItemStackBuilder>[] itemShowModifiers;
 	
-	public InventoryUI(MzModule module,int size)
+	public InventoryUI(IModule module,int size)
 	{
 		super(module);
 		this.size=size;

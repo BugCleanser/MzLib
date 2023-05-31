@@ -4,7 +4,7 @@ import mz.lib.minecraft.*;
 import mz.lib.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkit.obc.ObcEntity;
-import mz.lib.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.minecraft.wrapper.VersionalWrappedFieldAccessor;
 import mz.lib.minecraft.wrapper.VersionalWrappedMethod;

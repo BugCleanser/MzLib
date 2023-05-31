@@ -3,7 +3,7 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.Recipes",minVer=14,maxVer=17),@VersionalName(value="net.minecraft.world.item.crafting.Recipes",minVer=17)})
 public interface NmsRecipesV14 extends VersionalWrappedObject

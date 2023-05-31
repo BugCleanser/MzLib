@@ -3,13 +3,12 @@ package mz.lib.minecraft.event.entity;
 import mz.lib.ClassUtil;
 import mz.lib.TypeUtil;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.Player;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.*;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.entity.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
 import org.bukkit.event.Cancellable;
@@ -18,7 +17,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 
 import java.util.*;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SendEntityMetadataEvent extends Event implements Cancellable
@@ -44,13 +42,12 @@ public class SendEntityMetadataEvent extends Event implements Cancellable
 			}).collect(Collectors.toList()));
 	}
 	
-	public static class Module extends MzModule
+	public static class Module extends AbsModule
 	{
 		public static Module instance=new Module();
-		@Override
-		public void onLoad()
+		public Module()
 		{
-			depend(ProtocolUtil.instance);
+			super(MzLib.instance,ProtocolUtil.instance);
 			reg(new ProtocolUtil.SendListener<>(EventPriority.HIGHEST,NmsPacketPlayOutEntityMetadata.class,(player,packet,cancelled)->
 			{
 				if(cancelled.get())

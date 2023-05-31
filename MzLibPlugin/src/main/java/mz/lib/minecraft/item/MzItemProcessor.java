@@ -9,7 +9,7 @@ import mz.lib.minecraft.command.argparser.ArgParserRegistrar;
 import mz.lib.minecraft.event.entity.player.PlayerUseItemEvent;
 import mz.lib.minecraft.event.entity.player.CreativeSetItemEvent;
 import mz.lib.minecraft.event.entity.player.ShowItemEvent;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.nms.NmsMinecraftKey;
 import mz.lib.mzlang.MzObject;
 import org.bukkit.NamespacedKey;
@@ -20,15 +20,17 @@ import org.bukkit.event.EventPriority;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MzItemProcessor extends MzModule
+public class MzItemProcessor extends AbsModule
 {
 	public static MzItemProcessor instance=new MzItemProcessor();
+	public MzItemProcessor()
+	{
+		super(MzLib.instance,ArgParserRegistrar.instance,OriginalItemFilterRegistrar.instance);
+	}
 	
 	@Override
-	public void onLoad()
+	public void onEnable()
 	{
-		depend(ArgParserRegistrar.instance);
-		depend(OriginalItemFilterRegistrar.instance);
 		reg(new OriginalItemFilterRegistrar.OriginalItemFilter(item->MzItem.getKey(item)==null));
 		reg(new AbsArgParser<MzItem>(MzItem.class)
 		{

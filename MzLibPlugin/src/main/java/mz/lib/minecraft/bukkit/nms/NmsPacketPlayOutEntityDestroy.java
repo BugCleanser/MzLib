@@ -5,8 +5,8 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.bukkit.fastutil.FuIntList;
 import mz.lib.wrapper.*;
-import mz.lib.*;
-import mz.lib.wrapper.*;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 
 import java.util.Iterator;
 

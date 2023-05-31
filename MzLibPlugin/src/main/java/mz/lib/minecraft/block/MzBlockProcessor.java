@@ -1,11 +1,10 @@
 package mz.lib.minecraft.block;
 
 import com.google.common.collect.*;
-import mz.lib.minecraft.MzLibMinecraft;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkitlegacy.*;
+import mz.lib.minecraft.bukkitlegacy.module.*;
 import mz.lib.minecraft.item.*;
-import mz.lib.module.MzModule;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -14,19 +13,22 @@ import org.bukkit.scheduler.*;
 
 import java.util.*;
 
-public class MzBlockProcessor extends MzModule
+public class MzBlockProcessor extends AbsModule
 {
 	public static MzBlockProcessor instance=new MzBlockProcessor();
 	
 	public BiMap<Chunk,Entity> reservoirs=HashBiMap.create();
 	public Map<Chunk,Map<Block,MzBlock>> mzBlocks=new HashMap<>();
 	
-	@Override
-	public void onLoad()
+	public MzBlockProcessor()
 	{
-		depend(MzItemRegistrar.instance);
+		super(MzLib.instance,MzItemRegistrar.instance);
+	}
+	
+	@Override
+	public void onEnable()
+	{
 		reg(MzBlockReservoirItem.class);
-
 		Bukkit.getScheduler().runTaskTimer(getPlugin(),()->
 		{
 			Queue<Chunk> chunks=new ArrayDeque<>();

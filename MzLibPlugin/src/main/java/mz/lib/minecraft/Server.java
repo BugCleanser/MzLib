@@ -2,7 +2,7 @@ package mz.lib.minecraft;
 
 import com.google.common.collect.*;
 import mz.lib.minecraft.wrapper.*;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 import java.util.*;
 

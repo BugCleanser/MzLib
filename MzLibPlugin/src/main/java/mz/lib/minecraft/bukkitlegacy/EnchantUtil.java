@@ -7,7 +7,7 @@ import mz.lib.minecraft.event.entity.player.CreativeSetItemEvent;
 import mz.lib.minecraft.event.entity.player.ShowItemEvent;
 import mz.lib.minecraft.bukkitlegacy.itemstack.EnchantedBookBuilder;
 import mz.lib.minecraft.bukkit.obc.ObcEnchantment;
-import mz.lib.*;
+import mz.mzlib.*;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

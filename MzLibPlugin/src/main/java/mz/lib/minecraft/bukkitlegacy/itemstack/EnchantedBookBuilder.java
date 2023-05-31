@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkitlegacy.itemstack;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkitlegacy.EnchantUtil;
-import mz.lib.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagCompound;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagList;
 import mz.lib.minecraft.bukkit.nms.NmsNBTTagShort;

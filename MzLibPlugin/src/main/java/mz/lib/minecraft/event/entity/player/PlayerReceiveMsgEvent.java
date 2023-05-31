@@ -8,14 +8,14 @@ import mz.lib.minecraft.md5.message.*;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.WrappedComponentPaper;
 import mz.lib.minecraft.message.WrappedPaperAdventure;
-import mz.lib.module.MzModule;
-import mz.lib.minecraft.bukkit.paper.*;
-import mz.lib.*;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.minecraft.bukkitlegacy.paper.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.bukkit.nms.NmsPacketPlayOutChat;
 import mz.lib.wrapper.WrappedObject;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
-import mz.lib.minecraft.Player;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -34,13 +34,12 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 		this.msg=msg;
 	}
 	
-	public static class Module extends MzModule
+	public static class Module extends AbsModule
 	{
 		public static Module instance=new Module();
-		@Override
-		public void onLoad()
+		public Module()
 		{
-			depend(ProtocolUtil.instance);
+			super(MzLib.instance,ProtocolUtil.instance);
 			reg(new ProtocolUtil.SendListener<>(EventPriority.LOW,NmsPacketPlayOutChat.class,(player,packet,c)->
 			{
 				if(c.get())

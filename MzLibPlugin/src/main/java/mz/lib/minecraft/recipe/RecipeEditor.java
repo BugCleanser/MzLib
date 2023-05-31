@@ -3,10 +3,10 @@ package mz.lib.minecraft.recipe;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.ui.*;
+import mz.lib.minecraft.bukkitlegacy.gui.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
-import mz.lib.minecraft.message.*;
-import mz.lib.module.*;
+import mz.lib.minecraft.bukkitlegacy.message.*;
+import mz.lib.minecraft.bukkitlegacy.module.*;
 import mz.lib.minecraft.ui.*;
 import mz.lib.minecraft.ui.inventory.*;
 import mz.lib.minecraft.message.*;
@@ -19,7 +19,7 @@ import java.util.*;
 
 public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> implements IRegistrar<T>
 {
-	public RecipeEditor(MzModule module)
+	public RecipeEditor(IModule module)
 	{
 		super(module,"",new ArrayList<>());
 		this.titleModifier=(p,c)->c.set(new TextMessageComponent(StringUtil.replaceStrings(MinecraftLanguages.get(p,"mzlib.recipesEditor.kindRecipe.title"),new MapEntry<>("%\\{type}",getDisplayName(p)))).toNms());
@@ -43,7 +43,7 @@ public abstract class RecipeEditor<T extends Recipe> extends ListEditor<T> imple
 	@Override
 	public void regElement(int index)
 	{
-		this.register(module,list.get(index));
+		this.register(list.get(index));
 	}
 	@Override
 	public void unregElement(int index)

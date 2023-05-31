@@ -5,7 +5,7 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedClass;
 import mz.lib.wrapper.WrappedFieldAccessor;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 

@@ -5,7 +5,7 @@ import mz.lib.TypeUtil;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 import java.util.Map;
 

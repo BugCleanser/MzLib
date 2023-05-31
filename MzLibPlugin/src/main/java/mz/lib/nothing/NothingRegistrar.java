@@ -4,7 +4,7 @@ import mz.lib.TypeUtil;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.module.*;
 
-public class NothingRegistrar extends MzModule implements IRegistrar<Class<? extends Nothing>>
+public class NothingRegistrar implements IRegistrar<Class<? extends Nothing>>
 {
 	public static NothingRegistrar instance=new NothingRegistrar();
 	@Override

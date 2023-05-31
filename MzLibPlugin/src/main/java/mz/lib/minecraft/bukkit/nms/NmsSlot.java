@@ -8,7 +8,6 @@ import mz.lib.minecraft.bukkit.obc.ObcInventory;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.minecraft.mzlang.*;
 import mz.lib.minecraft.wrapper.*;
-import mz.lib.module.MzModule;
 import mz.lib.mzlang.*;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.entity.HumanEntity;
@@ -24,11 +23,12 @@ import java.util.function.Predicate;
 @VersionalWrappedClass({@VersionalName(value="nms.Slot",maxVer=17),@VersionalName(value="net.minecraft.world.inventory.Slot",minVer=17)})
 public interface NmsSlot extends VersionalWrappedObject
 {
-	static class Module extends MzModule
+	static class Module extends AbsModule
 	{
 		public static Module instance=new Module();
+		public Module()
 		{
-			this.load();
+			super(MzLib.instance);
 		}
 		@EventHandler(priority=EventPriority.MONITOR,ignoreCancelled=true)
 		public void onInventoryClick(InventoryClickEvent event)

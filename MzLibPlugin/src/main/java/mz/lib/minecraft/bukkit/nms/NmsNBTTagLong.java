@@ -6,7 +6,7 @@ import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.minecraft.wrapper.VersionalWrappedMethod;
 import mz.lib.wrapper.*;
-import mz.lib.minecraft.nbt.*;
+import mz.mzlib.nbt.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.NBTTagLong",maxVer=17),@VersionalName(value="net.minecraft.nbt.NBTTagLong",minVer=17)})
 public interface NmsNBTTagLong extends NmsNBTTag, NbtPrimitive

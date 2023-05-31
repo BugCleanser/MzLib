@@ -8,13 +8,13 @@ import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TranslateMessageComponent;
 import mz.lib.minecraft.message.hoverevent.ShowItemOnMouse;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;
 import mz.lib.nothing.*;
 import org.bukkit.Bukkit;
-import mz.lib.minecraft.Player;
+import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -111,14 +111,17 @@ public class ShowItemEvent extends Event
 		}
 	}
 	
-	public static class Module extends MzModule
+	public static class Module extends AbsModule
 	{
 		public static Module instance=new Module();
+		public Module()
+		{
+			super(MzLib.instance,NothingRegistrar.instance);
+		}
 		
 		@Override
-		public void onLoad()
+		public void onEnable()
 		{
-			depend(NothingRegistrar.instance);
 			reg(NothingMerchantRecipeList.class);
 		}
 		

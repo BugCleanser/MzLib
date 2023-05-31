@@ -3,7 +3,7 @@ package mz.lib.minecraft.bukkit.nms;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.map.MapCursor;
 
 @VersionalWrappedClass({@VersionalName(value="nms.MapIcon",maxVer=17),@VersionalName(value="net.minecraft.world.level.saveddata.maps.MapIcon",minVer=17)})

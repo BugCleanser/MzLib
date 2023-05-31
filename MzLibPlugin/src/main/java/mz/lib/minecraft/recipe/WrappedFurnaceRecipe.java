@@ -3,7 +3,7 @@ package mz.lib.minecraft.recipe;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedClass;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;

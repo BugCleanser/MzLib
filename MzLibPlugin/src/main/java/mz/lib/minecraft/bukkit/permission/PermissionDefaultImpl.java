@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.permission;
 
 import mz.lib.minecraft.permission.*;
-import mz.lib.minecraft.permission.*;
+import mz.mzlib.permission.*;
 
 public class PermissionDefaultImpl implements PermissionDefault
 {

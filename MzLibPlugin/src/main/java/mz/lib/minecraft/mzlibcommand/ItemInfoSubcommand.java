@@ -13,7 +13,7 @@ import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.item.*;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

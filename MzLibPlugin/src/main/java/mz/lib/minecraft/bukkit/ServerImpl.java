@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkit;
 
 import mz.lib.*;
 import mz.lib.minecraft.*;
-import mz.lib.*;
+import mz.mzlib.*;
 import org.bukkit.Bukkit;
 
 public class ServerImpl extends Server

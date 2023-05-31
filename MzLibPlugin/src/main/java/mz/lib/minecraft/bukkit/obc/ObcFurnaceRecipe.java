@@ -1,8 +1,8 @@
 package mz.lib.minecraft.bukkit.obc;
 
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.nothing.*;
-import mz.lib.minecraft.recipe.*;
+import mz.lib.minecraft.bukkitlegacy.nothing.*;
+import mz.lib.minecraft.bukkitlegacy.recipe.*;
 import mz.lib.minecraft.nothing.*;
 import mz.lib.minecraft.recipe.*;
 import mz.lib.minecraft.wrapper.VersionalWrappedClass;

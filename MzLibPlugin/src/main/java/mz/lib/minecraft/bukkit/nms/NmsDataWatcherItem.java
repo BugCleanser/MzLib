@@ -5,7 +5,7 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.DataWatcher$Item",maxVer=17),@VersionalName(value="net.minecraft.network.syncher.DataWatcher$Item",minVer=17)})
 public interface NmsDataWatcherItem extends VersionalWrappedObject

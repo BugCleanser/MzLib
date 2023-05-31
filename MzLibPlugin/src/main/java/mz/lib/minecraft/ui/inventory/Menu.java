@@ -3,7 +3,7 @@ package mz.lib.minecraft.ui.inventory;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
@@ -19,11 +19,11 @@ public abstract class Menu extends ChestUI
 {
 	public Map<Integer,BiConsumer<ClickType,HumanEntity>> buttons=new HashMap<>();
 	
-	public Menu(MzModule module,int size,String title)
+	public Menu(IModule module,int size,String title)
 	{
 		super(module,size,title);
 	}
-	public Menu(MzModule module,int size,Function<Player,NmsIChatBaseComponent> titleGetter)
+	public Menu(IModule module,int size,Function<Player,NmsIChatBaseComponent> titleGetter)
 	{
 		super(module,size,titleGetter);
 	}

@@ -5,7 +5,7 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedConstructor;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.inventory.Recipe;
 
 import java.util.Iterator;

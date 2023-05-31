@@ -2,11 +2,11 @@ package mz.lib.minecraft.bukkit.obc;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
-import mz.lib.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent.NmsChatSerializer;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.wrapper.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass(@VersionalName("obc.util.CraftChatMessage"))
 public interface ObcChatMessage extends VersionalWrappedObject

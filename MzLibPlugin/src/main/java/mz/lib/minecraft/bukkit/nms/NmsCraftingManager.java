@@ -5,8 +5,8 @@ import mz.lib.TypeUtil;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
-import mz.lib.*;
-import mz.lib.wrapper.*;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.NamespacedKey;
 
 import java.util.*;

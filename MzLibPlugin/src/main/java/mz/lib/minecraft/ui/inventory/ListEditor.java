@@ -3,7 +3,7 @@ package mz.lib.minecraft.ui.inventory;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.MinecraftLanguages;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.module.MzModule;
+import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -15,11 +15,11 @@ import java.util.function.*;
 
 public abstract class ListEditor<T> extends ListVisitor<T>
 {
-	public ListEditor(MzModule module,String title,List<T> list)
+	public ListEditor(IModule module,String title,List<T> list)
 	{
 		super(module,title,list);
 	}
-	public ListEditor(MzModule module,Function<Player,NmsIChatBaseComponent> titleGetter,List<T> list)
+	public ListEditor(IModule module,Function<Player,NmsIChatBaseComponent> titleGetter,List<T> list)
 	{
 		super(module,titleGetter,list);
 	}
