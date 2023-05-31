@@ -14,17 +14,14 @@ jobs:
         uses: actions/checkout@v3.3.0
       
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.10.0
+        uses: actions/setup-java@v3.9.0
         with:
           java-version: 17
           distribution: temurin
           cache: gradle
-          
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
             
       - name: Cache local Gradle repository
-        uses: actions/cache@v3.2.6
+        uses: actions/cache@v3.2.4
         with:
           path: |
             ~/.gradle/caches
@@ -33,14 +30,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
             
-      - name: Make gradle wrapper executable
+      - name: make gradle wrapper executable
         run: chmod +x ./gradlew
             
       - name: Package with Gradle
         run: ./gradlew shadowJar --no-daemon
+
+      - name: Target Staging
+        run: mkdir staging && cp out/*.jar staging
           
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
           name: MzLib Artifacts
-          path: out/*.jar
+          path: staging
