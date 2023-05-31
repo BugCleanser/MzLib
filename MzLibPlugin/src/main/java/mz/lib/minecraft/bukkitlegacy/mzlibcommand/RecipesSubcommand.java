@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.command.CommandHandler;
 import mz.lib.minecraft.bukkitlegacy.gui.*;
@@ -21,7 +21,7 @@ public class RecipesSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.recipes.effect");
+		return LangUtil.getTranslated(sender,"mzlib.command.recipes.effect");
 	}
 	
 	@CommandHandler

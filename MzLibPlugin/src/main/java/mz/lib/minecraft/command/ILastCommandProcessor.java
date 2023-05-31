@@ -3,7 +3,7 @@ package mz.lib.minecraft.command;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.CommandSender;
 
@@ -62,7 +62,7 @@ public interface ILastCommandProcessor extends ICommandProcessor
 		for(FinalCommandExecutor e: getExecutors())
 		{
 			if(e.hasPermission(sender))
-				r.add(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.command.default.usage.args"),new MapEntry<>("%\\{cmd}",usedName),new MapEntry<>("%\\{args}",e.getUsage(sender))));
+				r.add(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.command.default.usage.args"),new MapEntry<>("%\\{cmd}",usedName),new MapEntry<>("%\\{args}",e.getUsage(sender))));
 		}
 		return r;
 	}

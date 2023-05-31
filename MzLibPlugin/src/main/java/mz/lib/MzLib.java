@@ -1,7 +1,6 @@
 package mz.lib;
 
 import mz.lib.event.*;
-import mz.lib.i18n.*;
 import mz.lib.module.*;
 import mz.lib.nothing.*;
 
@@ -12,12 +11,12 @@ public class MzLib extends MzModule
 	@Override
 	public void onLoad()
 	{
+		RegistrarRegistrar.instance.register(this,RegistrarRegistrar.instance);
+		
 		Nothing.init();
 		reg(NothingRegistrar.instance);
 		
 		reg(EventListenerRegistrar.instance);
-		
-		reg(Languages.instance);
 	}
 	
 	@Override

@@ -159,42 +159,4 @@ public final class ListUtil
 		}
 		return r;
 	}
-	
-	@SafeVarargs
-	public static <T> T lastElement(T ...array)
-	{
-		return array[array.length-1];
-	}
-	public static boolean lastElement(boolean ...array)
-	{
-		return array[array.length-1];
-	}
-	public static byte lastElement(byte ...array)
-	{
-		return array[array.length-1];
-	}
-	public static short lastElement(short ...array)
-	{
-		return array[array.length-1];
-	}
-	public static int lastElement(int ...array)
-	{
-		return array[array.length-1];
-	}
-	public static long lastElement(long ...array)
-	{
-		return array[array.length-1];
-	}
-	public static char lastElement(char ...array)
-	{
-		return array[array.length-1];
-	}
-	public static float lastElement(float ...array)
-	{
-		return array[array.length-1];
-	}
-	public static double lastElement(double ...array)
-	{
-		return array[array.length-1];
-	}
 }

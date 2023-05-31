@@ -3,7 +3,7 @@ package mz.lib.minecraft.command.argparser;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Array;
@@ -43,7 +43,7 @@ public abstract class AbsArrayArgParser<T> extends AbsArgParser<Object>
 	{
 		if(min<0)
 			min=0;
-		return StringUtil.replaceStrings(MinecraftLanguages.translate(player,"mzlib.command.default.type.array"),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)),new MapEntry<>("%\\{component\\}",getComponentParser().getTypeName(player,Double.MAX_VALUE,Double.MIN_VALUE)));
+		return StringUtil.replaceStrings(LangUtil.getTranslated(player,"mzlib.command.default.type.array"),new MapEntry<>("%\\{min\\}",Double.toString(min)),new MapEntry<>("%\\{max\\}",Double.toString(max)),new MapEntry<>("%\\{component\\}",getComponentParser().getTypeName(player,Double.MAX_VALUE,Double.MIN_VALUE)));
 	}
 	
 	@Override

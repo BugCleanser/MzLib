@@ -23,15 +23,4 @@ public interface NbtObject extends NbtElement
 	
 	NbtElement get(String key);
 	void set(String key,NbtElement value);
-	
-	default byte get(String key,byte def)
-	{
-		if(containsKey(key))
-			return ((NbtPrimitive)get(key)).toByte();
-		return def;
-	}
-	default boolean get(String key,boolean def)
-	{
-		return get(key,def?(byte)1:(byte)0)!=0;
-	}
 }

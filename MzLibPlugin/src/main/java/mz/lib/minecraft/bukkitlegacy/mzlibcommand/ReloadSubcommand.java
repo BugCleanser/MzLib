@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.command.CommandHandler;
@@ -18,13 +18,13 @@ public class ReloadSubcommand extends AbsLastCommandProcessor
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.reload.effect");
+		return LangUtil.getTranslated(sender,"mzlib.command.reload.effect");
 	}
 	
 	@CommandHandler
 	public void execute(CommandSender sender)
 	{
 		MzLib.instance.reloadConfig();
-		MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.reload.success"));
+		MzLib.sendPluginMessage(sender,MzLib.instance,LangUtil.getTranslated(sender,"mzlib.command.reload.success"));
 	}
 }

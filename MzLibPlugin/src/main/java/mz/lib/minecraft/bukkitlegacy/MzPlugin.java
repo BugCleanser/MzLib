@@ -2,8 +2,9 @@ package mz.lib.minecraft.bukkitlegacy;
 
 import com.google.common.collect.Lists;
 import com.rylinaux.plugman.util.PluginUtil;
-import mz.lib.*;
-import mz.lib.minecraft.*;
+import mz.lib.ListUtil;
+import mz.lib.MapEntry;
+import mz.lib.StringUtil;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TextMessageComponent;
 import org.bukkit.Bukkit;
@@ -23,7 +24,7 @@ public class MzPlugin extends JavaPlugin
 	}
 	public static void sendPluginMessage(CommandSender sender,Plugin p,String msg)
 	{
-		sender.sendMessage(StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()),new MapEntry<>("%\\{msg}",msg)))));
+		sender.sendMessage(StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()),new MapEntry<>("%\\{msg}",msg)))));
 	}
 	public void sendPluginMessage(CommandSender sender,MessageComponent msg)
 	{
@@ -31,7 +32,7 @@ public class MzPlugin extends JavaPlugin
 	}
 	public static void sendPluginMessage(CommandSender sender,Plugin p,MessageComponent msg)
 	{
-		String[] msgs=(" "+StringUtil.replaceStrings(MinecraftLanguages.translate(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()))))+" ").split("%\\{msg}");
+		String[] msgs=(" "+StringUtil.replaceStrings(LangUtil.getTranslated(sender,"mzlib.plugin.message"),ListUtil.toMap(Lists.newArrayList(new MapEntry<>("%\\{plugin}",p.getName()))))+" ").split("%\\{msg}");
 		msgs[0]=msgs[0].substring(1);
 		msgs[msgs.length-1]=msgs[msgs.length-1].substring(0,msgs[msgs.length-1].length()-1);
 		List<MessageComponent> m=Lists.newArrayList(new TextMessageComponent(msgs[0]));

@@ -1,9 +1,9 @@
 package mz.lib.minecraft.bukkitlegacy.event;
 
-import mz.lib.*;
+import mz.lib.Ref;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.bukkitlegacy.MzLib;
+import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TranslateMessageComponent;
@@ -21,7 +21,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
-import java.util.Optional;
 
 /**
  * 向玩家显示一个物品的事件
@@ -63,7 +62,7 @@ public class ShowItemEvent extends Event
 	}
 	public String getLocale()
 	{
-		return MinecraftLanguages.getLang(player);
+		return LangUtil.getLang(player);
 	}
 	
 	private static final HandlerList handlers=new HandlerList();

@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.recipe;
 
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import org.bukkit.entity.HumanEntity;
 
 public enum ShownRecipeType
@@ -10,7 +10,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.unsavedRecipe");
+			return LangUtil.getTranslated(player,"mzlib.recipesEditor.types.unsavedRecipe");
 		}
 	},
 	FIXED()
@@ -18,7 +18,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.fixedRecipe");
+			return LangUtil.getTranslated(player,"mzlib.recipesEditor.types.fixedRecipe");
 		}
 	},
 	DISABLED()
@@ -26,7 +26,7 @@ public enum ShownRecipeType
 		@Override
 		public String getName(HumanEntity player)
 		{
-			return MinecraftLanguages.translate(player,"mzlib.recipesEditor.types.disabledRecipe");
+			return LangUtil.getTranslated(player,"mzlib.recipesEditor.types.disabledRecipe");
 		}
 	};
 	

@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkitlegacy.item;
 
 import mz.lib.*;
-import mz.lib.minecraft.*;
+import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.message.*;
 import mz.lib.minecraft.message.*;
 import org.bukkit.*;
@@ -47,17 +47,17 @@ public interface DebugFish extends MzItem
 	@Override
 	default void onUse(Player user,EquipmentSlot hand,Ref<Boolean> cancelled,Block target,BlockFace face)
 	{
-		MzLib.sendPluginMessage(user,MzLib.instance,MinecraftLanguages.translate(user,"mzlib.item.debugFish.blockinfo"));
+		MzLib.sendPluginMessage(user,MzLib.instance,LangUtil.getTranslated(user,"mzlib.item.debugFish.blockinfo"));
 		List<MessageComponent> msg=new ArrayList<>();
-		msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(user,"mzlib.item.debugFish.blockinfo.material"),new MapEntry<>("%\\{material}",target.getType().toString())),user,target.getType().toString()));
+		msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(user,"mzlib.item.debugFish.blockinfo.material"),new MapEntry<>("%\\{material}",target.getType().toString())),user,target.getType().toString()));
 		MessageComponent.mergeLines(msg.toArray(new MessageComponent[0])).send(user);
 	}
 	@Override
 	default void onUse(Player user,EquipmentSlot hand,Ref<Boolean> cancelled,Entity target)
 	{
-		MzLib.sendPluginMessage(user,MzLib.instance,MinecraftLanguages.translate(user,"mzlib.item.debugFish.entityinfo"));
+		MzLib.sendPluginMessage(user,MzLib.instance,LangUtil.getTranslated(user,"mzlib.item.debugFish.entityinfo"));
 		List<MessageComponent> msg=new ArrayList<>();
-		msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(MinecraftLanguages.translate(user,"mzlib.item.debugFish.entityinfo.entitytype"),new MapEntry<>("%\\{entitytype}",target.getType().toString())),user,target.getType().toString()));
+		msg.add(TextMessageComponent.textCopy(StringUtil.replaceStrings(LangUtil.getTranslated(user,"mzlib.item.debugFish.entityinfo.entitytype"),new MapEntry<>("%\\{entitytype}",target.getType().toString())),user,target.getType().toString()));
 		MessageComponent.mergeLines(msg.toArray(new MessageComponent[0])).send(user);
 	}
 }

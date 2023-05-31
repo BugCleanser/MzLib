@@ -1,7 +1,7 @@
 package mz.lib.minecraft.ui.inventory;
 
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.bukkitlegacy.module.IModule;
 import mz.lib.wrapper.WrappedObject;
@@ -43,7 +43,7 @@ public abstract class Menu extends ChestUI
 	}
 	public void setRetButton(int slot)
 	{
-		this.setButton(slot,p->ItemStackBuilder.returnArrow().setName(MinecraftLanguages.translate(p,"mzlib.menu.return")).get(),(t,p)->ret(p));
+		this.setButton(slot,p->ItemStackBuilder.returnArrow().setName(LangUtil.getTranslated(p,"mzlib.menu.return")).get(),(t,p)->ret(p));
 	}
 	@Override
 	public void clear()

@@ -3,7 +3,7 @@ package mz.lib.minecraft.command;
 import com.google.common.collect.Lists;
 import mz.lib.ListMap;
 import mz.lib.TypeUtil;
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
@@ -135,7 +135,7 @@ public interface IMainCommand extends TabExecutor
 		List<String> usage=executeOrUsages(sender,label,args);
 		if(usage!=null&&usage.size()>0)
 		{
-			MzLib.sendPluginMessage(sender,getPlugin(),MinecraftLanguages.translate(sender,"mzlib.command.default.usage"));
+			MzLib.sendPluginMessage(sender,getPlugin(),LangUtil.getTranslated(sender,"mzlib.command.default.usage"));
 			usage.forEach(sender::sendMessage);
 		}
 		return false;

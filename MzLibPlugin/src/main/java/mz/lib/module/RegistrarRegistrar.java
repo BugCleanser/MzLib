@@ -8,10 +8,6 @@ import java.util.concurrent.*;
 public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
 {
 	public static RegistrarRegistrar instance=new RegistrarRegistrar();
-	public RegistrarRegistrar()
-	{
-		register(MzLib.instance,this);
-	}
 	
 	public Map<Class<?>,Set<IRegistrar<?>>> registered=new ConcurrentHashMap<>();
 	@Override

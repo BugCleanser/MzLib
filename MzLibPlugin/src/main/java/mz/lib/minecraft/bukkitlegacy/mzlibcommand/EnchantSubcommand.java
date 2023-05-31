@@ -1,6 +1,6 @@
 package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 
-import mz.lib.minecraft.MinecraftLanguages;
+import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.command.AbsLastCommandProcessor;
 import mz.lib.minecraft.command.CommandHandler;
@@ -38,12 +38,12 @@ public class EnchantSubcommand extends AbsLastCommandProcessor
 			sender.getInventory().setItemInMainHand(is);
 		}
 		else
-			MzLib.sendPluginMessage(sender,MzLib.instance,MinecraftLanguages.translate(sender,"mzlib.command.enchant.error"));
+			MzLib.sendPluginMessage(sender,MzLib.instance,LangUtil.getTranslated(sender,"mzlib.command.enchant.error"));
 	}
 	
 	@Override
 	public String getEffect(CommandSender sender)
 	{
-		return MinecraftLanguages.translate(sender,"mzlib.command.enchant.effect");
+		return LangUtil.getTranslated(sender,"mzlib.command.enchant.effect");
 	}
 }
