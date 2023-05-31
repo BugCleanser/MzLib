@@ -79,8 +79,6 @@ body:
           required: true
         - label: 我已经阅读了 MzLib 的 Wiki 且确定此问题不是由于错误的配置文件引起的。
           required: true
-        - label: 我已经查找了 MzLib 现有的全部 Issues 并确定此问题没有被重复提交。
-          required: true
         - label: 我在未认真阅读完检查部分的情况下选择了这个 Checkbox。
           required: false
         - label: 我确定 MzLib 没有运行在其不支持的环境上。
