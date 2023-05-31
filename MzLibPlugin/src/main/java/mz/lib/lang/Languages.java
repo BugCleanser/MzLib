@@ -52,17 +52,6 @@ public class Languages extends MzModule implements IRegistrar<DefaultLanguagesRe
 	}
 	
 	public File dataFile=new File(MzLib.instance.dataFolder,"languages.ser");
-	public Saver saver=new Saver(()->
-	{
-		try(ObjectOutputStream oos=new ObjectOutputStream(Files.newOutputStream(dataFile.toPath())))
-		{
-			oos.writeObject(map);
-		}
-		catch(Throwable e)
-		{
-			throw TypeUtil.throwException(e);
-		}
-	});
 	@Override
 	public void onLoad()
 	{
@@ -76,6 +65,41 @@ public class Languages extends MzModule implements IRegistrar<DefaultLanguagesRe
 		{
 			throw TypeUtil.throwException(e);
 		}
-		reg(saver);
+	}
+	public void save0()
+	{
+		try(ObjectOutputStream oos=new ObjectOutputStream(Files.newOutputStream(dataFile.toPath())))
+		{
+			oos.writeObject(map);
+		}
+		catch(Throwable e)
+		{
+			throw TypeUtil.throwException(e);
+		}
+	}
+	public volatile Timer saver;
+	public synchronized void save()
+	{
+		if(saver==null)
+		{
+			saver=new Timer(true);
+			saver.schedule(new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					save0();
+					saver=null;
+				}
+			},5000);
+		}
+	}
+	@Override
+	public void onUnload()
+	{
+		if(saver!=null)
+			saver.cancel();
+		saver=null;
+		save0();
 	}
 }

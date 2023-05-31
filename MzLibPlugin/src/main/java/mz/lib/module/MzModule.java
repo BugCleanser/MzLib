@@ -14,7 +14,7 @@ public abstract class MzModule
 	public static Set<MzModule> loadedModules=new ConcurrentHashSet<>();
 	public List<MzModule> depends=new CopyOnWriteArrayList<>();
 	public List<MzModule> submodules=new CopyOnWriteArrayList<>();
-	public Map<?,Set<IRegistrar<?>>> registrars=new ConcurrentHashMap<>();
+	public Map<IRegistrar<?>,Set<?>> registeredObjects=new ConcurrentHashMap<>();
 	
 	public void onLoad()
 	{
@@ -66,8 +66,12 @@ public abstract class MzModule
 		for(MzModule m:loadedModules)
 			if(m.depends.contains(this))
 				r.addAll(m.unload());
-		registrars.forEach((i,j)->j.forEach(k->k.unregister(this,TypeUtil.cast(i))));
-		registrars.clear();
+		registeredObjects.forEach((i,l)->
+		{
+			for(Object j:l)
+				i.unregister(this,TypeUtil.cast(j));
+		});
+		registeredObjects.clear();
 		loadedModules.remove(this);
 		depends.clear();
 		return r;
@@ -100,29 +104,27 @@ public abstract class MzModule
 			for(IRegistrar<?> j:r)
 				if(j.register(this,TypeUtil.cast(obj)))
 				{
-					registrars.computeIfAbsent(TypeUtil.cast(obj),k->new ConcurrentHashSet<>()).add(j);
+					registeredObjects.computeIfAbsent(j,k->new ConcurrentHashSet<>()).add(TypeUtil.cast(obj));
 					regCount++;
 				}
 		}
 		if(regCount==0)
 			throw new UnsupportedOperationException("Failed to reg "+obj+".");
 	}
-	public boolean unreg(Object obj)
+	public void unreg(Object obj)
 	{
-		Set<IRegistrar<?>> v=registrars.get(obj);
-		if(v!=null)
+		for(Map.Entry<IRegistrar<?>,Set<?>> i:registeredObjects.entrySet())
 		{
-			for(IRegistrar<?> r: v)
-				r.unregister(this,TypeUtil.cast(obj));
-			registrars.remove(obj);
-			return true;
+			if(i.getValue().remove(obj))
+			{
+				i.getKey().unregister(this,TypeUtil.cast(obj));
+				if(i.getValue().isEmpty())
+				{
+					registeredObjects.remove(i.getKey());
+					break;
+				}
+			}
 		}
-		return false;
-	}
-	
-	public boolean hasReged(Object obj)
-	{
-		return registrars.containsKey(obj);
 	}
 	
 	public Set<MzModule> getLoadedModules()
