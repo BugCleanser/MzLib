@@ -1,9 +1,9 @@
-package mz.lib.minecraft.message.showonmouse;
+package mz.lib.minecraft.bukkitlegacy.message.showonmouse;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.message.MessageComponent;
+import mz.lib.minecraft.bukkitlegacy.message.MessageComponent;
 import mz.mzlib.*;
 import net.md_5.bungee.api.chat.HoverEvent;
 

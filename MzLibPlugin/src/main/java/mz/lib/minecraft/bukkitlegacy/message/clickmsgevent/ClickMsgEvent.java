@@ -1,7 +1,7 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.bukkitlegacy.message.clickmsgevent;
 
 import com.google.gson.JsonObject;
-import mz.lib.minecraft.message.MessageComponent;
+import mz.lib.minecraft.bukkitlegacy.message.MessageComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 
 /**

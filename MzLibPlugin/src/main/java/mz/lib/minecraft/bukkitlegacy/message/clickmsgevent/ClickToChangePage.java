@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.clickmsgevent;
+package mz.lib.minecraft.bukkitlegacy.message.clickmsgevent;
 
 public class ClickToChangePage extends ClickMsgEvent
 {

@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message;
+package mz.lib.minecraft.bukkitlegacy.message;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -6,8 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.message.clickmsgevent.ClickMsgEvent;
-import mz.lib.minecraft.message.showonmouse.ShowOnMouse;
+import mz.lib.minecraft.bukkitlegacy.message.clickmsgevent.ClickMsgEvent;
+import mz.lib.minecraft.bukkitlegacy.message.showonmouse.ShowOnMouse;
+import mz.mzlib.*;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent;
 import mz.lib.minecraft.bukkit.nms.NmsICommandListener;
 import net.md_5.bungee.api.ChatColor;

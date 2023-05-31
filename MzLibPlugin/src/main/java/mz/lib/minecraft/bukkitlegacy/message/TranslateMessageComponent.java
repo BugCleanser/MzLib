@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message;
+package mz.lib.minecraft.bukkitlegacy.message;
 
 import com.google.gson.JsonObject;
 
@@ -14,7 +14,7 @@ public class TranslateMessageComponent extends MessageComponent
 		super(json);
 		translate=getString(json.get("translate"));
 		if(json.has("with"))
-			with=parseAll(json.get("with").getAsJsonArray());
+			with=MessageComponent.parseAll(json.get("with").getAsJsonArray());
 	}
 	public TranslateMessageComponent(String translate)
 	{

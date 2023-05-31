@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message;
+package mz.lib.minecraft.bukkitlegacy.message;
 
 import com.google.gson.JsonObject;
 
