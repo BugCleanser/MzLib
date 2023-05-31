@@ -27,7 +27,6 @@ public interface NmsNBTBase extends VersionalWrappedObject, NbtElement
 			add(r,NmsNBTTagInt.class);
 			add(r,NmsNBTTagLong.class);
 			add(r,NmsNBTTagFloat.class);
-			add(r,NmsNBTTagDouble.class);
 			add(r,NmsNBTTagString.class);
 			return r;
 		}
