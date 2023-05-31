@@ -3,8 +3,8 @@ package mz.lib.minecraft.bukkitlegacy;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.event.entity.player.CreativeSetItemEvent;
-import mz.lib.minecraft.event.entity.player.ShowItemEvent;
+import mz.lib.minecraft.bukkitlegacy.event.SetItemEvent;
+import mz.lib.minecraft.bukkitlegacy.event.ShowItemEvent;
 import mz.lib.minecraft.bukkitlegacy.itemstack.EnchantedBookBuilder;
 import mz.lib.minecraft.bukkit.obc.ObcEnchantment;
 import mz.mzlib.*;
@@ -421,7 +421,7 @@ public final class EnchantUtil
 				}
 			}
 			@EventHandler
-			void onSetItem(CreativeSetItemEvent event)
+			void onSetItem(SetItemEvent event)
 			{
 				if(event.item.tag().containsKey("EnchantsFix"))
 				{

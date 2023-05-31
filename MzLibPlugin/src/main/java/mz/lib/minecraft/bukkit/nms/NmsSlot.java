@@ -2,7 +2,7 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.bukkitlegacy.MzLib;
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.entity.PlayerUtil;
+import mz.lib.minecraft.bukkitlegacy.entity.PlayerUtil;
 import mz.lib.minecraft.bukkit.obc.ObcEntity;
 import mz.lib.minecraft.bukkit.obc.ObcInventory;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;

@@ -2,6 +2,7 @@ package mz.lib.minecraft.bukkitlegacy.entity;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
+import mz.mzlib.*;
 import org.bukkit.entity.*;
 
 public class EntityTypeUtil

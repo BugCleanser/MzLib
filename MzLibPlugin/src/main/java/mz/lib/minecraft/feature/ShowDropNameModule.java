@@ -1,8 +1,19 @@
 package mz.lib.minecraft.feature;
 
 import com.google.common.collect.Lists;
+import mz.lib.minecraft.bukkit.nms.*;
+import mz.lib.minecraft.bukkitlegacy.*;
+import mz.lib.minecraft.bukkitlegacy.entity.*;
+import mz.lib.minecraft.bukkitlegacy.event.SendEntityMetadataEvent;
+import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.module.*;
 import mz.lib.wrapper.WrappedObject;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerLocaleChangeEvent;
 
 import java.util.*;
 
@@ -10,11 +21,9 @@ public class ShowDropNameModule extends MzModule
 {
 	public static ShowDropNameModule instance=new ShowDropNameModule();
 	
-	@EventHandler(order=10)
+	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
 	void onSendEntityMetadata(SendEntityMetadataEvent event)
 	{
-		if(event.isCancelled())
-			return;
 		if(event.getEntityType()!=EntityType.DROPPED_ITEM)
 			return;
 		if(MzLib.instance.getConfig().getBoolean("func.showDropName",true))
