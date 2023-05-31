@@ -118,7 +118,7 @@ public interface WrappedObject
 			if(c==null)
 			{
 				if(!wrapper.isInterface())
-					throw new IllegalArgumentException("Wrapper "+wrapper.getName()+" must be an interface.");
+					throw new IllegalArgumentException("Wrapper "+wrapper.getName()+" must be a interface.");
 				if(!WrappedObject.class.isAssignableFrom(wrapper))
 					throw new IllegalArgumentException("Wrapper "+wrapper.getName()+" must be a subclass of WrappedObject.");
 				T controller=ClassUtil.newInstance(wrapper);
