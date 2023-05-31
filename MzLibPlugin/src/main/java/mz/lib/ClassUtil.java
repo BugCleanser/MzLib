@@ -33,7 +33,7 @@ public class ClassUtil
 	 */
 	public static List<Class<?>> getSuperClasses(Class<?> clazz)
 	{
-		return getSuperClasses(clazz,Object.class);
+		return TypeUtil.cast(getSuperClasses(clazz,Object.class));
 	}
 	/**
 	 * 得到所有是一个类的父类且是一个类的子类的类
@@ -52,49 +52,6 @@ public class ClassUtil
 			r.addAll(getSuperClasses(clazz.getSuperclass(),l));
 		for(Class<?> c: clazz.getInterfaces())
 			r.addAll(getSuperClasses(TypeUtil.cast(c),l));
-		return r;
-	}
-	public static List<Class<?>> getSuperClassesTopological(Class<?> clazz)
-	{
-		return getSuperClassesTopological(clazz,Object.class);
-	}
-	public static <E,T> List<Class<? extends E>> getSuperClassesTopological(Class<T> clazz,Class<E> l)
-	{
-		Map<Class<?>,Integer> supersNum=new HashMap<>();
-		Map<Class<?>,Set<Class<?>>> children=new HashMap<>();
-		Queue<Class<?>> q=new LinkedList<>();
-		for(Class<?> c:getSuperClasses(clazz,l))
-		{
-			supersNum.put(c,0);
-			children.put(c,new HashSet<>());
-		}
-		for(Class<?> c:supersNum.keySet())
-		{
-			Set<Class<?>> s=new HashSet<>();
-			if(c.getSuperclass()!=null)
-				s.add(c.getSuperclass());
-			s.addAll(Arrays.asList(c.getInterfaces()));
-			for(Class<?> i:s)
-				if(supersNum.containsKey(i))
-				{
-					supersNum.put(c,supersNum.get(c)+1);
-					children.get(i).add(c);
-				}
-			if(supersNum.get(c)==0)
-				q.add(c);
-		}
-		List<Class<? extends E>> r=new ArrayList<>();
-		while(q.size()>0)
-		{
-			Class<?> head=q.poll();
-			r.add(TypeUtil.cast(head));
-			for(Class<?> c:children.get(head))
-			{
-				supersNum.put(c,supersNum.get(c)-1);
-				if(supersNum.get(c)==0)
-					q.add(c);
-			}
-		}
 		return r;
 	}
 	public static Class<?> get(String name)
@@ -346,21 +303,27 @@ public class ClassUtil
 	public static List<Method> getAllMethods(Class<?> clazz)
 	{
 		List<Method> r=new ArrayList<>();
-		for(Class<?> c:getSuperClassesTopological(clazz))
-			r.addAll(Lists.newArrayList(clazz.getDeclaredMethods()));
+		if(clazz.getSuperclass()!=null)
+			ListUtil.addAllNonexistent(r,getAllMethods(clazz.getSuperclass()));
+		for(Class<?> i:clazz.getInterfaces())
+			ListUtil.addAllNonexistent(r,getAllMethods(i));
+		ListUtil.addAllNonexistent(r,Lists.newArrayList(clazz.getDeclaredMethods()));
 		return r;
 	}
 	public static Set<Method> getAllMethods(Class<?> dc,String name,Class<?>... argTypes)
 	{
 		LinkedHashSet<Method> r=new LinkedHashSet<>();
-		for(Class<?> c:getSuperClassesTopological(dc))
-			try
-			{
-				r.add(dc.getDeclaredMethod(name,argTypes));
-			}
-			catch(NoSuchMethodException ignored)
-			{
-			}
+		if(dc!=Object.class&&!dc.isInterface())
+			r.addAll(getAllMethods(dc.getSuperclass(),name,argTypes));
+		for(Class<?> i: dc.getInterfaces())
+			r.addAll(getAllMethods(i,name,argTypes));
+		try
+		{
+			r.add(dc.getDeclaredMethod(name,argTypes));
+		}
+		catch(NoSuchMethodException e)
+		{
+		}
 		return r;
 	}
 	public static boolean isAbstract(Method m,Class<?> clazz)
@@ -370,7 +333,7 @@ public class ClassUtil
 			if(!Modifier.isAbstract(clazz.getDeclaredMethod(m.getName(),m.getParameterTypes()).getModifiers()))
 				return false;
 		}
-		catch(NoSuchMethodException ignored)
+		catch(NoSuchMethodException e)
 		{
 		}
 		if((!clazz.isInterface())&&clazz!=Object.class&&!isAbstract(m,clazz.getSuperclass()))
