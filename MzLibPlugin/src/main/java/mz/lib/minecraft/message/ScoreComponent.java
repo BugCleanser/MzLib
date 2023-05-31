@@ -27,10 +27,4 @@ public class ScoreComponent extends MessageComponent
 		r.addProperty("objective",objective);
 		return r;
 	}
-	
-	@Override
-	public String toTextImpl(String locale)
-	{
-		return "<score>";
-	}
 }

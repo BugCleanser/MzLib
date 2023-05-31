@@ -23,10 +23,4 @@ public class KeybindMessageComponent extends MessageComponent
 		r.addProperty("keybind",keybind);
 		return r;
 	}
-	
-	@Override
-	public String toTextImpl(String locale)
-	{
-		return keybind;
-	}
 }

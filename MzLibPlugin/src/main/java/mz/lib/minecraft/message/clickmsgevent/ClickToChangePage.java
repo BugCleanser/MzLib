@@ -1,6 +1,6 @@
-package mz.lib.minecraft.message.clickevent;
+package mz.lib.minecraft.message.clickmsgevent;
 
-public class ClickToChangePage extends ClickEvent
+public class ClickToChangePage extends ClickMsgEvent
 {
 	int page;
 	

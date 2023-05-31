@@ -2,8 +2,8 @@ package mz.lib.minecraft.md5.message;
 
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.message.*;
-import mz.lib.minecraft.message.clickevent.ClickEvent;
-import mz.lib.minecraft.message.hoverevent.HoverEvent;
+import mz.lib.minecraft.message.clickmsgevent.*;
+import mz.lib.minecraft.message.showonmouse.*;
 import net.md_5.bungee.api.*;
 import net.md_5.bungee.api.chat.*;
 
@@ -70,9 +70,9 @@ public class MessageMd5Util
 		r.obfuscated=md5.isObfuscated();
 		r.insertion=md5.getInsertion();
 		if(md5.getHoverEvent()!=null)
-			r.hoverEvent=HoverEvent.parse(md5.getHoverEvent());
+			r.som=ShowOnMouse.parse(md5.getHoverEvent());
 		if(md5.getClickEvent()!=null)
-			r.clickEvent=ClickEvent.parse(md5.getClickEvent());
+			r.cme=ClickMsgEvent.parse(md5.getClickEvent());
 		return r;
 	}
 }

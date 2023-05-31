@@ -1,9 +1,9 @@
-package mz.lib.minecraft.message.clickevent;
+package mz.lib.minecraft.message.clickmsgevent;
 
 /**
  * 点击消息的玩家自动发送消息
  */
-public class ClickToSay extends ClickEvent
+public class ClickToSay extends ClickMsgEvent
 {
 	/**
 	 * 消息

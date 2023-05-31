@@ -7,7 +7,7 @@ import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
 import mz.lib.minecraft.message.MessageComponent;
 import mz.lib.minecraft.message.TranslateMessageComponent;
-import mz.lib.minecraft.message.hoverevent.ShowItemOnMouse;
+import mz.lib.minecraft.message.showonmouse.ShowItemOnMouse;
 import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
 import mz.lib.minecraft.nothing.*;
@@ -44,11 +44,11 @@ public class ShowItemEvent extends Event
 	}
 	public static void decorate(MessageComponent msg,Player player)
 	{
-		if(msg.getHoverEvent() instanceof ShowItemOnMouse)
+		if(msg.getShowOnMouse() instanceof ShowItemOnMouse)
 		{
-			ShowItemEvent event=new ShowItemEvent(player,((ShowItemOnMouse) msg.getHoverEvent()).getItem());
+			ShowItemEvent event=new ShowItemEvent(player,((ShowItemOnMouse) msg.getShowOnMouse()).getItem());
 			Bukkit.getPluginManager().callEvent(event);
-			((ShowItemOnMouse) msg.getHoverEvent()).setItem(event.itemStack);
+			((ShowItemOnMouse) msg.getShowOnMouse()).setItem(event.itemStack);
 		}
 		if(msg.extra!=null)
 			for(MessageComponent m:msg.extra)
