@@ -1,13 +1,12 @@
-package mz.lib.minecraft.feature;
+package mz.lib.minecraft.bukkitlegacy;
 
 import com.google.common.collect.Lists;
 import mz.lib.minecraft.bukkit.nms.*;
-import mz.lib.minecraft.bukkitlegacy.*;
 import mz.lib.minecraft.bukkitlegacy.entity.*;
 import mz.lib.minecraft.bukkitlegacy.event.SendEntityMetadataEvent;
 import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
 import mz.lib.minecraft.bukkit.obc.ObcItemStack;
-import mz.lib.module.*;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
@@ -17,9 +16,13 @@ import org.bukkit.event.player.PlayerLocaleChangeEvent;
 
 import java.util.*;
 
-public class ShowDropNameModule extends MzModule
+public class ShowDropNameModule extends AbsModule
 {
 	public static ShowDropNameModule instance=new ShowDropNameModule();
+	public ShowDropNameModule()
+	{
+		super(MzLib.instance);
+	}
 	
 	@EventHandler(priority=EventPriority.MONITOR, ignoreCancelled=true)
 	void onSendEntityMetadata(SendEntityMetadataEvent event)

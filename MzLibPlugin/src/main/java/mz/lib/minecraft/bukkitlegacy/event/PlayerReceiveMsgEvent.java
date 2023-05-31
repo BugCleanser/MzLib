@@ -56,7 +56,7 @@ public class PlayerReceiveMsgEvent extends Event implements Cancellable
 				MessageComponent msg;
 				if(md5!=null)
 				{
-					msg=MessageMd5Util.cast(md5);
+					msg=MessageMd5Util.parse(md5);
 					packet.setMd5MsgV_19(null);
 				}
 				else if(component!=null)
