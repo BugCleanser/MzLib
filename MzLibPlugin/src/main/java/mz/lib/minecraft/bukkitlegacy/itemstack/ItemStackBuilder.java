@@ -13,7 +13,7 @@ import mz.lib.minecraft.bukkitlegacy.EnchantUtil;
 import mz.lib.minecraft.bukkitlegacy.LangUtil;
 import mz.lib.minecraft.bukkitlegacy.event.ShowItemEvent;
 import mz.lib.minecraft.bukkitlegacy.message.*;
-import mz.lib.minecraft.message.*;
+import mz.lib.minecraft.message.legacy.*;
 import mz.mzlib.*;
 import mz.lib.minecraft.bukkit.nms.NmsIChatBaseComponent.NmsChatSerializer;
 import mz.lib.minecraft.bukkit.obc.ObcChatMessage;

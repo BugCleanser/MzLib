@@ -2,6 +2,7 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.RegistryID",maxVer=17),@VersionalName(value="net.minecraft.util.RegistryID",minVer=17)})
 public interface NmsRegistryID extends VersionalWrappedObject

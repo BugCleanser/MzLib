@@ -7,7 +7,7 @@ import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
 
 @VersionalWrappedClass({@VersionalName(value="nms.IChatBaseComponent",maxVer=17),@VersionalName(value="net.minecraft.network.chat.IChatBaseComponent",minVer=17)})
-public interface NmsIChatBaseComponent extends VersionalWrappedObject
+public interface NmsIChatBaseComponent extends VersionalWrappedObject, MessageComponent
 {
 	@VersionalWrappedMethod({@VersionalName("@0")})
 	NmsChatModifier getStyle();

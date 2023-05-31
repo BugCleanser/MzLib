@@ -7,6 +7,10 @@ import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
+import mz.mzlib.*;
+import mz.mzlib.item.*;
+import mz.mzlib.nbt.*;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.ItemStack",maxVer=17),@VersionalName(value="net.minecraft.world.item.ItemStack",minVer=17)})
 public interface NmsItemStack extends VersionalWrappedObject, ItemStack
@@ -49,17 +53,10 @@ public interface NmsItemStack extends VersionalWrappedObject, ItemStack
 	@WrappedMethod({"save","b"})
 	NmsNBTTagCompound save(NmsNBTTagCompound nbt);
 	
-	@VersionalWrappedFieldAccessor(@VersionalName({"item","@0"}))
+	@VersionalWrappedFieldAccessor({@VersionalName("item"),@VersionalName(value="@0",minVer=17)})
 	NmsItem getItem();
-	@VersionalWrappedFieldAccessor(@VersionalName({"item","@0"}))
+	@VersionalWrappedFieldAccessor({@VersionalName("item"),@VersionalName(value="@0",minVer=17)})
 	NmsItemStack setItem(NmsItem item);
-	
-	@Override
-	@VersionalWrappedFieldAccessor(@VersionalName({"count","@0"}))
-	int getCount();
-	@Override
-	@VersionalWrappedFieldAccessor(@VersionalName({"count","@0"}))
-	void setCount(int count);
 	
 	@VersionalWrappedFieldAccessor(@VersionalName(value="damage",maxVer=13))
 	int getDamageV_13();

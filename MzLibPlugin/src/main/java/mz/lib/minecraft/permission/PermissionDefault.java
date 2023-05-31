@@ -1,6 +1,7 @@
 package mz.lib.minecraft.permission;
 
 import mz.lib.minecraft.*;
+import mz.mzlib.*;
 
 public interface PermissionDefault
 {

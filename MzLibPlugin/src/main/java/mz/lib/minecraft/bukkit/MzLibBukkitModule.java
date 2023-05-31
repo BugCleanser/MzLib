@@ -4,7 +4,11 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.permission.*;
 import mz.lib.minecraft.bukkit.task.*;
 import mz.lib.module.*;
+import mz.module.*;
+import mz.mzlib.*;
 import mz.lib.minecraft.Server;
+import mz.mzlib.bukkit.permission.*;
+import mz.mzlib.bukkit.task.*;
 import org.bukkit.*;
 
 public class MzLibBukkitModule extends MzModule

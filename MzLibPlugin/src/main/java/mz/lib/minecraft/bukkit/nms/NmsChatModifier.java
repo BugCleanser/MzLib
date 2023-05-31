@@ -5,7 +5,7 @@ import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.ChatModifier",maxVer=17),@VersionalName(value="net.minecraft.network.chat.ChatModifier",minVer=17)})
-public interface NmsChatModifier extends VersionalWrappedObject
+public interface NmsChatModifier extends VersionalWrappedObject, MessageStyle
 {
 	@VersionalWrappedFieldAccessor(@VersionalName(value="@0",maxVer=16))
 	NmsEnumChatFormat getColorV_16();
@@ -15,4 +15,21 @@ public interface NmsChatModifier extends VersionalWrappedObject
 	NmsChatHexColorV16 getColorV16();
 	@VersionalWrappedFieldAccessor(@VersionalName(value="@0",minVer=16))
 	void setColorV16(NmsChatHexColorV16 color);
+	
+	@Override
+	default MessageColor getColor()
+	{
+		if(Server.instance.version<16)
+			return getColorV_16();
+		else
+			return getColorV16();
+	}
+	@Override
+	default void setColor(MessageColor color)
+	{
+		if(Server.instance.version<16)
+			setColorV_16((NmsEnumChatFormat)color);
+		else
+			setColorV16((NmsChatHexColorV16)color);
+	}
 }

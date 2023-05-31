@@ -3,7 +3,6 @@ package mz.lib.minecraft.bukkitlegacy.mzlibcommand;
 import mz.lib.minecraft.bukkitlegacy.command.*;
 import mz.lib.minecraft.bukkitlegacy.entity.*;
 import mz.lib.minecraft.bukkitlegacy.itemstack.*;
-import mz.lib.minecraft.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.permissions.*;
 

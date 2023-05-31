@@ -16,6 +16,8 @@ import mz.lib.nothing.*;
 import mz.lib.wrapper.WrappedArray;
 import mz.lib.wrapper.WrappedArrayClass;
 import mz.lib.wrapper.WrappedObject;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;

@@ -6,6 +6,8 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.obc.ObcObject2IntMapV13_18;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
+import mz.mzlib.*;
+import mz.mzlib.wrapper.*;
 
 import java.util.Map;
 

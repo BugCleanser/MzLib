@@ -3,6 +3,8 @@ package mz.lib.minecraft.item;
 import mz.lib.*;
 import mz.lib.minecraft.*;
 import mz.lib.minecraft.nbt.*;
+import mz.mzlib.*;
+import mz.mzlib.nbt.*;
 
 public interface ItemStack
 {
@@ -17,9 +19,6 @@ public interface ItemStack
 	
 	Item getItem();
 	void setItem(Item item);
-	
-	int getCount();
-	void setCount(int count);
 	
 	int getDamage();
 	void setDamage(int damage);

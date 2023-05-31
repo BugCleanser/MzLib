@@ -1,6 +1,7 @@
 package mz.lib.minecraft.nbt;
 
 import mz.lib.minecraft.*;
+import mz.mzlib.*;
 
 public interface NbtIntArray extends NbtList
 {

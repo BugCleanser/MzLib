@@ -5,6 +5,8 @@ import mz.lib.minecraft.nbt.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedObject;
+import mz.mzlib.nbt.*;
+import mz.mzlib.wrapper.*;
 
 import java.util.*;
 import java.util.function.*;
