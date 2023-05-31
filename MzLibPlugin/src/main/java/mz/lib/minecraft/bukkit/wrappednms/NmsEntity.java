@@ -112,8 +112,8 @@ public interface NmsEntity extends NmsICommandListener, NothingBukkit
 		}
 		return Nothing.doReturn(WrappedObject.wrap(ObcEntity.class,r).getHandle().cast(NmsEntityItem.class));
 	}
-	@WrappedBukkitFieldAccessor({@VersionName(maxVer=13, value="aB"),@VersionName(value="aE",minVer=13,maxVer=14),@VersionName(minVer=14, maxVer=17, value={"aq","az"}),@VersionName(minVer=17, maxVer=18, value="aJ"),@VersionName(minVer=18,maxVer=18.2f, value="aL"),@VersionName(minVer=18.2f, value="aM")})
+	@WrappedBukkitFieldAccessor({@VersionName(maxVer=13, value="aB"),@VersionName(value="aE",minVer=13,maxVer=14),@VersionName(minVer=14, maxVer=17, value={"aq","az"}),@VersionName(minVer=17, maxVer=18, value="aJ"),@VersionName(minVer=18,maxVer=18.2f, value="aL"),@VersionName(minVer=18.2f,maxVer=19.4f, value="aM"),@VersionName(minVer=19.4f,value="#2")})
 	NmsDataWatcherObject staticGetCustomNameType();
-	@WrappedBukkitFieldAccessor({@VersionName(maxVer=13, value="aC"),@VersionName(value="aF",minVer=13,maxVer=14),@VersionName(minVer=14, maxVer=17, value={"ar","aA"}),@VersionName(minVer=17, maxVer=18, value="aK"),@VersionName(minVer=18,maxVer=18.2f, value="aM"),@VersionName(minVer=18.2f, value="aN")})
+	@WrappedBukkitFieldAccessor({@VersionName(maxVer=13, value="aC"),@VersionName(value="aF",minVer=13,maxVer=14),@VersionName(minVer=14, maxVer=17, value={"ar","aA"}),@VersionName(minVer=17, maxVer=18, value="aK"),@VersionName(minVer=18,maxVer=18.2f, value="aM"),@VersionName(minVer=18.2f,maxVer=19.4f, value="aN"),@VersionName(minVer=19.4f,value="#3")})
 	NmsDataWatcherObject staticGetCustomNameVisibleType();
 }

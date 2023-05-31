@@ -1,6 +1,7 @@
 package mz.lib.minecraft.bukkit;
 
 import com.google.common.collect.Lists;
+import com.rylinaux.plugman.PlugMan;
 import com.rylinaux.plugman.util.PluginUtil;
 import mz.lib.ListUtil;
 import mz.lib.MapEntry;
@@ -54,7 +55,7 @@ public class MzPlugin extends JavaPlugin
 				for(Plugin p: Bukkit.getPluginManager().getPlugins())
 				{
 					if(StringUtil.containsIgnoreCase(p.getDescription().getDepend(),this.getName()))
-						PluginUtil.reload(p);
+						PlugMan.getInstance().getPluginUtil().reload(p);
 				}
 		}
 	}

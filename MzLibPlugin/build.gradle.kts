@@ -22,7 +22,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot-api:1.19.3-R0.1-SNAPSHOT")
     compileOnly("it.unimi.dsi:fastutil:8.5.11")
-    compileOnly("com.rylinaux:PlugMan:2.2.9")
+    compileOnly("com.rylinaux:PlugMan:2.3.3")
 }
 
 description = "MzLibPlugin"

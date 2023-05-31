@@ -16,7 +16,9 @@ import mz.lib.nothing.NothingLocation;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @WrappedBukkitClass({@VersionName(value="nms.NetworkManager",maxVer=17),@VersionName(value="net.minecraft.network.NetworkManager",minVer=17)})
 public interface NmsNetworkManager extends WrappedBukkitObject, NothingBukkit
@@ -51,7 +53,8 @@ public interface NmsNetworkManager extends WrappedBukkitObject, NothingBukkit
 	@NothingBukkitInject(name=@VersionName(maxVer=13, value="sendPacket"),args={NmsPacket.class},location=NothingLocation.FRONT)
 	@NothingBukkitInject(name=@VersionName(maxVer=13, value="a"),args={NmsPacket.class,GenericFutureListener[].class}, location=NothingLocation.FRONT)
 	@NothingBukkitInject(name={@VersionName(minVer=13, value="sendPacket", maxVer=19.1f),@VersionName(minVer=18, value="a", maxVer=19.1f)}, args={NmsPacket.class,GenericFutureListener.class}, location=NothingLocation.FRONT)
-	@NothingBukkitInject(name=@VersionName(value={"sendPacket","a"}, minVer=19.1f), args={NmsPacket.class,NmsPacketSendListener.class}, location=NothingLocation.FRONT)
+	@NothingBukkitInject(name=@VersionName(value={"sendPacket","a"}, minVer=19.1f,maxVer=19.4f), args={NmsPacket.class,NmsPacketSendListener.class}, location=NothingLocation.FRONT)
+	@NothingBukkitInject(name=@VersionName(value="doSendPacket",minVer=19.4f),args={NmsPacket.class,NmsPacketSendListener.class,NmsEnumProtocol.class,NmsEnumProtocol.class,boolean.class},location=NothingLocation.FRONT)
 	default Optional<Void> sendPacketBefore(@LocalVar(1) NmsPacket packet)
 	{
 		if(this.getPacketListener().is(NmsPlayerConnection.class))
