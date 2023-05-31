@@ -4,9 +4,14 @@ import mz.lib.minecraft.*;
 import mz.lib.minecraft.bukkit.nms.*;
 import mz.lib.minecraft.bukkit.permission.*;
 import mz.lib.minecraft.item.*;
-import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.nbt.*;
 import mz.lib.minecraft.permission.*;
+import mz.mzlib.*;
+import mz.mzlib.bukkit.nms.*;
+import mz.mzlib.bukkit.permission.*;
+import mz.mzlib.item.*;
+import mz.mzlib.nbt.*;
+import mz.mzlib.permission.*;
 
 import java.util.*;
 
@@ -99,11 +104,5 @@ public class FactoryImpl extends Factory
 	public PermissionDefault permissionDefaultNotOp()
 	{
 		return PermissionDefaultImpl.NOT_OP;
-	}
-	
-	@Override
-	public MessageColor getMessageColor(String name)
-	{
-		return NmsEnumChatFormat.fromName(name);
 	}
 }

@@ -1,10 +1,9 @@
-package mz.lib.minecraft.message.legacy.showonmouse;
+package mz.lib.minecraft.message.showonmouse;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import mz.lib.minecraft.*;
-import mz.lib.minecraft.md5.message.*;
-import mz.lib.minecraft.message.legacy.MessageComponent;
+import mz.lib.minecraft.message.MessageComponent;
 import mz.mzlib.*;
 import net.md_5.bungee.api.chat.HoverEvent;
 
@@ -31,7 +30,7 @@ public abstract class ShowOnMouse
 	{
 		JsonObject json=new JsonObject();
 		json.addProperty("action",hoverEvent.getAction().name());
-		json.add("value",MessageMd5Util.parse(hoverEvent.getValue()).toJson());
+		json.add("value",MessageComponent.parse(hoverEvent.getValue()).toJson());
 		return parse(json);
 	}
 	public abstract String getAction();

@@ -1,4 +1,4 @@
-package mz.lib.minecraft.message.legacy.clickmsgevent;
+package mz.lib.minecraft.message.clickmsgevent;
 
 /**
  * 点击消息的玩家自动发送消息

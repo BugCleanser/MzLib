@@ -1,23 +1,14 @@
 package mz.lib.minecraft.bukkit.nms;
 
-import mz.lib.minecraft.message.*;
 import mz.lib.minecraft.wrapper.*;
 import mz.lib.minecraft.VersionalName;
 import mz.lib.wrapper.WrappedMethod;
 import mz.lib.wrapper.WrappedObject;
+import mz.mzlib.wrapper.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.IChatBaseComponent",maxVer=17),@VersionalName(value="net.minecraft.network.chat.IChatBaseComponent",minVer=17)})
-public interface NmsIChatBaseComponent extends VersionalWrappedObject, MessageComponent
+public interface NmsIChatBaseComponent extends VersionalWrappedObject
 {
-	@VersionalWrappedMethod({@VersionalName("@0")})
-	NmsChatModifier getStyle();
-	
-	default String toJson()
-	{
-		return NmsChatSerializer.toJson(this);
-	}
-	
-	
 	@VersionalWrappedClass({@VersionalName(value="nms.IChatBaseComponent$ChatSerializer",maxVer=17),@VersionalName(value="net.minecraft.network.chat.IChatBaseComponent$ChatSerializer",minVer=17)})
 	interface NmsChatSerializer extends VersionalWrappedObject
 	{
