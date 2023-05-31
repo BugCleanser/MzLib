@@ -1,7 +1,7 @@
 package mz.lib.minecraft.bukkit.paper;
 
-import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.module.AbsModule;
 import mz.lib.wrapper.WrappedObject;
 
 public class PaperModule extends AbsModule

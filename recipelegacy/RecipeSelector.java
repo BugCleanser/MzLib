@@ -1,11 +1,11 @@
-package mz.lib.minecraft.bukkitlegacy.recipelegacy;
+package mz.lib.minecraft.bukkit.recipelegacy;
 
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.gui.inventory.ListEditor;
-import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.message.TextMessageComponent;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.gui.inventory.ListEditor;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;

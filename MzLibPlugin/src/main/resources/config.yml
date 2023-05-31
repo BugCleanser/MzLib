@@ -19,8 +19,5 @@ func:
      - bc
      - m
      - r
-blocks: #MzBlock信息
-  saveInterval: 1200 #自动保存间隔，更改后保存插件生效
-  maxSaveSpeed: 16 #每tick保存的区块的最大数量
 mapOffset: 16384 #MzLib使用的地图id起始点，请使其远离服务器用的地图
 defaultLang: zh_cn #控制台、命令方块等使用的语言

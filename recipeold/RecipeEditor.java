@@ -1,13 +1,14 @@
-package mz.lib.minecraft.bukkitlegacy.recipeold;
+package mz.lib.minecraft.bukkit.recipeold;
 
 import com.google.common.collect.Lists;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.inventory.*;
-import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.module.IModule;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.inventory.*;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.module.IModule;
+import mz.lib.minecraft.bukkit.wrappednms.*;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.bukkit.Keyed;
 import org.bukkit.Material;

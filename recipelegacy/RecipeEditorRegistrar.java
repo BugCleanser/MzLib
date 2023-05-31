@@ -1,10 +1,10 @@
-package mz.lib.minecraft.bukkitlegacy.recipelegacy;
+package mz.lib.minecraft.bukkit.recipelegacy;
 
-import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.gui.ViewList;
-import mz.lib.minecraft.bukkitlegacy.module.AbsModule;
-import mz.lib.minecraft.bukkitlegacy.module.IRegistrar;
-import mz.lib.minecraft.bukkitlegacy.module.RegistrarRegistrar;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.gui.ViewList;
+import mz.lib.minecraft.bukkit.module.AbsModule;
+import mz.lib.minecraft.bukkit.module.IRegistrar;
+import mz.lib.minecraft.bukkit.module.RegistrarRegistrar;
 
 import java.io.File;
 

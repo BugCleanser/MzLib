@@ -36,15 +36,15 @@ public class ClassUtil
 		return TypeUtil.cast(getSuperClasses(clazz,Object.class));
 	}
 	/**
-	 * 得到所有是一个类的父类且是一个类的子类的类
+	 * 得到所有是一个类的父类且是一个类的真子类的类
 	 *
 	 * @param clazz 过滤这个类的父类
-	 * @param l     过滤这个类的子类
-	 * @return 一个类的父类 交 另一个类的子类
+	 * @param l     过滤这个类的真子类
+	 * @return 一个类的父类 交 另一个类的真子类
 	 */
 	public static <E,T> List<Class<? extends E>> getSuperClasses(Class<T> clazz,Class<E> l)
 	{
-		if(!l.isAssignableFrom(clazz))
+		if(clazz==l||!l.isAssignableFrom(clazz))
 			return new LinkedList<>();
 		List<Class<? extends E>> r=new LinkedList<>();
 		r.add(TypeUtil.cast(clazz));

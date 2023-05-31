@@ -1,14 +1,15 @@
-package mz.lib.minecraft.bukkitlegacy.recipelegacy;
+package mz.lib.minecraft.bukkit.recipelegacy;
 
 import com.google.common.collect.Lists;
 import mz.lib.MapEntry;
 import mz.lib.StringUtil;
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.MzLib;
-import mz.lib.minecraft.bukkitlegacy.gui.ViewList;
-import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.wrappedobc.ObcInventory;
-import mz.lib.minecraft.bukkitlegacy.wrappedobc.ObcItemStack;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.gui.ViewList;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.wrappednms.*;
+import mz.lib.minecraft.bukkit.wrappedobc.ObcInventory;
+import mz.lib.minecraft.bukkit.wrappedobc.ObcItemStack;
 import mz.lib.wrapper.WrappedObject;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

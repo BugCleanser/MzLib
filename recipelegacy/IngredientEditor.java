@@ -1,10 +1,13 @@
-package mz.lib.minecraft.bukkitlegacy.recipelegacy;
+package mz.lib.minecraft.bukkit.recipelegacy;
 
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
-import mz.lib.minecraft.bukkitlegacy.gui.inventory.Menu;
-import mz.lib.minecraft.bukkitlegacy.itemstack.ItemStackBuilder;
-import mz.lib.minecraft.bukkitlegacy.message.TextMessageComponent;
-import mz.lib.minecraft.bukkitlegacy.module.IModule;
+import mz.lib.minecraft.bukkit.LangUtil;
+import mz.lib.minecraft.bukkit.gui.inventory.Menu;
+import mz.lib.minecraft.bukkit.itemstack.ItemStackBuilder;
+import mz.lib.minecraft.bukkit.message.TextMessageComponent;
+import mz.lib.minecraft.bukkit.module.IModule;
+import mz.lib.minecraft.bukkit.wrappednms.NmsContainer;
+import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
+import mz.lib.minecraft.bukkit.wrappednms.NmsSlot;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;

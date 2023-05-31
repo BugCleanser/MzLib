@@ -1,6 +1,6 @@
-package mz.lib.minecraft.bukkitlegacy.recipelegacy;
+package mz.lib.minecraft.bukkit.recipelegacy;
 
-import mz.lib.minecraft.bukkitlegacy.LangUtil;
+import mz.lib.minecraft.bukkit.LangUtil;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Recipe;
 

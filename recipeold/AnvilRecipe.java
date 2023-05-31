@@ -1,6 +1,7 @@
-package mz.lib.minecraft.bukkitlegacy.recipeold;
+package mz.lib.minecraft.bukkit.recipeold;
 
-import mz.lib.minecraft.bukkitlegacy.MzLib;
+import mz.lib.minecraft.bukkit.MzLib;
+import mz.lib.minecraft.bukkit.wrappednms.NmsRecipeItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
