@@ -46,12 +46,6 @@ public class FactoryImpl extends Factory
 	}
 	
 	@Override
-	public NbtString newNbtString(String value)
-	{
-		return NmsNBTTagString.newInstance(value);
-	}
-	
-	@Override
 	public NbtList newNbtList()
 	{
 		return NmsNBTTagList.newInstance();
@@ -60,13 +54,13 @@ public class FactoryImpl extends Factory
 	@Override
 	public NbtByteArray newNbtByteArray()
 	{
-		return NmsNBTTagByteArray.newInstance();
+		return NbtByteArray.newInstance();
 	}
 	
 	@Override
 	public NbtIntArray newNbtIntArray()
 	{
-		return NmsNBTTagIntArray.newInstance();
+		return NbtIntArray.newInstance();
 	}
 	
 	@Override
@@ -105,5 +99,11 @@ public class FactoryImpl extends Factory
 	public PermissionDefault permissionDefaultNotOp()
 	{
 		return PermissionDefaultImpl.NOT_OP;
+	}
+	
+	@Override
+	public MessageColor getMessageColor(String name)
+	{
+		return NmsEnumChatFormat.fromName(name);
 	}
 }

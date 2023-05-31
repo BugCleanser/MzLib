@@ -2,19 +2,13 @@ package mz.lib.minecraft.bukkit.nms;
 
 import mz.lib.minecraft.nbt.*;
 import mz.lib.minecraft.VersionalName;
-import mz.lib.minecraft.wrapper.*;
-import mz.lib.wrapper.*;
+import mz.lib.minecraft.wrapper.VersionalWrappedClass;
+import mz.lib.minecraft.wrapper.VersionalWrappedFieldAccessor;
+import mz.mzlib.nbt.*;
 
 @VersionalWrappedClass({@VersionalName(value="nms.NBTTagByteArray",maxVer=17),@VersionalName(value="net.minecraft.nbt.NBTTagByteArray",minVer=17)})
 public interface NmsNBTTagByteArray extends NmsNBTBase, NbtByteArray
 {
-	static NmsNBTTagByteArray newInstance()
-	{
-		return WrappedObject.getStatic(NmsNBTTagByteArray.class).staticNewInstance(new byte[0]);
-	}
-	@VersionalWrappedConstructor
-	NmsNBTTagByteArray staticNewInstance(byte[] data);
-	
 	@VersionalWrappedFieldAccessor(@VersionalName({"data","@0"}))
 	byte[] getData();
 	@VersionalWrappedFieldAccessor(@VersionalName({"data","@0"}))

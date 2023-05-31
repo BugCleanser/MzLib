@@ -4,7 +4,7 @@ import mz.lib.minecraft.*;
 
 import java.util.*;
 
-public interface NbtList extends NbtElement
+public interface NbtList
 {
 	static NbtList newInstance()
 	{
