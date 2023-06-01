@@ -2,6 +2,7 @@ package mz.mzlib.util.delegator;
 
 import mz.mzlib.util.RuntimeUtil;
 
+@DelegatorClass(Object.class)
 public interface Delegator
 {
 	Object getDelegate();
