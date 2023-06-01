@@ -1,30 +1,28 @@
-package mz.lib.minecraft.bukkit.nms;
+package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.gson.JsonPrimitive;
-import mz.lib.minecraft.nbt.*;
-import mz.lib.minecraft.VersionName;
-import mz.lib.minecraft.wrapper.VersionalWrappedClass;
-import mz.lib.minecraft.wrapper.VersionalWrappedMethod;
+import mz.lib.minecraft.bukkit.VersionName;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
+import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitMethod;
 import mz.lib.wrapper.*;
 
-@VersionalWrappedClass({@VersionName(value="nms.NBTTagDouble",maxVer=17),@VersionName(value="net.minecraft.nbt.NBTTagDouble",minVer=17)})
+@WrappedBukkitClass({@VersionName(value="nms.NBTTagDouble",maxVer=17),@VersionName(value="net.minecraft.nbt.NBTTagDouble",minVer=17)})
 public interface NmsNBTTagDouble extends NmsNBTTag
 {
-	static NmsNBTTagDouble newInstance(double value){
+	static NmsNBTTagDouble newInstance(double value)
+	{
 		return WrappedObject.getStatic(NmsNBTTagDouble.class).staticNewInstance(value);
 	}
-	
 	@WrappedConstructor
 	NmsNBTTagDouble staticNewInstance(double value);
-	
-	@VersionalWrappedMethod({@VersionalName("asDouble"),@VersionalName(maxVer=17, value="@0"),@VersionalName(minVer=17, value="@0")})
+	@WrappedBukkitMethod({@VersionName("asDouble"),@VersionName(maxVer=17, value="@0"),@VersionName(minVer=17, value="@0")})
 	double getValue0();
-	
 	default Double getValue()
 	{
 		return getValue0();
 	}
 
+	@Override
 	default JsonPrimitive toJson()
 	{
 		return new JsonPrimitive(getValue0());
