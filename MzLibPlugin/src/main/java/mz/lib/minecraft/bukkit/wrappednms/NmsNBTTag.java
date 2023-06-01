@@ -24,6 +24,10 @@ public interface NmsNBTTag extends NmsNBTBase
 			return WrappedObject.wrap(NmsNBTTagShort.class,value);
 		if(value.getClass()==WrappedObject.getRawClass(NmsNBTTagString.class))
 			return WrappedObject.wrap(NmsNBTTagString.class,value);
+		if(value.getClass()==WrappedObject.getRawClass(NmsNBTTagFloat.class))
+			return WrappedObject.wrap(NmsNBTTagFloat.class,value);
+		if(value.getClass()==WrappedObject.getRawClass(NmsNBTTagDouble.class))
+			return WrappedObject.wrap(NmsNBTTagDouble.class,value);
 		throw new IllegalArgumentException("the value must be a nms NBTTag");
 	}
 	static NmsNBTTag wrapValue(Object value)
@@ -44,6 +48,10 @@ public interface NmsNBTTag extends NmsNBTBase
 			return NmsNBTTagShort.newInstance((Short) value);
 		if(value instanceof String)
 			return NmsNBTTagString.newInstance((String) value);
+		if(value instanceof Float)
+			return NmsNBTTagFloat.newInstance((Float) value);
+		if(value instanceof Double)
+			return NmsNBTTagDouble.newInstancce((Double) value);
 		throw new IllegalArgumentException("the value can't be wrapped");
 	}
 }
