@@ -1,9 +1,9 @@
 package mz.lib.minecraft.bukkit.wrappednms;
 
 import com.google.gson.JsonElement;
+import com.google.common.collect.Lists;
 import mz.lib.minecraft.bukkit.VersionName;
-import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitClass;
-import mz.lib.minecraft.bukkit.wrapper.WrappedBukkitObject;
+import mz.lib.minecraft.bukkit.wrapper.*;
 import mz.lib.wrapper.WrappedObject;
 
 import java.util.ArrayList;
@@ -12,19 +12,9 @@ import java.util.List;
 @WrappedBukkitClass({@VersionName(value="nms.NBTBase",maxVer=17),@VersionName(value="net.minecraft.nbt.NBTBase",minVer=17)})
 public interface NmsNBTBase extends WrappedBukkitObject
 {
-	List<Class<? extends NmsNBTBase>> NBTWrappers=new ArrayList<>();
+	List<Class<? extends NmsNBTBase>> NBTWrappers=Lists.newArrayList(NmsNBTTagByte.class, NmsNBTTagCompound.class, NmsNBTTagInt.class, NmsNBTTagList.class, NmsNBTTagLong.class, NmsNBTTagShort.class, NmsNBTTagFloat.class, NmsNBTTagDouble.class, NmsNBTTagString.class);
 	static NmsNBTBase wrap(Object nmsNbt)
 	{
-		if(NBTWrappers.isEmpty())
-		{
-			NBTWrappers.add(NmsNBTTagByte.class);
-			NBTWrappers.add(NmsNBTTagCompound.class);
-			NBTWrappers.add(NmsNBTTagInt.class);
-			NBTWrappers.add(NmsNBTTagList.class);
-			NBTWrappers.add(NmsNBTTagLong.class);
-			NBTWrappers.add(NmsNBTTagShort.class);
-			NBTWrappers.add(NmsNBTTagString.class);
-		}
 		for(Class<? extends NmsNBTBase> w: NBTWrappers)
 		{
 			if(WrappedObject.getRawClass(w).isAssignableFrom(nmsNbt.getClass()))
