@@ -51,7 +51,7 @@ public interface NmsNBTTag extends NmsNBTBase
 		if(value instanceof Float)
 			return NmsNBTTagFloat.newInstance((Float) value);
 		if(value instanceof Double)
-			return NmsNBTTagDouble.newInstancce((Double) value);
+			return NmsNBTTagDouble.newInstance((Double) value);
 		throw new IllegalArgumentException("the value can't be wrapped");
 	}
 }
