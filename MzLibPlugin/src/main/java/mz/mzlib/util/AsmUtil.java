@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
+import mz.mzlib.util.delegator.AbsDelegator;
+import mz.mzlib.util.delegator.Delegator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -30,6 +32,46 @@ public class AsmUtil
 		}
 		return null;
 	}
+	public static InsnList nodeSwap(Class<?> stackTop,Class<?> belowTop)
+	{
+		InsnList result=new InsnList();
+		if(getCategory(stackTop)==1)
+		{
+			if(getCategory(belowTop)==1)
+				result.add(new InsnNode(Opcodes.SWAP));
+			else
+			{
+				result.add(new InsnNode(Opcodes.DUP_X2));
+				result.add(new InsnNode(Opcodes.POP));
+			}
+		}
+		else
+		{
+			if (getCategory(belowTop)==1)
+				result.add(new InsnNode(Opcodes.DUP2_X1));
+			else
+				result.add(new InsnNode(Opcodes.DUP2_X2));
+			result.add(new InsnNode(Opcodes.POP2));
+		}
+		return result;
+	}
+	public static InsnList nodeCreateDelegator(Class<? extends Delegator> type)
+	{
+		InsnList result=new InsnList();
+		result.add(nodeConst(type));
+		result.add(nodeSwap(Class.class,Object.class));
+		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(Delegator.class),"create",getDesc(Delegator.class,Class.class,Object.class)));
+		result.add(nodeCast(type,Delegator.class));
+		return result;
+	}
+	public static InsnList nodeGetDelegate()
+	{
+		InsnList result=new InsnList();
+		result.add(nodeCast(AbsDelegator.class,Object.class));
+		result.add(new FieldInsnNode(Opcodes.GETFIELD,getType(AbsDelegator.class),"delegate",getDesc(Object.class)));
+		return result;
+	}
+	
 	public static VarInsnNode nodeVarStore(Class<?> type,int index)
 	{
 		if(!type.isPrimitive())

@@ -257,7 +257,7 @@ public class ClassUtil
 			catch(ClassNotFoundException e)
 			{
 				ClassNode cn=new ClassNode();
-				cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,attachedName,null,AsmUtil.getDesc(Object.class),new String[]{});
+				cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,attachedName,null,AsmUtil.getType(Object.class),new String[]{});
 				cn.visitField(Opcodes.ACC_PUBLIC|Opcodes.ACC_STATIC,"instance",AsmUtil.getDesc(Set.class),null,null).visitEnd();
 				cn.visitEnd();
 				ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
