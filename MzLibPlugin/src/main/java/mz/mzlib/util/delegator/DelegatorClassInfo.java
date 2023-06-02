@@ -92,7 +92,7 @@ public class DelegatorClassInfo
 			cn.methods.add(mn);
 			//TODO
 			cn.visitEnd();
-			ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+			ClassWriter cw=new ClassWriter(delegatorClass.getClassLoader());
 			cn.accept(cw);
 			SimpleClassLoader cl=new SimpleClassLoader();
 			constructor=ClassUtil.unreflect(cl.defineClass1(cn.name,cw.toByteArray()).getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Object.class,new Class[]{Object.class}));

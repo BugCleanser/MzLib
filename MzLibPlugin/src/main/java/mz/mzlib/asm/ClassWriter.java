@@ -65,6 +65,8 @@ public class ClassWriter extends ClassVisitor {
    */
   public static final int COMPUTE_FRAMES = 2;
 
+  public ClassLoader classLoader=this.getClass().getClassLoader();
+  
   /**
    * The flags passed to the constructor. Must be zero or more of {@link #COMPUTE_MAXS} and {@link
    * #COMPUTE_FRAMES}.
@@ -270,6 +272,11 @@ public class ClassWriter extends ClassVisitor {
     } else {
       compute = MethodWriter.COMPUTE_NOTHING;
     }
+  }
+  public ClassWriter(final ClassLoader classLoader)
+  {
+    this(null,COMPUTE_FRAMES|COMPUTE_MAXS);
+    this.classLoader=classLoader;
   }
 
   // -----------------------------------------------------------------------------------------------
@@ -1074,6 +1081,6 @@ public class ClassWriter extends ClassVisitor {
    * @return ClassLoader
    */
   protected ClassLoader getClassLoader() {
-    return getClass().getClassLoader();
+    return classLoader;
   }
 }
