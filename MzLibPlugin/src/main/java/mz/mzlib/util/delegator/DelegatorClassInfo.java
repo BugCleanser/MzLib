@@ -90,7 +90,13 @@ public class DelegatorClassInfo
 			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getDesc(AbsDelegator.class),mn.name,mn.desc,false));
 			mn.visitEnd();
 			cn.methods.add(mn);
-			//TODO
+			for(Map.Entry<Method,Member> i:delegations.entrySet())
+			{
+				mn=new MethodNode(Opcodes.ACC_PUBLIC,i.getKey().getName(),AsmUtil.getDesc(i.getKey()),null,new String[0]);
+				//TODO
+				mn.visitEnd();
+				cn.methods.add(mn);
+			}
 			cn.visitEnd();
 			ClassWriter cw=new ClassWriter(delegatorClass.getClassLoader());
 			cn.accept(cw);
