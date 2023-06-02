@@ -2,10 +2,7 @@ package mz.mzlib.util.delegator;
 
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.tree.ClassNode;
-import mz.mzlib.asm.tree.MethodInsnNode;
-import mz.mzlib.asm.tree.MethodNode;
-import mz.mzlib.asm.tree.TypeInsnNode;
+import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
 import java.lang.invoke.MethodHandle;
@@ -122,7 +119,20 @@ public class DelegatorClassInfo
 					}
 					else
 					{
-						//TODO
+						for(int j=0;j<pts.length;j++)
+						{
+							mn.instructions.add(AsmUtil.nodeVarLoad(pts[j],1+j));
+							if(Delegator.class.isAssignableFrom(pts[j]))
+							{
+								mn.instructions.add(AsmUtil.nodeGetDelegate());
+								ptsTar[j]=Object.class;
+							}
+							else
+								ptsTar[j]=pts[j];
+						}
+						mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
+						methodHandles.add(ClassUtil.unreflect((Constructor<?>)i.getValue()).asType(MethodType.methodType(Object.class,ptsTar)));
+						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(Object.class,ptsTar)));
 					}
 					mn.instructions.add(AsmUtil.nodeCreateDelegator(getDelegatorClass()));
 				}
