@@ -142,7 +142,37 @@ public class DelegatorClassInfo
 				}
 				else if(i.getValue() instanceof Field)
 				{
-					//TODO
+					Class<?> type=((Field)i.getValue()).getType();
+					switch(pts.length)
+					{
+						case 0:
+							if(isPublic)
+							{
+								if(Modifier.isStatic(i.getValue().getModifiers()))
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
+								else
+								{
+									mn.instructions.add(AsmUtil.nodeVarLoad(getDelegatorClass(),0));
+									mn.instructions.add(AsmUtil.nodeGetDelegate());
+									mn.instructions.add(AsmUtil.nodeCast(getDelegateClass(),Object.class));
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
+								}
+							}
+							else
+							{
+								
+							}
+							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
+								mn.instructions.add(AsmUtil.nodeCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
+							else
+								mn.instructions.add(AsmUtil.nodeCast(i.getKey().getReturnType(),type));
+							mn.instructions.add(AsmUtil.nodeReturn(i.getKey().getReturnType()));
+							break;
+						case 1:
+							break;
+						default:
+							throw new AssertionError();
+					}
 				}
 				else
 					throw new UnsupportedOperationException(Objects.toString(i.getValue()));
