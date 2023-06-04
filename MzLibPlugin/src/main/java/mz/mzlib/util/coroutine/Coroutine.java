@@ -7,9 +7,26 @@ public abstract class Coroutine
 	
 	public abstract Yield template();
 	
+	public boolean isRunning()
+	{
+		return data!=null;
+	}
+	
 	public Yield run()
 	{
-		//TODO
-		return c->nextCoroutine=c;
+		if(isRunning()) //start
+		{
+			((Coroutine)data).template().run((Coroutine)data);
+			return null;
+		}
+		else
+		{
+			//TODO: gen a class by template, allocate a instance to data
+			((Coroutine)data).template().run((Coroutine)data);
+			if(isRunning())
+				return c->nextCoroutine=c;
+			else
+				return Coroutine::run;
+		}
 	}
 }
