@@ -4,18 +4,22 @@ import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
+import mz.mzlib.util.coroutine.Coroutine;
+import mz.mzlib.util.coroutine.Yield;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.agent.Installer;
 
 import javax.tools.ToolProvider;
 import java.io.FileOutputStream;
 import java.lang.instrument.ClassDefinition;
+import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -158,22 +162,22 @@ public class ClassUtil
 		}
 	}
 	
-	public static Instrumentation agentInstrumentation;
-	public static class AgentInstrumentationGetter
+	public static Instrumentation instrumentation;
+	public static class InstrumentationGetter
 	{
-		public static Instrumentation agentInstrumentation;
+		public static Instrumentation instrumentation;
 		static
 		{
-			agentInstrumentation=Installer.getInstrumentation();
+			instrumentation=Installer.getInstrumentation();
 		}
 	}
-	public static Instrumentation getAgentInstrumentation()
+	public static Instrumentation getInstrumentation()
 	{
-		if(agentInstrumentation==null)
+		if(instrumentation==null)
 		{
 			try
 			{
-				agentInstrumentation=(Instrumentation)Class.forName("mz.mzlib.util.InstrumentationGetter",false,sysClassLoader).getDeclaredField("instrumentation").get(null);
+				instrumentation=(Instrumentation)Class.forName("mz.mzlib.util.InstrumentationGetter",false,sysClassLoader).getDeclaredField("instrumentation").get(null);
 			}
 			catch(ClassNotFoundException|NoSuchFieldException|IllegalAccessException ignore)
 			{
@@ -192,14 +196,13 @@ public class ClassUtil
 						System.err.println("也可以尝试安装MzLibAgent（注：这不是一个插件）");
 						throw RuntimeUtil.forceThrow(e);
 					}
-					String className=ClassUtil.class.getName()+"$AgentInstrumentationGetter";
-					if(RuntimeUtil.runAndCatch(()->Class.forName(className,false,ClassLoader.getSystemClassLoader())) instanceof ClassNotFoundException)
+					if(RuntimeUtil.runAndCatch(()->Class.forName(InstrumentationGetter.class.getName(),false,sysClassLoader)) instanceof ClassNotFoundException)
 					{
-						byte[] bs=IOUtil.readAll(ClassUtil.class.getClassLoader().getResourceAsStream(className.replace('.','/')+".class"));
-						Root.getUnsafe().defineClass(className,bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
+						byte[] bs=IOUtil.readAll(ClassUtil.class.getClassLoader().getResourceAsStream(InstrumentationGetter.class.getName().replace('.','/')+".class"));
+						Root.getUnsafe().defineClass(InstrumentationGetter.class.getName(),bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
 					}
-					Class<?> clazz=Class.forName(className,true,ClassLoader.getSystemClassLoader());
-					agentInstrumentation=RuntimeUtil.forceCast(clazz.getField("agentInstrumentation").get(null));
+					Class<?> clazz=Class.forName(InstrumentationGetter.class.getName(),true,ClassLoader.getSystemClassLoader());
+					instrumentation=RuntimeUtil.forceCast(clazz.getField("instrumentation").get(null));
 				}
 				catch(Throwable e)
 				{
@@ -207,7 +210,33 @@ public class ClassUtil
 				}
 			}
 		}
-		return agentInstrumentation;
+		return instrumentation;
+	}
+	
+	public static byte[] getByteCode(Class<?> clazz)
+	{
+		try
+		{
+			StrongRef<byte[]> result=new StrongRef<>(null);
+			ClassFileTransformer tr=new ClassFileTransformer()
+			{
+				@Override
+				public byte[] transform(ClassLoader cl,String name,Class<?> c,ProtectionDomain d,byte[] byteCode)
+				{
+					if(c==clazz)
+						result.set(byteCode);
+					return null;
+				}
+			};
+			getInstrumentation().addTransformer(tr,true);
+			getInstrumentation().retransformClasses(clazz);
+			getInstrumentation().removeTransformer(tr);
+			return result.get();
+		}
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.forceThrow(e);
+		}
 	}
 	
 	public static Class<?> defineClass(ClassLoader classLoader,String name,byte[] byteCode)
@@ -220,7 +249,7 @@ public class ClassUtil
 				{
 					try
 					{
-						getAgentInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/','.'),false,classLoader),byteCode));
+						getInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/','.'),false,classLoader),byteCode));
 						return Class.forName(name.replace('/','.'),false,classLoader);
 					}
 					catch(VerifyError e)

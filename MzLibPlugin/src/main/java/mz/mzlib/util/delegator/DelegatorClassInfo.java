@@ -5,6 +5,7 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
+import java.lang.instrument.ClassFileTransformer;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
@@ -160,7 +161,7 @@ public class DelegatorClassInfo
 							}
 							else
 							{
-								
+							
 							}
 							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
 								mn.instructions.add(AsmUtil.nodeCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
