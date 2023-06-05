@@ -42,7 +42,10 @@ public class ExampleCoroutine
 		{
 			coroutinePool.add(new TimedCoroutine(System.currentTimeMillis()+timeMillis,coroutine));
 			mainThread.interrupt();
-			mainThread.resume();
+			synchronized(coroutinePool)
+			{
+				coroutinePool.notify();
+			}
 		}
 	}
 	public static class TimedCoroutine implements Comparable<TimedCoroutine>
@@ -73,7 +76,10 @@ public class ExampleCoroutine
 			try
 			{
 				if(coroutinePool.isEmpty())
-					mainThread.suspend();
+					synchronized(coroutinePool)
+					{
+						coroutinePool.wait();
+					}
 				if(System.currentTimeMillis()>=coroutinePool.peek().time)
 					coroutinePool.poll().coroutine.run();
 				else
