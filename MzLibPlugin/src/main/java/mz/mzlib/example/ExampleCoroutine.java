@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
 
 public class ExampleCoroutine
 {
-	public static class TestCoroutine extends Coroutine
+	public static class TestCoroutine2 extends Coroutine
 	{
 		@Override
 		public MzModule getModule()
@@ -26,6 +26,23 @@ public class ExampleCoroutine
 				if(RuntimeUtil.TRUE) return new TestYield(100);
 				System.out.print(((String)s).charAt(i));
 			}
+			System.out.println();
+			return new YieldBreak();
+		}
+	}
+	public static class TestCoroutine extends Coroutine
+	{
+		@Override
+		public MzModule getModule()
+		{
+			return null;
+		}
+		@Override
+		public Yield template()
+		{
+			System.out.println("Yield");
+			if(RuntimeUtil.TRUE) return new TestCoroutine2().run();
+			System.out.println("Break");
 			return new YieldBreak();
 		}
 	}
