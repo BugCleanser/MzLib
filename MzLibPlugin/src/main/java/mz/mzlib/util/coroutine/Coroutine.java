@@ -1,13 +1,14 @@
 package mz.mzlib.util.coroutine;
 
-import mz.mzlib.asm.*;
+import mz.mzlib.asm.ClassReader;
+import mz.mzlib.asm.ClassWriter;
+import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public abstract class Coroutine
 {
@@ -43,73 +44,72 @@ public abstract class Coroutine
 						ClassNode cn=new ClassNode();
 						cn.visit(raw.version,Opcodes.ACC_PUBLIC,"0MzCoroutine",null,raw.name,new String[0]);
 						MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,new Class[0]),null,new String[0]);
+						mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
 						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getType(raw.name),mn.name,mn.desc,false));
 						mn.instructions.add(AsmUtil.insnReturn(void.class));
 						mn.visitEnd();
 						cn.methods.add(mn);
-						mn=AsmUtil.getMethodNode(raw,"template",AsmUtil.getDesc(Yield.class,new Class[0]));
-						assert mn!=null;
-						Map<LabelNode,List<Pair<Integer,String>>> startVars=new HashMap<>();
-						Map<LabelNode,List<Integer>> endVars=new HashMap<>();
-						for(LocalVariableNode i:mn.localVariables)
+						cn.visitField(Opcodes.ACC_PUBLIC,"0mzCoroutineIndex",AsmUtil.getDesc(int.class),null,0);
+						MethodNode mn0=AsmUtil.getMethodNode(raw,"template",AsmUtil.getDesc(Yield.class,new Class[0]));
+						assert mn0!=null;
+						mn=new MethodNode(Opcodes.ACC_PUBLIC,mn0.name,mn0.desc,null,new String[0]);
+						mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+						mn.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,cn.name,"0mzCoroutineIndex",AsmUtil.getDesc(int.class)));
+						TableSwitchInsnNode table=new TableSwitchInsnNode(0,-1,new LabelNode());
+						mn.instructions.add(table);
+						table.max++;
+						table.labels.add(table.dflt);
+						mn.instructions.add(table.dflt);
+						for(int i=0;i<mn0.instructions.size();i++)
 						{
-							startVars.computeIfAbsent(i.start,k->new ArrayList<>()).add(new Pair<>(i.index,i.desc));
-							endVars.computeIfAbsent(i.end,k->new ArrayList<>()).add(i.index);
-						}
-						StrongRef<Integer> varsAmount=new StrongRef<>(0);
-						Map<Integer,String> varNames=new HashMap<>();
-						BiConsumer<Integer,String> varAllocator=(i,t)->
-						{
-							String name="0coroutineVar"+varsAmount.get();
-							cn.visitField(Opcodes.ACC_PRIVATE,name,t,null,null).visitEnd();
-							varNames.put(i,name);
-							varsAmount.target++;
-						};
-						for(int i=0;i<mn.instructions.size();i++)
-						{
-							AbstractInsnNode now=mn.instructions.get(i);
-							if(now instanceof LabelNode)
+							AbstractInsnNode now=mn0.instructions.get(i);
+							if(now.getOpcode()==Opcodes.ARETURN)
 							{
-								List<Integer> v=endVars.get(now);
-								if(v!=null)
-									for(Integer j:v)
-										varNames.remove(j);
-								List<Pair<Integer,String>> v1=startVars.get(now);
-								if(v1!=null)
-									for(Pair<Integer,String> j:v1)
-										varAllocator.accept(j.first,j.second);
+								table.max++;
+								mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+								mn.instructions.add(AsmUtil.insnConst(table.max));
+								mn.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,cn.name,"0mzCoroutineIndex",AsmUtil.getDesc(int.class)));
+								mn.instructions.add(now);
+								LabelNode l=new LabelNode();
+								mn.instructions.add(l);
+								table.labels.add(l);
 							}
 							else if(AsmUtil.opcodesVarLoad.contains(now.getOpcode()) || AsmUtil.opcodesVarStore.contains(now.getOpcode()))
 							{
 								int index=((VarInsnNode)now).var;
+								String type,varName;
+								if(now.getOpcode()==Opcodes.ILOAD||now.getOpcode()==Opcodes.ISTORE)
+								{
+									type=AsmUtil.getDesc(int.class);
+									varName="0mzCoroutineVarInt"+index;
+								}
+								else
+								{
+									type=AsmUtil.getDesc(Object.class);
+									varName="0mzCoroutineVarObject"+index;
+								}
+								if(AsmUtil.getFieldNode(cn,varName)==null)
+									cn.visitField(Opcodes.ACC_PRIVATE,varName,type,null,null);
+								mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
 								if(index!=0)
 								{
-									switch(now.getOpcode())
-									{
-										case Opcodes.ILOAD:
-										case Opcodes.ISTORE:
-											if(!varNames.containsKey(index) || !Objects.requireNonNull(AsmUtil.getFieldNode(cn,varNames.get(index))).desc.equals(AsmUtil.getDesc(int.class)))
-												varAllocator.accept(index,AsmUtil.getDesc(int.class));
-											break;
-										case Opcodes.ALOAD:
-										case Opcodes.ASTORE:
-											if(!varNames.containsKey(index) || Objects.requireNonNull(AsmUtil.getFieldNode(cn,varNames.get(index))).desc.charAt(0)!='L')
-												varAllocator.accept(index,AsmUtil.getDesc(Iterator.class));
-											break;
-									}
-									String type=Objects.requireNonNull(AsmUtil.getFieldNode(cn,varNames.get(index))).desc;
-									((VarInsnNode)now).var=0;
 									if(AsmUtil.opcodesVarLoad.contains(now.getOpcode()))
-										mn.instructions.insert(now,new FieldInsnNode(Opcodes.GETFIELD,cn.name,varNames.get(index),type));
+										mn.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,cn.name,varName,type));
 									else
 									{
-										InsnList next=AsmUtil.insnSwap(Object.class,AsmUtil.getClass(type,cl));
-										next.add(new FieldInsnNode(Opcodes.PUTFIELD,cn.name,varNames.get(index),type));
-										mn.instructions.insert(now,next);
+										mn.instructions.add(AsmUtil.insnSwap(Object.class,AsmUtil.getClass(type,cl)));
+										mn.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,cn.name,varName,type));
 									}
 								}
 							}
+							else
+								mn.instructions.add(now);
 						}
+						mn.instructions.add(new TypeInsnNode(Opcodes.NEW,AsmUtil.getType(YieldBreak.class)));
+						mn.instructions.add(AsmUtil.insnDup(YieldBreak.class));
+						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getType(YieldBreak.class),"<init>",AsmUtil.getDesc(void.class,new Class[0])));
+						mn.instructions.add(AsmUtil.insnReturn(Yield.class));
+						mn.visitEnd();
 						cn.methods.add(mn);
 						cn.visitEnd();
 						ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);

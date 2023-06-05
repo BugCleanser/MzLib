@@ -20,28 +20,32 @@ public class AsmUtil
 	
 	public static Class<?> getClass(String desc,ClassLoader cl)
 	{
-		switch(desc)
+		switch(desc.charAt(0))
 		{
-			case "V":
+			case 'V':
 				return void.class;
-			case "B":
+			case 'B':
 				return byte.class;
-			case "S":
+			case 'S':
 				return short.class;
-			case "I":
+			case 'I':
 				return int.class;
-			case "J":
+			case 'J':
 				return long.class;
-			case "F":
+			case 'F':
 				return float.class;
-			case "D":
+			case 'D':
 				return double.class;
-			case "Z":
+			case 'Z':
 				return boolean.class;
-			case "C":
+			case 'C':
 				return char.class;
-			default:
+			case 'L':
+				return ClassUtil.forName(desc.substring(1,desc.length()-1).replace('/','.'),cl);
+			case '[':
 				return ClassUtil.forName(desc.replace('/','.'),cl);
+			default:
+				throw RuntimeUtil.forceThrow(new ClassNotFoundException(desc));
 		}
 	}
 	
