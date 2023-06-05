@@ -7,10 +7,9 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 
-import java.io.FileOutputStream;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
-import java.util.*;
+import java.util.Map;
 
 public abstract class Coroutine
 {
@@ -19,6 +18,12 @@ public abstract class Coroutine
 	
 	public abstract MzModule getModule();
 	
+	/**
+	 * Implement this template method
+	 * You can only use local var with type int or Object (not including subclasses)
+	 * You can use "if(RuntimeUtil.TRUE) return yield;" to yield, where "yield" determines when the coroutine will continue
+	 * Return new YieldBreak() to end the coroutine
+	 */
 	public abstract Yield template();
 	
 	public boolean isRunning()
