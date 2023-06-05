@@ -128,10 +128,6 @@ public abstract class Coroutine
 						cn.visitEnd();
 						ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
 						cn.accept(cw);
-						try(FileOutputStream fos=new FileOutputStream("a.class"))
-						{
-							fos.write(cw.toByteArray());
-						}
 						MethodHandle result=ClassUtil.unreflect(ClassUtil.defineClass(cl,cn.name,cw.toByteArray()).getDeclaredConstructor()).asType(MethodType.methodType(Object.class));
 						ClassUtil.makeReference(Coroutine.this.getClass().getClassLoader(),result);
 						return new WeakRef<>(result);
