@@ -4,7 +4,7 @@ public class RuntimeUtil
 {
 	private RuntimeUtil() {}
 	
-	public static final boolean TRUE=true;
+	public static boolean TRUE=true;
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T forceCast(Object object)

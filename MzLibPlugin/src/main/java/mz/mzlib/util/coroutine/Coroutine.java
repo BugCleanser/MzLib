@@ -7,6 +7,7 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 
+import java.io.FileOutputStream;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.util.*;
@@ -30,9 +31,9 @@ public abstract class Coroutine
 	{
 		try
 		{
-			if(isRunning()) //start
+			if(isRunning())
 			{
-				((Coroutine)data).template().run((Coroutine)data);
+				((Coroutine)data).template().run(this);
 				return null;
 			}
 			else
@@ -77,6 +78,16 @@ public abstract class Coroutine
 								mn.instructions.add(l);
 								table.labels.add(l);
 							}
+							else if(now.getOpcode()==Opcodes.IINC)
+							{
+								String varName="0mzCoroutineVarInt"+((IincInsnNode)now).var;
+								mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+								mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+								mn.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,cn.name,varName,AsmUtil.getDesc(int.class)));
+								mn.instructions.add(AsmUtil.insnConst(((IincInsnNode)now).incr));
+								mn.instructions.add(new InsnNode(Opcodes.IADD));
+								mn.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,cn.name,varName,AsmUtil.getDesc(int.class)));
+							}
 							else if(AsmUtil.opcodesVarLoad.contains(now.getOpcode()) || AsmUtil.opcodesVarStore.contains(now.getOpcode()))
 							{
 								int index=((VarInsnNode)now).var;
@@ -117,6 +128,10 @@ public abstract class Coroutine
 						cn.visitEnd();
 						ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
 						cn.accept(cw);
+						try(FileOutputStream fos=new FileOutputStream("a.class"))
+						{
+							fos.write(cw.toByteArray());
+						}
 						MethodHandle result=ClassUtil.unreflect(ClassUtil.defineClass(cl,cn.name,cw.toByteArray()).getDeclaredConstructor()).asType(MethodType.methodType(Object.class));
 						ClassUtil.makeReference(Coroutine.this.getClass().getClassLoader(),result);
 						return new WeakRef<>(result);
@@ -126,7 +141,7 @@ public abstract class Coroutine
 						throw RuntimeUtil.forceThrow(e);
 					}
 				}).get().invokeExact();
-				((Coroutine)data).template().run((Coroutine)data);
+				((Coroutine)data).template().run(this);
 				if(isRunning())
 					return c->nextCoroutine=c;
 				else
