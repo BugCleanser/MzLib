@@ -4,6 +4,7 @@ import mz.mzlib.asm.ClassReader;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
+import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 
 import java.lang.invoke.MethodHandle;
@@ -14,6 +15,8 @@ public abstract class Coroutine
 {
 	protected Object data;
 	public Coroutine nextCoroutine;
+	
+	public abstract MzModule getModule();
 	
 	public abstract Yield template();
 	
