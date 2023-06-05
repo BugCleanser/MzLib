@@ -31,6 +31,40 @@ public class ClassUtil
 	public static ClassLoader sysClassLoader=ClassLoader.getSystemClassLoader();
 	public static ClassLoader extClassLoader=sysClassLoader.getParent();
 	
+	public static Class<?> forName(String name,ClassLoader cl)
+	{
+		switch(name)
+		{
+			case "void":
+				return void.class;
+			case "byte":
+				return byte.class;
+			case "short":
+				return short.class;
+			case "int":
+				return int.class;
+			case "long":
+				return long.class;
+			case "float":
+				return float.class;
+			case "double":
+				return double.class;
+			case "boolean":
+				return boolean.class;
+			case "char":
+				return char.class;
+			default:
+				try
+				{
+					return Class.forName(name,false,cl);
+				}
+				catch(Throwable e)
+				{
+					throw RuntimeUtil.forceThrow(e);
+				}
+		}
+	}
+	
 	public static List<? extends Member> getDeclaredMembers(Class<?> clazz)
 	{
 		List<Member> result=new ArrayList<>(Arrays.asList(clazz.getDeclaredConstructors()));
@@ -38,7 +72,6 @@ public class ClassUtil
 		result.addAll(Arrays.asList(clazz.getDeclaredMethods()));
 		return result;
 	}
-	
 	public static Method getDeclaredMethod(Class<?> clazz,Method method)
 	{
 		try

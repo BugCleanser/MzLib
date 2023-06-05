@@ -49,8 +49,10 @@ public class WeakMap<K,V> extends AbstractMap<K,V>
 		return delegate.get(new WeakRef<>(key));
 	}
 	@Override
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public V put(K key,V value)
 	{
+		size();
 		return delegate.put(new WeakRef<>(key),value);
 	}
 	@Override

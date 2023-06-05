@@ -9,11 +9,42 @@ import mz.mzlib.util.delegator.Delegator;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
 public class AsmUtil
 {
+	public static HashSet<Integer> opcodesVarLoad=CollectionUtil.addAll(new HashSet<>(),Opcodes.ALOAD,Opcodes.LLOAD,Opcodes.DLOAD,Opcodes.FLOAD,Opcodes.ILOAD);
+	public static HashSet<Integer> opcodesVarStore=CollectionUtil.addAll(new HashSet<>(),Opcodes.ASTORE,Opcodes.LSTORE,Opcodes.DSTORE,Opcodes.FSTORE,Opcodes.ISTORE);
+	
+	public static Class<?> getClass(String desc,ClassLoader cl)
+	{
+		switch(desc)
+		{
+			case "V":
+				return void.class;
+			case "B":
+				return byte.class;
+			case "S":
+				return short.class;
+			case "I":
+				return int.class;
+			case "J":
+				return long.class;
+			case "F":
+				return float.class;
+			case "D":
+				return double.class;
+			case "Z":
+				return boolean.class;
+			case "C":
+				return char.class;
+			default:
+				return ClassUtil.forName(desc.replace('/','.'),cl);
+		}
+	}
+	
 	public static FieldNode getFieldNode(ClassNode cn,String name)
 	{
 		for(FieldNode f: cn.fields)
@@ -32,7 +63,7 @@ public class AsmUtil
 		}
 		return null;
 	}
-	public static InsnList nodeSwap(Class<?> stackTop,Class<?> belowTop)
+	public static InsnList insnSwap(Class<?> stackTop,Class<?> belowTop)
 	{
 		InsnList result=new InsnList();
 		if(getCategory(stackTop)==1)
@@ -55,24 +86,24 @@ public class AsmUtil
 		}
 		return result;
 	}
-	public static InsnList nodeCreateDelegator(Class<? extends Delegator> type)
+	public static InsnList insnCreateDelegator(Class<? extends Delegator> type)
 	{
 		InsnList result=new InsnList();
-		result.add(nodeConst(type));
-		result.add(nodeSwap(Class.class,Object.class));
+		result.add(insnConst(type));
+		result.add(insnSwap(Class.class,Object.class));
 		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(Delegator.class),"create",getDesc(Delegator.class,Class.class,Object.class)));
-		result.add(nodeCast(type,Delegator.class));
+		result.add(insnCast(type,Delegator.class));
 		return result;
 	}
-	public static InsnList nodeGetDelegate()
+	public static InsnList insnGetDelegate()
 	{
 		InsnList result=new InsnList();
-		result.add(nodeCast(AbsDelegator.class,Object.class));
+		result.add(insnCast(AbsDelegator.class,Object.class));
 		result.add(new FieldInsnNode(Opcodes.GETFIELD,getType(AbsDelegator.class),"delegate",getDesc(Object.class)));
 		return result;
 	}
 	
-	public static VarInsnNode nodeVarStore(Class<?> type,int index)
+	public static VarInsnNode insnVarStore(Class<?> type,int index)
 	{
 		if(!type.isPrimitive())
 			return new VarInsnNode(Opcodes.ASTORE,index);
@@ -87,7 +118,7 @@ public class AsmUtil
 		else
 			throw new IllegalArgumentException("type: "+type);
 	}
-	public static VarInsnNode nodeVarLoad(Class<?> type,int index)
+	public static VarInsnNode insnVarLoad(Class<?> type,int index)
 	{
 		if(!type.isPrimitive())
 			return new VarInsnNode(Opcodes.ALOAD,index);
@@ -102,7 +133,7 @@ public class AsmUtil
 		else
 			throw new IllegalArgumentException("type: "+type);
 	}
-	public static InsnList nodeDup(Class<?> type)
+	public static InsnList insnDup(Class<?> type)
 	{
 		switch(getCategory(type))
 		{
@@ -116,7 +147,7 @@ public class AsmUtil
 				throw new IllegalArgumentException(type+"");
 		}
 	}
-	public static AbstractInsnNode nodeConst(Object obj)
+	public static AbstractInsnNode insnConst(Object obj)
 	{
 		if(obj==null)
 			return new InsnNode(Opcodes.ACONST_NULL);
@@ -190,7 +221,7 @@ public class AsmUtil
 		else
 			return 1;
 	}
-	public static InsnList nodeArrayLoad(Class<?> type,InsnList index)
+	public static InsnList insnArrayLoad(Class<?> type,InsnList index)
 	{
 		InsnList r=new InsnList();
 		r.add(index);
@@ -214,7 +245,7 @@ public class AsmUtil
 			r.add(new InsnNode(Opcodes.CALOAD));
 		return r;
 	}
-	public static InsnList nodeArrayStore(Class<?> type,InsnList index,InsnList value)
+	public static InsnList insnArrayStore(Class<?> type,InsnList index,InsnList value)
 	{
 		InsnList r=new InsnList();
 		r.add(index);
@@ -239,11 +270,11 @@ public class AsmUtil
 			r.add(new InsnNode(Opcodes.CASTORE));
 		return r;
 	}
-	public static InsnList nodeArray(Class<?> type,InsnList... elements)
+	public static InsnList insnArray(Class<?> type,InsnList... elements)
 	{
-		return nodeArray(toList(nodeConst(elements.length)),type,elements);
+		return insnArray(toList(insnConst(elements.length)),type,elements);
 	}
-	public static InsnList nodeArray(InsnList length,Class<?> type,InsnList... elements)
+	public static InsnList insnArray(InsnList length,Class<?> type,InsnList... elements)
 	{
 		InsnList r=new InsnList();
 		r.add(length);
@@ -273,11 +304,11 @@ public class AsmUtil
 		for(int i=0;i<elements.length;i++)
 		{
 			r.add(new InsnNode(Opcodes.DUP));
-			r.add(nodeArrayStore(type,toList(nodeConst(i)),elements[i]));
+			r.add(insnArrayStore(type,toList(insnConst(i)),elements[i]));
 		}
 		return r;
 	}
-	public static AbstractInsnNode nodeReturn(Class<?> type)
+	public static AbstractInsnNode insnReturn(Class<?> type)
 	{
 		if(type.isPrimitive())
 		{
@@ -315,7 +346,7 @@ public class AsmUtil
 			r.add(ns);
 		return r;
 	}
-	public static InsnList nodePop(Class<?> type)
+	public static InsnList insnPop(Class<?> type)
 	{
 		switch(getCategory(type))
 		{
@@ -328,12 +359,12 @@ public class AsmUtil
 		}
 		throw new IllegalArgumentException("type: "+type);
 	}
-	public static InsnList nodeCast(Class<?> tar,Class<?> src)
+	public static InsnList insnCast(Class<?> tar,Class<?> src)
 	{
 		if(tar.isPrimitive())
 		{
 			if(tar==void.class)
-				return nodePop(src);
+				return insnPop(src);
 			if(src.isPrimitive())
 			{
 				if(src==boolean.class||src==byte.class||src==short.class||src==int.class)
@@ -411,20 +442,20 @@ public class AsmUtil
 			else if(ClassUtil.getPrimitive(src).isPrimitive())
 			{
 				InsnList r=toList(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,getType(src),ClassUtil.getPrimitive(src).getName()+"Value",getDesc(ClassUtil.getPrimitive(src),new Class[0])));
-				r.add(nodeCast(tar,ClassUtil.getPrimitive(src)));
+				r.add(insnCast(tar,ClassUtil.getPrimitive(src)));
 				return r;
 			}
 			else
 			{
-				InsnList r=nodeCast(ClassUtil.getWrapper(tar),src);
-				r.add(nodeCast(tar,ClassUtil.getWrapper(tar)));
+				InsnList r=insnCast(ClassUtil.getWrapper(tar),src);
+				r.add(insnCast(tar,ClassUtil.getWrapper(tar)));
 				return r;
 			}
 		}
 		else if(src.isPrimitive())
 		{
 			InsnList r=toList(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(ClassUtil.getWrapper(src)),"valueOf",getDesc(ClassUtil.getWrapper(src),new Class[]{src}),false));
-			r.add(nodeCast(tar,ClassUtil.getWrapper(src)));
+			r.add(insnCast(tar,ClassUtil.getWrapper(src)));
 			return r;
 		}
 		else if(tar.isAssignableFrom(src))

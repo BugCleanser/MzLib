@@ -5,7 +5,6 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
-import java.lang.instrument.ClassFileTransformer;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
@@ -87,7 +86,7 @@ public class DelegatorClassInfo
 			ClassNode cn=new ClassNode();
 			cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"0MzDelegatorClass",null,AsmUtil.getType(AbsDelegator.class),new String[0]);
 			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,Object.class),null,new String[0]);
-			mn.instructions.add(AsmUtil.nodeVarLoad(Object.class,0));
+			mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
 			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getType(AbsDelegator.class),mn.name,mn.desc,false));
 			mn.visitEnd();
 			cn.methods.add(mn);
@@ -104,17 +103,17 @@ public class DelegatorClassInfo
 					if(isPublic)
 					{
 						mn.instructions.add(new TypeInsnNode(Opcodes.NEW,AsmUtil.getType(getDelegateClass())));
-						mn.instructions.add(AsmUtil.nodeDup(getDelegateClass()));
+						mn.instructions.add(AsmUtil.insnDup(getDelegateClass()));
 						for(int j=0;j<pts.length;j++)
 						{
-							mn.instructions.add(AsmUtil.nodeVarLoad(pts[j],1+j));
+							mn.instructions.add(AsmUtil.insnVarLoad(pts[j],1+j));
 							if(Delegator.class.isAssignableFrom(pts[j]))
 							{
-								mn.instructions.add(AsmUtil.nodeGetDelegate());
-								mn.instructions.add(AsmUtil.nodeCast(ptsTar[j],Object.class));
+								mn.instructions.add(AsmUtil.insnGetDelegate());
+								mn.instructions.add(AsmUtil.insnCast(ptsTar[j],Object.class));
 							}
 							else
-								mn.instructions.add(AsmUtil.nodeCast(ptsTar[j],pts[j]));
+								mn.instructions.add(AsmUtil.insnCast(ptsTar[j],pts[j]));
 						}
 						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getType(getDelegateClass()),"<init>",AsmUtil.getDesc((Constructor<?>)i.getValue())));
 					}
@@ -122,10 +121,10 @@ public class DelegatorClassInfo
 					{
 						for(int j=0;j<pts.length;j++)
 						{
-							mn.instructions.add(AsmUtil.nodeVarLoad(pts[j],1+j));
+							mn.instructions.add(AsmUtil.insnVarLoad(pts[j],1+j));
 							if(Delegator.class.isAssignableFrom(pts[j]))
 							{
-								mn.instructions.add(AsmUtil.nodeGetDelegate());
+								mn.instructions.add(AsmUtil.insnGetDelegate());
 								ptsTar[j]=Object.class;
 							}
 							else
@@ -135,7 +134,7 @@ public class DelegatorClassInfo
 						methodHandles.add(ClassUtil.unreflect((Constructor<?>)i.getValue()).asType(MethodType.methodType(Object.class,ptsTar)));
 						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(Object.class,ptsTar)));
 					}
-					mn.instructions.add(AsmUtil.nodeCreateDelegator(getDelegatorClass()));
+					mn.instructions.add(AsmUtil.insnCreateDelegator(getDelegatorClass()));
 				}
 				else if(i.getValue() instanceof Method)
 				{
@@ -153,9 +152,9 @@ public class DelegatorClassInfo
 									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
 								else
 								{
-									mn.instructions.add(AsmUtil.nodeVarLoad(getDelegatorClass(),0));
-									mn.instructions.add(AsmUtil.nodeGetDelegate());
-									mn.instructions.add(AsmUtil.nodeCast(getDelegateClass(),Object.class));
+									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
+									mn.instructions.add(AsmUtil.insnGetDelegate());
+									mn.instructions.add(AsmUtil.insnCast(getDelegateClass(),Object.class));
 									mn.instructions.add(new FieldInsnNode(Opcodes.GETFIELD,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
 								}
 							}
@@ -164,10 +163,10 @@ public class DelegatorClassInfo
 							
 							}
 							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
-								mn.instructions.add(AsmUtil.nodeCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
+								mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
 							else
-								mn.instructions.add(AsmUtil.nodeCast(i.getKey().getReturnType(),type));
-							mn.instructions.add(AsmUtil.nodeReturn(i.getKey().getReturnType()));
+								mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(),type));
+							mn.instructions.add(AsmUtil.insnReturn(i.getKey().getReturnType()));
 							break;
 						case 1:
 							break;
