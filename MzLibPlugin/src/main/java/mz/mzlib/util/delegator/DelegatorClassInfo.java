@@ -35,24 +35,23 @@ public class DelegatorClassInfo
 		return delegateClass;
 	}
 	
-	public static Map<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=new WeakMap<>();
+	public static WeakMap<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=new WeakMap<>();
+	@SuppressWarnings("all")
 	public static DelegatorClassInfo get(Class<? extends Delegator> clazz)
 	{
 		WeakRef<DelegatorClassInfo> result=cache.get(clazz);
 		if(result==null)
-			synchronized(DelegatorClassInfo.class)
+			synchronized(cache.delegate)
 			{
-				if(!cache.containsKey(clazz))
-				{
-					DelegatorClassInfo re=new DelegatorClassInfo(clazz);
-					cache.put(clazz,new WeakRef<>(re));
-					for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers.toArray(new DelegatorClassAnalyzer[0]))
-						i.analyse(re);
-					ClassUtil.makeReference(clazz.getClassLoader(),re);
-					return re;
-				}
-				else
-					return cache.get(clazz).get();
+				WeakRef<DelegatorClassInfo> up=cache.get(clazz);
+				if(up!=null)
+					return up.get();
+				DelegatorClassInfo re=new DelegatorClassInfo(clazz);
+				cache.put(clazz,new WeakRef<>(re));
+				for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers.toArray(new DelegatorClassAnalyzer[0]))
+					i.analyse(re);
+				ClassUtil.makeReference(clazz.getClassLoader(),re);
+				return re;
 			}
 		return result.get();
 	}
