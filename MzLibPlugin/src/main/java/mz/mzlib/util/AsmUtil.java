@@ -7,6 +7,7 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.delegator.AbsDelegator;
 import mz.mzlib.util.delegator.Delegator;
 
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -519,6 +520,10 @@ public class AsmUtil
 		r.append(')');
 		r.append(getDesc(retType));
 		return r.toString();
+	}
+	public static String getDesc(MethodType type)
+	{
+		return getDesc(type.returnType(),type.parameterArray());
 	}
 	
 	public static String toString(AbstractInsnNode insn)

@@ -1,5 +1,6 @@
 package mz.mzlib.util.delegator;
 
+import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
@@ -84,10 +85,12 @@ public class DelegatorClassInfo
 		try
 		{
 			ClassNode cn=new ClassNode();
-			cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"0MzDelegatorClass",null,AsmUtil.getType(AbsDelegator.class),new String[0]);
+			cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"0MzDelegatorClass",null,AsmUtil.getType(AbsDelegator.class),new String[]{AsmUtil.getType(getDelegatorClass())});
 			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"<init>",AsmUtil.getDesc(void.class,Object.class),null,new String[0]);
-			mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+			mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
+			mn.instructions.add(AsmUtil.insnVarLoad(Object.class,1));
 			mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL,AsmUtil.getType(AbsDelegator.class),mn.name,mn.desc,false));
+			mn.instructions.add(AsmUtil.insnReturn(void.class));
 			mn.visitEnd();
 			cn.methods.add(mn);
 			List<MethodHandle> methodHandles=new ArrayList<>();
@@ -138,6 +141,7 @@ public class DelegatorClassInfo
 				}
 				else if(i.getValue() instanceof Method)
 				{
+					throw new UnsupportedOperationException(Objects.toString(i.getValue()));
 					//TODO
 				}
 				else if(i.getValue() instanceof Field)
@@ -160,7 +164,22 @@ public class DelegatorClassInfo
 							}
 							else
 							{
-							
+								if(Modifier.isStatic(i.getValue().getModifiers()))
+								{
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
+									MethodType mt=MethodType.methodType(type.isPrimitive()?type:Object.class);
+									methodHandles.add(Root.getTrusted(getDelegateClass()).findStaticGetter(getDelegateClass(),i.getValue().getName(),type).asType(mt));
+									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+								}
+								else
+								{
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
+									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
+									mn.instructions.add(AsmUtil.insnGetDelegate());
+									MethodType mt=MethodType.methodType(type.isPrimitive()?type:Object.class,Object.class);
+									methodHandles.add(Root.getTrusted(getDelegateClass()).findGetter(getDelegateClass(),i.getValue().getName(),type).asType(mt));
+									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+								}
 							}
 							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
 								mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
@@ -169,6 +188,50 @@ public class DelegatorClassInfo
 							mn.instructions.add(AsmUtil.insnReturn(i.getKey().getReturnType()));
 							break;
 						case 1:
+							Class<?> inputType=i.getKey().getParameterTypes()[0];
+							mn.instructions.add(AsmUtil.insnVarLoad(inputType,1));
+							if(Delegator.class.isAssignableFrom(inputType))
+							{
+								mn.instructions.add(AsmUtil.insnGetDelegate());
+								inputType=Object.class;
+							}
+							if(isPublic&&!Modifier.isFinal(i.getValue().getModifiers()))
+							{
+								mn.instructions.add(AsmUtil.insnCast(type,inputType));
+								if(Modifier.isStatic(i.getValue().getModifiers()))
+									mn.instructions.add(new FieldInsnNode(Opcodes.PUTSTATIC,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
+								else
+								{
+									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
+									mn.instructions.add(AsmUtil.insnGetDelegate());
+									mn.instructions.add(AsmUtil.insnCast(getDelegateClass(),Object.class));
+									mn.instructions.add(AsmUtil.insnSwap(getDelegateClass(),type));
+									mn.instructions.add(new FieldInsnNode(Opcodes.PUTFIELD,AsmUtil.getType(getDelegateClass()),i.getValue().getName(),AsmUtil.getDesc(type)));
+								}
+							}
+							else
+							{
+								if(Modifier.isStatic(i.getValue().getModifiers()))
+								{
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
+									mn.instructions.add(AsmUtil.insnSwap(MethodHandle.class,inputType));
+									MethodType mt=MethodType.methodType(void.class,inputType);
+									methodHandles.add(Root.getTrusted(getDelegateClass()).findStaticSetter(getDelegateClass(),i.getValue().getName(),type).asType(mt));
+									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+								}
+								else
+								{
+									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
+									mn.instructions.add(AsmUtil.insnSwap(MethodHandle.class,inputType));
+									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
+									mn.instructions.add(AsmUtil.insnSwap(getDelegatorClass(),inputType));
+									mn.instructions.add(AsmUtil.insnGetDelegate());
+									MethodType mt=MethodType.methodType(void.class,Object.class,inputType);
+									methodHandles.add(Root.getTrusted(getDelegateClass()).findSetter(getDelegateClass(),i.getValue().getName(),type).asType(mt));
+									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+								}
+							}
+							mn.instructions.add(AsmUtil.insnReturn(void.class));
 							break;
 						default:
 							throw new AssertionError();

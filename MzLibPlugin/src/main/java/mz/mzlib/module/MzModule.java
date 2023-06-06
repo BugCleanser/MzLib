@@ -29,9 +29,10 @@ public abstract class MzModule
 		Set<IRegistrar<?>> registrars=new HashSet<>();
 		ClassUtil.forEachSuperUnique(object.getClass(),c->
 		{
-			for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c).toArray(new IRegistrar[0]))
-				if(i.isRegistrable(RuntimeUtil.forceCast(object)))
-					registrars.add(i);
+			if(RegistrarRegistrar.instance.registrars.containsKey(c))
+				for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c).toArray(new IRegistrar[0]))
+					if(i.isRegistrable(RuntimeUtil.forceCast(object)))
+						registrars.add(i);
 		});
 		if(registrars.isEmpty()&&!(object instanceof MzModule))
 			throw new UnsupportedOperationException("Try to register the object but found no registrar: "+object+".");

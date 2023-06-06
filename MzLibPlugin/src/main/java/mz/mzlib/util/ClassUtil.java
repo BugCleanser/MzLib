@@ -147,7 +147,7 @@ public class ClassUtil
 	public static void forEachSuper(Class<?> clazz,Consumer<Class<?>> proc)
 	{
 		proc.accept(clazz);
-		if(clazz!=Object.class)
+		if(clazz!=Object.class&&!clazz.isInterface())
 			forEachSuper(clazz.getSuperclass(),proc);
 		for(Class<?> i:clazz.getInterfaces())
 			forEachSuper(i,proc);

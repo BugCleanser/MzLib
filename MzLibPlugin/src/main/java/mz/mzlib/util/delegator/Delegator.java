@@ -24,6 +24,6 @@ public interface Delegator
 		return create(clazz,null);
 	}
 	
-	@DelegatorMethod("clone")
+	//@DelegatorMethod("clone") TODO
 	Delegator clone0();
 }
