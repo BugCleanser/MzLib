@@ -1,4 +1,4 @@
-package mz.mzlib.util;
+package mz.mzlib.example;
 
 @Deprecated
 public class PoopMountain
