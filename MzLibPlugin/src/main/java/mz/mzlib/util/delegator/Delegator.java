@@ -1,5 +1,6 @@
 package mz.mzlib.util.delegator;
 
+import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.RuntimeUtil;
 
 @DelegatorClass(Object.class)
@@ -23,7 +24,22 @@ public interface Delegator
 	{
 		return create(clazz,null);
 	}
+	static <T extends Delegator> T allocateInstance(Class<T> type)
+	{
+		try
+		{
+			return create(type,Root.getUnsafe().allocateInstance(DelegatorClassInfo.get(type).getDelegateClass()));
+		}
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.forceThrow(e);
+		}
+	}
+	default <T extends Delegator> T cast(Class<T> type)
+	{
+		return create(type,this.getDelegate());
+	}
 	
-	//@DelegatorMethod("clone") TODO
+	@DelegatorMethod("clone")
 	Delegator clone0();
 }

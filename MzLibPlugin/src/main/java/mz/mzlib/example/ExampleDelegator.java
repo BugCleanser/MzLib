@@ -5,7 +5,8 @@ import mz.mzlib.util.delegator.*;
 
 public class ExampleDelegator
 {
-	public static class Test
+	@SuppressWarnings("all")
+	public static class Test implements Cloneable
 	{
 		private final double var=114.514;
 		private final Test thiz=this;
@@ -56,11 +57,16 @@ public class ExampleDelegator
 	{
 		MzLib.instance.load();
 		
-		TestDelegator t=TestDelegator.construct().getThiz();
+		TestDelegator t=TestDelegator.construct();
 		System.out.println(t.getVar());
+		t=t.getThiz();
 		t.setVar(191981.0);
 		System.out.println(t.getVar());
+		t=((AbsDelegator)t).clone().cast(TestDelegator.class);
 		t.m();
 		TestDelegator.m1();
+		
+		t=Delegator.allocateInstance(TestDelegator.class);
+		System.out.println(t.getVar());
 	}
 }
