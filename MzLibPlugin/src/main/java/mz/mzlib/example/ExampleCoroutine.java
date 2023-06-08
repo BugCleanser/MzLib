@@ -17,6 +17,7 @@ public class ExampleCoroutine
 		{
 			return null;
 		}
+		@SuppressWarnings("all")
 		@Override
 		public Yield template()
 		{
@@ -54,6 +55,7 @@ public class ExampleCoroutine
 		{
 			this.timeMillis=timeMillis;
 		}
+		@SuppressWarnings("all")
 		@Override
 		public void run(Coroutine coroutine)
 		{
@@ -84,6 +86,7 @@ public class ExampleCoroutine
 	}
 	public static Thread mainThread;
 	public static PriorityQueue<TimedCoroutine> coroutinePool=new PriorityQueue<>();
+	@SuppressWarnings("all")
 	public static void main(String[] args)
 	{
 		mainThread=Thread.currentThread();

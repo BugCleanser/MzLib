@@ -4,7 +4,7 @@ package mz.mzlib.example;
 public class PoopMountain
 {
 	@Deprecated
-	public static class Bukkit
+	public static class PoopBukkit
 	{
 		public enum PoopEnum
 		{

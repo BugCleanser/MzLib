@@ -18,6 +18,8 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 	{
 		if(annotation instanceof DelegatorClass)
 			return ((DelegatorClass)annotation).value();
+		else if(annotation instanceof DelegatorSameClass)
+			return DelegatorClassInfo.get(((DelegatorSameClass)annotation).value()).getDelegateClass();
 		else if(annotation instanceof DelegatorClassForName)
 		
 		{
