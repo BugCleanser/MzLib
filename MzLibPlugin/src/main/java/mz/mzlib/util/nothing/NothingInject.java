@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface NothingInject
 {
+	float priority() default 0;
 	String[] methodNames();
 	Class<?>[] methodArgs();
 	LocatingStep[] locatingSteps();
@@ -19,5 +20,5 @@ public @interface NothingInject
 	/**
 	 * @return Represents how many insns you want to REMOVE or CATCH
 	 */
-	int extra() default 1;
+	int length() default Integer.MAX_VALUE;
 }

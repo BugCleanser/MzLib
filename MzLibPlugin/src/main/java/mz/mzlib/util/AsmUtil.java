@@ -9,6 +9,8 @@ import mz.mzlib.util.delegator.Delegator;
 
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
@@ -524,6 +526,17 @@ public class AsmUtil
 	public static String getDesc(MethodType type)
 	{
 		return getDesc(type.returnType(),type.parameterArray());
+	}
+	public static String getDesc(Member member)
+	{
+		if(member instanceof Method)
+			return getDesc((Method)member);
+		else if(member instanceof Constructor)
+			return getDesc((Constructor<?>)member);
+		else if(member instanceof Field)
+			return getDesc(((Field)member).getType());
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	public static String toString(AbstractInsnNode insn)

@@ -251,7 +251,7 @@ public class ClassUtil
 		try
 		{
 			StrongRef<byte[]> result=new StrongRef<>(null);
-			ClassFileTransformer tr=new ClassFileTransformer()
+			ClassFileTransformer tr=new ClassFileTransformer() // Can not replace with lambda!
 			{
 				@Override
 				public byte[] transform(ClassLoader cl,String name,Class<?> c,ProtectionDomain d,byte[] byteCode)
