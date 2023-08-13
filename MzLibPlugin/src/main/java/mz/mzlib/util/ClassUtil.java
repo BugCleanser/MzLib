@@ -4,8 +4,7 @@ import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
-import mz.mzlib.util.coroutine.Coroutine;
-import mz.mzlib.util.coroutine.Yield;
+import mz.mzlib.asm.tree.MethodNode;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.agent.Installer;
 
@@ -19,6 +18,7 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +65,22 @@ public class ClassUtil
 		}
 	}
 	
+	public static Class<?> baseType(Class<?> type)
+	{
+		if(type.isPrimitive())
+			return type;
+		else
+			return Object.class;
+	}
+	
+	public static Class<?> getReturnType(Member m)
+	{
+		if(m instanceof Method)
+			return ((Method)m).getReturnType();
+		assert m instanceof Constructor;
+		return void.class;
+	}
+	
 	public static List<? extends Member> getDeclaredMembers(Class<?> clazz)
 	{
 		List<Member> result=new ArrayList<>(Arrays.asList(clazz.getDeclaredConstructors()));
@@ -98,7 +114,7 @@ public class ClassUtil
 			throw RuntimeUtil.forceThrow(e);
 		}
 	}
-	public static MethodHandle findMethodSpecial(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes)
+	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes)
 	{
 		try
 		{
@@ -376,5 +392,15 @@ public class ClassUtil
 			return RuntimeUtil.forceCast(Double.class);
 		else
 			return src;
+	}
+	
+	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn)
+	{
+		ClassNode cn=new ClassNode();
+		cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"$Method",null,AsmUtil.getType(Object.class),new String[0]);
+		cn.methods.add(mn);
+		ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+		cn.accept(cw);
+		return unreflect(defineClass(new SimpleClassLoader(cl),cn.name,cw.toByteArray()).getDeclaredMethods()[0]);
 	}
 }

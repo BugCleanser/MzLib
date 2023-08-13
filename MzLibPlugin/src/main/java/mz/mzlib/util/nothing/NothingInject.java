@@ -1,12 +1,10 @@
 package mz.mzlib.util.nothing;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Repeatable(NothingInjects.class)
 public @interface NothingInject
 {
 	float priority() default 0;
@@ -18,7 +16,7 @@ public @interface NothingInject
 	NothingInjectType type();
 	
 	/**
-	 * @return Represents how many insns you want to REMOVE or CATCH
+	 * @return Represents how many insns you want to SKIP or CATCH
 	 */
 	int length() default Integer.MAX_VALUE;
 }

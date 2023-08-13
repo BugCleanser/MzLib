@@ -12,7 +12,12 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 {
 	public static NothingClassRegistrar instance=new NothingClassRegistrar();
 	
-	public Map<Class<?>,NothingRegistration> registrations=new ConcurrentHashMap<>();
+	public Map<Class<?>,NothingRegistration> registrations;
+	
+	public NothingClassRegistrar()
+	{
+		registrations=new ConcurrentHashMap<>();
+	}
 	
 	@Override
 	public Class<Class<? extends Nothing>> getType()
@@ -47,7 +52,10 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 				throw new IllegalArgumentException("Try to unregister a nothing class which has not been registered: "+object);
 			v.remove(object);
 			if(v.isEmpty())
+			{
+				v.free();
 				return null;
+			}
 			return v;
 		});
 	}

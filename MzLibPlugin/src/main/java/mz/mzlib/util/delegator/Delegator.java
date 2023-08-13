@@ -3,7 +3,7 @@ package mz.mzlib.util.delegator;
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.lang.reflect.Member;
+import java.lang.reflect.Executable;
 import java.util.Arrays;
 
 @DelegatorClass(Object.class)
@@ -42,7 +42,7 @@ public interface Delegator
 			throw RuntimeUtil.forceThrow(e);
 		}
 	}
-	static Member findMember(Class<?> type,String[] names,Class<?>[] args)
+	static Executable findExecutable(Class<?> type,String[] names,Class<?>[] args)
 	{
 		args=Arrays.copyOf(args,args.length);
 		for(int i=0;i<args.length;i++)
