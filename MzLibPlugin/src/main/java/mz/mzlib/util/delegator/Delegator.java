@@ -10,7 +10,6 @@ import java.util.Arrays;
 public interface Delegator
 {
 	Object getDelegate();
-	void setDelegate(Object delegate);
 	
 	static <T extends Delegator> T create(Class<T> type,Object delegate)
 	{

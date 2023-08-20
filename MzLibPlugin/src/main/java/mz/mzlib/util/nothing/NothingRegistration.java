@@ -116,38 +116,40 @@ public class NothingRegistration
 									mn.instructions.insertBefore(raw[j],new JumpInsnNode(Opcodes.GOTO,ln));
 									mn.instructions.insertBefore(raw[j+ni.length()],ln);
 									break;
-								case CATCH:
-									LabelNode ln1=new LabelNode(),ln2=new LabelNode(),ln3=new LabelNode();
-									mn.instructions.insertBefore(raw[j],new JumpInsnNode(Opcodes.GOTO,ln1));
-									InsnList il=new InsnList();
-									il.add(new JumpInsnNode(Opcodes.GOTO,ln3));
-									il.add(ln2);
-									MethodType methodType=MethodType.methodType(Optional.class,CollectionUtil.addAll(CollectionUtil.newArrayList(Object.class),m.getParameterTypes()).stream().map(ClassUtil::baseType).collect(Collectors.toList()));
-									il.add(AsmUtil.insnConst(alloc()));
-									il.add(new MethodInsnNode(Opcodes.INVOKESTATIC,AsmUtil.getType(PublicValues.class),"get",AsmUtil.getDesc(Object.class,int.class)));
-									il.add(AsmUtil.insnCast(MethodHandle.class,Object.class));
-									if(!Modifier.isStatic(m.getModifiers()))
-										il.add(AsmUtil.insnVarLoad(Object.class,0));
-									else
-										il.add(AsmUtil.insnConst(null));
-									for(int k=0;k<methodType.parameterCount();k++)
-										il.add(AsmUtil.insnVarLoad(methodType.parameterType(k),k+1));
-									il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(methodType)));
-									il.add(AsmUtil.insnDup(Optional.class));
-									LabelNode ln4=new LabelNode();
-									il.add(new JumpInsnNode(Opcodes.IFNULL,ln4));
-									il.add(AsmUtil.insnConst(null));
-									il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(Optional.class),"orElse",AsmUtil.getDesc(Object.class,Object.class)));
-									il.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),Object.class));
-									il.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
-									il.add(ln4);
-									il.add(AsmUtil.insnPop(Optional.class));
-									il.add(ln3);
-									mn.instructions.insertBefore(raw[j+ni.length()],il);
-									mn.visitTryCatchBlock(ln1.getLabel(),ln2.getLabel(),ln2.getLabel(),AsmUtil.getType(Throwable.class));
-									break;
-								case INSERT_BEFORE:
+								default:
+									InsnList caller=new InsnList();
 									//TODO
+									caller.add(AsmUtil.insnDup(Object.class));
+									LabelNode later=new LabelNode();
+									caller.add(new JumpInsnNode(Opcodes.IFNULL,later));
+									caller.add(AsmUtil.insnArrayLoad(i.getReturnType(),AsmUtil.toList(AsmUtil.insnConst(0))));
+									if(Delegator.class.isAssignableFrom(i.getReturnType()))
+									{
+										caller.add(AsmUtil.insnGetDelegate());
+										caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),Object.class));
+									}
+									caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),Object.class));
+									caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
+									caller.add(later);
+									caller.add(AsmUtil.insnPop(Object.class));
+									switch(ni.type())
+									{
+									case INSERT_BEFORE:
+										mn.instructions.insertBefore(raw[j],caller);
+										break;
+									case CATCH:
+										LabelNode ln1=new LabelNode(), ln2=new LabelNode(), ln3=new LabelNode();
+										mn.instructions.insertBefore(raw[j],new JumpInsnNode(Opcodes.GOTO,ln1));
+										InsnList il=new InsnList();
+										il.add(new JumpInsnNode(Opcodes.GOTO,ln3));
+										il.add(ln2);
+										il.add(caller);
+										caller.add(AsmUtil.insnPop(Throwable.class));
+										il.add(ln3);
+										mn.instructions.insertBefore(raw[j+ni.length()],il);
+										mn.visitTryCatchBlock(ln1.getLabel(),ln2.getLabel(),ln2.getLabel(),AsmUtil.getType(Throwable.class));
+										break;
+									}
 									break;
 							}
 					}));

@@ -11,6 +11,7 @@ public abstract class AbsDelegator implements Delegator
 		this.delegate=delegate;
 	}
 	
+	@Override
 	public Object getDelegate()
 	{
 		return delegate;
