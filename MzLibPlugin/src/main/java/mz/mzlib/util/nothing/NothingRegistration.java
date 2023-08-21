@@ -122,13 +122,14 @@ public class NothingRegistration
 									caller.add(AsmUtil.insnDup(Object.class));
 									LabelNode later=new LabelNode();
 									caller.add(new JumpInsnNode(Opcodes.IFNULL,later));
-									caller.add(AsmUtil.insnArrayLoad(i.getReturnType(),AsmUtil.toList(AsmUtil.insnConst(0))));
-									if(Delegator.class.isAssignableFrom(i.getReturnType()))
+									caller.add(AsmUtil.insnArrayLoad(i.getReturnType().getComponentType(),AsmUtil.toList(AsmUtil.insnConst(0))));
+									if(Delegator.class.isAssignableFrom(i.getReturnType().getComponentType()))
 									{
 										caller.add(AsmUtil.insnGetDelegate());
 										caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),Object.class));
 									}
-									caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),Object.class));
+									else
+										caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m),i.getReturnType().getComponentType()));
 									caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
 									caller.add(later);
 									caller.add(AsmUtil.insnPop(Object.class));
