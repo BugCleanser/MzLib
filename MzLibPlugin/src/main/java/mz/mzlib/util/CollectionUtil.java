@@ -13,11 +13,11 @@ public class CollectionUtil
 	{
 		try
 		{
-			return RuntimeUtil.forceCast((Set<?>)synchronizedSet.invokeExact((Set<?>)set,(Object)mutex));
+			return RuntimeUtil.cast((Set<?>)synchronizedSet.invokeExact((Set<?>)set,(Object)mutex));
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	

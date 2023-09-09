@@ -48,7 +48,7 @@ public class AsmUtil
 			case '[':
 				return ClassUtil.forName(desc.replace('/','.'),cl);
 			default:
-				throw RuntimeUtil.forceThrow(new ClassNotFoundException(desc));
+				throw RuntimeUtil.sneakilyThrow(new ClassNotFoundException(desc));
 		}
 	}
 	
@@ -93,12 +93,17 @@ public class AsmUtil
 		}
 		return result;
 	}
-	public static InsnList insnCreateDelegator(Class<? extends Delegator> type)
+	public static InsnList insnCreateDelegator(InsnList type)
 	{
 		InsnList result=new InsnList();
-		result.add(insnConst(type));
+		result.add(type);
 		result.add(insnSwap(Class.class,Object.class));
 		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(Delegator.class),"create",getDesc(Delegator.class,Class.class,Object.class)));
+		return result;
+	}
+	public static InsnList insnCreateDelegator(Class<? extends Delegator> type)
+	{
+		InsnList result=insnCreateDelegator(toList(insnConst(type)));
 		result.add(insnCast(type,Delegator.class));
 		return result;
 	}
@@ -537,6 +542,14 @@ public class AsmUtil
 			return getDesc(((Field)member).getType());
 		else
 			throw new IllegalArgumentException();
+	}
+	
+	public static InsnList insnGetPublicValue(int index)
+	{
+		InsnList result=new InsnList();
+		result.add(AsmUtil.insnConst(index));
+		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,AsmUtil.getType(PublicValues.class),"get",AsmUtil.getDesc(Object.class,int.class),false));
+		return result;
 	}
 	
 	public static String toString(AbstractInsnNode insn)

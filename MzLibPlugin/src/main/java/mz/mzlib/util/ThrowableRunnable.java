@@ -13,7 +13,7 @@ public interface ThrowableRunnable extends Runnable
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }

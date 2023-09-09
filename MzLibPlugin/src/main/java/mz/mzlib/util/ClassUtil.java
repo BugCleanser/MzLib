@@ -18,7 +18,6 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,7 +59,7 @@ public class ClassUtil
 				}
 				catch(Throwable e)
 				{
-					throw RuntimeUtil.forceThrow(e);
+					throw RuntimeUtil.sneakilyThrow(e);
 				}
 		}
 	}
@@ -96,7 +95,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
@@ -111,7 +110,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes)
@@ -122,7 +121,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
@@ -134,7 +133,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	public static MethodHandle unreflect(Method method)
@@ -145,7 +144,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	public static MethodHandle unreflectSpecial(Method method)
@@ -156,7 +155,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
@@ -243,7 +242,7 @@ public class ClassUtil
 							System.err.println("请使用JDK，推荐zulu jdk(zulu.org)");
 						System.err.println("请删除启动参数-XX:+DisableAttachMechanism和-Djdk.attach.allowAttachSelf=false");
 						System.err.println("也可以尝试安装MzLibAgent（注：这不是一个插件）");
-						throw RuntimeUtil.forceThrow(e);
+						throw RuntimeUtil.sneakilyThrow(e);
 					}
 					if(RuntimeUtil.runAndCatch(()->Class.forName(InstrumentationGetter.class.getName(),false,sysClassLoader)) instanceof ClassNotFoundException)
 					{
@@ -251,11 +250,11 @@ public class ClassUtil
 						Root.getUnsafe().defineClass(InstrumentationGetter.class.getName(),bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
 					}
 					Class<?> clazz=Class.forName(InstrumentationGetter.class.getName(),true,ClassLoader.getSystemClassLoader());
-					instrumentation=RuntimeUtil.forceCast(clazz.getField("instrumentation").get(null));
+					instrumentation=RuntimeUtil.cast(clazz.getField("instrumentation").get(null));
 				}
 				catch(Throwable e)
 				{
-					RuntimeUtil.forceThrow(e);
+					RuntimeUtil.sneakilyThrow(e);
 				}
 			}
 		}
@@ -284,7 +283,7 @@ public class ClassUtil
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
@@ -317,7 +316,7 @@ public class ClassUtil
 			}
 			catch(Throwable e)
 			{
-				throw RuntimeUtil.forceThrow(e);
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 		}
 	}
@@ -343,53 +342,53 @@ public class ClassUtil
 				attached=defineClass(classLoader,attachedName,cw.toByteArray());
 				attached.getDeclaredField("instance").set(null,ConcurrentHashMap.newKeySet());
 			}
-			RuntimeUtil.<Set<Object>>forceCast(attached.getDeclaredField("instance").get(null)).add(target);
+			RuntimeUtil.<Set<Object>>cast(attached.getDeclaredField("instance").get(null)).add(target);
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
 	public static <T> Class<T> getPrimitive(Class<T> src)
 	{
 		if(src==Character.class)
-			return RuntimeUtil.forceCast(char.class);
+			return RuntimeUtil.cast(char.class);
 		else if(src==Boolean.class)
-			return RuntimeUtil.forceCast(boolean.class);
+			return RuntimeUtil.cast(boolean.class);
 		else if(src==Byte.class)
-			return RuntimeUtil.forceCast(byte.class);
+			return RuntimeUtil.cast(byte.class);
 		else if(src==Short.class)
-			return RuntimeUtil.forceCast(short.class);
+			return RuntimeUtil.cast(short.class);
 		else if(src==Integer.class)
-			return RuntimeUtil.forceCast(int.class);
+			return RuntimeUtil.cast(int.class);
 		else if(src==Long.class)
-			return RuntimeUtil.forceCast(long.class);
+			return RuntimeUtil.cast(long.class);
 		else if(src==Float.class)
-			return RuntimeUtil.forceCast(float.class);
+			return RuntimeUtil.cast(float.class);
 		else if(src==Double.class)
-			return RuntimeUtil.forceCast(double.class);
+			return RuntimeUtil.cast(double.class);
 		else
 			return src;
 	}
 	public static <T> Class<T> getWrapper(Class<T> src)
 	{
 		if(src==char.class)
-			return RuntimeUtil.forceCast(Character.class);
+			return RuntimeUtil.cast(Character.class);
 		else if(src==boolean.class)
-			return RuntimeUtil.forceCast(Boolean.class);
+			return RuntimeUtil.cast(Boolean.class);
 		else if(src==byte.class)
-			return RuntimeUtil.forceCast(Byte.class);
+			return RuntimeUtil.cast(Byte.class);
 		else if(src==short.class)
-			return RuntimeUtil.forceCast(Short.class);
+			return RuntimeUtil.cast(Short.class);
 		else if(src==int.class)
-			return RuntimeUtil.forceCast(Integer.class);
+			return RuntimeUtil.cast(Integer.class);
 		else if(src==long.class)
-			return RuntimeUtil.forceCast(Long.class);
+			return RuntimeUtil.cast(Long.class);
 		else if(src==float.class)
-			return RuntimeUtil.forceCast(Float.class);
+			return RuntimeUtil.cast(Float.class);
 		else if(src==double.class)
-			return RuntimeUtil.forceCast(Double.class);
+			return RuntimeUtil.cast(Double.class);
 		else
 			return src;
 	}

@@ -31,7 +31,7 @@ public abstract class MzModule
 		{
 			if(RegistrarRegistrar.instance.registrars.containsKey(c))
 				for(IRegistrar<?> i:RegistrarRegistrar.instance.registrars.get(c).toArray(new IRegistrar[0]))
-					if(i.isRegistrable(RuntimeUtil.forceCast(object)))
+					if(i.isRegistrable(RuntimeUtil.cast(object)))
 						registrars.add(i);
 		});
 		if(registrars.isEmpty()&&!(object instanceof MzModule))
@@ -51,7 +51,7 @@ public abstract class MzModule
 			
 			if(workedRegistrars.containsAll(now.getDependencies()))
 			{
-				now.register(this,RuntimeUtil.forceCast(object));
+				now.register(this,RuntimeUtil.cast(object));
 				workedRegistrars.add(now);
 				workedRegistrarsRecord.push(now);
 				cnt++;
@@ -98,7 +98,7 @@ public abstract class MzModule
 			Set<IRegistrar<?>> key=RegistrarRegistrar.instance.registrars.get(i.getType());
 			if(key==null||!key.contains(i))
 				throw new IllegalStateException("Try to unregister an object("+object+") but the registrar("+i+") has been unloaded.");
-			i.unregister(this,RuntimeUtil.forceCast(object));
+			i.unregister(this,RuntimeUtil.cast(object));
 		}
 	}
 	

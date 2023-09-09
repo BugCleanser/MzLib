@@ -7,18 +7,18 @@ public class RuntimeUtil
 	public static boolean TRUE=true;
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T forceCast(Object object)
+	public static <T> T cast(Object object)
 	{
 		return (T) object;
 	}
-	public static <T extends Throwable> RuntimeException forceThrow(Throwable e) throws T
+	public static <T extends Throwable> RuntimeException sneakilyThrow(Throwable e) throws T
 	{
-		throw RuntimeUtil.<T>forceCast(e);
+		throw RuntimeUtil.<T>cast(e);
 	}
 	@SuppressWarnings("RedundantThrows")
-	public static <T extends Throwable> void declareThrow() throws T {}
+	public static <T extends Throwable> void declaredlyThrow() throws T {}
 	@SuppressWarnings("RedundantThrows")
-	public static <T extends Throwable> void declareThrow(Class<T> clazz) throws T {}
+	public static <T extends Throwable> void declaredlyThrow(Class<T> clazz) throws T {}
 	public static Throwable runAndCatch(ThrowableRunnable runnable)
 	{
 		try

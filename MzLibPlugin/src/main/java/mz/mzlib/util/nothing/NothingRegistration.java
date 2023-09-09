@@ -7,15 +7,11 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.delegator.Delegator;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodType;
+import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class NothingRegistration
 {
@@ -65,7 +61,7 @@ public class NothingRegistration
 				{
 					Executable m=Delegator.findExecutable(target,ni.methodNames(),ni.methodArgs());
 					if(m==null)
-						throw RuntimeUtil.forceThrow(new NoSuchMethodException("Target of "+i));
+						throw RuntimeUtil.sneakilyThrow(new NoSuchMethodException("Target of "+i));
 					operations.add(new MapEntry<>(ni.priority(),()->
 					{
 						MethodNode mn=AsmUtil.getMethodNode(cn,m.getName(),AsmUtil.getDesc(m));
@@ -108,7 +104,7 @@ public class NothingRegistration
 									}
 									catch(Throwable e)
 									{
-										throw RuntimeUtil.forceThrow(e);
+										throw RuntimeUtil.sneakilyThrow(e);
 									}
 									break;
 								case SKIP:
@@ -118,7 +114,43 @@ public class NothingRegistration
 									break;
 								default:
 									InsnList caller=new InsnList();
+									InsnList loadingVars=new InsnList(),afterCall=new InsnList();
+									for(int k=0;k<i.getParameterCount();k++)
+									{
+										Class<?> t=i.getParameterTypes()[k].getComponentType();
+										if(t==null)
+											throw new IllegalArgumentException("Non-array parameter on "+i);
+										int tn=-1;
+										if(Delegator.class.isAssignableFrom(t))
+											tn=alloc(t);
+										if(tn==-1)
+											caller.add(AsmUtil.insnArray(AsmUtil.toList(AsmUtil.insnConst(1)),t));
+										else
+										{
+											caller.add(AsmUtil.insnGetPublicValue(tn));
+											caller.add(AsmUtil.insnCast(Class.class,Object.class));
+											caller.add(AsmUtil.insnConst(1));
+											caller.add(new MethodInsnNode(Opcodes.INVOKESTATIC,AsmUtil.getType(Array.class),"newInstance",AsmUtil.getDesc(Object.class,Class.class,int.class),false));
+											caller.add(AsmUtil.insnCast(Object[].class,Object.class));
+										}
+										caller.add(AsmUtil.insnDup(Object[].class));
+										int num=mn.maxLocals++;
+										caller.add(AsmUtil.insnVarStore(Object.class,num));
+										loadingVars.add(AsmUtil.insnVarLoad(Object.class,num));
+										LocalVar lv=i.getAnnotatedParameterTypes()[k].getDeclaredAnnotation(LocalVar.class);
+										if(lv!=null)
+										{
+											InsnList value=AsmUtil.toList(AsmUtil.insnVarLoad(t,lv.value()));
+											if(tn!=-1)
+												value.add(AsmUtil.insnCreateDelegator(AsmUtil.insnGetPublicValue(tn)));
+											caller.add(AsmUtil.insnArrayStore(t,AsmUtil.toList(AsmUtil.insnConst(0)),value));
+											continue;
+										}
+										throw new IllegalArgumentException("Parameter without annotation on "+i);
+									}
+									caller.add(loadingVars);
 									//TODO
+									caller.add(afterCall);
 									caller.add(AsmUtil.insnDup(Object.class));
 									LabelNode later=new LabelNode();
 									caller.add(new JumpInsnNode(Opcodes.IFNULL,later));

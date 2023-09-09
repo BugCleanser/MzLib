@@ -15,7 +15,7 @@ public interface ThrowablePredicate<T> extends Predicate<T>
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }

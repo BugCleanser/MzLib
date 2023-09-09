@@ -22,7 +22,7 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 	@Override
 	public Class<Class<? extends Nothing>> getType()
 	{
-		return RuntimeUtil.forceCast(Class.class);
+		return RuntimeUtil.cast(Class.class);
 	}
 	
 	@Override
@@ -38,14 +38,14 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 			throw new IllegalArgumentException("Nothing class must implements Delegator.");
 		if(!Delegator.class.isInterface())
 			throw new IllegalArgumentException("Nothing class must be an interface.");
-		Class<?> delegateClass=Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>forceCast(object));
+		Class<?> delegateClass=Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>cast(object));
 		registrations.computeIfAbsent(delegateClass,k->new NothingRegistration(delegateClass)).add(object);
 	}
 	
 	@Override
 	public void unregister(MzModule module,Class<? extends Nothing> object)
 	{
-		Class<?> delegateClass=Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>forceCast(object));
+		Class<?> delegateClass=Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>cast(object));
 		registrations.compute(delegateClass,(k,v)->
 		{
 			if(v==null)

@@ -30,7 +30,7 @@ public class PublicValues
 					ClassUtil.defineClass(sysLoader,IndexAllocator.class.getName(),ClassUtil.getByteCode(IndexAllocator.class));
 					root=ClassUtil.defineClass(sysLoader,PublicValues.class.getName(),ClassUtil.getByteCode(PublicValues.class));
 				}
-				PublicValues.allocator=RuntimeUtil.forceCast(root.getDeclaredField("allocator").get(null));
+				PublicValues.allocator=RuntimeUtil.cast(root.getDeclaredField("allocator").get(null));
 			}
 			PublicValues.alloc=PublicValues.allocator.getClass().getMethod("alloc");
 			PublicValues.free=PublicValues.allocator.getClass().getMethod("free",int.class);
@@ -39,14 +39,14 @@ public class PublicValues
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	
 	public static int alloc()
 	{
 		if(PublicValues.isRoot)
-			return RuntimeUtil.<IndexAllocator<Object>>forceCast(PublicValues.allocator).alloc();
+			return RuntimeUtil.<IndexAllocator<Object>>cast(PublicValues.allocator).alloc();
 		else
 			try
 			{
@@ -54,13 +54,13 @@ public class PublicValues
 			}
 			catch(Throwable e)
 			{
-				throw RuntimeUtil.forceThrow(e);
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 	}
 	public static void free(int index)
 	{
 		if(PublicValues.isRoot)
-			RuntimeUtil.<IndexAllocator<Object>>forceCast(PublicValues.allocator).free(index);
+			RuntimeUtil.<IndexAllocator<Object>>cast(PublicValues.allocator).free(index);
 		else
 			try
 			{
@@ -68,14 +68,14 @@ public class PublicValues
 			}
 			catch(Throwable e)
 			{
-				throw RuntimeUtil.forceThrow(e);
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 	}
 	
 	public static void set(int index,Object obj)
 	{
 		if(PublicValues.isRoot)
-			RuntimeUtil.<IndexAllocator<Object>>forceCast(PublicValues.allocator).set(index,obj);
+			RuntimeUtil.<IndexAllocator<Object>>cast(PublicValues.allocator).set(index,obj);
 		else
 			try
 			{
@@ -83,14 +83,14 @@ public class PublicValues
 			}
 			catch(Throwable e)
 			{
-				throw RuntimeUtil.forceThrow(e);
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 	}
 	
 	public static Object get(int index)
 	{
 		if(PublicValues.isRoot)
-			return RuntimeUtil.<IndexAllocator<Object>>forceCast(PublicValues.allocator).get(index);
+			return RuntimeUtil.<IndexAllocator<Object>>cast(PublicValues.allocator).get(index);
 		else
 			try
 			{
@@ -98,7 +98,7 @@ public class PublicValues
 			}
 			catch(Throwable e)
 			{
-				throw RuntimeUtil.forceThrow(e);
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 	}
 }

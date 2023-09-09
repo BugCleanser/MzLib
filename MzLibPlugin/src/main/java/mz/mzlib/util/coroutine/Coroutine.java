@@ -139,7 +139,7 @@ public abstract class Coroutine
 					}
 					catch(Throwable e)
 					{
-						throw RuntimeUtil.forceThrow(e);
+						throw RuntimeUtil.sneakilyThrow(e);
 					}
 				}).get().invokeExact();
 				((Coroutine)data).template().run(this);
@@ -151,7 +151,7 @@ public abstract class Coroutine
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }

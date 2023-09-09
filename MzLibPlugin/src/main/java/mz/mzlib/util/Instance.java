@@ -31,7 +31,7 @@ public interface Instance
 			ClassUtil.forEachSuperUnique(object.getClass(),c->
 			{
 				if(Instance.class.isAssignableFrom(c))
-					instances.computeIfAbsent(RuntimeUtil.forceCast(c),k->new CopyOnWriteArrayList<>()).add(0,object);
+					instances.computeIfAbsent(RuntimeUtil.cast(c),k->new CopyOnWriteArrayList<>()).add(0,object);
 			});
 		}
 		@Override
@@ -40,7 +40,7 @@ public interface Instance
 			ClassUtil.forEachSuperUnique(object.getClass(),c->
 			{
 				if(Instance.class.isAssignableFrom(c))
-					instances.computeIfPresent(RuntimeUtil.forceCast(c),(k,v)->
+					instances.computeIfPresent(RuntimeUtil.cast(c),(k,v)->
 					{
 						v.remove(object);
 						if(v.isEmpty())
@@ -53,6 +53,6 @@ public interface Instance
 	}
 	static <T extends Instance> T get(Class<T> type)
 	{
-		return RuntimeUtil.forceCast(InstanceRegistrar.instance.instances.get(type).get(0));
+		return RuntimeUtil.cast(InstanceRegistrar.instance.instances.get(type).get(0));
 	}
 }

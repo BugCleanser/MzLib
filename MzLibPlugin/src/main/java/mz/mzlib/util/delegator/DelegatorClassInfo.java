@@ -188,7 +188,7 @@ public class DelegatorClassInfo
 					}
 					if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
 					{
-						mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
+						mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.<Class<Delegator>>cast(i.getKey().getReturnType())));
 						rt=Object.class;
 					}
 					mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(),rt));
@@ -232,7 +232,7 @@ public class DelegatorClassInfo
 								}
 							}
 							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
-								mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.forceCast(i.getKey().getReturnType())));
+								mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.<Class<Delegator>>cast(i.getKey().getReturnType())));
 							else
 								mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(),type));
 							mn.instructions.add(AsmUtil.insnReturn(i.getKey().getReturnType()));
@@ -305,7 +305,7 @@ public class DelegatorClassInfo
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }

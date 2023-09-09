@@ -18,7 +18,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
 	@Override
 	public Class<IRegistrar<?>> getType()
 	{
-		return RuntimeUtil.forceCast(IRegistrar.class);
+		return RuntimeUtil.cast(IRegistrar.class);
 	}
 	@Override
 	public void register(MzModule module,IRegistrar<?> object)

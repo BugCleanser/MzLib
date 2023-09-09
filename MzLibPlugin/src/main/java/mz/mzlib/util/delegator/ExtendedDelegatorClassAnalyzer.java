@@ -18,7 +18,7 @@ public class ExtendedDelegatorClassAnalyzer implements DelegatorClassAnalyzer,In
 		for(Method i:info.getDelegatorClass().getMethods())
 			if(Modifier.isAbstract(i.getModifiers())&&i.getDeclaringClass()!=info.getDelegatorClass()&&Delegator.class.isAssignableFrom(i.getDeclaringClass()))
 			{
-				Member tar=DelegatorClassInfo.get(RuntimeUtil.forceCast(i.getDeclaringClass())).delegations.get(i);
+				Member tar=DelegatorClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).delegations.get(i);
 				if(tar!=null&&!(tar instanceof Constructor))
 					info.delegations.put(i,tar);
 			}

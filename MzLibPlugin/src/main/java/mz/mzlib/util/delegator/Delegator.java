@@ -15,11 +15,11 @@ public interface Delegator
 	{
 		try
 		{
-			return RuntimeUtil.forceCast((Object)DelegatorClassInfo.get(type).getConstructor().invokeExact((Object)delegate));
+			return RuntimeUtil.cast((Object)DelegatorClassInfo.get(type).getConstructor().invokeExact((Object)delegate));
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	static <T extends Delegator> T createStatic(Class<T> type)
@@ -38,7 +38,7 @@ public interface Delegator
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 	static Executable findExecutable(Class<?> type,String[] names,Class<?>[] args)
@@ -46,7 +46,7 @@ public interface Delegator
 		args=Arrays.copyOf(args,args.length);
 		for(int i=0;i<args.length;i++)
 			if(Delegator.class.isAssignableFrom(args[i]))
-				args[i]=Delegator.getDelegateClass(RuntimeUtil.forceCast(args[i]));
+				args[i]=Delegator.getDelegateClass(RuntimeUtil.cast(args[i]));
 		for(String name:names)
 			try
 			{

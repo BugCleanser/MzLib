@@ -15,7 +15,7 @@ public interface ThrowableFunction<T,R> extends Function<T,R>
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }

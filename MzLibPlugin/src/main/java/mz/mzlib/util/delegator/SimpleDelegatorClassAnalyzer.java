@@ -30,12 +30,12 @@ public interface SimpleDelegatorClassAnalyzer extends DelegatorClassAnalyzer
 			{
 				Class<?> returnType=i.getReturnType();
 				if(Delegator.class.isAssignableFrom(returnType))
-					returnType=DelegatorClassInfo.get(RuntimeUtil.forceCast(returnType)).getDelegateClass();
+					returnType=DelegatorClassInfo.get(RuntimeUtil.cast(returnType)).getDelegateClass();
 				Class<?>[] argTypes=i.getParameterTypes();
 				for(int j=0;j<argTypes.length;j++)
 				{
 					if(Delegator.class.isAssignableFrom(argTypes[j]))
-						argTypes[j]=DelegatorClassInfo.get(RuntimeUtil.forceCast(argTypes[j])).getDelegateClass();
+						argTypes[j]=DelegatorClassInfo.get(RuntimeUtil.cast(argTypes[j])).getDelegateClass();
 				}
 				for(Annotation j: i.getDeclaredAnnotations())
 				{

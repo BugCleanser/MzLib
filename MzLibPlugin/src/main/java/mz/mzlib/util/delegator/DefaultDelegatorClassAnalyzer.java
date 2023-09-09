@@ -35,7 +35,7 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 					lastException=e;
 				}
 			}
-			throw RuntimeUtil.forceThrow(lastException);
+			throw RuntimeUtil.sneakilyThrow(lastException);
 		}
 		return null;
 	}
@@ -63,7 +63,7 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 						lastException=e;
 					}
 				}
-				throw RuntimeUtil.forceThrow(lastException);
+				throw RuntimeUtil.sneakilyThrow(lastException);
 			}
 			else if(annotation instanceof DelegatorFieldAccessor)
 			{
@@ -94,13 +94,13 @@ public class DefaultDelegatorClassAnalyzer implements SimpleDelegatorClassAnalyz
 						lastException=e;
 					}
 				}
-				throw RuntimeUtil.forceThrow(lastException);
+				throw RuntimeUtil.sneakilyThrow(lastException);
 			}
 			return null;
 		}
 		catch(Throwable e)
 		{
-			throw RuntimeUtil.forceThrow(e);
+			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
 }
