@@ -2,8 +2,10 @@ package mz.mzlib.network;
 
 public class ServerRegistry<T> extends Registry<T>
 {
-	public ServerRegistry(Protocol protocol)
+	public Protocol protocol;
+	public ServerRegistry(Protocol protocol,String name)
 	{
-		super(protocol);
+		super(name);
+		this.protocol=protocol;
 	}
 }

@@ -309,9 +309,19 @@ public class ClassUtil
 						throw e;
 					}
 				}
-				catch(ClassNotFoundException ignore)
+				catch(Throwable e)
 				{
-					return Root.getUnsafe().defineClass(name,byteCode,0,byteCode.length,classLoader,null);
+					try
+					{
+						return Root.getUnsafe().defineClass(name,byteCode,0,byteCode.length,classLoader,null);
+					}
+					catch(Throwable e1)
+					{
+						if(e instanceof ClassNotFoundException)
+							throw e1;
+						else
+							throw e;
+					}
 				}
 			}
 			catch(Throwable e)
