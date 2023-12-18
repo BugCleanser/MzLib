@@ -60,7 +60,7 @@ public class LexerNumberUnit extends LexerUnit
 				radix=2;
 				s=s.substring(2);
 			}
-			else if(s.startsWith("0"))
+			else if(s.startsWith("0")&&!s.equals("0"))
 			{
 				radix=8;
 				s=s.substring(1);

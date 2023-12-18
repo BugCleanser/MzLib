@@ -12,7 +12,7 @@ public class IOUtil
 		try
 		{
 			byte[] result=new byte[stream.available()];
-			if(stream.read(result)<result.length||RuntimeUtil.runAndCatch(stream::read)==null)
+			if(stream.read(result)<result.length)
 				throw new AssertionError();
 			return result;
 		}

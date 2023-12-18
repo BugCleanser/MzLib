@@ -4,6 +4,8 @@ public class Token
 {
 	private final TokenType type;
 	private final Object value;
+	public int lineNum;
+	public int columnNum;
 	
 	public Token(TokenType type, Object value)
 	{
@@ -18,6 +20,13 @@ public class Token
 	
 	public Object getValue() {
 		return value;
+	}
+	
+	public Token setPosition(int lineNum,int columnNum)
+	{
+		this.lineNum=lineNum;
+		this.columnNum=columnNum;
+		return this;
 	}
 	
 	@Override

@@ -24,12 +24,17 @@ public class Lexer
 	public List<Token> tokenize() throws IOException,SyntaxException
 	{
 		List<Token> tokens=new ArrayList<>();
-		try
-		
-		{
 		int c;
+		int lineNum=0,columnNum=0;
 		while((c=reader.read())!=-1)
 		{
+			if(c=='\n')
+			{
+				lineNum++;
+				columnNum=0;
+			}
+			else
+				columnNum++;
 			if(current!=null)
 			{
 				if(current.check((char)c))
@@ -37,48 +42,40 @@ public class Lexer
 					current.append((char)c);
 					if(current.isEnded())
 					{
-						tokens.add(current.toToken());
+						tokens.add(current.toToken().setPosition(lineNum,columnNum));
 						current=null;
-						continue;
 					}
+					continue;
 				}
 				else
 				{
-					tokens.add(current.toToken());
+					tokens.add(current.toToken().setPosition(lineNum,columnNum));
 					current=null;
 				}
 			}
-			if(current==null)
+			switch(c)
 			{
-				switch(c)
-				{
-					case '\'':
-						current=new LexerCharUnit();
-						break;
-					case '\"':
-						current=new LexerStringUnit();
-						break;
-					default:
-						if(c>='0'&&c<='9')
-							current=new LexerNumberUnit();
-						else if(c=='_' || c>='a'&&c<='z' || c>='A'&&c<='Z')
-							current=new LexerIdentifierUnit();
-						else if(LexerOperatorUnit.operatorChars.contains((char)c))
-							current=new LexerOperatorUnit();
-						else if(!Character.isWhitespace(c))
-							throw new SyntaxException(Character.toString((char)c));
-				}
-				if(current!=null)
-					current.append((char)c);
+				case '\'':
+					current=new LexerCharUnit();
+					break;
+				case '\"':
+					current=new LexerStringUnit();
+					break;
+				default:
+					if(c>='0' && c<='9')
+						current=new LexerNumberUnit();
+					else if(c=='_' || c>='a' && c<='z' || c>='A' && c<='Z')
+						current=new LexerIdentifierUnit();
+					else if(LexerOperatorUnit.operatorChars.contains((char)c))
+						current=new LexerOperatorUnit();
+					else if(!Character.isWhitespace(c))
+						throw new SyntaxException(Character.toString((char)c));
 			}
-		}
 			if(current!=null)
-				tokens.add(current.toToken());
+				current.append((char)c);
 		}
-		catch(Throwable e)
-		{
-			System.out.println(tokens);
-		}
+		if(current!=null)
+			tokens.add(current.toToken().setPosition(lineNum,columnNum));
 		return tokens;
 	}
 }
