@@ -12,7 +12,7 @@ public class LexerNumberUnit extends LexerUnit
 	@Override
 	public boolean check(char c)
 	{
-		return c>='0'&&c<='9' || c>='a'&&c<='z' || c>='A'&&c<='Z';
+		return c>='0'&&c<='9' || c=='.' || c>='a'&&c<='z' || c>='A'&&c<='Z';
 	}
 	
 	@Override

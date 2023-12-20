@@ -26,7 +26,7 @@ public class Test
 			{
 				lexer=new Lexer(new String(IOUtil.readAll(fis),StandardCharsets.UTF_8));
 			}
-			List<Token> tokens=lexer.tokenize();
+			List<Token> tokens=lexer.apply();
 			int lineNum=0;
 			for(Token t: tokens)
 			{

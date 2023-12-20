@@ -21,7 +21,7 @@ public class Lexer
 	}
 	
 	public LexerUnit current;
-	public List<Token> tokenize() throws IOException,SyntaxException
+	public List<Token> apply() throws IOException,SyntaxException
 	{
 		List<Token> tokens=new ArrayList<>();
 		int c;
