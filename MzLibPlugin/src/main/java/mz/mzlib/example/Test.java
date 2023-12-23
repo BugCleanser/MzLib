@@ -8,12 +8,12 @@ import mz.mzlib.mzlang.lexer.Lexer;
 import mz.mzlib.mzlang.lexer.Token;
 import mz.mzlib.util.AsmUtil;
 import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.IOUtil;
 
-import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Test
 {
@@ -21,21 +21,18 @@ public class Test
 	{
 		try
 		{
-			Lexer lexer;
-			try(FileInputStream fis=new FileInputStream("E:/Temp/test1/test.mzlang"))
+			try(InputStreamReader input=new InputStreamReader(Files.newInputStream(Paths.get("E:/Temp/test1/test.mzlangt")),StandardCharsets.UTF_8))
 			{
-				lexer=new Lexer(new String(IOUtil.readAll(fis),StandardCharsets.UTF_8));
-			}
-			List<Token> tokens=lexer.apply();
-			int lineNum=0;
-			for(Token t: tokens)
-			{
-				while(lineNum<t.lineNum)
+				int lineNum=0;
+				for(Token t:new Lexer(input).apply())
 				{
-					System.out.println();
-					lineNum++;
+					while(lineNum<t.lineNum)
+					{
+						System.out.println();
+						lineNum++;
+					}
+					System.out.print(t+" ");
 				}
-				System.out.print(t+" ");
 			}
 		}
 		catch(Throwable e)

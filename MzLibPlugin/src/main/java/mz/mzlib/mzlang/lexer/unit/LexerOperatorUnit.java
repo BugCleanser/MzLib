@@ -30,12 +30,8 @@ public class LexerOperatorUnit extends LexerUnit
 		regOperator("/=");
 		regOperator(".");
 		regOperator(";");
-		regOperator("(");
-		regOperator(")");
-		regOperator("[");
-		regOperator("]");
-		regOperator("{");
-		regOperator("}");
+		regOperator("<");
+		regOperator(">");
 		//TODO
 	}
 	

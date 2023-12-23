@@ -25,7 +25,11 @@ public class LexerIdentifierUnit extends LexerUnit
 	}
 	
 	public static Set<String> keywords=new HashSet<>(Arrays.asList(
+			"using",
 			"class",
+			"fn",
+			"var",
+			"val",
 			"new",
 			"extends"
 	));

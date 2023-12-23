@@ -32,6 +32,9 @@ public class LexerStringUnit extends LexerUnit
 			this.escaping=0;
 			switch(c)
 			{
+				case '0':
+					sb.append('\0');
+					break;
 				case 't':
 					sb.append('\t');
 					break;

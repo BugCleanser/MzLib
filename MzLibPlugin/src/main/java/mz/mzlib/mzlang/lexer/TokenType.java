@@ -5,5 +5,6 @@ public enum TokenType
 	KEYWORD,
 	IDENTIFIER,
 	LITERAL,
-	OPERATOR;
+	OPERATOR,
+	BRACKET_BLOCK;
 }

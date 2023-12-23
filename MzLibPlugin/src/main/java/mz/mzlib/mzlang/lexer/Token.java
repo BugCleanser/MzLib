@@ -1,5 +1,7 @@
 package mz.mzlib.mzlang.lexer;
 
+import java.util.Objects;
+
 public class Token
 {
 	private final TokenType type;
@@ -27,6 +29,23 @@ public class Token
 		this.lineNum=lineNum;
 		this.columnNum=columnNum;
 		return this;
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this==o)
+			return true;
+		if(o==null || getClass()!=o.getClass())
+			return false;
+		Token token=(Token)o;
+		return type==token.type && Objects.equals(value,token.value);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(type,value);
 	}
 	
 	@Override
