@@ -31,7 +31,7 @@ public class RuntimeUtil
 		}
 		return null;
 	}
-	public static <T> T require(T object,ThrowablePredicate<T> con)
+	public static <T,E extends Throwable> T require(T object,ThrowablePredicate<T,E> con) throws E
 	{
 		assert con.test(object);
 		return object;

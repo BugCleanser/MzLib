@@ -2,20 +2,22 @@ package mz.mzlib.util;
 
 import java.util.function.Function;
 
-public interface ThrowableFunction<T,R> extends Function<T,R>
+public interface ThrowableFunction<T,R,E extends Throwable>
 {
-	R applyWithThrowable(T arg) throws Throwable;
+	R apply(T arg) throws E;
 	
-	@Override
-	default R apply(T arg)
+	default Function<T,R> toFunction()
 	{
-		try
+		return arg->
 		{
-			return applyWithThrowable(arg);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+			try
+			{
+				return this.apply(arg);
+			}
+			catch(Throwable e)
+			{
+				throw RuntimeUtil.sneakilyThrow(e);
+			}
+		};
 	}
 }

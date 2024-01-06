@@ -1,24 +1,24 @@
 package mz.mzlib.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class IOUtil
 {
 	private IOUtil() {}
 	
-	@SuppressWarnings("ResultOfMethodCallIgnored")
-	public static byte[] readAll(InputStream stream)
+	public static int bufSize=1024*1024;
+	
+	public static byte[] readAll(InputStream stream) throws IOException
 	{
-		try
+		ByteArrayOutputStream result=new ByteArrayOutputStream();
+		byte[] buffer = new byte[bufSize];
+		int bytesRead;
+		while((bytesRead=stream.read(buffer))!=-1)
 		{
-			byte[] result=new byte[stream.available()];
-			if(stream.read(result)<result.length)
-				throw new AssertionError();
-			return result;
+			result.write(buffer,0,bytesRead);
 		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return result.toByteArray();
 	}
 }
