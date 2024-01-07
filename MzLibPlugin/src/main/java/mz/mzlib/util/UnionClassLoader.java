@@ -8,6 +8,15 @@ import java.util.stream.Collectors;
 
 public class UnionClassLoader extends ClassLoader
 {
+	public UnionClassLoader()
+	{
+		super();
+	}
+	public UnionClassLoader(ClassLoader parent)
+	{
+		super(parent);
+	}
+	
 	public Map<Float,Set<ClassLoader>> members=new ConcurrentHashMap<>();
 	public Map<ClassLoader,Float> memberPriorities=new ConcurrentHashMap<>();
 	public void addMember(ClassLoader cl,float priority)
@@ -20,6 +29,10 @@ public class UnionClassLoader extends ClassLoader
 			classLoaders.add(cl);
 			return classLoaders;
 		});
+	}
+	public void addMember(ClassLoader cl)
+	{
+		addMember(cl,0f);
 	}
 	public void removeMember(ClassLoader cl)
 	{
@@ -41,7 +54,7 @@ public class UnionClassLoader extends ClassLoader
 		{
 			for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
 			{
-				for(ClassLoader i:new ClassLoader[0])
+				for(ClassLoader i:j.getValue())
 				{
 					try
 					{
