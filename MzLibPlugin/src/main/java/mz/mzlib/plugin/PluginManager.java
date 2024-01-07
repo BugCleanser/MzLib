@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class PluginManager
 {
-	public Map<String,Plugin> plugins;
+	public Map<String,Plugin> plugins=new HashMap<>();
 	public Map<Plugin,Boolean> pluginStates=new HashMap<>();
 	
 	public void loadPlugin(Plugin plugin)
