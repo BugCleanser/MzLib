@@ -47,35 +47,48 @@ public class UnionClassLoader extends ClassLoader
 	@Override
 	public synchronized Class<?> loadClass(String name,boolean resolve) throws ClassNotFoundException
 	{
-		if(loadingClasses.contains(name))
-			return null;
-		loadingClasses.add(name);
+		Class<?> result=null;
 		try
 		{
-			for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
+			result=super.loadClass(name,false);
+		}
+		catch(ClassNotFoundException ignore)
+		{
+		}
+		if(result==null)
+		{
+			if(loadingClasses.contains(name))
+				return null;
+			loadingClasses.add(name);
+			try
 			{
-				for(ClassLoader i:j.getValue())
+				for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
 				{
-					try
+					for(ClassLoader i: j.getValue())
 					{
-						Class<?> result=i.loadClass(name);
-						if(result!=null)
+						try
 						{
-							if(resolve)
-								this.resolveClass(result);
-							return result;
+							result=i.loadClass(name);
+							if(result!=null)
+								break;
+						}
+						catch(ClassNotFoundException ignore)
+						{
 						}
 					}
-					catch(ClassNotFoundException ignore)
-					{
-					}
+					if(result!=null)
+						break;
 				}
 			}
+			finally
+			{
+				loadingClasses.remove(name);
+			}
 		}
-		finally
-		{
-			loadingClasses.remove(name);
-		}
-		throw new ClassNotFoundException(name);
+		if(result==null)
+			throw new ClassNotFoundException(name);
+		if(resolve)
+			this.resolveClass(result);
+		return result;
 	}
 }
