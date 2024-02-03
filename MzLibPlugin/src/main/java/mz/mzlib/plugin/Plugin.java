@@ -1,19 +1,55 @@
 package mz.mzlib.plugin;
 
-public interface Plugin
+import mz.mzlib.module.MzModule;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Supplier;
+
+public class Plugin
 {
-	String getName();
+	String name;
+	Supplier<MzModule> moduleGetter;
+	Set<String> depends;
+	Set<String> softDepends;
 	
-	default void onLoad()
+	public Plugin(String name,Supplier<MzModule> moduleGetter)
 	{
+		this.name=name;
+		this.moduleGetter=moduleGetter;
+		this.depends=new HashSet<>();
+		this.softDepends=new HashSet<>();
 	}
-	default void onUnload()
+	public Plugin depends(String ...depends)
 	{
+		this.depends.addAll(Arrays.asList(depends));
+		return this;
 	}
-	default void onEnable()
+	public Plugin softDepends(String ...softDepends)
 	{
+		this.softDepends.addAll(Arrays.asList(softDepends));
+		return this;
 	}
-	default void onDisable()
+	
+	public String getName()
 	{
+		return name;
+	}
+	public Set<String> getDepends()
+	{
+		return depends;
+	}
+	public Set<String> getSoftDepends()
+	{
+		return softDepends;
+	}
+	public MzModule getModule()
+	{
+		return this.moduleGetter.get();
+	}
+	public boolean isLoaded()
+	{
+		return PluginManager.instance.getPlugin(this.getName())==this;
 	}
 }
