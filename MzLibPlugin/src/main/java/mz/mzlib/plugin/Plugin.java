@@ -52,4 +52,10 @@ public class Plugin
 	{
 		return PluginManager.instance.getPlugin(this.getName())==this;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return name+"@"+Integer.toHexString(hashCode());
+	}
 }

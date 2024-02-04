@@ -68,7 +68,7 @@ public class PluginManager
 		}
 		for(Plugin p:plugins)
 		{
-			HashSet<String> depends=new HashSet<>(p.getDepends());
+			Set<String> depends=new HashSet<>(p.getDepends());
 			depends.addAll(p.getSoftDepends());
 			for(String d:depends)
 			{
@@ -81,7 +81,7 @@ public class PluginManager
 		List<Plugin> result=new ArrayList<>();
 		for(Plugin p:plugins)
 		{
-			if(extensions.get(p.getName()).isEmpty())
+			if(p.getDepends().isEmpty()&&p.getSoftDepends().isEmpty())
 				topologicalSortDfs(p,pluginMap,extensions,visited,result,new HashSet<>());
 		}
 		if(result.size()!=plugins.size())
@@ -97,7 +97,7 @@ public class PluginManager
 		if(!visited.add(now))
 			return;
 		if(!visiting.add(now.getName()))
-			throw new RuntimeException("Circular dependency detected involving plugin: "+now.getName());
+			throw new RuntimeException("Circular dependency detected involving plugin: "+now);
 		try
 		{
 			boolean ready=true;
@@ -122,6 +122,7 @@ public class PluginManager
 	public void loadPlugins(String[] args)
 	{
 		assert pluginsDir.isDirectory() || pluginsDir.mkdirs();
+		loadingPlugins=new HashSet<>();
 		for(File i: Objects.requireNonNull(pluginsDir.listFiles()))
 		{
 			try
@@ -129,7 +130,7 @@ public class PluginManager
 				URLClassLoader cl=new URLClassLoader(new URL[]{i.toURI().toURL()},unionClassLoader);
 				try(JarFile jar=new JarFile(i))
 				{
-					Class.forName(jar.getManifest().getMainAttributes().getValue("Class-Path"),false,cl).getMethod("main", String[].class).invoke(null, (Object) args);
+					Class.forName(jar.getManifest().getMainAttributes().getValue("Main-Class"),false,cl).getMethod("main", String[].class).invoke(null, (Object) args);
 				}
 				unionClassLoader.addMember(cl);
 			}

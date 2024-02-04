@@ -11,6 +11,7 @@ tasks {
         destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile, "out"))
         mergeServiceFiles()
         manifest {
+            attributes["Main-Class"] = "mz.mzlib.plugin.PluginManager"
         }
     }
 }
