@@ -94,8 +94,7 @@ public class PluginManager
 	}
 	public static void topologicalSortDfs(Plugin now,Map<String,Plugin> pluginMap,Map<String,Set<Plugin>> extensions,Set<Plugin> visited,List<Plugin> result,Set<String> visiting)
 	{
-		if(!visited.add(now))
-			return;
+		visited.add(now);
 		if(!visiting.add(now.getName()))
 			throw new RuntimeException("Circular dependency detected involving plugin: "+now);
 		try
