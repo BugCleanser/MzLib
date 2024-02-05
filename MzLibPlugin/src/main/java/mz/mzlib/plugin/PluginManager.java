@@ -126,12 +126,11 @@ public class PluginManager
 		{
 			try
 			{
-				URLClassLoader cl=new URLClassLoader(new URL[]{i.toURI().toURL()},unionClassLoader);
+				ClassLoader cl=unionClassLoader.addMember(p->new URLClassLoader(new URL[]{i.toURI().toURL()},p));
 				try(JarFile jar=new JarFile(i))
 				{
 					Class.forName(jar.getManifest().getMainAttributes().getValue("Main-Class"),false,cl).getMethod("main", String[].class).invoke(null, (Object) args);
 				}
-				unionClassLoader.addMember(cl);
 			}
 			catch(Throwable e)
 			{

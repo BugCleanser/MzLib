@@ -1,5 +1,7 @@
 package mz.mzlib.util;
 
+import mz.mzlib.util.delegator.Delegator;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +10,33 @@ import java.util.stream.Collectors;
 
 public class UnionClassLoader extends ClassLoader
 {
+	public static class MemberDelegator extends ClassLoader
+	{
+		public ClassLoader member;
+		
+		public MemberDelegator(UnionClassLoader parent)
+		{
+			super(parent);
+		}
+		
+		@Override
+		public Class<?> loadClass(String name,boolean resolve) throws ClassNotFoundException
+		{
+			try
+			{
+				ClassLoaderDelegator delegator=Delegator.create(ClassLoaderDelegator.class,member);
+				Class<?> result=delegator.findClass(name);
+				if(resolve)
+					delegator.resolveClass(result);
+				return result;
+			}
+			catch(ClassNotFoundException ignore)
+			{
+			}
+			return super.loadClass(name,resolve);
+		}
+	}
+	
 	public UnionClassLoader()
 	{
 		super();
@@ -19,20 +48,23 @@ public class UnionClassLoader extends ClassLoader
 	
 	public Map<Float,Set<ClassLoader>> members=new ConcurrentHashMap<>();
 	public Map<ClassLoader,Float> memberPriorities=new ConcurrentHashMap<>();
-	public void addMember(ClassLoader cl,float priority)
+	public <E extends Throwable> ClassLoader addMember(ThrowableFunction<MemberDelegator,ClassLoader,E> memberAllocator,float priority) throws E
 	{
-		memberPriorities.put(cl,priority);
+		MemberDelegator memberDelegator=new MemberDelegator(this);
+		memberDelegator.member=memberAllocator.apply(memberDelegator);
+		memberPriorities.put(memberDelegator.member,priority);
 		members.compute(priority,(aFloat,classLoaders) ->
 		{
 			if(classLoaders==null)
 				classLoaders=new HashSet<>();
-			classLoaders.add(cl);
+			classLoaders.add(memberDelegator.member);
 			return classLoaders;
 		});
+		return memberDelegator.member;
 	}
-	public void addMember(ClassLoader cl)
+	public <E extends Throwable> ClassLoader addMember(ThrowableFunction<MemberDelegator,ClassLoader,E> memberAllocator) throws E
 	{
-		addMember(cl,0f);
+		return addMember(memberAllocator,0f);
 	}
 	public void removeMember(ClassLoader cl)
 	{
@@ -57,9 +89,8 @@ public class UnionClassLoader extends ClassLoader
 		}
 		if(result==null)
 		{
-			if(loadingClasses.contains(name))
+			if(!loadingClasses.add(name))
 				return null;
-			loadingClasses.add(name);
 			try
 			{
 				for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
