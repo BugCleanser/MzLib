@@ -302,10 +302,6 @@ public class ClassUtil
 					}
 					catch(VerifyError e)
 					{
-						try(FileOutputStream fos=new FileOutputStream(name.replace('/','.')+".class"))
-						{
-							fos.write(byteCode);
-						}
 						throw e;
 					}
 				}

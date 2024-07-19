@@ -1,10 +1,12 @@
 package mz.mzlib.util;
 
+import com.google.common.collect.Iterators;
 import mz.mzlib.util.delegator.Delegator;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -75,9 +77,9 @@ public class UnionClassLoader extends ClassLoader
 		});
 	}
 	
-	public Set<String> loadingClasses=new HashSet<>();
+	public Set<String> loadingClasses=ConcurrentHashMap.newKeySet();
 	@Override
-	public synchronized Class<?> loadClass(String name,boolean resolve) throws ClassNotFoundException
+	public Class<?> loadClass(String name,boolean resolve) throws ClassNotFoundException
 	{
 		Class<?> result=null;
 		try
@@ -121,5 +123,85 @@ public class UnionClassLoader extends ClassLoader
 		if(resolve)
 			this.resolveClass(result);
 		return result;
+	}
+	
+	public Set<String> gettingResources=ConcurrentHashMap.newKeySet();
+	@Override
+	public URL getResource(String name)
+	{
+		URL result=super.getResource(name);
+		if(result==null)
+		{
+			if(!gettingResources.add(name))
+				return null;
+			try
+			{
+				for(Map.Entry<Float,Set<ClassLoader>> j:members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
+				{
+					for(ClassLoader i: j.getValue())
+					{
+						result=i.getResource(name);
+						if(result!=null)
+							break;
+					}
+					if(result!=null)
+						break;
+				}
+			}
+			finally
+			{
+				gettingResources.remove(name);
+			}
+		}
+		return result;
+	}
+	@Override
+	public InputStream getResourceAsStream(String name)
+	{
+		InputStream result=super.getResourceAsStream(name);
+		if(result==null)
+		{
+			if(!gettingResources.add(name))
+				return null;
+			try
+			{
+				for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
+				{
+					for(ClassLoader i: j.getValue())
+					{
+						result=i.getResourceAsStream(name);
+						if(result!=null)
+							break;
+					}
+					if(result!=null)
+						break;
+				}
+			}
+			finally
+			{
+				gettingResources.remove(name);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public Enumeration<URL> getResources(String name) throws IOException
+	{
+		List<URL> result=new ArrayList<>(Collections.list(super.getResources(name)));
+		if(gettingResources.add(name))
+		{
+			try
+			{
+				for(Map.Entry<Float,Set<ClassLoader>> j: members.entrySet().stream().sorted((a,b)->Float.compare(b.getKey(),a.getKey())).collect(Collectors.toList()))
+					for(ClassLoader i: j.getValue())
+						result.addAll(Collections.list(i.getResources(name)));
+			}
+			finally
+			{
+				gettingResources.remove(name);
+			}
+		}
+		return Collections.enumeration(result);
 	}
 }

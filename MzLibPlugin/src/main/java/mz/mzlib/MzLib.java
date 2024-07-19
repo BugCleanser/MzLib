@@ -1,5 +1,6 @@
 package mz.mzlib;
 
+import mz.mzlib.mc.bukkit.MzLibBukkit;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.RegistrarRegistrar;
 import mz.mzlib.util.Instance;
@@ -7,6 +8,8 @@ import mz.mzlib.util.delegator.DefaultDelegatorClassAnalyzer;
 import mz.mzlib.util.delegator.DelegatorClassAnalyzerRegistrar;
 import mz.mzlib.util.delegator.ExtendedDelegatorClassAnalyzer;
 import mz.mzlib.util.nothing.NothingClassRegistrar;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 
 import java.util.HashSet;
 
@@ -46,6 +49,7 @@ public class MzLib extends MzModule implements Instance
 		
 		register(NothingClassRegistrar.instance);
 	}
+	
 	@Override
 	public void onUnload()
 	{

@@ -1,6 +1,6 @@
 package mz.mzlib.mc.item;
 
-import mz.mzlib.mc.nbt.NBTObject;
+import mz.mzlib.mc.nbt.NBTCompound;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.mc.Identifier;
@@ -25,6 +25,6 @@ public interface ItemStack extends Delegator
 	int getDamage();
 	void setDamage(int damage);
 	
-	NBTObject getTag();
-	void setTag(NBTObject tag);
+	NBTCompound getTag();
+	void setTag(NBTCompound tag);
 }
