@@ -45,4 +45,10 @@ public class MapEntry<K,V> implements Map.Entry<K,V>
 			return false;
 		return Objects.equals(this.getKey(),((Map.Entry<?, ?>)obj).getKey())&&Objects.equals(this.getValue(),((Map.Entry<?, ?>)obj).getValue());
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(key,value);
+	}
 }

@@ -4,9 +4,9 @@ import mz.mzlib.mc.Identifier;
 import mz.mzlib.mc.item.Item;
 import mz.mzlib.mc.item.ItemFactory;
 
-public class ItemFactoryImpl implements ItemFactory
+public class ItemFactoryBukkit implements ItemFactory
 {
-	public static ItemFactoryImpl instance=new ItemFactoryImpl();
+	public static ItemFactoryBukkit instance=new ItemFactoryBukkit();
 	
 	@Override
 	public Item get(Identifier id)

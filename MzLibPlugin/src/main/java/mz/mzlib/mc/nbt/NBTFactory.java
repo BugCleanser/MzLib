@@ -4,6 +4,7 @@ import mz.mzlib.util.Instance;
 
 public interface NBTFactory extends Instance
 {
+	NBTCompound createCompound();
 	NBTByte create(byte value);
 	NBTShort create(short value);
 	NBTInt create(int value);

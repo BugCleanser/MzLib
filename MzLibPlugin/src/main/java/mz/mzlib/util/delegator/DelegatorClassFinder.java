@@ -7,8 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@DelegatorClassFinder(DefaultDelegatorClassFinder.class)
-public @interface DelegatorClass
+public @interface DelegatorClassFinder
 {
-	Class<?> value();
+	Class<? extends DefaultDelegatorClassFinder> value();
 }

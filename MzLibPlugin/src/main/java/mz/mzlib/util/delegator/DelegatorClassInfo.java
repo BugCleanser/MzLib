@@ -32,25 +32,19 @@ public class DelegatorClassInfo
 		return delegateClass;
 	}
 	
-	public static WeakMap<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=new WeakMap<>();
+	public static Map<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=Collections.synchronizedMap(new WeakHashMap<>());
 	@SuppressWarnings("all")
 	public static DelegatorClassInfo get(Class<? extends Delegator> clazz)
 	{
-		WeakRef<DelegatorClassInfo> result=cache.get(clazz);
-		if(result==null)
-			synchronized(cache.delegate)
-			{
-				WeakRef<DelegatorClassInfo> up=cache.get(clazz);
-				if(up!=null)
-					return up.get();
-				DelegatorClassInfo re=new DelegatorClassInfo(clazz);
-				cache.put(clazz,new WeakRef<>(re));
-				for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers.toArray(new DelegatorClassAnalyzer[0]))
-					i.analyse(re);
-				ClassUtil.makeReference(clazz.getClassLoader(),re);
-				return re;
-			}
-		return result.get();
+		return cache.computeIfAbsent(clazz,k->
+		{
+			DelegatorClassInfo re=new DelegatorClassInfo(clazz);
+			cache.put(clazz,new WeakRef<>(re));
+			for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers.toArray(new DelegatorClassAnalyzer[0]))
+				i.analyse(re);
+			ClassUtil.makeReference(clazz.getClassLoader(),re);
+			return new WeakRef<>(re);
+		}).get();
 	}
 	
 	@SuppressWarnings("DeprecatedIsStillUsed")

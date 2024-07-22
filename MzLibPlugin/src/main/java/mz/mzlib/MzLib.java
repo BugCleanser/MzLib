@@ -1,6 +1,5 @@
 package mz.mzlib;
 
-import mz.mzlib.mc.bukkit.MzLibBukkit;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.RegistrarRegistrar;
 import mz.mzlib.util.Instance;
@@ -8,8 +7,6 @@ import mz.mzlib.util.delegator.DefaultDelegatorClassAnalyzer;
 import mz.mzlib.util.delegator.DelegatorClassAnalyzerRegistrar;
 import mz.mzlib.util.delegator.ExtendedDelegatorClassAnalyzer;
 import mz.mzlib.util.nothing.NothingClassRegistrar;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
 import java.util.HashSet;
 
@@ -28,11 +25,11 @@ public class MzLib extends MzModule implements Instance
 	{
 		if(!this.isLoaded)
 			throw new IllegalStateException("Try to unload the root module but it's not loaded.");
-		this.isLoaded=false;
 		for(MzModule i:new HashSet<>(this.submodules))
 			this.unregister(i);
 		for(Object i:new HashSet<>(this.registeredObjects.keySet()))
 			this.unregister(i);
+		this.isLoaded=false;
 		this.onUnload();
 	}
 	
