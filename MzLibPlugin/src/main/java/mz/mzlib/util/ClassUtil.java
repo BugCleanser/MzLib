@@ -9,7 +9,6 @@ import net.bytebuddy.agent.ByteBuddyAgent;
 import net.bytebuddy.agent.Installer;
 
 import javax.tools.ToolProvider;
-import java.io.FileOutputStream;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
@@ -99,64 +98,33 @@ public class ClassUtil
 		}
 	}
 	
-	public static MethodHandle findMethod(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes)
+	public static MethodHandle findConstructor(Class<?> declaringClass,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
 	{
-		try
-		{
-			if(isStatic)
-				return Root.getTrusted(declaringClass).findStatic(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
-			else
-				return Root.getTrusted(declaringClass).findVirtual(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(declaringClass).findConstructor(declaringClass,MethodType.methodType(void.class,parameterTypes));
 	}
-	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes)
+	public static MethodHandle findMethod(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		if(isStatic)
+			return Root.getTrusted(declaringClass).findStatic(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
+		else
+			return Root.getTrusted(declaringClass).findVirtual(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
+	}
+	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
+	{
+		return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
 	}
 	
-	public static MethodHandle unreflect(Constructor<?> constructor)
+	public static MethodHandle unreflect(Constructor<?> constructor) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
 	}
-	public static MethodHandle unreflect(Method method)
+	public static MethodHandle unreflect(Method method) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
 	}
-	public static MethodHandle unreflectSpecial(Method method)
+	public static MethodHandle unreflectSpecial(Method method) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
 	}
 	
 	public static void forEachSuper(Class<?> clazz,Consumer<Class<?>> proc)
@@ -246,6 +214,7 @@ public class ClassUtil
 					}
 					if(RuntimeUtil.runAndCatch(()->Class.forName(InstrumentationGetter.class.getName(),false,sysClassLoader)) instanceof ClassNotFoundException)
 					{
+						@SuppressWarnings("ConstantConditions")
 						byte[] bs=IOUtil.readAll(ClassUtil.class.getClassLoader().getResourceAsStream(InstrumentationGetter.class.getName().replace('.','/')+".class"));
 						Root.getUnsafe().defineClass(InstrumentationGetter.class.getName(),bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
 					}
@@ -266,6 +235,7 @@ public class ClassUtil
 		try
 		{
 			StrongRef<byte[]> result=new StrongRef<>(null);
+			@SuppressWarnings("all")
 			ClassFileTransformer tr=new ClassFileTransformer() // Can not replace with lambda!
 			{
 				@Override
@@ -295,15 +265,8 @@ public class ClassUtil
 			{
 				try
 				{
-					try
-					{
-						getInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/','.'),false,classLoader),byteCode));
-						return Class.forName(name.replace('/','.'),false,classLoader);
-					}
-					catch(VerifyError e)
-					{
-						throw e;
-					}
+					getInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/','.'),false,classLoader),byteCode));
+					return Class.forName(name.replace('/','.'),false,classLoader);
 				}
 				catch(Throwable e)
 				{
@@ -399,7 +362,7 @@ public class ClassUtil
 			return src;
 	}
 	
-	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn)
+	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn) throws IllegalAccessException
 	{
 		ClassNode cn=new ClassNode();
 		cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"$Method",null,AsmUtil.getType(Object.class),new String[0]);

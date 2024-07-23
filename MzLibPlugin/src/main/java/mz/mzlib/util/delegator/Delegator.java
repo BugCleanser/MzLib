@@ -15,7 +15,7 @@ public interface Delegator
 	{
 		try
 		{
-			return RuntimeUtil.cast((Object)DelegatorClassInfo.get(type).getConstructor().invokeExact((Object)delegate));
+			return RuntimeUtil.cast((Delegator)DelegatorClassInfo.get(type).getConstructor().invokeExact((Object)delegate));
 		}
 		catch(Throwable e)
 		{

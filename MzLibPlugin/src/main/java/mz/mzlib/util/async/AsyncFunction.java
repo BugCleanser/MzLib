@@ -6,7 +6,7 @@ import mz.mzlib.util.RuntimeUtil;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This base class is designed to be extended by public static subclasses.
+ * This base class is designed to be extended by public static subclasses with fields all public.
  *
  * @param <R> The return type of the async function
  */

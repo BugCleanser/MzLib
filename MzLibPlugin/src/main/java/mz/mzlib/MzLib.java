@@ -3,9 +3,6 @@ package mz.mzlib;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.RegistrarRegistrar;
 import mz.mzlib.util.Instance;
-import mz.mzlib.util.delegator.DefaultDelegatorClassAnalyzer;
-import mz.mzlib.util.delegator.DelegatorClassAnalyzerRegistrar;
-import mz.mzlib.util.delegator.ExtendedDelegatorClassAnalyzer;
 import mz.mzlib.util.nothing.NothingClassRegistrar;
 
 import java.util.HashSet;
@@ -39,10 +36,6 @@ public class MzLib extends MzModule implements Instance
 		register(Instance.InstanceRegistrar.instance);
 		InstanceRegistrar.instance.register(this,this);
 		register(RegistrarRegistrar.instance);
-		
-		register(DelegatorClassAnalyzerRegistrar.instance);
-		register(DefaultDelegatorClassAnalyzer.instance);
-		register(ExtendedDelegatorClassAnalyzer.instance);
 		
 		register(NothingClassRegistrar.instance);
 	}

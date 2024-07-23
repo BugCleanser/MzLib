@@ -7,7 +7,18 @@ public class CollectionUtil
 {
 	private CollectionUtil() {}
 	
-	public static MethodHandle synchronizedSet=ClassUtil.findMethod(Collections.class,true,"synchronizedSet",Set.class,Set.class,Object.class);
+	public static MethodHandle synchronizedSet;
+	static
+	{
+		try
+		{
+			synchronizedSet=ClassUtil.findMethod(Collections.class,true,"synchronizedSet",Set.class,Set.class,Object.class);
+		}
+		catch(Throwable e)
+		{
+			throw RuntimeUtil.sneakilyThrow(e);
+		}
+	}
 	
 	public static <T> Set<T> synchronizedSet(Set<T> set,Object mutex)
 	{

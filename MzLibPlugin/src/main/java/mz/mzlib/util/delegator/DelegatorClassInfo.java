@@ -6,6 +6,7 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
+import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
@@ -33,6 +34,65 @@ public class DelegatorClassInfo
 	}
 	
 	public static Map<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=Collections.synchronizedMap(new WeakHashMap<>());
+	public void analyse() throws InstantiationException, IllegalAccessException
+	{
+		Class<?> delegateClass=null;
+		for(Annotation i:this.delegatorClass.getDeclaredAnnotations())
+		{
+			DelegatorClassFinderClass finder=i.annotationType().getDeclaredAnnotation(DelegatorClassFinderClass.class);
+			if(finder!=null)
+			{
+				try
+				{
+					delegateClass=finder.value().newInstance().find(this.delegatorClass.getClassLoader(),i);
+				}
+				catch(ClassNotFoundException ignored)
+				{
+				}
+				if(delegateClass!=null)
+					break;
+			}
+		}
+		if(delegateClass==null)
+			throw new IllegalStateException("Multi delegate class: "+this.delegatorClass);
+		this.delegateClass=delegateClass;
+		for(Method i:this.delegatorClass.getDeclaredMethods())
+			if(Modifier.isAbstract(i.getModifiers()))
+			{
+				Class<?> returnType=i.getReturnType();
+				if(Delegator.class.isAssignableFrom(returnType))
+					returnType=DelegatorClassInfo.get(RuntimeUtil.cast(returnType)).getDelegateClass();
+				Class<?>[] argTypes=i.getParameterTypes();
+				for(int j=0;j<argTypes.length;j++)
+				{
+					if(Delegator.class.isAssignableFrom(argTypes[j]))
+						argTypes[j]=DelegatorClassInfo.get(RuntimeUtil.cast(argTypes[j])).getDelegateClass();
+				}
+				for(Annotation j: i.getDeclaredAnnotations())
+				{
+					DelegatorMemberFinderClass finder=j.annotationType().getDeclaredAnnotation(DelegatorMemberFinderClass.class);
+					if(finder!=null)
+					{
+						try
+						{
+							Member m=finder.value().newInstance().find(delegateClass,j,returnType,argTypes);
+							if(m!=null)
+								this.delegations.put(i,m);
+						}
+						catch(NoSuchMethodException|NoSuchFieldException ignored)
+						{
+						}
+					}
+				}
+			}
+		for(Method i:this.getDelegatorClass().getMethods())
+			if(Modifier.isAbstract(i.getModifiers())&&i.getDeclaringClass()!=this.getDelegatorClass()&&Delegator.class.isAssignableFrom(i.getDeclaringClass()))
+			{
+				Member tar=DelegatorClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).delegations.get(i);
+				if(tar!=null&&!(tar instanceof Constructor))
+					this.delegations.put(i,tar);
+			}
+	}
 	@SuppressWarnings("all")
 	public static DelegatorClassInfo get(Class<? extends Delegator> clazz)
 	{
@@ -40,18 +100,20 @@ public class DelegatorClassInfo
 		{
 			DelegatorClassInfo re=new DelegatorClassInfo(clazz);
 			cache.put(clazz,new WeakRef<>(re));
-			for(DelegatorClassAnalyzer i:DelegatorClassAnalyzerRegistrar.instance.analyzers.toArray(new DelegatorClassAnalyzer[0]))
-				i.analyse(re);
+			try
+			{
+				re.analyse();
+			}
+			catch(Throwable e)
+			{
+				throw RuntimeUtil.sneakilyThrow(e);
+			}
 			ClassUtil.makeReference(clazz.getClassLoader(),re);
 			return new WeakRef<>(re);
 		}).get();
 	}
 	
-	@SuppressWarnings("DeprecatedIsStillUsed")
-	@Deprecated
 	public MethodHandle constructorCache=null;
-	@SuppressWarnings("DeprecatedIsStillUsed")
-	@Deprecated
 	public volatile MethodHandle constructor=null;
 	public MethodHandle getConstructor()
 	{
@@ -295,7 +357,7 @@ public class DelegatorClassInfo
 			Class<?> c=cl.defineClass1(cn.name,cw.toByteArray());
 			for(int i=0;i<methodHandles.size();i++)
 				c.getDeclaredField(i+mhSuffix).set(null,methodHandles.get(i));
-			constructor=ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Object.class,new Class[]{Object.class}));
+			constructor=ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class,Object.class));
 		}
 		catch(Throwable e)
 		{

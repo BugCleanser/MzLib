@@ -7,6 +7,7 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -50,15 +51,6 @@ public abstract class Coroutine
 				mn.visitEnd();
 				cn.methods.add(mn);
 				
-				mn=new MethodNode(Opcodes.ACC_PUBLIC|Opcodes.ACC_STATIC,"newInstance",AsmUtil.getDesc(Coroutine.class,AsyncFunction.class),null,new String[0]); // static Coroutine newInstance(AsyncFunction function)
-				mn.visitTypeInsn(Opcodes.NEW,cn.name);
-				mn.instructions.add(AsmUtil.insnDup(Coroutine.class));
-				mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class,0));
-				mn.visitMethodInsn(Opcodes.INVOKESPECIAL,cn.name,"<init>",AsmUtil.getDesc(void.class,AsyncFunction.class),false);
-				mn.instructions.add(AsmUtil.insnReturn(Coroutine.class)); // return new This(function);
-				mn.visitEnd();
-				cn.methods.add(mn);
-				
 				mn=new MethodNode(Opcodes.ACC_PUBLIC,"run",AsmUtil.getDesc(void.class,new Class[0]),null,new String[0]);
 				Map<MapEntry<Integer,String>,Integer> vars=new HashMap<>();
 				Map<Integer,String> varTypes=new HashMap<>();
@@ -91,7 +83,7 @@ public abstract class Coroutine
 					{
 						int var=insn instanceof IincInsnNode?((IincInsnNode)insn).var:((VarInsnNode)insn).var;
 						if(!varTypes.containsKey(var))
-							throw new UnsupportedOperationException("Don't use enhance for-loop in async function.");
+							throw new UnsupportedOperationException("Don't use enhanced for-loop in async function.");
 						mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class,0)); // this
 						int index=vars.computeIfAbsent(new MapEntry<>(var,varTypes.get(var)),k1->
 						{
@@ -167,9 +159,16 @@ public abstract class Coroutine
 				
 				ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS|ClassWriter.COMPUTE_FRAMES);
 				cn.accept(cw);
-				MethodHandle mh=ClassUtil.findMethod(ClassUtil.defineClass(new SimpleClassLoader(function.getClass().getClassLoader()),cn.name,cw.toByteArray()),true,"newInstance",Coroutine.class,AsyncFunction.class);
-				ClassUtil.makeReference(function.getClass().getClassLoader(),mh);
-				return new WeakRef<>(mh);
+				try
+				{
+					MethodHandle mh=ClassUtil.findConstructor(ClassUtil.defineClass(new SimpleClassLoader(function.getClass().getClassLoader()),cn.name,cw.toByteArray()),AsyncFunction.class).asType(MethodType.methodType(Coroutine.class,AsyncFunction.class));
+					ClassUtil.makeReference(function.getClass().getClassLoader(),mh);
+					return new WeakRef<>(mh);
+				}
+				catch(Throwable e)
+				{
+					throw RuntimeUtil.sneakilyThrow(e);
+				}
 			}).get().invokeExact(function);
 		}
 		catch(Throwable e)
