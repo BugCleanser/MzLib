@@ -99,64 +99,33 @@ public class ClassUtil
 		}
 	}
 	
-	public static MethodHandle findMethod(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes)
+	public static MethodHandle findConstructor(Class<?> declaringClass,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
 	{
-		try
-		{
-			if(isStatic)
-				return Root.getTrusted(declaringClass).findStatic(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
-			else
-				return Root.getTrusted(declaringClass).findVirtual(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(declaringClass).findConstructor(declaringClass,MethodType.methodType(void.class,parameterTypes));
 	}
-	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes)
+	public static MethodHandle findMethod(Class<?> declaringClass,boolean isStatic,String name,Class<?> returnType,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		if(isStatic)
+			return Root.getTrusted(declaringClass).findStatic(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
+		else
+			return Root.getTrusted(declaringClass).findVirtual(declaringClass,name,MethodType.methodType(returnType,parameterTypes));
+	}
+	public static MethodHandle findMethodSpecial(Class<?> declaringClass,String name,Class<?> returnType,Class<?> ...parameterTypes) throws NoSuchMethodException, IllegalAccessException
+	{
+		return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
 	}
 	
-	public static MethodHandle unreflect(Constructor<?> constructor)
+	public static MethodHandle unreflect(Constructor<?> constructor) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
 	}
-	public static MethodHandle unreflect(Method method)
+	public static MethodHandle unreflect(Method method) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
 	}
-	public static MethodHandle unreflectSpecial(Method method)
+	public static MethodHandle unreflectSpecial(Method method) throws IllegalAccessException
 	{
-		try
-		{
-			return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
-		}
-		catch(Throwable e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
+		return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
 	}
 	
 	public static void forEachSuper(Class<?> clazz,Consumer<Class<?>> proc)
@@ -399,7 +368,7 @@ public class ClassUtil
 			return src;
 	}
 	
-	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn)
+	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn) throws IllegalAccessException
 	{
 		ClassNode cn=new ClassNode();
 		cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"$Method",null,AsmUtil.getType(Object.class),new String[0]);

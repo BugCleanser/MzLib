@@ -1,15 +1,23 @@
 package mz.mzlib.example;
 
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.async.AsyncFunction;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.async.Coroutine;
 
+import java.io.FileOutputStream;
+
 public class ExampleAsyncFunction
 {
 	public static class Function1 extends AsyncFunction<Void>
 	{
+		public int arg1;
+		public Function1(int arg1)
+		{
+			this.arg1=arg1;
+		}
 		@Override
 		public MzModule getModule()
 		{
@@ -18,9 +26,11 @@ public class ExampleAsyncFunction
 		@Override
 		public Void template()
 		{
+			System.out.println(arg1);
 			int i=1;
 			System.out.println(i++);
 			this.await(new Function2().start(this.getRunner()));
+			i++;
 			System.out.println(i);
 			return null;
 		}
@@ -55,8 +65,6 @@ public class ExampleAsyncFunction
 				throw new UnsupportedOperationException();
 			}
 		};
-		
-		
-		new Function1().start(runner);
+		new Function1(114514).start(runner);
 	}
 }
