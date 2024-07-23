@@ -128,11 +128,11 @@ public abstract class Coroutine
 							{
 								mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class,0));
 								mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(Coroutine.class),"function",AsmUtil.getDesc(AsyncFunction.class));
-								mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(AsyncFunction.class),"runner",AsmUtil.getDesc(AsyncFunctionRunner.class));
-								mn.instructions.add(AsmUtil.insnSwap(AsyncFunctionRunner.class,BasicAwait.class));
+								mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(AsyncFunction.class),"runner",AsmUtil.getDesc(CoroutineRunner.class));
+								mn.instructions.add(AsmUtil.insnSwap(CoroutineRunner.class,BasicAwait.class));
 								mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class,0));
 								mn.instructions.add(AsmUtil.insnSwap(Coroutine.class,BasicAwait.class));
-								mn.visitMethodInsn(Opcodes.INVOKEINTERFACE,AsmUtil.getType(AsyncFunctionRunner.class),"schedule",AsmUtil.getDesc(void.class,Coroutine.class,BasicAwait.class),true); // this.function.runner.schedule(this,basicAwait);
+								mn.visitMethodInsn(Opcodes.INVOKEINTERFACE,AsmUtil.getType(CoroutineRunner.class),"schedule",AsmUtil.getDesc(void.class,Coroutine.class,BasicAwait.class),true); // this.function.runner.schedule(this,basicAwait);
 							}
 							mn.instructions.add(AsmUtil.insnPop(Coroutine.class)); // pop this
 							mn.instructions.add(AsmUtil.insnReturn(void.class)); // return;

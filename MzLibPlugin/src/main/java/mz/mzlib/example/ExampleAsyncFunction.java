@@ -2,7 +2,7 @@ package mz.mzlib.example;
 
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.async.AsyncFunction;
-import mz.mzlib.util.async.AsyncFunctionRunner;
+import mz.mzlib.util.async.CoroutineRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.async.Coroutine;
 
@@ -49,7 +49,7 @@ public class ExampleAsyncFunction
 	
 	public static void main(String[] args)
 	{
-		AsyncFunctionRunner runner=new AsyncFunctionRunner()
+		CoroutineRunner runner=new CoroutineRunner()
 		{
 			@Override
 			public void schedule(Coroutine coroutine)

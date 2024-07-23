@@ -49,12 +49,12 @@ public abstract class AsyncFunction<R>
 		await((BasicAwait)null);
 	}
 	
-	public AsyncFunctionRunner runner;
-	public AsyncFunctionRunner getRunner()
+	public CoroutineRunner runner;
+	public CoroutineRunner getRunner()
 	{
 		return runner;
 	}
-	public CompletableFuture<R> start(AsyncFunctionRunner runner)
+	public CompletableFuture<R> start(CoroutineRunner runner)
 	{
 		this.runner=runner;
 		Coroutine coroutine=Coroutine.create(this);
