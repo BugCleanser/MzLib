@@ -1,0 +1,32 @@
+package mz.mzlib.mc.bukkit;
+
+import mz.mzlib.mc.MinecraftServer;
+import mz.mzlib.mc.VersionName;
+import mz.mzlib.mc.bukkit.delegator.DelegatorBukkitClass;
+import mz.mzlib.util.delegator.Delegator;
+import org.bukkit.Bukkit;
+
+import java.util.function.Supplier;
+
+@DelegatorBukkitClass({@VersionName(end=1700,name="NMS.MinecraftServer"),@VersionName(begin=1700,name="net.minecraft.server.MinecraftServer")})
+public interface MinecraftServerBukkit extends MinecraftServer, Delegator
+{
+	static MinecraftServerBukkit getInstance()
+	{
+		return Delegator.create(ObcCraftServer.class,Bukkit.getServer()).getServer();
+	}
+	
+	@Override
+	default int getVersion()
+	{
+		return version;
+	}
+	
+	String protocolVersion=Bukkit.getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
+	@SuppressWarnings("all")
+	int version=((Supplier<Integer>)()->
+	{
+		String[] versions=Bukkit.getBukkitVersion().split("\\.",-1);
+		return Integer.parseInt(versions[1])*100+(versions.length>2?Integer.parseInt(versions[2]):0);
+	}).get();
+}
