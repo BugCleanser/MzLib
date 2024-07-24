@@ -14,7 +14,11 @@ public class MzLibBukkit extends MzModule implements Instance
 	public void onLoad()
 	{
 		register(MzLibBukkitPlugin.instance);
+		
 		register(MzLibMinecraft.instance);
+		
+		register(MinecraftServerBukkit.getInstance());
+		register(MinecraftMainThreadRunnerBukkit.instance);
 		register(ItemFactoryBukkit.instance);
 		register(ItemStackFactoryBukkit.instance);
 	}

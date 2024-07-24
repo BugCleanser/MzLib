@@ -1,13 +1,10 @@
 package mz.mzlib.example;
 
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.async.AsyncFunction;
-import mz.mzlib.util.async.CoroutineRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.async.Coroutine;
-
-import java.io.FileOutputStream;
+import mz.mzlib.util.async.CoroutineRunner;
 
 public class ExampleAsyncFunction
 {
