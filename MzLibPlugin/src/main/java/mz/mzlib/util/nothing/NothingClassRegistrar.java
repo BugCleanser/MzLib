@@ -12,12 +12,7 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 {
 	public static NothingClassRegistrar instance=new NothingClassRegistrar();
 	
-	public Map<Class<?>,NothingRegistration> registrations;
-	
-	public NothingClassRegistrar()
-	{
-		registrations=new ConcurrentHashMap<>();
-	}
+	public Map<Class<?>,NothingRegistration> registrations=new ConcurrentHashMap<>();
 	
 	@Override
 	public Class<Class<? extends Nothing>> getType()

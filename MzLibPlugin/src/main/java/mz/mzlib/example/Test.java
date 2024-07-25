@@ -1,26 +1,18 @@
 package mz.mzlib.example;
 
+import mz.mzlib.util.ClassUtil;
+import net.bytebuddy.agent.ByteBuddyAgent;
+
+import java.lang.invoke.MethodHandles;
+
 public class Test
 {
-	public static class Foo
-	{
-		public Foo()
-		{
-		}
-		public final void f()
-		{
-			p();
-		}
-		
-		private void p()
-		{
-		
-		}
-	}
-	
-	
 	public static void main(String[] args) throws Throwable
 	{
-		new Foo().f();
+		ByteBuddyAgent.install();
+		ByteBuddyAgent.install();
+		ByteBuddyAgent.install();
+		ClassUtil.getByteCode(Test.class);
+		System.out.println((String)MethodHandles.constant(String.class,"awa").invokeExact());
 	}
 }

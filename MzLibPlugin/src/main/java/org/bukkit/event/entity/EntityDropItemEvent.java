@@ -4,6 +4,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
+
+//TODO
 public class EntityDropItemEvent extends EntityEvent implements Cancellable
 {	
 	private static final HandlerList handlers=new HandlerList();

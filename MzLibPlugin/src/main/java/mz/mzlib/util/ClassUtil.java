@@ -6,9 +6,7 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import net.bytebuddy.agent.ByteBuddyAgent;
-import net.bytebuddy.agent.Installer;
 
-import javax.tools.ToolProvider;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
@@ -179,53 +177,12 @@ public class ClassUtil
 	}
 	
 	public static Instrumentation instrumentation;
-	public static class InstrumentationGetter
-	{
-		public static Instrumentation instrumentation;
-		static
-		{
-			instrumentation=Installer.getInstrumentation();
-		}
-	}
 	public static Instrumentation getInstrumentation()
 	{
 		if(instrumentation==null)
 		{
-			try
-			{
-				instrumentation=(Instrumentation)Class.forName("mz.mzlib.util.InstrumentationGetter",false,sysClassLoader).getDeclaredField("instrumentation").get(null);
-			}
-			catch(ClassNotFoundException|NoSuchFieldException|IllegalAccessException ignore)
-			{
-				try
-				{
-					try
-					{
-						ByteBuddyAgent.install();
-					}
-					catch(Throwable e)
-					{
-						System.err.println("无法注入JavaAgent");
-						if(ToolProvider.getSystemJavaCompiler()==null)
-							System.err.println("请使用JDK，推荐zulu jdk(zulu.org)");
-						System.err.println("请删除启动参数-XX:+DisableAttachMechanism和-Djdk.attach.allowAttachSelf=false");
-						System.err.println("也可以尝试安装MzLibAgent（注：这不是一个插件）");
-						throw RuntimeUtil.sneakilyThrow(e);
-					}
-					if(RuntimeUtil.runAndCatch(()->Class.forName(InstrumentationGetter.class.getName(),false,sysClassLoader)) instanceof ClassNotFoundException)
-					{
-						@SuppressWarnings("ConstantConditions")
-						byte[] bs=IOUtil.readAll(ClassUtil.class.getClassLoader().getResourceAsStream(InstrumentationGetter.class.getName().replace('.','/')+".class"));
-						Root.getUnsafe().defineClass(InstrumentationGetter.class.getName(),bs,0,bs.length,ClassLoader.getSystemClassLoader(),null);
-					}
-					Class<?> clazz=Class.forName(InstrumentationGetter.class.getName(),true,ClassLoader.getSystemClassLoader());
-					instrumentation=RuntimeUtil.cast(clazz.getField("instrumentation").get(null));
-				}
-				catch(Throwable e)
-				{
-					RuntimeUtil.sneakilyThrow(e);
-				}
-			}
+			ByteBuddyAgent.install();
+			instrumentation=ByteBuddyAgent.getInstrumentation();
 		}
 		return instrumentation;
 	}
