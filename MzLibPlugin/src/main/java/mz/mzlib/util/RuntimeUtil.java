@@ -4,7 +4,10 @@ public class RuntimeUtil
 {
 	private RuntimeUtil() {}
 	
-	public static boolean TRUE=true;
+	public static <T> T nul()
+	{
+		return RuntimeUtil.cast(null);
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T cast(Object object)

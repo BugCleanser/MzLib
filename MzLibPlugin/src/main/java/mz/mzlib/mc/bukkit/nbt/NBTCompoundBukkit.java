@@ -1,10 +1,12 @@
 package mz.mzlib.mc.bukkit.nbt;
 
+import mz.mzlib.mc.VersionName;
+import mz.mzlib.mc.bukkit.delegator.DelegatorBukkitClass;
 import mz.mzlib.mc.nbt.NBTCompound;
 import mz.mzlib.mc.nbt.NBTElement;
 import mz.mzlib.util.delegator.*;
 
-@DelegatorClassForName("nms.NBTTagCompound")
+@DelegatorBukkitClass({@VersionName(end=1700,name="nms.NBTTagCompound"),@VersionName(begin=1700,name="net.minecraft.nbt.NBTTagCompound")})
 public interface NBTCompoundBukkit extends NBTCompound, Delegator
 {
 	static NBTCompoundBukkit newInstance()

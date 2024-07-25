@@ -1,9 +1,12 @@
 package mz.mzlib.mc.nbt;
 
 import mz.mzlib.util.Instance;
+import mz.mzlib.util.RuntimeUtil;
 
 public interface NBTFactory extends Instance
 {
+	NBTFactory instance=RuntimeUtil.nul();
+	
 	NBTCompound createCompound();
 	NBTByte create(byte value);
 	NBTShort create(short value);

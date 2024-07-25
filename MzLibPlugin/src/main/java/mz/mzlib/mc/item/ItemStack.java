@@ -16,7 +16,7 @@ public interface ItemStack extends Delegator
 	}
 	default void setId(Identifier id)
 	{
-		Instance.get(ItemFactory.class).get(id);
+		ItemFactory.instance.get(id);
 	}
 	
 	int getCount();

@@ -21,7 +21,7 @@ public @interface DelegatorMinecraftClass
 		{
 			for(VersionName name:((DelegatorMinecraftClass)annotation).value())
 			{
-				if(MinecraftServer.getInstance().inVersion(name))
+				if(MinecraftServer.instance.inVersion(name))
 				{
 					try
 					{

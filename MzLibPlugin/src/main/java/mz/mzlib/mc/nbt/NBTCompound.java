@@ -53,42 +53,42 @@ public interface NBTCompound extends NBTElement
 	}
 	default void set(String name,byte value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,short value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,int value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,long value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,float value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,double value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,String value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,byte[] value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,int[] value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 	default void set(String name,long[] value)
 	{
-		this.set(name,Instance.get(NBTFactory.class).create(value));
+		this.set(name,NBTFactory.instance.create(value));
 	}
 }

@@ -11,19 +11,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface Instance
 {
-	class InstanceRegistrar implements IRegistrar<Instance>,Instance
+	class InstanceRegistrar implements IRegistrar<Instance>
 	{
 		public static InstanceRegistrar instance=new InstanceRegistrar();
-		
 		Map<Class<? extends Instance>,List<Instance>> instances=new ConcurrentHashMap<>();
-		{
-			register(MzLib.instance,this);
-		}
 		
 		@Override
 		public Class<Instance> getType()
 		{
 			return Instance.class;
+		}
+		public <T extends Instance> void setInstance(Class<T> type,T instance) throws NoSuchFieldException, IllegalAccessException
+		{
+			type.getDeclaredField("instance").set(null,instance);
 		}
 		@Override
 		public void register(MzModule module,Instance object)
@@ -31,7 +31,17 @@ public interface Instance
 			ClassUtil.forEachSuperUnique(object.getClass(),c->
 			{
 				if(Instance.class.isAssignableFrom(c))
+				{
 					instances.computeIfAbsent(RuntimeUtil.cast(c),k->new CopyOnWriteArrayList<>()).add(0,object);
+					try
+					{
+						setInstance(RuntimeUtil.cast(c),object);
+					}
+					catch(NoSuchFieldException|IllegalAccessException e)
+					{
+						throw RuntimeUtil.sneakilyThrow(e);
+					}
+				}
 			});
 		}
 		@Override
@@ -46,13 +56,19 @@ public interface Instance
 						if(v.isEmpty())
 							return null;
 						else
+						{
+							try
+							{
+								setInstance(RuntimeUtil.cast(k),v.get(0));
+							}
+							catch(NoSuchFieldException|IllegalAccessException e)
+							{
+								throw RuntimeUtil.sneakilyThrow(e);
+							}
 							return v;
+						}
 					});
 			});
 		}
-	}
-	static <T extends Instance> T get(Class<T> type)
-	{
-		return RuntimeUtil.cast(InstanceRegistrar.instance.instances.get(type).get(0));
 	}
 }
