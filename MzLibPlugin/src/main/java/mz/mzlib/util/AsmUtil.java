@@ -1,12 +1,15 @@
 package mz.mzlib.util;
 
 import com.google.common.collect.Lists;
+import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.delegator.AbsDelegator;
 import mz.mzlib.util.delegator.Delegator;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -93,6 +96,8 @@ public class AsmUtil
 		}
 		return result;
 	}
+	//TODO delete
+	@Deprecated
 	public static InsnList insnCreateDelegator(InsnList type)
 	{
 		InsnList result=new InsnList();
@@ -101,11 +106,9 @@ public class AsmUtil
 		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(Delegator.class),"create",getDesc(Delegator.class,Class.class,Object.class)));
 		return result;
 	}
-	public static InsnList insnCreateDelegator(Class<? extends Delegator> type)
+	public static AbstractInsnNode insnCreateDelegator(Class<? extends Delegator> type)
 	{
-		InsnList result=insnCreateDelegator(toList(insnConst(type)));
-		result.add(insnCast(type,Delegator.class));
-		return result;
+		return new InvokeDynamicInsnNode("create",AsmUtil.getDesc(type,Object.class),new Handle(Opcodes.H_INVOKESTATIC,getType(Delegator.class),"getConstructorCallSite",getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class),true),Type.getType(type));
 	}
 	public static InsnList insnGetDelegate()
 	{

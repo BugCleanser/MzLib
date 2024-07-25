@@ -27,10 +27,10 @@ public class ExampleDelegator
 	public interface TestDelegator extends Delegator
 	{
 		@DelegatorConstructor
-		TestDelegator staticConstruct();
-		static TestDelegator construct()
+		TestDelegator staticNewInstance();
+		static TestDelegator newInstace()
 		{
-			return Delegator.createStatic(TestDelegator.class).staticConstruct();
+			return Delegator.createStatic(TestDelegator.class).staticNewInstance();
 		}
 		
 		@DelegatorFieldAccessor("var")
@@ -57,7 +57,7 @@ public class ExampleDelegator
 	{
 		MzLib.instance.load();
 		
-		TestDelegator t=TestDelegator.construct();
+		TestDelegator t=TestDelegator.newInstace();
 		System.out.println(t.getVar());
 		t=t.getThiz();
 		t.setVar(191981.0);

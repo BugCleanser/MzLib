@@ -1,18 +1,20 @@
 package mz.mzlib.example;
 
-import mz.mzlib.util.ClassUtil;
-import net.bytebuddy.agent.ByteBuddyAgent;
+import io.github.karlatemp.unsafeaccessor.Root;
 
-import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Field;
 
 public class Test
 {
+	public static MethodHandle UNREFLECT_GETTER(Field field) throws NoSuchMethodException, IllegalAccessException
+	{
+		return Root.getTrusted(Field.class).findVirtual(Field.class,"get",MethodType.methodType(Object.class,Object.class)).bindTo(field);
+	}
+	
 	public static void main(String[] args) throws Throwable
 	{
-		ByteBuddyAgent.install();
-		ByteBuddyAgent.install();
-		ByteBuddyAgent.install();
-		ClassUtil.getByteCode(Test.class);
-		System.out.println((String)MethodHandles.constant(String.class,"awa").invokeExact());
+	
 	}
 }

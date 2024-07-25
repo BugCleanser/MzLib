@@ -93,7 +93,7 @@ public class DelegatorClassInfo
 					this.delegations.put(i,tar);
 			}
 	}
-	@SuppressWarnings("all")
+	
 	public static DelegatorClassInfo get(Class<? extends Delegator> clazz)
 	{
 		return cache.computeIfAbsent(clazz,k->
@@ -113,8 +113,8 @@ public class DelegatorClassInfo
 		}).get();
 	}
 	
-	public MethodHandle constructorCache=null;
 	public volatile MethodHandle constructor=null;
+	public MethodHandle constructorCache=null;
 	public MethodHandle getConstructor()
 	{
 		MethodHandle result=constructorCache;
@@ -218,8 +218,6 @@ public class DelegatorClassInfo
 					}
 					else
 					{
-						if(!rt.isPrimitive())
-							rt=Object.class;
 						mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
 						if(!Modifier.isStatic(i.getValue().getModifiers()))
 						{
@@ -243,11 +241,9 @@ public class DelegatorClassInfo
 						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(rt,ptsTar)));
 					}
 					if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
-					{
 						mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.<Class<Delegator>>cast(i.getKey().getReturnType())));
-						rt=Object.class;
-					}
-					mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(),rt));
+					else
+						mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(),rt));
 					mn.instructions.add(AsmUtil.insnReturn(i.getKey().getReturnType()));
 				}
 				else if(i.getValue() instanceof Field)

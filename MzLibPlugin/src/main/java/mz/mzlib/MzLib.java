@@ -7,7 +7,7 @@ import mz.mzlib.util.nothing.NothingClassRegistrar;
 
 import java.util.HashSet;
 
-public class MzLib extends MzModule implements Instance
+public class MzLib extends MzModule
 {
 	public static MzLib instance=new MzLib();
 	
@@ -34,15 +34,8 @@ public class MzLib extends MzModule implements Instance
 	public void onLoad()
 	{
 		register(Instance.InstanceRegistrar.instance);
-		InstanceRegistrar.instance.register(this,this);
 		register(RegistrarRegistrar.instance);
 		
 		register(NothingClassRegistrar.instance);
-	}
-	
-	@Override
-	public void onUnload()
-	{
-		InstanceRegistrar.instance.unregister(this,this);
 	}
 }

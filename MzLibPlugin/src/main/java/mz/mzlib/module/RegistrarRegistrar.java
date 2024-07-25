@@ -1,12 +1,13 @@
 package mz.mzlib.module;
 
-import mz.mzlib.util.*;
+import mz.mzlib.util.CollectionUtil;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>,Instance
+public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
 {
 	public static RegistrarRegistrar instance=new RegistrarRegistrar();
 	

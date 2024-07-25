@@ -3,6 +3,10 @@ package mz.mzlib.util.delegator;
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.RuntimeUtil;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.ConstantCallSite;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Executable;
 import java.util.Arrays;
 
@@ -21,6 +25,10 @@ public interface Delegator
 		{
 			throw RuntimeUtil.sneakilyThrow(e);
 		}
+	}
+	static CallSite getConstructorCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<? extends Delegator> type)
+	{
+		return new ConstantCallSite(DelegatorClassInfo.get(type).getConstructor().asType(invokedType));
 	}
 	static <T extends Delegator> T createStatic(Class<T> type)
 	{
