@@ -5,6 +5,7 @@ import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
+import mz.mzlib.util.asm.AsmUtil;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.MethodHandle;

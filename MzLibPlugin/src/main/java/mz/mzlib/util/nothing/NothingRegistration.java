@@ -4,7 +4,11 @@ import mz.mzlib.asm.ClassReader;
 import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
-import mz.mzlib.util.*;
+import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.MapEntry;
+import mz.mzlib.util.PublicValues;
+import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.delegator.Delegator;
 
 import java.lang.reflect.Array;

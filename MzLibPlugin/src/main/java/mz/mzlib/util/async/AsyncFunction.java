@@ -6,8 +6,7 @@ import mz.mzlib.util.RuntimeUtil;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * This base class is designed to be extended by public static subclasses with fields all public.
- *
+ * Directly inherit from this class rather than from its subclasses.
  * @param <R> The return type of the async function
  */
 public abstract class AsyncFunction<R>
@@ -21,22 +20,22 @@ public abstract class AsyncFunction<R>
 	}
 	
 	/**
-	 * Async function should run only when its module is enabled.
+	 * Async function should run only when its module is enabled, or else module==null.
 	 */
 	public abstract MzModule getModule();
 	
 	/**
 	 * Implement this template method. <br/>
 	 * You can use local variables or class fields in your implementation. <br/>
-	 * Asynchronous operations can be performed using `this.await(BasicAwait)` or `this.await(CompletableFuture<?>)`. <br/>
-	 * **Note:** Do not use the enhanced for-loop (also known as the "for-each" loop) to iterate over any array within this method's implementation. <br/>
+	 * Asynchronous operations can be performed using `await(BasicAwait)` or `await(CompletableFuture)`. <br/>
+	 * Avoid using 'await' in synchronous code blocks. <br/>
 	 */
 	public abstract R template();
 	
 	/**
 	 * Processed by runner, await a BasicAwait
 	 */
-	public void await(BasicAwait await)
+	public static void await(BasicAwait await)
 	{
 		throw new UnsupportedOperationException("Must be invoked by async function via 'this'.");
 	}
@@ -44,21 +43,37 @@ public abstract class AsyncFunction<R>
 	 * Await for the completion of a CompletableFuture
 	 * If it fails, it will throw an exception, otherwise it will not return a result, and you need to use future.get() to get the result
 	 */
-	public void await(CompletableFuture<?> future)
+	public static void await(CompletableFuture<?> future)
 	{
 		await((BasicAwait)null);
 	}
 	
-	public CoroutineRunner runner;
-	public CoroutineRunner getRunner()
+	public AsyncFunctionRunner runner;
+	public AsyncFunctionRunner getRunner()
 	{
 		return runner;
 	}
-	public CompletableFuture<R> start(CoroutineRunner runner)
+	public CompletableFuture<R> start(AsyncFunctionRunner runner)
 	{
 		this.runner=runner;
-		Coroutine coroutine=Coroutine.create(this);
-		runner.schedule(coroutine);
+		if(this.coroutine==null)
+			this.coroutine=Coroutine.init(this);
+		runner.schedule(this);
 		return RuntimeUtil.cast(coroutine.future);
+	}
+	
+	public Coroutine coroutine;
+	/**
+	 * Override this method and do nothing. <br/>
+	 * Called by AsyncFunctionRunner. <br/>
+	 */
+	public abstract void run();
+	public void run(Object result,Throwable e)
+	{
+		if(e!=null)
+			throw RuntimeUtil.sneakilyThrow(e);
+		if(this.getModule()!=null&&!this.getModule().isLoaded)
+			return;
+		this.run();
 	}
 }

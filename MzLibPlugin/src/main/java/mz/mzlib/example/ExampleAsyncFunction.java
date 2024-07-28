@@ -2,66 +2,55 @@ package mz.mzlib.example;
 
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.async.AsyncFunction;
+import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
-import mz.mzlib.util.async.Coroutine;
-import mz.mzlib.util.async.CoroutineRunner;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ExampleAsyncFunction
 {
-	public static class Function1 extends AsyncFunction<Void>
-	{
-		public int arg1;
-		public Function1(int arg1)
-		{
-			this.arg1=arg1;
-		}
-		@Override
-		public MzModule getModule()
-		{
-			return null;
-		}
-		@Override
-		public Void template()
-		{
-			System.out.println(arg1);
-			int i=1;
-			System.out.println(i++);
-			this.await(new Function2().start(this.getRunner()));
-			i++;
-			System.out.println(i);
-			return null;
-		}
-	}
-	public static class Function2 extends AsyncFunction<Void>
-	{
-		@Override
-		public MzModule getModule()
-		{
-			return null;
-		}
-		@Override
-		public Void template()
-		{
-			System.out.println("2");
-			return null;
-		}
-	}
-	
 	public static void main(String[] args)
 	{
-		CoroutineRunner runner=new CoroutineRunner()
+		AsyncFunctionRunner runner=new AsyncFunctionRunner()
 		{
 			@Override
-			public void schedule(Coroutine coroutine)
+			public void schedule(AsyncFunction<?> function)
 			{
-				coroutine.run();
+				function.run();
 			}
 			@Override
-			public void schedule(Coroutine coroutine,BasicAwait await)
+			public void schedule(AsyncFunction<?> function,BasicAwait await)
 			{
 				throw new UnsupportedOperationException();
 			}
 		};
-		new Function1(114514).start(runner);
+		new AsyncFunction<Void>()
+		{
+			@Override
+			public MzModule getModule()
+			{
+				return null;
+			}
+			@Override
+			public void run()
+			{
+			}
+			@Override
+			public Void template()
+			{
+				String test="aaa";
+				Consumer<String> r=System.out::println;
+				r.accept(test);
+				Function<String,String> func=s->s+"t";
+				String tmp=func.apply(test);
+				System.out.println(tmp);
+				return null;
+			}
+		}.start(runner).whenComplete((r,e)->
+		{
+			if(e!=null)
+				e.printStackTrace(System.err);
+		});
 	}
 }

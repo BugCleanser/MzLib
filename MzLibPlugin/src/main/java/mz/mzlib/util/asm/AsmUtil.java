@@ -1,10 +1,14 @@
-package mz.mzlib.util;
+package mz.mzlib.util.asm;
 
 import com.google.common.collect.Lists;
 import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
+import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.CollectionUtil;
+import mz.mzlib.util.PublicValues;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.delegator.AbsDelegator;
 import mz.mzlib.util.delegator.Delegator;
 
@@ -71,7 +75,7 @@ public class AsmUtil
 			if(Objects.equals(m.name,name) && Objects.equals(m.desc,desc))
 				return m;
 		}
-		return null;
+		return RuntimeUtil.nul();
 	}
 	public static InsnList insnSwap(Class<?> stackTop,Class<?> belowTop)
 	{
@@ -226,6 +230,21 @@ public class AsmUtil
 		else if(obj instanceof Class)
 			return new LdcInsnNode(Type.getType((Class<?>)obj));
 		return new LdcInsnNode(obj);
+	}
+	public static int getCategory(Type type)
+	{
+		if(type==null)
+			return 1;
+		switch(type.getSort())
+		{
+			case Type.VOID:
+				return 0;
+			case Type.LONG:
+			case Type.DOUBLE:
+				return 2;
+			default:
+				return 1;
+		}
 	}
 	public static int getCategory(Class<?> clazz)
 	{

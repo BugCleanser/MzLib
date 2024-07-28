@@ -2,7 +2,6 @@ package mz.mzlib.util;
 
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.MzLib;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +22,14 @@ public interface Instance
 		}
 		public <T extends Instance> void setInstance(Class<T> type,T instance) throws NoSuchFieldException, IllegalAccessException
 		{
-			type.getDeclaredField("instance").set(null,instance);
+			try
+			{
+				ClassUtil.unreflectSetter(type.getDeclaredField("instance")).invoke(null,instance);
+			}
+			catch(Throwable e)
+			{
+				throw RuntimeUtil.sneakilyThrow(e);
+			}
 		}
 		@Override
 		public void register(MzModule module,Instance object)

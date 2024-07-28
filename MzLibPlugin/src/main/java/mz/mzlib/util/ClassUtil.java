@@ -5,6 +5,7 @@ import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
+import mz.mzlib.util.asm.AsmUtil;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
 import java.lang.instrument.ClassDefinition;
@@ -13,6 +14,7 @@ import java.lang.instrument.Instrumentation;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
@@ -112,17 +114,60 @@ public class ClassUtil
 		return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
 	}
 	
-	public static MethodHandle unreflect(Constructor<?> constructor) throws IllegalAccessException
+	public static MethodHandle unreflect(Constructor<?> constructor)
 	{
-		return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
+		try
+		{
+			return Root.getTrusted(constructor.getDeclaringClass()).unreflectConstructor(constructor);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new AssertionError(e);
+		}
 	}
-	public static MethodHandle unreflect(Method method) throws IllegalAccessException
+	public static MethodHandle unreflectGetter(Field field)
 	{
-		return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
+		try
+		{
+			return Root.getTrusted(field.getDeclaringClass()).unreflectGetter(field);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new AssertionError(e);
+		}
 	}
-	public static MethodHandle unreflectSpecial(Method method) throws IllegalAccessException
+	public static MethodHandle unreflectSetter(Field field)
 	{
-		return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
+		try
+		{
+			return Root.getTrusted(field.getDeclaringClass()).unreflectSetter(field);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new AssertionError(e);
+		}
+	}
+	public static MethodHandle unreflect(Method method)
+	{
+		try
+		{
+			return Root.getTrusted(method.getDeclaringClass()).unreflect(method);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new AssertionError(e);
+		}
+	}
+	public static MethodHandle unreflectSpecial(Method method)
+	{
+		try
+		{
+			return Root.getTrusted(method.getDeclaringClass()).unreflectSpecial(method,method.getDeclaringClass());
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new AssertionError(e);
+		}
 	}
 	
 	public static void forEachSuper(Class<?> clazz,Consumer<Class<?>> proc)
