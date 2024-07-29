@@ -1,10 +1,9 @@
 package mz.mzlib.mc.bukkit;
 
-import mz.mzlib.util.Instance;
 import mz.mzlib.MzLib;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MzLibBukkitPlugin extends JavaPlugin implements Instance
+public class MzLibBukkitPlugin extends JavaPlugin
 {
 	public static MzLibBukkitPlugin instance;
 	{

@@ -22,11 +22,10 @@ public interface MinecraftServerBukkit extends MinecraftServer, Delegator
 		return version;
 	}
 	
-	String protocolVersion=Bukkit.getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit.".length());
 	@SuppressWarnings("all")
 	int version=((Supplier<Integer>)()->
 	{
-		String[] versions=Bukkit.getBukkitVersion().split("\\.",-1);
+		String[] versions=Bukkit.getBukkitVersion().split("-")[0].split("\\.",-1);
 		return Integer.parseInt(versions[1])*100+(versions.length>2?Integer.parseInt(versions[2]):0);
 	}).get();
 }

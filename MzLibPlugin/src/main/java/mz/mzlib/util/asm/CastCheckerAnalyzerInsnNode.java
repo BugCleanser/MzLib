@@ -310,7 +310,7 @@ public class CastCheckerAnalyzerInsnNode extends CastCheckerAnalyzer<InsnNode>
 			case Opcodes.RETURN:
 				return Collections.emptySet();
 			case Opcodes.ARRAYLENGTH:
-				context.pop(); // TODO
+				context.pop();
 				context.push(new CastChecker.OperandVisitor());
 				break;
 			case Opcodes.MONITORENTER:

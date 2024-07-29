@@ -10,7 +10,6 @@ public class MinecraftMainThreadRunnerBukkit implements MinecraftMainThreadRunne
 {
 	public static MinecraftMainThreadRunnerBukkit instance=new MinecraftMainThreadRunnerBukkit();
 	
-	
 	@Override
 	public void schedule(AsyncFunction<?> coroutine)
 	{

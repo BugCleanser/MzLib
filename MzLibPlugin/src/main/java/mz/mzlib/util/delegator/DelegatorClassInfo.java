@@ -338,8 +338,7 @@ public class DelegatorClassInfo
 			cn.visitEnd();
 			ClassWriter cw=new ClassWriter(delegatorClass.getClassLoader());
 			cn.accept(cw);
-			SimpleClassLoader cl=new SimpleClassLoader();
-			Class<?> c=cl.defineClass1(cn.name,cw.toByteArray());
+			Class<?> c=ClassUtil.defineClass(new SimpleClassLoader(this.delegatorClass.getClassLoader()),cn.name,cw.toByteArray());
 			constructor=ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class,Object.class));
 		}
 		catch(Throwable e)

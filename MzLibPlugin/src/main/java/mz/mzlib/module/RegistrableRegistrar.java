@@ -1,8 +1,6 @@
 package mz.mzlib.module;
 
-import mz.mzlib.util.Instance;
-
-public class RegistrableRegistrar implements IRegistrar<Registrable>, Instance
+public class RegistrableRegistrar implements IRegistrar<Registrable>
 {
 	public static RegistrarRegistrar instance=new RegistrarRegistrar();
 	

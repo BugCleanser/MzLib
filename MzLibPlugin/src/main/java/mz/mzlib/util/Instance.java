@@ -3,6 +3,7 @@ package mz.mzlib.util;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 
+import java.lang.invoke.MethodType;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +25,10 @@ public interface Instance
 		{
 			try
 			{
-				ClassUtil.unreflectSetter(type.getDeclaredField("instance")).invoke(null,instance);
+				ClassUtil.findFieldSetter(type,true, "instance",type.getDeclaredField("instance").getType()).asType(MethodType.methodType(void.class,Instance.class)).invoke(instance);
+			}
+			catch(NoSuchFieldException ignored)
+			{
 			}
 			catch(Throwable e)
 			{
