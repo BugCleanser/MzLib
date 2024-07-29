@@ -22,27 +22,15 @@ public class CastCheckerAnalyzerMethodInsnNode extends CastCheckerAnalyzer<Metho
 			if(AsmUtil.getCategory(t)==2)
 				args.add(0,context.pop());
 		}
-		switch(insn.getOpcode())
+		if(insn.getOpcode()==Opcodes.INVOKESPECIAL)
+			context.pop();
+		else if(insn.getOpcode()!=Opcodes.INVOKESTATIC)
+			caster.cast(context.pop(),Type.getObjectType(insn.owner));
+		for(int i=0,j=0;i<argTypes.length;i++,j++)
 		{
-			case Opcodes.INVOKESPECIAL:
-				if(insn.name.equals("<init>"))
-				{
-					context.pop();
-					break;
-				}
-			case Opcodes.INVOKEVIRTUAL:
-			case Opcodes.INVOKEINTERFACE:
-				caster.cast(context.pop(),Type.getObjectType(insn.owner));
-			case Opcodes.INVOKESTATIC:
-				for(int i=0,j=0;i<argTypes.length;i++,j++)
-				{
-					caster.cast(args.get(j),argTypes[i]);
-					if(AsmUtil.getCategory(argTypes[i])==2)
-						j++;
-				}
-				break;
-			default:
-				throw new UnsupportedOperationException();
+			caster.cast(args.get(j),argTypes[i]);
+			if(AsmUtil.getCategory(argTypes[i])==2)
+				j++;
 		}
 		for(int n=AsmUtil.getCategory(methodType.getReturnType()),i=0;i<n;i++)
 			context.push(new CastChecker.OperandVisitor());

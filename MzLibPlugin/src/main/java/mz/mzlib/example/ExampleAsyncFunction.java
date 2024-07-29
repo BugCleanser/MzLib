@@ -42,6 +42,24 @@ public class ExampleAsyncFunction
 				String test="aaa";
 				Consumer<String> r=System.out::println;
 				r.accept(test);
+				await(new AsyncFunction<Void>()
+				{
+					@Override
+					public MzModule getModule()
+					{
+						return null;
+					}
+					@Override
+					public void run()
+					{
+					}
+					@Override
+					public Void template()
+					{
+						System.out.println("test: "+test);
+						return null;
+					}
+				}.start(this.getRunner()));
 				Function<String,String> func=s->s+"t";
 				String tmp=func.apply(test);
 				System.out.println(tmp);
