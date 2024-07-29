@@ -1,17 +1,23 @@
 package mz.mzlib.util.delegator;
 
-import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.ClassWriter;
+import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
+import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DelegatorClassInfo
@@ -146,8 +152,6 @@ public class DelegatorClassInfo
 			mn.instructions.add(AsmUtil.insnReturn(void.class));
 			mn.visitEnd();
 			cn.methods.add(mn);
-			List<MethodHandle> methodHandles=new ArrayList<>();
-			String mhSuffix="mzDelegateMH";
 			for(Map.Entry<Method,Member> i:delegations.entrySet())
 			{
 				boolean isPublic=Modifier.isPublic(i.getValue().getDeclaringClass().getModifiers())&&Modifier.isPublic(i.getValue().getModifiers());
@@ -186,9 +190,7 @@ public class DelegatorClassInfo
 							else
 								ptsTar[j]=pts[j];
 						}
-						mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
-						methodHandles.add(ClassUtil.unreflect((Constructor<?>)i.getValue()).asType(MethodType.methodType(Object.class,ptsTar)));
-						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(Object.class,ptsTar)));
+						mn.visitInvokeDynamicInsn("new",AsmUtil.getDesc(Object.class,ptsTar),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getConstructorCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(AsmUtil.getDesc(i.getValue())));
 					}
 					mn.instructions.add(AsmUtil.insnCreateDelegator(getDelegatorClass()));
 					mn.instructions.add(AsmUtil.insnReturn(getDelegatorClass()));
@@ -219,7 +221,6 @@ public class DelegatorClassInfo
 					}
 					else
 					{
-						mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
 						if(!Modifier.isStatic(i.getValue().getModifiers()))
 						{
 							mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
@@ -238,8 +239,7 @@ public class DelegatorClassInfo
 						}
 						if(!Modifier.isStatic(i.getValue().getModifiers()))
 							ptsTar=CollectionUtil.addAll(CollectionUtil.newArrayList(Object.class),ptsTar).toArray(new Class[0]);
-						methodHandles.add(ClassUtil.unreflect((Method)i.getValue()).asType(MethodType.methodType(rt,ptsTar)));
-						mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(rt,ptsTar)));
+						mn.visitInvokeDynamicInsn(i.getValue().getName(),AsmUtil.getDesc(rt,ptsTar),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getMethodCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class,int.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(AsmUtil.getDesc(i.getValue())),Modifier.isStatic(i.getValue().getModifiers())?1:0);
 					}
 					if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
 						mn.instructions.add(AsmUtil.insnCreateDelegator(RuntimeUtil.<Class<Delegator>>cast(i.getKey().getReturnType())));
@@ -269,19 +269,15 @@ public class DelegatorClassInfo
 							{
 								if(Modifier.isStatic(i.getValue().getModifiers()))
 								{
-									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
 									MethodType mt=MethodType.methodType(type.isPrimitive()?type:Object.class);
-									methodHandles.add(Root.getTrusted(i.getValue().getDeclaringClass()).findStaticGetter(i.getValue().getDeclaringClass(),i.getValue().getName(),type).asType(mt));
-									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+									mn.visitInvokeDynamicInsn(i.getValue().getName(),AsmUtil.getDesc(mt),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getFieldGetterCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(Type.getType(((Field)i.getValue()).getType())));
 								}
 								else
 								{
-									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
 									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
 									mn.instructions.add(AsmUtil.insnGetDelegate());
 									MethodType mt=MethodType.methodType(type.isPrimitive()?type:Object.class,Object.class);
-									methodHandles.add(Root.getTrusted(i.getValue().getDeclaringClass()).findGetter(i.getValue().getDeclaringClass(),i.getValue().getName(),type).asType(mt));
-									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+									mn.visitInvokeDynamicInsn(i.getValue().getName(),AsmUtil.getDesc(mt),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getFieldGetterCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(Type.getType(((Field)i.getValue()).getType()),Type.getType(i.getValue().getDeclaringClass())));
 								}
 							}
 							if(Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
@@ -316,22 +312,16 @@ public class DelegatorClassInfo
 							{
 								if(Modifier.isStatic(i.getValue().getModifiers()))
 								{
-									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
-									mn.instructions.add(AsmUtil.insnSwap(MethodHandle.class,inputType));
 									MethodType mt=MethodType.methodType(void.class,inputType);
-									methodHandles.add(Root.getTrusted(i.getValue().getDeclaringClass()).findStaticSetter(i.getValue().getDeclaringClass(),i.getValue().getName(),type).asType(mt));
-									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+									mn.visitInvokeDynamicInsn(i.getValue().getName(),AsmUtil.getDesc(mt),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getFieldSetterCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(Type.VOID_TYPE,Type.getType(((Field)i.getValue()).getType())));
 								}
 								else
 								{
-									mn.instructions.add(new FieldInsnNode(Opcodes.GETSTATIC,cn.name,methodHandles.size()+mhSuffix,AsmUtil.getDesc(MethodHandle.class)));
-									mn.instructions.add(AsmUtil.insnSwap(MethodHandle.class,inputType));
 									mn.instructions.add(AsmUtil.insnVarLoad(getDelegatorClass(),0));
 									mn.instructions.add(AsmUtil.insnGetDelegate());
 									mn.instructions.add(AsmUtil.insnSwap(getDelegatorClass(),inputType));
 									MethodType mt=MethodType.methodType(void.class,Object.class,inputType);
-									methodHandles.add(Root.getTrusted(i.getValue().getDeclaringClass()).findSetter(i.getValue().getDeclaringClass(),i.getValue().getName(),type).asType(mt));
-									mn.instructions.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(MethodHandle.class),"invokeExact",AsmUtil.getDesc(mt)));
+									mn.visitInvokeDynamicInsn(i.getValue().getName(),AsmUtil.getDesc(mt),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ClassUtil.class),"getFieldSetterCallSite",AsmUtil.getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class,MethodType.class),false),Type.getType(i.getValue().getDeclaringClass()),Type.getMethodType(Type.VOID_TYPE,Type.getType(i.getValue().getDeclaringClass()),Type.getType(((Field)i.getValue()).getType())));
 								}
 							}
 							mn.instructions.add(AsmUtil.insnReturn(void.class));
@@ -345,15 +335,11 @@ public class DelegatorClassInfo
 				mn.visitEnd();
 				cn.methods.add(mn);
 			}
-			for(int i=0;i<methodHandles.size();i++)
-				cn.visitField(Opcodes.ACC_PUBLIC|Opcodes.ACC_STATIC,i+mhSuffix,AsmUtil.getDesc(MethodHandle.class),null,null).visitEnd();
 			cn.visitEnd();
 			ClassWriter cw=new ClassWriter(delegatorClass.getClassLoader());
 			cn.accept(cw);
 			SimpleClassLoader cl=new SimpleClassLoader();
 			Class<?> c=cl.defineClass1(cn.name,cw.toByteArray());
-			for(int i=0;i<methodHandles.size();i++)
-				c.getDeclaredField(i+mhSuffix).set(null,methodHandles.get(i));
 			constructor=ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class,Object.class));
 		}
 		catch(Throwable e)

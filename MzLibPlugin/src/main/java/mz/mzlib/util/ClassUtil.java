@@ -11,8 +11,7 @@ import net.bytebuddy.agent.ByteBuddyAgent;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
@@ -113,7 +112,20 @@ public class ClassUtil
 	{
 		return Root.getTrusted(declaringClass).findSpecial(declaringClass,name,MethodType.methodType(returnType,parameterTypes),declaringClass);
 	}
-	
+	public static MethodHandle findFieldGetter(Class<?> declaringClass,boolean isStatic,String name,Class<?> type) throws NoSuchFieldException, IllegalAccessException
+	{
+		if(isStatic)
+			return Root.getTrusted(declaringClass).findStaticGetter(declaringClass,name,type);
+		else
+			return Root.getTrusted(declaringClass).findGetter(declaringClass,name,type);
+	}
+	public static MethodHandle findFieldSetter(Class<?> declaringClass,boolean isStatic,String name,Class<?> type) throws NoSuchFieldException, IllegalAccessException
+	{
+		if(isStatic)
+			return Root.getTrusted(declaringClass).findStaticSetter(declaringClass,name,type);
+		else
+			return Root.getTrusted(declaringClass).findSetter(declaringClass,name,type);
+	}
 	public static MethodHandle unreflect(Constructor<?> constructor)
 	{
 		try
@@ -385,5 +397,22 @@ public class ClassUtil
 		ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
 		cn.accept(cw);
 		return unreflect(defineClass(new SimpleClassLoader(cl),cn.name,cw.toByteArray()).getDeclaredMethods()[0]);
+	}
+	
+	public static CallSite getConstructorCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<?> owner,MethodType methodType) throws NoSuchMethodException, IllegalAccessException
+	{
+		return new ConstantCallSite(findConstructor(owner,methodType.parameterArray()).asType(invokedType));
+	}
+	public static CallSite getMethodCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<?> owner,MethodType methodType,int isStatic) throws NoSuchMethodException, IllegalAccessException
+	{
+		return new ConstantCallSite(findMethod(owner,isStatic!=0,invokedName,methodType.returnType(),methodType.parameterArray()).asType(invokedType));
+	}
+	public static CallSite getFieldGetterCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<?> owner,MethodType methodType) throws IllegalAccessException, NoSuchFieldException
+	{
+		return new ConstantCallSite(findFieldGetter(owner,invokedType.parameterCount()==0,invokedName,methodType.returnType()).asType(invokedType));
+	}
+	public static CallSite getFieldSetterCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<?> owner,MethodType methodType) throws IllegalAccessException, NoSuchFieldException
+	{
+		return new ConstantCallSite(findFieldSetter(owner,invokedType.parameterCount()==1,invokedName,methodType.parameterType(methodType.parameterCount()-1)).asType(invokedType));
 	}
 }
