@@ -5,9 +5,10 @@ import mz.mzlib.util.async.AsyncFunction;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.List;
 
+@Deprecated
 public class ExampleAsyncFunction
 {
 	public static void main(String[] args)
@@ -39,30 +40,8 @@ public class ExampleAsyncFunction
 			@Override
 			public Void template()
 			{
-				String test="aaa";
-				Consumer<String> r=System.out::println;
-				r.accept(test);
-				await(new AsyncFunction<Void>()
-				{
-					@Override
-					public MzModule getModule()
-					{
-						return null;
-					}
-					@Override
-					public void run()
-					{
-					}
-					@Override
-					public Void template()
-					{
-						System.out.println("test: "+test);
-						return null;
-					}
-				}.start(this.getRunner()));
-				Function<String,String> func=s->s+"t";
-				String tmp=func.apply(test);
-				System.out.println(tmp);
+				List<String> l=Arrays.asList("a","b","c");
+				for(CharSequence i:l) System.out.println(i);
 				return null;
 			}
 		}.start(runner).whenComplete((r,e)->

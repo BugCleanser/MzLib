@@ -47,10 +47,7 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
 				throw new IllegalArgumentException("Try to unregister a nothing class which has not been registered: "+object);
 			v.remove(object);
 			if(v.isEmpty())
-			{
-				v.free();
 				return null;
-			}
 			return v;
 		});
 	}

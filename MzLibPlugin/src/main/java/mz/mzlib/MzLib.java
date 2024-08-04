@@ -33,9 +33,9 @@ public class MzLib extends MzModule
 	@Override
 	public void onLoad()
 	{
-		register(Instance.InstanceRegistrar.instance);
-		register(RegistrarRegistrar.instance);
+		this.register(Instance.InstanceRegistrar.instance);
+		this.register(RegistrarRegistrar.instance);
 		
-		register(NothingClassRegistrar.instance);
+		this.register(NothingClassRegistrar.instance);
 	}
 }

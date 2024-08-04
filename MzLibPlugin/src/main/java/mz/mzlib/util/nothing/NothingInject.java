@@ -7,16 +7,18 @@ import java.lang.annotation.*;
 @Repeatable(NothingInjects.class)
 public @interface NothingInject
 {
+	String delegatorMethod();
+	
 	float priority() default 0;
-	String[] methodNames();
-	Class<?>[] methodArgs();
+	/**
+	 * Some steps to locate the target insns, initially locating at the 0th bytecode.
+	 */
 	LocatingStep[] locatingSteps();
-	int expectedMin() default 1;
-	int expectedMax() default Integer.MAX_VALUE;
 	NothingInjectType type();
 	
 	/**
-	 * @return Represents how many insns you want to SKIP or CATCH
+	 * Represents how many insns you want to SKIP or CATCH
+	 * In particular, MAX_VALUE means that you make a try-catch for all subsequent insn.
 	 */
 	int length() default Integer.MAX_VALUE;
 }

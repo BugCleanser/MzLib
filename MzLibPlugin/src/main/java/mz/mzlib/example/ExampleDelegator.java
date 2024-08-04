@@ -3,9 +3,9 @@ package mz.mzlib.example;
 import mz.mzlib.MzLib;
 import mz.mzlib.util.delegator.*;
 
+@Deprecated
 public class ExampleDelegator
 {
-	@SuppressWarnings("all")
 	public static class Test implements Cloneable
 	{
 		private final double var=114.514;

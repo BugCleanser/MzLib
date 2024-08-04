@@ -1,18 +1,13 @@
 package mz.mzlib.example;
 
-import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.delegator.basic.VoidDelegator;
 
+@Deprecated
 public class Test
 {
-	private static class Foo
-	{
-		private Foo()
-		{
-		}
-	}
-	
 	public static void main(String[] args) throws Throwable
 	{
-		System.out.println((Foo)ClassUtil.findConstructor(Foo.class).invokeExact());
+		Void v=VoidDelegator.newInstance().getDelegate();
+		System.out.println(v);
 	}
 }

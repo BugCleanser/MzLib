@@ -8,6 +8,7 @@ import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.asm.AsmUtil;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
+import java.io.FileOutputStream;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
@@ -262,7 +263,6 @@ public class ClassUtil
 		try
 		{
 			StrongRef<byte[]> result=new StrongRef<>(null);
-			@SuppressWarnings("all")
 			ClassFileTransformer tr=new ClassFileTransformer() // Can not replace with lambda!
 			{
 				@Override
@@ -270,12 +270,12 @@ public class ClassUtil
 				{
 					if(c==clazz)
 						result.set(byteCode);
+					getInstrumentation().removeTransformer(this);
 					return null;
 				}
 			};
 			getInstrumentation().addTransformer(tr,true);
 			getInstrumentation().retransformClasses(clazz);
-			getInstrumentation().removeTransformer(tr);
 			return result.get();
 		}
 		catch(Throwable e)
@@ -309,6 +309,18 @@ public class ClassUtil
 							throw e;
 					}
 				}
+			}
+			catch(VerifyError e)
+			{
+				try(FileOutputStream fos=new FileOutputStream("test.class"))
+				{
+					fos.write(byteCode);
+				}
+				catch(Throwable e1)
+				{
+					throw RuntimeUtil.sneakilyThrow(e1);
+				}
+				throw RuntimeUtil.sneakilyThrow(e);
 			}
 			catch(Throwable e)
 			{
@@ -389,7 +401,7 @@ public class ClassUtil
 			return src;
 	}
 	
-	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn) throws IllegalAccessException
+	public static MethodHandle defineMethod(ClassLoader cl,MethodNode mn)
 	{
 		ClassNode cn=new ClassNode();
 		cn.visit(Opcodes.V1_8,Opcodes.ACC_PUBLIC,"$Method",null,AsmUtil.getType(Object.class),new String[0]);

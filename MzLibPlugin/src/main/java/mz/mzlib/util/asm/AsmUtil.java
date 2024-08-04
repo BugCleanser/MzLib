@@ -100,19 +100,13 @@ public class AsmUtil
 		}
 		return result;
 	}
-	//TODO delete
-	@Deprecated
-	public static InsnList insnCreateDelegator(InsnList type)
-	{
-		InsnList result=new InsnList();
-		result.add(type);
-		result.add(insnSwap(Class.class,Object.class));
-		result.add(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(Delegator.class),"create",getDesc(Delegator.class,Class.class,Object.class)));
-		return result;
-	}
 	public static AbstractInsnNode insnCreateDelegator(Class<? extends Delegator> type)
 	{
-		return new InvokeDynamicInsnNode("create",AsmUtil.getDesc(type,Object.class),new Handle(Opcodes.H_INVOKESTATIC,getType(Delegator.class),"getConstructorCallSite",getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class),true),Type.getType(type));
+		return insnCreateDelegator(Type.getType(type));
+	}
+	public static AbstractInsnNode insnCreateDelegator(Type type)
+	{
+		return new InvokeDynamicInsnNode("create",Type.getMethodType(type,Type.getType(Object.class)).getDescriptor(),new Handle(Opcodes.H_INVOKESTATIC,getType(Delegator.class),"getConstructorCallSite",getDesc(CallSite.class,MethodHandles.Lookup.class,String.class,MethodType.class,Class.class),true),type);
 	}
 	public static InsnList insnGetDelegate()
 	{
@@ -566,6 +560,7 @@ public class AsmUtil
 			throw new IllegalArgumentException();
 	}
 	
+	@Deprecated
 	public static InsnList insnGetPublicValue(int index)
 	{
 		InsnList result=new InsnList();

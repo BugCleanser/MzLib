@@ -23,7 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DelegatorClassInfo
 {
 	public Class<? extends Delegator> delegatorClass;
-	public Class<?> delegateClass=null;
+	public Annotation delegatorClassAnnotation;
+	public Class<?> delegateClass;
 	public Map<Method,Member> delegations=new ConcurrentHashMap<>();
 	public DelegatorClassInfo(Class<? extends Delegator> delegatorClass)
 	{
@@ -43,7 +44,6 @@ public class DelegatorClassInfo
 	public static Map<Class<? extends Delegator>,WeakRef<DelegatorClassInfo>> cache=Collections.synchronizedMap(new WeakHashMap<>());
 	public void analyse() throws InstantiationException, IllegalAccessException
 	{
-		Class<?> delegateClass=null;
 		for(Annotation i:this.delegatorClass.getDeclaredAnnotations())
 		{
 			DelegatorClassFinderClass finder=i.annotationType().getDeclaredAnnotation(DelegatorClassFinderClass.class);
@@ -51,18 +51,20 @@ public class DelegatorClassInfo
 			{
 				try
 				{
-					delegateClass=finder.value().newInstance().find(this.delegatorClass.getClassLoader(),i);
+					this.delegateClass=finder.value().newInstance().find(this.delegatorClass.getClassLoader(),i);
 				}
 				catch(ClassNotFoundException ignored)
 				{
 				}
-				if(delegateClass!=null)
+				if(this.delegateClass!=null)
+				{
+					this.delegatorClassAnnotation=i;
 					break;
+				}
 			}
 		}
-		if(delegateClass==null)
+		if(this.delegateClass==null)
 			throw new IllegalStateException("Multi delegate class: "+this.delegatorClass);
-		this.delegateClass=delegateClass;
 		for(Method i:this.delegatorClass.getDeclaredMethods())
 			if(Modifier.isAbstract(i.getModifiers()))
 			{
@@ -152,6 +154,18 @@ public class DelegatorClassInfo
 			mn.instructions.add(AsmUtil.insnReturn(void.class));
 			mn.visitEnd();
 			cn.methods.add(mn);
+			for(Method m:getDelegatorClass().getMethods())
+			{
+				if(!m.getName().equals("getDelegate") || m.getParameterCount()!=0 || Modifier.isStatic(m.getModifiers()))
+					continue;
+				mn=new MethodNode(Opcodes.ACC_PUBLIC,m.getName(),AsmUtil.getDesc(m),null,new String[0]);
+				mn.instructions.add(AsmUtil.insnVarLoad(Delegator.class,0));
+				mn.visitMethodInsn(Opcodes.INVOKESPECIAL,AsmUtil.getType(AbsDelegator.class),"getDelegate",AsmUtil.getDesc(Object.class,new Class[0]),false);
+				mn.instructions.add(AsmUtil.insnCast(m.getReturnType(),Object.class));
+				mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));
+				mn.visitEnd();
+				cn.methods.add(mn);
+			}
 			for(Map.Entry<Method,Member> i:delegations.entrySet())
 			{
 				boolean isPublic=Modifier.isPublic(i.getValue().getDeclaringClass().getModifiers())&&Modifier.isPublic(i.getValue().getModifiers());
@@ -335,6 +349,7 @@ public class DelegatorClassInfo
 				mn.visitEnd();
 				cn.methods.add(mn);
 			}
+			this.delegatorClassAnnotation.annotationType().getDeclaredAnnotation(DelegatorClassFinderClass.class).value().newInstance().extra(this.delegatorClassAnnotation,cn);
 			cn.visitEnd();
 			ClassWriter cw=new ClassWriter(delegatorClass.getClassLoader());
 			cn.accept(cw);

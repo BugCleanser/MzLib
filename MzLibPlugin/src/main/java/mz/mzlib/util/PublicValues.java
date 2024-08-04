@@ -2,6 +2,7 @@ package mz.mzlib.util;
 
 import java.lang.reflect.Method;
 
+@Deprecated
 public class PublicValues
 {
 	public static boolean isRoot;
