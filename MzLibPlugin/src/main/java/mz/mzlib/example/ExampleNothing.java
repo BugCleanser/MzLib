@@ -23,6 +23,7 @@ public class ExampleNothing
 	{
 		@DelegatorMethod("f")
 		void staticF();
+		
 		@NothingInject(delegatorMethod="staticF",locatingSteps={@LocatingStep(type=LocatingStepType.AFTER_FIRST,arg= Opcodes.INVOKEVIRTUAL)},type=NothingInjectType.INSERT_BEFORE)
 		default VoidDelegator injectF(@StackTop DoubleDelegator s)
 		{

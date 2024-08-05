@@ -2,6 +2,9 @@ package mz.mzlib.util.delegator;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -20,11 +23,17 @@ public @interface DelegatorMethod
 		public Member find(Class<?> delegateClass,Annotation annotation,Class<?> returnType,Class<?>[] argTypes) throws NoSuchMethodException
 		{
 			NoSuchMethodException lastException=null;
-			for(String i: ((DelegatorMethod)annotation).value())
+			for(String i:((DelegatorMethod)annotation).value())
 			{
 				try
 				{
-					return delegateClass.getDeclaredMethod(i,argTypes);
+					if(i.startsWith("$")||i.startsWith("#"))
+						return Arrays.stream(delegateClass.getDeclaredMethods()).filter(m->i.startsWith("$")^Modifier.isStatic(m.getModifiers())).toArray(Method[]::new)[Integer.parseInt(i.substring(1))];
+					else
+						return delegateClass.getDeclaredMethod(i,argTypes);
+				}
+				catch(ArrayIndexOutOfBoundsException ignored)
+				{
 				}
 				catch(NoSuchMethodException e)
 				{

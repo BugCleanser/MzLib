@@ -76,6 +76,4 @@ public class NBTFactoryBukkit implements NBTFactory
 	{
 		return null;
 	}
-	
-	
 }
