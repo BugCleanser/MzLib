@@ -482,7 +482,7 @@ public class AsmUtil
 		}
 		else if(src.isPrimitive())
 		{
-			InsnList r=toList(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(ClassUtil.getWrapper(src)),"valueOf",getDesc(ClassUtil.getWrapper(src),new Class[]{src}),false));
+			InsnList r=toList(new MethodInsnNode(Opcodes.INVOKESTATIC,getType(ClassUtil.getWrapper(src)),"valueOf",getDesc(ClassUtil.getWrapper(src),src),false));
 			r.add(insnCast(tar,ClassUtil.getWrapper(src)));
 			return r;
 		}

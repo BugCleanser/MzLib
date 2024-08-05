@@ -6,7 +6,7 @@ import mz.mzlib.util.delegator.*;
 @Deprecated
 public class ExampleDelegator
 {
-	public static class Test implements Cloneable
+	public static class Test
 	{
 		private final double var=114.514;
 		private final Test thiz=this;
@@ -28,7 +28,7 @@ public class ExampleDelegator
 	{
 		@DelegatorConstructor
 		TestDelegator staticNewInstance();
-		static TestDelegator newInstace()
+		static TestDelegator newInstance()
 		{
 			return Delegator.createStatic(TestDelegator.class).staticNewInstance();
 		}
@@ -57,7 +57,7 @@ public class ExampleDelegator
 	{
 		MzLib.instance.load();
 		
-		TestDelegator t=TestDelegator.newInstace();
+		TestDelegator t=TestDelegator.newInstance();
 		System.out.println(t.getVar());
 		t=t.getThiz();
 		t.setVar(191981.0);
