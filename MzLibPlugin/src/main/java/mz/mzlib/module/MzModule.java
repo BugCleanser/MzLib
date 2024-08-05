@@ -81,13 +81,13 @@ public abstract class MzModule
 				throw new IllegalStateException("Try to unload the module but it's not loaded: "+object+".");
 			if(!submodules.contains(object))
 				throw new IllegalStateException("Try to unload the module("+object+") but it's not loaded by this module("+this+").");
-			((MzModule)object).isLoaded=false;
-			submodules.remove(object);
 			for(MzModule i:new HashSet<>(((MzModule)object).submodules))
 				((MzModule)object).unregister(i);
 			for(Object i:new HashSet<>(((MzModule)object).registeredObjects.keySet()))
 				((MzModule)object).unregister(i);
 			((MzModule)object).onUnload();
+			((MzModule)object).isLoaded=false;
+			submodules.remove(object);
 		}
 		Stack<IRegistrar<?>> removed=registeredObjects.remove(object);
 		if(removed==null)

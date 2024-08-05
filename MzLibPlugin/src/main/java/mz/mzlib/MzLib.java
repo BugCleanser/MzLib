@@ -1,7 +1,6 @@
 package mz.mzlib;
 
 import mz.mzlib.module.MzModule;
-import mz.mzlib.module.RegistrarRegistrar;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.nothing.NothingClassRegistrar;
 
@@ -34,7 +33,6 @@ public class MzLib extends MzModule
 	public void onLoad()
 	{
 		this.register(Instance.InstanceRegistrar.instance);
-		this.register(RegistrarRegistrar.instance);
 		
 		this.register(NothingClassRegistrar.instance);
 	}

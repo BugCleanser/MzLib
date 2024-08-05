@@ -6,7 +6,8 @@ import mz.mzlib.util.delegator.*;
 @Deprecated
 public class ExampleDelegator
 {
-	public static class Test
+	@SuppressWarnings("all")
+	public static class Test implements Cloneable
 	{
 		private final double var=114.514;
 		private final Test thiz=this;

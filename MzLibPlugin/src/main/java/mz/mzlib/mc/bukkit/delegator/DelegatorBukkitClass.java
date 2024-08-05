@@ -2,7 +2,6 @@ package mz.mzlib.mc.bukkit.delegator;
 
 import mz.mzlib.mc.VersionName;
 import mz.mzlib.mc.bukkit.MinecraftServerBukkit;
-import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClassFinder;
 import mz.mzlib.util.delegator.DelegatorClassFinderClass;
 import org.bukkit.Bukkit;
@@ -32,7 +31,7 @@ public @interface DelegatorBukkitClass
 		{
 			for(VersionName name:((DelegatorBukkitClass)annotation).value())
 			{
-				if(Delegator.createStatic(MinecraftServerBukkit.class).inVersion(name))
+				if(MinecraftServerBukkit.version>=name.begin()&&MinecraftServerBukkit.version<name.end())
 				{
 					try
 					{
