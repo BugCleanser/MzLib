@@ -41,10 +41,13 @@ public @interface DelegatorFieldAccessor
 			{
 				try
 				{
-					if(i.startsWith("#") || i.startsWith("@"))
+					if(i.startsWith("@")||i.startsWith("#"))
 						return Arrays.stream(delegateClass.getDeclaredFields()).filter(j->j.getType()==type && (Modifier.isStatic(j.getModifiers())^i.startsWith("@"))).toArray(Field[]::new)[Integer.parseInt(i.substring(1))];
 					else
 						return RuntimeUtil.require(delegateClass.getDeclaredField(i),f->f.getType()==type);
+				}
+				catch(AssertionError ignored)
+				{
 				}
 				catch(NoSuchFieldException e)
 				{

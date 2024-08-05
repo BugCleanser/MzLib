@@ -27,8 +27,8 @@ public @interface DelegatorMethod
 			{
 				try
 				{
-					if(i.startsWith("$")||i.startsWith("#"))
-						return Arrays.stream(delegateClass.getDeclaredMethods()).filter(m->i.startsWith("$")^Modifier.isStatic(m.getModifiers())).toArray(Method[]::new)[Integer.parseInt(i.substring(1))];
+					if(i.startsWith("@")||i.startsWith("#"))
+						return Arrays.stream(delegateClass.getDeclaredMethods()).filter(m->i.startsWith("@")^Modifier.isStatic(m.getModifiers())).filter(m->Arrays.equals(m.getParameterTypes(),argTypes)).toArray(Method[]::new)[Integer.parseInt(i.substring(1))];
 					else
 						return delegateClass.getDeclaredMethod(i,argTypes);
 				}
