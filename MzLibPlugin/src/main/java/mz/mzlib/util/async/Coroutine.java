@@ -158,9 +158,10 @@ public abstract class Coroutine
 						mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class,0)); // this
 						mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(AsyncFunction.class),"runner",AsmUtil.getDesc(AsyncFunctionRunner.class));
 						mn.instructions.add(AsmUtil.insnSwap(AsyncFunctionRunner.class,BasicAwait.class));
-						mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class,0));
-						mn.instructions.add(AsmUtil.insnSwap(Coroutine.class,BasicAwait.class));
-						mn.visitMethodInsn(Opcodes.INVOKEINTERFACE,AsmUtil.getType(AsyncFunctionRunner.class),"schedule",AsmUtil.getDesc(void.class,Coroutine.class,BasicAwait.class),true); // this.function.runner.schedule(this,basicAwait);
+						mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class,0));
+						mn.instructions.add(AsmUtil.insnSwap(AsyncFunction.class,BasicAwait.class));
+						mn.visitMethodInsn(Opcodes.INVOKEINTERFACE,AsmUtil.getType(AsyncFunctionRunner.class),"schedule",AsmUtil.getDesc(void.class,AsyncFunction.class,BasicAwait.class),true); // this.function.runner.schedule(this,basicAwait);
+
 					}
 					mn.instructions.add(AsmUtil.insnReturn(void.class)); // return;
 					LabelNode ln=new LabelNode();
@@ -183,7 +184,8 @@ public abstract class Coroutine
 			mn.instructions.add(insn);
 		}
 		mn.instructions.add((LabelNode)try2.info);
-		mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class,0));
+		mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class,0));
+		mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(AsyncFunction.class),"coroutine",AsmUtil.getDesc(Coroutine.class));
 		mn.visitFieldInsn(Opcodes.GETFIELD,AsmUtil.getType(Coroutine.class),"future",AsmUtil.getDesc(CompletableFuture.class));
 		mn.instructions.add(AsmUtil.insnSwap(CompletableFuture.class,Throwable.class));
 		mn.visitMethodInsn(Opcodes.INVOKEVIRTUAL,AsmUtil.getType(CompletableFuture.class),"completeExceptionally",AsmUtil.getDesc(boolean.class,Throwable.class),false);

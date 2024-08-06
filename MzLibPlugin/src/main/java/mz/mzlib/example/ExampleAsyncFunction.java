@@ -23,6 +23,8 @@ public class ExampleAsyncFunction
 			@Override
 			public void schedule(AsyncFunction<?> function,BasicAwait await)
 			{
+				if(await==null)
+					schedule(function);
 				throw new UnsupportedOperationException();
 			}
 		};
@@ -41,6 +43,7 @@ public class ExampleAsyncFunction
 			public Void template()
 			{
 				List<String> l=Arrays.asList("a","b","c");
+				await((BasicAwait)null);
 				for(CharSequence i:l) System.out.println(i);
 				return null;
 			}
