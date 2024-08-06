@@ -35,9 +35,11 @@ public abstract class AsyncFunction<R>
 	/**
 	 * Processed by runner, await a BasicAwait
 	 */
+	@SuppressWarnings("all")
 	public static void await(BasicAwait await)
 	{
-		throw new UnsupportedOperationException("Must be invoked by async function via 'this'.");
+		if(RuntimeUtil.nul()==null)
+			throw new UnsupportedOperationException("Must be invoked by async function via 'this'.");
 	}
 	/**
 	 * Await for the completion of a CompletableFuture
