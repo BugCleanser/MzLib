@@ -45,9 +45,9 @@ public abstract class AsyncFunction<R>
 	 * Await for the completion of a CompletableFuture
 	 * If it fails, it will throw an exception, otherwise it will not return a result, and you need to use future.get() to get the result
 	 */
-	public static void await(CompletableFuture<?> future)
+	public static void await0(CompletableFuture<?> future)
 	{
-		await((BasicAwait)null);
+		await(null);
 	}
 	
 	public AsyncFunctionRunner runner;

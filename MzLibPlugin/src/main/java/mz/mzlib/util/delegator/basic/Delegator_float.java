@@ -3,9 +3,9 @@ package mz.mzlib.util.delegator.basic;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 
-@DelegatorClass(void.class)
-public interface VoidDelegator extends Delegator
+@DelegatorClass(float.class)
+public interface Delegator_float extends Delegator
 {
 	@Override
-	Void getDelegate();
+	Float getDelegate();
 }

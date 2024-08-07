@@ -4,7 +4,7 @@ import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 
 @DelegatorClass(long.class)
-public interface LongDelegator extends Delegator
+public interface Delegator_long extends Delegator
 {
 	@Override
 	Long getDelegate();

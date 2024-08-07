@@ -11,16 +11,16 @@ public class MinecraftMainThreadRunnerBukkit implements MinecraftMainThreadRunne
 	public static MinecraftMainThreadRunnerBukkit instance=new MinecraftMainThreadRunnerBukkit();
 	
 	@Override
-	public void schedule(AsyncFunction<?> coroutine)
+	public void schedule(AsyncFunction<?> function)
 	{
-		Bukkit.getScheduler().runTask(MzLibBukkitPlugin.instance,coroutine::run);
+		Bukkit.getScheduler().runTask(MzLibBukkitPlugin.instance,function::run);
 	}
 	
 	@Override
-	public void schedule(AsyncFunction<?> coroutine,BasicAwait await)
+	public void schedule(AsyncFunction<?> function,BasicAwait await)
 	{
 		if(await instanceof SleepTicks)
-			Bukkit.getScheduler().runTaskLater(MzLibBukkitPlugin.instance,coroutine::run,((SleepTicks)await).ticks);
+			Bukkit.getScheduler().runTaskLater(MzLibBukkitPlugin.instance,function::run,((SleepTicks)await).ticks);
 		else
 			throw new UnsupportedOperationException();
 	}

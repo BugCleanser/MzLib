@@ -4,8 +4,8 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 import mz.mzlib.util.delegator.DelegatorMethod;
-import mz.mzlib.util.delegator.basic.DoubleDelegator;
-import mz.mzlib.util.delegator.basic.VoidDelegator;
+import mz.mzlib.util.delegator.basic.DelegatorVoid;
+import mz.mzlib.util.delegator.basic.Delegator_double;
 import mz.mzlib.util.nothing.*;
 
 @Deprecated
@@ -25,7 +25,7 @@ public class ExampleNothing
 		void staticF();
 		
 		@NothingInject(delegatorMethod="staticF",locatingSteps={@LocatingStep(type=LocatingStepType.AFTER_FIRST,arg= Opcodes.INVOKEVIRTUAL)},type=NothingInjectType.INSERT_BEFORE)
-		default VoidDelegator injectF(@StackTop DoubleDelegator s)
+		default DelegatorVoid injectF(@StackTop Delegator_double s)
 		{
 			s.setDelegate(114.514);
 			return Nothing.notReturn();

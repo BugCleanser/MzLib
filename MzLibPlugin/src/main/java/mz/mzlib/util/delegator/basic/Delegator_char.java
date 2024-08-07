@@ -3,9 +3,9 @@ package mz.mzlib.util.delegator.basic;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 
-@DelegatorClass(double.class)
-public interface DoubleDelegator extends Delegator
+@DelegatorClass(char.class)
+public interface Delegator_char extends Delegator
 {
 	@Override
-	Double getDelegate();
+	Character getDelegate();
 }

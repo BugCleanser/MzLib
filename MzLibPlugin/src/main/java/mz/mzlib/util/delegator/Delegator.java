@@ -3,10 +3,7 @@ package mz.mzlib.util.delegator;
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.lang.invoke.CallSite;
-import java.lang.invoke.ConstantCallSite;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 
 @DelegatorClass(Object.class)
 public interface Delegator
@@ -18,6 +15,10 @@ public interface Delegator
 		this.setDelegate(delegator.getDelegate());
 	}
 	
+	/**
+	 * @deprecated slow
+	 */
+	@Deprecated
 	static <T extends Delegator> T create(Class<T> type,Object delegate)
 	{
 		try
@@ -29,13 +30,21 @@ public interface Delegator
 			throw RuntimeUtil.sneakilyThrow(e);
 		}
 	}
-	static CallSite getConstructorCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<? extends Delegator> type)
-	{
-		return new ConstantCallSite(DelegatorClassInfo.get(type).getConstructor().asType(invokedType));
-	}
+	/**
+	 * @deprecated slow
+	 */
+	@Deprecated
 	static <T extends Delegator> T createStatic(Class<T> type)
 	{
 		return create(type,null);
+	}
+	static MethodHandle getConstructorMethodHandle(Class<? extends Delegator> type)
+	{
+		return DelegatorClassInfo.get(type).getConstructor().asType(MethodType.methodType(type,Object.class));
+	}
+	static CallSite getConstructorCallSite(MethodHandles.Lookup caller,String invokedName,MethodType invokedType,Class<? extends Delegator> type)
+	{
+		return new ConstantCallSite(DelegatorClassInfo.get(type).getConstructor().asType(invokedType));
 	}
 	static Class<?> getDelegateClass(Class<? extends Delegator> type)
 	{

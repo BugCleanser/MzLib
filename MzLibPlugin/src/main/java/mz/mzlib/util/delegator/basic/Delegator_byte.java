@@ -3,9 +3,9 @@ package mz.mzlib.util.delegator.basic;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 
-@DelegatorClass(boolean.class)
-public interface BooleanDelegator extends Delegator
+@DelegatorClass(byte.class)
+public interface Delegator_byte extends Delegator
 {
 	@Override
-	Boolean getDelegate();
+	Byte getDelegate();
 }

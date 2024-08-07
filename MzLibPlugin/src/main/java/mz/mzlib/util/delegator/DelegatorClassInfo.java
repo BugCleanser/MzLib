@@ -1,9 +1,7 @@
 package mz.mzlib.util.delegator;
 
-import mz.mzlib.asm.ClassWriter;
-import mz.mzlib.asm.Handle;
-import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
+import mz.mzlib.asm.*;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
@@ -66,7 +64,7 @@ public class DelegatorClassInfo
 		if(this.delegateClass==null)
 			throw new IllegalStateException("Multi delegate class: "+this.delegatorClass);
 		for(Method i:this.delegatorClass.getDeclaredMethods())
-			if(Modifier.isAbstract(i.getModifiers()))
+			if(Modifier.isAbstract(i.getModifiers())&&ElementSwitcher.isEnabled(i))
 			{
 				Class<?> returnType=i.getReturnType();
 				if(Delegator.class.isAssignableFrom(returnType))
@@ -95,7 +93,7 @@ public class DelegatorClassInfo
 				}
 			}
 		for(Method i:this.getDelegatorClass().getMethods())
-			if(Modifier.isAbstract(i.getModifiers())&&i.getDeclaringClass()!=this.getDelegatorClass()&&Delegator.class.isAssignableFrom(i.getDeclaringClass()))
+			if(Modifier.isAbstract(i.getModifiers())&&ElementSwitcher.isEnabled(i)&&i.getDeclaringClass()!=this.getDelegatorClass()&&Delegator.class.isAssignableFrom(i.getDeclaringClass()))
 			{
 				Member tar=DelegatorClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).delegations.get(i);
 				if(tar!=null&&!(tar instanceof Constructor))
@@ -109,14 +107,15 @@ public class DelegatorClassInfo
 		{
 			DelegatorClassInfo re=new DelegatorClassInfo(clazz);
 			cache.put(clazz,new WeakRef<>(re));
-			try
-			{
-				re.analyse();
-			}
-			catch(Throwable e)
-			{
-				throw RuntimeUtil.sneakilyThrow(e);
-			}
+			if(ElementSwitcher.isEnabled(clazz))
+				try
+				{
+					re.analyse();
+				}
+				catch(Throwable e)
+				{
+					throw RuntimeUtil.sneakilyThrow(e);
+				}
 			ClassUtil.makeReference(clazz.getClassLoader(),re);
 			return new WeakRef<>(re);
 		}).get();
@@ -156,7 +155,7 @@ public class DelegatorClassInfo
 			cn.methods.add(mn);
 			for(Method m:getDelegatorClass().getMethods())
 			{
-				if(!m.getName().equals("getDelegate") || m.getParameterCount()!=0 || Modifier.isStatic(m.getModifiers()))
+				if(!m.getName().equals("getDelegate") || m.getParameterCount()!=0 || Modifier.isStatic(m.getModifiers()) || !ElementSwitcher.isEnabled(m))
 					continue;
 				mn=new MethodNode(Opcodes.ACC_PUBLIC,m.getName(),AsmUtil.getDesc(m),null,new String[0]);
 				mn.instructions.add(AsmUtil.insnVarLoad(Delegator.class,0));
@@ -355,6 +354,24 @@ public class DelegatorClassInfo
 			cn.accept(cw);
 			Class<?> c=ClassUtil.defineClass(new SimpleClassLoader(this.delegatorClass.getClassLoader()),cn.name,cw.toByteArray());
 			constructor=ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class,Object.class));
+			
+			cn=new ClassNode();
+			new ClassReader(ClassUtil.getByteCode(delegatorClass)).accept(cn,0);
+			for(Method m:delegatorClass.getDeclaredMethods())
+			{
+				if(!m.isAnnotationPresent(DelegatorCreator.class))
+					continue;
+				mn=AsmUtil.getMethodNode(cn,m.getName(),AsmUtil.getDesc(m));
+				mn.instructions=new InsnList();
+				mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
+				mn.instructions.add(AsmUtil.insnCreateDelegator(delegatorClass));
+				mn.instructions.add(AsmUtil.insnCast(m.getReturnType(),delegatorClass));
+				mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));
+				mn.visitEnd();
+			}
+			cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+			cn.accept(cw);
+			ClassUtil.defineClass(delegatorClass.getClassLoader(),cn.name,cw.toByteArray());
 		}
 		catch(Throwable e)
 		{

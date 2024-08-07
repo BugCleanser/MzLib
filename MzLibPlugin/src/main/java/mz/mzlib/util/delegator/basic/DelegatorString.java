@@ -4,7 +4,7 @@ import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
 
 @DelegatorClass(String.class)
-public interface StringDelegator extends Delegator
+public interface DelegatorString extends Delegator
 {
 	String getDelegate();
 }

@@ -27,11 +27,16 @@ public class ExampleDelegator
 	@DelegatorClass(Test.class)
 	public interface TestDelegator extends Delegator
 	{
+		@DelegatorCreator
+		static TestDelegator create(Object delegate)
+		{
+			return Delegator.create(TestDelegator.class,delegate);
+		}
 		@DelegatorConstructor
 		TestDelegator staticNewInstance();
 		static TestDelegator newInstance()
 		{
-			return Delegator.createStatic(TestDelegator.class).staticNewInstance();
+			return create(null).staticNewInstance();
 		}
 		
 		@DelegatorFieldAccessor("var")
@@ -50,7 +55,7 @@ public class ExampleDelegator
 		void staticM1();
 		static void m1()
 		{
-			Delegator.createStatic(TestDelegator.class).staticM1();
+			create(null).staticM1();
 		}
 	}
 	

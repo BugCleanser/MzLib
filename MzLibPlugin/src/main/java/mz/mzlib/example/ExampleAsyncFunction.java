@@ -43,8 +43,8 @@ public class ExampleAsyncFunction
 			public Void template()
 			{
 				List<String> l=Arrays.asList("a","b","c");
-				await((BasicAwait)null);
-				for(CharSequence i:l) System.out.println(i);
+				for(String i:l)
+					System.out.println(i);
 				return null;
 			}
 		}.start(runner).whenComplete((r,e)->

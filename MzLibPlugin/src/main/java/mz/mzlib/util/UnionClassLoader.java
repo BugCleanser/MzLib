@@ -1,8 +1,5 @@
 package mz.mzlib.util;
 
-import com.google.common.collect.Iterators;
-import mz.mzlib.util.delegator.Delegator;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,7 +23,7 @@ public class UnionClassLoader extends ClassLoader
 		{
 			try
 			{
-				ClassLoaderDelegator delegator=Delegator.create(ClassLoaderDelegator.class,member);
+				DelegatorClassLoader delegator=DelegatorClassLoader.create(member);
 				Class<?> result=delegator.findClass(name);
 				if(resolve)
 					delegator.resolveClass(result);

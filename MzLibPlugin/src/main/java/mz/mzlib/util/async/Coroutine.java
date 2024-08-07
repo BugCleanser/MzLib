@@ -139,7 +139,7 @@ public abstract class Coroutine
 			else if(insn instanceof MethodInsnNode)
 			{
 				MethodInsnNode in=(MethodInsnNode)insn;
-				if(Objects.equals(in.name,"await")&&(Objects.equals(in.owner,AsmUtil.getType(AsyncFunction.class))||Objects.equals(in.owner,AsmUtil.getType(function.getClass()))))
+				if((Objects.equals(in.name,"await")||Objects.equals(in.name,"await0"))&&(Objects.equals(in.owner,AsmUtil.getType(AsyncFunction.class))||Objects.equals(in.owner,AsmUtil.getType(function.getClass()))))
 				{
 					sn.max++;
 					mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class,0)); // this

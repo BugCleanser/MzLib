@@ -7,13 +7,20 @@ import mz.mzlib.mc.nbt.NBTCompound;
 import mz.mzlib.mc.nbt.NBTElement;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorConstructor;
+import mz.mzlib.util.delegator.DelegatorCreator;
 
 @DelegatorBukkitClass({@VersionName(end=1700,name="nms.NBTTagCompound"),@VersionName(begin=1700,name="net.minecraft.nbt.NBTTagCompound")})
 public interface NBTCompoundBukkit extends NBTCompound,NBTElementBukkit, Delegator
 {
+	@SuppressWarnings("deprecation")
+	@DelegatorCreator
+	static NBTCompoundBukkit create(Object delegate)
+	{
+		return Delegator.create(NBTCompoundBukkit.class,delegate);
+	}
 	static NBTCompoundBukkit newInstance()
 	{
-		return Delegator.createStatic(NBTCompoundBukkit.class).staticNewInstance();
+		return create(null).staticNewInstance();
 	}
 	@DelegatorConstructor
 	NBTCompoundBukkit staticNewInstance();

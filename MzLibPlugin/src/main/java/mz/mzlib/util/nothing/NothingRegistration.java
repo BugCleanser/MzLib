@@ -7,6 +7,7 @@ import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
@@ -111,9 +112,14 @@ public class NothingRegistration
 		PriorityQueue<MapEntry<Float,Runnable>> operations=new PriorityQueue<>(Map.Entry.comparingByKey());
 		for(Class<? extends Nothing> nothing:nothings)
 		{
+			if(!ElementSwitcher.isEnabled(nothing))
+				continue;
 			int nothingConstructor=callSites.size();
 			callSites.add(Delegator.getConstructorCallSite(Root.getTrusted(nothing),"create",MethodType.methodType(Object.class,Object.class),RuntimeUtil.cast(nothing)));
 			for(Method i: nothing.getDeclaredMethods())
+			{
+				if(!ElementSwitcher.isEnabled(i))
+					continue;
 				for(NothingInject ni: i.getDeclaredAnnotationsByType(NothingInject.class))
 				{
 					Executable m;
@@ -175,7 +181,7 @@ public class NothingRegistration
 									mn.instructions.insertBefore(raw[j+ni.length()],ln);
 									break;
 								default:
-									InsnList loadingVars=new InsnList(),afterCall=new InsnList(),afterPop=new InsnList();
+									InsnList loadingVars=new InsnList(), afterCall=new InsnList(), afterPop=new InsnList();
 									Class<?>[] paramTypes=i.getParameterTypes();
 									Class<?>[] argTypes=new Class[paramTypes.length];
 									Parameter[] ps=i.getParameters();
@@ -311,6 +317,7 @@ public class NothingRegistration
 							}
 					}));
 				}
+			}
 		}
 		while(!operations.isEmpty())
 			operations.poll().getValue().run();

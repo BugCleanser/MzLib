@@ -26,11 +26,11 @@ public @interface DelegatorArrayClass
 		public void extra(Annotation annotation,ClassNode cn)
 		{
 			Class<? extends Delegator> type=((DelegatorArrayClass)annotation).value();
-			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"staticNewInstance",AsmUtil.getDesc(ArrayDelegator.class,int.class),null,new String[0]);
+			MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC,"staticNewInstance",AsmUtil.getDesc(DelegatorArray.class,int.class),null,new String[0]);
 			mn.instructions.add(AsmUtil.insnVarLoad(int.class,1));
 			mn.instructions.add(AsmUtil.insnArray(Delegator.getDelegateClass(type)));
 			mn.instructions.add(AsmUtil.insnCreateDelegator(Type.getType(cn.name)));
-			mn.instructions.add(AsmUtil.insnReturn(ArrayDelegator.class));
+			mn.instructions.add(AsmUtil.insnReturn(DelegatorArray.class));
 			cn.methods.add(mn);
 			mn=new MethodNode(Opcodes.ACC_PUBLIC,"get",AsmUtil.getDesc(Object.class,int.class),null,new String[0]);
 			mn.instructions.add(AsmUtil.insnVarLoad(Object.class,0));
