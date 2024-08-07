@@ -68,11 +68,8 @@ public class ExampleDelegator
 		t=t.getThiz();
 		t.setVar(191981.0);
 		System.out.println(t.getVar());
-		t=((AbsDelegator)t).clone().cast(TestDelegator.class);
-		t.m();
 		TestDelegator.m1();
 		
-		t=Delegator.allocateInstance(TestDelegator.class);
 		System.out.println(t.getVar());
 	}
 }

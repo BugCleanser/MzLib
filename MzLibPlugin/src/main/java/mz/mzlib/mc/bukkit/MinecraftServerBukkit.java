@@ -13,7 +13,7 @@ public interface MinecraftServerBukkit extends MinecraftServer, Delegator
 {
 	static MinecraftServerBukkit getInstance()
 	{
-		return Delegator.create(ObcCraftServer.class,Bukkit.getServer()).getServer();
+		return ObcCraftServer.create(Bukkit.getServer()).getServer();
 	}
 	
 	@Override
