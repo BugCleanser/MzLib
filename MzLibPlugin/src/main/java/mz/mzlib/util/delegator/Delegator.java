@@ -10,6 +10,12 @@ import java.lang.invoke.MethodType;
 @DelegatorClass(Object.class)
 public interface Delegator
 {
+	@DelegatorCreator
+	static Delegator create(Object delegate)
+	{
+		return create(Delegator.class,delegate);
+	}
+	
 	Object getDelegate();
 	void setDelegate(Object delegate);
 	default void setDelegateFrom(Delegator delegator)
