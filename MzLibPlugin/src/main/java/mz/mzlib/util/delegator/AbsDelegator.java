@@ -43,8 +43,6 @@ public abstract class AbsDelegator implements Delegator
 	@SuppressWarnings("all")
 	public Delegator clone()
 	{
-		if(this.getDelegate()==null)
-			return Delegator.create(this.getClass(),null);
 		return clone0();
 	}
 }
