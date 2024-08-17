@@ -1,6 +1,6 @@
 package mz.mzlib.mc.delegator;
 
-import mz.mzlib.mc.MinecraftServer;
+import mz.mzlib.mc.MinecraftPlatform;
 import mz.mzlib.mc.VersionName;
 import mz.mzlib.util.delegator.DelegatorClassFinder;
 import mz.mzlib.util.delegator.DelegatorClassFinderClass;

@@ -1,8 +1,10 @@
 package mz.mzlib.mc.delegator;
 
-import mz.mzlib.mc.MinecraftServer;
+import mz.mzlib.mappings.MappingMethod;
+import mz.mzlib.mc.MinecraftPlatform;
 import mz.mzlib.mc.VersionName;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.delegator.DelegatorMemberFinder;
 import mz.mzlib.util.delegator.DelegatorMemberFinderClass;
 import mz.mzlib.util.delegator.DelegatorMethod;

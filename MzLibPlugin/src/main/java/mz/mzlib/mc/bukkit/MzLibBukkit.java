@@ -4,6 +4,7 @@ import mz.mzlib.mc.MzLibMinecraft;
 import mz.mzlib.mc.bukkit.item.ItemFactoryBukkit;
 import mz.mzlib.mc.bukkit.item.ItemStackFactoryBukkit;
 import mz.mzlib.module.MzModule;
+import org.bukkit.Bukkit;
 
 public class MzLibBukkit extends MzModule
 {

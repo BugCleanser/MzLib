@@ -2,6 +2,7 @@ package mz.mzlib.util.delegator.basic;
 
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorClass;
+import mz.mzlib.util.delegator.DelegatorCreator;
 
 @DelegatorClass(short.class)
 public interface Delegator_short extends Delegator

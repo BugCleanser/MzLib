@@ -1,9 +1,8 @@
 package mz.mzlib.mc.item;
 
-import mz.mzlib.mc.nbt.NBTCompound;
-import mz.mzlib.util.Instance;
-import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.mc.Identifier;
+import mz.mzlib.mc.nbt.NBTCompound;
+import mz.mzlib.util.delegator.Delegator;
 
 public interface ItemStack extends Delegator
 {

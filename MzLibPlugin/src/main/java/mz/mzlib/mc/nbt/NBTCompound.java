@@ -1,7 +1,13 @@
 package mz.mzlib.mc.nbt;
 
-import mz.mzlib.util.Instance;
+import mz.mzlib.mc.VersionName;
+import mz.mzlib.mc.bukkit.delegator.DelegatorOBCClass;
+import mz.mzlib.mc.delegator.DelegatorMinecraftMethod;
+import mz.mzlib.util.delegator.Delegator;
+import mz.mzlib.util.delegator.DelegatorConstructor;
+import mz.mzlib.util.delegator.DelegatorCreator;
 
+@DelegatorOBCClass({@VersionName(end = 1700, name = "nms.NBTTagCompound"), @VersionName(begin = 1700, name = "net.minecraft.nbt.NBTTagCompound")})
 public interface NBTCompound extends NBTElement
 {
     @SuppressWarnings("deprecation")

@@ -1,6 +1,11 @@
 name: MzLib
 version: ${version}
-authors: [ "Meng Zhao", "Lv Yitian" , "Yurinann"]
+authors:
+ - "Lv Yitian"
+ - "mz"
+ - "Yurinann"
+ - "泡泡🍥"
+ - "钟小白Core"
 main: mz.mzlib.mc.bukkit.MzLibBukkitPlugin
 loadbefore: [ QuickShop ]
 softdepend: [ PlugMan ]
