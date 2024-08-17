@@ -31,13 +31,14 @@ import java.util.Map;
  *
  * @author Eugene Kuleshov
  */
-public interface TextifierSupport {
+public interface TextifierSupport
+{
 
-  /**
-   * Generates a human readable representation of this attribute.
-   *
-   * @param outputBuilder where the human representation of this attribute must be appended.
-   * @param labelNames the human readable names of the labels.
-   */
-  void textify(StringBuilder outputBuilder, Map<Label, String> labelNames);
+    /**
+     * Generates a human readable representation of this attribute.
+     *
+     * @param outputBuilder where the human representation of this attribute must be appended.
+     * @param labelNames    the human readable names of the labels.
+     */
+    void textify(StringBuilder outputBuilder, Map<Label, String> labelNames);
 }

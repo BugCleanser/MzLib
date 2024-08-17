@@ -1,8 +1,7 @@
-<code_scheme name="Default" version="173">
+<code_scheme name="Default copy" version="173">
   <JavaCodeStyleSettings>
     <option name="SPACE_BEFORE_COLON_IN_FOREACH" value="false" />
-    <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="-1" />
-    <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="-1" />
+    <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="5" />
     <option name="RECORD_COMPONENTS_WRAP" value="0" />
   </JavaCodeStyleSettings>
   <codeStyleSettings language="JAVA">

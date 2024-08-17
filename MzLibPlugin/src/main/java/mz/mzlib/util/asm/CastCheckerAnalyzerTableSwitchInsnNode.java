@@ -11,18 +11,18 @@ import java.util.stream.Stream;
 
 public class CastCheckerAnalyzerTableSwitchInsnNode extends CastCheckerAnalyzer<TableSwitchInsnNode>
 {
-	public static CastCheckerAnalyzerTableSwitchInsnNode instance=new CastCheckerAnalyzerTableSwitchInsnNode();
-	
-	public Set<Integer> analyze(CastChecker analyzer,int index,TableSwitchInsnNode insn,Stack<CastChecker.OperandVisitor> context)
-	{
-		switch(insn.getOpcode())
-		{
-			case Opcodes.TABLESWITCH:
-				context.pop();
-				break;
-			default:
-				throw new UnsupportedOperationException();
-		}
-		return Stream.concat(insn.labels.stream(),Stream.of(insn.dflt)).map(LabelNode::getLabel).map(analyzer.labels::get).collect(Collectors.toSet());
-	}
+    public static CastCheckerAnalyzerTableSwitchInsnNode instance = new CastCheckerAnalyzerTableSwitchInsnNode();
+
+    public Set<Integer> analyze(CastChecker analyzer, int index, TableSwitchInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    {
+        switch (insn.getOpcode())
+        {
+            case Opcodes.TABLESWITCH:
+                context.pop();
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+        return Stream.concat(insn.labels.stream(), Stream.of(insn.dflt)).map(LabelNode::getLabel).map(analyzer.labels::get).collect(Collectors.toSet());
+    }
 }

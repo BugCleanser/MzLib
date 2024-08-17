@@ -12,27 +12,29 @@ import java.lang.annotation.*;
 @DelegatorClassFinderClass(DelegatorMinecraftClass.Finder.class)
 public @interface DelegatorMinecraftClass
 {
-	VersionName[] value();
-	
-	class Finder extends DelegatorClassFinder
-	{
-		@Override
-		public Class<?> find(ClassLoader classLoader,Annotation annotation) throws ClassNotFoundException
-		{
-			for(VersionName name:((DelegatorMinecraftClass)annotation).value())
-			{
-				if(MinecraftServer.instance.inVersion(name))
-				{
-					try
-					{
-						return Class.forName(name.name());
-					}
-					catch(ClassNotFoundException ignored)
-					{
-					}
-				}
-			}
-			throw new ClassNotFoundException("No class found: "+annotation);
-		}
-	}
+    VersionName[] value();
+
+    class Finder extends DelegatorClassFinder
+    {
+        @Override
+        public Class<?> find(ClassLoader classLoader, Annotation annotation) throws ClassNotFoundException
+        {
+            ClassNotFoundException lastException = null;
+            for (VersionName name : ((DelegatorMinecraftClass) annotation).value())
+            {
+                if (MinecraftPlatform.instance.inVersion(name))
+                {
+                    try
+                    {
+                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()));
+                    }
+                    catch (ClassNotFoundException e)
+                    {
+                        lastException = e;
+                    }
+                }
+            }
+            throw new ClassNotFoundException("No class found: " + annotation, lastException);
+        }
+    }
 }

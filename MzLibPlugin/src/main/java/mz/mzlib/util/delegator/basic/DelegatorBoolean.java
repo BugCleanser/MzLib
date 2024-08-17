@@ -7,9 +7,16 @@ import mz.mzlib.util.delegator.DelegatorFieldAccessor;
 @DelegatorClass(Double.class)
 public interface DelegatorBoolean extends Delegator
 {
-	@Override
-	Double getDelegate();
-	
-	@DelegatorFieldAccessor("value")
-	void setValue(double value);
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorBoolean create(Boolean delegate)
+    {
+        return Delegator.create(DelegatorBoolean.class, delegate);
+    }
+
+    @Override
+    Double getDelegate();
+
+    @DelegatorFieldAccessor("value")
+    void setValue(double value);
 }

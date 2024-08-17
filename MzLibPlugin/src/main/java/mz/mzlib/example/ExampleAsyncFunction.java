@@ -1,56 +1,53 @@
 package mz.mzlib.example;
 
-import mz.mzlib.module.MzModule;
+import mz.mzlib.mc.MinecraftMainThreadRunner;
+import mz.mzlib.mc.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
-import mz.mzlib.util.async.AsyncFunctionRunner;
-import mz.mzlib.util.async.BasicAwait;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Deprecated
 public class ExampleAsyncFunction
 {
-	public static void main(String[] args)
-	{
-		AsyncFunctionRunner runner=new AsyncFunctionRunner()
-		{
-			@Override
-			public void schedule(AsyncFunction<?> function)
-			{
-				function.run();
-			}
-			@Override
-			public void schedule(AsyncFunction<?> function,BasicAwait await)
-			{
-				if(await==null)
-					schedule(function);
-				throw new UnsupportedOperationException();
-			}
-		};
-		new AsyncFunction<Void>()
-		{
-			@Override
-			public MzModule getModule()
-			{
-				return null;
-			}
-			@Override
-			public void run()
-			{
-			}
-			@Override
-			public Void template()
-			{
-				List<String> l=Arrays.asList("a","b","c");
-				for(String i:l)
-					System.out.println(i);
-				return null;
-			}
-		}.start(runner).whenComplete((r,e)->
-		{
-			if(e!=null)
-				e.printStackTrace(System.err);
-		});
-	}
+    public static class Func1 extends AsyncFunction<Void>
+    {
+        @Override
+        public void run()
+        {
+        }
+
+        @Override
+        public Void template()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                System.out.println("Hello World");
+                await(new SleepTicks(20));
+            }
+            await(new SleepTicks(100));
+            System.out.println("Hello World");
+            return null;
+        }
+    }
+
+    public static class Func2 extends AsyncFunction<Void>
+    {
+        @Override
+        public void run()
+        {
+        }
+
+        @Override
+        public Void template()
+        {
+            System.out.println("Hello World");
+            await(new SleepTicks(100));
+            await0(this.launch(new Func1()));
+            System.out.println("Hello World");
+            return null;
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        new Func1().start(MinecraftMainThreadRunner.instance);
+    }
 }

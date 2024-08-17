@@ -39,87 +39,100 @@ import java.util.Map;
  *
  * @author Eric Bruneton
  */
-public class MethodInsnNode extends AbstractInsnNode {
+public class MethodInsnNode extends AbstractInsnNode
+{
 
-  /**
-   * The internal name of the method's owner class (see {@link
-   * Type#getInternalName()}).
-   *
-   * <p>For methods of arrays, e.g., {@code clone()}, the array type descriptor.
-   */
-  public String owner;
+    /**
+     * The internal name of the method's owner class (see {@link
+     * Type#getInternalName()}).
+     *
+     * <p>For methods of arrays, e.g., {@code clone()}, the array type descriptor.
+     */
+    public String owner;
 
-  /** The method's name. */
-  public String name;
+    /**
+     * The method's name.
+     */
+    public String name;
 
-  /** The method's descriptor (see {@link Type}). */
-  public String desc;
+    /**
+     * The method's descriptor (see {@link Type}).
+     */
+    public String desc;
 
-  /** Whether the method's owner class if an interface. */
-  public boolean itf;
+    /**
+     * Whether the method's owner class if an interface.
+     */
+    public boolean itf;
 
-  /**
-   * Constructs a new {@link MethodInsnNode}.
-   *
-   * @param opcode the opcode of the type instruction to be constructed. This opcode must be
-   *     INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or INVOKEINTERFACE.
-   * @param owner the internal name of the method's owner class (see {@link
-   *     Type#getInternalName()}).
-   * @param name the method's name.
-   * @param descriptor the method's descriptor (see {@link Type}).
-   */
-  public MethodInsnNode(
-      final int opcode, final String owner, final String name, final String descriptor) {
-    this(opcode, owner, name, descriptor, opcode == Opcodes.INVOKEINTERFACE);
-  }
+    /**
+     * Constructs a new {@link MethodInsnNode}.
+     *
+     * @param opcode     the opcode of the type instruction to be constructed. This opcode must be
+     *                   INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or INVOKEINTERFACE.
+     * @param owner      the internal name of the method's owner class (see {@link
+     *                   Type#getInternalName()}).
+     * @param name       the method's name.
+     * @param descriptor the method's descriptor (see {@link Type}).
+     */
+    public MethodInsnNode(
+            final int opcode, final String owner, final String name, final String descriptor)
+    {
+        this(opcode, owner, name, descriptor, opcode == Opcodes.INVOKEINTERFACE);
+    }
 
-  /**
-   * Constructs a new {@link MethodInsnNode}.
-   *
-   * @param opcode the opcode of the type instruction to be constructed. This opcode must be
-   *     INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or INVOKEINTERFACE.
-   * @param owner the internal name of the method's owner class (see {@link
-   *     Type#getInternalName()}).
-   * @param name the method's name.
-   * @param descriptor the method's descriptor (see {@link Type}).
-   * @param isInterface if the method's owner class is an interface.
-   */
-  public MethodInsnNode(
-      final int opcode,
-      final String owner,
-      final String name,
-      final String descriptor,
-      final boolean isInterface) {
-    super(opcode);
-    this.owner = owner;
-    this.name = name;
-    this.desc = descriptor;
-    this.itf = isInterface;
-  }
+    /**
+     * Constructs a new {@link MethodInsnNode}.
+     *
+     * @param opcode      the opcode of the type instruction to be constructed. This opcode must be
+     *                    INVOKEVIRTUAL, INVOKESPECIAL, INVOKESTATIC or INVOKEINTERFACE.
+     * @param owner       the internal name of the method's owner class (see {@link
+     *                    Type#getInternalName()}).
+     * @param name        the method's name.
+     * @param descriptor  the method's descriptor (see {@link Type}).
+     * @param isInterface if the method's owner class is an interface.
+     */
+    public MethodInsnNode(
+            final int opcode,
+            final String owner,
+            final String name,
+            final String descriptor,
+            final boolean isInterface)
+    {
+        super(opcode);
+        this.owner = owner;
+        this.name = name;
+        this.desc = descriptor;
+        this.itf = isInterface;
+    }
 
-  /**
-   * Sets the opcode of this instruction.
-   *
-   * @param opcode the new instruction opcode. This opcode must be INVOKEVIRTUAL, INVOKESPECIAL,
-   *     INVOKESTATIC or INVOKEINTERFACE.
-   */
-  public void setOpcode(final int opcode) {
-    this.opcode = opcode;
-  }
+    /**
+     * Sets the opcode of this instruction.
+     *
+     * @param opcode the new instruction opcode. This opcode must be INVOKEVIRTUAL, INVOKESPECIAL,
+     *               INVOKESTATIC or INVOKEINTERFACE.
+     */
+    public void setOpcode(final int opcode)
+    {
+        this.opcode = opcode;
+    }
 
-  @Override
-  public int getType() {
-    return METHOD_INSN;
-  }
+    @Override
+    public int getType()
+    {
+        return METHOD_INSN;
+    }
 
-  @Override
-  public void accept(final MethodVisitor methodVisitor) {
-    methodVisitor.visitMethodInsn(opcode, owner, name, desc, itf);
-    acceptAnnotations(methodVisitor);
-  }
+    @Override
+    public void accept(final MethodVisitor methodVisitor)
+    {
+        methodVisitor.visitMethodInsn(opcode, owner, name, desc, itf);
+        acceptAnnotations(methodVisitor);
+    }
 
-  @Override
-  public AbstractInsnNode clone(final Map<LabelNode, LabelNode> clonedLabels) {
-    return new MethodInsnNode(opcode, owner, name, desc, itf).cloneAnnotations(this);
-  }
+    @Override
+    public AbstractInsnNode clone(final Map<LabelNode, LabelNode> clonedLabels)
+    {
+        return new MethodInsnNode(opcode, owner, name, desc, itf).cloneAnnotations(this);
+    }
 }

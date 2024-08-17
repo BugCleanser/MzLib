@@ -6,6 +6,13 @@ import mz.mzlib.util.delegator.DelegatorClass;
 @DelegatorClass(Void.class)
 public interface DelegatorVoid extends Delegator
 {
-	@Override
-	Void getDelegate();
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorString create(String delegate)
+    {
+        return Delegator.create(DelegatorString.class, delegate);
+    }
+
+    @Override
+    Void getDelegate();
 }

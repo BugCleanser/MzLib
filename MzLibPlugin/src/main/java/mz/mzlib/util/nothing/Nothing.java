@@ -4,8 +4,8 @@ import mz.mzlib.util.delegator.Delegator;
 
 public interface Nothing
 {
-	static <T extends Delegator> T notReturn()
-	{
-		return null;
-	}
+    static <T extends Delegator> T notReturn()
+    {
+        return null;
+    }
 }

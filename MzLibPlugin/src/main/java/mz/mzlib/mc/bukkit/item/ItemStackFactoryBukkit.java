@@ -4,5 +4,5 @@ import mz.mzlib.mc.item.ItemStackFactory;
 
 public class ItemStackFactoryBukkit implements ItemStackFactory
 {
-	public static ItemStackFactoryBukkit instance=new ItemStackFactoryBukkit();
+    public static ItemStackFactoryBukkit instance = new ItemStackFactoryBukkit();
 }

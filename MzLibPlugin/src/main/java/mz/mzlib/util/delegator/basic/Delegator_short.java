@@ -6,6 +6,13 @@ import mz.mzlib.util.delegator.DelegatorClass;
 @DelegatorClass(short.class)
 public interface Delegator_short extends Delegator
 {
-	@Override
-	Short getDelegate();
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static Delegator_short create(Short delegate)
+    {
+        return Delegator.create(Delegator_short.class, delegate);
+    }
+
+    @Override
+    Short getDelegate();
 }

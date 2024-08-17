@@ -1,0 +1,245 @@
+package mz.mzlib.mappings;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.eclipse.sisu.Nullable;
+
+import java.io.File;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+/**
+ * get: https://hub.spigotmc.org/versions/%version%.json
+ * commit: parseJson -> refs -> BuildData
+ * <p>
+ * get https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/info.json?at=%commit%
+ * parseJson ->
+ * accessTransformName: fileName
+ * classMappingsName: fileName
+ * memberMappingsName: fileName
+ * <p>
+ * accessTransform: get: https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/mappings/%accessTransformName%?at=%commit%
+ * classMappings: get: https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/mappings/%classMappingsName%?at=%commit%
+ * memberMappings: get: https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/mappings/%memberMappingsName%?at=%commit%
+ */
+public class SpigotMappingsFetcher extends MappingFetcher<SpigotMappings>
+{
+    private final String baseUrl = "https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/";
+
+    @Override
+    public Map<String, String> getFileNames()
+    {
+        return new HashMap<String, String>()
+        {
+            {
+                put("accessTransforms", "accessTransforms.at");
+                put("classMappings", "classMappings.csrg");
+                put("memberMappings", "memberMappings.csrg");
+            }
+        };
+    }
+
+    public SpigotMappingsFetcher(String version, File cacheDir)
+    {
+        super(version, cacheDir);
+    }
+
+    @Override
+    public CompletableFuture<Optional<byte[]>> fetchChildren(String name) // netname
+    {
+        return getRefs().thenCompose(refs -> Util.request(baseUrl + "info.json" + "?at=" + refs)
+                .thenApply(str -> (JsonObject) JsonParser.parseString(str))
+                .thenCompose(json -> fetchMappings(refs, json, name)));
+    }
+
+    @Override
+    public CompletableFuture<SpigotMappings> compose(Map<String, CompletableFuture<byte[]>> data)
+    {
+        return data.get("classMappings").thenApply(classMappings -> Util.runCatching(() ->
+                new SpigotMappings(new String(data.get("accessTransforms").get(), StandardCharsets.UTF_8),
+                new String(classMappings, StandardCharsets.UTF_8),
+                Optional.ofNullable(data.get("memberMappings")).map(it -> Util.runCatching(() -> new String(it.get(), StandardCharsets.UTF_8))))));
+
+    }
+
+    private CompletableFuture<String> getRefs()
+    {
+        return Util.request("https://hub.spigotmc.org/versions/" + version + ".json").thenApply(body -> {
+            JsonObject json = (JsonObject) JsonParser.parseString(body);
+            return Objects.requireNonNull(json).getAsJsonObject("refs").get("BuildData").getAsString();
+        });
+    }
+
+//    @Override
+//    public CompletableFuture<SpigotMappings> fetch()
+//    {
+//        URL url = Util.url("https://hub.spigotmc.org/versions/" + version + ".json");
+//        return Util.request(url).thenApply(this::getRefs)
+//                .thenCompose(this::getMappings);
+//    }
+//
+//    public CompletableFuture<String> getManifest()
+//    {
+//        return Util.request("https://hub.spigotmc.org/versions/" + version + ".json")
+//    }
+//
+//    public String getRefs(String body)
+//    {
+//        JsonObject json = (JsonObject) JsonParser.parseString(body);
+//        return Objects.requireNonNull(json).getAsJsonObject("refs").get("BuildData").getAsString();
+//    }
+//
+
+    /**
+     * CF<@Nullable byte[]>
+     */
+    public CompletableFuture<Optional<byte[]>> fetchMappings(String refs, JsonObject json, String netName)
+    {
+        if (json.has(netName))
+        {
+            return Util.request0(baseUrl + json.get(netName).getAsString() + "?at=" + refs)
+                    .thenApply(Optional::ofNullable);
+        }
+        else
+        {
+            return CompletableFuture.completedFuture(Optional.empty());
+        }
+    }
+
+//    public CompletableFuture<SpigotMappings> fetchMappings(String refs, JsonObject json, String name)
+//    {
+//        URL urlTransforms = Util.url(baseUrl + "mappings/" + json.get("accessTransforms").getAsString() + "?at=" + refs);
+//        URL urlClasses = Util.url(baseUrl + "mappings/" + json.get("classMappings").getAsString() + "?at=" + refs);
+//
+//        Optional<URL> urlMembers = Optional.ofNullable(json.get("memberMappings")).map(it ->
+//                Util.url(baseUrl + "mappings/" + json.get("memberMappings").getAsString() + "?at=" + refs));
+//
+//        CompletableFuture<String> responseTransform = Util.cache(new File(cacheFolder, version + "SpigotUrlTrabsforms"), () -> Util.request(urlTransforms));
+//        CompletableFuture<String> responseClass = Util.request(urlClasses);
+//        Optional<CompletableFuture<String>> responseMember = urlMembers.map(Util::request);
+//
+//        return responseTransform.thenApply(transform -> Util.runCatching(() ->
+//                new SpigotMappings(
+//                        transform,
+//                        responseClass.get(),
+//                        responseMember.map(it -> Util.runCatching(() -> it.get())))));
+//    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+package mz.mzlib.mappings;
+
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+public abstract class MappingFetcher<T>
+{
+    public String version;
+    public File cacheFolder;
+
+    public MappingFetcher(String version, File cacheFolder)
+    {
+        this.version = version;
+        this.cacheFolder = cacheFolder;
+    }
+
+    public final CompletableFuture<T> loadOrFetch() throws IOException
+    {
+
+        Map<String, Boolean> resolveResult = resolveCache();
+
+        HashMap<String, CompletableFuture<Optional<byte[]>>> result = new HashMap<>();
+
+        for (Map.Entry<String, Boolean> file : resolveResult.entrySet())
+        {
+            if (file.getValue())
+            {
+                result.put(file.getKey(), loadFromFile(file.getKey()));
+            }
+            else
+            {
+                CompletableFuture<Optional<byte[]>> cf = fetchChildren(getFileNames().get(file.getKey())); // also get net name
+                cf.thenAccept(data -> data.ifPresent(it -> saveToFile(file.getKey(), it)));
+
+                result.put(file.getKey(), cf);
+            }
+        }
+
+        return compose(result);
+    }
+
+    protected final CompletableFuture<byte[]>  loadFromFile(String fileName)
+    {
+
+        return CompletableFuture.supplyAsync(() -> Util.runCatching(() ->
+                Files.readAllBytes(cacheFolder.toPath().resolve(fileName))));
+    }
+
+    @NotNull
+    @Contract("_, _ -> new")
+    protected final CompletableFuture<Void> saveToFile(String fileName, byte[] data)
+    {
+        return CompletableFuture.supplyAsync(() ->
+        {
+            try (FileOutputStream fos = new FileOutputStream(new File(cacheFolder, fileName)))
+            {
+                fos.write(data);
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e);
+            }
+
+            return null;
+        });
+    }
+
+    public final Map<String, Boolean> resolveCache()
+    {
+
+        Map<String, Boolean> result = new HashMap<>();
+
+        for (String fileName : getFileNames().keySet())
+        {
+            result.put(fileName, new File(cacheFolder, fileName).exists());
+        }
+
+        return result;
+    }
+
+    public final CompletableFuture<Void> save(T data)
+    {
+        return decompose(data).thenAccept(it -> it.forEach(this::saveToFile));
+    }
+
+    public abstract Map<String, String> getFileNames();
+    public abstract CompletableFuture<T> compose(Map<String, CompletableFuture<byte[]>> data);
+    public abstract CompletableFuture<Map<String, byte[]>> decompose(T data);
+    public abstract CompletableFuture<Optional<byte[]>> fetchChildren(String name) throws IOException;
+}
+
+//////////////////////////////////////////////////////
+public static a(String a) {
+    switch (a) {
+        case "aa":
+
+    }
+}

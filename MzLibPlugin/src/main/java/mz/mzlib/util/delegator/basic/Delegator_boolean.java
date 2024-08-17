@@ -6,6 +6,13 @@ import mz.mzlib.util.delegator.DelegatorClass;
 @DelegatorClass(boolean.class)
 public interface Delegator_boolean extends Delegator
 {
-	@Override
-	Boolean getDelegate();
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static Delegator_boolean create(Boolean delegate)
+    {
+        return Delegator.create(Delegator_boolean.class, delegate);
+    }
+
+    @Override
+    Boolean getDelegate();
 }

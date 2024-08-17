@@ -16,34 +16,37 @@ import java.util.Arrays;
 @DelegatorMemberFinderClass(DelegatorMinecraftMethod.Finder.class)
 public @interface DelegatorMinecraftMethod
 {
-	VersionName[] value();
-	
-	class Finder extends DelegatorMemberFinder
-	{
-		@Override
-		public Member find(Class<?> delegateClass,Annotation annotation,Class<?> returnType,Class<?>[] argTypes) throws NoSuchMethodException
-		{
-			String[] names=Arrays.stream(((DelegatorMinecraftMethod)annotation).value()).filter(MinecraftServer.instance::inVersion).map(VersionName::name).toArray(String[]::new);
-			try
-			{
-				return DelegatorMethod.Finder.class.newInstance().find(delegateClass,new DelegatorMethod()
-				{
-					@Override
-					public Class<DelegatorMethod> annotationType()
-					{
-						return DelegatorMethod.class;
-					}
-					@Override
-					public String[] value()
-					{
-						return names;
-					}
-				},returnType,argTypes);
-			}
-			catch(InstantiationException|IllegalAccessException e)
-			{
-				throw RuntimeUtil.sneakilyThrow(e);
-			}
-		}
-	}
+    VersionName[] value();
+
+    class Finder extends DelegatorMemberFinder
+    {
+        @Override
+        public Member find(Class<?> delegateClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        {
+            String[] names = Arrays.stream(((DelegatorMinecraftMethod) annotation).value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name ->
+                    MinecraftPlatform.instance.getMappingsY2P().mapMethod(MinecraftPlatform.instance.getMappingsP2Y().mapClass(delegateClass.getName()), new MappingMethod(name, Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappingsP2Y()::mapClass).toArray(String[]::new)))).toArray(String[]::new);
+            try
+            {
+                return DelegatorMethod.Finder.class.newInstance().find(delegateClass, new DelegatorMethod()
+                {
+                    @Override
+                    public Class<DelegatorMethod> annotationType()
+                    {
+                        return DelegatorMethod.class;
+                    }
+
+                    @Override
+                    public String[] value()
+                    {
+                        return names;
+                    }
+                }, returnType, argTypes);
+            }
+            catch (InstantiationException |
+                   IllegalAccessException e)
+            {
+                throw RuntimeUtil.sneakilyThrow(e);
+            }
+        }
+    }
 }

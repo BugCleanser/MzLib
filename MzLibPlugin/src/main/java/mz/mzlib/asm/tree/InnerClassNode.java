@@ -39,54 +39,59 @@ import mz.mzlib.asm.Type;
  *
  * @author Eric Bruneton
  */
-public class InnerClassNode {
+public class InnerClassNode
+{
 
-  /** The internal name of an inner class (see {@link Type#getInternalName()}). */
-  public String name;
+    /**
+     * The internal name of an inner class (see {@link Type#getInternalName()}).
+     */
+    public String name;
 
-  /**
-   * The internal name of the class to which the inner class belongs (see {@link
-   * Type#getInternalName()}). May be {@literal null}.
-   */
-  public String outerName;
+    /**
+     * The internal name of the class to which the inner class belongs (see {@link
+     * Type#getInternalName()}). May be {@literal null}.
+     */
+    public String outerName;
 
-  /**
-   * The (simple) name of the inner class inside its enclosing class. Must be {@literal null} if the
-   * inner class is not the member of a class or interface (e.g. for local or anonymous classes).
-   */
-  public String innerName;
+    /**
+     * The (simple) name of the inner class inside its enclosing class. Must be {@literal null} if the
+     * inner class is not the member of a class or interface (e.g. for local or anonymous classes).
+     */
+    public String innerName;
 
-  /**
-   * The access flags of the inner class as originally declared in the source code from which the
-   * class was compiled.
-   */
-  public int access;
+    /**
+     * The access flags of the inner class as originally declared in the source code from which the
+     * class was compiled.
+     */
+    public int access;
 
-  /**
-   * Constructs a new {@link InnerClassNode} for an inner class C.
-   *
-   * @param name the internal name of C (see {@link Type#getInternalName()}).
-   * @param outerName the internal name of the class or interface C is a member of (see {@link
-   *     Type#getInternalName()}). Must be {@literal null} if C is not the member
-   *     of a class or interface (e.g. for local or anonymous classes).
-   * @param innerName the (simple) name of C. Must be {@literal null} for anonymous inner classes.
-   * @param access the access flags of C originally declared in the source code from which this
-   *     class was compiled.
-   */
-  public InnerClassNode(
-      final String name, final String outerName, final String innerName, final int access) {
-    this.name = name;
-    this.outerName = outerName;
-    this.innerName = innerName;
-    this.access = access;
-  }
+    /**
+     * Constructs a new {@link InnerClassNode} for an inner class C.
+     *
+     * @param name      the internal name of C (see {@link Type#getInternalName()}).
+     * @param outerName the internal name of the class or interface C is a member of (see {@link
+     *                  Type#getInternalName()}). Must be {@literal null} if C is not the member
+     *                  of a class or interface (e.g. for local or anonymous classes).
+     * @param innerName the (simple) name of C. Must be {@literal null} for anonymous inner classes.
+     * @param access    the access flags of C originally declared in the source code from which this
+     *                  class was compiled.
+     */
+    public InnerClassNode(
+            final String name, final String outerName, final String innerName, final int access)
+    {
+        this.name = name;
+        this.outerName = outerName;
+        this.innerName = innerName;
+        this.access = access;
+    }
 
-  /**
-   * Makes the given class visitor visit this inner class.
-   *
-   * @param classVisitor a class visitor.
-   */
-  public void accept(final ClassVisitor classVisitor) {
-    classVisitor.visitInnerClass(name, outerName, innerName, access);
-  }
+    /**
+     * Makes the given class visitor visit this inner class.
+     *
+     * @param classVisitor a class visitor.
+     */
+    public void accept(final ClassVisitor classVisitor)
+    {
+        classVisitor.visitInnerClass(name, outerName, innerName, access);
+    }
 }

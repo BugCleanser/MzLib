@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface CustomVar
 {
-	String value();
+    String value();
 }

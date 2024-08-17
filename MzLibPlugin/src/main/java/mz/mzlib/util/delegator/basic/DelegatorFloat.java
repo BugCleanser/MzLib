@@ -7,9 +7,16 @@ import mz.mzlib.util.delegator.DelegatorFieldAccessor;
 @DelegatorClass(Float.class)
 public interface DelegatorFloat extends Delegator
 {
-	@Override
-	Float getDelegate();
-	
-	@DelegatorFieldAccessor("value")
-	void setValue(float value);
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorFloat create(Float delegate)
+    {
+        return Delegator.create(DelegatorFloat.class, delegate);
+    }
+
+    @Override
+    Float getDelegate();
+
+    @DelegatorFieldAccessor("value")
+    void setValue(float value);
 }

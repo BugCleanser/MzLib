@@ -7,9 +7,16 @@ import mz.mzlib.util.delegator.DelegatorFieldAccessor;
 @DelegatorClass(Byte.class)
 public interface DelegatorByte extends Delegator
 {
-	@Override
-	Byte getDelegate();
-	
-	@DelegatorFieldAccessor("value")
-	void setValue(byte value);
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorByte create(Byte delegate)
+    {
+        return Delegator.create(DelegatorByte.class, delegate);
+    }
+
+    @Override
+    Byte getDelegate();
+
+    @DelegatorFieldAccessor("value")
+    void setValue(byte value);
 }

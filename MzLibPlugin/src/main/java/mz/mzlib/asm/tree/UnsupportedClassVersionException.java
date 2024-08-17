@@ -8,7 +8,8 @@ package mz.mzlib.asm.tree;
  *
  * @author Eric Bruneton
  */
-public class UnsupportedClassVersionException extends RuntimeException {
+public class UnsupportedClassVersionException extends RuntimeException
+{
 
-  private static final long serialVersionUID = -3502347765891805831L;
+    private static final long serialVersionUID = -3502347765891805831L;
 }

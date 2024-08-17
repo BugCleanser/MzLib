@@ -5,11 +5,5 @@ import mz.mzlib.util.RuntimeUtil;
 
 public interface MinecraftServer extends Instance
 {
-	MinecraftServer instance=RuntimeUtil.nul();
-	
-	int getVersion();
-	default boolean inVersion(VersionName name)
-	{
-		return getVersion()>=name.begin()&&getVersion()<name.end();
-	}
+    MinecraftServer instance = RuntimeUtil.nul();
 }

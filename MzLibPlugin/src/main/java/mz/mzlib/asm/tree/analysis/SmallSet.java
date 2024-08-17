@@ -35,160 +35,193 @@ import java.util.*;
  *
  * @author Eric Bruneton
  */
-final class SmallSet<T> extends AbstractSet<T> {
-
-  /** The first element of this set, maybe {@literal null}. */
-  private final T element1;
-
-  /**
-   * The second element of this set, maybe {@literal null}. If {@link #element1} is {@literal null}
-   * then this field must be {@literal null}, otherwise it must be different from {@link #element1}.
-   */
-  private final T element2;
-
-  // -----------------------------------------------------------------------------------------------
-  // Constructors
-  // -----------------------------------------------------------------------------------------------
-
-  /** Constructs an empty set. */
-  SmallSet() {
-    this.element1 = null;
-    this.element2 = null;
-  }
-
-  /**
-   * Constructs a set with exactly one element.
-   *
-   * @param element the unique set element.
-   */
-  SmallSet(final T element) {
-    this.element1 = element;
-    this.element2 = null;
-  }
-
-  /**
-   * Constructs a new {@link SmallSet}.
-   *
-   * @param element1 see {@link #element1}.
-   * @param element2 see {@link #element2}.
-   */
-  private SmallSet(final T element1, final T element2) {
-    this.element1 = element1;
-    this.element2 = element2;
-  }
-
-  // -----------------------------------------------------------------------------------------------
-  // Implementation of the inherited abstract methods
-  // -----------------------------------------------------------------------------------------------
-
-  @Override
-  public Iterator<T> iterator() {
-    return new IteratorImpl<>(element1, element2);
-  }
-
-  @Override
-  public int size() {
-    if (element1 == null) {
-      return 0;
-    } else if (element2 == null) {
-      return 1;
-    } else {
-      return 2;
-    }
-  }
-
-  // -----------------------------------------------------------------------------------------------
-  // Utility methods
-  // -----------------------------------------------------------------------------------------------
-
-  /**
-   * Returns the union of this set and of the given set.
-   *
-   * @param otherSet another small set.
-   * @return the union of this set and of otherSet.
-   */
-  Set<T> union(final SmallSet<T> otherSet) {
-    // If the two sets are equal, return this set.
-    if ((otherSet.element1 == element1 && otherSet.element2 == element2)
-        || (otherSet.element1 == element2 && otherSet.element2 == element1)) {
-      return this;
-    }
-    // If one set is empty, return the other.
-    if (otherSet.element1 == null) {
-      return this;
-    }
-    if (element1 == null) {
-      return otherSet;
-    }
-
-    // At this point we know that the two sets are non empty and are different.
-    // If otherSet contains exactly one element:
-    if (otherSet.element2 == null) {
-      // If this set also contains exactly one element, we have two distinct elements.
-      if (element2 == null) {
-        return new SmallSet<>(element1, otherSet.element1);
-      }
-      // If otherSet is included in this set, return this set.
-      if (otherSet.element1 == element1 || otherSet.element1 == element2) {
-        return this;
-      }
-    }
-    // If this set contains exactly one element, then otherSet contains two elements (because of the
-    // above tests). Thus, if otherSet contains this set, return otherSet:
-    if (element2 == null && (element1 == otherSet.element1 || element1 == otherSet.element2)) {
-      return otherSet;
-    }
-
-    // At this point we know that there are at least 3 distinct elements, so we need a generic set
-    // to store the result.
-    HashSet<T> result = new HashSet<>(4);
-    result.add(element1);
-    if (element2 != null) {
-      result.add(element2);
-    }
-    result.add(otherSet.element1);
-    if (otherSet.element2 != null) {
-      result.add(otherSet.element2);
-    }
-    return result;
-  }
-
-  static class IteratorImpl<T> implements Iterator<T> {
-
-    /** The next element to return in {@link #next}. Maybe {@literal null}. */
-    private T firstElement;
+final class SmallSet<T> extends AbstractSet<T>
+{
 
     /**
-     * The element to return in {@link #next}, after {@link #firstElement} is returned. If {@link
-     * #firstElement} is {@literal null} then this field must be {@literal null}, otherwise it must
-     * be different from {@link #firstElement}.
+     * The first element of this set, maybe {@literal null}.
      */
-    private T secondElement;
+    private final T element1;
 
-    IteratorImpl(final T firstElement, final T secondElement) {
-      this.firstElement = firstElement;
-      this.secondElement = secondElement;
+    /**
+     * The second element of this set, maybe {@literal null}. If {@link #element1} is {@literal null}
+     * then this field must be {@literal null}, otherwise it must be different from {@link #element1}.
+     */
+    private final T element2;
+
+    // -----------------------------------------------------------------------------------------------
+    // Constructors
+    // -----------------------------------------------------------------------------------------------
+
+    /**
+     * Constructs an empty set.
+     */
+    SmallSet()
+    {
+        this.element1 = null;
+        this.element2 = null;
+    }
+
+    /**
+     * Constructs a set with exactly one element.
+     *
+     * @param element the unique set element.
+     */
+    SmallSet(final T element)
+    {
+        this.element1 = element;
+        this.element2 = null;
+    }
+
+    /**
+     * Constructs a new {@link SmallSet}.
+     *
+     * @param element1 see {@link #element1}.
+     * @param element2 see {@link #element2}.
+     */
+    private SmallSet(final T element1, final T element2)
+    {
+        this.element1 = element1;
+        this.element2 = element2;
+    }
+
+    // -----------------------------------------------------------------------------------------------
+    // Implementation of the inherited abstract methods
+    // -----------------------------------------------------------------------------------------------
+
+    @Override
+    public Iterator<T> iterator()
+    {
+        return new IteratorImpl<>(element1, element2);
     }
 
     @Override
-    public boolean hasNext() {
-      return firstElement != null;
+    public int size()
+    {
+        if (element1 == null)
+        {
+            return 0;
+        }
+        else if (element2 == null)
+        {
+            return 1;
+        }
+        else
+        {
+            return 2;
+        }
     }
 
-    @Override
-    public T next() {
-      if (firstElement == null) {
-        throw new NoSuchElementException();
-      }
-      T element = firstElement;
-      firstElement = secondElement;
-      secondElement = null;
-      return element;
+    // -----------------------------------------------------------------------------------------------
+    // Utility methods
+    // -----------------------------------------------------------------------------------------------
+
+    /**
+     * Returns the union of this set and of the given set.
+     *
+     * @param otherSet another small set.
+     * @return the union of this set and of otherSet.
+     */
+    Set<T> union(final SmallSet<T> otherSet)
+    {
+        // If the two sets are equal, return this set.
+        if ((otherSet.element1 == element1 && otherSet.element2 == element2)
+                || (otherSet.element1 == element2 && otherSet.element2 == element1))
+        {
+            return this;
+        }
+        // If one set is empty, return the other.
+        if (otherSet.element1 == null)
+        {
+            return this;
+        }
+        if (element1 == null)
+        {
+            return otherSet;
+        }
+
+        // At this point we know that the two sets are non empty and are different.
+        // If otherSet contains exactly one element:
+        if (otherSet.element2 == null)
+        {
+            // If this set also contains exactly one element, we have two distinct elements.
+            if (element2 == null)
+            {
+                return new SmallSet<>(element1, otherSet.element1);
+            }
+            // If otherSet is included in this set, return this set.
+            if (otherSet.element1 == element1 || otherSet.element1 == element2)
+            {
+                return this;
+            }
+        }
+        // If this set contains exactly one element, then otherSet contains two elements (because of the
+        // above tests). Thus, if otherSet contains this set, return otherSet:
+        if (element2 == null && (element1 == otherSet.element1 || element1 == otherSet.element2))
+        {
+            return otherSet;
+        }
+
+        // At this point we know that there are at least 3 distinct elements, so we need a generic set
+        // to store the result.
+        HashSet<T> result = new HashSet<>(4);
+        result.add(element1);
+        if (element2 != null)
+        {
+            result.add(element2);
+        }
+        result.add(otherSet.element1);
+        if (otherSet.element2 != null)
+        {
+            result.add(otherSet.element2);
+        }
+        return result;
     }
 
-    @Override
-    public void remove() {
-      throw new UnsupportedOperationException();
+    static class IteratorImpl<T> implements Iterator<T>
+    {
+
+        /**
+         * The next element to return in {@link #next}. Maybe {@literal null}.
+         */
+        private T firstElement;
+
+        /**
+         * The element to return in {@link #next}, after {@link #firstElement} is returned. If {@link
+         * #firstElement} is {@literal null} then this field must be {@literal null}, otherwise it must
+         * be different from {@link #firstElement}.
+         */
+        private T secondElement;
+
+        IteratorImpl(final T firstElement, final T secondElement)
+        {
+            this.firstElement = firstElement;
+            this.secondElement = secondElement;
+        }
+
+        @Override
+        public boolean hasNext()
+        {
+            return firstElement != null;
+        }
+
+        @Override
+        public T next()
+        {
+            if (firstElement == null)
+            {
+                throw new NoSuchElementException();
+            }
+            T element = firstElement;
+            firstElement = secondElement;
+            secondElement = null;
+            return element;
+        }
+
+        @Override
+        public void remove()
+        {
+            throw new UnsupportedOperationException();
+        }
     }
-  }
 }

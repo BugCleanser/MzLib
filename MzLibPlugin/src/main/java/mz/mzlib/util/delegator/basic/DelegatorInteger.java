@@ -7,9 +7,16 @@ import mz.mzlib.util.delegator.DelegatorFieldAccessor;
 @DelegatorClass(Integer.class)
 public interface DelegatorInteger extends Delegator
 {
-	@Override
-	Integer getDelegate();
-	
-	@DelegatorFieldAccessor("value")
-	void setValue(int value);
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorInteger create(Integer delegate)
+    {
+        return Delegator.create(DelegatorInteger.class, delegate);
+    }
+
+    @Override
+    Integer getDelegate();
+
+    @DelegatorFieldAccessor("value")
+    void setValue(int value);
 }

@@ -6,7 +6,7 @@ import mz.mzlib.util.RuntimeUtil;
 
 public interface ItemFactory extends Instance
 {
-	ItemFactory instance=RuntimeUtil.nul();
-	
-	Item get(Identifier id);
+    ItemFactory instance = RuntimeUtil.nul();
+
+    Item get(Identifier id);
 }

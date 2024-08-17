@@ -38,39 +38,48 @@ import java.util.Map;
  *
  * @author Eric Bruneton
  */
-public class MultiANewArrayInsnNode extends AbstractInsnNode {
+public class MultiANewArrayInsnNode extends AbstractInsnNode
+{
 
-  /** An array type descriptor (see {@link Type}). */
-  public String desc;
+    /**
+     * An array type descriptor (see {@link Type}).
+     */
+    public String desc;
 
-  /** Number of dimensions of the array to allocate. */
-  public int dims;
+    /**
+     * Number of dimensions of the array to allocate.
+     */
+    public int dims;
 
-  /**
-   * Constructs a new {@link MultiANewArrayInsnNode}.
-   *
-   * @param descriptor an array type descriptor (see {@link Type}).
-   * @param numDimensions the number of dimensions of the array to allocate.
-   */
-  public MultiANewArrayInsnNode(final String descriptor, final int numDimensions) {
-    super(Opcodes.MULTIANEWARRAY);
-    this.desc = descriptor;
-    this.dims = numDimensions;
-  }
+    /**
+     * Constructs a new {@link MultiANewArrayInsnNode}.
+     *
+     * @param descriptor    an array type descriptor (see {@link Type}).
+     * @param numDimensions the number of dimensions of the array to allocate.
+     */
+    public MultiANewArrayInsnNode(final String descriptor, final int numDimensions)
+    {
+        super(Opcodes.MULTIANEWARRAY);
+        this.desc = descriptor;
+        this.dims = numDimensions;
+    }
 
-  @Override
-  public int getType() {
-    return MULTIANEWARRAY_INSN;
-  }
+    @Override
+    public int getType()
+    {
+        return MULTIANEWARRAY_INSN;
+    }
 
-  @Override
-  public void accept(final MethodVisitor methodVisitor) {
-    methodVisitor.visitMultiANewArrayInsn(desc, dims);
-    acceptAnnotations(methodVisitor);
-  }
+    @Override
+    public void accept(final MethodVisitor methodVisitor)
+    {
+        methodVisitor.visitMultiANewArrayInsn(desc, dims);
+        acceptAnnotations(methodVisitor);
+    }
 
-  @Override
-  public AbstractInsnNode clone(final Map<LabelNode, LabelNode> clonedLabels) {
-    return new MultiANewArrayInsnNode(desc, dims).cloneAnnotations(this);
-  }
+    @Override
+    public AbstractInsnNode clone(final Map<LabelNode, LabelNode> clonedLabels)
+    {
+        return new MultiANewArrayInsnNode(desc, dims).cloneAnnotations(this);
+    }
 }

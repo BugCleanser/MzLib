@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface ElementSwitcherClass
 {
-	Class<? extends ElementSwitcher> value();
+    Class<? extends ElementSwitcher> value();
 }

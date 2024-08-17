@@ -7,13 +7,13 @@ import java.lang.annotation.*;
 @DelegatorClassFinderClass(DelegatorClass.Finder.class)
 public @interface DelegatorClass
 {
-	Class<?> value();
-	
-	class Finder extends DelegatorClassFinder
-	{
-		public Class<?> find(ClassLoader classLoader,Annotation annotation)
-		{
-			return ((DelegatorClass)annotation).value();
-		}
-	}
+    Class<?> value();
+
+    class Finder extends DelegatorClassFinder
+    {
+        public Class<?> find(ClassLoader classLoader, Annotation annotation)
+        {
+            return ((DelegatorClass) annotation).value();
+        }
+    }
 }

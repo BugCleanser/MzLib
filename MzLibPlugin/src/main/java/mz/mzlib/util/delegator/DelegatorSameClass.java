@@ -7,14 +7,14 @@ import java.lang.annotation.*;
 @DelegatorClassFinderClass(DelegatorSameClass.Finder.class)
 public @interface DelegatorSameClass
 {
-	Class<? extends Delegator> value();
-	
-	class Finder extends DelegatorClassFinder
-	{
-		@Override
-		public Class<?> find(ClassLoader classLoader,Annotation annotation)
-		{
-			return DelegatorClassInfo.get(((DelegatorSameClass)annotation).value()).getDelegateClass();
-		}
-	}
+    Class<? extends Delegator> value();
+
+    class Finder extends DelegatorClassFinder
+    {
+        @Override
+        public Class<?> find(ClassLoader classLoader, Annotation annotation)
+        {
+            return DelegatorClassInfo.get(((DelegatorSameClass) annotation).value()).getDelegateClass();
+        }
+    }
 }

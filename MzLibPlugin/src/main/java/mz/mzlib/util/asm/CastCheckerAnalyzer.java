@@ -7,5 +7,5 @@ import java.util.Stack;
 
 public abstract class CastCheckerAnalyzer<T extends AbstractInsnNode>
 {
-	public abstract Set<Integer> analyze(CastChecker analyzer,int index,T insn,Stack<CastChecker.OperandVisitor> context);
+    public abstract Set<Integer> analyze(CastChecker analyzer, int index, T insn, Stack<CastChecker.OperandVisitor> context);
 }

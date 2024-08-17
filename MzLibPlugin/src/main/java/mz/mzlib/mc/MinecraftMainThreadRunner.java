@@ -6,5 +6,5 @@ import mz.mzlib.util.async.AsyncFunctionRunner;
 
 public interface MinecraftMainThreadRunner extends AsyncFunctionRunner, Instance
 {
-	MinecraftMainThreadRunner instance=RuntimeUtil.nul();
+    MinecraftMainThreadRunner instance = RuntimeUtil.nul();
 }

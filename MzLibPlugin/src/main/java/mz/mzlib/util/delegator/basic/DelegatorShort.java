@@ -7,9 +7,16 @@ import mz.mzlib.util.delegator.DelegatorFieldAccessor;
 @DelegatorClass(Short.class)
 public interface DelegatorShort extends Delegator
 {
-	@Override
-	Short getDelegate();
-	
-	@DelegatorFieldAccessor("value")
-	void setValue(short value);
+    @SuppressWarnings("deprecation")
+    @DelegatorCreator
+    static DelegatorShort create(Short delegate)
+    {
+        return Delegator.create(DelegatorShort.class, delegate);
+    }
+
+    @Override
+    Short getDelegate();
+
+    @DelegatorFieldAccessor("value")
+    void setValue(short value);
 }

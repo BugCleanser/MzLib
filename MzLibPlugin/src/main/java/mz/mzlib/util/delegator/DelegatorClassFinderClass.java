@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface DelegatorClassFinderClass
 {
-	Class<? extends DelegatorClassFinder> value();
+    Class<? extends DelegatorClassFinder> value();
 }
