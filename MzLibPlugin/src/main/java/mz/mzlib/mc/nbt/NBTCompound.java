@@ -1,13 +1,13 @@
 package mz.mzlib.mc.nbt;
 
 import mz.mzlib.mc.VersionName;
-import mz.mzlib.mc.bukkit.delegator.DelegatorOBCClass;
+import mz.mzlib.mc.delegator.DelegatorMinecraftClass;
 import mz.mzlib.mc.delegator.DelegatorMinecraftMethod;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorConstructor;
 import mz.mzlib.util.delegator.DelegatorCreator;
 
-@DelegatorOBCClass({@VersionName(end = 1700, name = "nms.NBTTagCompound"), @VersionName(begin = 1700, name = "net.minecraft.nbt.NBTTagCompound")})
+@DelegatorMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtCompound"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.CompoundTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtCompound")})
 public interface NBTCompound extends NBTElement
 {
     @SuppressWarnings("deprecation")
@@ -17,128 +17,66 @@ public interface NBTCompound extends NBTElement
         return Delegator.create(NBTCompound.class, delegate);
     }
 
+    @DelegatorConstructor
+    NBTCompound staticNewInstance();
+
     static NBTCompound newInstance()
     {
         return create(null).staticNewInstance();
     }
 
-    @DelegatorConstructor
-    NBTCompound staticNewInstance();
-
-    @DelegatorMinecraftMethod({@VersionName(name = "get"), @VersionName(name = "@0")})
-    NBTElement get0(String name);
-
-    default NBTElement get(String name)
+    @DelegatorMinecraftMethod(@VersionName(name = "get"))
+    NBTElement get0(String key);
+    default NBTElement get(String key)
     {
-        return NBTElement.autoDelegator.cast(this.get0(name));
+        return NBTElement.autoDelegator.cast(this.get0(key));
     }
 
-    @DelegatorMinecraftMethod(@VersionName(name = "set"))
-    void set(String name, NBTElement value);
+    @DelegatorMinecraftMethod(@VersionName(name = "put"))
+    void put(String key, NBTElement value);
 
-    default NBTCompound getCompound(String name)
+    default NBTCompound getNBTCompound(String key)
     {
-        return (NBTCompound) this.get(name);
+        return NBTCompound.create(this.get0(key).getDelegate());
     }
-
-    default byte getByte(String name)
+    default byte getByte(String key)
     {
-        return ((NBTByte) this.get(name)).getValue();
+        return NBTByte.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default short getShort(String name)
+    default int getInt(String key)
     {
-        return ((NBTShort) this.get(name)).getValue();
+        return NBTInt.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default int getInt(String name)
+    default long getLong(String key)
     {
-        return ((NBTInt) this.get(name)).getValue();
+        return NBTLong.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default long getLong(String name)
+    default float getFloat(String key)
     {
-        return ((NBTLong) this.get(name)).getValue();
+        return NBTFloat.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default float getFloat(String name)
+    default double getDouble(String key)
     {
-        return ((NBTFloat) this.get(name)).getValue();
+        return NBTDouble.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default double getDouble(String name)
+    default String getString(String key)
     {
-        return ((NBTDouble) this.get(name)).getValue();
+        return NBTString.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default String getString(String name)
+    default NBTList getNBTList(String key)
     {
-        return ((NBTString) this.get(name)).getValue();
+        return NBTList.create(this.get0(key).getDelegate());
     }
-
-    default byte[] getByteArray(String name)
+    default byte[] getByteArray(String key)
     {
-        return ((NBTByteArray) this.get(name)).getValue();
+        return NBTByteArray.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default int[] getIntArray(String name)
+    default int[] getIntArray(String key)
     {
-        return ((NBTIntArray) this.get(name)).getValue();
+        return NBTIntArray.create(this.get0(key).getDelegate()).getValue();
     }
-
-    default long[] getLongArray(String name)
+    default long[] getLongArray(String key)
     {
-        return ((NBTLongArray) this.get(name)).getValue();
+        return NBTLongArray.create(this.get0(key).getDelegate()).getValue();
     }
-
-    // TODO
-//    default void set(String name, byte value)
-//    {
-//        this.set(name, NBTByte.create(value));
-//    }
-//
-//    default void set(String name, short value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, int value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, long value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, float value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, double value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, String value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, byte[] value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, int[] value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
-//
-//    default void set(String name, long[] value)
-//    {
-//        this.set(name, NBTFactory.instance.create(value));
-//    }
 }

@@ -2,6 +2,7 @@ package mz.mzlib.mc.nbt;
 
 import mz.mzlib.mc.VersionName;
 import mz.mzlib.mc.delegator.DelegatorMinecraftClass;
+import mz.mzlib.mc.delegator.DelegatorMinecraftMethod;
 import mz.mzlib.util.delegator.AutoDelegator;
 import mz.mzlib.util.delegator.Delegator;
 import mz.mzlib.util.delegator.DelegatorCreator;
@@ -16,5 +17,8 @@ public interface NBTElement extends Delegator
         return Delegator.create(NBTElement.class, delegate);
     }
 
-    AutoDelegator<NBTElement> autoDelegator = new AutoDelegator<>(NBTElement.class, NBTCompound.class); // TODO
+    AutoDelegator<NBTElement> autoDelegator = new AutoDelegator<>(NBTElement.class, NBTCompound.class, NBTByte.class, NBTByteArray.class, NBTDouble.class, NBTFloat.class, NBTInt.class, NBTIntArray.class, NBTList.class, NBTLong.class, NBTLongArray.class, NBTShort.class, NBTString.class);
+
+    @DelegatorMinecraftMethod(@VersionName(name="getType"))
+    byte getType();
 }

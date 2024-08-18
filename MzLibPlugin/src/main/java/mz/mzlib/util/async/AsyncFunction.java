@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <R> The return type of the async function
  */
-public abstract class AsyncFunction<R>
+public abstract class AsyncFunction<R> implements Runnable
 {
     /**
      * Extends this constructor
@@ -32,7 +32,7 @@ public abstract class AsyncFunction<R>
      * Asynchronous operations can be performed using `await(BasicAwait)` or `await(CompletableFuture)`. <br/>
      * Avoid using 'await' in synchronous code blocks. <br/>
      */
-    public abstract R template();
+    public abstract R template() throws Throwable;
 
     /**
      * Processed by runner, await a BasicAwait

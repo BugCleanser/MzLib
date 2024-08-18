@@ -56,38 +56,43 @@ public abstract class MzModule
         Set<IRegistrar<?>> untreatedRegistrars = new HashSet<>(registrars);
         Set<IRegistrar<?>> processLater = new HashSet<>();
         Set<IRegistrar<?>> workedRegistrars = new HashSet<>();
-        int cnt = 0;
-        while (!untreatedRegistrars.isEmpty())
+        try
         {
-            Iterator<IRegistrar<?>> it = untreatedRegistrars.iterator();
-            IRegistrar<?> now = it.next();
-            it.remove();
+            int cnt = 0;
+            while (!untreatedRegistrars.isEmpty())
+            {
+                Iterator<IRegistrar<?>> it = untreatedRegistrars.iterator();
+                IRegistrar<?> now = it.next();
+                it.remove();
 
-            if (workedRegistrars.containsAll(now.getDependencies()))
-            {
-                now.register(this, RuntimeUtil.cast(object));
-                workedRegistrars.add(now);
-                workedRegistrarsRecord.push(now);
-                cnt++;
-            }
-            else
-            {
-                processLater.add(now);
-            }
-
-            if (untreatedRegistrars.isEmpty())
-            {
-                if (cnt == 0)
+                if (workedRegistrars.containsAll(now.getDependencies()))
                 {
-                    throw new IllegalStateException("Circular dependency or nonexistent dependencies: " + processLater + ".");
+                    now.register(this, RuntimeUtil.cast(object));
+                    workedRegistrars.add(now);
+                    workedRegistrarsRecord.push(now);
+                    cnt++;
                 }
-                cnt = 0;
-                untreatedRegistrars = processLater;
-                processLater = new HashSet<>();
+                else
+                {
+                    processLater.add(now);
+                }
+
+                if (untreatedRegistrars.isEmpty())
+                {
+                    if (cnt == 0)
+                    {
+                        throw new IllegalStateException("Circular dependency or nonexistent dependencies: " + processLater + ".");
+                    }
+                    cnt = 0;
+                    untreatedRegistrars = processLater;
+                    processLater = new HashSet<>();
+                }
             }
         }
-
-        registeredObjects.put(object, workedRegistrarsRecord);
+        finally
+        {
+            this.registeredObjects.put(object, workedRegistrarsRecord);
+        }
     }
 
     public void unregister(Object object)

@@ -46,11 +46,16 @@ public interface Delegator
         return new ConstantCallSite(DelegatorClassInfo.get(type).getConstructor().asType(invokedType));
     }
 
+    /**
+     * @deprecated slow
+     */
+    @Deprecated
     static Class<?> getDelegateClass(Class<? extends Delegator> type)
     {
         return DelegatorClassInfo.get(type).getDelegateClass();
     }
 
+    Class<?> getDelegateClass();
     @DelegatorMethod("clone")
     Delegator clone0();
 }

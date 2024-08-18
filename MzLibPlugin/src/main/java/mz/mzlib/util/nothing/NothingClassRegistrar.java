@@ -26,6 +26,7 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
         return Nothing.class.isAssignableFrom(object);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void register(MzModule module, Class<? extends Nothing> object)
     {
@@ -41,6 +42,7 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
         registrations.computeIfAbsent(delegateClass, k -> new NothingRegistration(delegateClass)).add(object);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void unregister(MzModule module, Class<? extends Nothing> object)
     {

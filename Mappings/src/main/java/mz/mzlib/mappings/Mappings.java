@@ -18,7 +18,13 @@ public class Mappings implements IMappings
     @Override
     public String mapClass(String from)
     {
-        return this.classes.getOrDefault(from,from);
+        String result=this.classes.get(from);
+        if(result!=null)
+            return result;
+        int index=from.lastIndexOf('$');
+        if(index!=-1)
+            return this.mapClass(from.substring(0,index))+from.substring(index);
+        return from;
     }
 
     @Override
@@ -200,22 +206,20 @@ public class Mappings implements IMappings
 
         if (line.length == 3)
         {
-            String clazz = line[0];
+            String clazz = line[0].replace('/', '.');
             String obfName = line[1];
             String deobfName = line[2];
 
-            HashMap<String, String> map = new HashMap<>();
-            map.put(deobfName,obfName);
-            mappings.fields.put(clazz, Collections.unmodifiableMap(map));
+            mappings.fields.computeIfAbsent(clazz, it->new HashMap<>()).put(deobfName,obfName);
         }
         else if (line.length == 4)
         {
-            String clazz = line[0];
+            String clazz = line[0].replace('/', '.');
             String obfName = line[1];
             String sifnature = line[2];
             String deobfName = line[3];
 
-            mappings.methods.computeIfAbsent(clazz, it -> Collections.singletonMap(MappingMethod.parse(deobfName, sifnature), obfName));
+            mappings.methods.computeIfAbsent(clazz, it -> new HashMap<>()).put(MappingMethod.parse(deobfName, sifnature), obfName);
         }
     }
     public String processDesc(String desc)
@@ -266,16 +270,16 @@ public class Mappings implements IMappings
         }
         for (Map.Entry<String, Map<String, String>> e : this.fields.entrySet())
         {
-            String tar = this.classes.get(e.getKey());
+            String tar = this.mapClass(e.getKey());
             Map<String, String> rf = result.fields.computeIfAbsent(tar, it -> new HashMap<>());
             for (Map.Entry<String, String> e1 : e.getValue().entrySet())
             {
-                rf.put(e1.getValue(), e1.getValue());
+                rf.put(e1.getValue(), e1.getKey());
             }
         }
         for (Map.Entry<String, Map<MappingMethod, String>> e : this.methods.entrySet())
         {
-            String tar = this.classes.get(e.getKey());
+            String tar = this.mapClass(e.getKey());
             Map<MappingMethod, String> rm = result.methods.computeIfAbsent(tar, it -> new HashMap<>());
             for (Map.Entry<MappingMethod, String> e1 : e.getValue().entrySet())
             {

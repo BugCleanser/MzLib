@@ -18,11 +18,13 @@ public @interface DelegatorArrayClass
 
     class Finder extends DelegatorClassFinder
     {
+        @SuppressWarnings("deprecation")
         public Class<?> find(ClassLoader classLoader, Annotation annotation)
         {
             return Array.newInstance(Delegator.getDelegateClass(((DelegatorArrayClass) annotation).value()), 0).getClass();
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void extra(Annotation annotation, ClassNode cn)
         {

@@ -12,6 +12,7 @@ public class AutoDelegator<T extends Delegator>
 {
     public Map<Class<?>, CallSite> delegatorConstructors = new HashMap<>();
 
+    @SuppressWarnings("deprecation")
     @SafeVarargs
     public AutoDelegator(Class<T> defaultDelegator, Class<? extends T>... delegators)
     {

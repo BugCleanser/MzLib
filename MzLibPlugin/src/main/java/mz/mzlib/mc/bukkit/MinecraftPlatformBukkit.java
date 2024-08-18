@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
@@ -49,7 +48,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     {
         return MzLibBukkitPlugin.instance.getDataFolder();
     }
-    public class SpigotPackageMappingV_17 implements IMappings
+    public class SpigotPackageMappingV_1700 implements IMappings
     {
         public String nms="net.minecraft.server." + MinecraftPlatformBukkit.this.protocolVersion;
         public String mapClass(String from)
@@ -72,7 +71,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
             return fromMethod.name;
         }
     }
-    public class SpigotPackageMappingReversedV_17 implements IMappings
+    public class SpigotPackageMappingReversedV_1700 implements IMappings
     {
         public String nms="net.minecraft.server." + MinecraftPlatformBukkit.this.protocolVersion;
         public String mapClass(String from)
@@ -124,7 +123,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
 
         List<IMappings> result = new ArrayList<>();
         if (getVersion() < 1700)
-            result.add(new SpigotPackageMappingV_17());
+            result.add(new SpigotPackageMappingV_1700());
         result.add(platform.get());
         if(yarnLegacy.get()!=null)
             result.add(yarnLegacy.get());
@@ -147,7 +146,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         }
         result.add(platform.get().reverse());
         if (getVersion() < 1700)
-            result.add(new SpigotPackageMappingReversedV_17());
+            result.add(new SpigotPackageMappingReversedV_1700());
         this.mappingsY2P = new MappingsPipe(result);
     }
     @Override

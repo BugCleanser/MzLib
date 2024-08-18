@@ -6,16 +6,14 @@ import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 
+import java.io.FileOutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DelegatorClassInfo
@@ -84,6 +82,7 @@ public class DelegatorClassInfo
                         argTypes[j] = DelegatorClassInfo.get(RuntimeUtil.cast(argTypes[j])).getDelegateClass();
                     }
                 }
+                Exception lastException1 = null;
                 for (Annotation j : i.getDeclaredAnnotations())
                 {
                     DelegatorMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(DelegatorMemberFinderClass.class);
@@ -98,11 +97,14 @@ public class DelegatorClassInfo
                             }
                         }
                         catch (NoSuchMethodException |
-                               NoSuchFieldException ignored)
+                               NoSuchFieldException e)
                         {
+                            lastException1=e;
                         }
                     }
                 }
+                if(lastException1!=null)
+                    throw RuntimeUtil.sneakilyThrow(new NoSuchElementException("Delegator: "+i).initCause(lastException1));
             }
         }
         for (Method i : this.getDelegatorClass().getMethods())
@@ -188,6 +190,10 @@ public class DelegatorClassInfo
                 mn.visitEnd();
                 cn.methods.add(mn);
             }
+            mn = new MethodNode(Opcodes.ACC_PUBLIC, "getDelegateClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
+            mn.instructions.add(AsmUtil.insnConst(getDelegateClass()));
+            mn.instructions.add(AsmUtil.insnReturn(Class.class));
+            cn.methods.add(mn);
             for (Map.Entry<Method, Member> i : delegations.entrySet())
             {
                 boolean isPublic = Modifier.isPublic(i.getValue().getDeclaringClass().getModifiers()) && Modifier.isPublic(i.getValue().getModifiers());
@@ -280,9 +286,7 @@ public class DelegatorClassInfo
                             }
                         }
                         if (!Modifier.isStatic(i.getValue().getModifiers()))
-                        {
                             ptsTar = CollectionUtil.addAll(CollectionUtil.newArrayList(Object.class), ptsTar).toArray(new Class[0]);
-                        }
                         mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(rt, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class, int.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(AsmUtil.getDesc(i.getValue())), Modifier.isStatic(i.getValue().getModifiers()) ? 1 : 0);
                     }
                     if (Delegator.class.isAssignableFrom(i.getKey().getReturnType()))
@@ -398,7 +402,22 @@ public class DelegatorClassInfo
             ClassWriter cw = new ClassWriter(delegatorClass.getClassLoader());
             cn.accept(cw);
             Class<?> c = ClassUtil.defineClass(new SimpleClassLoader(this.delegatorClass.getClassLoader()), cn.name, cw.toByteArray());
-            constructor = ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class, Object.class));
+            try
+            {
+                constructor = ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(Delegator.class, Object.class));
+            }
+            catch (VerifyError e)
+            {
+                try (FileOutputStream fos = new FileOutputStream("test.class"))
+                {
+                    fos.write(cw.toByteArray());
+                }
+                catch (Throwable e1)
+                {
+                    throw RuntimeUtil.sneakilyThrow(e1);
+                }
+                throw e;
+            }
 
             cn = new ClassNode();
             new ClassReader(ClassUtil.getByteCode(delegatorClass)).accept(cn, 0);

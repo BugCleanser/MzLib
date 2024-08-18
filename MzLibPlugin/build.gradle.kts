@@ -23,8 +23,8 @@ dependencies {
     implementation("io.github.karlatemp:unsafe-accessor:1.7.0")
     implementation("net.bytebuddy:byte-buddy-agent:1.12.22")
 
-    implementation("org.graalvm.polyglot:polyglot:latest.release")
-    implementation("org.graalvm.polyglot:js:latest.release")
+//    implementation("org.graalvm.polyglot:polyglot:latest.release")
+//    implementation("org.graalvm.polyglot:js:latest.release")
 
     api(project(":Mappings"))
 

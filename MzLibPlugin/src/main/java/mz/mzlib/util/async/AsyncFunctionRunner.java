@@ -2,7 +2,7 @@ package mz.mzlib.util.async;
 
 public interface AsyncFunctionRunner
 {
-    void schedule(AsyncFunction<?> function);
+    void schedule(Runnable function);
 
-    void schedule(AsyncFunction<?> function, BasicAwait await);
+    void schedule(Runnable function, BasicAwait await);
 }

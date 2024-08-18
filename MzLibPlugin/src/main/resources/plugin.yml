@@ -6,6 +6,7 @@ authors:
  - "Yurinann"
  - "泡泡🍥"
  - "钟小白Core"
+ - "hpwriterkyle"
 main: mz.mzlib.mc.bukkit.MzLibBukkitPlugin
 loadbefore: [ QuickShop ]
 softdepend: [ PlugMan ]
