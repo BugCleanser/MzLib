@@ -1,10 +1,10 @@
 package mz.mzlib.util.nothing;
 
-import mz.mzlib.util.delegator.Delegator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 public interface Nothing
 {
-    static <T extends Delegator> T notReturn()
+    static <T extends WrapperObject> T notReturn()
     {
         return null;
     }

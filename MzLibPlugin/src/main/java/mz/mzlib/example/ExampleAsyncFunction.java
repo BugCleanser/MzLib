@@ -1,7 +1,7 @@
 package mz.mzlib.example;
 
-import mz.mzlib.mc.MinecraftMainThreadRunner;
-import mz.mzlib.mc.SleepTicks;
+import mz.mzlib.minecraft.MinecraftMainThreadRunner;
+import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
 
 @Deprecated

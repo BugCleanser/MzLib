@@ -9,8 +9,8 @@ import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.PublicValues;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.delegator.AbsDelegator;
-import mz.mzlib.util.delegator.Delegator;
+import mz.mzlib.util.wrapper.AbsWrapper;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
@@ -113,21 +113,21 @@ public class AsmUtil
         return result;
     }
 
-    public static AbstractInsnNode insnCreateDelegator(Class<? extends Delegator> type)
+    public static AbstractInsnNode insnCreateWrapper(Class<? extends WrapperObject> type)
     {
-        return insnCreateDelegator(Type.getType(type));
+        return insnCreateWrapper(Type.getType(type));
     }
 
-    public static AbstractInsnNode insnCreateDelegator(Type type)
+    public static AbstractInsnNode insnCreateWrapper(Type type)
     {
-        return new InvokeDynamicInsnNode("create", Type.getMethodType(type, Type.getType(Object.class)).getDescriptor(), new Handle(Opcodes.H_INVOKESTATIC, getType(Delegator.class), "getConstructorCallSite", getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), true), type);
+        return new InvokeDynamicInsnNode("create", Type.getMethodType(type, Type.getType(Object.class)).getDescriptor(), new Handle(Opcodes.H_INVOKESTATIC, getType(WrapperObject.class), "getConstructorCallSite", getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), true), type);
     }
 
-    public static InsnList insnGetDelegate()
+    public static InsnList insnGetWrapped()
     {
         InsnList result = new InsnList();
-        result.add(insnCast(AbsDelegator.class, Object.class));
-        result.add(new FieldInsnNode(Opcodes.GETFIELD, getType(AbsDelegator.class), "delegate", getDesc(Object.class)));
+        result.add(insnCast(AbsWrapper.class, Object.class));
+        result.add(new FieldInsnNode(Opcodes.GETFIELD, getType(AbsWrapper.class), "delegate", getDesc(Object.class)));
         return result;
     }
 

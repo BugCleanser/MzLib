@@ -23,12 +23,10 @@ public class UnionClassLoader extends ClassLoader
         {
             try
             {
-                DelegatorClassLoader delegator = DelegatorClassLoader.create(member);
-                Class<?> result = delegator.findClass(name);
+                WrapperClassLoader wrapper = WrapperClassLoader.create(member);
+                Class<?> result = wrapper.findClass(name);
                 if (resolve)
-                {
-                    delegator.resolveClass(result);
-                }
+                    wrapper.resolveClass(result);
                 return result;
             }
             catch (ClassNotFoundException ignore)

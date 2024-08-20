@@ -7,7 +7,7 @@ authors:
  - "泡泡🍥"
  - "钟小白Core"
  - "hpwriterkyle"
-main: mz.mzlib.mc.bukkit.MzLibBukkitPlugin
+main: mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin
 loadbefore: [ QuickShop ]
 softdepend: [ PlugMan ]
 api-version: 1.13

@@ -57,10 +57,6 @@ public class Test
 		}
 		result.add(platform.get().reverse());
 		IMappings mappingsY2P = new MappingsPipe(result);
-		System.out.println(platform.get().mapField("EntityPlayer","playerConnection"));
-		System.out.println(platform.get().reverse().mapField("oq","a"));
-		System.out.println(platform.get().reverse().mapField("oq","b"));
-		System.out.println(platform.get().reverse().mapField("oq","bW"));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();

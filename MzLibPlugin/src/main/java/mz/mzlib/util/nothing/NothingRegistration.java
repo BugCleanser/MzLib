@@ -11,8 +11,8 @@ import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.delegator.Delegator;
-import mz.mzlib.util.delegator.DelegatorClassInfo;
+import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.WrapperClassInfo;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.ConstantCallSite;
@@ -107,7 +107,7 @@ public class NothingRegistration
         List<CallSite> callSites = new ArrayList<>();
         try
         {
-            callSites.add(ClassUtil.getMethodCallSite(Root.getTrusted(Delegator.class), "getDelegate", MethodType.methodType(Object.class, Object.class), Delegator.class, MethodType.methodType(Object.class), 0));
+            callSites.add(ClassUtil.getMethodCallSite(Root.getTrusted(WrapperObject.class), "getWrapped", MethodType.methodType(Object.class, Object.class), WrapperObject.class, MethodType.methodType(Object.class), 0));
         }
         catch (Throwable e)
         {
@@ -129,7 +129,7 @@ public class NothingRegistration
                 continue;
             }
             int nothingConstructor = callSites.size();
-            callSites.add(Delegator.getConstructorCallSite(Root.getTrusted(nothing), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(nothing)));
+            callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(nothing), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(nothing)));
             for (Method i : nothing.getDeclaredMethods())
             {
                 if (!ElementSwitcher.isEnabled(i))
@@ -141,7 +141,7 @@ public class NothingRegistration
                     Executable m;
                     try
                     {
-                        m = (Executable) DelegatorClassInfo.get(RuntimeUtil.cast(nothing)).delegations.get(Arrays.stream(nothing.getMethods()).filter(j -> j.getName().equals(ni.delegatorMethod())).findFirst().orElse(null));
+                        m = (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).wrappedMembers.get(Arrays.stream(nothing.getMethods()).filter(j -> j.getName().equals(ni.wrapperMethod())).findFirst().orElse(null));
                         Objects.requireNonNull(m);
                     }
                     catch (NullPointerException e)
@@ -219,21 +219,21 @@ public class NothingRegistration
                                         if (lv != null)
                                         {
                                             Class<?> lvt = paramTypes[k];
-                                            if (Delegator.class.isAssignableFrom(lvt))
+                                            if (WrapperObject.class.isAssignableFrom(lvt))
                                             {
-                                                lvt = Delegator.getDelegateClass(RuntimeUtil.cast(lvt));
+                                                lvt = WrapperObject.getWrappedClass(RuntimeUtil.cast(lvt));
                                             }
                                             loadingVars.add(AsmUtil.insnVarLoad(lvt, lv.value()));
-                                            if (Delegator.class.isAssignableFrom(paramTypes[k]))
+                                            if (WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                             {
                                                 loadingVars.add(AsmUtil.insnCast(Object.class, lvt));
                                                 loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
-                                                callSites.add(Delegator.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
-                                                int delegator = mn.maxLocals++;
-                                                loadingVars.add(AsmUtil.insnDup(Delegator.class));
-                                                loadingVars.add(AsmUtil.insnVarStore(Delegator.class, delegator));
+                                                callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
+                                                int wrapper = mn.maxLocals++;
+                                                loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
+                                                loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                                 argTypes[k] = Object.class;
-                                                afterCall.add(AsmUtil.insnVarLoad(Delegator.class, delegator));
+                                                afterCall.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
                                                 afterCall.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
                                                 afterCall.add(AsmUtil.insnCast(lvt, Object.class));
                                                 afterCall.add(AsmUtil.insnVarStore(lvt, lv.value()));
@@ -253,15 +253,15 @@ public class NothingRegistration
                                                 return mn.maxLocals++;
                                             });
                                             loadingVars.add(AsmUtil.insnVarLoad(Object.class, index));
-                                            if (Delegator.class.isAssignableFrom(paramTypes[k]))
+                                            if (WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                             {
                                                 loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
-                                                callSites.add(Delegator.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
-                                                int delegator = mn.maxLocals++;
-                                                loadingVars.add(AsmUtil.insnDup(Delegator.class));
-                                                loadingVars.add(AsmUtil.insnVarStore(Delegator.class, delegator));
+                                                callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
+                                                int wrapper = mn.maxLocals++;
+                                                loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
+                                                loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                                 argTypes[k] = Object.class;
-                                                afterCall.add(AsmUtil.insnVarLoad(Delegator.class, delegator));
+                                                afterCall.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
                                                 afterCall.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
                                                 afterCall.add(AsmUtil.insnVarStore(Object.class, index));
                                             }
@@ -274,20 +274,20 @@ public class NothingRegistration
                                         if (st != null)
                                         {
                                             Class<?> stt = paramTypes[k];
-                                            if (Delegator.class.isAssignableFrom(stt))
+                                            if (WrapperObject.class.isAssignableFrom(stt))
                                             {
-                                                stt = Delegator.getDelegateClass(RuntimeUtil.cast(stt));
+                                                stt = WrapperObject.getWrappedClass(RuntimeUtil.cast(stt));
                                             }
-                                            if (Delegator.class.isAssignableFrom(paramTypes[k]))
+                                            if (WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                             {
                                                 loadingVars.add(AsmUtil.insnCast(Object.class, stt));
                                                 loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
-                                                callSites.add(Delegator.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
-                                                loadingVars.add(AsmUtil.insnDup(Delegator.class));
-                                                int delegator = mn.maxLocals++;
-                                                loadingVars.add(AsmUtil.insnVarStore(Delegator.class, delegator));
+                                                callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
+                                                loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
+                                                int wrapper = mn.maxLocals++;
+                                                loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                                 argTypes[k] = Object.class;
-                                                afterPop.add(AsmUtil.insnVarLoad(Delegator.class, delegator));
+                                                afterPop.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
                                                 afterPop.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
                                                 afterPop.add(AsmUtil.insnCast(stt, Object.class));
                                             }

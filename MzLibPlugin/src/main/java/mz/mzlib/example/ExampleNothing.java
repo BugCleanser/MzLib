@@ -1,12 +1,12 @@
 package mz.mzlib.example;
 
 import mz.mzlib.asm.Opcodes;
-import mz.mzlib.util.delegator.Delegator;
-import mz.mzlib.util.delegator.DelegatorClass;
-import mz.mzlib.util.delegator.DelegatorMethod;
-import mz.mzlib.util.delegator.DelegatorSameClass;
-import mz.mzlib.util.delegator.basic.Delegator_double;
-import mz.mzlib.util.delegator.basic.Delegator_void;
+import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.WrapClass;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.wrapper.basic.Wrapper_double;
+import mz.mzlib.util.wrapper.basic.Wrapper_void;
 import mz.mzlib.util.nothing.*;
 
 
@@ -30,24 +30,24 @@ public class ExampleNothing
         }
     }
 
-    @DelegatorClass(Foo.class)
-    public interface DelegatorFoo extends Delegator
+    @WrapClass(Foo.class)
+    public interface WrapperFoo extends WrapperObject
     {
-        @DelegatorMethod("f")
+        @WrapMethod("f")
         void f();
 
-        @DelegatorMethod("g")
+        @WrapMethod("g")
         void g();
     }
 
-    @DelegatorSameClass(DelegatorFoo.class)
-    public interface NothingFoo extends DelegatorFoo, Nothing
+    @WrapSameClass(WrapperFoo.class)
+    public interface NothingFoo extends WrapperFoo, Nothing
     {
-        @NothingInject(delegatorMethod = "f", locatingSteps = {@LocatingStep(type = LocatingStepType.AFTER_FIRST, arg = Opcodes.INVOKEVIRTUAL)}, type = NothingInjectType.INSERT_BEFORE)
-        default Delegator_void injectF(@StackTop Delegator_double s)
+        @NothingInject(wrapperMethod = "f", locatingSteps = {@LocatingStep(type = LocatingStepType.AFTER_FIRST, arg = Opcodes.INVOKEVIRTUAL)}, type = NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void injectF(@StackTop Wrapper_double s)
         {
             this.g();
-            return Delegator_void.create(null);
+            return Wrapper_void.create(null);
         }
     }
 

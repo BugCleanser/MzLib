@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Repeatable(NothingInjects.class)
 public @interface NothingInject
 {
-    String delegatorMethod();
+    String wrapperMethod();
 
     float priority() default 0;
 

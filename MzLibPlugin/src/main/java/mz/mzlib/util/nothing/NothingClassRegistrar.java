@@ -3,7 +3,7 @@ package mz.mzlib.util.nothing;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.delegator.Delegator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,24 +30,24 @@ public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing
     @Override
     public void register(MzModule module, Class<? extends Nothing> object)
     {
-        if (!Delegator.class.isAssignableFrom(object))
+        if (!WrapperObject.class.isAssignableFrom(object))
         {
-            throw new IllegalArgumentException("Nothing class must implements Delegator.");
+            throw new IllegalArgumentException("Nothing class must extends WrapperObject.");
         }
-        if (!Delegator.class.isInterface())
+        if (!WrapperObject.class.isInterface())
         {
             throw new IllegalArgumentException("Nothing class must be an interface.");
         }
-        Class<?> delegateClass = Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>cast(object));
-        registrations.computeIfAbsent(delegateClass, k -> new NothingRegistration(delegateClass)).add(object);
+        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.cast(object));
+        registrations.computeIfAbsent(wrappedClass, k -> new NothingRegistration(wrappedClass)).add(object);
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void unregister(MzModule module, Class<? extends Nothing> object)
     {
-        Class<?> delegateClass = Delegator.getDelegateClass(RuntimeUtil.<Class<Delegator>>cast(object));
-        registrations.compute(delegateClass, (k, v) ->
+        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.<Class<WrapperObject>>cast(object));
+        registrations.compute(wrappedClass, (k, v) ->
         {
             if (v == null)
             {
