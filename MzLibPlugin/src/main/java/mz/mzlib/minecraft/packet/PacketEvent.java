@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.packet;
 
-import mz.mzlib.minecraft.entity.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,6 +12,11 @@ public class PacketEvent
     public PacketEvent(EntityPlayer player)
     {
         this.player=player;
+    }
+
+    public EntityPlayer getPlayer()
+    {
+        return player;
     }
 
     /**

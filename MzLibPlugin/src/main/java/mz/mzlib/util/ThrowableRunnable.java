@@ -1,8 +1,8 @@
 package mz.mzlib.util;
 
-public interface ThrowableRunnable extends Runnable
+public interface ThrowableRunnable<E extends Throwable> extends Runnable
 {
-    void runWithThrowable() throws Throwable;
+    void runWithThrowable() throws E;
 
     @Override
     default void run()

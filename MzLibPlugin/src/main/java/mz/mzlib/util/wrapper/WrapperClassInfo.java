@@ -50,7 +50,7 @@ public class WrapperClassInfo
             {
                 try
                 {
-                    this.wrappedClass = finder.value().newInstance().find(this.wrapperClass.getClassLoader(), i);
+                    this.wrappedClass = finder.value().newInstance().find(this.wrapperClass, i);
                 }
                 catch (ClassNotFoundException e)
                 {
@@ -64,48 +64,48 @@ public class WrapperClassInfo
             }
         }
         if (this.wrappedClass == null)
-            throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
+        {
+            if (lastException != null)
+                throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
+            return;
+        }
         for (Method i : this.wrapperClass.getDeclaredMethods())
         {
-            if (Modifier.isAbstract(i.getModifiers()) && ElementSwitcher.isEnabled(i))
+            if (!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
+                continue;
+            Class<?> returnType = i.getReturnType();
+            if (WrapperObject.class.isAssignableFrom(returnType))
             {
-                Class<?> returnType = i.getReturnType();
-                if (WrapperObject.class.isAssignableFrom(returnType))
-                {
-                    returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
-                }
-                Class<?>[] argTypes = i.getParameterTypes();
-                for (int j = 0; j < argTypes.length; j++)
-                {
-                    if (WrapperObject.class.isAssignableFrom(argTypes[j]))
-                    {
-                        argTypes[j] = WrapperClassInfo.get(RuntimeUtil.cast(argTypes[j])).getWrappedClass();
-                    }
-                }
-                Exception lastException1 = null;
-                for (Annotation j : i.getDeclaredAnnotations())
-                {
-                    WrappedMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(WrappedMemberFinderClass.class);
-                    if (finder != null)
-                    {
-                        try
-                        {
-                            Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
-                            if (m != null)
-                            {
-                                this.wrappedMembers.put(i, m);
-                            }
-                        }
-                        catch (NoSuchMethodException |
-                               NoSuchFieldException e)
-                        {
-                            lastException1=e;
-                        }
-                    }
-                }
-                if(lastException1!=null)
-                    throw RuntimeUtil.sneakilyThrow(new NoSuchElementException("Wrapper: "+i).initCause(lastException1));
+                returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
             }
+            Class<?>[] argTypes = i.getParameterTypes();
+            for (int j = 0; j < argTypes.length; j++)
+            {
+                if (WrapperObject.class.isAssignableFrom(argTypes[j]))
+                {
+                    argTypes[j] = WrapperClassInfo.get(RuntimeUtil.cast(argTypes[j])).getWrappedClass();
+                }
+            }
+            Exception lastException1 = null;
+            for (Annotation j : i.getDeclaredAnnotations())
+            {
+                WrappedMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(WrappedMemberFinderClass.class);
+                if (finder != null)
+                {
+                    try
+                    {
+                        Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
+                        if (m != null)
+                            this.wrappedMembers.put(i, m);
+                    }
+                    catch (NoSuchMethodException|NoSuchFieldException e)
+                    {
+                        lastException1=e;
+                    }
+                }
+            }
+            if(lastException1!=null)
+                throw RuntimeUtil.sneakilyThrow(new NoSuchElementException("Of wrapper: "+i).initCause(lastException1));
         }
         for (Method i : this.getWrapperClass().getMethods())
         {
@@ -113,9 +113,7 @@ public class WrapperClassInfo
             {
                 Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).wrappedMembers.get(i);
                 if (tar != null && !(tar instanceof Constructor))
-                {
                     this.wrappedMembers.put(i, tar);
-                }
             }
         }
     }
@@ -168,7 +166,7 @@ public class WrapperClassInfo
         try
         {
             ClassNode cn = new ClassNode();
-            cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "0MzWrapperClass", null, AsmUtil.getType(AbsWrapper.class), new String[]{AsmUtil.getType(getWrapperClass())});
+            cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "0MzWrapperClassFianl", null, AsmUtil.getType(AbsWrapper.class), new String[]{AsmUtil.getType(getWrapperClass())});
             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "<init>", AsmUtil.getDesc(void.class, Object.class), null, new String[0]);
             mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
             mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 1));
@@ -188,7 +186,7 @@ public class WrapperClassInfo
                 mn.visitEnd();
                 cn.methods.add(mn);
             }
-            mn = new MethodNode(Opcodes.ACC_PUBLIC, "getWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
+            mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticGetWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
             mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));
             mn.instructions.add(AsmUtil.insnReturn(Class.class));
             cn.methods.add(mn);
@@ -204,9 +202,9 @@ public class WrapperClassInfo
                     {
                         mn.instructions.add(new TypeInsnNode(Opcodes.NEW, AsmUtil.getType(i.getValue().getDeclaringClass())));
                         mn.instructions.add(AsmUtil.insnDup(i.getValue().getDeclaringClass()));
-                        for (int j = 0; j < pts.length; j++)
+                        for (int j = 0,k=1; j < pts.length; j++)
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], 1 + j));
+                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], k));
                             if (WrapperObject.class.isAssignableFrom(pts[j]))
                             {
                                 mn.instructions.add(AsmUtil.insnGetWrapped());
@@ -216,14 +214,15 @@ public class WrapperClassInfo
                             {
                                 mn.instructions.add(AsmUtil.insnCast(ptsTar[j], pts[j]));
                             }
+                            k+=AsmUtil.getCategory(pts[j]);
                         }
                         mn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, AsmUtil.getType(i.getValue().getDeclaringClass()), "<init>", AsmUtil.getDesc((Constructor<?>) i.getValue())));
                     }
                     else
                     {
-                        for (int j = 0; j < pts.length; j++)
+                        for (int j = 0,k=1; j < pts.length; j++)
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], 1 + j));
+                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], k));
                             if (WrapperObject.class.isAssignableFrom(pts[j]))
                             {
                                 mn.instructions.add(AsmUtil.insnGetWrapped());
@@ -233,11 +232,12 @@ public class WrapperClassInfo
                             {
                                 ptsTar[j] = pts[j];
                             }
+                            k+=AsmUtil.getCategory(pts[j]);
                         }
                         mn.visitInvokeDynamicInsn("new", AsmUtil.getDesc(Object.class, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getConstructorCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(AsmUtil.getDesc(i.getValue())));
                     }
-                    mn.instructions.add(AsmUtil.insnCreateWrapper(getWrapperClass()));
-                    mn.instructions.add(AsmUtil.insnReturn(getWrapperClass()));
+                    mn.instructions.add(AsmUtil.insnCreateWrapper(this.getWrapperClass()));
+                    mn.instructions.add(AsmUtil.insnReturn(this.getWrapperClass()));
                 }
                 else if (i.getValue() instanceof Method)
                 {
@@ -247,13 +247,13 @@ public class WrapperClassInfo
                     {
                         if (!Modifier.isStatic(i.getValue().getModifiers()))
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
+                            mn.instructions.add(AsmUtil.insnVarLoad(this.getWrapperClass(), 0));
                             mn.instructions.add(AsmUtil.insnGetWrapped());
                             mn.instructions.add(AsmUtil.insnCast(i.getValue().getDeclaringClass(), Object.class));
                         }
-                        for (int j = 0; j < pts.length; j++)
+                        for (int j = 0,k=1; j < pts.length; j++)
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 1 + j));
+                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], 1 + j));
                             if (WrapperObject.class.isAssignableFrom(pts[j]))
                             {
                                 mn.instructions.add(AsmUtil.insnGetWrapped());
@@ -267,7 +267,7 @@ public class WrapperClassInfo
                     {
                         if (!Modifier.isStatic(i.getValue().getModifiers()))
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
+                            mn.instructions.add(AsmUtil.insnVarLoad(this.getWrapperClass(), 0));
                             mn.instructions.add(AsmUtil.insnGetWrapped());
                         }
                         for (int j = 0; j < pts.length; j++)
@@ -320,16 +320,12 @@ public class WrapperClassInfo
                             else
                             {
                                 if (Modifier.isStatic(i.getValue().getModifiers()))
-                                {
-                                    MethodType mt = MethodType.methodType(type.isPrimitive() ? type : Object.class);
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType())));
-                                }
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,new Class[0]), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType())));
                                 else
                                 {
                                     mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
                                     mn.instructions.add(AsmUtil.insnGetWrapped());
-                                    MethodType mt = MethodType.methodType(type.isPrimitive() ? type : Object.class, Object.class);
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType()), Type.getType(i.getValue().getDeclaringClass())));
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,Object.class), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType()), Type.getType(i.getValue().getDeclaringClass())));
                                 }
                             }
                             if (WrapperObject.class.isAssignableFrom(i.getKey().getReturnType()))

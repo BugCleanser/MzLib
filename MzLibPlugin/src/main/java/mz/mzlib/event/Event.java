@@ -24,6 +24,14 @@ public abstract class Event
         return this.isCancelled;
     }
 
+    public void complete()
+    {
+        if(this.isCancelled())
+            this.future.cancel(false);
+        else
+            this.future.complete(null);
+    }
+
     /**
      * Implement this method but do nothing.
      * Invoke to execute all the listeners.

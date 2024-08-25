@@ -1,7 +1,9 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.mappings.*;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.mappings.*;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
@@ -14,6 +16,12 @@ import java.util.List;
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
     public static MinecraftPlatformBukkit instance=new MinecraftPlatformBukkit();
+
+    @Override
+    public String getLanguage(EntityPlayer player)
+    {
+        return ((org.bukkit.entity.Player) BukkitEntityUtil.toBukkit(player)).getLocale();
+    }
 
     public String protocolVersion;
     {

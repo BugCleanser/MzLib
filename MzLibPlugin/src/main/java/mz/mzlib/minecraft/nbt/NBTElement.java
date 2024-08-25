@@ -7,7 +7,12 @@ import mz.mzlib.util.wrapper.AutoWrapper;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
 
-@WrapMinecraftClass({@VersionName(name = "net.minecraft.nbt.NbtElement", end = 1400), @VersionName(name = "net.minecraft.nbt.Tag", begin = 1400, end = 1605), @VersionName(name = "net.minecraft.nbt.NbtElement", begin = 1605)})
+@WrapMinecraftClass(
+        {
+                @VersionName(name = "net.minecraft.nbt.NbtElement", end = 1400),
+                @VersionName(name = "net.minecraft.nbt.Tag", begin = 1400, end = 1605),
+                @VersionName(name = "net.minecraft.nbt.NbtElement", begin = 1605)
+        })
 public interface NBTElement extends WrapperObject
 {
     @SuppressWarnings("deprecation")

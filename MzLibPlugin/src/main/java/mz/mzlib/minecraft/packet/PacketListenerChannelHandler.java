@@ -4,7 +4,7 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import mz.mzlib.minecraft.MinecraftMainThreadRunner;
-import mz.mzlib.minecraft.entity.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.listener.MinecraftPacketListener;
@@ -24,7 +24,7 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
     public EntityPlayer getPlayer()
     {
         MinecraftPacketListener listener = this.clientConnection.getPacketListener();
-        if(ServerPlayNetworkHandler.create(null).getWrappedClass().isAssignableFrom(listener.getWrappedClass()))
+        if(ServerPlayNetworkHandler.create(null).staticIsInstance(listener))
             return ServerPlayNetworkHandler.create(listener.getWrapped()).getPlayer();
         return null;
     }

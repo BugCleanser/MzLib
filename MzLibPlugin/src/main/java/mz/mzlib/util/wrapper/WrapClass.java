@@ -11,7 +11,7 @@ public @interface WrapClass
 
     class Finder extends WrappedClassFinder
     {
-        public Class<?> find(ClassLoader classLoader, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
         {
             return ((WrapClass) annotation).value();
         }

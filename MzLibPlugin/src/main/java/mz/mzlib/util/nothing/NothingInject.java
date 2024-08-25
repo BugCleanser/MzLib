@@ -11,10 +11,7 @@ public @interface NothingInject
 
     float priority() default 0;
 
-    /**
-     * Some steps to locate the target insns, initially locating at the 0th bytecode.
-     */
-    LocatingStep[] locatingSteps();
+    String locateMethod();
 
     NothingInjectType type();
 

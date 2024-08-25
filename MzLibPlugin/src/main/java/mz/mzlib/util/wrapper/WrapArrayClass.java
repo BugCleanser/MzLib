@@ -19,7 +19,7 @@ public @interface WrapArrayClass
     class Finder extends WrappedClassFinder
     {
         @SuppressWarnings("deprecation")
-        public Class<?> find(ClassLoader classLoader, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
         {
             return Array.newInstance(WrapperObject.getWrappedClass(((WrapArrayClass) annotation).value()), 0).getClass();
         }

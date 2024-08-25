@@ -6,7 +6,7 @@ public class BukkitItemUtil
 {
     public static ItemStack fromBukkit(org.bukkit.inventory.ItemStack is)
     {
-        if(CraftItemStack.create(null).getWrappedClass().isAssignableFrom(is.getClass()))
+        if(CraftItemStack.create(null).staticGetWrappedClass().isAssignableFrom(is.getClass()))
             return CraftItemStack.create(is).getHandle();
         else
             return CraftItemStack.newInstance(is).getHandle();

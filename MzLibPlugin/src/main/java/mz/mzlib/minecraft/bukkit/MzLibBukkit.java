@@ -18,7 +18,7 @@ public class MzLibBukkit extends MzModule
 
         this.register(MinecraftPlatformBukkit.instance);
 
-        this.register(CraftServer.create(Bukkit.getServer()).getServer());
+        this.register(WrapperCraftServer.create(Bukkit.getServer()).getServer());
         this.register(MinecraftMainThreadRunnerBukkit.instance);
         this.register(ItemFactoryBukkit.instance);
         this.register(ItemStackFactoryBukkit.instance);

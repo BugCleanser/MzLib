@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.MinecraftPlatformBukkit;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.*;
 
@@ -18,7 +19,7 @@ public @interface WrapCraftbukkitClass
     class Finder extends WrappedClassFinder
     {
         @Override
-        public Class<?> find(ClassLoader classLoader, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             for (VersionName name : ((WrapCraftbukkitClass) annotation).value())
             {

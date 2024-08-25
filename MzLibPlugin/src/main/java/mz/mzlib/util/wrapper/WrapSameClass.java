@@ -12,7 +12,7 @@ public @interface WrapSameClass
     class Finder extends WrappedClassFinder
     {
         @Override
-        public Class<?> find(ClassLoader classLoader, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
         {
             return WrapperClassInfo.get(((WrapSameClass) annotation).value()).getWrappedClass();
         }

@@ -1,29 +1,26 @@
 package mz.mzlib.module;
 
 import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public abstract class MzModule
 {
     public boolean isLoaded = false;
-    public Set<MzModule> submodules = ConcurrentHashMap.newKeySet();
-    public Map<Object, Stack<IRegistrar<?>>> registeredObjects = new ConcurrentHashMap<>();
+    public Set<MzModule> submodules = new HashSet<>();
+    public Map<Object, Stack<IRegistrar<?>>> registeredObjects = new LinkedHashMap<>();
 
     public void register(Object object)
     {
         if (!isLoaded)
-        {
             throw new IllegalStateException("Try to register an object but the module is not loaded: " + this + ".");
-        }
         if (object instanceof MzModule)
         {
             if (((MzModule) object).isLoaded)
-            {
                 throw new IllegalStateException("Try to load the module but it has been loaded: " + object + ".");
-            }
             ((MzModule) object).isLoaded = true;
             submodules.add((MzModule) object);
             ((MzModule) object).onLoad();
@@ -40,16 +37,12 @@ public abstract class MzModule
                 for (IRegistrar<?> i : RegistrarRegistrar.instance.registrars.get(c).toArray(new IRegistrar[0]))
                 {
                     if (i.isRegistrable(RuntimeUtil.cast(object)))
-                    {
                         registrars.add(i);
-                    }
                 }
             }
         });
         if (registrars.isEmpty() && !(object instanceof MzModule))
-        {
             throw new UnsupportedOperationException("Try to register the object but found no registrar: " + object + ".");
-        }
 
         Stack<IRegistrar<?>> workedRegistrarsRecord = new Stack<>();
 
@@ -104,18 +97,10 @@ public abstract class MzModule
         if (object instanceof MzModule)
         {
             if (!((MzModule) object).isLoaded)
-            {
                 throw new IllegalStateException("Try to unload the module but it's not loaded: " + object + ".");
-            }
             if (!submodules.contains(object))
-            {
                 throw new IllegalStateException("Try to unload the module(" + object + ") but it's not loaded by this module(" + this + ").");
-            }
-            for (MzModule i : new HashSet<>(((MzModule) object).submodules))
-            {
-                ((MzModule) object).unregister(i);
-            }
-            for (Object i : new HashSet<>(((MzModule) object).registeredObjects.keySet()))
+            for (Object i : CollectionUtil.reverse(((MzModule) object).registeredObjects.keySet().stream()).collect(Collectors.toList()))
             {
                 ((MzModule) object).unregister(i);
             }

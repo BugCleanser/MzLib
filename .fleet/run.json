@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "MzLib [shadowJar]",
+            "type": "gradle",
+            "workingDir": "$PROJECT_DIR$",
+            "tasks": ["shadowJar"],
+            "args": [""],
+            "initScripts": {
+                "flmapper": "ext.mapPath = { path -> path }"
+            }
+        }
+    ]
+}

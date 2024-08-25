@@ -1,13 +1,38 @@
 package mz.mzlib.util.compound;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.wrapper.WrappedMemberFinder;
+import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
+
+import java.lang.annotation.*;
+import java.lang.reflect.Member;
+import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@WrappedMemberFinderClass(PropAccessor.Finder.class)
 public @interface PropAccessor
 {
     String value();
+
+    class Finder extends WrappedMemberFinder
+    {
+        @Override
+        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        {
+            Class<?> type;
+            switch (argTypes.length)
+            {
+                case 0:
+                    type = returnType;
+                    break;
+                case 1:
+                    type = argTypes[0];
+                    break;
+                default:
+                    throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
+            }
+            return RuntimeUtil.require(wrappedClass.getDeclaredField(((PropAccessor)annotation).value()), f -> f.getType() == type);
+        }
+    }
 }

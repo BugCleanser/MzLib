@@ -13,6 +13,11 @@ public class InitializableConstant<T>
         this.initizer = initizer;
     }
 
+    public void init()
+    {
+        this.value = Optional.ofNullable(initizer.get());
+    }
+
     @SuppressWarnings("OptionalAssignedToNull")
     public T get()
     {
@@ -22,7 +27,7 @@ public class InitializableConstant<T>
         {
             if (this.value != null)
                 return this.value.orElse(null);
-            this.value = Optional.ofNullable(initizer.get());
+            this.init();
             return this.value.orElse(null);
         }
     }

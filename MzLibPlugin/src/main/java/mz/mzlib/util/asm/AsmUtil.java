@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -83,6 +84,97 @@ public class AsmUtil
         return RuntimeUtil.nul();
     }
 
+    public static boolean equals(AbstractInsnNode a, AbstractInsnNode b)
+    {
+        if(a==b)
+            return true;
+        if(a==null || b==null)
+            return false;
+        if(a.getClass()!=b.getClass())
+            return false;
+        if(a.getOpcode()!=b.getOpcode())
+            return false;
+        if(a instanceof InsnNode)
+            return true;
+        if(a instanceof FieldInsnNode)
+        {
+            FieldInsnNode a1 = (FieldInsnNode) a, b1= (FieldInsnNode) b;
+            return Objects.equals(a1.owner, b1.owner) && Objects.equals(a1.name, b1.name) && Objects.equals(a1.desc, b1.desc);
+        }
+        else if(a instanceof MethodInsnNode)
+        {
+            MethodInsnNode a1 = (MethodInsnNode) a, b1= (MethodInsnNode) b;
+            return Objects.equals(a1.owner, b1.owner) && Objects.equals(a1.name, b1.name) && Objects.equals(a1.desc, b1.desc) && Objects.equals(a1.itf, b1.itf);
+        }
+        else if(a instanceof TypeInsnNode)
+        {
+            TypeInsnNode a1 = (TypeInsnNode) a, b1= (TypeInsnNode) b;
+            return Objects.equals(a1.desc, b1.desc);
+        }
+        else if(a instanceof VarInsnNode)
+        {
+            VarInsnNode a1 = (VarInsnNode) a, b1= (VarInsnNode) b;
+            return a1.var == b1.var;
+        }
+        else if(a instanceof LdcInsnNode)
+        {
+            LdcInsnNode a1 = (LdcInsnNode) a, b1= (LdcInsnNode) b;
+            return Objects.equals(a1.cst, b1.cst);
+        }
+        else if(a instanceof FrameNode)
+        {
+            FrameNode a1 = (FrameNode) a, b1= (FrameNode) b;
+            return a1.type == b1.type && Objects.equals(a1.local, b1.local) && Objects.equals(a1.stack, b1.stack);
+        }
+        else if(a instanceof IincInsnNode)
+        {
+            IincInsnNode a1 = (IincInsnNode) a, b1= (IincInsnNode) b;
+            return a1.var == b1.var && a1.incr == b1.incr;
+        }
+        else if(a instanceof IntInsnNode)
+        {
+            IntInsnNode a1 = (IntInsnNode) a, b1= (IntInsnNode) b;
+            return a1.operand == b1.operand;
+        }
+        else if(a instanceof InvokeDynamicInsnNode)
+        {
+            InvokeDynamicInsnNode a1 = (InvokeDynamicInsnNode) a, b1= (InvokeDynamicInsnNode) b;
+            return Objects.equals(a1.name, b1.name) && Objects.equals(a1.desc, b1.desc) && Objects.equals(a1.bsm, b1.bsm) && Arrays.equals(a1.bsmArgs, b1.bsmArgs);
+        }
+        else if(a instanceof JumpInsnNode)
+        {
+            JumpInsnNode a1 = (JumpInsnNode) a, b1= (JumpInsnNode) b;
+            return a1.label.getLabel() == b1.label.getLabel();
+        }
+        else if(a instanceof LabelNode)
+        {
+            LabelNode a1 = (LabelNode) a, b1= (LabelNode) b;
+            return a1.getLabel() == b1.getLabel();
+        }
+        else if(a instanceof LineNumberNode)
+        {
+            LineNumberNode a1 = (LineNumberNode) a, b1= (LineNumberNode) b;
+            return a1.line == b1.line && a1.start.getLabel() == b1.start.getLabel();
+        }
+        else if(a instanceof LookupSwitchInsnNode)
+        {
+            LookupSwitchInsnNode a1 = (LookupSwitchInsnNode) a, b1= (LookupSwitchInsnNode) b;
+            return a1.dflt==b1.dflt && Objects.equals(a1.keys,b1.keys) && Objects.equals(a1.labels, b1.labels);
+        }
+        else if(a instanceof MultiANewArrayInsnNode)
+        {
+            MultiANewArrayInsnNode a1 = (MultiANewArrayInsnNode) a, b1= (MultiANewArrayInsnNode) b;
+            return Objects.equals(a1.desc, b1.desc) && a1.dims == b1.dims;
+        }
+        else if(a instanceof TableSwitchInsnNode)
+        {
+            TableSwitchInsnNode a1 = (TableSwitchInsnNode) a, b1= (TableSwitchInsnNode) b;
+            return a1.min==b1.min && a1.max==b1.max && equals(a1.dflt, b1.dflt) && Objects.equals(a1.labels, b1.labels);
+        }
+        else
+            throw new UnsupportedOperationException();
+    }
+
     public static InsnList insnSwap(Class<?> stackTop, Class<?> belowTop)
     {
         InsnList result = new InsnList();
@@ -127,7 +219,7 @@ public class AsmUtil
     {
         InsnList result = new InsnList();
         result.add(insnCast(AbsWrapper.class, Object.class));
-        result.add(new FieldInsnNode(Opcodes.GETFIELD, getType(AbsWrapper.class), "delegate", getDesc(Object.class)));
+        result.add(new FieldInsnNode(Opcodes.GETFIELD, getType(AbsWrapper.class), "wrapped", getDesc(Object.class)));
         return result;
     }
 

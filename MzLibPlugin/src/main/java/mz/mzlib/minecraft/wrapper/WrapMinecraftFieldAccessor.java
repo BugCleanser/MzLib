@@ -25,6 +25,8 @@ public @interface WrapMinecraftFieldAccessor
         {
             String[] names = Arrays.stream(((WrapMinecraftFieldAccessor) annotation).value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name ->
                     MinecraftPlatform.instance.getMappingsY2P().mapField(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), name)).toArray(String[]::new);
+            if(names.length == 0)
+                return null;
             try
             {
                 return WrapFieldAccessor.Finder.class.newInstance().find(wrappedClass, new WrapFieldAccessor()
@@ -42,8 +44,7 @@ public @interface WrapMinecraftFieldAccessor
                     }
                 }, returnType, argTypes);
             }
-            catch (InstantiationException |
-                   IllegalAccessException e)
+            catch (InstantiationException|IllegalAccessException e)
             {
                 throw RuntimeUtil.sneakilyThrow(e);
             }

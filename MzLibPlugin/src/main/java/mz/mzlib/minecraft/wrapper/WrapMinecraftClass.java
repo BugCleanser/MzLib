@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.*;
 
@@ -17,7 +18,7 @@ public @interface WrapMinecraftClass
     class Finder extends WrappedClassFinder
     {
         @Override
-        public Class<?> find(ClassLoader classLoader, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             ClassNotFoundException lastException = null;
             for (VersionName name : ((WrapMinecraftClass) annotation).value())
@@ -26,7 +27,7 @@ public @interface WrapMinecraftClass
                 {
                     try
                     {
-                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()));
+                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()),true,wrapperClass.getClassLoader());
                     }
                     catch (ClassNotFoundException e)
                     {
@@ -34,7 +35,9 @@ public @interface WrapMinecraftClass
                     }
                 }
             }
-            throw new ClassNotFoundException("No class found: " + annotation, lastException);
+            if(lastException != null)
+                throw new ClassNotFoundException("No class found: " + annotation, lastException);
+            return null;
         }
     }
 }

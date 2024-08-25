@@ -1,6 +1,6 @@
 package mz.mzlib.example;
 
-import mz.mzlib.mappings.*;
+import mz.mzlib.minecraft.mappings.*;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.StrongRef;
 
@@ -11,16 +11,36 @@ import java.util.Scanner;
 
 public class Test
 {
+	public static String getVersionString()
+	{
+		return "1.21";
+	}
+	public static boolean isPaper()
+	{
+		return true;
+	}
+	public static int version;
+	static
+	{
+		String[] versions = getVersionString().split("\\.", -1);
+		version = Integer.parseInt(versions[1]) * 100 + (versions.length > 2 ? Integer.parseInt(versions[2]) : 0);
+	}
+	public static int getVersion()
+	{
+		return version;
+	}
 	public static void main(String[] args) throws Throwable
 	{
-		Ref<Mappings> yarnLegacy = new StrongRef<>(null);
-		Ref<Mappings> yarn = new StrongRef<>(null);
-		Ref<Mappings> yarnIntermediary = new StrongRef<>(null);
-		Ref<Mappings> platform = new StrongRef<>(null);
+		IMappings mappingsP2Y,mappingsY2P;
+		File folder = new File("./mappings");
+		Ref<Mappings> yarnLegacy=new StrongRef<>(null);
+		Ref<Mappings> yarn=new StrongRef<>(null);
+		Ref<Mappings> yarnIntermediary=new StrongRef<>(null);
+		Ref<Mappings> platform=new StrongRef<>(null);
 		try
 		{
 			{
-				YarnMappings y = new YarnMappingFetcher("1.12.2", new File("./mappings")).fetch().get();
+				YarnMappings y = new YarnMappingFetcher(getVersionString(), folder).fetch().get();
 				if (y.legacy != null)
 					yarnLegacy.set(Mappings.parseYarnLegacy(y.legacy));
 				else
@@ -29,7 +49,10 @@ public class Test
 					yarnIntermediary.set(Mappings.parseYarnIntermediary(y.intermediary));
 				}
 			}
-			platform.set(Mappings.parseSpigot(new SpigotMappingsFetcher("1.12.2", new File("./mappings")).fetch().get()));
+			if(isPaper()&&getVersion()>=2005)
+				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(getVersionString(), folder).fetch().get()));
+			else
+				platform.set(Mappings.parseSpigot(new SpigotMappingsFetcher(getVersionString(), folder).fetch().get()));
 		}
 		catch (Throwable e)
 		{
@@ -38,25 +61,30 @@ public class Test
 
 		List<IMappings> result = new ArrayList<>();
 		result.add(platform.get());
-		if (yarnLegacy.get() != null)
+		if(yarnLegacy.get()!=null)
 			result.add(yarnLegacy.get());
 		else
 		{
-			result.add(yarnIntermediary.get());
+			if (getVersion() >= 1403)
+				result.add(yarnIntermediary.get());
 			result.add(yarn.get());
 		}
-		IMappings mappingsP2Y = new MappingsPipe(result);
+		mappingsP2Y = new MappingsPipe(result);
 
 		result = new ArrayList<>();
-		if (yarnLegacy.get() != null)
+		if(yarnLegacy.get()!=null)
 			result.add(yarnLegacy.get().reverse());
 		else
 		{
 			result.add(yarn.get().reverse());
-			result.add(yarnIntermediary.get().reverse());
+			if (getVersion() >= 1403)
+				result.add(yarnIntermediary.get().reverse());
 		}
 		result.add(platform.get().reverse());
-		IMappings mappingsY2P = new MappingsPipe(result);
+		mappingsY2P = new MappingsPipe(result);
+
+		System.out.println(mappingsY2P.mapClass("net.minecraft.server.network.ServerPlayNetworkHandler"));
+		System.out.println(mappingsY2P.mapField("net.minecraft.server.network.ServerPlayNetworkHandler","player"));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();

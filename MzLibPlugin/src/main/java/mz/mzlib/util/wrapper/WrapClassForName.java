@@ -12,8 +12,9 @@ public @interface WrapClassForName
     class Finder extends WrappedClassFinder
     {
         @Override
-        public Class<?> find(ClassLoader classLoader, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
+            ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
             for (String i : ((WrapClassForName) annotation).value())
             {
@@ -27,13 +28,8 @@ public @interface WrapClassForName
                 }
             }
             if (lastException != null)
-            {
                 throw lastException;
-            }
-            else
-            {
-                throw new ClassNotFoundException("No class found: " + annotation);
-            }
+            return null;
         }
     }
 }

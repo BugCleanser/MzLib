@@ -1,8 +1,10 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.event.EventListenerRegistrar;
+import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.packet.PacketListenerModule;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.RuntimeUtil;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -11,7 +13,18 @@ public class MzLibMinecraft extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(EventListenerRegistrar.instance);
-        this.register(PacketListenerModule.instance);
+        try
+        {
+            this.register(I18nMinecraft.instance);
+
+            this.register(EventListenerRegistrar.instance);
+            this.register(PacketListenerModule.instance);
+
+            this.register(MinecraftEventModule.instance);
+        }
+        catch (Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class ListenerHandler
                                        MethodType invokedType,
                                        Class<? extends Event> eventClass) throws NoSuchMethodException, IllegalAccessException
     {
-        return new ConstantCallSite(caller.findVirtual(ListenerHandler.class,"call",MethodType.methodType(void.class,Event.class)).bindTo(handlers.get(eventClass)));
+        return new ConstantCallSite(caller.findVirtual(ListenerHandler.class,"call",MethodType.methodType(void.class,Event.class)).bindTo(handlers.get(eventClass)).asType(invokedType));
     }
 
     public List<EventListener<?>> sortedListeners=new ArrayList<>();

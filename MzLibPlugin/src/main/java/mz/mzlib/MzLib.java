@@ -2,6 +2,7 @@ package mz.mzlib;
 
 import mz.mzlib.event.EventClassRegistrar;
 import mz.mzlib.event.EventListenerRegistrar;
+import mz.mzlib.i18n.I18nRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.nothing.NothingClassRegistrar;
@@ -45,6 +46,7 @@ public class MzLib extends MzModule
     {
         this.register(Instance.InstanceRegistrar.instance);
 
+        this.register(I18nRegistrar.instance);
         this.register(NothingClassRegistrar.instance);
         this.register(EventClassRegistrar.instance);
         this.register(EventListenerRegistrar.instance);

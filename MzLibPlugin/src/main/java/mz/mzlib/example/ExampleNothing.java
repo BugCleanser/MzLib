@@ -1,5 +1,6 @@
 package mz.mzlib.example;
 
+import mz.mzlib.MzLib;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapClass;
@@ -22,6 +23,8 @@ public class ExampleNothing
         public void f()
         {
             System.out.println(3.14);
+            // println
+            // ..., System.out, 3.14
         }
 
         public void g()
@@ -34,7 +37,7 @@ public class ExampleNothing
     public interface WrapperFoo extends WrapperObject
     {
         @WrapMethod("f")
-        void f();
+        void f123();
 
         @WrapMethod("g")
         void g();
@@ -43,17 +46,24 @@ public class ExampleNothing
     @WrapSameClass(WrapperFoo.class)
     public interface NothingFoo extends WrapperFoo, Nothing
     {
-        @NothingInject(wrapperMethod = "f", locatingSteps = {@LocatingStep(type = LocatingStepType.AFTER_FIRST, arg = Opcodes.INVOKEVIRTUAL)}, type = NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void injectF(@StackTop Wrapper_double s)
+        static void injectionFLocate(NothingInjectLocating locating)
         {
+            locating.next(Opcodes.INVOKEVIRTUAL);
+            assert locating.locations.size()==1;
+        }
+        @NothingInject(wrapperMethod = "f123", locateMethod = "injectionFLocate", type = NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void injectionF(@StackTop Wrapper_double s)
+        {
+            s.setWrapped(1.14);
             this.g();
-            return Wrapper_void.create(null);
+            return Nothing.notReturn();
         }
     }
 
     public static void main(String[] args)
     {
-        NothingClassRegistrar.instance.register(null, NothingFoo.class);
+        MzLib.instance.load();
+        MzLib.instance.register(NothingFoo.class);
         new Foo().f();
     }
 }

@@ -11,19 +11,17 @@ import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.ConstantCallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NothingRegistration
@@ -141,8 +139,10 @@ public class NothingRegistration
                     Executable m;
                     try
                     {
-                        m = (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).wrappedMembers.get(Arrays.stream(nothing.getMethods()).filter(j -> j.getName().equals(ni.wrapperMethod())).findFirst().orElse(null));
-                        Objects.requireNonNull(m);
+                        Set<Method> wrapper = Arrays.stream(nothing.getMethods()).filter(j -> j.getName().equals(ni.wrapperMethod())).collect(Collectors.toSet());
+                        if(wrapper.isEmpty())
+                            throw new IllegalStateException("Wrapper method not found: "+i);
+                        m= (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).wrappedMembers.get(wrapper.iterator().next());
                     }
                     catch (NullPointerException e)
                     {
@@ -152,48 +152,23 @@ public class NothingRegistration
                     {
                         MethodNode mn = AsmUtil.getMethodNode(cn, m.getName(), AsmUtil.getDesc(m));
                         assert mn != null;
-                        AbstractInsnNode[] raw = raws.get(mn);
-                        Set<Integer> locs = new HashSet<>();
-                        locs.add(0);
-                        for (LocatingStep j : ni.locatingSteps())
+                        NothingInjectLocating locating=new NothingInjectLocating(raws.get(mn));
+                        try
                         {
-                            Set<Integer> lastLocs = locs;
-                            locs = new HashSet<>();
-                            for (int k : lastLocs)
-                            {
-                                switch (j.type())
-                                {
-                                    case OFFSET:
-                                        if (k + j.arg() >= 0 && k + j.arg() < raw.length)
-                                        {
-                                            locs.add(k + j.arg());
-                                        }
-                                        break;
-                                    case AFTER_FIRST:
-                                    case AFTER_ALL:
-                                        for (int l = 1; l <= j.maxDistance() && k + l < raw.length; l++)
-                                        {
-                                            if (raw[k + l].getOpcode() == j.arg())
-                                            {
-                                                locs.add(k + l);
-                                                if (j.type() == LocatingStepType.AFTER_FIRST)
-                                                {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        break;
-                                }
-                            }
+                            nothing.getMethod(ni.locateMethod(),NothingInjectLocating.class).invoke(null, locating);
                         }
-                        for (int j : locs)
+                        catch (Throwable e)
+                        {
+                            throw RuntimeUtil.sneakilyThrow(e);
+                        }
+                        for (int j : locating.locations)
                         {
                             switch (ni.type())
                             {
                                 case RAW:
                                     try
                                     {
-                                        i.invoke(null, m, mn, raw[j]);
+                                        i.invoke(null, m, mn, locating.insns[j]);
                                     }
                                     catch (Throwable e)
                                     {
@@ -202,8 +177,8 @@ public class NothingRegistration
                                     break;
                                 case SKIP:
                                     LabelNode ln = new LabelNode();
-                                    mn.instructions.insertBefore(raw[j], new JumpInsnNode(Opcodes.GOTO, ln));
-                                    mn.instructions.insertBefore(raw[j + ni.length()], ln);
+                                    mn.instructions.insertBefore(locating.insns[j], new JumpInsnNode(Opcodes.GOTO, ln));
+                                    mn.instructions.insertBefore(locating.insns[j + ni.length()], ln);
                                     break;
                                 default:
                                     InsnList loadingVars = new InsnList(), afterCall = new InsnList(), afterPop = new InsnList();
@@ -335,18 +310,18 @@ public class NothingRegistration
                                     switch (ni.type())
                                     {
                                         case INSERT_BEFORE:
-                                            mn.instructions.insertBefore(raw[j], caller);
+                                            mn.instructions.insertBefore(locating.insns[j], caller);
                                             break;
                                         case CATCH:
                                             LabelNode ln1 = new LabelNode(), ln2 = new LabelNode(), ln3 = new LabelNode();
-                                            mn.instructions.insertBefore(raw[j], ln1);
+                                            mn.instructions.insertBefore(locating.insns[j], ln1);
                                             InsnList il = new InsnList();
                                             il.add(new JumpInsnNode(Opcodes.GOTO, ln3));
                                             il.add(ln2);
                                             il.add(caller);
                                             caller.add(AsmUtil.insnPop(Throwable.class));
                                             il.add(ln3);
-                                            mn.instructions.insertBefore(raw[j + ni.length()], il);
+                                            mn.instructions.insertBefore(locating.insns[j + ni.length()], il);
                                             mn.visitTryCatchBlock(ln1.getLabel(), ln2.getLabel(), ln2.getLabel(), AsmUtil.getType(Throwable.class));
                                             break;
                                     }

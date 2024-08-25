@@ -11,6 +11,7 @@ import mz.mzlib.util.RuntimeUtil;
 import java.lang.reflect.Array;
 import java.util.*;
 
+@Deprecated
 public class CastChecker
 {
     public static class OperandVisitor implements Cloneable

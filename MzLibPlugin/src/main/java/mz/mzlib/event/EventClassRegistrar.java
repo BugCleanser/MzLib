@@ -37,7 +37,9 @@ public class EventClassRegistrar implements IRegistrar<Class<? extends Event>>
         if(mn==null || (mn.access&Opcodes.ACC_ABSTRACT)!=0)
             throw new IllegalStateException("Registered event class must implements method call: "+object);
         mn.instructions=new InsnList();
-        mn.visitInvokeDynamicInsn("call",AsmUtil.getDesc(void.class,new Class[0]),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ListenerHandler.class),"getCallSite",AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), false), Type.getType(cn.name));
+        mn.instructions.add(AsmUtil.insnVarLoad(Event.class,0));
+        mn.visitInvokeDynamicInsn("call",AsmUtil.getDesc(void.class,Event.class),new Handle(Opcodes.H_INVOKESTATIC,AsmUtil.getType(ListenerHandler.class),"getCallSite",AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), false),  Type.getType(AsmUtil.getDesc(object)));
+        mn.instructions.add(AsmUtil.insnReturn(void.class));
         ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
         cn.accept(cw);
         ClassUtil.defineClass(object.getClassLoader(),cn.name,cw.toByteArray());

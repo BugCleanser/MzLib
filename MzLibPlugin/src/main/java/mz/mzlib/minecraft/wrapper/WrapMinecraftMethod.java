@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.wrapper;
 
-import mz.mzlib.mappings.MappingMethod;
+import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.util.RuntimeUtil;
@@ -26,7 +26,9 @@ public @interface WrapMinecraftMethod
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
             String[] names = Arrays.stream(((WrapMinecraftMethod) annotation).value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name ->
-                    MinecraftPlatform.instance.getMappingsY2P().mapMethod(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), new MappingMethod(name, Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappingsP2Y()::mapClass).toArray(String[]::new)))).toArray(String[]::new);
+                    MinecraftPlatform.instance.getMappingsY2P().mapMethod(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), new MappingMethod(name, Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappingsP2Y()::mapType).toArray(String[]::new)))).toArray(String[]::new);
+            if(names.length==0)
+                return null;
             try
             {
                 return WrapMethod.Finder.class.newInstance().find(wrappedClass, new WrapMethod()

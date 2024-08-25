@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapMinecraftClass({@VersionName(name = "net.minecraft.network.Packet", end = 1904), @VersionName(name = "net.minecraft.network.packet.Packet", begin = 1904)})
 public interface Packet extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Packet create(Object wrapped)
     {

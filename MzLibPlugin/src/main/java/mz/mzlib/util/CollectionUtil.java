@@ -2,6 +2,7 @@ package mz.mzlib.util;
 
 import java.lang.invoke.MethodHandle;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class CollectionUtil
 {
@@ -10,6 +11,12 @@ public class CollectionUtil
     }
 
     public static MethodHandle synchronizedSet;
+
+    @SuppressWarnings("all")
+    public static <T> Stream<T> reverse(Stream<T> stream)
+    {
+        return stream.sorted((prev,next)->-1);
+    }
 
     static
     {

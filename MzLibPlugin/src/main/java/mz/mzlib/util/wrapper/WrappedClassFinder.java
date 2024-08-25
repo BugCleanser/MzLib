@@ -6,7 +6,7 @@ import java.lang.annotation.Annotation;
 
 public abstract class WrappedClassFinder
 {
-    public abstract Class<?> find(ClassLoader classLoader, Annotation annotation) throws ClassNotFoundException;
+    public abstract Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException;
 
     public void extra(Annotation annotation, ClassNode cn)
     {

@@ -1,6 +1,5 @@
 package mz.mzlib.util.async;
 
-import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.concurrent.CompletableFuture;
@@ -66,9 +65,7 @@ public abstract class AsyncFunction<R> implements Runnable
     {
         this.runner = runner;
         if (this.coroutine == null)
-        {
             this.coroutine = Coroutine.init(this);
-        }
         runner.schedule(this);
         return RuntimeUtil.cast(coroutine.future);
     }
