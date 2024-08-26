@@ -1,8 +1,9 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.event.EventListenerRegistrar;
+import mz.mzlib.minecraft.I18n.I18nMinecraft;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
-import mz.mzlib.minecraft.packet.PacketListenerModule;
+import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 

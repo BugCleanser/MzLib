@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapMethod.Finder.class)
+@WrappedMemberFinderClass(WrapMethod.Handler.class)
 public @interface WrapMethod
 {
     /**
@@ -17,7 +17,7 @@ public @interface WrapMethod
      */
     String[] value();
 
-    class Finder extends WrappedMemberFinder
+    class Handler implements WrappedMemberFinder
     {
         @Override
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException

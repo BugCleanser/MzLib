@@ -11,12 +11,12 @@ import java.lang.reflect.Array;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapArrayClass.Finder.class)
+@WrappedClassFinderClass(WrapArrayClass.Handler.class)
 public @interface WrapArrayClass
 {
     Class<? extends WrapperObject> value();
 
-    class Finder extends WrappedClassFinder
+    class Handler implements WrappedClassFinder
     {
         @SuppressWarnings("deprecation")
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)

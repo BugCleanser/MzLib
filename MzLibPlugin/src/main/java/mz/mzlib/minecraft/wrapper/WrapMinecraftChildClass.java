@@ -2,22 +2,38 @@ package mz.mzlib.minecraft.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ElementSwitcher;
+import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.*;
+import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapMinecraftChildClass.Finder.class)
+@ElementSwitcherClass(WrapMinecraftChildClass.Handler.class)
+@WrappedClassFinderClass(WrapMinecraftChildClass.Handler.class)
 public @interface WrapMinecraftChildClass
 {
     Class<? extends WrapperObject> wrapperSupper();
     VersionName[] name();
 
-    class Finder extends WrappedClassFinder
+    class Handler implements ElementSwitcher, WrappedClassFinder
     {
+        @Override
+        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        {
+            WrapMinecraftChildClass a = (WrapMinecraftChildClass) annotation;
+            for(VersionName n:a.name())
+            {
+                if (MinecraftPlatform.instance.inVersion(n))
+                    return true;
+            }
+            return false;
+        }
+
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();

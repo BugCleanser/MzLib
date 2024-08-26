@@ -4,12 +4,12 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapClass.Finder.class)
+@WrappedClassFinderClass(WrapClass.Handler.class)
 public @interface WrapClass
 {
     Class<?> value();
 
-    class Finder extends WrappedClassFinder
+    class Handler implements WrappedClassFinder
     {
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
         {

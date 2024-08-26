@@ -22,7 +22,7 @@ public @interface VersionRange
      */
     int end() default Integer.MAX_VALUE;
 
-    class Switcher extends ElementSwitcher
+    class Switcher implements ElementSwitcher
     {
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {

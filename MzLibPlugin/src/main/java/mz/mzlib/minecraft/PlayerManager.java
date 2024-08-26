@@ -20,9 +20,9 @@ public interface PlayerManager extends WrapperObject
     }
 
     @WrapMinecraftMethod({@VersionName(name="getPlayers",end=1400),@VersionName(name="getPlayerList",begin = 1400)})
-    List<?> getPlayerList0();
-    default List<EntityPlayer> getPlayerList()
+    List<?> getPlayers0();
+    default List<EntityPlayer> getPlayers()
     {
-        return new ListWrapper<>(this.getPlayerList0(),EntityPlayer::create);
+        return new ListWrapper<>(this.getPlayers0(),EntityPlayer::create);
     }
 }

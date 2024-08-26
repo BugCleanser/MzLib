@@ -2,24 +2,40 @@ package mz.mzlib.minecraft.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ElementSwitcher;
+import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
 
 import java.lang.annotation.*;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapMinecraftFieldAccessor.Finder.class)
+@ElementSwitcherClass(WrapMinecraftFieldAccessor.Handler.class)
+@WrappedMemberFinderClass(WrapMinecraftFieldAccessor.Handler.class)
 public @interface WrapMinecraftFieldAccessor
 {
     VersionName[] value();
 
-    class Finder extends WrappedMemberFinder
+    class Handler implements ElementSwitcher, WrappedMemberFinder
     {
+        @Override
+        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        {
+            WrapMinecraftFieldAccessor a = (WrapMinecraftFieldAccessor) annotation;
+            for(VersionName n:a.value())
+            {
+                if (MinecraftPlatform.instance.inVersion(n))
+                    return true;
+            }
+            return false;
+        }
+
         @Override
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
@@ -29,7 +45,7 @@ public @interface WrapMinecraftFieldAccessor
                 return null;
             try
             {
-                return WrapFieldAccessor.Finder.class.newInstance().find(wrappedClass, new WrapFieldAccessor()
+                return WrapFieldAccessor.Handler.class.newInstance().find(wrappedClass, new WrapFieldAccessor()
                 {
                     @Override
                     public Class<WrapFieldAccessor> annotationType()

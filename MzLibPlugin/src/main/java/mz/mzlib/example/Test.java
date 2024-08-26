@@ -13,7 +13,7 @@ public class Test
 {
 	public static String getVersionString()
 	{
-		return "1.21";
+		return "1.18.2";
 	}
 	public static boolean isPaper()
 	{
@@ -83,8 +83,6 @@ public class Test
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
 
-		System.out.println(mappingsY2P.mapClass("net.minecraft.server.network.ServerPlayNetworkHandler"));
-		System.out.println(mappingsY2P.mapField("net.minecraft.server.network.ServerPlayNetworkHandler","player"));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();

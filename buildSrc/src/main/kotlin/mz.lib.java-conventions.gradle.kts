@@ -12,6 +12,7 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://raw.githubusercontent.com/TheBlackEntity/PlugMan/repository/")
     maven("https://repo.maven.apache.org/maven2/")
+    maven("https://libraries.minecraft.net/")
 }
 
 group = "mz.lib"

@@ -11,7 +11,7 @@ import java.lang.reflect.AnnotatedElement;
 @ElementSwitcherClass(PaperOnly.Switcher.class)
 public @interface PaperOnly
 {
-    class Switcher extends ElementSwitcher
+    class Switcher implements ElementSwitcher
     {
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {

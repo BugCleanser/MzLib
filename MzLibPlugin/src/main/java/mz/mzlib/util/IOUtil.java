@@ -50,9 +50,27 @@ public class IOUtil
         }
     }
 
-    public static InputStream openConnectionCheckRedirects(URLConnection c) throws IOException
+    public static InputStream openConnectionCheckRedirects(URL url, int retry) throws IOException
+    {
+        assert retry>0;
+        IOException lastException=null;
+        for(int i=0;i<retry;i++)
+        {
+            try
+            {
+                return openConnectionCheckRedirects(url);
+            }
+            catch (IOException e)
+            {
+                lastException=e;
+            }
+        }
+        throw lastException;
+    }
+    public static InputStream openConnectionCheckRedirects(URL url) throws IOException
     {
         boolean redir;
+        URLConnection c = url.openConnection();
         int redirects=0;
         InputStream in;
         do

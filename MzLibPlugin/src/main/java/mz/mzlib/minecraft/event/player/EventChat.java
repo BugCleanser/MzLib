@@ -1,11 +1,11 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.packet.PacketListener;
-import mz.mzlib.minecraft.packet.c2s.play.PacketChatMessageC2S;
+import mz.mzlib.minecraft.network.packet.PacketListener;
+import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
 import mz.mzlib.module.MzModule;
 
-public class EventChat extends PlayerEvent
+public class EventChat extends EventPlayer
 {
     public String message;
     public EventChat(EntityPlayer player, String message)
@@ -36,9 +36,9 @@ public class EventChat extends PlayerEvent
         public void onLoad()
         {
             this.register(EventChat.class);
-            this.register(new PacketListener<>(PacketChatMessageC2S.class,true,(e,p)->
+            this.register(new PacketListener<>(PacketC2sChatMessage.class, true, (e, p)->
             {
-                EventChat event=new EventChat(e.getPlayer(),p.getChatMessage());
+                EventChat event=new EventChat(e.getPlayer(), p.getChatMessage());
                 event.setCancelled(e.isCancelled());
                 event.call();
                 e.setCancelled(event.isCancelled());

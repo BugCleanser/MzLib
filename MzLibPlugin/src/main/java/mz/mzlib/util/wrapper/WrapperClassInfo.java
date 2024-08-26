@@ -30,7 +30,7 @@ public class WrapperClassInfo
 
     public Class<? extends WrapperObject> getWrapperClass()
     {
-        return wrapperClass;
+        return this.wrapperClass;
     }
 
     public Class<?> getWrappedClass()
@@ -42,6 +42,8 @@ public class WrapperClassInfo
 
     public void analyse() throws InstantiationException, IllegalAccessException
     {
+        if(!ElementSwitcher.isEnabled(this.getWrapperClass()))
+            return;
         ClassNotFoundException lastException = null;
         for (Annotation i : this.wrapperClass.getDeclaredAnnotations())
         {
@@ -174,17 +176,37 @@ public class WrapperClassInfo
             mn.instructions.add(AsmUtil.insnReturn(void.class));
             mn.visitEnd();
             cn.methods.add(mn);
-            for (Method m : getWrapperClass().getMethods())
+            for (Method m : this.getWrapperClass().getMethods())
             {
-                if (!m.getName().equals("getWrapped") || m.getParameterCount() != 0 || Modifier.isStatic(m.getModifiers()) || !ElementSwitcher.isEnabled(m))
+                if(!ElementSwitcher.isEnabled(m))
                     continue;
-                mn = new MethodNode(Opcodes.ACC_PUBLIC, m.getName(), AsmUtil.getDesc(m), null, new String[0]);
-                mn.instructions.add(AsmUtil.insnVarLoad(WrapperObject.class, 0));
-                mn.visitMethodInsn(Opcodes.INVOKESPECIAL, AsmUtil.getType(AbsWrapper.class), m.getName(), AsmUtil.getDesc(Object.class, new Class[0]), false);
-                mn.instructions.add(AsmUtil.insnCast(m.getReturnType(), Object.class));
-                mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));
-                mn.visitEnd();
-                cn.methods.add(mn);
+                if (m.getName().equals("getWrapped") && m.getParameterCount() == 0 && !Modifier.isStatic(m.getModifiers()))
+                {
+                    mn = new MethodNode(Opcodes.ACC_PUBLIC, m.getName(), AsmUtil.getDesc(m), null, new String[0]);
+                    mn.instructions.add(AsmUtil.insnVarLoad(WrapperObject.class, 0));
+                    mn.visitMethodInsn(Opcodes.INVOKESPECIAL, AsmUtil.getType(AbsWrapper.class), m.getName(), AsmUtil.getDesc(Object.class, new Class[0]), false);
+                    mn.instructions.add(AsmUtil.insnCast(m.getReturnType(), Object.class));
+                    mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));
+                    mn.visitEnd();
+                    cn.methods.add(mn);
+                }
+                SpecificImpl specificImpl = m.getDeclaredAnnotation(SpecificImpl.class);
+                if(specificImpl!=null)
+                {
+                    Class<?>[] pts = m.getParameterTypes();
+                    Method target = this.getWrapperClass().getMethod(specificImpl.value(), pts);
+                    mn=new MethodNode(Opcodes.ACC_PUBLIC, target.getName(), AsmUtil.getDesc(target), null, new String[0]);
+                    mn.instructions.add(AsmUtil.insnVarLoad(WrapperObject.class, 0));
+                    for(int i=0,j=1;i< pts.length;i++)
+                    {
+                        mn.instructions.add(AsmUtil.insnVarLoad(pts[i], j));
+                        j+=AsmUtil.getCategory(pts[i]);
+                    }
+                    mn.visitMethodInsn(Opcodes.INVOKEINTERFACE, AsmUtil.getType(getWrapperClass()), m.getName(), AsmUtil.getDesc(m), true);
+                    mn.instructions.add(AsmUtil.insnReturn(target.getReturnType()));
+                    mn.visitEnd();
+                    cn.methods.add(mn);
+                }
             }
             mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticGetWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
             mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));

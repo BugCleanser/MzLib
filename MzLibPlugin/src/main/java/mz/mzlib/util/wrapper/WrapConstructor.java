@@ -6,10 +6,10 @@ import java.lang.reflect.Member;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapConstructor.Finder.class)
+@WrappedMemberFinderClass(WrapConstructor.Handler.class)
 public @interface WrapConstructor
 {
-    class Finder extends WrappedMemberFinder
+    class Handler implements WrappedMemberFinder
     {
         @Override
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException

@@ -2,14 +2,10 @@ package mz.mzlib.example;
 
 import mz.mzlib.MzLib;
 import mz.mzlib.asm.Opcodes;
-import mz.mzlib.util.wrapper.WrapperObject;
-import mz.mzlib.util.wrapper.WrapClass;
-import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.nothing.*;
+import mz.mzlib.util.wrapper.*;
 import mz.mzlib.util.wrapper.basic.Wrapper_double;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
-import mz.mzlib.util.nothing.*;
-
 
 @Deprecated
 public class ExampleNothing
@@ -36,6 +32,12 @@ public class ExampleNothing
     @WrapClass(Foo.class)
     public interface WrapperFoo extends WrapperObject
     {
+        @WrapperCreator
+        static WrapperFoo create(Object wrapped)
+        {
+            return WrapperObject.create(WrapperFoo.class, wrapped);
+        }
+
         @WrapMethod("f")
         void f123();
 
@@ -49,6 +51,7 @@ public class ExampleNothing
         static void injectionFLocate(NothingInjectLocating locating)
         {
             locating.next(Opcodes.INVOKEVIRTUAL);
+//            locating.next(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, AsmUtil.getType(PrintStream.class), "println", AsmUtil.getDesc(void.class, double.class), false));
             assert locating.locations.size()==1;
         }
         @NothingInject(wrapperMethod = "f123", locateMethod = "injectionFLocate", type = NothingInjectType.INSERT_BEFORE)
@@ -63,6 +66,8 @@ public class ExampleNothing
     public static void main(String[] args)
     {
         MzLib.instance.load();
+
+        new Foo().f();
         MzLib.instance.register(NothingFoo.class);
         new Foo().f();
     }

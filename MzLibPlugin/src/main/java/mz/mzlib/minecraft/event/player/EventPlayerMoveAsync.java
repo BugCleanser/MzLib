@@ -1,15 +1,15 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.Vector;
+import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.packet.PacketEvent;
-import mz.mzlib.minecraft.packet.PacketListener;
-import mz.mzlib.minecraft.packet.c2s.play.PacketPlayerMoveC2S;
-import mz.mzlib.minecraft.packet.c2s.play.PacketVehicleMoveC2S;
+import mz.mzlib.minecraft.network.packet.PacketEvent;
+import mz.mzlib.minecraft.network.packet.PacketListener;
+import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
+import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventPlayerMoveAsync extends PlayerEvent
+public abstract class EventPlayerMoveAsync extends EventPlayer
 {
     public EventPlayerMoveAsync(EntityPlayer player)
     {
@@ -20,13 +20,13 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
     public abstract boolean isLookChanged();
     public abstract boolean isOnGroundChanged();
     public abstract boolean isVehicleLookChanged();
-    public abstract Vector getLocation();
+    public abstract Vec3d getLocation();
     public abstract float getYaw();
     public abstract float getPitch();
     public abstract boolean isOnGround();
     public abstract float getVehicleYaw();
     public abstract float getVehiclePitch();
-    public abstract void setLocation(Vector value);
+    public abstract void setLocation(Vec3d value);
     public abstract void setYaw(float value);
     public abstract void setPitch(float value);
     public abstract void setOnGround(boolean value);
@@ -38,16 +38,16 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
     {
     }
 
-    public static class EventPlayerMoveAsyncByPacketPlayerMoveC2S extends EventPlayerMoveAsync
+    public static class EventPlayerMoveAsyncByPacketC2sPlayerMove extends EventPlayerMoveAsync
     {
-        public PacketPlayerMoveC2S packet;
-        public EventPlayerMoveAsyncByPacketPlayerMoveC2S(EntityPlayer player, PacketPlayerMoveC2S packet)
+        public PacketC2sPlayerMove packet;
+        public EventPlayerMoveAsyncByPacketC2sPlayerMove(EntityPlayer player, PacketC2sPlayerMove packet)
         {
             super(player);
             this.packet = packet;
         }
 
-        public PacketPlayerMoveC2S getPacket()
+        public PacketC2sPlayerMove getPacket()
         {
             return this.packet;
         }
@@ -71,7 +71,7 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
         }
 
         @Override
-        public Vector getLocation()
+        public Vec3d getLocation()
         {
             return this.getPacket().getLocation();
         }
@@ -95,7 +95,7 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
         }
 
         @Override
-        public void setLocation(Vector value)
+        public void setLocation(Vec3d value)
         {
             this.getPacket().setLocation(value);
         }
@@ -148,17 +148,17 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
             throw new UnsupportedOperationException();
         }
     }
-    public static class EventPlayerMoveByPacketVehicleMoveC2S extends EventPlayerMoveAsync
+    public static class EventPlayerMoveByPacketC2sVehicleMove extends EventPlayerMoveAsync
     {
-        public PacketVehicleMoveC2S packet;
+        public PacketC2sVehicleMove packet;
 
-        public EventPlayerMoveByPacketVehicleMoveC2S(EntityPlayer player, PacketVehicleMoveC2S packet)
+        public EventPlayerMoveByPacketC2sVehicleMove(EntityPlayer player, PacketC2sVehicleMove packet)
         {
             super(player);
             this.packet = packet;
         }
 
-        public PacketVehicleMoveC2S getPacket()
+        public PacketC2sVehicleMove getPacket()
         {
             return this.packet;
         }
@@ -200,13 +200,13 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
         }
 
         @Override
-        public Vector getLocation()
+        public Vec3d getLocation()
         {
             return this.getPacket().getLocation();
         }
 
         @Override
-        public void setLocation(Vector value)
+        public void setLocation(Vec3d value)
         {
             this.getPacket().setLocation(value);
         }
@@ -263,18 +263,18 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
     {
         public static Module instance = new Module();
 
-        public void handle(PacketEvent packetEvent,PacketPlayerMoveC2S packet)
+        public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketPlayerMoveC2S(packetEvent.getPlayer(), packet);
+            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent.getPlayer(), packet);
             event.setCancelled(packetEvent.isCancelled());
             event.call();
             packetEvent.setCancelled(event.isCancelled());
             packetEvent.runLater(event::complete);
         }
 
-        public void handle(PacketEvent packetEvent,PacketVehicleMoveC2S packet)
+        public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveByPacketVehicleMoveC2S(packetEvent.getPlayer(), packet);
+            EventPlayerMoveAsync event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent.getPlayer(), packet);
             event.setCancelled(packetEvent.isCancelled());
             event.call();
             packetEvent.setCancelled(event.isCancelled());
@@ -285,12 +285,12 @@ public abstract class EventPlayerMoveAsync extends PlayerEvent
         public void onLoad()
         {
             this.register(EventPlayerMoveAsync.class);
-            this.register(new PacketListener<>(PacketPlayerMoveC2S.LocationAndOnGround.class, false, this::handle));
-            this.register(new PacketListener<>(PacketPlayerMoveC2S.LookAndOnGround.class, false, this::handle));
-            this.register(new PacketListener<>(PacketPlayerMoveC2S.Full.class, false, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround.class, false, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround.class, false, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.Full.class, false, this::handle));
             if(MinecraftPlatform.instance.getVersion()>=1700)
-                this.register(new PacketListener<>(PacketPlayerMoveC2S.OnGroundOnlyV1700.class, false, this::handle));
-            this.register(new PacketListener<>(PacketVehicleMoveC2S.class,false,this::handle));
+                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700.class, false, this::handle));
+            this.register(new PacketListener<>(PacketC2sVehicleMove.class,false,this::handle));
         }
     }
 }

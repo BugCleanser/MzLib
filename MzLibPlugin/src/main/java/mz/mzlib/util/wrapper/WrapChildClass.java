@@ -4,13 +4,13 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapChildClass.Finder.class)
+@WrappedClassFinderClass(WrapChildClass.Handler.class)
 public @interface WrapChildClass
 {
     Class<? extends WrapperObject> wrapperSupper();
     String[] name();
 
-    class Finder extends WrappedClassFinder
+    class Handler implements WrappedClassFinder
     {
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {

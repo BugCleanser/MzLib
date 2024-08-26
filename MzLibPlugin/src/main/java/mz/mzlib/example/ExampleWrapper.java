@@ -29,11 +29,11 @@ public class ExampleWrapper
     public static void main(String[] args)
     {
         WrapperTest.m1();
-        WrapperTest t = WrapperTest.newInstance();
-        t.m();
-        System.out.println("debug: "+t.getVar());
-        t.setVar(1919.810);
-        t.m();
+        WrapperTest test=WrapperTest.newInstance();
+        test.m();
+        System.out.println("Debug: "+test.getVar());
+        test.setVar(1919810);
+        test.m();
     }
 
     @WrapClass(Test.class)
@@ -45,13 +45,6 @@ public class ExampleWrapper
             return WrapperObject.create(WrapperTest.class, wrapped);
         }
 
-        @WrapConstructor
-        WrapperTest staticNewInstance();
-        static WrapperTest newInstance()
-        {
-            return create(null).staticNewInstance();
-        }
-
         @WrapMethod("m")
         void m();
 
@@ -60,6 +53,13 @@ public class ExampleWrapper
         static void m1()
         {
             create(null).staticM1();
+        }
+
+        @WrapConstructor
+        WrapperTest staticNewInstance();
+        static WrapperTest newInstance()
+        {
+            return create(null).staticNewInstance();
         }
 
         @WrapFieldAccessor("var")

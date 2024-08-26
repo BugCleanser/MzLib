@@ -11,12 +11,12 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapCraftbukkitClass.Finder.class)
+@WrappedClassFinderClass(WrapCraftbukkitClass.Handler.class)
 public @interface WrapCraftbukkitClass
 {
     VersionName[] value();
 
-    class Finder extends WrappedClassFinder
+    class Handler implements WrappedClassFinder
     {
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException

@@ -16,7 +16,7 @@ public interface ComponentV2005 extends WrapperObject
     }
 
     @WrapMinecraftMethod(@VersionName(name="type"))
-    ComponentTypeV2005 getType();
+    ComponentKeyV2005 getType();
     @WrapMinecraftMethod(@VersionName(name="value"))
     Object getValue();
 }

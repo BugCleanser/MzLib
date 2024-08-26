@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapFieldAccessor.Finder.class)
+@WrappedMemberFinderClass(WrapFieldAccessor.Handler.class)
 public @interface WrapFieldAccessor
 {
     /**
@@ -19,7 +19,7 @@ public @interface WrapFieldAccessor
      */
     String[] value();
 
-    class Finder extends WrappedMemberFinder
+    class Handler implements WrappedMemberFinder
     {
         @Override
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException

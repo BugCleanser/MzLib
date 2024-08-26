@@ -3,11 +3,11 @@ package mz.mzlib.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-public abstract class ElementSwitcher
+public interface ElementSwitcher
 {
-    public abstract boolean isEnabled(Annotation annotation, AnnotatedElement element);
+    boolean isEnabled(Annotation annotation, AnnotatedElement element);
 
-    public static boolean isEnabled(AnnotatedElement element)
+    static boolean isEnabled(AnnotatedElement element)
     {
         try
         {

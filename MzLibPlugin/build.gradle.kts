@@ -29,11 +29,13 @@ dependencies {
     api(project(":Mappings"))
 
     @Suppress
-    compileOnly("net.md-5:bungeecord-api:1.12-SNAPSHOT")
+//    compileOnly("net.md-5:bungeecord-api:1.12-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
     compileOnly("it.unimi.dsi:fastutil:8.5.11")
 
     compileOnly("com.rylinaux:PlugMan:2.2.9")
+
+    compileOnly("com.mojang:datafixerupper:1.0.20")
 }
 
 description = "MzLibPlugin"

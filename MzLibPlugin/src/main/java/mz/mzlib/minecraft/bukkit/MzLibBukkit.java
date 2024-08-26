@@ -1,8 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.bukkit.item.ItemFactoryBukkit;
-import mz.mzlib.minecraft.bukkit.item.ItemStackFactoryBukkit;
 import mz.mzlib.module.MzModule;
 import org.bukkit.Bukkit;
 
@@ -20,8 +18,6 @@ public class MzLibBukkit extends MzModule
 
         this.register(WrapperCraftServer.create(Bukkit.getServer()).getServer());
         this.register(MinecraftMainThreadRunnerBukkit.instance);
-        this.register(ItemFactoryBukkit.instance);
-        this.register(ItemStackFactoryBukkit.instance);
 
         this.register(MzLibMinecraft.instance);
     }

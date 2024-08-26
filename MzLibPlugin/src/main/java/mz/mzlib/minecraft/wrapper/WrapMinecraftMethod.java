@@ -3,6 +3,8 @@ package mz.mzlib.minecraft.wrapper;
 import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ElementSwitcher;
+import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
@@ -10,18 +12,32 @@ import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
 import mz.mzlib.util.wrapper.WrapMethod;
 
 import java.lang.annotation.*;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapMinecraftMethod.Finder.class)
+@ElementSwitcherClass(WrapMinecraftMethod.Handler.class)
+@WrappedMemberFinderClass(WrapMinecraftMethod.Handler.class)
 public @interface WrapMinecraftMethod
 {
     VersionName[] value();
 
-    class Finder extends WrappedMemberFinder
+    class Handler implements ElementSwitcher, WrappedMemberFinder
     {
+        @Override
+        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        {
+            WrapMinecraftMethod a = (WrapMinecraftMethod) annotation;
+            for(VersionName n:a.value())
+            {
+                if (MinecraftPlatform.instance.inVersion(n))
+                    return true;
+            }
+            return false;
+        }
+
         @Override
         public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
@@ -31,7 +47,7 @@ public @interface WrapMinecraftMethod
                 return null;
             try
             {
-                return WrapMethod.Finder.class.newInstance().find(wrappedClass, new WrapMethod()
+                return WrapMethod.Handler.class.newInstance().find(wrappedClass, new WrapMethod()
                 {
                     @Override
                     public Class<WrapMethod> annotationType()

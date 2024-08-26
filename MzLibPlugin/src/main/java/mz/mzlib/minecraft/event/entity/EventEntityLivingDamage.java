@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.event.entity;
 
-import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
 import mz.mzlib.module.MzModule;
@@ -11,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 import mz.mzlib.util.wrapper.basic.Wrapper_float;
 
-public class EventEntityLivingDamage extends EntityEvent
+public class EventEntityLivingDamage extends EventEntity
 {
     public DamageSource source;
     public float damage;
@@ -71,7 +70,7 @@ public class EventEntityLivingDamage extends EntityEvent
                 if(e.isCancelled())
                 {
                     e.complete();
-                    return Wrapper_boolean.create(false); // TODO: ?
+                    return Wrapper_boolean.create(false);
                 }
                 source.setWrappedFrom(e.getSource());
                 damage.setWrapped(e.getDamage());

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft;
 
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Instance;
@@ -7,10 +8,11 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
 
+import java.util.List;
+
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.server.MinecraftServer"))
 public interface MinecraftServer extends WrapperObject, Instance
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static MinecraftServer create(Object wrapped)
     {
@@ -18,6 +20,11 @@ public interface MinecraftServer extends WrapperObject, Instance
     }
 
     MinecraftServer instance = RuntimeUtil.nul();
+
+    default List<EntityPlayer> getPlayers()
+    {
+        return this.getPlayerManager().getPlayers();
+    }
 
     @WrapMinecraftMethod(@VersionName(name = "getPlayerManager"))
     PlayerManager getPlayerManager();
