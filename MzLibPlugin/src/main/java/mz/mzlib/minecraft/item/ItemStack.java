@@ -59,9 +59,9 @@ public interface ItemStack extends WrapperObject
         this.setComponentV2005(ComponentKeysV2005.customData(), value);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="getComponents"))
+    @WrapMinecraftMethod(@VersionName(name="getComponents", begin=2005))
     ComponentMapV2005 getComponentsV2005();
-    @WrapMinecraftMethod(@VersionName(name="set"))
+    @WrapMinecraftMethod(@VersionName(name="set", begin=2005))
     WrapperObject setComponentV2005(ComponentKeyV2005 key, WrapperObject value);
 
     @WrapMinecraftMethod(@VersionName(name="copy"))

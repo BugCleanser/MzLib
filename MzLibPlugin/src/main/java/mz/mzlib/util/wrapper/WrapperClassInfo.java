@@ -195,6 +195,8 @@ public class WrapperClassInfo
                 {
                     Class<?>[] pts = m.getParameterTypes();
                     Method target = this.getWrapperClass().getMethod(specificImpl.value(), pts);
+                    if(AsmUtil.getMethodNode(cn, target.getName(), AsmUtil.getDesc(target))!=null)
+                        throw new IllegalStateException("Multiple implementations for method: "+target);
                     mn=new MethodNode(Opcodes.ACC_PUBLIC, target.getName(), AsmUtil.getDesc(target), null, new String[0]);
                     mn.instructions.add(AsmUtil.insnVarLoad(WrapperObject.class, 0));
                     for(int i=0,j=1;i< pts.length;i++)

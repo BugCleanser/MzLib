@@ -82,7 +82,7 @@ public interface NbtCompound extends NbtElement
     {
         return this.get(key, NbtLongArray::create);
     }
-
-    @WrapMinecraftMethod(@VersionName(name = "shallowCopy"))
-    NBTTagCompound shallowCopy();
+// TODO
+//    @WrapMinecraftMethod(@VersionName(name = "shallowCopy"))
+//    NBTTagCompound shallowCopy();
 }

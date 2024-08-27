@@ -16,7 +16,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.Item"))
-public interface Item extends WrapperObject, ItemConvertible
+public interface Item extends WrapperObject
 {
     @WrapperCreator
     static Item create(Object wrapped)

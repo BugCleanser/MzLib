@@ -10,7 +10,12 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.BaseText"))
+@WrapMinecraftClass(
+        {
+                @VersionName(name = "net.minecraft.text.BaseText", end=1400),
+                @VersionName(name = "net.minecraft.text.BaseText", begin=1400, end=1403),
+                @VersionName(name = "net.minecraft.text.BaseText", begin=1403)
+        })
 public interface AbstractText extends WrapperObject,Text
 {
     @WrapperCreator

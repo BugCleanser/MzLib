@@ -18,7 +18,7 @@ public interface Registry extends WrapperObject
         return WrapperObject.create(Registry.class, wrapped);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="getId",end=1300))
+    @WrapMinecraftMethod(@VersionName(name="getId",begin=1300))
     Identifier getIdV1300(WrapperObject value);
 
     SimpleRegistry staticItemV1300_1903();

@@ -9,8 +9,9 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
         {
-                // TODO
-                @VersionName(name = "net.minecraft.text.Style", end=1400)
+                @VersionName(name = "net.minecraft.text.Style", end=1400),
+                @VersionName(name = "net.minecraft.network.chat.Style", begin=1400, end=1403),
+                @VersionName(name = "net.minecraft.text.Style", begin=1403)
         })
 public interface TextStyle extends WrapperObject
 {
@@ -32,4 +33,9 @@ public interface TextStyle extends WrapperObject
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "bold"))
     void setBold(Boolean value);
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "hoverEvent"))
+    TextHoverEvent getHoverEvent();
+    @WrapMinecraftFieldAccessor(@VersionName(name = "hoverEvent"))
+    void setHoverEvent(TextHoverEvent value);
 }

@@ -65,7 +65,7 @@ public interface WrapperObject
     {
         return this.staticGetWrappedClass().isInstance(wrapper.getWrapped());
     }
-    default boolean isInstanceOf(Function<Object,? extends WrapperObject> wrapperCreator)
+    default <T> boolean isInstanceOf(Function<T,? extends WrapperObject> wrapperCreator)
     {
         return wrapperCreator.apply(null).staticIsInstance(this);
     }

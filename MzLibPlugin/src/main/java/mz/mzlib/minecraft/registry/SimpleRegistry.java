@@ -36,6 +36,7 @@ public interface SimpleRegistry extends Registry
         return this.getKeyV_1300(value, Identifier::create);
     }
     @SpecificImpl("getId")
+    @VersionRange(begin=1300)
     @Override
     Identifier getIdV1300(WrapperObject value);
 }

@@ -6,13 +6,13 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
-public interface ItemConvertible extends WrapperObject
+@WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", begin=1300, end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
+public interface ItemConvertibleV1300 extends WrapperObject
 {
     @WrapperCreator
-    static ItemConvertible create(Object wrapped)
+    static ItemConvertibleV1300 create(Object wrapped)
     {
-        return WrapperObject.create(ItemConvertible.class, wrapped);
+        return WrapperObject.create(ItemConvertibleV1300.class, wrapped);
     }
 
     @WrapMinecraftMethod({@VersionName(name="getItem",end=1400),@VersionName(name="asItem",begin=1400)})
