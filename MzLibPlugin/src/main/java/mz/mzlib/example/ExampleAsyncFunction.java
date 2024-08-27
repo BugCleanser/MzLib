@@ -1,6 +1,6 @@
 package mz.mzlib.example;
 
-import mz.mzlib.minecraft.MinecraftMainThreadRunner;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
 
@@ -13,7 +13,6 @@ public class ExampleAsyncFunction
         public void run()
         {
         }
-
         @Override
         public Void template()
         {
@@ -27,8 +26,9 @@ public class ExampleAsyncFunction
     public static class Func1 extends AsyncFunction<Void>
     {
         @Override
-        public void run() {}
-
+        public void run()
+        {
+        }
         @Override
         public Void template()
         {
@@ -46,6 +46,6 @@ public class ExampleAsyncFunction
 
     public static void main(String[] args)
     {
-        new Func1().start(MinecraftMainThreadRunner.instance);
+        new Func1().start(MinecraftServer.instance);
     }
 }

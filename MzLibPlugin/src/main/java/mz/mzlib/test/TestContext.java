@@ -1,12 +1,12 @@
 package mz.mzlib.test;
 
-import mz.mzlib.util.async.TaskController;
+import mz.mzlib.util.async.AsyncTask;
 
 public class TestContext
 {
-    public TaskController controller=new TaskController();
+    public AsyncTask controller=new AsyncTask();
 
-    public TaskController getController()
+    public AsyncTask getController()
     {
         return this.controller;
     }

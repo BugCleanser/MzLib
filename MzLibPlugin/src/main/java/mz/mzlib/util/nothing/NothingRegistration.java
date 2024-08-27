@@ -112,7 +112,7 @@ public class NothingRegistration
             throw RuntimeUtil.sneakilyThrow(e);
         }
         ClassNode cn = new ClassNode();
-        new ClassReader(rawByteCode).accept(cn, 0);
+        new ClassReader(this.rawByteCode).accept(cn, 0);
         Map<MethodNode, AbstractInsnNode[]> raws = new HashMap<>();
         for (MethodNode m : cn.methods)
         {
@@ -131,9 +131,7 @@ public class NothingRegistration
             for (Method i : nothing.getDeclaredMethods())
             {
                 if (!ElementSwitcher.isEnabled(i))
-                {
                     continue;
-                }
                 for (NothingInject ni : i.getDeclaredAnnotationsByType(NothingInject.class))
                 {
                     Executable m;

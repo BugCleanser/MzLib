@@ -309,15 +309,13 @@ public class ClassUtil
         try
         {
             StrongRef<byte[]> result = new StrongRef<>(null);
-            ClassFileTransformer tr = new ClassFileTransformer() // Can not replace with lambda!
+            ClassFileTransformer tr = new ClassFileTransformer()
             {
                 @Override
                 public byte[] transform(ClassLoader cl, String name, Class<?> c, ProtectionDomain d, byte[] byteCode)
                 {
                     if (c == clazz)
-                    {
                         result.set(byteCode);
-                    }
                     getInstrumentation().removeTransformer(this);
                     return null;
                 }

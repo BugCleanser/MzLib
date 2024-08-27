@@ -1,5 +1,7 @@
 package mz.mzlib.util.nothing;
 
+import mz.mzlib.Priority;
+
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -9,7 +11,7 @@ public @interface NothingInject
 {
     String wrapperMethod();
 
-    float priority() default 0;
+    float priority() default Priority.NORMAL;
 
     String locateMethod();
 

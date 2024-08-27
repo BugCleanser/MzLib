@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.network.packet;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
-import mz.mzlib.minecraft.MinecraftMainThreadRunner;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
@@ -59,12 +59,21 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
         PacketEvent event=new PacketEvent(PacketListenerChannelHandler.this.getPlayer());
         if (PacketListenerRegistrar.instance.sync.getOrDefault(msg.getClass(),false))
         {
-            MinecraftMainThreadRunner.instance.schedule(()->
+            MinecraftServer.instance.schedule(()->
             {
                 try
                 {
                     for (PacketListener<?> listener : sortedListeners)
-                        listener.handler.accept(event,RuntimeUtil.cast((Packet)listener.packetCreator.getTarget().invokeExact((Object) msg)));
+                    {
+                        try
+                        {
+                            listener.handler.accept(event, RuntimeUtil.cast((Packet) listener.packetCreator.getTarget().invokeExact((Object) msg)));
+                        }
+                        catch (Throwable e)
+                        {
+                            e.printStackTrace(System.err);
+                        }
+                    }
                     if(event.isCancelled())
                         event.future.cancel(false);
                     else
@@ -81,7 +90,16 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
             try
             {
                 for (PacketListener<?> listener : sortedListeners)
-                    listener.handler.accept(event,RuntimeUtil.cast((Packet)listener.packetCreator.getTarget().invokeExact((Object) msg)));
+                {
+                    try
+                    {
+                        listener.handler.accept(event, RuntimeUtil.cast((Packet) listener.packetCreator.getTarget().invokeExact((Object) msg)));
+                    }
+                    catch (Throwable e)
+                    {
+                        e.printStackTrace(System.err);
+                    }
+                }
             }
             catch (Throwable e)
             {

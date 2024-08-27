@@ -23,7 +23,15 @@ public abstract class MzModule
                 throw new IllegalStateException("Try to load the module but it has been loaded: " + object + ".");
             ((MzModule) object).isLoaded = true;
             submodules.add((MzModule) object);
-            ((MzModule) object).onLoad();
+            try
+            {
+                ((MzModule) object).onLoad();
+            }
+            catch (Throwable e)
+            {
+                this.registeredObjects.put(object, new Stack<>());
+                throw e;
+            }
         }
         if (registeredObjects.containsKey(object))
         {
@@ -42,7 +50,10 @@ public abstract class MzModule
             }
         });
         if (registrars.isEmpty() && !(object instanceof MzModule))
+        {
+            this.registeredObjects.put(object, new Stack<>());
             throw new UnsupportedOperationException("Try to register the object but found no registrar: " + object + ".");
+        }
 
         Stack<IRegistrar<?>> workedRegistrarsRecord = new Stack<>();
 
@@ -73,9 +84,7 @@ public abstract class MzModule
                 if (untreatedRegistrars.isEmpty())
                 {
                     if (cnt == 0)
-                    {
                         throw new IllegalStateException("Circular dependency or nonexistent dependencies: " + processLater + ".");
-                    }
                     cnt = 0;
                     untreatedRegistrars = processLater;
                     processLater = new HashSet<>();

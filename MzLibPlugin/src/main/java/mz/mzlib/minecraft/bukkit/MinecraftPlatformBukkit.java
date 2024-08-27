@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
@@ -21,6 +22,12 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     public String getLanguage(EntityPlayer player)
     {
         return ((org.bukkit.entity.Player) BukkitEntityUtil.toBukkit(player)).getLocale();
+    }
+
+    @Override
+    public Logger getMzLibLogger()
+    {
+        return MzLibBukkitPlugin.instance.getLogger();
     }
 
     public String protocolVersion;

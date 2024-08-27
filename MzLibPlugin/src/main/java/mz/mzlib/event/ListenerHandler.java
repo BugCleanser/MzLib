@@ -25,7 +25,16 @@ public class ListenerHandler
     public void call(Event event)
     {
         for(EventListener<?> listener:this.sortedListeners)
-            listener.handler.accept(RuntimeUtil.cast(event));
+        {
+            try
+            {
+                listener.handler.accept(RuntimeUtil.cast(event));
+            }
+            catch(Throwable e)
+            {
+                e.printStackTrace(System.err);
+            }
+        }
     }
 
     public Set<EventListener<?>> listeners=new HashSet<>();

@@ -6,7 +6,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MzLibBukkitPlugin extends JavaPlugin
 {
     public static MzLibBukkitPlugin instance;
-
     {
         instance = this;
     }

@@ -13,7 +13,7 @@ public class Test
 {
 	public static String getVersionString()
 	{
-		return "1.18.2";
+		return "1.19.4";
 	}
 	public static boolean isPaper()
 	{
@@ -82,7 +82,7 @@ public class Test
 		}
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
-
+		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("tick", new String[]{"Ljava/util/function/BooleanSupplier;"})));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();

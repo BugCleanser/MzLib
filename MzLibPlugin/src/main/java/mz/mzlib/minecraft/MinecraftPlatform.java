@@ -6,6 +6,7 @@ import mz.mzlib.util.Instance;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public interface MinecraftPlatform extends Instance
 {
@@ -15,14 +16,16 @@ public interface MinecraftPlatform extends Instance
     int getVersion();
     default boolean inVersion(VersionRange name)
     {
-        return getVersion() >= name.begin() && getVersion() < name.end();
+        return this.getVersion() >= name.begin() && this.getVersion() < name.end();
     }
     default boolean inVersion(VersionName name)
     {
-        return getVersion() >= name.begin() && getVersion() < name.end();
+        return this.getVersion() >= name.begin() && this.getVersion() < name.end();
     }
     String getLanguage(EntityPlayer player);
     File getMzLibDataFolder();
+
+    Logger getMzLibLogger();
     IMappings getMappingsP2Y(); // platform -> yarn
     IMappings getMappingsY2P(); // yarn -> platform
 }

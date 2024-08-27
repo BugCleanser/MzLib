@@ -64,10 +64,10 @@ public abstract class AsyncFunction<R> implements Runnable
     public CompletableFuture<R> start(AsyncFunctionRunner runner)
     {
         this.runner = runner;
-        if (this.coroutine == null)
-            this.coroutine = Coroutine.init(this);
+        if (this.context == null)
+            this.context = AsyncFunctionContext.init(this);
         runner.schedule(this);
-        return RuntimeUtil.cast(coroutine.future);
+        return RuntimeUtil.cast(context.future);
     }
 
     public <T> CompletableFuture<T> launch(AsyncFunction<T> function)
@@ -75,7 +75,7 @@ public abstract class AsyncFunction<R> implements Runnable
         return function.start(this.getRunner());
     }
 
-    public Coroutine coroutine;
+    public AsyncFunctionContext context;
 
     public void run(Object result, Throwable e)
     {

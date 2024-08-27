@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.item;
 
 import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.DefaultedRegistryV_1300__1400;
@@ -23,6 +22,11 @@ public interface Item extends WrapperObject, ItemConvertible
     static Item create(Object wrapped)
     {
         return WrapperObject.create(Item.class, wrapped);
+    }
+
+    static Item fromId(Identifier id)
+    {
+        return null; // TODO
     }
 
     Identifier getId();

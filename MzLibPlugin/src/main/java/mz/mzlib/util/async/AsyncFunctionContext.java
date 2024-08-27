@@ -15,24 +15,24 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public abstract class Coroutine
+public abstract class AsyncFunctionContext
 {
     public CompletableFuture<?> future = new CompletableFuture<>();
     public int step = 0;
 
-    public static Coroutine init(AsyncFunction<?> function)
+    public static AsyncFunctionContext init(AsyncFunction<?> function)
     {
         ClassNode cn = new ClassNode();
         new ClassReader(ClassUtil.getByteCode(function.getClass())).accept(cn, 0);
 
-        ClassNode coroutine = new ClassNode();
-        coroutine.visit(cn.version, Opcodes.ACC_PUBLIC, AsmUtil.getType(function.getClass()) + "$0MzCoroutine", null, AsmUtil.getType(Coroutine.class), new String[0]);
+        ClassNode cnContext = new ClassNode();
+        cnContext.visit(cn.version, Opcodes.ACC_PUBLIC, AsmUtil.getType(function.getClass()) + "$0AsyncFunctionContext", null, AsmUtil.getType(AsyncFunctionContext.class), new String[0]);
         MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "<init>", AsmUtil.getDesc(void.class, new Class[0]), null, new String[0]);
-        mn.instructions.add(AsmUtil.insnVarLoad(Coroutine.class, 0));
-        mn.visitMethodInsn(Opcodes.INVOKESPECIAL, coroutine.superName, "<init>", AsmUtil.getDesc(void.class, new Class[0]), false);
+        mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunctionContext.class, 0));
+        mn.visitMethodInsn(Opcodes.INVOKESPECIAL, cnContext.superName, "<init>", AsmUtil.getDesc(void.class, new Class[0]), false);
         mn.instructions.add(AsmUtil.insnReturn(void.class));
         mn.visitEnd();
-        coroutine.methods.add(mn);
+        cnContext.methods.add(mn);
 
         for (MethodNode i : cn.methods)
         {
@@ -42,11 +42,11 @@ public abstract class Coroutine
             }
             InsnList il = new InsnList();
             il.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
-            il.add(new TypeInsnNode(Opcodes.NEW, coroutine.name));
+            il.add(new TypeInsnNode(Opcodes.NEW, cnContext.name));
             il.add(new InsnNode(Opcodes.DUP));
-            il.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, coroutine.name, "<init>", AsmUtil.getDesc(void.class, new Class[0]), false));
-            il.add(new FieldInsnNode(Opcodes.PUTFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class)));
-            i.instructions.add(AsmUtil.insnVarLoad(Coroutine.class, 0));
+            il.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, cnContext.name, "<init>", AsmUtil.getDesc(void.class, new Class[0]), false));
+            il.add(new FieldInsnNode(Opcodes.PUTFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class)));
+            i.instructions.add(AsmUtil.insnVarLoad(AsyncFunctionContext.class, 0));
             for (AbstractInsnNode insn : i.instructions)
             {
                 if (insn instanceof MethodInsnNode && insn.getOpcode() == Opcodes.INVOKESPECIAL && ((MethodInsnNode) insn).name.equals("<init>") && ((MethodInsnNode) insn).owner.equals(AsmUtil.getType(AsyncFunction.class)))
@@ -68,8 +68,8 @@ public abstract class Coroutine
         mn.instructions.add((LabelNode) try1.info);
         TableSwitchInsnNode sn = new TableSwitchInsnNode(0, -1, new LabelNode());
         mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
-        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
-        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(Coroutine.class), "step", AsmUtil.getDesc(int.class));
+        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class));
+        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunctionContext.class), "step", AsmUtil.getDesc(int.class));
         mn.instructions.add(sn); // jump step
         sn.max++;
         mn.instructions.add(sn.dflt);
@@ -110,32 +110,32 @@ public abstract class Coroutine
                 if (var != 0)
                 {
                     mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
-                    mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
-                    mn.visitTypeInsn(Opcodes.CHECKCAST, coroutine.name); // this
+                    mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "", AsmUtil.getDesc(AsyncFunctionContext.class));
+                    mn.visitTypeInsn(Opcodes.CHECKCAST, cnContext.name); // this
                     int index = vars.computeIfAbsent(new MapEntry<>(var, type), k1 ->
                     {
-                        coroutine.visitField(Opcodes.ACC_PUBLIC, "$var" + vars.size(), k1.getValue(), null, null);
+                        cnContext.visitField(Opcodes.ACC_PUBLIC, "$var" + vars.size(), k1.getValue(), null, null);
                         return vars.size();
                     });
                     if (insn instanceof IincInsnNode)
                     {
-                        mn.visitFieldInsn(Opcodes.GETFIELD, coroutine.name, "$var" + index, type);
+                        mn.visitFieldInsn(Opcodes.GETFIELD, cnContext.name, "$var" + index, type);
                         mn.instructions.add(AsmUtil.insnConst(((IincInsnNode) insn).incr));
                         mn.visitInsn(Opcodes.IADD);
                         mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
-                        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
-                        mn.visitTypeInsn(Opcodes.CHECKCAST, coroutine.name); // this
-                        mn.instructions.add(AsmUtil.insnSwap(Coroutine.class, AsmUtil.getClass(type, function.getClass().getClassLoader())));
-                        mn.visitFieldInsn(Opcodes.PUTFIELD, coroutine.name, "$var" + index, type);
+                        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class));
+                        mn.visitTypeInsn(Opcodes.CHECKCAST, cnContext.name); // this
+                        mn.instructions.add(AsmUtil.insnSwap(AsyncFunctionContext.class, AsmUtil.getClass(type, function.getClass().getClassLoader())));
+                        mn.visitFieldInsn(Opcodes.PUTFIELD, cnContext.name, "$var" + index, type);
                     }
                     else if (AsmUtil.opcodesVarLoad.contains(insn.getOpcode()))
                     {
-                        mn.visitFieldInsn(Opcodes.GETFIELD, coroutine.name, "$var" + index, type);
+                        mn.visitFieldInsn(Opcodes.GETFIELD, cnContext.name, "$var" + index, type);
                     }
                     else
                     {
-                        mn.instructions.add(AsmUtil.insnSwap(Coroutine.class, AsmUtil.getClass(type, function.getClass().getClassLoader())));
-                        mn.visitFieldInsn(Opcodes.PUTFIELD, coroutine.name, "$var" + index, type);
+                        mn.instructions.add(AsmUtil.insnSwap(AsyncFunctionContext.class, AsmUtil.getClass(type, function.getClass().getClassLoader())));
+                        mn.visitFieldInsn(Opcodes.PUTFIELD, cnContext.name, "$var" + index, type);
                     }
                     continue;
                 }
@@ -147,9 +147,9 @@ public abstract class Coroutine
                 {
                     sn.max++;
                     mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0)); // this
-                    mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
+                    mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class));
                     mn.instructions.add(AsmUtil.insnConst(sn.max));
-                    mn.visitFieldInsn(Opcodes.PUTFIELD, AsmUtil.getType(Coroutine.class), "step", AsmUtil.getDesc(int.class)); // this.step=++maxStep;
+                    mn.visitFieldInsn(Opcodes.PUTFIELD, AsmUtil.getType(AsyncFunctionContext.class), "step", AsmUtil.getDesc(int.class)); // this.step=++maxStep;
                     if (Objects.equals(in.desc, AsmUtil.getDesc(void.class, CompletableFuture.class))) // await(completableFuture);
                     {
                         mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
@@ -177,8 +177,8 @@ public abstract class Coroutine
             else if (insn instanceof InsnNode && insn.getOpcode() == Opcodes.ARETURN) // return result;
             {
                 mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0)); // this
-                mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
-                mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(Coroutine.class), "future", AsmUtil.getDesc(CompletableFuture.class));
+                mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class));
+                mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunctionContext.class), "future", AsmUtil.getDesc(CompletableFuture.class));
                 mn.instructions.add(AsmUtil.insnSwap(CompletableFuture.class, Object.class));
                 mn.visitMethodInsn(Opcodes.INVOKEVIRTUAL, AsmUtil.getType(CompletableFuture.class), "complete", AsmUtil.getDesc(boolean.class, Object.class), false);
                 mn.instructions.add(AsmUtil.insnPop(boolean.class));
@@ -189,8 +189,8 @@ public abstract class Coroutine
         }
         mn.instructions.add((LabelNode) try2.info);
         mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
-        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "coroutine", AsmUtil.getDesc(Coroutine.class));
-        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(Coroutine.class), "future", AsmUtil.getDesc(CompletableFuture.class));
+        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunction.class), "context", AsmUtil.getDesc(AsyncFunctionContext.class));
+        mn.visitFieldInsn(Opcodes.GETFIELD, AsmUtil.getType(AsyncFunctionContext.class), "future", AsmUtil.getDesc(CompletableFuture.class));
         mn.instructions.add(AsmUtil.insnSwap(CompletableFuture.class, Throwable.class));
         mn.visitMethodInsn(Opcodes.INVOKEVIRTUAL, AsmUtil.getType(CompletableFuture.class), "completeExceptionally", AsmUtil.getDesc(boolean.class, Throwable.class), false);
         mn.instructions.add(AsmUtil.insnPop(boolean.class));
@@ -202,14 +202,14 @@ public abstract class Coroutine
         try
         {
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
-            coroutine.accept(cw);
-            Class<?> c = ClassUtil.defineClass(function.getClass().getClassLoader(), coroutine.name, cw.toByteArray());
+            cnContext.accept(cw);
+            Class<?> c = ClassUtil.defineClass(function.getClass().getClassLoader(), cnContext.name, cw.toByteArray());
 
             cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
             cn.accept(cw);
             ClassUtil.defineClass(function.getClass().getClassLoader(), cn.name, cw.toByteArray());
 
-            return (Coroutine) c.newInstance();
+            return (AsyncFunctionContext) c.newInstance();
         }
         catch (Throwable e)
         {

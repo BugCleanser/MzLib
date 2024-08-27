@@ -1,6 +1,7 @@
 package mz.mzlib.util;
 
 import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,5 +42,22 @@ public class Pair<First, Second> implements Comparable<Pair<First, Second>>
     public int hashCode()
     {
         return Objects.hashCode(first) ^ Objects.hashCode(second);
+    }
+
+    public static <F, S> Comparator<Pair<F, S>> comparingByFirst(Comparator<F> comparator)
+    {
+        return (a, b) -> comparator.compare(a.first, b.first);
+    }
+    public static <F, S> Comparator<Pair<F, S>> comparingBySecond(Comparator<S> comparator)
+    {
+        return (a, b) -> comparator.compare(a.second, b.second);
+    }
+    public static <F extends Comparable<? super F>, S> Comparator<Pair<F, S>> comparingByFirst()
+    {
+        return Comparator.comparing(pair -> pair.first);
+    }
+    public static <F, S extends Comparable<? super S>> Comparator<Pair<F, S>> comparingBySecond()
+    {
+        return Comparator.comparing(pair -> pair.second);
     }
 }
