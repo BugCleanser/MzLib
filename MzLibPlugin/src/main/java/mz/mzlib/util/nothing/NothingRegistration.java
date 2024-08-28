@@ -14,6 +14,7 @@ import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.lang.annotation.Annotation;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.ConstantCallSite;
 import java.lang.invoke.MethodHandles;
@@ -153,7 +154,8 @@ public class NothingRegistration
                         NothingInjectLocating locating=new NothingInjectLocating(raws.get(mn));
                         try
                         {
-                            nothing.getMethod(ni.locateMethod(),NothingInjectLocating.class).invoke(null, locating);
+                            if(!ni.locateMethod().isEmpty())
+                                nothing.getMethod(ni.locateMethod(),NothingInjectLocating.class).invoke(null, locating);
                         }
                         catch (Throwable e)
                         {
@@ -166,7 +168,7 @@ public class NothingRegistration
                                 case RAW:
                                     try
                                     {
-                                        i.invoke(null, m, mn, locating.insns[j]);
+                                        i.invoke(null, m, mn, locating);
                                     }
                                     catch (Throwable e)
                                     {
@@ -189,6 +191,27 @@ public class NothingRegistration
                                         args[k] = mn.maxLocals;
                                         mn.maxLocals += AsmUtil.getCategory(paramTypes[k]);
                                         LocalVar lv = ps[k].getDeclaredAnnotation(LocalVar.class);
+                                        if(lv==null)
+                                        {
+                                            LocalVarTagged lvt = ps[k].getDeclaredAnnotation(LocalVarTagged.class);
+                                            if(lvt!=null)
+                                            {
+                                                Integer index = locating.taggedLocalVars.get(lvt.value());
+                                                lv=new LocalVar()
+                                                {
+                                                    @Override
+                                                    public Class<? extends Annotation> annotationType()
+                                                    {
+                                                        return LocalVar.class;
+                                                    }
+                                                    @Override
+                                                    public int value()
+                                                    {
+                                                        return index;
+                                                    }
+                                                };
+                                            }
+                                        }
                                         if (lv != null)
                                         {
                                             Class<?> lvt = paramTypes[k];

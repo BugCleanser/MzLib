@@ -349,14 +349,8 @@ public class ClassUtil
                     }
                     catch (Throwable e1)
                     {
-                        if (e instanceof ClassNotFoundException)
-                        {
-                            throw e1;
-                        }
-                        else
-                        {
-                            throw e;
-                        }
+                        e1.addSuppressed(e);
+                        throw e1;
                     }
                 }
             }

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
-import mz.mzlib.util.nothing.NothingInjectLocating;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -13,11 +12,8 @@ import java.util.Objects;
 @WrapSameClass(MinecraftServer.class)
 public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, Nothing
 {
-    static void locateTickBefore(NothingInjectLocating locating)
-    {
-    }
     @VersionRange(end=1400)
-    @NothingInject(wrapperMethod = "tickV_1400", locateMethod = "locateTickBefore", type = NothingInjectType.INSERT_BEFORE)
+    @NothingInject(wrapperMethod = "tickV_1400", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
     default Wrapper_void tickBeforeV_1400()
     {
         while(!watingTasks.isEmpty() && Objects.requireNonNull(watingTasks.peek()).first- tickNumber.get() <= 0)
@@ -46,7 +42,7 @@ public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, 
         return Nothing.notReturn();
     }
     @VersionRange(begin=1400)
-    @NothingInject(wrapperMethod = "tickV1400", locateMethod = "locateTickBefore", type = NothingInjectType.INSERT_BEFORE)
+    @NothingInject(wrapperMethod = "tickV1400", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
     default Wrapper_void tickBeforeV1400()
     {
         return tickBeforeV_1400();

@@ -1,11 +1,10 @@
 package mz.mzlib.util.nothing;
 
 import mz.mzlib.asm.tree.AbstractInsnNode;
+import mz.mzlib.asm.tree.VarInsnNode;
 import mz.mzlib.util.asm.AsmUtil;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -13,10 +12,17 @@ import java.util.stream.Collectors;
 public class NothingInjectLocating
 {
     public AbstractInsnNode[] insns;
-    public Set<Integer> locations=new HashSet<>(Collections.singleton(0));
+    public Set<Integer> locations;
+    public Map<String, Integer> taggedLocalVars=new HashMap<>();
     public NothingInjectLocating(AbstractInsnNode[] insns)
     {
         this.insns = insns;
+        this.resetLocations();
+    }
+
+    public void resetLocations()
+    {
+        this.locations=new HashSet<>(Collections.singleton(0));
     }
 
     public void offset(int offset)
@@ -29,6 +35,19 @@ public class NothingInjectLocating
             else
                 return Collections.emptySet();
         });
+    }
+
+    public void tagLocalVar(String tag)
+    {
+        for(int l:this.locations)
+        {
+            if(!(this.insns[l] instanceof VarInsnNode))
+                throw new IllegalStateException("Try to tag local var but current insn is not var insn node: "+this.insns[l]);
+            int index=((VarInsnNode) this.insns[l]).var;
+            if(this.taggedLocalVars.containsKey(tag) && !Objects.equals(this.taggedLocalVars.get(tag),index))
+                throw new IllegalStateException("Tagging local var conflict: "+index+" and "+this.taggedLocalVars.get(tag)+".");
+            this.taggedLocalVars.put(tag, index);
+        }
     }
 
     public void next(int opcode)

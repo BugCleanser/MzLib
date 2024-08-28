@@ -11,7 +11,9 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name="net.minecraft.text.ClickEvent", end=1400) //TODO
+                @VersionName(name="net.minecraft.text.ClickEvent", end=1400),
+                @VersionName(name="net.minecraft.network.chat.ClickEvent", begin=1400, end=1403),
+                @VersionName(name="net.minecraft.text.ClickEvent", begin=1403)
         })
 public interface TextClickEvent extends WrapperObject
 {

@@ -59,10 +59,7 @@ public class EventEntityLivingDamage extends EventEntity
         @WrapSameClass(EntityLiving.class)
         public interface NothingEntityLiving extends EntityLiving, Nothing
         {
-            static void locateDamageBefore(NothingInjectLocating locating)
-            {
-            }
-            @NothingInject(wrapperMethod = "damage", locateMethod = "locateDamageBefore", type = NothingInjectType.INSERT_BEFORE)
+            @NothingInject(wrapperMethod = "damage", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
             default Wrapper_boolean damageBefore(@LocalVar(1) DamageSource source, @LocalVar(2) Wrapper_float damage, @CustomVar("event") WrapperObject event)
             {
                 EventEntityLivingDamage e = new EventEntityLivingDamage(this, source, damage.getWrapped());

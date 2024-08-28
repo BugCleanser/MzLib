@@ -11,7 +11,9 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name="net.minecraft.text.HoverEvent", end=1400) //TODO
+                @VersionName(name="net.minecraft.text.HoverEvent", end=1400),
+                @VersionName(name="net.minecraft.network.chat.HoverEvent", begin=1400, end=1403),
+                @VersionName(name="net.minecraft.text.HoverEvent", begin=1403)
         })
 public interface TextHoverEvent extends WrapperObject
 {

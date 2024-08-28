@@ -13,15 +13,15 @@ import java.util.List;
 @WrapMinecraftClass(
         {
                 @VersionName(name = "net.minecraft.text.BaseText", end=1400),
-                @VersionName(name = "net.minecraft.text.BaseText", begin=1400, end=1403),
-                @VersionName(name = "net.minecraft.text.BaseText", begin=1403)
+                @VersionName(name = "net.minecraft.network.chat.BaseComponent", begin=1400, end=1403),
+                @VersionName(name = "net.minecraft.text.BaseText", begin=1403, end=1900)
         })
-public interface AbstractText extends WrapperObject,Text
+public interface AbstractTextV_1900 extends WrapperObject,Text
 {
     @WrapperCreator
-    static AbstractText create(Object wrapped)
+    static AbstractTextV_1900 create(Object wrapped)
     {
-        return WrapperObject.create(AbstractText.class, wrapped);
+        return WrapperObject.create(AbstractTextV_1900.class, wrapped);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name="style"))

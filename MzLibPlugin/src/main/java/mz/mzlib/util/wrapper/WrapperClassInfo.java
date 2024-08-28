@@ -168,7 +168,7 @@ public class WrapperClassInfo
         try
         {
             ClassNode cn = new ClassNode();
-            cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "0MzWrapperClassFianl", null, AsmUtil.getType(AbsWrapper.class), new String[]{AsmUtil.getType(getWrapperClass())});
+            cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, AsmUtil.getType(this.getWrapperClass())+"$0WrapperImpl", null, AsmUtil.getType(AbsWrapper.class), new String[]{AsmUtil.getType(getWrapperClass())});
             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "<init>", AsmUtil.getDesc(void.class, Object.class), null, new String[0]);
             mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
             mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 1));
