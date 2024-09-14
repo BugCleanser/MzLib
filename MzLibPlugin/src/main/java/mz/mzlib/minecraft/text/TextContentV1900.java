@@ -13,6 +13,4 @@ public interface TextContentV1900 extends WrapperObject
     {
         return WrapperObject.create(TextContentV1900.class, wrapped);
     }
-
-
 }

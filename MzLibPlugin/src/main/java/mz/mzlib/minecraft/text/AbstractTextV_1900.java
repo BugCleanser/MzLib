@@ -24,21 +24,10 @@ public interface AbstractTextV_1900 extends WrapperObject,Text
         return WrapperObject.create(AbstractTextV_1900.class, wrapped);
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name="style"))
-    TextStyle getStyle();
-    @WrapMinecraftFieldAccessor(@VersionName(name="style"))
-    void setStyle(TextStyle value);
-
-    default List<Text> getExtra()
-    {
-        return new ListWrapper<>(this.getExtra0(), Text::create);
-    }
+    @WrapMinecraftFieldAccessor(@VersionName(name="siblings"))
+    void setExtra0(List<Object> value);
     default void setExtra(List<Text> value)
     {
         this.setExtra0(new ListWrapped<>(value, Text::create));
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="siblings"))
-    List<Object> getExtra0();
-    @WrapMinecraftFieldAccessor(@VersionName(name="siblings"))
-    void setExtra0(List<Object> value);
 }

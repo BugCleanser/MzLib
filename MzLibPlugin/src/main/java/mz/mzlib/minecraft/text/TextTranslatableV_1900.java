@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 @WrapMinecraftClass(
         {
@@ -16,7 +15,7 @@ import java.util.Objects;
                 @VersionName(name = "net.minecraft.network.chat.TranslatableComponent", begin=1400, end=1403),
                 @VersionName(name = "net.minecraft.text.TranslatableText", begin=1403, end=1900)
         })
-public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_1900
+public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_1900, TextTranslatableCommon
 {
     @WrapperCreator
     static TextTranslatableV_1900 create(Object wrapped)
@@ -38,6 +37,7 @@ public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_190
     @WrapMinecraftMethod(@VersionName(name="getKey"))
     String getKey();
 
+    @Override
     @WrapMinecraftMethod(
             {
                     @VersionName(name = "getArgs", end = 1400),
@@ -45,8 +45,4 @@ public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_190
                     @VersionName(name = "getArgs", begin = 1403)
             })
     Object[] getArgs0();
-    default Text[] getArgs()
-    {
-        return Arrays.stream(this.getArgs0()).map(a -> WrapperObject.create(a).isInstanceOf(Text::create) ? Text.create(a) : Text.literal(Objects.toString(a)) ).toArray(Text[]::new);
-    }
 }

@@ -6,12 +6,12 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapSameClass(TextScore.class)
-@VersionRange(end=1900)
-public interface TextScoreV_1900 extends TextScore, AbstractTextV_1900
+@VersionRange(begin=1900)
+public interface TextContentScoreV1900 extends WrapperObject, TextScore, TextContentV1900
 {
     @WrapperCreator
-    static TextScoreV_1900 create(Object wrapped)
+    static TextContentScoreV1900 create(Object wrapped)
     {
-        return WrapperObject.create(TextScoreV_1900.class, wrapped);
+        return WrapperObject.create(TextContentScoreV1900.class, wrapped);
     }
 }

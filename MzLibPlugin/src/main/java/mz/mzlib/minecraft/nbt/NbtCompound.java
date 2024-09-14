@@ -20,9 +20,13 @@ public interface NbtCompound extends NbtElement
         return WrapperObject.create(NbtCompound.class, wrapped);
     }
 
+    static NbtCompound parse(String str)
+    {
+        return null; // TODO
+    }
+
     @WrapConstructor
     NbtCompound staticNewInstance();
-
     static NbtCompound newInstance()
     {
         return create(null).staticNewInstance();
@@ -82,7 +86,7 @@ public interface NbtCompound extends NbtElement
     {
         return this.get(key, NbtLongArray::create);
     }
-// TODO
-//    @WrapMinecraftMethod(@VersionName(name = "shallowCopy"))
-//    NBTTagCompound shallowCopy();
+
+    @WrapMinecraftMethod(@VersionName(name = "shallowCopy"))
+    NBTTagCompound shallowCopy();
 }

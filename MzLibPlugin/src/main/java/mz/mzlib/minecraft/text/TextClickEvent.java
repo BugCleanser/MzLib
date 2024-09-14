@@ -79,5 +79,12 @@ public interface TextClickEvent extends WrapperObject
         {
             return Action.create(null).staticChangePage();
         }
+
+        @WrapMinecraftFieldAccessor(@VersionName(name="COPY_TO_CLIPBOARD", begin=1500))
+        Action staticCopyToClipboardV1500();
+        static Action copyToClipboardV1500()
+        {
+            return Action.create(null).staticCopyToClipboardV1500();
+        }
     }
 }

@@ -71,6 +71,8 @@ public interface WrapperObject
     }
     default <T extends WrapperObject> T castTo(Function<Object,T> wrapperCreator)
     {
+        if(this.isPresent() && !this.isInstanceOf(wrapperCreator))
+            throw new ClassCastException("Try to cast an object of "+ this.getWrapped().getClass()+" to "+wrapperCreator.apply(null).staticGetWrappedClass());
         return wrapperCreator.apply(this.getWrapped());
     }
 

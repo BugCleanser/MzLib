@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
                 @VersionName(name = "net.minecraft.text.ScoreText", end=1400),
                 @VersionName(name = "net.minecraft.network.chat.ScoreComponent", begin=1400, end=1403),
                 @VersionName(name = "net.minecraft.text.ScoreText", begin=1403, end=1900),
-                @VersionName(name = "TODO", begin=1900) // TODO
+                @VersionName(name = "net.minecraft.text.ScoreTextContent", begin=1900)
         })
 public interface TextScore extends WrapperObject
 {
@@ -28,10 +28,10 @@ public interface TextScore extends WrapperObject
     {
         return create(null).staticNewInstance(name, objective);
     }
-    static TextScore newInstance(String name, String objective, String value)
+    static TextScore newInstanceV_1600(String name, String objective, String value)
     {
         TextScore result = newInstance(name, objective);
-        result.setValue(value);
+        result.setValueV_1600(value);
         return result;
     }
 
@@ -49,14 +49,14 @@ public interface TextScore extends WrapperObject
             {
                     @VersionName(name = "score", end = 1400),
                     @VersionName(name = "text", begin = 1400, end = 1403),
-                    @VersionName(name = "score", begin = 1403)
+                    @VersionName(name = "score", begin = 1403, end=1600)
             })
-    String getValue();
+    String getValueV_1600();
     @WrapMinecraftFieldAccessor(
             {
                     @VersionName(name = "score", end = 1400),
                     @VersionName(name = "text", begin = 1400, end = 1403),
-                    @VersionName(name = "score", begin = 1403)
+                    @VersionName(name = "score", begin = 1403, end=1600)
             })
-    void setValue(String value);
+    void setValueV_1600(String value);
 }

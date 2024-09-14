@@ -6,12 +6,12 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapSameClass(TextSelector.class)
-@VersionRange(end=1900)
-public interface TextSelectorV_1900 extends WrapperObject, TextSelector, AbstractTextV_1900
+@VersionRange(begin=1900)
+public interface TextContentSelectorV1900 extends WrapperObject, TextSelector, TextContentV1900
 {
     @WrapperCreator
-    static TextSelectorV_1900 create(Object wrapped)
+    static TextContentSelectorV1900 create(Object wrapped)
     {
-        return WrapperObject.create(TextSelectorV_1900.class, wrapped);
+        return WrapperObject.create(TextContentSelectorV1900.class, wrapped);
     }
 }

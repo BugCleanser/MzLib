@@ -2,6 +2,8 @@ package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -23,4 +25,7 @@ public interface TextMutableV1900 extends Text
     {
         return create(null).staticNewInstance(content, extra, style);
     }
+
+    @WrapMinecraftFieldAccessor(@VersionName(name="style"))
+    void setStyle(TextStyle style);
 }

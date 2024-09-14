@@ -1,9 +1,11 @@
 package mz.mzlib.minecraft.text;
 
+import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.ListWrapper;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -27,6 +29,14 @@ public interface Text extends WrapperObject
         return WrapperObject.create(Text.class, wrapped);
     }
 
+    static Text parse(JsonObject json)
+    {
+        return null; // TODO
+    }
+
+    @WrapMinecraftMethod(@VersionName(name="getLiteralString"))
+    String getLiteralString();
+
     Text staticLiteral(String str);
     static Text literal(String str)
     {
@@ -45,21 +55,76 @@ public interface Text extends WrapperObject
         return TextMutableV1900.newInstance(TextContentLiteralV1900.Impl.newInstance(str), new ArrayList<>(), TextStyle.create(null));
     }
 
+    Text staticTranslatable(String key, Text ...args);
     static Text translatable(String key, Text ...args)
+    {
+        return create(null).staticTranslatable(key, args);
+    }
+    @SpecificImpl("staticTranslatable")
+    @VersionRange(end=1900)
+    default Text staticTranslatableV_1900(String key, Text ...args)
     {
         return TextTranslatableV_1900.newInstance(key, args);
     }
+    @SpecificImpl("staticTranslatable")
+    @VersionRange(begin=1900)
+    default Text staticTranslatableV1900(String key, Text ...args)
+    {
+        return TextMutableV1900.newInstance(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.create(null));
+    }
+
+    Text staticKeybind(String keybind);
+    static Text keybind(String keybind)
+    {
+        return create(null).staticKeybind(keybind);
+    }
+    @SpecificImpl("staticKeybind")
+    @VersionRange(end=1900)
+    default Text staticKeybindV_1900(String keybind)
+    {
+        return TextKeybindV_1900.newInstance(keybind);
+    }
+    @SpecificImpl("staticKeybind")
+    @VersionRange(begin=1900)
+    default Text staticKeybindV1900(String keybind)
+    {
+        return TextMutableV1900.newInstance(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.create(null));
+    }
+
+    Text staticScore(TextScore value);
     static Text score(TextScore value)
+    {
+        return create(null).staticScore(value);
+    }
+    @SpecificImpl("staticScore")
+    @VersionRange(end=1900)
+    default Text staticScoreV_1900(TextScore value)
     {
         return value.castTo(TextScoreV_1900::create);
     }
-    static Text selector(String str)
+    @SpecificImpl("staticScore")
+    @VersionRange(begin=1900)
+    default Text staticScoreV1900(TextScore value)
     {
-        return TextSelectorV_1900.newInstance(str);
+        return TextMutableV1900.newInstance(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.create(null));
     }
-    static Text keybind(String str)
+
+    Text staticSelector(TextSelector selector);
+    static Text selector(TextSelector selector)
     {
-        return TextKeybindV_1900.newInstance(str);
+        return create(null).staticSelector(selector);
+    }
+    @SpecificImpl("staticSelector")
+    @VersionRange(end=1900)
+    default Text staticSelectorV_1900(TextSelector selector)
+    {
+        return selector.castTo(TextScoreV_1900::create);
+    }
+    @SpecificImpl("staticSelector")
+    @VersionRange(begin=1900)
+    default Text staticSelectorV1900(TextSelector selector)
+    {
+        return TextMutableV1900.newInstance(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.create(null));
     }
 
     String getLiteral();
@@ -77,50 +142,116 @@ public interface Text extends WrapperObject
     {
         if(!this.getContentV1900().isInstanceOf(TextContentLiteralV1900::create))
             return null;
-        return this.castTo(TextContentLiteralV1900::create).getLiteral();
+        return this.getContentV1900().castTo(TextContentLiteralV1900::create).getLiteral();
     }
-    default String getTranslatableKey()
+
+    String getTranslatableKey();
+    @SpecificImpl("getTranslatableKey")
+    @VersionRange(end = 1900)
+    default String getTranslatableKeyV_1900()
     {
-        if(!this.isInstanceOf(TextTranslatableV_1900::create))
+        if (!this.isInstanceOf(TextTranslatableV_1900::create))
             return null;
         return this.castTo(TextTranslatableV_1900::create).getKey();
     }
-    default Text[] getTranslatableArgs()
+    @SpecificImpl("getTranslatableKey")
+    @VersionRange(begin = 1900)
+    default String getTranslatableKeyV1900()
+    {
+        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900::create))
+            return null;
+        return this.getContentV1900().castTo(TextContentTranslatableV1900::create).getKey();
+    }
+
+    Text[] getTranslatableArgs();
+    @SpecificImpl("getTranslatableArgs")
+    @VersionRange(end=1900)
+    default Text[] getTranslatableArgsV_1900()
     {
         if(!this.isInstanceOf(TextTranslatableV_1900::create))
             return null;
         return this.castTo(TextTranslatableV_1900::create).getArgs();
     }
-    default TextScore getScore()
+    @SpecificImpl("getTranslatableArgs")
+    @VersionRange(begin=1900)
+    default Text[] getTranslatableArgsV1900()
     {
-        if(!this.isInstanceOf(TextScore::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900::create))
             return null;
-        return this.castTo(TextScore::create);
+        return this.getContentV1900().castTo(TextContentTranslatableV1900::create).getArgs();
     }
-    default String getSelector()
-    {
-        if(!this.isInstanceOf(TextSelectorV_1900::create))
-            return null;
-        return this.castTo(TextSelectorV_1900::create).getSelector();
-    }
-    default String getKeybind()
+
+    String getKeybind();
+    @SpecificImpl("getKeybind")
+    @VersionRange(end = 1900)
+    default String getKeybindV_1900()
     {
         if (!this.isInstanceOf(TextKeybindV_1900::create))
             return null;
         return this.castTo(TextKeybindV_1900::create).getKeybind();
     }
-    default TextStyle getStyle()
+    @SpecificImpl("getKeybind")
+    @VersionRange(begin = 1900)
+    default String getKeybindV1900()
     {
-        return this.castTo(AbstractTextV_1900::create).getStyle();
+        if (!this.getContentV1900().isInstanceOf(TextContentKeybindV1900::create))
+            return null;
+        return this.getContentV1900().castTo(TextContentKeybindV1900::create).getKeybind();
     }
-    default void setStyle(TextStyle value)
+
+    TextScore getScore();
+    @SpecificImpl("getScore")
+    @VersionRange(end=1900)
+    default TextScore getScoreV_1900()
     {
-        this.castTo(AbstractTextV_1900::create).setStyle(value);
+        if(!this.isInstanceOf(TextScore::create))
+            return null;
+        return this.castTo(TextScore::create);
+    }
+    @SpecificImpl("getScore")
+    @VersionRange(begin=1900)
+    default TextScore getScoreV1900()
+    {
+        if(!this.getContentV1900().isInstanceOf(TextScore::create))
+            return null;
+        return this.getContentV1900().castTo(TextScore::create);
+    }
+
+    TextSelector getSelector();
+    @SpecificImpl("getSelector")
+    @VersionRange(end = 1900)
+    default TextSelectorV_1900 getSelectorV_1900()
+    {
+        if (!this.isInstanceOf(TextSelectorV_1900::create))
+            return null;
+        return this.castTo(TextSelectorV_1900::create);
+    }
+    @SpecificImpl("getSelector")
+    @VersionRange(begin = 1900)
+    default TextContentSelectorV1900 getSelectorV1900()
+    {
+        if (!this.getContentV1900().isInstanceOf(TextContentSelectorV1900::create))
+            return null;
+        return this.getContentV1900().castTo(TextContentSelectorV1900::create);
+    }
+
+    @WrapMinecraftMethod(@VersionName(name="getStyle"))
+    TextStyle getStyle();
+
+    void setStyle(TextStyle style);
+    @SpecificImpl("setStyle")
+    @WrapMinecraftMethod(@VersionName(name="setStyle", end=1900))
+    void setStyleV_1900(TextStyle style);
+    @SpecificImpl("setStyle")
+    @VersionRange(begin = 1900)
+    default void setStyleV1900(TextStyle style)
+    {
+        this.castTo(TextMutableV1900::create).setStyle(style);
     }
     default Text style(Consumer<TextStyle> consumer)
     {
         TextStyle style = this.getStyle();
-        if(!style.isPresent())
+        if (!style.isPresent())
         {
             style = TextStyle.newInstance();
             this.setStyle(style);
@@ -128,9 +259,14 @@ public interface Text extends WrapperObject
         consumer.accept(style);
         return this;
     }
+    @WrapMinecraftMethod(@VersionName(name="getSiblings"))
+    List<?> getExtra0();
     default List<Text> getExtra()
     {
-        return this.castTo(AbstractTextV_1900::create).getExtra();
+        List<?> result = this.getExtra0();
+        if(result==null)
+            return null;
+        return new ListWrapper<>(result, Text::create);
     }
     default void setExtra(List<Text> value)
     {
@@ -138,7 +274,13 @@ public interface Text extends WrapperObject
     }
     default Text extra(Text ...value)
     {
-        this.setExtra(new ArrayList<>(Arrays.asList(value)));
+        List<Text> extra = getExtra();
+        if(extra==null)
+        {
+            extra=new ArrayList<>();
+            this.setExtra(extra);
+        }
+        extra.addAll(Arrays.asList(value));
         return this;
     }
 
