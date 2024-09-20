@@ -33,6 +33,8 @@ public class MzLibMinecraft extends MzModule
             this.register(PacketListenerModule.instance);
 
             this.register(MinecraftEventModule.instance);
+            
+            this.register(ModuleMapStackTrace.instance);
 
             // TODO test
 //            ItemStack is=new ItemStack(Material.ICE);

@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("mz.lib.java-conventions")
     id("com.github.johnrengelman.shadow") version "7.1.2"
@@ -28,10 +29,12 @@ dependencies {
 
     api(project(":Mappings"))
 
-    @Suppress
 //    compileOnly("net.md-5:bungeecord-api:1.12-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT")
+    @Suppress
+    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     compileOnly("it.unimi.dsi:fastutil:8.5.11")
+
+    compileOnly("io.netty:netty-all:4.1.76.Final")
 
     compileOnly("com.rylinaux:PlugMan:2.2.9")
 

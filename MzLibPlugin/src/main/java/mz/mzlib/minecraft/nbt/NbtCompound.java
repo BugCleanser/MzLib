@@ -3,10 +3,9 @@ package mz.mzlib.minecraft.nbt;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
 
@@ -88,5 +87,5 @@ public interface NbtCompound extends NbtElement
     }
 
     @WrapMinecraftMethod(@VersionName(name = "shallowCopy"))
-    NBTTagCompound shallowCopy();
+    NbtCompound shallowCopy();
 }
