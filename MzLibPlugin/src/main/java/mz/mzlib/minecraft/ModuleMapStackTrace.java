@@ -1,7 +1,9 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.asm.Opcodes;
+import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapClass;
 import mz.mzlib.util.wrapper.WrapMethod;
@@ -9,8 +11,12 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
 import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.stream.Collectors;
 
 // TODO config switch
 public class ModuleMapStackTrace extends MzModule
@@ -62,7 +68,26 @@ public class ModuleMapStackTrace extends MzModule
 			{
 				String name=MinecraftPlatform.instance.getMappingsP2Y().mapClass(returnValue[i].getClassName());
 				if(!Objects.equals(name, returnValue[i].getClassName()))
-					result[i]=new StackTraceElement(name,"?"+returnValue[i].getMethodName(),returnValue[i].getFileName(),returnValue[i].getLineNumber());
+				{
+					String methodName=returnValue[i].getMethodName();
+					if(!Objects.equals(methodName, "<init>") && !Objects.equals(methodName, "<clinit>"))
+					{
+						try
+						{
+							String finalMethodName=methodName;
+							Set<Method> methods=Arrays.stream(Class.forName(returnValue[i].getClassName()).getDeclaredMethods()).filter(m->m.getName().equals(finalMethodName)).collect(Collectors.toSet());
+							if(methods.size()!=1)
+								throw new NoSuchMethodException();
+							Method method=methods.iterator().next();
+							methodName=MinecraftPlatform.instance.getMappingsP2Y().mapMethod(name, new MappingMethod(method.getName(),Arrays.stream(method.getParameterTypes()).map(AsmUtil::getType).toArray(String[]::new)));
+						}
+						catch(ClassNotFoundException | NoSuchMethodException e)
+						{
+							methodName="?"+methodName;
+						}
+					}
+					result[i]=new StackTraceElement(name,methodName,returnValue[i].getFileName(),returnValue[i].getLineNumber());
+				}
 				else
 					result[i]=returnValue[i];
 			}

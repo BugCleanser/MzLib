@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-public class SimpleTester<C extends TestContext> implements Tester<C>
+public class SimpleTester<C extends TesterContext> implements Tester<C>
 {
     public String name;
     public Class<C> contextType;

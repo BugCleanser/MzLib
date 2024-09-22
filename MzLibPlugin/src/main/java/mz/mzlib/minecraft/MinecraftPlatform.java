@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft;
 
-import mz.mzlib.minecraft.mappings.IMappings;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.mappings.IMappings;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.RuntimeUtil;
 
@@ -23,6 +23,7 @@ public interface MinecraftPlatform extends Instance
         return this.getVersion() >= name.begin() && this.getVersion() < name.end();
     }
     String getLanguage(EntityPlayer player);
+    File getMzLibJar();
     File getMzLibDataFolder();
 
     Logger getMzLibLogger();

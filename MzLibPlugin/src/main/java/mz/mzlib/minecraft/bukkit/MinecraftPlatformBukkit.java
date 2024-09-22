@@ -58,6 +58,12 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     {
         return version;
     }
+    
+    @Override
+    public File getMzLibJar()
+    {
+        return MzLibBukkitPlugin.instance.getFile();
+    }
     @Override
     public File getMzLibDataFolder()
     {

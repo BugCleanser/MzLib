@@ -2,7 +2,7 @@ package mz.mzlib.test;
 
 import mz.mzlib.util.async.AsyncTask;
 
-public class TestContext
+public class TesterContext
 {
     public AsyncTask controller=new AsyncTask();
 
