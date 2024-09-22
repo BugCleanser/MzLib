@@ -1,12 +1,17 @@
 package mz.mzlib.minecraft;
 
-import mz.mzlib.event.EventListenerRegistrar;
+import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.minecraft.I18n.I18nMinecraft;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.tester.Tester;
+import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -23,12 +28,25 @@ public class MzLibMinecraft extends MzModule
 
             this.register(NothingMinecraftServer.class);
 
-            this.register(EventListenerRegistrar.instance);
+            this.register(RegistrarEventListener.instance);
             this.register(PacketListenerModule.instance);
 
             this.register(MinecraftEventModule.instance);
             
             this.register(ModuleMapStackTrace.instance);
+            
+            Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
+            {
+                if(e != null)
+                {
+                    e.printStackTrace(System.err);
+                    return;
+                }
+                for(Throwable t : r)
+                {
+                    t.printStackTrace(System.err);
+                }
+            });
         }
         catch (Throwable e)
         {

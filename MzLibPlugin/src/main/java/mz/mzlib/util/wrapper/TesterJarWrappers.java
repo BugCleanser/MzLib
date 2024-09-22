@@ -1,7 +1,8 @@
 package mz.mzlib.util.wrapper;
 
-import mz.mzlib.test.Tester;
-import mz.mzlib.test.TesterContext;
+import mz.mzlib.tester.Tester;
+import mz.mzlib.tester.TesterContext;
+import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableSupplier;
 
@@ -55,7 +56,7 @@ public class TesterJarWrappers implements Tester<TesterContext>
 				if(!entry.getName().endsWith(".class"))
 					continue;
 				Class<?> clazz=Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()), true, classLoader);
-				if(WrapperObject.class.isAssignableFrom(clazz))
+				if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
 				{
 					try
 					{

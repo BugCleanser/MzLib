@@ -1,4 +1,4 @@
-package mz.mzlib.test;
+package mz.mzlib.tester;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

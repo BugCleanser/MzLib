@@ -1,11 +1,12 @@
 package mz.mzlib;
 
-import mz.mzlib.event.EventClassRegistrar;
-import mz.mzlib.event.EventListenerRegistrar;
-import mz.mzlib.i18n.I18nRegistrar;
+import mz.mzlib.event.RegistrarEventClass;
+import mz.mzlib.event.RegistrarEventListener;
+import mz.mzlib.i18n.RegistrarI18n;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.tester.Tester;
 import mz.mzlib.util.Instance;
-import mz.mzlib.util.nothing.NothingClassRegistrar;
+import mz.mzlib.util.nothing.RegistrarNothingClass;
 
 import java.util.HashSet;
 
@@ -44,11 +45,13 @@ public class MzLib extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(Instance.InstanceRegistrar.instance);
+        this.register(Instance.Registrar.instance);
+        
+        this.register(Tester.Registrar.instance);
 
-        this.register(I18nRegistrar.instance);
-        this.register(NothingClassRegistrar.instance);
-        this.register(EventClassRegistrar.instance);
-        this.register(EventListenerRegistrar.instance);
+        this.register(RegistrarI18n.instance);
+        this.register(RegistrarNothingClass.instance);
+        this.register(RegistrarEventClass.instance);
+        this.register(RegistrarEventListener.instance);
     }
 }

@@ -8,9 +8,9 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class NothingClassRegistrar implements IRegistrar<Class<? extends Nothing>>
+public class RegistrarNothingClass implements IRegistrar<Class<? extends Nothing>>
 {
-    public static NothingClassRegistrar instance = new NothingClassRegistrar();
+    public static RegistrarNothingClass instance = new RegistrarNothingClass();
 
     public Map<Class<?>, NothingRegistration> registrations = new ConcurrentHashMap<>();
 

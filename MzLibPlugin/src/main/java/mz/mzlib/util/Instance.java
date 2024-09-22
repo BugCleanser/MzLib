@@ -11,9 +11,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public interface Instance
 {
-    class InstanceRegistrar implements IRegistrar<Instance>
+    class Registrar implements IRegistrar<Instance>
     {
-        public static InstanceRegistrar instance = new InstanceRegistrar();
+        public static Registrar instance = new Registrar();
         Map<Class<? extends Instance>, List<Instance>> instances = new ConcurrentHashMap<>();
 
         @Override

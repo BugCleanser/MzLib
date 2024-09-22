@@ -4,9 +4,9 @@ import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 
-public class EventListenerRegistrar implements IRegistrar<EventListener<?>>
+public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 {
-    public static EventListenerRegistrar instance=new EventListenerRegistrar();
+    public static RegistrarEventListener instance=new RegistrarEventListener();
 
     public Class<EventListener<?>> getType()
     {

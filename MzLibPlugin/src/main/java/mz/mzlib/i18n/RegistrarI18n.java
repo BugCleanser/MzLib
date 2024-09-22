@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class I18nRegistrar implements IRegistrar<I18n>
+public class RegistrarI18n implements IRegistrar<I18n>
 {
-    public static I18nRegistrar instance=new I18nRegistrar();
+    public static RegistrarI18n instance=new RegistrarI18n();
 
     public List<I18n> sortedI18ns=new ArrayList<>();
     public String getTranslation(String language, String key)

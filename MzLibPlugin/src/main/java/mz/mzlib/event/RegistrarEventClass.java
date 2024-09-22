@@ -14,9 +14,9 @@ import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 
-public class EventClassRegistrar implements IRegistrar<Class<? extends Event>>
+public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
 {
-    public static EventClassRegistrar instance=new EventClassRegistrar();
+    public static RegistrarEventClass instance=new RegistrarEventClass();
 
     public  Class<Class<? extends Event>> getType()
     {

@@ -1,4 +1,4 @@
-package mz.mzlib.test;
+package mz.mzlib.tester;
 
 import mz.mzlib.util.async.AsyncTask;
 

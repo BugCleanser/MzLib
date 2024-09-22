@@ -3,6 +3,7 @@ package mz.mzlib.util.async;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * Directly inherit from this class rather than from its subclasses.
@@ -69,11 +70,11 @@ public abstract class AsyncFunction<R> implements Runnable
         runner.schedule(this);
         return RuntimeUtil.cast(context.future);
     }
-
-    public <T> CompletableFuture<T> launch(AsyncFunction<T> function)
+    public CompletableFuture<R> start(Executor executor)
     {
-        return function.start(this.getRunner());
+        return this.start(AsyncFunctionRunner.fromExecutor(executor));
     }
+    
 
     public AsyncFunctionContext context;
 
