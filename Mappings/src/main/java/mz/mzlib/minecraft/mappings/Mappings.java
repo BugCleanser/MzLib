@@ -16,7 +16,7 @@ public class Mappings implements IMappings
     public Map<String, Map<MappingMethod, String>> methods = new HashMap<>();
 
     @Override
-    public String mapClass(String from)
+    public String mapClass0(String from)
     {
         String result=this.classes.get(from);
         if(result!=null)
@@ -24,19 +24,19 @@ public class Mappings implements IMappings
         int index=from.lastIndexOf('$');
         if(index!=-1)
             return this.mapClass(from.substring(0,index))+from.substring(index);
-        return from;
+        return null;
     }
 
     @Override
-    public String mapField(String fromClass,String fromField)
+    public String mapField0(String fromClass,String fromField)
     {
-        return Optional.ofNullable(this.fields.get(fromClass)).map(it->it.getOrDefault(fromField,fromField)).orElse(fromField);
+        return Optional.ofNullable(this.fields.get(fromClass)).map(it->it.getOrDefault(fromField,fromField)).orElse(null);
     }
 
     @Override
-    public String mapMethod(String fromClass, MappingMethod fromMethod)
+    public String mapMethod0(String fromClass, MappingMethod fromMethod)
     {
-        return Optional.ofNullable(this.methods.get(fromClass)).map(it->it.getOrDefault(fromMethod,fromMethod.name)).orElse(fromMethod.name);
+        return Optional.ofNullable(this.methods.get(fromClass)).map(it->it.getOrDefault(fromMethod,fromMethod.name)).orElse(null);
     }
 
     public static Mappings parseYarnLegacy(String mappings)

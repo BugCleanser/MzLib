@@ -66,8 +66,8 @@ public class ModuleMapStackTrace extends MzModule
 			StackTraceElement[] result=new StackTraceElement[returnValue.length];
 			for(int i=0;i<result.length;i++)
 			{
-				String name=MinecraftPlatform.instance.getMappingsP2Y().mapClass(returnValue[i].getClassName());
-				if(!Objects.equals(name, returnValue[i].getClassName()))
+				String name=MinecraftPlatform.instance.getMappingsP2Y().mapClass0(returnValue[i].getClassName());
+				if(name!=null)
 				{
 					String methodName=returnValue[i].getMethodName();
 					if(!Objects.equals(methodName, "<init>") && !Objects.equals(methodName, "<clinit>"))

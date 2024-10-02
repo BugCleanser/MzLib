@@ -72,7 +72,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     public class SpigotPackageMappingV_1700 implements IMappings
     {
         public String nms="net.minecraft.server." + MinecraftPlatformBukkit.this.protocolVersion;
-        public String mapClass(String from)
+        public String mapClass0(String from)
         {
             String result;
             if(from.startsWith(nms+'.'))
@@ -81,21 +81,21 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
                 result=from;
             if (result.equals("MinecraftServer"))
                 return "net.minecraft.server." + result;
-            return result;
+            return null;
         }
-        public String mapField(String fromClass,String fromField)
+        public String mapField0(String fromClass,String fromField)
         {
-            return fromField;
+            return null;
         }
-        public String mapMethod(String fromClass, MappingMethod fromMethod)
+        public String mapMethod0(String fromClass, MappingMethod fromMethod)
         {
-            return fromMethod.name;
+            return null;
         }
     }
     public class SpigotPackageMappingReversedV_1700 implements IMappings
     {
         public String nms="net.minecraft.server." + MinecraftPlatformBukkit.this.protocolVersion;
-        public String mapClass(String from)
+        public String mapClass0(String from)
         {
             if(from.equals("net.minecraft.server.MinecraftServer"))
                 from="MinecraftServer";
@@ -104,13 +104,13 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
             else
                 return from;
         }
-        public String mapField(String fromClass,String fromField)
+        public String mapField0(String fromClass,String fromField)
         {
-            return fromField;
+            return null;
         }
-        public String mapMethod(String fromClass, MappingMethod fromMethod)
+        public String mapMethod0(String fromClass, MappingMethod fromMethod)
         {
-            return fromMethod.name;
+            return null;
         }
     }
     public IMappings mappingsP2Y,mappingsY2P;
