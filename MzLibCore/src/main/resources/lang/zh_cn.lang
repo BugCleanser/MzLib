@@ -1,0 +1,167 @@
+mzlib.value.true = 是
+mzlib.value.false = 否
+mzlib.value.on = 开
+mzlib.value.off = 关
+mzlib.help = §a帮助
+
+mzlib.plugin.message = §b[§e%{plugin}§b] §f%{msg}
+
+mzlib.hotloading = §eMzLib热加载中，如遇到显示问题请退出游戏重进
+
+mzlib.showItemOnHand.format = §l%{item}
+
+mzlib.chat.shiftCopy = §7shift+左键复制到聊天栏: §f%{value}
+
+mzlib.dropName.displayName = [%s§f]
+mzlib.dropName.rawName = %s
+mzlib.dropName.bookTitle = §n%{name}
+mzlib.dropName.oneItem = %{name}
+mzlib.dropName.multipleItems = %{name}§f *%{num}
+
+mzlib.command.default.errMsg = 请输入%{type}
+mzlib.command.default.errMsgWithName = %{name}必须是%{type}
+mzlib.command.default.type.array = %{min}~%{max}个%{component}
+mzlib.command.default.type.float = %{min}~%{max}的小数
+mzlib.command.default.type.double = %{min}~%{max}的小数
+mzlib.command.default.type.char = 字符
+mzlib.command.default.type.byte = %{min}~%{max}的整数
+mzlib.command.default.type.short = %{min}~%{max}的整数
+mzlib.command.default.type.int = %{min}~%{max}的整数
+mzlib.command.default.type.long = %{min}~%{max}的整数
+mzlib.command.default.type.bool = true或false
+mzlib.command.default.type.string = 字符串
+mzlib.command.default.type.enchant = 附魔
+mzlib.command.default.type.enchantName = 附魔名称
+mzlib.command.default.type.player = 在线玩家
+mzlib.command.default.type.offlinePlayer = 离线玩家
+mzlib.command.default.type.mzitem = mz物品
+mzlib.command.default.sender.player.error = §4只有游戏中的玩家才能执行该命令
+mzlib.command.default.sender.console.error = §4只有控制台才能执行该命令
+mzlib.command.default.sender.commandBlock.error = §4只有命令方块才能执行该命令
+mzlib.command.default.sender.commandBlockMinecart.error = §4只有命令方块矿车才能执行该命令
+mzlib.command.default.sender.entity.error = §4只有实体才能执行该命令
+mzlib.command.default.sender.default.error = §4只有%{type}才能执行该命令
+mzlib.command.default.op.error = §4只有OP能执行该命令
+mzlib.command.default.permission.error = §4你没有执行该指令的权限: %{permission}
+mzlib.command.default.usage = §c用法:
+mzlib.command.default.usage.part = §a/%{cmd} §b%{effect}
+mzlib.command.default.usage.args = §a/%{cmd} §2%{args}
+
+mzlib.command.debug.slot.success = §a槽位调试模式已设为%{state}
+mzlib.command.debug.slot.rawSlot = §b原始槽位：%{rawSlot}
+mzlib.command.debug.slot.slotNumber = §b物品栏槽位：%{slotNumber}
+mzlib.command.debug.slot.forcePlace = §a强制放入了物品
+
+mzlib.command.sunday.effect = 将天气调为晴天，将时间调为白天
+mzlib.command.sunday.success = §a已将世界%{world}设为§m星期日§a晴天&白天
+
+mzlib.command.give.effect = 给予玩家一个MZ物品
+mzlib.command.give.success = §a得到了%{item}
+mzlib.command.give.other.success = §a将%{item}§a给予了%{player}
+
+mzlib.command.respawn.effect = 复活一个玩家
+mzlib.command.respawn.success = §a复活了玩家%{player}
+
+mzlib.command.enchant.effect = 附魔手中的物品
+mzlib.command.enchant.level = 等级
+mzlib.command.enchant.error = §e请手持一个物品
+
+mzlib.command.iteminfo = §a物品信息:
+mzlib.command.iteminfo.effect = 得到手中物品的信息
+mzlib.command.iteminfo.error = §e请手持一个物品
+mzlib.command.iteminfo.id = §aID: %{id}
+mzlib.command.iteminfo.material = §aMaterial: %{material}
+mzlib.command.iteminfo.nameKey = §a名称键名: %{nameKey}
+mzlib.command.iteminfo.name = §a名称（%{locale}）: %{name}
+mzlib.command.iteminfo.numId = §a数字ID: %{numId}
+mzlib.command.iteminfo.childId = §a子ID: %{childId}
+mzlib.command.iteminfo.num = §a数量: %{num}
+mzlib.command.iteminfo.tag = §atag: %{tag}
+mzlib.command.iteminfo.mzitem = §aMz物品: %{id}
+mzlib.command.iteminfo.mzitem.nameKey = §a名称键名: %{nameKey}
+
+mzlib.command.resetRecipes.effect = 重置所有原版配方
+mzlib.command.resetRecipes.success = §a重置了所有原版配方
+
+mzlib.command.reload.effect = 重载配置
+mzlib.command.reload.success = §a重载了配置
+
+mzlib.command.playerinfo.effect = 显示玩家信息
+mzlib.command.playerinfo = §a玩家信息：
+mzlib.command.playerinfo.name = §a名称： %{name}
+mzlib.command.playerinfo.id = §aID： %{id}
+mzlib.command.playerinfo.uid = §aUID： %{uid}
+mzlib.command.playerinfo.locale = §a语言： %{locale}
+mzlib.command.playerinfo.shift = §a按住shift： %{shift}
+mzlib.command.playerinfo.walkSpeed = §a行走速度： %{walkSpeed}
+mzlib.command.playerinfo.flySpeed = §a飞行速度： %{flySpeed}
+mzlib.command.playerinfo.health = §a血量： %{health}
+mzlib.command.playerinfo.mainHand = §a主手物品： %{nbt}
+mzlib.command.playerinfo.offHand = §a副手物品： %{nbt}
+
+mzlib.command.loadMap.effect = 加载图片文件为地图物品
+mzlib.command.loadMap.x = 横向地图数量
+mzlib.command.loadMap.y = 纵向地图数量
+mzlib.command.loadMap.file = 地图文件路径
+
+mzlib.item.debugFish = §b调试鱼
+mzlib.item.debugFish.lore = §7右键方块或实体
+mzlib.item.debugFish.blockinfo = §a方块信息:
+mzlib.item.debugFish.blockinfo.material = §aMaterial: %{material}
+mzlib.item.debugFish.entityinfo = §a方块信息:
+mzlib.item.debugFish.entityinfo.entitytype = §aEntityType: %{entitytype}
+
+mzlib.inputBox.OK = §a完成
+mzlib.menu.help = §a帮助
+mzlib.menu.return = §5返回
+mzlib.menu.pageUp = §a上一页
+mzlib.menu.pageDown = §a下一页
+mzlib.listEditor.edit = §c左键§7编辑
+mzlib.listEditor.insertBefore = §c右键§7在前面插入
+mzlib.listEditor.remove = §cshift+左键§7移除
+mzlib.listEditor.add = §a添加
+
+mzlib.command.recipes.effect = 打开配方编辑器
+mzlib.recipesEditor.error.noresult = §4必须设置配方的成品
+mzlib.recipesEditor.error.noraw = §4必须设置配方的原料
+mzlib.recipesEditor.kindRecipe.title = §4%{type}
+mzlib.recipesEditor.kindRecipe.name = §e%{type}
+mzlib.recipesEditor.kindRecipe.lore = §9%{type}\n§e%{id}
+mzlib.recipesEditor.recipe.title = §c配方%{id}
+mzlib.recipesEditor.types.title = §2配方类型
+mzlib.recipesEditor.save = §a保存
+mzlib.recipesEditor.description = §b说明
+mzlib.recipesEditor.resultTips = §b点击背包物品设置为成品
+mzlib.recipesEditor.result = §f成品： %{item}
+mzlib.recipesEditor.ingredientEditor.title = §1请放入可匹配的原料
+mzlib.recipesEditor.refreshActives.name = §a刷新活动配方
+mzlib.recipesEditor.refreshActives.lore = §f重新加载所有生效中的配方并移至最后
+mzlib.recipesEditor.types.recipeTitle = §d%{type}: §5%{id}
+mzlib.recipesEditor.types.unsavedRecipe = §7未保存的配方
+mzlib.recipesEditor.types.fixedRecipe = §a固定的配方
+mzlib.recipesEditor.types.disabledRecipe = §4禁用的配方
+mzlib.recipesEditor.types.shapedRecipe = 工作台有序配方
+mzlib.recipesEditor.types.shapedRecipe.description = awa
+mzlib.recipesEditor.types.shapedRecipe.rawTips = 点击左侧槽位编辑可选原料
+mzlib.recipesEditor.types.shapedRecipe.group = §a分组：%{group}
+mzlib.recipesEditor.types.shapedRecipe.group.none = §a没有分组
+mzlib.recipesEditor.types.shapedRecipe.setGroup = §a设置分组
+mzlib.recipesEditor.types.shapedRecipe.setGroup.current = §f当前分组：%{group}
+mzlib.recipesEditor.types.shapedRecipe.setGroup.help = §f相同分组的配方将在客户端中合并显示，右键展开\n§f设为none则没有分组
+mzlib.recipesEditor.types.shapelessRecipe = 工作台无序配方
+mzlib.recipesEditor.types.furnaceRecipe = 熔炉配方
+mzlib.recipesEditor.types.furnaceRecipe.setExp = §e设置经验
+mzlib.recipesEditor.types.furnaceRecipe.setExp.lore = §f当前：%{exp}
+mzlib.recipesEditor.types.furnaceRecipe.setExp.error = §4非法数量
+mzlib.recipesEditor.types.fuelRecipe = 燃料列表
+mzlib.recipesEditor.types.fuelRecipe.ingredient = 原料
+mzlib.recipesEditor.types.fuelRecipe.time = §c燃烧时间：%{time}游戏刻
+mzlib.recipesEditor.types.fuelRecipe.timeSetter = §c设置燃烧时间（当前：%{time}游戏刻）
+mzlib.recipesEditor.types.fuelRecipe.timeSetter.title = 燃烧时间
+mzlib.recipesEditor.types.anvilRecipe = 铁砧配方
+mzlib.recipesEditor.types.anvilRecipe.ingredient1 = 原料1
+mzlib.recipesEditor.types.anvilRecipe.ingredient2 = 原料2
+mzlib.recipesEditor.disabledRecipe.remove = §7点击移除
+mzlib.recipesEditor.disable = §4禁用并移至黑名单
+mzlib.recipesEditor.fixedRecipe.setKey = §f设置配方ID
+mzlib.recipesEditor.fixedRecipe.setKey.error = §4非法ID
