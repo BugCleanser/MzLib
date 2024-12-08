@@ -15,7 +15,7 @@ repositories {
     maven("https://libraries.minecraft.net/")
 }
 
-group = "mz.lib"
+group = "mz.mzlib"
 version = "10.0.1-beta-dev1"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 

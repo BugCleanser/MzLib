@@ -1,4 +1,4 @@
 rootProject.name = "MzLib"
-include(":MzLibPlugin")
+include(":MzLibCore")
 include("Mappings")
 include("Test")
