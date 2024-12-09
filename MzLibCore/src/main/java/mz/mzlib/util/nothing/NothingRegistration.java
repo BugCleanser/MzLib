@@ -299,7 +299,7 @@ public class NothingRegistration
                                         }
                                         if (argTypes[k] == null)
                                         {
-                                            throw new UnsupportedOperationException(i + " " + ps[k].getType().toString());
+                                            throw new UnsupportedOperationException("Arg "+ k + " of " + i);
                                         }
                                         loadingVars.add(AsmUtil.insnVarStore(argTypes[k], args[k]));
                                     }

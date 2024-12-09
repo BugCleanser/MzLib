@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.compound.Compound;
@@ -12,14 +13,15 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 @Compound
-public interface WindowFactoryCustom extends WrapperObject, WindowFactory
+public interface WindowFactorySimple extends WrapperObject, WindowFactory
 {
     @WrapperCreator
-    static WindowFactoryCustom create(Object wrapped)
+    static WindowFactorySimple create(Object wrapped)
     {
-        return WrapperObject.create(WindowFactoryCustom.class, wrapped);
+        return WrapperObject.create(WindowFactorySimple.class, wrapped);
     }
     
     @CompoundOverride("getWindowIdV_1400")
@@ -40,14 +42,24 @@ public interface WindowFactoryCustom extends WrapperObject, WindowFactory
     void setWindowCreator(BiFunction<Integer, InventoryPlayer, Window> windowCreator);
     
     @WrapConstructor
-    WindowFactoryCustom staticNewInstance();
-    static WindowFactoryCustom newInstance(String windowIdV_1400, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
+    WindowFactorySimple staticNewInstance();
+    static WindowFactorySimple newInstance(String windowIdV_1400, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
     {
-        WindowFactoryCustom result = create(null).staticNewInstance();
+        WindowFactorySimple result = create(null).staticNewInstance();
         result.setWindowIdV_1400(windowIdV_1400);
         result.setDisplayName(displayName);
         result.setWindowCreator(windowCreator);
         return result;
+    }
+    
+    static WindowFactorySimple custom9x(Text title, Inventory inventory, int rows, Consumer<? super WindowCustom9x> initializer)
+    {
+        return newInstance("minecraft:chest", title, (syncId, inventoryPlayer)->
+        {
+            WindowCustom9x result = WindowCustom9x.newInstance(syncId, inventoryPlayer, inventory, rows);
+            initializer.accept(result);
+            return result;
+        });
     }
     
     @CompoundOverride("getDisplayNameV_1400")
@@ -55,6 +67,13 @@ public interface WindowFactoryCustom extends WrapperObject, WindowFactory
     default Text getDisplayNameV_1400()
     {
         return this.getDisplayName();
+    }
+    
+    @CompoundOverride("hasDisplayNameV_1400")
+    @VersionRange(end=1400)
+    default boolean hasDisplayNameV_1400()
+    {
+        return this.getDisplayName().isPresent();
     }
     
     @CompoundOverride("getDisplayNameV1400")

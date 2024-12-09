@@ -83,7 +83,7 @@ public class Test
 		}
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
-		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("tick", new String[]{"Ljava/util/function/BooleanSupplier;"})));
+		System.out.println(mappingsP2Y.mapMethod("ItemStack", new MappingMethod("equals", new String[]{"LItemStack;","LItemStack;"})));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();

@@ -45,9 +45,25 @@ public @interface Compound
                 ClassNode cn=new ClassNode();
                 Set<Class<?>> superclasses = getSuperclasses(wrapperClass);
                 Set<Class<?>> interfaces=superclasses.stream().filter(Class::isInterface).collect(Collectors.toSet());
-                if(superclasses.size()-interfaces.size()>1)
+                superclasses=superclasses.stream().filter(i->!i.isInterface()).collect(Collectors.toSet());
+                Class<?> superclass=superclasses.stream().findFirst().orElse(Object.class);
+                boolean flag=true;
+                for(Class<?> i:superclasses)
+                {
+                    flag=true;
+                    for(Class<?> j:superclasses)
+                    {
+                        if(!j.isAssignableFrom(i))
+                            flag=false;
+                    }
+                    if(flag)
+                    {
+                        superclass=i;
+                        break;
+                    }
+                }
+                if(!flag)
                     throw new IllegalStateException("You can only extend a class.");
-                Class<?> superclass=superclasses.stream().filter(i->!i.isInterface()).findFirst().orElse(Object.class);
                 cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null, AsmUtil.getType(superclass), interfaces.stream().map(AsmUtil::getType).toArray(String[]::new));
                 for(Method method:wrapperClass.getMethods())
                 {

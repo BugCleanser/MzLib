@@ -2,22 +2,27 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.minecraft.command.CommandBuilder;
+import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryCustom;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.window.WindowFactoryCustom;
-import mz.mzlib.minecraft.window.WindowGeneric;
-import mz.mzlib.minecraft.window.WindowTypeV1400;
+import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.compound.Compound;
+import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
-import net.minecraft.server.v1_12_R1.ContainerChest;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.concurrent.ForkJoinPool;
 
@@ -25,6 +30,35 @@ public class MzLibMinecraft extends MzModule
 {
     public static MzLibMinecraft instance = new MzLibMinecraft();
 
+    @Compound
+    public interface TestSlot extends WindowSlot
+    {
+        @WrapperCreator
+        static TestSlot create(Object wrapped)
+        {
+            return WrapperObject.create(TestSlot.class, wrapped);
+        }
+        
+        @WrapConstructor
+        WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
+        static WindowSlot newInstance(Inventory inventory, int index)
+        {
+            return create(null).staticNewInstance(inventory, index, 0, 0);
+        }
+        
+        @CompoundOverride("canPlace")
+        default boolean canPlace(ItemStack itemStack)
+        {
+            return itemStack.getCount()%2==0;
+        }
+        
+        @CompoundOverride("onTake")
+        default void onTake(AbstractEntityPlayer player, ItemStack itemStack)
+        {
+            player.sendMessage(Text.literal("Testttttt"));
+        }
+    }
+    
     @Override
     public void onLoad()
     {
@@ -42,13 +76,16 @@ public class MzLibMinecraft extends MzModule
             this.register(MinecraftEventModule.instance);
             
             this.register(ModuleMapStackTrace.instance);
+            
+            this.register(ModuleWindow.instance);
             this.register(UIStack.Module.instance);
             
-            InventoryCustom test = InventoryCustom.newInstance(9*3);
+            InventoryCustom testInv = InventoryCustom.newInstance(9*3);
+            WindowFactorySimple test = WindowFactorySimple.custom9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
             this.register(new CommandBuilder("mzlib", "mz").addChild(new CommandBuilder("test", "t").addExecutor((sender, command, args)->
             {
                 if(sender.isInstanceOf(EntityPlayer::create))
-                    sender.castTo(EntityPlayer::create).openWindow(WindowFactoryCustom.newInstance("minecraft:chest", Text.literal("Test"), (id, inventoryPlayer)->WindowGeneric.newInstance(MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic_9x3(), id, inventoryPlayer, test, 3)));
+                    sender.castTo(EntityPlayer::create).openWindow(test);
                 return Text.literal("Hello World!");
             }).build()).build());
             

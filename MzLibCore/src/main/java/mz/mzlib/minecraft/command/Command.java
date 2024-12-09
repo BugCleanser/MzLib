@@ -56,7 +56,7 @@ public class Command
             hints.add(hint);
         }
         // TODO
-        sender.sendMessage(Text.literal("/"+command+" <"+String.join("|", children.keySet())+">"));
+        sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", children.keySet())+">"));
         for(Text hint: hints)
         {
             sender.sendMessage(hint);
