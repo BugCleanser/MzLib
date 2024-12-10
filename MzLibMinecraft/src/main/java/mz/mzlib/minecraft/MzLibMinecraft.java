@@ -30,35 +30,6 @@ import java.util.concurrent.ForkJoinPool;
 public class MzLibMinecraft extends MzModule
 {
     public static MzLibMinecraft instance = new MzLibMinecraft();
-
-    @Compound
-    public interface TestSlot extends WindowSlot
-    {
-        @WrapperCreator
-        static TestSlot create(Object wrapped)
-        {
-            return WrapperObject.create(TestSlot.class, wrapped);
-        }
-        
-        @WrapConstructor
-        WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
-        static WindowSlot newInstance(Inventory inventory, int index)
-        {
-            return create(null).staticNewInstance(inventory, index, 0, 0);
-        }
-        
-        @CompoundOverride("canPlace")
-        default boolean canPlace(ItemStack itemStack)
-        {
-            return itemStack.getCount()%2==0;
-        }
-        
-        @CompoundOverride("onTake")
-        default void onTake(AbstractEntityPlayer player, ItemStack itemStack)
-        {
-            player.sendMessage(Text.literal("Testttttt"));
-        }
-    }
     
     @Override
     public void onLoad()
@@ -80,17 +51,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(ModuleWindow.instance);
             this.register(UIStack.Module.instance);
-            
-            InventoryCustom testInv = InventoryCustom.newInstance(9*3);
-            testInv.setItemStack(1, ItemStack.newInstance(Item.fromId(Identifier.ofMinecraft("stick"))));
-            WindowFactorySimple test = WindowFactorySimple.generic9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
-            this.register(new CommandBuilder("mzlib", "mz").addChild(new CommandBuilder("test", "t").addExecutor((sender, command, args)->
-            {
-                if(sender.isInstanceOf(EntityPlayer::create))
-                    sender.castTo(EntityPlayer::create).openWindow(test);
-                return Text.literal("Hello World!");
-            }).build()).build());
-            
+
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
             {
                 if(e != null)
