@@ -31,7 +31,7 @@ tasks.clean {
 }
 
 tasks.processResources{
-    exclude("**/mappings/yarn/*")
+    exclude("mappings/yarn/*.tiny")
     expand("version" to project.version)
 }
 

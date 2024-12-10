@@ -7,6 +7,6 @@ authors:
  - "泡泡🍥"
  - "钟小白Core"
  - "hpwriterkyle"
-main: mz.mzlib.demo.Demo
+main: mz.mzlib.demo.DemoPlugin
 depend: [ MzLib ]
 api-version: 1.13
