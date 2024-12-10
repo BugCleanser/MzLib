@@ -1,12 +1,33 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
+    id("java")
     id("mz.lib.java-conventions")
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
+group = "mz.mzlib"
+version = "10.0.1-beta-dev1"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation(project(":MzLibCore"))
+    // @Suppress
+    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
+
+    compileOnly("com.rylinaux:PlugMan:2.2.9")
+
+    compileOnly("com.mojang:datafixerupper:1.0.20")
+    implementation("io.github.karlatemp:unsafe-accessor:1.7.0")
+    compileOnly("io.netty:netty-all:4.1.76.Final")
+}
+
 tasks.withType<ShadowJar>{
-    archiveBaseName.set("MzLibCore")
+    archiveBaseName.set("MzLibMinecraft")
     archiveFileName.set(archiveBaseName.get() + " v" + archiveVersion.get() + ".jar")
     destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile, "out"))
     mergeServiceFiles()
@@ -20,14 +41,3 @@ tasks {
         dependsOn(shadowJar)
     }
 }
-
-dependencies {
-    implementation("io.github.karlatemp:unsafe-accessor:1.7.0")
-    implementation("net.bytebuddy:byte-buddy-agent:1.12.22")
-    implementation("com.google.code.gson:gson:2.8.0")
-    implementation("com.google.guava:guava:31.0.1-jre")
-//    implementation("org.graalvm.polyglot:polyglot:latest.release")
-//    implementation("org.graalvm.polyglot:js:latest.release")
-}
-
-description = "MzLibCore"

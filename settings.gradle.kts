@@ -1,4 +1,4 @@
 rootProject.name = "MzLib"
 include(":MzLibCore")
-include("Mappings")
+include("MzLibMinecraft")
 include("Test")

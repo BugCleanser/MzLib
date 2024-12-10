@@ -27,6 +27,7 @@ publishing {
 }
 
 tasks.processResources{
+    exclude("**/mappings/yarn/*")
     expand("version" to project.version)
 }
 
