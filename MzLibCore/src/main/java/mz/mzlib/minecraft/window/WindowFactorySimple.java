@@ -52,11 +52,11 @@ public interface WindowFactorySimple extends WrapperObject, WindowFactory
         return result;
     }
     
-    static WindowFactorySimple custom9x(Text title, Inventory inventory, int rows, Consumer<? super WindowCustom9x> initializer)
+    static WindowFactorySimple generic9x(Text title, Inventory inventory, int rows, Consumer<? super WindowGeneric9x> initializer)
     {
         return newInstance("minecraft:chest", title, (syncId, inventoryPlayer)->
         {
-            WindowCustom9x result = WindowCustom9x.newInstance(syncId, inventoryPlayer, inventory, rows);
+            WindowGeneric9x result = WindowGeneric9x.newInstance(syncId, inventoryPlayer, inventory, rows);
             initializer.accept(result);
             return result;
         });

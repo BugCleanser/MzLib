@@ -81,7 +81,7 @@ public class MzLibMinecraft extends MzModule
             this.register(UIStack.Module.instance);
             
             InventoryCustom testInv = InventoryCustom.newInstance(9*3);
-            WindowFactorySimple test = WindowFactorySimple.custom9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
+            WindowFactorySimple test = WindowFactorySimple.generic9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
             this.register(new CommandBuilder("mzlib", "mz").addChild(new CommandBuilder("test", "t").addExecutor((sender, command, args)->
             {
                 if(sender.isInstanceOf(EntityPlayer::create))
