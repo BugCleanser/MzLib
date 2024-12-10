@@ -26,7 +26,7 @@ public interface Item extends WrapperObject
 
     static Item fromId(Identifier id)
     {
-        return null; // TODO
+        return getRegistry().get(id).castTo(Item::create);
     }
 
     Identifier getId();

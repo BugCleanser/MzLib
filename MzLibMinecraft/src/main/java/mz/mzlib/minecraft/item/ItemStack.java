@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,6 +22,26 @@ public interface ItemStack extends WrapperObject
     static ItemStack create(Object wrapped)
     {
         return WrapperObject.create(ItemStack.class, wrapped);
+    }
+    
+    ItemStack staticNewInstance(Item item);
+    @WrapConstructor
+    @VersionRange(end=1300)
+    @SpecificImpl("staticNewInstance")
+    ItemStack staticNewInstanceV_1300(Item item);
+    @WrapConstructor
+    @VersionRange(begin=1300)
+    @SpecificImpl("staticNewInstance")
+    ItemStack staticNewInstanceV1300(ItemConvertibleV1300 item);
+    static ItemStack newInstance(Item item)
+    {
+        return create(null).staticNewInstance(item);
+    }
+    static ItemStack newInstance(Item item, int count)
+    {
+        ItemStack result = newInstance(item);
+        result.setCount(count);
+        return result;
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="item"))
