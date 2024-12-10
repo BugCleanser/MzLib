@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryCustom;
+import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.minecraft.text.Text;
@@ -81,6 +82,7 @@ public class MzLibMinecraft extends MzModule
             this.register(UIStack.Module.instance);
             
             InventoryCustom testInv = InventoryCustom.newInstance(9*3);
+            testInv.setItemStack(1, ItemStack.newInstance(Item.fromId(Identifier.ofMinecraft("stick"))));
             WindowFactorySimple test = WindowFactorySimple.generic9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
             this.register(new CommandBuilder("mzlib", "mz").addChild(new CommandBuilder("test", "t").addExecutor((sender, command, args)->
             {
