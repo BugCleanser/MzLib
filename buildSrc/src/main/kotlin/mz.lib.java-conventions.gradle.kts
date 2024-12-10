@@ -26,6 +26,10 @@ publishing {
     }
 }
 
+tasks.clean {
+    delete(rootProject.projectDir.resolve("out"))
+}
+
 tasks.processResources{
     exclude("**/mappings/yarn/*")
     expand("version" to project.version)
