@@ -1,0 +1,12 @@
+name: MzLibDemo
+version: ${version}
+authors:
+ - "Lv Yitian"
+ - "mz"
+ - "Yurinann"
+ - "泡泡🍥"
+ - "钟小白Core"
+ - "hpwriterkyle"
+main: mz.mzlib.demo.Demo
+depend: [ MzLib ]
+api-version: 1.13
