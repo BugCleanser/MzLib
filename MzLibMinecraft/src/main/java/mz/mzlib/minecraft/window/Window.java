@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.util.collection.DefaultedList;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -42,4 +43,7 @@ public interface Window extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="insertItem"))
     boolean placeIn(ItemStack itemStack, int begin, int end, boolean inverted);
+    
+    @WrapMinecraftMethod({@VersionName(name="close", end=1904), @VersionName(name="onClosed", begin=1904)})
+    void onClose(AbstractEntityPlayer player);
 }

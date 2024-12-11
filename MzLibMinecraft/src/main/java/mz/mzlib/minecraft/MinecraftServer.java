@@ -1,7 +1,11 @@
 package mz.mzlib.minecraft;
 
+import mz.mzlib.minecraft.datafixers.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.version.DataUpdater;
+import mz.mzlib.minecraft.version.MinecraftVersionCurrentV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.Pair;
@@ -9,6 +13,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
 
@@ -49,7 +54,7 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     }
 
     StrongRef<Long> tickNumber =new StrongRef<>(0L);
-    Queue<Pair<Long, Runnable>> watingTasks=new PriorityBlockingQueue<>(11, Collections.reverseOrder(Pair.comparingByFirst()));
+    Queue<Pair<Long, Runnable>> waitingTasks = new PriorityBlockingQueue<>(11, Collections.reverseOrder(Pair.comparingByFirst()));
     @Override
     default void schedule(Runnable function, BasicAwait await)
     {
@@ -58,9 +63,34 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
             if(((SleepTicks) await).ticks==0)
                 this.schedule(function);
             else
-                watingTasks.add(new Pair<>(tickNumber.get()+((SleepTicks) await).ticks, function));
+                waitingTasks.add(new Pair<>(tickNumber.get()+((SleepTicks) await).ticks, function));
         }
         else
             throw new UnsupportedOperationException();
+    }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", end=1400))
+    DataUpdater getDataUpdaterV_1400();
+    @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", begin=1400))
+    DataFixerV1400 getDataUpdaterV1400();
+    
+    int getDataVersion();
+    @SpecificImpl("getDataVersion")
+    @VersionRange(end=1400)
+    default int getDataVersionV_1400()
+    {
+        return this.getDataUpdaterV_1400().getDataVersionV_1400();
+    }
+    @SpecificImpl("getDataVersion")
+    @VersionRange(begin=1400, end=1800)
+    default int getDataVersionV1400_1800()
+    {
+        return MinecraftVersionCurrentV1400.instanceV_1800().getDataVersion();
+    }
+    @SpecificImpl("getDataVersion")
+    @VersionRange(begin=1800)
+    default int getDataVersionV1800()
+    {
+        return MinecraftVersionCurrentV1400.instanceV1800().getDataVersion().getNumber();
     }
 }

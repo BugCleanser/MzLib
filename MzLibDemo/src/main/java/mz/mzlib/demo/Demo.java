@@ -1,4 +1,4 @@
-package mz.mzlib.demo.module;
+package mz.mzlib.demo;
 
 import mz.mzlib.module.MzModule;
 

@@ -1,7 +1,6 @@
 package mz.mzlib.demo;
 
 import mz.mzlib.MzLib;
-import mz.mzlib.demo.module.Demo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DemoPlugin extends JavaPlugin {

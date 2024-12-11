@@ -16,5 +16,5 @@ public interface EncoderV1600 extends WrapperObject
     }
     
     @WrapMinecraftMethod(@VersionName(name="encodeStart"))
-    DataResultV1600 encodeStart(DynamicOpsV1600 ops, Object object);
+    DataResultV1600 encodeStart(DynamicOpsV1400 ops, Object object);
 }

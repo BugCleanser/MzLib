@@ -7,7 +7,9 @@ import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentKeysV2005;
 import mz.mzlib.minecraft.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtOpsV1602;
+import mz.mzlib.minecraft.nbt.NbtInt;
+import mz.mzlib.minecraft.nbt.NbtOpsV1400;
+import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -67,7 +69,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().decode(NbtOpsV1602.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().decode(NbtOpsV1400.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -80,8 +82,7 @@ public interface ItemStack extends WrapperObject
      */
     static ItemStack decode(NbtCompound nbt)
     {
-        // TODO
-        return decode0(nbt);
+        return decode0(update(nbt));
     }
     
     NbtCompound encode();
@@ -97,7 +98,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound encodeV2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1602.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
     
     
@@ -220,5 +221,26 @@ public interface ItemStack extends WrapperObject
     static boolean isStackable(ItemStack a, ItemStack b)
     {
         return create(null).staticIsStackable(a, b);
+    }
+    
+    static NbtCompound update(NbtCompound nbt)
+    {
+        int dataVersion;
+        NbtInt nbtVersion=nbt.get("DataVersion", NbtInt::create);
+        if(nbtVersion.isPresent())
+            dataVersion=nbtVersion.getValue();
+        else
+        {
+            if(nbt.get("Damage").isPresent())
+                dataVersion=1343; // 1.12.2
+            else
+            {
+                dataVersion=1631; //1.13.2
+                if(nbt.get("components").isPresent())
+                    dataVersion=9999; // TODO: 1.20.5
+            }
+        }
+        // TODO
+        return nbt;
     }
 }

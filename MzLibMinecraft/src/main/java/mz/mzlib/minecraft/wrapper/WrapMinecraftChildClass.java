@@ -26,6 +26,8 @@ public @interface WrapMinecraftChildClass
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {
             WrapMinecraftChildClass a = (WrapMinecraftChildClass) annotation;
+            if(!ElementSwitcher.isEnabled(a.wrapperSupper()))
+                return false;
             for(VersionName n:a.name())
             {
                 if (MinecraftPlatform.instance.inVersion(n))

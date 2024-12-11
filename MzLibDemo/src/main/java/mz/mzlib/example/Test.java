@@ -14,7 +14,7 @@ public class Test
 {
 	public static String getVersionString()
 	{
-		return "1.12.2";
+		return "1.14.4";
 	}
 	public static boolean isPaper()
 	{
@@ -83,7 +83,7 @@ public class Test
 		}
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
-		System.out.println(mappingsP2Y.mapMethod("ItemStack", new MappingMethod("equals", new String[]{"LItemStack;","LItemStack;"})));
+		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("getVersion", new String[]{})));
 		while (true)
 		{
 			String input=new Scanner(System.in).next();
