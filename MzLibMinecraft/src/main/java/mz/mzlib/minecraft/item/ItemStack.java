@@ -31,8 +31,13 @@ public interface ItemStack extends WrapperObject
     ItemStack staticNewInstanceV_1300(Item item);
     @WrapConstructor
     @VersionRange(begin=1300)
-    @SpecificImpl("staticNewInstance")
     ItemStack staticNewInstanceV1300(ItemConvertibleV1300 item);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=1300)
+    default ItemStack staticNewInstanceV1300(Item item)
+    {
+        return staticNewInstanceV1300((ItemConvertibleV1300) item.castTo(ItemV1300::create));
+    }
     static ItemStack newInstance(Item item)
     {
         return create(null).staticNewInstance(item);
