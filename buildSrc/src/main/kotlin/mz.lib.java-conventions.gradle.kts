@@ -5,6 +5,7 @@ plugins {
 
 repositories {
     mavenLocal()
+    maven("https://libraries.minecraft.net/")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://lss233.littleservice.cn/repositories/minecraft/")
@@ -12,7 +13,6 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://raw.githubusercontent.com/TheBlackEntity/PlugMan/repository/")
     maven("https://repo.maven.apache.org/maven2/")
-    maven("https://libraries.minecraft.net/")
 }
 
 group = "mz.mzlib"

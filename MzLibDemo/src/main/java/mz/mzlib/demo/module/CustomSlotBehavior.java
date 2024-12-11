@@ -59,7 +59,7 @@ public class CustomSlotBehavior extends MzModule {
         @CompoundOverride("onTake")
         default void onTake(AbstractEntityPlayer player, ItemStack itemStack)
         {
-            player.sendMessage(Text.literal("Testttttt"));
+            player.sendMessage(Text.literal(itemStack.encode().toString()));
         }
     }
 }
