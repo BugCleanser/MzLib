@@ -3,13 +3,15 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentKeysV2005;
 import mz.mzlib.minecraft.component.ComponentMapV2005;
-import mz.mzlib.minecraft.component.ComponentKeyV2005;
+import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtOpsV1602;
+import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -48,6 +50,56 @@ public interface ItemStack extends WrapperObject
         result.setCount(count);
         return result;
     }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="CODEC", begin=1600))
+    CodecV1600 staticCodecV1600();
+    static CodecV1600 codecV1600()
+    {
+        return create(null).staticCodecV1600();
+    }
+    
+    ItemStack staticDecode0(NbtCompound nbt);
+    @WrapConstructor
+    @SpecificImpl("staticDecode0")
+    @VersionRange(end=2005)
+    ItemStack staticNewInstanceV_2005(NbtCompound nbt);
+    @SpecificImpl("staticDecode0")
+    @VersionRange(begin=2005)
+    default ItemStack staticDecode0V2005(NbtCompound nbt)
+    {
+        return create(codecV1600().decode(NbtOpsV1602.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+    }
+    
+    static ItemStack decode0(NbtCompound nbt)
+    {
+        return create(null).staticDecode0(nbt);
+    }
+    
+    /**
+     * Decode and convert version
+     */
+    static ItemStack decode(NbtCompound nbt)
+    {
+        // TODO
+        return decode0(nbt);
+    }
+    
+    NbtCompound encode();
+    @WrapMinecraftMethod({@VersionName(name="toNbt", end=1400), @VersionName(name="toTag", begin=1400, end=1605), @VersionName(name="writeNbt", begin=1605, end=2005)})
+    NbtCompound encodeV_2005(NbtCompound nbt);
+    @SpecificImpl("encode")
+    @VersionRange(end=2005)
+    default NbtCompound encodeV_2005()
+    {
+        return encodeV_2005(NbtCompound.newInstance());
+    }
+    @SpecificImpl("encode")
+    @VersionRange(begin=2005)
+    default NbtCompound encodeV2005()
+    {
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1602.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
+    }
+    
     
     @WrapMinecraftFieldAccessor(@VersionName(name="item"))
     Item getItem();

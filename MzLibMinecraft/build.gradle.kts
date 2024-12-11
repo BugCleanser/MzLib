@@ -21,7 +21,7 @@ dependencies {
 
     compileOnly("com.rylinaux:PlugMan:2.2.9")
 
-    compileOnly("com.mojang:datafixerupper:1.0.20")
+    compileOnly("com.mojang:datafixerupper:4.0.26")
     implementation("io.github.karlatemp:unsafe-accessor:1.7.0")
     compileOnly("io.netty:netty-all:4.1.76.Final")
 }
@@ -31,9 +31,6 @@ tasks.withType<ShadowJar>{
     archiveFileName.set(archiveBaseName.get() + " v" + archiveVersion.get() + ".jar")
     destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile, "out"))
     mergeServiceFiles()
-    manifest {
-        attributes["Main-Class"] = "mz.mzlib.plugin.PluginManager"
-    }
 }
 
 tasks {
