@@ -1,8 +1,5 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     java
-    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "mz.mzlib.demo"
@@ -21,16 +18,21 @@ dependencies {
     implementation(fileTree("./lib"))
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
 
-    compileOnly(project(":MzLibCore"))
-    compileOnly(project(":MzLibMinecraft"))
+    implementation(project(":MzLibCore"))
+    implementation(project(":MzLibMinecraft"))
 }
 
-tasks.withType<ShadowJar>{
-    destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile, "out"))
+val outputDir = File(rootProject.projectDir, "out")
+
+tasks.register<Copy>("moveJarToOutputDir") {
+    // 源文件为构建生成的 JAR 文件
+    from(tasks.jar.get().outputs.files)
+    // 目标目录
+    into(outputDir)
 }
 
 tasks {
     build {
-        dependsOn(shadowJar)
+        dependsOn("moveJarToOutputDir")
     }
 }
