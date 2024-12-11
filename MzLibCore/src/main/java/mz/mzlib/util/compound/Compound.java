@@ -94,7 +94,7 @@ public @interface Compound
                     CompoundOverride compoundOverride=method.getDeclaredAnnotation(CompoundOverride.class);
                     if(compoundOverride!=null)
                     {
-                        Set<Method> wrapper = Arrays.stream(wrapperClass.getInterfaces()).map(Class::getMethods).flatMap(Arrays::stream).filter(j -> j.getName().equals(compoundOverride.value())).collect(Collectors.toSet());
+                        Set<Method> wrapper = Arrays.stream(wrapperClass.getInterfaces()).map(Class::getMethods).flatMap(Arrays::stream).filter(j -> j.getName().equals(compoundOverride.value()) && Arrays.equals(j.getParameterTypes(), method.getParameterTypes())).collect(Collectors.toSet());
                         if(wrapper.isEmpty())
                             throw new IllegalStateException("Wrapper method not found: "+method);
                         Method tar=wrapper.iterator().next();
