@@ -58,6 +58,6 @@ public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
     @Override
     default void close(EntityPlayer player)
     {
-        // TODO
+        player.closeWindow();
     }
 }

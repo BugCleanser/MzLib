@@ -42,6 +42,7 @@ public interface WindowUIWindow extends AbstractWindow
     void setUIWindow(UIWindow value);
     
     @PropAccessor("player")
+    @Override
     AbstractEntityPlayer getPlayer();
     @PropAccessor("player")
     void setPlayer(AbstractEntityPlayer value);

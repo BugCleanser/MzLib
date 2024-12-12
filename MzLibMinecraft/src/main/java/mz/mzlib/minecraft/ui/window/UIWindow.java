@@ -56,6 +56,7 @@ public abstract class UIWindow implements UI
     public void close(EntityPlayer player)
     {
         // TODO
+        player.closeWindow();
     }
     
     @FunctionalInterface
