@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.item;
 
 import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
@@ -9,8 +10,10 @@ import mz.mzlib.minecraft.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtInt;
 import mz.mzlib.minecraft.nbt.NbtOpsV1400;
-import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.serialization.CodecV1600;
+import mz.mzlib.minecraft.serialization.DynamicV1400;
+import mz.mzlib.minecraft.version.DataUpdateTypesV1400;
+import mz.mzlib.minecraft.version.DataUpdateTypesV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -26,6 +29,13 @@ public interface ItemStack extends WrapperObject
     static ItemStack create(Object wrapped)
     {
         return WrapperObject.create(ItemStack.class, wrapped);
+    }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY"))
+    ItemStack staticEmpty();
+    static ItemStack empty()
+    {
+        return create(null).staticEmpty();
     }
     
     ItemStack staticNewInstance(Item item);
@@ -69,7 +79,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().decode(NbtOpsV1400.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1400.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -85,18 +95,24 @@ public interface ItemStack extends WrapperObject
         return decode0(update(nbt));
     }
     
-    NbtCompound encode();
-    @WrapMinecraftMethod({@VersionName(name="toNbt", end=1400), @VersionName(name="toTag", begin=1400, end=1605), @VersionName(name="writeNbt", begin=1605, end=2005)})
-    NbtCompound encodeV_2005(NbtCompound nbt);
-    @SpecificImpl("encode")
-    @VersionRange(end=2005)
-    default NbtCompound encodeV_2005()
+    default NbtCompound encode()
     {
-        return encodeV_2005(NbtCompound.newInstance());
+        NbtCompound result = encode0();
+        result.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
+        return result;
     }
-    @SpecificImpl("encode")
+    NbtCompound encode0();
+    @WrapMinecraftMethod({@VersionName(name="toNbt", end=1400), @VersionName(name="toTag", begin=1400, end=1605), @VersionName(name="writeNbt", begin=1605, end=2005)})
+    NbtCompound encode0V_2005(NbtCompound nbt);
+    @SpecificImpl("encode0")
+    @VersionRange(end=2005)
+    default NbtCompound encode0V_2005()
+    {
+        return encode0V_2005(NbtCompound.newInstance());
+    }
+    @SpecificImpl("encode0")
     @VersionRange(begin=2005)
-    default NbtCompound encodeV2005()
+    default NbtCompound encode0V2005()
     {
         return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
@@ -236,11 +252,27 @@ public interface ItemStack extends WrapperObject
             else
             {
                 dataVersion=1631; //1.13.2
-                if(nbt.get("components").isPresent())
-                    dataVersion=9999; // TODO: 1.20.5
+                if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
+                    dataVersion=3837; // 1.20.5
             }
         }
-        // TODO
-        return nbt;
+        return update(nbt, dataVersion);
+    }
+    NbtCompound staticUpdate(NbtCompound nbt, int from);
+    @SpecificImpl("staticUpdate")
+    @VersionRange(end=1400)
+    default NbtCompound staticUpdateV_1400(NbtCompound nbt, int from)
+    {
+        return MinecraftServer.instance.getDataUpdaterV_1400().update(DataUpdateTypesV_1400.itemStack(), nbt, from);
+    }
+    @SpecificImpl("staticUpdate")
+    @VersionRange(begin=1400)
+    default NbtCompound staticUpdateV1400(NbtCompound nbt, int from)
+    {
+        return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1400().update(DataUpdateTypesV1400.itemStack(), DynamicV1400.newInstance(NbtOpsV1400.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
+    }
+    static NbtCompound update(NbtCompound nbt, int from)
+    {
+        return create(null).staticUpdate(nbt, from);
     }
 }

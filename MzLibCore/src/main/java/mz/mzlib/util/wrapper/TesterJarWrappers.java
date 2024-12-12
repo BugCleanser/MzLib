@@ -55,7 +55,15 @@ public class TesterJarWrappers implements Tester<TesterContext>
 			{
 				if(!entry.getName().endsWith(".class"))
 					continue;
-				Class<?> clazz=Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()), true, classLoader);
+				Class<?> clazz;
+				try
+				{
+					clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()), true, classLoader);
+				}
+				catch(Throwable ignored)
+				{
+					continue;
+				}
 				if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
 				{
 					try

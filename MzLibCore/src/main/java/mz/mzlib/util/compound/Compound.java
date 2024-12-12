@@ -98,34 +98,37 @@ public @interface Compound
                         if(wrapper.isEmpty())
                             throw new IllegalStateException("Wrapper method not found: "+method);
                         Method tar=wrapper.iterator().next();
-                        tar=Objects.requireNonNull((Method) WrapperClassInfo.get(RuntimeUtil.cast(tar.getDeclaringClass())).wrappedMembers.get(tar), "Wrapped method of "+tar);
-                        MethodNode mn=new MethodNode(Opcodes.ACC_PUBLIC, tar.getName(), AsmUtil.getDesc(tar), null, null);
-                        mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-                        mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
-                        Class<?>[] tarParams = tar.getParameterTypes(),srcParams= method.getParameterTypes();
-                        for(int i=0,j=1;i<tarParams.length;i++)
+                        if(ElementSwitcher.isEnabled(tar))
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i],j));
-                            if(WrapperObject.class.isAssignableFrom(srcParams[i]))
+                            tar = Objects.requireNonNull((Method)WrapperClassInfo.get(RuntimeUtil.cast(tar.getDeclaringClass())).wrappedMembers.get(tar), "Wrapped method of "+tar);
+                            MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, tar.getName(), AsmUtil.getDesc(tar), null, null);
+                            mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                            mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
+                            Class<?>[] tarParams = tar.getParameterTypes(), srcParams = method.getParameterTypes();
+                            for(int i = 0, j = 1; i<tarParams.length; i++)
                             {
-                                mn.instructions.add(AsmUtil.insnCast(Object.class,tarParams[i]));
-                                mn.instructions.add(AsmUtil.insnCreateWrapper(RuntimeUtil.<Class<? extends WrapperObject>>cast(srcParams[i])));
+                                mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
+                                if(WrapperObject.class.isAssignableFrom(srcParams[i]))
+                                {
+                                    mn.instructions.add(AsmUtil.insnCast(Object.class, tarParams[i]));
+                                    mn.instructions.add(AsmUtil.insnCreateWrapper(RuntimeUtil.<Class<? extends WrapperObject>>cast(srcParams[i])));
+                                }
+                                else
+                                    mn.instructions.add(AsmUtil.insnCast(srcParams[i], tarParams[i]));
+                                j += AsmUtil.getCategory(tarParams[i]);
+                            }
+                            mn.visitMethodInsn(Opcodes.INVOKEINTERFACE, AsmUtil.getType(wrapperClass), method.getName(), AsmUtil.getDesc(method), true);
+                            if(WrapperObject.class.isAssignableFrom(method.getReturnType()))
+                            {
+                                mn.instructions.add(AsmUtil.insnGetWrapped());
+                                mn.instructions.add(AsmUtil.insnCast(tar.getReturnType(), Object.class));
                             }
                             else
-                                mn.instructions.add(AsmUtil.insnCast(srcParams[i],tarParams[i]));
-                            j+=AsmUtil.getCategory(tarParams[i]);
+                                mn.instructions.add(AsmUtil.insnCast(tar.getReturnType(), method.getReturnType()));
+                            mn.instructions.add(AsmUtil.insnReturn(tar.getReturnType()));
+                            mn.visitEnd();
+                            cn.methods.add(mn);
                         }
-                        mn.visitMethodInsn(Opcodes.INVOKEINTERFACE, AsmUtil.getType(wrapperClass), method.getName(), AsmUtil.getDesc(method), true);
-                        if(WrapperObject.class.isAssignableFrom(method.getReturnType()))
-                        {
-                            mn.instructions.add(AsmUtil.insnGetWrapped());
-                            mn.instructions.add(AsmUtil.insnCast(tar.getReturnType(),Object.class));
-                        }
-                        else
-                            mn.instructions.add(AsmUtil.insnCast(tar.getReturnType(),method.getReturnType()));
-                        mn.instructions.add(AsmUtil.insnReturn(tar.getReturnType()));
-                        mn.visitEnd();
-                        cn.methods.add(mn);
                     }
                 }
                 if(Delegator.class.isAssignableFrom(wrapperClass))

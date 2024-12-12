@@ -9,17 +9,17 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.DataFixerUpper", end=1400)})
-public interface DataUpdater extends WrapperObject
+public interface DataUpdaterV_1400 extends WrapperObject
 {
     @WrapperCreator
-    static DataUpdater create(Object wrapped)
+    static DataUpdaterV_1400 create(Object wrapped)
     {
-        return WrapperObject.create(DataUpdater.class, wrapped);
+        return WrapperObject.create(DataUpdaterV_1400.class, wrapped);
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="dataVersion", end=1400))
-    int getDataVersionV_1400();
+    int getDataVersion();
     
     @WrapMinecraftMethod(@VersionName(name="applyDataFixes", end=1400))
-    NbtCompound updateV_1400(DataUpdateTypeV_1400 type, NbtCompound data, int from);
+    NbtCompound update(DataUpdateTypeV_1400 type, NbtCompound data, int from);
 }

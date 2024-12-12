@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
-import mz.mzlib.minecraft.inventory.InventoryCustom;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -21,6 +20,8 @@ public interface WindowGeneric9x extends WrapperObject, Window
         return WrapperObject.create(WindowGeneric9x.class, wrapped);
     }
     
+    String windowIdV_1400="minecraft:chest";
+    
     WindowGeneric9x staticNewInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
     @WrapConstructor
     @VersionRange(end=1400)
@@ -29,7 +30,9 @@ public interface WindowGeneric9x extends WrapperObject, Window
     @VersionRange(end=1400)
     default WindowGeneric9x staticNewInstanceV_1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
-        return staticNewInstanceV_1400(inventoryPlayer, InventoryCustom.newInstance(rows*9), inventoryPlayer.getPlayer());
+        if(rows*9!=inventory.size())
+            throw new IllegalArgumentException();
+        return staticNewInstanceV_1400(inventoryPlayer, inventory, inventoryPlayer.getPlayer());
     }
     @WrapConstructor
     @SpecificImpl("staticNewInstance")

@@ -2,7 +2,7 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.datafixers.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.version.DataUpdater;
+import mz.mzlib.minecraft.version.DataUpdaterV_1400;
 import mz.mzlib.minecraft.version.MinecraftVersionCurrentV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -70,7 +70,7 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", end=1400))
-    DataUpdater getDataUpdaterV_1400();
+    DataUpdaterV_1400 getDataUpdaterV_1400();
     @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", begin=1400))
     DataFixerV1400 getDataUpdaterV1400();
     
@@ -79,7 +79,7 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     @VersionRange(end=1400)
     default int getDataVersionV_1400()
     {
-        return this.getDataUpdaterV_1400().getDataVersionV_1400();
+        return this.getDataUpdaterV_1400().getDataVersion();
     }
     @SpecificImpl("getDataVersion")
     @VersionRange(begin=1400, end=1800)

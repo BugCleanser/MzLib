@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -19,6 +20,43 @@ public interface WindowSlot extends WrapperObject
     {
         return WrapperObject.create(WindowSlot.class, wrapped);
     }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))
+    Inventory getInventory();
+    @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))
+    void setInventory(Inventory value);
+    
+    /**
+     * Get the index of the inventory
+     */
+    @WrapMinecraftFieldAccessor({@VersionName(name="invSlot", end=1600), @VersionName(name="index", begin=1600)})
+    int getIndex();
+    @WrapMinecraftFieldAccessor({@VersionName(name="invSlot", end=1600), @VersionName(name="index", begin=1600)})
+    void setIndex(int value);
+    
+    /**
+     * Get the x position of the client side
+     */
+    @WrapMinecraftFieldAccessor({@VersionName(name="x", end=1400), @VersionName(name="xPosition", begin=1400, end=1600), @VersionName(name="x", begin=1600)})
+    int getX();
+    @WrapMinecraftFieldAccessor({@VersionName(name="x", end=1400), @VersionName(name="xPosition", begin=1400, end=1600), @VersionName(name="x", begin=1600)})
+    void setX(int value);
+    
+    /**
+     * Get the x position of the client side
+     */
+    @WrapMinecraftFieldAccessor({@VersionName(name="y", end=1400), @VersionName(name="yPosition", begin=1400, end=1600), @VersionName(name="y", begin=1600)})
+    int getY();
+    @WrapMinecraftFieldAccessor({@VersionName(name="y", end=1400), @VersionName(name="yPosition", begin=1400, end=1600), @VersionName(name="y", begin=1600)})
+    void setY(int value);
+    
+    /**
+     * Get the index of the window
+     */
+    @WrapMinecraftFieldAccessor(@VersionName(name="id"))
+    int getSlotIndex();
+    @WrapMinecraftFieldAccessor(@VersionName(name="id"))
+    void setSlotIndex(int value);
     
     @WrapConstructor
     WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);

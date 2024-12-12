@@ -21,7 +21,7 @@ public interface NbtCompound extends NbtElement
 
     static NbtCompound parse(String str)
     {
-        return null; // TODO
+        return null;
     }
 
     @WrapConstructor

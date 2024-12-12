@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.Dynamic", begin=1400))
+@WrapMinecraftClass({@VersionName(name="com.mojang.datafixers.Dynamic", begin=1400, end=1600), @VersionName(name="com.mojang.serialization.Dynamic", begin = 1600)})
 public interface DynamicV1400 extends WrapperObject
 {
     @WrapperCreator

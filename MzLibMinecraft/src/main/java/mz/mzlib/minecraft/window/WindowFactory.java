@@ -3,8 +3,10 @@ package mz.mzlib.minecraft.window;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.ui.UI;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -12,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", end=1400), @VersionName(name="net.minecraft.container.NameableContainerFactory",begin=1400, end=1600), @VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", begin=1600)})
-public interface WindowFactory extends WrapperObject, AbstractWindowFactory
+public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
 {
     @WrapperCreator
     static WindowFactory create(Object wrapped)
@@ -45,5 +47,17 @@ public interface WindowFactory extends WrapperObject, AbstractWindowFactory
     default Window createWindowSpecificImplV1400(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player)
     {
         return this.createWindowV1400(syncId, inventoryPlayer, player);
+    }
+    
+    @Override
+    default void open(EntityPlayer player)
+    {
+        player.openWindow(this);
+    }
+    
+    @Override
+    default void close(EntityPlayer player)
+    {
+        // TODO
     }
 }

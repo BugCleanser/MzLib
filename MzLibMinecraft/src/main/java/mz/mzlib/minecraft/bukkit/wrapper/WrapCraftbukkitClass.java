@@ -2,21 +2,26 @@ package mz.mzlib.minecraft.bukkit.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.bukkit.BukkitOnly;
 import mz.mzlib.minecraft.bukkit.MinecraftPlatformBukkit;
+import mz.mzlib.util.ElementSwitcher;
+import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.*;
+import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @WrappedClassFinderClass(WrapCraftbukkitClass.Handler.class)
+@ElementSwitcherClass(WrapCraftbukkitClass.Handler.class)
 public @interface WrapCraftbukkitClass
 {
     VersionName[] value();
 
-    class Handler implements WrappedClassFinder
+    class Handler extends BukkitOnly.Handler implements WrappedClassFinder
     {
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException

@@ -36,7 +36,6 @@ public @interface WrapFieldAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
-            NoSuchFieldException lastException = null;
             for (String i : ((WrapFieldAccessor) annotation).value())
             {
                 try
@@ -50,22 +49,11 @@ public @interface WrapFieldAccessor
                         return RuntimeUtil.require(wrappedClass.getDeclaredField(i), f -> f.getType() == type);
                     }
                 }
-                catch (AssertionError ignored)
+                catch (AssertionError|ArrayIndexOutOfBoundsException ignored)
                 {
                 }
-                catch (NoSuchFieldException e)
-                {
-                    lastException = e;
-                }
             }
-            if (lastException != null)
-            {
-                throw lastException;
-            }
-            else
-            {
-                throw new NoSuchFieldException("No such field: " + Arrays.toString(((WrapFieldAccessor) annotation).value()) + ".");
-            }
+            throw new NoSuchFieldException("No such field: " + Arrays.toString(((WrapFieldAccessor) annotation).value()) + ".");
         }
     }
 }

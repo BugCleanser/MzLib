@@ -54,7 +54,7 @@ public interface WindowFactorySimple extends WrapperObject, WindowFactory
     
     static WindowFactorySimple generic9x(Text title, Inventory inventory, int rows, Consumer<? super WindowGeneric9x> initializer)
     {
-        return newInstance("minecraft:chest", title, (syncId, inventoryPlayer)->
+        return newInstance(WindowGeneric9x.windowIdV_1400, title, (syncId, inventoryPlayer)->
         {
             WindowGeneric9x result = WindowGeneric9x.newInstance(syncId, inventoryPlayer, inventory, rows);
             initializer.accept(result);

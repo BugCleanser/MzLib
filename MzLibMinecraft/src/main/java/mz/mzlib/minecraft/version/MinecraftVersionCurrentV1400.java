@@ -16,7 +16,7 @@ public interface MinecraftVersionCurrentV1400 extends WrapperObject
         return WrapperObject.create(MinecraftVersionCurrentV1400.class, wrapped);
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="#0", begin = 1800))
+    @WrapMinecraftFieldAccessor(@VersionName(name="#0", end = 1800))
     GameVersionV1400_1904 staticInstanceV_1800();
     static GameVersionV1400_1904 instanceV_1800()
     {
