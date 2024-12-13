@@ -149,7 +149,9 @@ public class PluginManager
 
     public void loadPlugins(String[] args)
     {
-        assert pluginsDir.isDirectory() || pluginsDir.mkdirs();
+        if (!pluginsDir.isDirectory() && !pluginsDir.mkdirs()) {
+            throw new RuntimeException("Failed to create plugins directory: " + pluginsDir.getAbsolutePath());
+        }
         loadingPlugins = new HashSet<>();
         for (File i : Objects.requireNonNull(pluginsDir.listFiles()))
         {
