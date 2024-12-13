@@ -56,7 +56,7 @@ public interface WindowUIWindow extends AbstractWindow
         WindowUIWindow result = newInstance0(uiWindow.typeV1400, syncId);
         result.setUIWindow(uiWindow);
         result.setPlayer(player);
-        uiWindow.initWindow(result);
+        uiWindow.initWindow(result, player);
         return result;
     }
     

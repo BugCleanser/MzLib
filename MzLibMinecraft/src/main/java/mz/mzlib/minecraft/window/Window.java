@@ -50,10 +50,15 @@ public interface Window extends WrapperObject
     {
         return this.getSlots().get(index);
     }
+    default void addSlot(WindowSlot slot)
+    {
+        slot.setSlotIndex(this.getSlots().size());
+        this.getSlots().add(slot);
+    }
     default void setSlot(int index, WindowSlot slot)
     {
-        this.getSlots().set(index, slot);
         slot.setSlotIndex(index);
+        this.getSlots().set(index, slot);
     }
     
     @WrapMinecraftMethod(@VersionName(name="insertItem"))
