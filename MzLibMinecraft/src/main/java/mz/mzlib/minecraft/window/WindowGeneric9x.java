@@ -42,30 +42,6 @@ public interface WindowGeneric9x extends WrapperObject, Window
     }
     static WindowGeneric9x newInstance(int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
-        WindowTypeV1400 type;
-        switch(rows)
-        {
-            case 1:
-                type = WindowTypeV1400.generic9x1();
-                break;
-            case 2:
-                type = WindowTypeV1400.generic9x2();
-                break;
-            case 3:
-                type = WindowTypeV1400.generic9x3();
-                break;
-            case 4:
-                type = WindowTypeV1400.generic9x4();
-                break;
-            case 5:
-                type = WindowTypeV1400.generic9x5();
-                break;
-            case 6:
-                type = WindowTypeV1400.generic9x6();
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid rows count: "+rows);
-        }
-        return newInstance(type, syncId, inventoryPlayer, inventory, rows);
+        return newInstance(UnionWindowType.generic9x(rows).typeV1400, syncId, inventoryPlayer, inventory, rows);
     }
 }
