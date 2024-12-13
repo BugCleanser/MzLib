@@ -1,5 +1,6 @@
 plugins {
     java
+    id("mz.lib.java-conventions")
 }
 
 group = "mz.mzlib.demo"
