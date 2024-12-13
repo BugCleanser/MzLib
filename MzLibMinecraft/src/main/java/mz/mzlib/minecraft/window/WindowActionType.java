@@ -16,59 +16,87 @@ public interface WindowActionType extends WrapperObject
         return WrapperObject.create(WindowActionType.class, wrapped);
     }
     
+    /**
+     * When finish dragging, There will be multiple actions
+     * Drag begins when data%4==0
+     * Drag a slot when data%4==1
+     * Drag ends when data%4==2
+     * Drag with left-button when data/4==0
+     * Drag with right-button when data/4==1
+     * Drag with middle-button when data/4==2
+     */
+    static WindowActionType drag()
+    {
+        return create(null).staticDrag();
+    }
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12263", end=1400), @VersionName(name="field_7789", begin=1400)})
-    WindowActionType staticPlace();
+    WindowActionType staticDrag();
     
-    static WindowActionType place()
+    /**
+     * Left-click or right-click
+     * The action data is either 0 (left-click) or 1 (right-click)
+     */
+    static WindowActionType click()
     {
-        return create(null).staticPlace();
+        return create(null).staticClick();
     }
-    
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12264", end=1400), @VersionName(name="field_7790", begin=1400)})
-    WindowActionType staticTake();
+    WindowActionType staticClick();
     
-    static WindowActionType take()
-    {
-        return create(null).staticTake();
-    }
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12265", end=1400), @VersionName(name="field_7791", begin=1400)})
-    WindowActionType staticSwap();
-    
+    /**
+     * Use shortcut keys to exchange items (1~9 or F)
+     * The action data is the swap slot of player inventory (0~8 or 40)
+     */
     static WindowActionType swap()
     {
         return create(null).staticSwap();
     }
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12265", end=1400), @VersionName(name="field_7791", begin=1400)})
+    WindowActionType staticSwap();
     
+    /**
+     * Double-click an item
+     */
+    static WindowActionType pickUpAll()
+    {
+        return create(null).staticPickUpAll();
+    }
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12266", end=1400), @VersionName(name="field_7793", begin=1400)})
-    WindowActionType staticTakeAll();
+    WindowActionType staticPickUpAll();
     
-    static WindowActionType takeAll()
+    /**
+     * Shift-click a slot
+     * The action data is either 0 (left-click) or 1 (right-click)
+     */
+    static WindowActionType shiftClick()
     {
-        return create(null).staticTakeAll();
+        return create(null).staticShiftClick();
     }
-    
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12267", end=1400), @VersionName(name="field_7794", begin=1400)})
-    WindowActionType staticQuickMove();
+    WindowActionType staticShiftClick();
     
-    static WindowActionType quickMove()
-    {
-        return create(null).staticQuickMove();
-    }
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7795", begin=1400)})
-    WindowActionType staticThrowOut();
-    
+    /**
+     * Throw item:
+     *   Throw one item when data==0
+     *   Throw all items when data==1
+     * Click outside without item:
+     *   index==-999
+     *   The action data is either 0 (left-click) or 1 (right-click)
+     */
     static WindowActionType throwOut()
     {
         return create(null).staticThrowOut();
     }
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7795", begin=1400)})
+    WindowActionType staticThrowOut();
     
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7796", begin=1400)})
-    WindowActionType staticCopy();
-    
+    /**
+     * Middle-click in creative-mode or middle-click with item
+     */
     static WindowActionType copy()
     {
         return create(null).staticCopy();
     }
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7796", begin=1400)})
+    WindowActionType staticCopy();
 }

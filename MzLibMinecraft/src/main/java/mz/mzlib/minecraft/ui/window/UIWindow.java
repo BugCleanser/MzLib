@@ -67,6 +67,9 @@ public abstract class UIWindow implements UI
         }
     }
     
+    /**
+     * @see AbstractWindow#onAction(int, int, WindowActionType, AbstractEntityPlayer)
+     */
     public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         return window.onActionSuper(index, data, actionType, player);
