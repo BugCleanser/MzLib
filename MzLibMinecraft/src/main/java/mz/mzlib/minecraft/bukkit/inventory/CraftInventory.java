@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.bukkit.inventory;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
+import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -17,9 +18,9 @@ public interface CraftInventory extends BukkitInventory
     }
     
     @WrapConstructor
-    CraftInventory staticNewInstance(Window window);
-    static CraftInventory newInstance(Window window)
+    CraftInventory staticNewInstance(Inventory inventory);
+    static CraftInventory newInstance(Inventory inventory)
     {
-        return create(null).staticNewInstance(window);
+        return create(null).staticNewInstance(inventory);
     }
 }

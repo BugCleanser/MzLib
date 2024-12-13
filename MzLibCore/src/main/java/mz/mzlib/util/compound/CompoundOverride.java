@@ -1,5 +1,7 @@
 package mz.mzlib.util.compound;
 
+import mz.mzlib.util.wrapper.WrapperObject;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,8 +11,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface CompoundOverride
 {
+    Class<? extends WrapperObject> parent();
+    
     /**
      * Name of wrapper method
      */
-    String value();
+    String method();
 }

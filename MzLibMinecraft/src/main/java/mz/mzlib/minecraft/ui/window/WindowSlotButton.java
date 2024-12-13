@@ -32,14 +32,14 @@ public interface WindowSlotButton extends WindowSlot
     }
     
     @Override
-    @CompoundOverride("canPlace")
+    @CompoundOverride(parent=WindowSlot.class, method="canPlace")
     default boolean canPlace(ItemStack itemStack)
     {
         return false;
     }
     
     @Override
-    @CompoundOverride("canTake")
+    @CompoundOverride(parent=WindowSlot.class, method="canTake")
     default boolean canTake(AbstractEntityPlayer player)
     {
         return false;

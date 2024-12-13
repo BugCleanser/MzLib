@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface WrappedMemberFinderClass
 {
     Class<? extends WrappedMemberFinder> value();
+    boolean inheritable() default true;
 }

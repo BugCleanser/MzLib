@@ -16,44 +16,44 @@ public interface WindowTypeV1400 extends WrapperObject
     }
     
     @WrapFieldAccessor("#0")
-    WindowTypeV1400 staticGeneric_9x1();
-    static WindowTypeV1400 generic_9x1()
+    WindowTypeV1400 staticGeneric9x1();
+    static WindowTypeV1400 generic9x1()
     {
-        return create(null).staticGeneric_9x1();
+        return create(null).staticGeneric9x1();
     }
     
     @WrapFieldAccessor("#1")
-    WindowTypeV1400 staticGeneric_9x2();
-    static WindowTypeV1400 generic_9x2()
+    WindowTypeV1400 staticGeneric9x2();
+    static WindowTypeV1400 generic9x2()
     {
-        return create(null).staticGeneric_9x2();
+        return create(null).staticGeneric9x2();
     }
     
     @WrapFieldAccessor("#2")
-    WindowTypeV1400 staticGeneric_9x3();
-    static WindowTypeV1400 generic_9x3()
+    WindowTypeV1400 staticGeneric9x3();
+    static WindowTypeV1400 generic9x3()
     {
-        return create(null).staticGeneric_9x3();
+        return create(null).staticGeneric9x3();
     }
     
     @WrapFieldAccessor("#3")
-    WindowTypeV1400 staticGeneric_9x4();
-    static WindowTypeV1400 generic_9x4()
+    WindowTypeV1400 staticGeneric9x4();
+    static WindowTypeV1400 generic9x4()
     {
-        return create(null).staticGeneric_9x4();
+        return create(null).staticGeneric9x4();
     }
     
     @WrapFieldAccessor("#4")
-    WindowTypeV1400 staticGeneric_9x5();
-    static WindowTypeV1400 generic_9x5()
+    WindowTypeV1400 staticGeneric9x5();
+    static WindowTypeV1400 generic9x5()
     {
-        return create(null).staticGeneric_9x5();
+        return create(null).staticGeneric9x5();
     }
     
     @WrapFieldAccessor("#5")
-    WindowTypeV1400 staticGeneric_9x6();
-    static WindowTypeV1400 generic_9x6()
+    WindowTypeV1400 staticGeneric9x6();
+    static WindowTypeV1400 generic9x6()
     {
-        return create(null).staticGeneric_9x6();
+        return create(null).staticGeneric9x6();
     }
 }

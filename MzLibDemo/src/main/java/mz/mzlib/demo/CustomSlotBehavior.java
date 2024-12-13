@@ -4,13 +4,17 @@ import mz.mzlib.minecraft.command.CommandBuilder;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
-import mz.mzlib.minecraft.inventory.InventoryCustom;
+import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtByte;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtShort;
 import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.ui.window.UIWindow;
+import mz.mzlib.minecraft.ui.window.WindowUIWindow;
+import mz.mzlib.minecraft.window.UnionWindowType;
+import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowFactorySimple;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.module.MzModule;
@@ -27,26 +31,36 @@ public class CustomSlotBehavior extends MzModule
     @Override
     public void onLoad()
     {
-        InventoryCustom testInv = InventoryCustom.newInstance(9*3);
-        NbtCompound nbt = NbtCompound.newInstance();
-        nbt.put("id", NbtString.newInstance("minecraft:grass"));
-        nbt.put("Count", NbtByte.newInstance((byte)1));
-        nbt.put("Damage", NbtShort.newInstance((short)0));
-        testInv.setItemStack(1, ItemStack.decode(nbt));
-        nbt.put("Damage", NbtShort.create(null));
-        NbtCompound tag = NbtCompound.newInstance();
-        NbtCompound display = NbtCompound.newInstance();
-        display.put("Name", NbtString.newInstance("\"awa\""));
-        tag.put("display", display);
-        nbt.put("tag", tag);
-        testInv.setItemStack(2, ItemStack.decode(nbt));
-        WindowFactorySimple test = WindowFactorySimple.generic9x(Text.literal("test title"), testInv, 3, window->window.getSlots().set(0, TestSlot.newInstance(testInv, 0)));
+        TestWindow test = new TestWindow();
         this.register(new CommandBuilder("mzlibdemo", "mzd").addChild(new CommandBuilder("test", "t").addExecutor((sender, command, args)->
         {
             if(sender.isInstanceOf(EntityPlayer::create))
-                sender.castTo(EntityPlayer::create).openWindow(test);
+                test.open(sender.castTo(EntityPlayer::create));
             return Text.literal("Hello World!");
         }).build()).build());
+    }
+    
+    public static class TestWindow extends UIWindow
+    {
+        public TestWindow()
+        {
+            super(UnionWindowType.GENERIC_9x2, 9*2);
+            
+            this.setSlot(0, TestSlot::newInstance);
+        }
+        
+        @Override
+        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+        {
+            player.sendMessage(Text.literal("Action "+index+" "+data+" "+actionType));
+            return super.onAction(window, index, data, actionType, player);
+        }
+        
+        @Override
+        public Text getTitle(EntityPlayer player)
+        {
+            return Text.literal("Test title "+player);
+        }
     }
     
     @Compound
@@ -66,13 +80,13 @@ public class CustomSlotBehavior extends MzModule
             return create(null).staticNewInstance(inventory, index, 0, 0);
         }
         
-        @CompoundOverride("canPlace")
+        @CompoundOverride(parent=WindowSlot.class, method="canPlace")
         default boolean canPlace(ItemStack itemStack)
         {
             return itemStack.getCount()%2==0;
         }
         
-        @CompoundOverride("onTake")
+        @CompoundOverride(parent=WindowSlot.class, method="onTake")
         default void onTake(AbstractEntityPlayer player, ItemStack itemStack)
         {
             player.sendMessage(Text.literal(itemStack.encode().toString()));

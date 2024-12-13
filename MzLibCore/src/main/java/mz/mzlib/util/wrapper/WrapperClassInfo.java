@@ -22,6 +22,7 @@ public class WrapperClassInfo
     public Annotation WrapperClassAnnotation;
     public Class<?> wrappedClass;
     public Map<Method, Member> wrappedMembers = new ConcurrentHashMap<>();
+    public Map<Method, Member> inheritableWrappedMembers = new ConcurrentHashMap<>();
 
     public WrapperClassInfo(Class<? extends WrapperObject> wrapperClass)
     {
@@ -71,7 +72,7 @@ public class WrapperClassInfo
                 throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
             return;
         }
-        for (Method i : this.wrapperClass.getDeclaredMethods())
+        for (Method i : this.wrapperClass.getMethods())
         {
             if (!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
                 continue;
@@ -92,13 +93,17 @@ public class WrapperClassInfo
             for (Annotation j : i.getDeclaredAnnotations())
             {
                 WrappedMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(WrappedMemberFinderClass.class);
-                if (finder != null)
+                if (finder != null && (i.getDeclaringClass()==this.getWrapperClass() || !finder.inheritable()))
                 {
                     try
                     {
                         Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
                         if (m != null)
+                        {
                             this.wrappedMembers.put(i, m);
+                            if(finder.inheritable())
+                                this.inheritableWrappedMembers.put(i, m);
+                        }
                     }
                     catch (NoSuchMethodException|NoSuchFieldException e)
                     {
@@ -113,9 +118,12 @@ public class WrapperClassInfo
         {
             if (Modifier.isAbstract(i.getModifiers()) && ElementSwitcher.isEnabled(i) && i.getDeclaringClass() != this.getWrapperClass() && WrapperObject.class.isAssignableFrom(i.getDeclaringClass()))
             {
-                Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).wrappedMembers.get(i);
+                Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).inheritableWrappedMembers.get(i);
                 if (tar != null && !(tar instanceof Constructor))
+                {
                     this.wrappedMembers.put(i, tar);
+                    this.inheritableWrappedMembers.put(i, tar);
+                }
             }
         }
     }

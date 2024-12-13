@@ -10,21 +10,24 @@ public class ExampleCompound
     public static class Foo
     {
         int var;
+        
         public Foo(int var)
         {
-            this.var=var;
+            this.var = var;
         }
+        
         public void f()
         {
             System.out.println("Hello World");
         }
+        
         public void g()
         {
             f();
             System.out.println(this.var);
         }
     }
-
+    
     @WrapClass(Foo.class)
     public interface WrapperFoo extends WrapperObject
     {
@@ -33,14 +36,14 @@ public class ExampleCompound
         {
             return WrapperObject.create(WrapperFoo.class, wrapped);
         }
-
+        
         @WrapMethod("f")
         void f();
-
+        
         @WrapMethod("g")
         void g();
     }
-
+    
     @Compound
     public interface CompoundFoo extends WrapperFoo, Delegator
     {
@@ -49,19 +52,19 @@ public class ExampleCompound
         {
             return WrapperObject.create(CompoundFoo.class, wrapped);
         }
-
+        
         static CompoundFoo newInstance(Foo delegate)
         {
-            return Delegator.newInstance(CompoundFoo::create,delegate);
+            return Delegator.newInstance(CompoundFoo::create, delegate);
         }
-
-        @CompoundOverride("f")
+        
+        @CompoundOverride(parent=WrapperFoo.class, method="f")
         default void f()
         {
             System.out.println("Fuck you World");
         }
     }
-
+    
     public static void main(String[] args)
     {
         CompoundFoo.newInstance(new Foo(114)).g();

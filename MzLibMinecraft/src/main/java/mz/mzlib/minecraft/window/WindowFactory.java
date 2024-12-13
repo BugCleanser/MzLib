@@ -23,7 +23,7 @@ public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
     }
     
     @WrapMinecraftMethod(@VersionName(name="getId", end=1400))
-    String getWindowIdV_1400();
+    String getWindowTypeIdV_1400();
     
     Text getDisplayName();
     @SpecificImpl("getDisplayName")

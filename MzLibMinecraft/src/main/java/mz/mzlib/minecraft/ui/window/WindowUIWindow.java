@@ -3,7 +3,9 @@ package mz.mzlib.minecraft.ui.window;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.AbstractWindow;
+import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowTypeV1400;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.PropAccessor;
@@ -53,7 +55,7 @@ public interface WindowUIWindow extends AbstractWindow
     }
     static WindowUIWindow newInstance(UIWindow uiWindow, AbstractEntityPlayer player, int syncId)
     {
-        WindowUIWindow result = newInstance0(uiWindow.typeV1400, syncId);
+        WindowUIWindow result = newInstance0(uiWindow.windowType.typeV1400, syncId);
         result.setUIWindow(uiWindow);
         result.setPlayer(player);
         uiWindow.initWindow(result, player);
@@ -64,5 +66,11 @@ public interface WindowUIWindow extends AbstractWindow
     default Inventory getInventory()
     {
         return this.getUIWindow().inventory;
+    }
+    
+    @Override
+    default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+    {
+        return this.getUIWindow().onAction(this, index, data, actionType, player);
     }
 }

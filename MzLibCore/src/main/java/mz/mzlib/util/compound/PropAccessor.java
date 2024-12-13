@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(PropAccessor.Handler.class)
+@WrappedMemberFinderClass(value = PropAccessor.Handler.class, inheritable = false)
 public @interface PropAccessor
 {
     String value();

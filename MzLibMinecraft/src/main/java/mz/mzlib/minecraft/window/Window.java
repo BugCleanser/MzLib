@@ -50,11 +50,8 @@ public interface Window extends WrapperObject
     {
         return this.getSlots().get(index);
     }
-    default void addSlot(WindowSlot slot)
-    {
-        slot.setSlotIndex(this.getSlots().size());
-        this.getSlots().add(slot);
-    }
+    @WrapMinecraftMethod(@VersionName(name="addSlot"))
+    WindowSlot addSlot(WindowSlot slot);
     default void setSlot(int index, WindowSlot slot)
     {
         slot.setSlotIndex(index);
@@ -79,4 +76,9 @@ public interface Window extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="canUse"))
     boolean checkReachable(AbstractEntityPlayer player);
+    
+    @WrapMinecraftMethod({@VersionName(name="method_3252", end=1400), @VersionName(name="onSlotClick", begin=1400, end=1700)})
+    ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    @WrapMinecraftMethod(@VersionName(name="onSlotClick", begin=1700))
+    void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
 }

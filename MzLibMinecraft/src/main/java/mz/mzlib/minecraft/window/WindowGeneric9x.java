@@ -20,8 +20,6 @@ public interface WindowGeneric9x extends WrapperObject, Window
         return WrapperObject.create(WindowGeneric9x.class, wrapped);
     }
     
-    String windowIdV_1400="minecraft:chest";
-    
     WindowGeneric9x staticNewInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
     @WrapConstructor
     @VersionRange(end=1400)
@@ -48,22 +46,22 @@ public interface WindowGeneric9x extends WrapperObject, Window
         switch(rows)
         {
             case 1:
-                type = WindowTypeV1400.generic_9x1();
+                type = WindowTypeV1400.generic9x1();
                 break;
             case 2:
-                type = WindowTypeV1400.generic_9x2();
+                type = WindowTypeV1400.generic9x2();
                 break;
             case 3:
-                type = WindowTypeV1400.generic_9x3();
+                type = WindowTypeV1400.generic9x3();
                 break;
             case 4:
-                type = WindowTypeV1400.generic_9x4();
+                type = WindowTypeV1400.generic9x4();
                 break;
             case 5:
-                type = WindowTypeV1400.generic_9x5();
+                type = WindowTypeV1400.generic9x5();
                 break;
             case 6:
-                type = WindowTypeV1400.generic_9x6();
+                type = WindowTypeV1400.generic9x6();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid rows count: "+rows);
