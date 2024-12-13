@@ -65,6 +65,10 @@ public interface AbstractWindow extends Window
         return true;
     }
     
+    /**
+     * @param index the index of slot or -1 when click title bar with item or -999 when click outside
+     * @param data see {@link WindowActionType}
+     */
     default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         return this.onActionSuper(index, data, actionType, player);
