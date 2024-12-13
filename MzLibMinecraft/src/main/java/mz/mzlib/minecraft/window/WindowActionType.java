@@ -99,4 +99,25 @@ public interface WindowActionType extends WrapperObject
     }
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7796", begin=1400)})
     WindowActionType staticCopy();
+    
+    @Override
+    default String toString0()
+    {
+        if(this.equals(drag()))
+            return "DRAG";
+        else if(this.equals(click()))
+            return "CLICK";
+        else if(this.equals(swap()))
+            return "SWAP";
+        else if(this.equals(pickUpAll()))
+            return "PICK_UP_ALL";
+        else if(this.equals(shiftClick()))
+            return "SHIFT_CLICK";
+        else if(this.equals(throwOut()))
+            return "THROW_OUT";
+        else if(this.equals(copy()))
+            return "COPY";
+        else
+            return "UNKNOWN";
+    }
 }

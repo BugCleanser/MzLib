@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
 import mz.mzlib.minecraft.window.UnionWindowType;
+import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.module.MzModule;
 
@@ -65,6 +66,12 @@ public class Inventory10Slots extends MzModule
             return result;
         }
         
+        @Override
+        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+        {
+            player.sendMessage(Text.literal("Action "+actionType+" "+actionType.getWrapped()));
+            return super.onAction(window, index, data, actionType, player);
+        }
         @Override
         public Text getTitle(EntityPlayer player)
         {

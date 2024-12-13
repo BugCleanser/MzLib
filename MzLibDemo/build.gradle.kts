@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "mz.mzlib.demo"
-version = "1.21-SNAPSHOT"
+version = "0.1"
 repositories {
     mavenLocal()
     maven("https://maven.aliyun.com/repository/public/")

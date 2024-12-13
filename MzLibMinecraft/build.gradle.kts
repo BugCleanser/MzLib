@@ -26,10 +26,10 @@ dependencies {
     compileOnly("io.netty:netty-all:4.1.76.Final")
 }
 
-tasks.withType<ShadowJar>{
+tasks.withType<ShadowJar> {
     archiveBaseName.set("MzLibMinecraft")
     archiveFileName.set(archiveBaseName.get() + " v" + archiveVersion.get() + ".jar")
-    destinationDirectory.set(File(destinationDirectory.get().asFile.parentFile.parentFile.parentFile, "out"))
+    destinationDirectory.set(File(rootProject.projectDir, "out"))
     mergeServiceFiles()
 }
 
