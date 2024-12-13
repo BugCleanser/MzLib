@@ -9,7 +9,11 @@ public enum UnionWindowType
     GENERIC_9x3("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x3()),
     GENERIC_9x4("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x4()),
     GENERIC_9x5("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x5()),
-    GENERIC_9x6("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x6());
+    GENERIC_9x6("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x6()),
+    
+    CRAFTING("minecraft:crafting_table", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.crafting()),
+    
+    ;
     
     public static UnionWindowType generic9x(int rows)
     {

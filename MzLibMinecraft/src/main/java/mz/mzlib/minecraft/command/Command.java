@@ -33,6 +33,15 @@ public class Command
         this.executor = new ArrayList<>(builder.executor);
     }
     
+    public void addChild(Command child)
+    {
+        children.put(child.name, child);
+        for(String alias:child.aliases)
+        {
+            children.put(alias, child);
+        }
+    }
+    
     public List<String> complete(GameObject sender, String command, String args)
     {
         // TODO

@@ -42,19 +42,19 @@ public interface AbstractWindow extends Window
             return ItemStack.empty();
         ItemStack is = slot.getItemStack();
         ItemStack original = is.copy();
-        if(index<this.getInventory().size())
+        int upperSize = this.getSlots().size()-36;
+        if(index<upperSize)
         {
-            if(!this.placeIn(is, this.getInventory().size(), this.getSlots().size(), true))
+            if(!this.placeIn(is, upperSize, this.getSlots().size(), true))
                 return ItemStack.empty();
         }
-        else if(!this.placeIn(is, 0, this.getInventory().size(), false))
+        else if(!this.placeIn(is, 0, upperSize, false))
             return ItemStack.empty();
         
         if(is.isEmpty())
             slot.setItemStackByPlayer(ItemStack.empty());
         else
             slot.markDirty();
-        
         return original;
     }
     
@@ -68,6 +68,7 @@ public interface AbstractWindow extends Window
     /**
      * @param index the index of slot or -1 when click title bar with item or -999 when click outside
      * @param data see {@link WindowActionType}
+     * @return item in the slot with index before action
      */
     default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {

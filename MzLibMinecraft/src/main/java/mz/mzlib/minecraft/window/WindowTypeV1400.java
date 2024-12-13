@@ -56,4 +56,12 @@ public interface WindowTypeV1400 extends WrapperObject
     {
         return create(null).staticGeneric9x6();
     }
+    
+    // TODO
+    @WrapFieldAccessor("#12")
+    WindowTypeV1400 staticCrafting();
+    static WindowTypeV1400 crafting()
+    {
+        return create(null).staticCrafting();
+    }
 }

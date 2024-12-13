@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.window.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 public abstract class UIWindow implements UI
@@ -18,13 +19,18 @@ public abstract class UIWindow implements UI
     public UnionWindowType windowType;
     public Inventory inventory;
     
+    public UIWindow(UnionWindowType windowType, Inventory inventory)
+    {
+        this.windowType = windowType;
+        this.inventory = inventory;
+    }
     public UIWindow(UnionWindowType windowType, int size)
     {
-        this.windowType=windowType;
-        this.inventory = InventorySimple.newInstance(size);
+        this(windowType, InventorySimple.newInstance(size));
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
+    public Map<Integer, BiConsumer<AbstractEntityPlayer, WindowActionType>> buttons = new HashMap<>();
     
     public void setSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
@@ -37,14 +43,20 @@ public abstract class UIWindow implements UI
         this.inventory.setItemStack(index, itemStack);
     }
     
+    public void setButton(int index, BiConsumer<AbstractEntityPlayer, WindowActionType> handler)
+    {
+        this.setSlot(index, WindowSlotButton::newInstance);
+        this.buttons.put(index, handler);
+    }
+    
     public abstract Text getTitle(EntityPlayer player);
     
     public void initWindow(WindowUIWindow window, AbstractEntityPlayer player)
     {
-        for(int i=0; i<inventory.size(); i++)
+        for(int i = 0; i<inventory.size(); i++)
         {
             BiFunction<Inventory, Integer, WindowSlot> creator = this.slots.get(i);
-            window.addSlot(creator==null?WindowSlot.newInstance(this.inventory, i):creator.apply(this.inventory, i));
+            window.addSlot(creator==null ? WindowSlot.newInstance(this.inventory, i) : creator.apply(this.inventory, i));
         }
         this.addPlayerInventorySlots(window, player);
     }
@@ -57,14 +69,19 @@ public abstract class UIWindow implements UI
             {
                 int index = j+i*9+9;
                 BiFunction<Inventory, Integer, WindowSlot> creator = this.slots.get(window.getSlots().size());
-                window.addSlot(creator==null?WindowSlot.newInstance(player.getInventory(), index):creator.apply(player.getInventory(), index));
+                window.addSlot(creator==null ? WindowSlot.newInstance(player.getInventory(), index) : creator.apply(player.getInventory(), index));
             }
         }
         for(int i = 0; i<9; ++i)
         {
             BiFunction<Inventory, Integer, WindowSlot> creator = this.slots.get(window.getSlots().size());
-            window.addSlot(creator==null?WindowSlot.newInstance(player.getInventory(), i):creator.apply(player.getInventory(), i));
+            window.addSlot(creator==null ? WindowSlot.newInstance(player.getInventory(), i) : creator.apply(player.getInventory(), i));
         }
+    }
+    
+    public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
+    {
+        return window.quickMove(player, index);
     }
     
     /**
@@ -72,6 +89,9 @@ public abstract class UIWindow implements UI
      */
     public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
+        BiConsumer<AbstractEntityPlayer, WindowActionType> button = buttons.get(index);
+        if(button!=null)
+            button.accept(player, actionType);
         return window.onActionSuper(index, data, actionType, player);
     }
     

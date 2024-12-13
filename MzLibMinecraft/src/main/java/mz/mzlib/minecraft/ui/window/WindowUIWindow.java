@@ -5,9 +5,12 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.AbstractWindow;
+import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowTypeV1400;
 import mz.mzlib.util.compound.Compound;
+import mz.mzlib.util.compound.CompoundOverride;
+import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.compound.PropAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -60,6 +63,18 @@ public interface WindowUIWindow extends AbstractWindow
         result.setPlayer(player);
         uiWindow.initWindow(result, player);
         return result;
+    }
+    
+    default ItemStack quickMoveSuper(AbstractEntityPlayer player, int index)
+    {
+        return AbstractWindow.super.quickMove(player, index);
+    }
+    
+    @Override
+    @CompoundOverride(parent=Window.class, method="quickMove")
+    default ItemStack quickMove(AbstractEntityPlayer player, int index)
+    {
+        return this.getUIWindow().quickMove(this, player, index);
     }
     
     @Override
