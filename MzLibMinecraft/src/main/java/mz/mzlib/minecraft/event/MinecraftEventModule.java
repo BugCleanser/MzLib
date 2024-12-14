@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.event;
 
-import mz.mzlib.minecraft.event.entity.ModuleEventEntity;
-import mz.mzlib.minecraft.event.player.ModuleEventPlayer;
+import mz.mzlib.minecraft.event.entity.EventEntity;
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.module.MzModule;
 
 public class MinecraftEventModule extends MzModule
@@ -11,7 +11,7 @@ public class MinecraftEventModule extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(ModuleEventEntity.instance);
-        this.register(ModuleEventPlayer.instance);
+        this.register(EventEntity.Module.instance);
+        this.register(EventPlayer.ModuleEventPlayer.instance);
     }
 }

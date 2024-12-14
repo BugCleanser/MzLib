@@ -58,11 +58,16 @@ public class UIStack
             this.data.get(this.data.size()-1).open(this.player);
     }
     
+    public synchronized void clear()
+    {
+        this.data.clear();
+    }
+    
     public synchronized void close()
     {
         if(this.data.isEmpty())
             return;
         this.data.get(this.data.size()-1).close(this.player);
-        this.data.clear();
+        this.clear();
     }
 }

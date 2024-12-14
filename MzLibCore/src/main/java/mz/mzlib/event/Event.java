@@ -2,6 +2,9 @@ package mz.mzlib.event;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Every child class must implement {@link #call()} and be registered
+ */
 public abstract class Event
 {
     public CompletableFuture<Void> future=new CompletableFuture<>();
@@ -34,7 +37,7 @@ public abstract class Event
 
     /**
      * Implement this method but do nothing.
-     * Invoke to execute all the listeners.
+     * Invoke to call all the listeners.
      */
     public abstract void call();
 }
