@@ -18,9 +18,9 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
     public ClientConnection clientConnection;
     public PacketListenerChannelHandler(ClientConnection clientConnection)
     {
-        this.clientConnection=clientConnection;
+        this.clientConnection = clientConnection;
     }
-
+    
     public EntityPlayer getPlayer()
     {
         MinecraftPacketListener listener = this.clientConnection.getPacketListener();
@@ -28,58 +28,66 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
             return ServerPlayNetworkHandler.create(listener.getWrapped()).getPlayer();
         return null;
     }
-
+    
     public static class RehandledPacket
     {
         public PacketEvent event;
         public Object packet;
-        public RehandledPacket(PacketEvent event,Object packet)
+        public RehandledPacket(PacketEvent event, Object packet)
         {
-            this.event=event;
+            this.event = event;
             this.packet = packet;
         }
     }
-
-
+    
+    
     public void handle(Object msg, Consumer<Object> firer, Consumer<Object> rehandler)
     {
         if(msg instanceof RehandledPacket)
         {
-            firer.accept(((RehandledPacket) msg).packet);
-            ((RehandledPacket) msg).event.future.complete(null);
+            firer.accept(((RehandledPacket)msg).packet);
+            ((RehandledPacket)msg).event.future.complete(null);
             return;
         }
-
-        List<PacketListener<?>> sortedListeners =  PacketListenerRegistrar.instance.sortedListeners.get(msg.getClass());
+        
+        List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(msg.getClass());
         if(sortedListeners==null)
         {
             firer.accept(msg);
             return;
         }
-        PacketEvent event=new PacketEvent(PacketListenerChannelHandler.this.getPlayer());
-        if (PacketListenerRegistrar.instance.sync.getOrDefault(msg.getClass(),false))
+        PacketEvent event = new PacketEvent(PacketListenerChannelHandler.this.getPlayer());
+        try
+        {
+            for(PacketListener<?> listener: sortedListeners)
+            {
+                try
+                {
+                    listener.handler.accept(event, RuntimeUtil.cast((Packet)listener.packetCreator.getTarget().invokeExact((Object)msg)));
+                }
+                catch(Throwable e)
+                {
+                    e.printStackTrace(System.err);
+                }
+            }
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+        if(event.synchronizer!=null)
         {
             MinecraftServer.instance.schedule(()->
             {
                 try
                 {
-                    for (PacketListener<?> listener : sortedListeners)
-                    {
-                        try
-                        {
-                            listener.handler.accept(event, RuntimeUtil.cast((Packet) listener.packetCreator.getTarget().invokeExact((Object) msg)));
-                        }
-                        catch (Throwable e)
-                        {
-                            e.printStackTrace(System.err);
-                        }
-                    }
+                    event.synchronizer.complete(null);
                     if(event.isCancelled())
                         event.future.cancel(false);
                     else
-                        rehandler.accept(new RehandledPacket(event,msg));
+                        rehandler.accept(new RehandledPacket(event, msg));
                 }
-                catch (Throwable e)
+                catch(Throwable e)
                 {
                     throw RuntimeUtil.sneakilyThrow(e);
                 }
@@ -87,24 +95,6 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
         }
         else
         {
-            try
-            {
-                for (PacketListener<?> listener : sortedListeners)
-                {
-                    try
-                    {
-                        listener.handler.accept(event, RuntimeUtil.cast((Packet) listener.packetCreator.getTarget().invokeExact((Object) msg)));
-                    }
-                    catch (Throwable e)
-                    {
-                        e.printStackTrace(System.err);
-                    }
-                }
-            }
-            catch (Throwable e)
-            {
-                throw RuntimeUtil.sneakilyThrow(e);
-            }
             if(event.isCancelled())
                 event.future.cancel(false);
             else
@@ -117,11 +107,11 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg)
     {
-        handle(msg,ctx::fireChannelRead,ctx.channel().pipeline()::fireChannelRead);
+        handle(msg, ctx::fireChannelRead, ctx.channel().pipeline()::fireChannelRead);
     }
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
     {
-        handle(msg,m->ctx.write(m,promise),ctx.channel()::write);
+        handle(msg, m->ctx.write(m, promise), ctx.channel()::write);
     }
 }

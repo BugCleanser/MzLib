@@ -13,10 +13,18 @@ public class PacketEvent
     {
         this.player=player;
     }
-
+    
     public EntityPlayer getPlayer()
     {
         return player;
+    }
+    
+    public CompletableFuture<Void> synchronizer=null;
+    public CompletableFuture<Void> sync()
+    {
+        if(this.synchronizer==null)
+            this.synchronizer=new CompletableFuture<>();
+        return this.synchronizer;
     }
 
     /**

@@ -22,7 +22,7 @@ public interface PacketC2sChatMessage extends Packet
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name="chatMessage"))
-    String getChatMessage();
+    String getMessage();
     @WrapMinecraftFieldAccessor(@VersionName(name="chatMessage"))
-    void setChatMessage(String value);
+    void setMessage(String value);
 }
