@@ -3,11 +3,15 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.component.ComponentKeysV2005;
+import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.registry.DefaultedRegistryV_1300__1400;
 import mz.mzlib.minecraft.registry.RegistriesV1903;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.registry.SimpleRegistry;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -27,6 +31,31 @@ public interface Item extends WrapperObject
     static Item fromId(Identifier id)
     {
         return getRegistry().get(id).castTo(Item::create);
+    }
+    
+    void staticSetDisplayName(ItemStack itemStack, Text displayName);
+    static void setDisplayName(ItemStack itemStack, Text displayName)
+    {
+        create(null).staticSetDisplayName(itemStack, displayName);
+    }
+    @SpecificImpl("staticSetDisplayName")
+    @VersionRange(end=1300)
+    default void staticSetDisplayNameV_1300(ItemStack itemStack, Text displayName)
+    {
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.toPlain()));
+    }
+    @SpecificImpl("staticSetDisplayName")
+    @VersionRange(begin=1300, end=2005)
+    default void staticSetDisplayNameV1300_2005(ItemStack itemStack, Text displayName)
+    {
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.encode()));
+        // TODO
+    }
+    @SpecificImpl("staticSetDisplayName")
+    @VersionRange(begin=2005)
+    default void staticSetDisplayNameV2005(ItemStack itemStack, Text displayName)
+    {
+        itemStack.setComponentV2005(ComponentKeysV2005.get("custom_name"), displayName);
     }
 
     Identifier getId();

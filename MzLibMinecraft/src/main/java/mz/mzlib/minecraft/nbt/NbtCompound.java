@@ -8,6 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtCompound"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.CompoundTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtCompound")})
 public interface NbtCompound extends NbtElement
@@ -40,6 +41,17 @@ public interface NbtCompound extends NbtElement
 
     @WrapMinecraftMethod(@VersionName(name = "put"))
     void put(String key, NbtElement value);
+    
+    default <T extends NbtElement> T getOrPut(String key, Function<Object, T> wrapperCreator, Supplier<T> newer)
+    {
+        T result=this.get(key, wrapperCreator);
+        if(!result.isPresent())
+        {
+            result=newer.get();
+            this.put(key, result);
+        }
+        return result;
+    }
 
     default NbtCompound getNBTCompound(String key)
     {

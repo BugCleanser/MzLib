@@ -141,6 +141,17 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="damage", end=1300))
     void setDamageV_1300(int damage);
     
+    default NbtCompound customData()
+    {
+        NbtCompound result = this.getCustomData();
+        if(!result.isPresent())
+        {
+            result = NbtCompound.newInstance();
+            this.setCustomData(result);
+        }
+        return result;
+    }
+    
     NbtCompound getCustomData();
     
     void setCustomData(NbtCompound value);
@@ -157,14 +168,14 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()
     {
-        return this.getComponentsV2005().get(ComponentKeysV2005.customData(), NbtCompound::create);
+        return this.getComponentsV2005().get(ComponentKeysV2005.get("custom_data"), NbtCompound::create);
     }
     
     @SpecificImpl("setCustomData")
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        this.setComponentV2005(ComponentKeysV2005.customData(), value);
+        this.setComponentV2005(ComponentKeysV2005.get("custom_data"), value);
     }
     
     @WrapMinecraftMethod(@VersionName(name="getComponents", begin=2005))

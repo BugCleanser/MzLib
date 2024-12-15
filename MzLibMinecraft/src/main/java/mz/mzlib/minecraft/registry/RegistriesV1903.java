@@ -14,11 +14,18 @@ public interface RegistriesV1903 extends WrapperObject
     {
         return WrapperObject.create(RegistriesV1903.class, wrapped);
     }
-
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM"))
     DefaultedRegistryV_1300__1400 staticItem();
     static DefaultedRegistryV_1300__1400 item()
     {
         return create(null).staticItem();
+    }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="DATA_COMPONENT_TYPE"))
+    Registry staticComponentKey();
+    static Registry componentKey()
+    {
+        return create(null).staticComponentKey();
     }
 }

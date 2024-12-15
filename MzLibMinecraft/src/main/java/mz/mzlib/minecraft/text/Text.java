@@ -287,4 +287,19 @@ public interface Text extends WrapperObject
 
     @WrapMinecraftMethod(@VersionName(name="getContent", begin=1900))
     TextContentV1900 getContentV1900();
+    
+    default String toPlain()
+    {
+        // TODO
+        return this.toString();
+    }
+    
+    /**
+     * @return json string
+     */
+    default String encode()
+    {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
 }
