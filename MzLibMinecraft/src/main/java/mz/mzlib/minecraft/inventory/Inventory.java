@@ -24,4 +24,7 @@ public interface Inventory extends WrapperObject
     
     @WrapMinecraftMethod({@VersionName(name="setInvStack", end=1600), @VersionName(name="setStack", begin=1600)})
     void setItemStack(int index, ItemStack itemStack);
+    
+    @WrapMinecraftMethod(@VersionName(name="clear"))
+    void clear();
 }

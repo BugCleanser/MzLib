@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class ItemStackBuilder
 {
@@ -13,8 +14,8 @@ public class ItemStackBuilder
     public int count;
     public ItemStackBuilder(Item item, int count)
     {
-        this.item=item;
-        this.count=count;
+        this.item = item;
+        this.count = count;
     }
     public ItemStackBuilder(Item item)
     {
@@ -39,29 +40,44 @@ public class ItemStackBuilder
         this(item, 1);
     }
     
-    public List<Consumer<ItemStack>> operations=new ArrayList<>();
+    public List<Function<ItemStack, ItemStack>> operations = new ArrayList<>();
     
-    public ItemStackBuilder addOperation(Consumer<ItemStack> operation)
+    public ItemStackBuilder addOperation(Function<ItemStack, ItemStack> operation)
     {
         this.operations.add(operation);
         return this;
     }
     
+    public ItemStackBuilder(ItemStack itemStack)
+    {
+        this.item = itemStack.getItem();
+        this.count = itemStack.getCount();
+        
+    }
+    
     public ItemStackBuilder setDamage(int damage)
     {
-        return this.addOperation(itemStack -> itemStack.setDamageV_1300(damage));
+        return this.addOperation(itemStack->
+        {
+            itemStack.setDamageV_1300(damage);
+            return itemStack;
+        });
     }
     
     public ItemStackBuilder setDisplayName(Text value)
     {
-        return this.addOperation(itemStack -> Item.setDisplayName(itemStack, value));
+        return this.addOperation(itemStack->
+        {
+            Item.setDisplayName(itemStack, value);
+            return itemStack;
+        });
     }
     
     public ItemStack build()
     {
         ItemStack result = ItemStack.newInstance(item, count);
-        for(Consumer<ItemStack> operation : operations)
-            operation.accept(result);
+        for(Function<ItemStack, ItemStack> operation: operations)
+            result = operation.apply(result);
         return result;
     }
 }

@@ -30,7 +30,14 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, BiConsumer<AbstractEntityPlayer, WindowActionType>> buttons = new HashMap<>();
+    public Map<Integer, ButtonHandler> buttons = new HashMap<>();
+    
+    public void clear()
+    {
+        this.inventory.clear();
+        this.slots.clear();
+        this.buttons.clear();
+    }
     
     public void setSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
@@ -43,7 +50,7 @@ public abstract class UIWindow implements UI
         this.inventory.setItemStack(index, itemStack);
     }
     
-    public void setButton(int index, BiConsumer<AbstractEntityPlayer, WindowActionType> handler)
+    public void setButton(int index, ButtonHandler handler)
     {
         this.setSlot(index, WindowSlotButton::newInstance);
         this.buttons.put(index, handler);
@@ -89,10 +96,16 @@ public abstract class UIWindow implements UI
      */
     public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        BiConsumer<AbstractEntityPlayer, WindowActionType> button = buttons.get(index);
+        ButtonHandler button = buttons.get(index);
         if(button!=null)
-            button.accept(player, actionType);
+            button.onClick(player, actionType, data);
         return window.onActionSuper(index, data, actionType, player);
+    }
+    
+    @FunctionalInterface
+    public interface ButtonHandler
+    {
+        void onClick(AbstractEntityPlayer player, WindowActionType actionType, int data);
     }
     
     @Override
