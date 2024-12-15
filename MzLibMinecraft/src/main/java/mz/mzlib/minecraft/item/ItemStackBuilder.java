@@ -3,19 +3,18 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.text.Text;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.Arrays;
 
 public class ItemStackBuilder
 {
-    public Item item;
-    public int count;
+    public ItemStack result;
+    public ItemStackBuilder(ItemStack itemStack)
+    {
+        this.result=itemStack.copy();
+    }
     public ItemStackBuilder(Item item, int count)
     {
-        this.item = item;
-        this.count = count;
+        this.result=ItemStack.newInstance(item, count);
     }
     public ItemStackBuilder(Item item)
     {
@@ -40,42 +39,20 @@ public class ItemStackBuilder
         this(item, 1);
     }
     
-    public List<Function<ItemStack, ItemStack>> operations = new ArrayList<>();
-    
-    public ItemStackBuilder addOperation(Function<ItemStack, ItemStack> operation)
+    public ItemStackBuilder setDisplayName(Text value)
     {
-        this.operations.add(operation);
+        Item.setDisplayName(result, value);
         return this;
     }
     
-    public ItemStackBuilder(ItemStack itemStack)
+    public ItemStackBuilder setLore(Text... value)
     {
-        addOperation(is->itemStack.copy());
-    }
-    
-    public ItemStackBuilder setDamage(int damage)
-    {
-        return this.addOperation(itemStack->
-        {
-            itemStack.setDamageV_1300(damage);
-            return itemStack;
-        });
-    }
-    
-    public ItemStackBuilder setDisplayName(Text value)
-    {
-        return this.addOperation(itemStack->
-        {
-            Item.setDisplayName(itemStack, value);
-            return itemStack;
-        });
+        Item.setLore(result, Arrays.asList(value));
+        return this;
     }
     
     public ItemStack build()
     {
-        ItemStack result = ItemStack.newInstance(item, count);
-        for(Function<ItemStack, ItemStack> operation: operations)
-            result = operation.apply(result);
-        return result;
+        return result.copy();
     }
 }

@@ -4,9 +4,9 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.component.ComponentKeyV2005;
-import mz.mzlib.minecraft.component.ComponentKeysV2005;
-import mz.mzlib.minecraft.component.ComponentMapV2005;
+import mz.mzlib.minecraft.item.component.ComponentCustomDataV2005;
+import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
+import mz.mzlib.minecraft.item.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtInt;
 import mz.mzlib.minecraft.nbt.NbtOpsV1400;
@@ -168,14 +168,14 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()
     {
-        return this.getComponentsV2005().get(ComponentKeysV2005.get("custom_data"), NbtCompound::create);
+        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), ComponentCustomDataV2005::create).getData();
     }
     
     @SpecificImpl("setCustomData")
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        this.setComponentV2005(ComponentKeysV2005.get("custom_data"), value);
+        this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), ComponentCustomDataV2005.newInstance(value));
     }
     
     @WrapMinecraftMethod(@VersionName(name="getComponents", begin=2005))

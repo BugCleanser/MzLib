@@ -1,6 +1,8 @@
-package mz.mzlib.minecraft.component;
+package mz.mzlib.minecraft.item.component;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.registry.RegistriesV1903;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -12,5 +14,14 @@ public interface ComponentKeyV2005 extends WrapperObject
     static ComponentKeyV2005 create(Object wrapped)
     {
         return WrapperObject.create(ComponentKeyV2005.class, wrapped);
+    }
+    
+    static ComponentKeyV2005 fromId(Identifier id)
+    {
+        return RegistriesV1903.componentKey().get(id).castTo(ComponentKeyV2005::create);
+    }
+    static ComponentKeyV2005 fromId(String id)
+    {
+        return fromId(Identifier.newInstance(id));
     }
 }

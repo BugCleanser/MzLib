@@ -56,7 +56,7 @@ public abstract class UIWindow implements UI
         this.buttons.put(index, handler);
     }
     
-    public abstract Text getTitle(EntityPlayer player);
+    public abstract Text getTitle(AbstractEntityPlayer player);
     
     public void initWindow(WindowUIWindow window, AbstractEntityPlayer player)
     {
@@ -109,13 +109,13 @@ public abstract class UIWindow implements UI
     }
     
     @Override
-    public void open(EntityPlayer player)
+    public void open(AbstractEntityPlayer player)
     {
         WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
     }
     
     @Override
-    public void close(EntityPlayer player)
+    public void close(AbstractEntityPlayer player)
     {
         if(player.getCurrentWindow().isInstanceOf(WindowUIWindow::create) && player.getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow()==this)
             player.closeWindow();
