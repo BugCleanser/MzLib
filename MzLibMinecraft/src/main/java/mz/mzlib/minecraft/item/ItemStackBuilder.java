@@ -50,9 +50,7 @@ public class ItemStackBuilder
     
     public ItemStackBuilder(ItemStack itemStack)
     {
-        this.item = itemStack.getItem();
-        this.count = itemStack.getCount();
-        
+        addOperation(is->itemStack.copy());
     }
     
     public ItemStackBuilder setDamage(int damage)
