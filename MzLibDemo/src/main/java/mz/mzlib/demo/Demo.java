@@ -16,5 +16,6 @@ public class Demo extends MzModule
         this.register(commandDemo);
         
         this.register(Inventory10Slots.instance);
+        this.register(ExampleAsyncFunction.instance);
     }
 }

@@ -2,11 +2,21 @@ package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.SleepTicks;
+import mz.mzlib.module.MzModule;
 import mz.mzlib.util.async.AsyncFunction;
 
 @Deprecated
-public class ExampleAsyncFunction
+public class ExampleAsyncFunction extends MzModule
 {
+    public static ExampleAsyncFunction instance = new ExampleAsyncFunction();
+    
+    @Override
+    public void onLoad()
+    {
+        test();
+        System.out.println("ExampleAsyncFunction is Load");
+    }
+    
     public static class Func2 extends AsyncFunction<Void>
     {
         @Override
@@ -46,8 +56,9 @@ public class ExampleAsyncFunction
         }
     }
     
-    public void test()
+    public static void test()
     {
+        System.out.println("MinecraftServer.instance.getDataVersion() = "+MinecraftServer.instance.getDataVersion());
         new Func1().start(MinecraftServer.instance);
     }
 }
