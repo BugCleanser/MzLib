@@ -1,17 +1,15 @@
-package mz.mzlib.example;
+package mz.mzlib.cli;
 
 import mz.mzlib.minecraft.mappings.*;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
-import org.junit.jupiter.api.Test;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TestDemo
+public class MapperCli
 {
 	public static String getVersionString()
 	{
@@ -32,8 +30,7 @@ public class TestDemo
 		return version;
 	}
 	
-	@Test
-	public void test()
+	public static void main(String[] args)
 	{
 		IMappings mappingsP2Y,mappingsY2P;
 		File folder = new File("./mappings");
@@ -87,11 +84,7 @@ public class TestDemo
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
 		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("getVersion", new String[]{})));
-		
-		// 模拟用户输入
-		String inputString = "net.minecraft.server.Eula\nexit\n";
-		ByteArrayInputStream in = new ByteArrayInputStream(inputString.getBytes());
-		System.setIn(in);
+		System.out.println("Input a Class Name:");
 		Scanner scanner = new Scanner(System.in);
 		while (scanner.hasNext()) // 检查是否有更多的输入
 		{

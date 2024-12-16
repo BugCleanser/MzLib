@@ -13,3 +13,9 @@ dependencies {
     implementation("io.github.karlatemp:unsafe-accessor:1.7.0")
     compileOnly("io.netty:netty-all:4.1.76.Final")
 }
+
+tasks.withType<Jar>{
+    manifest{
+        attributes["Main-Class"] = "mz.mzlib.cli.MapperCli"
+    }
+}
