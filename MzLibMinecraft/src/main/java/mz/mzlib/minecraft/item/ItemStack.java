@@ -17,7 +17,6 @@ import mz.mzlib.minecraft.version.DataUpdateTypesV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -80,7 +79,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1400.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1400.withRegistries(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -93,14 +92,15 @@ public interface ItemStack extends WrapperObject
      */
     static ItemStack decode(NbtCompound nbt)
     {
-        NbtCompound nbt1 = update(nbt);
+        if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
+            return empty();
         try
         {
-            return decode0(nbt1);
+            return decode0(update(nbt));
         }
         catch(Throwable e)
         {
-            throw new RuntimeException("ItemStack decode exception: "+nbt+" -> "+nbt1, e);
+            throw new RuntimeException("decode item: "+nbt+" -> "+update(nbt), e);
         }
     }
     
@@ -123,7 +123,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound encode0V2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.withRegistries(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
     
     
@@ -271,7 +271,8 @@ public interface ItemStack extends WrapperObject
                 dataVersion=1343; // 1.12.2
             else
             {
-                dataVersion=1631; //1.13.2
+                dataVersion=1631; //1.13.2 TODO
+                dataVersion=1952; //1.14
                 if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
                     dataVersion=3837; // 1.20.5
             }

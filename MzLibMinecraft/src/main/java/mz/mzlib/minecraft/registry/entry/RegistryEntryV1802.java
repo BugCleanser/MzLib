@@ -9,6 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
 
+// Mojang: net.minecraft.core.Holder
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.RegistryEntry", begin=1802, end=1903),@VersionName(name = "net.minecraft.registry.entry.RegistryEntry", begin = 1903)})
 public interface RegistryEntryV1802 extends WrapperObject
 {
