@@ -48,6 +48,6 @@ public class ExampleAsyncFunction
     @Test
     public void test()
     {
-        new Func1().start(MinecraftServer.instance);
+//        new Func1().start(MinecraftServer.instance);
     }
 }

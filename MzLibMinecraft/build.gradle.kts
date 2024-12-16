@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":MzCore", configuration = "shadow"))
+    implementation(project(":MzLibCore", configuration = "shadow"))
     // @Suppress
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
 
