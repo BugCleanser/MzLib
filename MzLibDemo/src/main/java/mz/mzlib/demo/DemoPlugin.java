@@ -12,6 +12,7 @@ public class DemoPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         MzLib.instance.register(Demo.instance);
+        new ExampleAsyncFunction().test();
     }
 
     @Override

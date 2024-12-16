@@ -1,11 +1,8 @@
-package mz.mzlib.example;
+package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Deprecated
 public class ExampleAsyncFunction
@@ -49,12 +46,8 @@ public class ExampleAsyncFunction
         }
     }
     
-    @Test
     public void test()
     {
-        assertThrows(NullPointerException.class, ()->
-        {
-            new Func1().start(MinecraftServer.instance);
-        });
+        new Func1().start(MinecraftServer.instance);
     }
 }
