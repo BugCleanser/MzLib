@@ -4,13 +4,14 @@ import mz.mzlib.minecraft.mappings.*;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
-
+import org.junit.jupiter.api.Test;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Test
+public class TestDemo
 {
 	public static String getVersionString()
 	{
@@ -30,7 +31,9 @@ public class Test
 	{
 		return version;
 	}
-	public static void main(String[] args) throws Throwable
+	
+	@Test
+	public void test()
 	{
 		IMappings mappingsP2Y,mappingsY2P;
 		File folder = new File("./mappings");
@@ -84,11 +87,21 @@ public class Test
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
 		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("getVersion", new String[]{})));
-		while (true)
+		
+		// 模拟用户输入
+		String inputString = "net.minecraft.server.Eula\nexit\n";
+		ByteArrayInputStream in = new ByteArrayInputStream(inputString.getBytes());
+		System.setIn(in);
+		Scanner scanner = new Scanner(System.in);
+		while (scanner.hasNext()) // 检查是否有更多的输入
 		{
-			String input=new Scanner(System.in).next();
+			String input = scanner.next();
+			if ("exit".equalsIgnoreCase(input)) {
+				break; // 退出循环
+			}
 			System.out.println(mappingsP2Y.mapClass(input));
 			System.out.println(mappingsY2P.mapClass(input));
 		}
+		scanner.close(); // 关闭扫描器
 	}
 }

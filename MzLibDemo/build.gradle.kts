@@ -15,8 +15,15 @@ repositories {
 }
 
 dependencies {
-    implementation(fileTree("./lib"))
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
-
     compileOnly(project(":MzLib", configuration = "shadow"))
+
+    testImplementation(fileTree("../lib"))
+    testImplementation(project(":MzLib", configuration = "shadow"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

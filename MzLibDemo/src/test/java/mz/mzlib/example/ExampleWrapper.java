@@ -1,17 +1,18 @@
 package mz.mzlib.example;
 
 import mz.mzlib.util.wrapper.*;
+import org.junit.jupiter.api.Test;
 
 @Deprecated
 public class ExampleWrapper
 {
     @SuppressWarnings("all")
-    public static class Test implements Cloneable
+    public static class TestClass implements Cloneable
     {
         private double var = 114.514;
-        private Test thiz = this;
+        private TestClass thiz = this;
 
-        private Test()
+        private TestClass()
         {
         }
 
@@ -26,7 +27,8 @@ public class ExampleWrapper
         }
     }
 
-    public static void main(String[] args)
+    @Test
+    public void test()
     {
         WrapperTest.m1();
         WrapperTest test=WrapperTest.newInstance();
@@ -36,7 +38,7 @@ public class ExampleWrapper
         test.m();
     }
 
-    @WrapClass(Test.class)
+    @WrapClass(TestClass.class)
     public interface WrapperTest extends WrapperObject
     {
         @WrapperCreator

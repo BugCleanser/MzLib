@@ -3,6 +3,7 @@ package mz.mzlib.example;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
+import org.junit.jupiter.api.Test;
 
 @Deprecated
 public class ExampleAsyncFunction
@@ -44,7 +45,8 @@ public class ExampleAsyncFunction
         }
     }
 
-    public static void main(String[] args)
+    @Test
+    public void test()
     {
         new Func1().start(MinecraftServer.instance);
     }

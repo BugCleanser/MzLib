@@ -8,6 +8,7 @@ import mz.mzlib.util.wrapper.WrapClass;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.WrapperString;
+import org.junit.jupiter.api.Test;
 
 @Deprecated
 public class ExampleNothing
@@ -25,7 +26,8 @@ public class ExampleNothing
         }
     }
 
-    public static void main(String[] args) throws Throwable
+    @Test
+    public void test()
     {
         MzLib.instance.load();
         MzLib.instance.register(NothingObject.class);

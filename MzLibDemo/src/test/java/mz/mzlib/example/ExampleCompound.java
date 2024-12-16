@@ -4,6 +4,7 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.Delegator;
 import mz.mzlib.util.wrapper.*;
+import org.junit.jupiter.api.Test;
 
 public class ExampleCompound
 {
@@ -65,7 +66,8 @@ public class ExampleCompound
         }
     }
     
-    public static void main(String[] args)
+    @Test
+    public void test()
     {
         CompoundFoo.newInstance(new Foo(114)).g();
     }
