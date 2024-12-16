@@ -1,8 +1,10 @@
 package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -35,4 +37,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     @WrapMinecraftMethod({@VersionName(name="closeHandledScreen", end=1400), @VersionName(name="closeContainer", begin=1400, end=1600), @VersionName(name="closeHandledScreen", begin=1600)})
     void closeWindow();
+    
+    @WrapMinecraftMethod(@VersionName(name="dropItem"))
+    EntityItem drop(ItemStack itemStack, boolean retainOwnership);
 }

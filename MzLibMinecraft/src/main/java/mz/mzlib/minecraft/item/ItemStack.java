@@ -17,6 +17,7 @@ import mz.mzlib.minecraft.version.DataUpdateTypesV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -92,7 +93,15 @@ public interface ItemStack extends WrapperObject
      */
     static ItemStack decode(NbtCompound nbt)
     {
-        return decode0(update(nbt));
+        NbtCompound nbt1 = update(nbt);
+        try
+        {
+            return decode0(nbt1);
+        }
+        catch(Throwable e)
+        {
+            throw new RuntimeException("ItemStack decode exception: "+nbt+" -> "+nbt1, e);
+        }
     }
     
     default NbtCompound encode()

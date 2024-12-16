@@ -5,6 +5,9 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
+import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtInt;
+import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
@@ -34,7 +37,17 @@ public class Inventory10Slots extends MzModule
         public Inventory10SlotsUI()
         {
             super(UnionWindowType.CRAFTING, 10);
-            this.inventory.setItemStack(0, new ItemStackBuilder("minecraft:diamond_sword").setDisplayName(Text.literal("Testtt")).setLore(Text.literal("LLLore"), Text.literal("awa")).build());
+            NbtCompound item = NbtCompound.newInstance();
+            item.put("id", NbtString.newInstance("minecraft:nether_star"));
+            item.put("count", NbtInt.newInstance(1));
+            NbtCompound components=NbtCompound.newInstance();
+            item.put("components",components);
+            NbtCompound enchantments=NbtCompound.newInstance();
+            components.put("minecraft:enchantments", enchantments);
+            NbtCompound levels=NbtCompound.newInstance();
+            enchantments.put("levels", levels);
+            levels.put("minecraft:smite", NbtInt.newInstance(5));
+            this.inventory.setItemStack(0, ItemStack.decode(item));
         }
         
         @Override
