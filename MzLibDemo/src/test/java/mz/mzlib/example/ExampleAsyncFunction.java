@@ -5,6 +5,8 @@ import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.util.async.AsyncFunction;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @Deprecated
 public class ExampleAsyncFunction
 {
@@ -14,6 +16,7 @@ public class ExampleAsyncFunction
         public void run()
         {
         }
+        
         @Override
         public Void template()
         {
@@ -23,17 +26,18 @@ public class ExampleAsyncFunction
             return null;
         }
     }
-
+    
     public static class Func1 extends AsyncFunction<Void>
     {
         @Override
         public void run()
         {
         }
+        
         @Override
         public Void template()
         {
-            for (int i = 0; i < 10; i++)
+            for(int i = 0; i<10; i++)
             {
                 System.out.println("Hello World");
                 await(new SleepTicks(20));
@@ -44,10 +48,13 @@ public class ExampleAsyncFunction
             return null;
         }
     }
-
+    
     @Test
     public void test()
     {
-//        new Func1().start(MinecraftServer.instance);
+        assertThrows(NullPointerException.class, ()->
+        {
+            new Func1().start(MinecraftServer.instance);
+        });
     }
 }
