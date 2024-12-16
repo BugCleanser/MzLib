@@ -18,26 +18,46 @@ public class CliTool
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
         
-        try {
+        try
+        {
             cmd = parser.parse(options, args);
             
-            if (cmd.hasOption("help")) {
-                formatter.printHelp("MzLibCliTool", options);
+            if(cmd.hasOption("help"))
+            {
+                formatter.printHelp(getJarName(), options);
                 return;
             }
             
-            if (cmd.getOptions().length == 0) {
+            if(cmd.getOptions().length==0)
+            {
                 System.out.println("未提供任何选项。");
-                formatter.printHelp("MzLibCliTool", options);
+                formatter.printHelp(getJarName(), options);
                 return;
             }
             
-            if (cmd.hasOption("mapper")) {
+            if(cmd.hasOption("mapper"))
+            {
                 MapperCli.cli(cmd);
             }
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-            formatter.printHelp("MzLibCliTool", options);
         }
+        catch(ParseException e)
+        {
+            System.out.println(e.getMessage());
+            formatter.printHelp(getJarName(), options);
+        }
+    }
+    
+    private static String getJarName()
+    {
+        String command = System.getProperty("sun.java.command");
+        String[] parts = command.split("[\\\\/]");
+        for(String part: parts)
+        {
+            if(part.endsWith(".jar"))
+            {
+                return "java -jar "+part;
+            }
+        }
+        return "MzLibCliTool";
     }
 }
