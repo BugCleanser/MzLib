@@ -4,14 +4,15 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 
 public enum UnionWindowType
 {
-    GENERIC_9x1("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x1()),
-    GENERIC_9x2("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x2()),
-    GENERIC_9x3("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x3()),
-    GENERIC_9x4("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x4()),
-    GENERIC_9x5("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x5()),
-    GENERIC_9x6("minecraft:chest", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.generic9x6()),
+    GENERIC_9x1("minecraft:chest", getV1400OrNull("generic_9x1")),
+    GENERIC_9x2("minecraft:chest", getV1400OrNull("generic_9x2")),
+    GENERIC_9x3("minecraft:chest", getV1400OrNull("generic_9x3")),
+    GENERIC_9x4("minecraft:chest", getV1400OrNull("generic_9x4")),
+    GENERIC_9x5("minecraft:chest", getV1400OrNull("generic_9x5")),
+    GENERIC_9x6("minecraft:chest", getV1400OrNull("generic_9x6")),
     
-    CRAFTING("minecraft:crafting_table", MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.crafting()),
+    CRAFTING("minecraft:crafting_table", getV1400OrNull("crafting")),
+    HOPPER("minecraft:hopper", getV1400OrNull("hopper")),
     
     ;
     
@@ -42,5 +43,12 @@ public enum UnionWindowType
     {
         this.typeIdV_1400=typeIdV_1400;
         this.typeV1400=typeV1400;
+    }
+    
+    public static WindowTypeV1400 getV1400OrNull(String id)
+    {
+        if(MinecraftPlatform.instance.getVersion()<1400)
+            return null;
+        return WindowTypeV1400.fromId(id);
     }
 }

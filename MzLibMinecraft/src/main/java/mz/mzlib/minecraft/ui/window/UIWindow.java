@@ -30,7 +30,14 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, BiConsumer<AbstractEntityPlayer, WindowActionType>> buttons = new HashMap<>();
+    public Map<Integer, ButtonHandler> buttons = new HashMap<>();
+    
+    public void clear()
+    {
+        this.inventory.clear();
+        this.slots.clear();
+        this.buttons.clear();
+    }
     
     public void setSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
@@ -43,13 +50,13 @@ public abstract class UIWindow implements UI
         this.inventory.setItemStack(index, itemStack);
     }
     
-    public void setButton(int index, BiConsumer<AbstractEntityPlayer, WindowActionType> handler)
+    public void setButton(int index, ButtonHandler handler)
     {
         this.setSlot(index, WindowSlotButton::newInstance);
         this.buttons.put(index, handler);
     }
     
-    public abstract Text getTitle(EntityPlayer player);
+    public abstract Text getTitle(AbstractEntityPlayer player);
     
     public void initWindow(WindowUIWindow window, AbstractEntityPlayer player)
     {
@@ -89,20 +96,26 @@ public abstract class UIWindow implements UI
      */
     public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        BiConsumer<AbstractEntityPlayer, WindowActionType> button = buttons.get(index);
+        ButtonHandler button = buttons.get(index);
         if(button!=null)
-            button.accept(player, actionType);
+            button.onClick(player, actionType, data);
         return window.onActionSuper(index, data, actionType, player);
     }
     
+    @FunctionalInterface
+    public interface ButtonHandler
+    {
+        void onClick(AbstractEntityPlayer player, WindowActionType actionType, int data);
+    }
+    
     @Override
-    public void open(EntityPlayer player)
+    public void open(AbstractEntityPlayer player)
     {
         WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
     }
     
     @Override
-    public void close(EntityPlayer player)
+    public void close(AbstractEntityPlayer player)
     {
         if(player.getCurrentWindow().isInstanceOf(WindowUIWindow::create) && player.getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow()==this)
             player.closeWindow();

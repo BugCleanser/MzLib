@@ -8,11 +8,11 @@ import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EventPlayerChat extends EventPlayer
+public class EventPlayerChatAsync extends EventPlayer
 {
     public PacketEvent packetEvent;
     public PacketC2sChatMessage packet;
-    public EventPlayerChat(EntityPlayer player, PacketEvent packetEvent, PacketC2sChatMessage packet)
+    public EventPlayerChatAsync(EntityPlayer player, PacketEvent packetEvent, PacketC2sChatMessage packet)
     {
         super(player);
         this.packetEvent=packetEvent;
@@ -56,10 +56,10 @@ public class EventPlayerChat extends EventPlayer
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerChat.class);
+            this.register(EventPlayerChatAsync.class);
             this.register(new PacketListener<>(PacketC2sChatMessage.class, (e, p)->
             {
-                EventPlayerChat event=new EventPlayerChat(e.getPlayer(), e, p);
+                EventPlayerChatAsync event=new EventPlayerChatAsync(e.getPlayer(), e, p);
                 event.setCancelled(e.isCancelled());
                 event.call();
                 e.runLater(event::complete);

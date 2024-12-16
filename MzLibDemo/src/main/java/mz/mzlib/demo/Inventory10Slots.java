@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.command.CommandBuilder;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
@@ -33,6 +34,7 @@ public class Inventory10Slots extends MzModule
         public Inventory10SlotsUI()
         {
             super(UnionWindowType.CRAFTING, 10);
+            this.inventory.setItemStack(0, new ItemStackBuilder("minecraft:diamond_sword").setDisplayName(Text.literal("Testtt")).setLore(Text.literal("LLLore"), Text.literal("awa")).build());
         }
         
         @Override
@@ -46,7 +48,7 @@ public class Inventory10Slots extends MzModule
             int upperSize = window.getSlots().size()-36;
             if(index<upperSize)
             {
-                if(!window.placeIn(is, upperSize, window.getSlots().size(), false))
+                if(!window.placeIn(is, upperSize, window.getSlots().size(), index==0))
                     result = ItemStack.empty();
             }
             else
@@ -73,7 +75,7 @@ public class Inventory10Slots extends MzModule
             return super.onAction(window, index, data, actionType, player);
         }
         @Override
-        public Text getTitle(EntityPlayer player)
+        public Text getTitle(AbstractEntityPlayer player)
         {
             return Text.literal("10个格子的物品栏");
         }

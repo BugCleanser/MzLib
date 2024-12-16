@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WrapperClassInfo
 {
     public Class<? extends WrapperObject> wrapperClass;
-    public Annotation WrapperClassAnnotation;
+    public Annotation wrapperClassAnnotation;
     public Class<?> wrappedClass;
     public Map<Method, Member> wrappedMembers = new ConcurrentHashMap<>();
     public Map<Method, Member> inheritableWrappedMembers = new ConcurrentHashMap<>();
@@ -43,9 +43,6 @@ public class WrapperClassInfo
 
     public void analyse() throws InstantiationException, IllegalAccessException
     {
-        if(!ElementSwitcher.isEnabled(this.getWrapperClass()))
-            return;
-        ClassNotFoundException lastException = null;
         for (Annotation i : this.wrapperClass.getDeclaredAnnotations())
         {
             WrappedClassFinderClass finder = i.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class);
@@ -55,23 +52,18 @@ public class WrapperClassInfo
                 {
                     this.wrappedClass = finder.value().newInstance().find(this.wrapperClass, i);
                 }
-                catch (ClassNotFoundException e)
+                catch (ClassNotFoundException ignored)
                 {
-                    lastException = e;
                 }
                 if (this.wrappedClass != null)
                 {
-                    this.WrapperClassAnnotation = i;
+                    this.wrapperClassAnnotation = i;
                     break;
                 }
             }
         }
         if (this.wrappedClass == null)
-        {
-            if (lastException != null)
-                throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
-            return;
-        }
+            throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass);
         for (Method i : this.wrapperClass.getMethods())
         {
             if (!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
@@ -423,7 +415,7 @@ public class WrapperClassInfo
                 mn.visitEnd();
                 cn.methods.add(mn);
             }
-            this.WrapperClassAnnotation.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class).value().newInstance().extra(this.WrapperClassAnnotation, cn);
+            this.wrapperClassAnnotation.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class).value().newInstance().extra(this.wrapperClassAnnotation, cn);
             cn.visitEnd();
             ClassWriter cw = new ClassWriter(wrapperClass.getClassLoader());
             cn.accept(cw);

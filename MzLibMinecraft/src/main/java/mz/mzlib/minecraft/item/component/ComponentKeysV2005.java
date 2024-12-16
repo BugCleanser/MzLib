@@ -1,8 +1,7 @@
-package mz.mzlib.minecraft.component;
+package mz.mzlib.minecraft.item.component;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,12 +12,5 @@ public interface ComponentKeysV2005 extends WrapperObject
     static ComponentKeysV2005 create(Object wrapped)
     {
         return WrapperObject.create(ComponentKeysV2005.class, wrapped);
-    }
-
-    @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_DATA"))
-    ComponentKeyV2005 staticCustomData();
-    static ComponentKeyV2005 customData()
-    {
-        return create(null).staticCustomData();
     }
 }

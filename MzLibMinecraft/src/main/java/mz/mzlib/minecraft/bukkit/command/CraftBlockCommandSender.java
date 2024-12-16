@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
-import mz.mzlib.minecraft.command.CommandSource;
+import mz.mzlib.minecraft.command.CommandSourceV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -20,6 +20,6 @@ public interface CraftBlockCommandSender extends WrapperObject
     @Override
     BlockCommandSender getWrapped();
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="block"))
-    CommandSource getCommandSource();
+    @WrapMinecraftFieldAccessor(@VersionName(name="block", begin=1400))
+    CommandSourceV1400 getCommandSourceV1400();
 }

@@ -11,10 +11,10 @@ import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.CompletableFuture;
 
-public abstract class EventPlayerMove extends EventPlayer
+public abstract class EventPlayerMoveAsync extends EventPlayer
 {
     public PacketEvent packetEvent;
-    public EventPlayerMove(EntityPlayer player, PacketEvent packetEvent)
+    public EventPlayerMoveAsync(EntityPlayer player, PacketEvent packetEvent)
     {
         super(player);
         this.packetEvent = packetEvent;
@@ -73,7 +73,7 @@ public abstract class EventPlayerMove extends EventPlayer
     {
     }
     
-    public static class EventPlayerMoveAsyncByPacketC2sPlayerMove extends EventPlayerMove
+    public static class EventPlayerMoveAsyncByPacketC2sPlayerMove extends EventPlayerMoveAsync
     {
         public PacketC2sPlayerMove packet;
         public EventPlayerMoveAsyncByPacketC2sPlayerMove(EntityPlayer player, PacketEvent packetEvent, PacketC2sPlayerMove packet)
@@ -184,7 +184,7 @@ public abstract class EventPlayerMove extends EventPlayer
         }
     }
     
-    public static class EventPlayerMoveByPacketC2sVehicleMove extends EventPlayerMove
+    public static class EventPlayerMoveByPacketC2sVehicleMove extends EventPlayerMoveAsync
     {
         public PacketC2sVehicleMove packet;
         
@@ -302,7 +302,7 @@ public abstract class EventPlayerMove extends EventPlayer
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            EventPlayerMove event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent.getPlayer(), packetEvent, packet);
+            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent.getPlayer(), packetEvent, packet);
             event.setCancelled(packetEvent.isCancelled());
             event.call();
             packetEvent.runLater(event::complete);
@@ -310,7 +310,7 @@ public abstract class EventPlayerMove extends EventPlayer
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            EventPlayerMove event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent.getPlayer(), packetEvent, packet);
+            EventPlayerMoveAsync event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent.getPlayer(), packetEvent, packet);
             event.setCancelled(packetEvent.isCancelled());
             event.call();
             packetEvent.runLater(event::complete);
@@ -319,7 +319,7 @@ public abstract class EventPlayerMove extends EventPlayer
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerMove.class);
+            this.register(EventPlayerMoveAsync.class);
             this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround.class, this::handle));
             this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround.class, this::handle));
             this.register(new PacketListener<>(PacketC2sPlayerMove.Full.class, this::handle));

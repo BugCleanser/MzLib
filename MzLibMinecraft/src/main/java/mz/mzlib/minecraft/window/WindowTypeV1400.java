@@ -1,7 +1,12 @@
 package mz.mzlib.minecraft.window;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.registry.RegistriesV1903;
+import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -15,53 +20,30 @@ public interface WindowTypeV1400 extends WrapperObject
         return WrapperObject.create(WindowTypeV1400.class, wrapped);
     }
     
-    @WrapFieldAccessor("#0")
-    WindowTypeV1400 staticGeneric9x1();
-    static WindowTypeV1400 generic9x1()
+    static Registry getRegistry()
     {
-        return create(null).staticGeneric9x1();
+        return create(null).staticGetRegistry();
+    }
+    Registry staticGetRegistry();
+    @SpecificImpl("staticGetRegistry")
+    @VersionRange(end=1903)
+    default Registry staticGetRegistryV_1903()
+    {
+        return Registry.windowTypeV1400_1903();
+    }
+    @SpecificImpl("staticGetRegistry")
+    @VersionRange(begin=1903)
+    default Registry staticGetRegistryV1903()
+    {
+        return RegistriesV1903.windowType();
     }
     
-    @WrapFieldAccessor("#1")
-    WindowTypeV1400 staticGeneric9x2();
-    static WindowTypeV1400 generic9x2()
+    static WindowTypeV1400 fromId(Identifier id)
     {
-        return create(null).staticGeneric9x2();
+        return getRegistry().get(id).castTo(WindowTypeV1400::create);
     }
-    
-    @WrapFieldAccessor("#2")
-    WindowTypeV1400 staticGeneric9x3();
-    static WindowTypeV1400 generic9x3()
+    static WindowTypeV1400 fromId(String id)
     {
-        return create(null).staticGeneric9x3();
-    }
-    
-    @WrapFieldAccessor("#3")
-    WindowTypeV1400 staticGeneric9x4();
-    static WindowTypeV1400 generic9x4()
-    {
-        return create(null).staticGeneric9x4();
-    }
-    
-    @WrapFieldAccessor("#4")
-    WindowTypeV1400 staticGeneric9x5();
-    static WindowTypeV1400 generic9x5()
-    {
-        return create(null).staticGeneric9x5();
-    }
-    
-    @WrapFieldAccessor("#5")
-    WindowTypeV1400 staticGeneric9x6();
-    static WindowTypeV1400 generic9x6()
-    {
-        return create(null).staticGeneric9x6();
-    }
-    
-    // TODO
-    @WrapFieldAccessor("#12")
-    WindowTypeV1400 staticCrafting();
-    static WindowTypeV1400 crafting()
-    {
-        return create(null).staticCrafting();
+        return fromId(Identifier.newInstance(id));
     }
 }

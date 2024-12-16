@@ -26,6 +26,15 @@ public interface NbtList extends NbtElement
     {
         return create(null).staticNewInstance();
     }
+    static NbtList newInstance(NbtElement ...elements)
+    {
+        NbtList result = newInstance();
+        for(NbtElement i:elements)
+        {
+            result.add(i);
+        }
+        return result;
+    }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
     List<?> getValue();
