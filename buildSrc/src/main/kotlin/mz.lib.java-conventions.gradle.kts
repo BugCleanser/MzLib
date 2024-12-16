@@ -1,6 +1,10 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
+    java
     `java-library`
     `maven-publish`
+    id("com.github.johnrengelman.shadow")
 }
 
 repositories {
@@ -26,15 +30,38 @@ publishing {
     }
 }
 
-tasks.clean {
-    delete(rootProject.projectDir.resolve("out"))
-}
+val outputDir = File(rootProject.projectDir, "out")
 
-tasks.processResources{
-    exclude("mappings/yarn/*.tiny")
-    expand("version" to project.version)
-}
-
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
+tasks {
+    clean {
+        delete(rootProject.projectDir.resolve("out"))
+    }
+    named<Jar>("jar") {
+        archiveClassifier.set("original")
+    }
+    named<ShadowJar>("shadowJar") {
+        archiveClassifier.set("")
+    }
+    register<Copy>("copyBinaryResources") {
+        from("src/main/resources") {
+            include("mappings/yarn/*.tiny")
+        }
+        into("build/resources/main")
+    }
+    processResources {
+        dependsOn("copyBinaryResources")
+        exclude("mappings/yarn/*.tiny")
+        expand("version" to project.version)
+    }
+    withType<JavaCompile>() {
+        options.encoding = "UTF-8"
+    }
+    register<Copy>("moveJarToOutputDir") {
+        from(tasks.named<ShadowJar>("shadowJar").get().outputs.files)
+        into(outputDir)
+    }
+    build {
+        dependsOn(shadowJar)
+        dependsOn("moveJarToOutputDir")
+    }
 }

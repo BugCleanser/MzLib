@@ -1,5 +1,4 @@
 plugins {
-    java
     id("mz.lib.java-conventions")
 }
 
@@ -19,21 +18,5 @@ dependencies {
     implementation(fileTree("./lib"))
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
 
-    implementation(project(":MzLibCore"))
-    implementation(project(":MzLibMinecraft"))
-}
-
-val outputDir = File(rootProject.projectDir, "out")
-
-tasks.register<Copy>("moveJarToOutputDir") {
-    // 源文件为构建生成的 JAR 文件
-    from(tasks.jar.get().outputs.files)
-    // 目标目录
-    into(outputDir)
-}
-
-tasks {
-    build {
-        dependsOn("moveJarToOutputDir")
-    }
+    compileOnly(project(":MzLib", configuration = "shadow"))
 }

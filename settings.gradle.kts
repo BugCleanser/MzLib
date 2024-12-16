@@ -1,4 +1,4 @@
-rootProject.name = "MzLib"
-include(":MzLibCore")
-include("MzLibMinecraft")
-include("MzLibDemo")
+rootProject.name = "MzLibProject"
+include(":MzCore")
+include(":MzLib")
+include(":MzLibDemo")
