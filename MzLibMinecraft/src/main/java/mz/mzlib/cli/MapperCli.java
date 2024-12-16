@@ -4,6 +4,8 @@ import mz.mzlib.minecraft.mappings.*;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
+import org.apache.commons.cli.CommandLine;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class MapperCli
 		return version;
 	}
 	
-	public static void main(String[] args)
+	public static void cli(CommandLine cmd)
 	{
 		IMappings mappingsP2Y,mappingsY2P;
 		File folder = new File("./mappings");
@@ -86,15 +88,15 @@ public class MapperCli
 		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("getVersion", new String[]{})));
 		System.out.println("Input a Class Name:");
 		Scanner scanner = new Scanner(System.in);
-		while (scanner.hasNext()) // 检查是否有更多的输入
+		while (scanner.hasNext())
 		{
 			String input = scanner.next();
 			if ("exit".equalsIgnoreCase(input)) {
-				break; // 退出循环
+				break;
 			}
 			System.out.println(mappingsP2Y.mapClass(input));
 			System.out.println(mappingsY2P.mapClass(input));
 		}
-		scanner.close(); // 关闭扫描器
+		scanner.close();
 	}
 }
