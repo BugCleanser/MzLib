@@ -86,6 +86,11 @@ public abstract class UIWindow implements UI
         }
     }
     
+    public void onContentChanged(WindowUIWindow window, Inventory inventory)
+    {
+        window.onContentChangedSuper(inventory);
+    }
+    
     public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
     {
         return window.quickMove(player, index);

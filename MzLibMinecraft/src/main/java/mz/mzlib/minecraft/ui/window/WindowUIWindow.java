@@ -70,6 +70,16 @@ public interface WindowUIWindow extends AbstractWindow
         return AbstractWindow.super.quickMove(player, index);
     }
     
+    @CompoundSuper(parent=Window.class, method="onContentChanged")
+    void onContentChangedSuper(Inventory inventory);
+    
+    @Override
+    @CompoundOverride(parent=Window.class, method="onContentChanged")
+    default void onContentChanged(Inventory inventory)
+    {
+        this.getUIWindow().onContentChanged(this, inventory);
+    }
+    
     @Override
     @CompoundOverride(parent=Window.class, method="quickMove")
     default ItemStack quickMove(AbstractEntityPlayer player, int index)
