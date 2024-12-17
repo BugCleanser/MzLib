@@ -75,6 +75,14 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", begin=1400))
     DataFixerV1400 getDataUpdaterV1400();
     
+    /**
+     * 1.12.2: 1343
+     * 1.13.2: 1631
+     * 1.14: 1952
+     * 1.19: 3105
+     * 1.20.1: 3465
+     * 1.20.5: 3837
+     */
     int getDataVersion();
     @SpecificImpl("getDataVersion")
     @VersionRange(end=1400)

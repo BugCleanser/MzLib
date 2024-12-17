@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.wrapper.ListWrapper;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -40,6 +41,14 @@ public interface NbtList extends NbtElement
     List<?> getValue();
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
     void setValue(List<?> value);
+    default List<NbtElement> asList()
+    {
+        return new ListWrapper<>(this.getValue(), NbtElement::create);
+    }
+    default <T extends NbtElement> List<T> asList(Function<Object, T> wrapperCreator)
+    {
+        return new ListWrapper<>(this.getValue(), wrapperCreator);
+    }
 
     @WrapMinecraftFieldAccessor(@VersionName(name="type"))
     byte getElementTypeId();

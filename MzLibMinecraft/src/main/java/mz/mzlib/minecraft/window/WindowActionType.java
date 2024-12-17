@@ -83,12 +83,12 @@ public interface WindowActionType extends WrapperObject
      *   index==-999
      *   The action data is either 0 (left-click) or 1 (right-click)
      */
-    static WindowActionType throwOut()
+    static WindowActionType drop()
     {
-        return create(null).staticThrowOut();
+        return create(null).staticDrop();
     }
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7795", begin=1400)})
-    WindowActionType staticThrowOut();
+    WindowActionType staticDrop();
     
     /**
      * Middle-click in creative-mode or middle-click with item
@@ -113,8 +113,8 @@ public interface WindowActionType extends WrapperObject
             return "PICK_UP_ALL";
         else if(this.equals(shiftClick()))
             return "SHIFT_CLICK";
-        else if(this.equals(throwOut()))
-            return "THROW_OUT";
+        else if(this.equals(drop()))
+            return "DROP";
         else if(this.equals(copy()))
             return "COPY";
         else

@@ -93,7 +93,7 @@ public abstract class UIWindow implements UI
     
     public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
     {
-        return window.quickMove(player, index);
+        return window.quickMoveSuper(player, index);
     }
     
     /**

@@ -7,9 +7,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.component.ComponentCustomDataV2005;
 import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentMapV2005;
-import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtInt;
-import mz.mzlib.minecraft.nbt.NbtOpsV1400;
+import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1400;
 import mz.mzlib.minecraft.version.DataUpdateTypesV1400;
@@ -79,7 +77,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1400.withRegistries(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1400.withRegistries(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -94,14 +92,7 @@ public interface ItemStack extends WrapperObject
     {
         if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
             return empty();
-        try
-        {
-            return decode0(update(nbt));
-        }
-        catch(Throwable e)
-        {
-            throw new RuntimeException("decode item: "+nbt+" -> "+update(nbt), e);
-        }
+        return decode0(update(nbt));
     }
     
     default NbtCompound encode()
@@ -271,10 +262,27 @@ public interface ItemStack extends WrapperObject
                 dataVersion=1343; // 1.12.2
             else
             {
-                dataVersion=1631; //1.13.2 TODO
-                dataVersion=1952; //1.14
                 if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
-                    dataVersion=3837; // 1.20.5
+                    dataVersion=3837;
+                else
+                {
+                    dataVersion=1952; // 1.14
+                    NbtCompound tag = nbt.get("tag", NbtCompound::create);
+                    if(tag.isPresent())
+                    {
+                        NbtCompound display = tag.get("display", NbtCompound::create);
+                        if(display.isPresent())
+                        {
+                            NbtList lore = display.get("Lore", NbtList::create);
+                            if(lore.isPresent())
+                                for(NbtString l:lore.asList(NbtString::create))
+                                {
+                                    if(!(l.getValue().startsWith("{")&&l.getValue().endsWith("}")) || !(l.getValue().startsWith("\"")&&l.getValue().endsWith("\"")))
+                                        dataVersion=1631;
+                                }
+                        }
+                    }
+                }
             }
         }
         return update(nbt, dataVersion);

@@ -100,8 +100,7 @@ public class NothingRegistration
         return new InvokeDynamicInsnNode("invokeDynamic", desc, new Handle(Opcodes.H_INVOKESTATIC, getMetafactoryName(className), "metafactory", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, int.class), false), callSiteIndex);
     }
 
-    @SuppressWarnings("deprecation")
-    public void apply()
+    public synchronized void apply()
     {
         List<CallSite> callSites = new ArrayList<>();
         try
