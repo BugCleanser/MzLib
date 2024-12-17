@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
-import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -11,7 +10,6 @@ import mz.mzlib.minecraft.window.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 public abstract class UIWindow implements UI
@@ -86,10 +84,10 @@ public abstract class UIWindow implements UI
         }
     }
     
-    public void onContentChanged(WindowUIWindow window, Inventory inventory)
-    {
-        window.onContentChangedSuper(inventory);
-    }
+//    public void onContentChanged(WindowUIWindow window, Inventory inventory)
+//    {
+//        window.onContentChangedSuper(inventory);
+//    }
     
     public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
     {
@@ -105,6 +103,11 @@ public abstract class UIWindow implements UI
         if(button!=null)
             button.onClick(player, actionType, data);
         return window.onActionSuper(index, data, actionType, player);
+    }
+    
+    public void onClosed(WindowUIWindow window, AbstractEntityPlayer player)
+    {
+        window.onClosedSuper(player);
     }
     
     @FunctionalInterface

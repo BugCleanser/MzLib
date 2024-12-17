@@ -97,6 +97,12 @@ public interface ItemStack extends WrapperObject
     
     default NbtCompound encode()
     {
+        if(this.isEmpty())
+        {
+            NbtCompound result=NbtCompound.newInstance();
+            result.put("id", NbtString.newInstance("minecraft:air"));
+            return result;
+        }
         NbtCompound result = encode0();
         result.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
         return result;
@@ -277,8 +283,8 @@ public interface ItemStack extends WrapperObject
                             if(lore.isPresent())
                                 for(NbtString l:lore.asList(NbtString::create))
                                 {
-                                    if(!(l.getValue().startsWith("{")&&l.getValue().endsWith("}")) || !(l.getValue().startsWith("\"")&&l.getValue().endsWith("\"")))
-                                        dataVersion=1631;
+                                    if(!(l.getValue().startsWith("{")&&l.getValue().endsWith("}")) && !(l.getValue().startsWith("\"")&&l.getValue().endsWith("\"")))
+                                        dataVersion=1631; // 1.13.2
                                 }
                         }
                     }

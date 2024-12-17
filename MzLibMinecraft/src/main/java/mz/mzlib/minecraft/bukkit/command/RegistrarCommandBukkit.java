@@ -76,7 +76,8 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
         PluginCommand pc = Bukkit.getPluginCommand(object.name);
         if(pc==null)
         {
-            throw new IllegalStateException("Failed to register the command: "+object.name);
+            System.err.println("Failed to unregister the command: "+object.name);
+            return;
         }
         pc.setExecutor(null);
         pc.setTabCompleter(null);
