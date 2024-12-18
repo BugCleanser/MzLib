@@ -25,7 +25,7 @@ public interface NbtOpsV1400 extends WrapperObject, DynamicOpsV1400
         return create(null).staticInstance();
     }
     
-    static DynamicOpsWithRegistriesV1903 withRegistries()
+    static DynamicOpsWithRegistriesV1903 withRegistriesV1903()
     {
         return DynamicOpsWithRegistriesV1903.newInstance(instance(), MinecraftServer.instance.getRegistriesV1802());
     }

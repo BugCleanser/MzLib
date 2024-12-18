@@ -77,7 +77,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1400.withRegistries(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1400.withRegistriesV1903(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -120,7 +120,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound encode0V2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.withRegistries(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.withRegistriesV1903(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
     
     
