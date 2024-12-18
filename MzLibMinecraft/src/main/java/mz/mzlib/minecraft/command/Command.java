@@ -32,6 +32,18 @@ public class Command
         return this;
     }
     
+    public Command setPermissionChecker(Function<GameObject, Text> value)
+    {
+        this.permissionChecker = value;
+        return this;
+    }
+    
+    public Command setExecutor(Consumer<CommandContext> value)
+    {
+        this.executor = value;
+        return this;
+    }
+    
     public List<String> suggest(GameObject sender, String command, String args)
     {
         Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
@@ -47,7 +59,7 @@ public class Command
         List<String> result=new ArrayList<>();
         if(this.executor!=null)
         {
-            CommandContext context = new CommandContext(command, args, false);
+            CommandContext context = new CommandContext(sender, command, args, false);
             this.executor.accept(context);
             result.addAll(context.suggestions);
         }
@@ -84,7 +96,7 @@ public class Command
                 return;
             }
         }
-        CommandContext context = new CommandContext(command, args, true);
+        CommandContext context = new CommandContext(sender, command, args, true);
         if(this.executor!=null)
             this.executor.accept(context);
         if(this.executor==null || !context.successful)

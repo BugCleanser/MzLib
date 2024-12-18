@@ -1,5 +1,6 @@
 package mz.mzlib.demo;
 
+import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -22,12 +23,12 @@ public class Inventory10Slots extends MzModule
     public void onLoad()
     {
         Inventory10SlotsUI ui = new Inventory10SlotsUI();
-        Demo.instance.commandDemo.addChild(new CommandBuilder("inventory10slots").addExecutor((sender, command, args)->
+        Demo.instance.commandDemo.addChild(new Command("inventory10slots").setPermissionChecker(sender->
         {
-            if(sender.isInstanceOf(EntityPlayer::create))
-                ui.open(sender.castTo(EntityPlayer::create));
+            if(!sender.isInstanceOf(EntityPlayer::create))
+                return Text.literal("只有玩家能执行该命令");
             return null;
-        }).build());
+        }).setExecutor(context->ui.open(context.sender.castTo(EntityPlayer::create))));
     }
     
     public static class Inventory10SlotsUI extends UIWindow
