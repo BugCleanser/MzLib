@@ -1,6 +1,8 @@
 package mz.mzlib.minecraft.nbt;
 
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.registry.DynamicOpsWithRegistriesV1903;
 import mz.mzlib.minecraft.serialization.DynamicOpsV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -21,5 +23,10 @@ public interface NbtOpsV1400 extends WrapperObject, DynamicOpsV1400
     static NbtOpsV1400 instance()
     {
         return create(null).staticInstance();
+    }
+    
+    static DynamicOpsWithRegistriesV1903 withRegistriesV1903()
+    {
+        return DynamicOpsWithRegistriesV1903.newInstance(instance(), MinecraftServer.instance.getRegistriesV1802());
     }
 }

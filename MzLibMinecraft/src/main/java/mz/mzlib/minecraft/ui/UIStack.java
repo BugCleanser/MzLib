@@ -25,7 +25,6 @@ public class UIStack
         }
     }
     
-    // TODO: remove
     public static UIStack get(AbstractEntityPlayer player)
     {
         return uiStacks.computeIfAbsent(player, UIStack::new);
@@ -52,7 +51,8 @@ public class UIStack
     
     public synchronized void back()
     {
-        this.data.get(this.data.size()-1).close(this.player);
+        if(this.data.size()==1)
+            this.data.get(0).close(this.player);
         this.data.remove(this.data.size()-1);
         if(!this.data.isEmpty())
             this.data.get(this.data.size()-1).open(this.player);

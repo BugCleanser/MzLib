@@ -2,6 +2,7 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.datafixers.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.registry.RegistrySetV1602;
 import mz.mzlib.minecraft.version.DataUpdaterV_1400;
 import mz.mzlib.minecraft.version.MinecraftVersionCurrentV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -74,6 +75,14 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", begin=1400))
     DataFixerV1400 getDataUpdaterV1400();
     
+    /**
+     * 1.12.2: 1343
+     * 1.13.2: 1631
+     * 1.14: 1952
+     * 1.19: 3105
+     * 1.20.1: 3465
+     * 1.20.5: 3837
+     */
     int getDataVersion();
     @SpecificImpl("getDataVersion")
     @VersionRange(end=1400)
@@ -93,4 +102,12 @@ public interface MinecraftServer extends WrapperObject, GameObject, Instance, As
     {
         return MinecraftVersionCurrentV1400.instanceV1800().getDataVersion().getNumber();
     }
+    
+    RegistrySetV1602 getRegistriesV1602();
+    @SpecificImpl("getRegistriesV1602")
+    @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1602, end=1802))
+    RegistrySetV1602 getRegistriesV1602_1802();
+    @SpecificImpl("getRegistriesV1602")
+    @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1802))
+    RegistrySetV1602.Immutable getRegistriesV1802();
 }

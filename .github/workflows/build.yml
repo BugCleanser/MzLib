@@ -37,7 +37,7 @@ jobs:
         run: chmod +x ./gradlew
             
       - name: Package with Gradle
-        run: ./gradlew shadowJar --no-daemon
+        run: ./gradlew build --no-daemon
           
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2

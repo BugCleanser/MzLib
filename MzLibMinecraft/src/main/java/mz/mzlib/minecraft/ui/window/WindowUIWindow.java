@@ -70,15 +70,15 @@ public interface WindowUIWindow extends AbstractWindow
         return AbstractWindow.super.quickMove(player, index);
     }
     
-    @CompoundSuper(parent=Window.class, method="onContentChanged")
-    void onContentChangedSuper(Inventory inventory);
-    
-    @Override
-    @CompoundOverride(parent=Window.class, method="onContentChanged")
-    default void onContentChanged(Inventory inventory)
-    {
-        this.getUIWindow().onContentChanged(this, inventory);
-    }
+//    @CompoundSuper(parent=Window.class, method="onContentChanged")
+//    void onContentChangedSuper(Inventory inventory);
+//
+//    @Override
+//    @CompoundOverride(parent=Window.class, method="onContentChanged")
+//    default void onContentChanged(Inventory inventory)
+//    {
+//        this.getUIWindow().onContentChanged(this, inventory);
+//    }
     
     @Override
     @CompoundOverride(parent=Window.class, method="quickMove")
@@ -97,5 +97,14 @@ public interface WindowUIWindow extends AbstractWindow
     default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         return this.getUIWindow().onAction(this, index, data, actionType, player);
+    }
+    
+    @CompoundSuper(parent=Window.class, method="onClosed")
+    void onClosedSuper(AbstractEntityPlayer player);
+    @Override
+    @CompoundOverride(parent=Window.class, method="onClosed")
+    default void onClosed(AbstractEntityPlayer player)
+    {
+        this.getUIWindow().onClosed(this, player);
     }
 }

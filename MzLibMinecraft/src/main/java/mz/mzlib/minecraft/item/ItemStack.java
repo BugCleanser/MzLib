@@ -7,9 +7,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.component.ComponentCustomDataV2005;
 import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentMapV2005;
-import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtInt;
-import mz.mzlib.minecraft.nbt.NbtOpsV1400;
+import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1400;
 import mz.mzlib.minecraft.version.DataUpdateTypesV1400;
@@ -17,7 +15,6 @@ import mz.mzlib.minecraft.version.DataUpdateTypesV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -80,7 +77,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1400.instance(), nbt.getWrapped()).getOrThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1400.withRegistriesV1903(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -93,19 +90,19 @@ public interface ItemStack extends WrapperObject
      */
     static ItemStack decode(NbtCompound nbt)
     {
-        NbtCompound nbt1 = update(nbt);
-        try
-        {
-            return decode0(nbt1);
-        }
-        catch(Throwable e)
-        {
-            throw new RuntimeException("ItemStack decode exception: "+nbt+" -> "+nbt1, e);
-        }
+        if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
+            return empty();
+        return decode0(update(nbt));
     }
     
     default NbtCompound encode()
     {
+        if(this.isEmpty())
+        {
+            NbtCompound result=NbtCompound.newInstance();
+            result.put("id", NbtString.newInstance("minecraft:air"));
+            return result;
+        }
         NbtCompound result = encode0();
         result.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
         return result;
@@ -123,7 +120,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound encode0V2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.instance(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.withRegistriesV1903(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
     
     
@@ -271,9 +268,27 @@ public interface ItemStack extends WrapperObject
                 dataVersion=1343; // 1.12.2
             else
             {
-                dataVersion=1631; //1.13.2
                 if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
-                    dataVersion=3837; // 1.20.5
+                    dataVersion=3837;
+                else
+                {
+                    dataVersion=1952; // 1.14
+                    NbtCompound tag = nbt.get("tag", NbtCompound::create);
+                    if(tag.isPresent())
+                    {
+                        NbtCompound display = tag.get("display", NbtCompound::create);
+                        if(display.isPresent())
+                        {
+                            NbtList lore = display.get("Lore", NbtList::create);
+                            if(lore.isPresent())
+                                for(NbtString l:lore.asList(NbtString::create))
+                                {
+                                    if(!(l.getValue().startsWith("{")&&l.getValue().endsWith("}")) && !(l.getValue().startsWith("\"")&&l.getValue().endsWith("\"")))
+                                        dataVersion=1631; // 1.13.2
+                                }
+                        }
+                    }
+                }
             }
         }
         return update(nbt, dataVersion);
