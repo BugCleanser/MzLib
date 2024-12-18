@@ -51,36 +51,14 @@ jobs:
 
   release:
     needs: build
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3.3.0
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3.0.2
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Echo
+        run: echo ${{ github.sha }}
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: MzLib Artifacts
-          path: out
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1.1.4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: out/*.jar
-          asset_name: ${{ github.event.repository.name }}-${{ github.sha }}.jar
-          asset_content_type: application/java-archive
+          files: out/*.jar
