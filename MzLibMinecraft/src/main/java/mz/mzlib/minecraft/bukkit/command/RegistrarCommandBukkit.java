@@ -57,7 +57,7 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
             PluginCommand pc = constructorPluginCommand.newInstance(object.name, MzLibBukkitPlugin.instance);
             pc.setAliases(new ArrayList<>(Arrays.asList(object.aliases)));
             commandMap.register(object.prefix, pc);
-            pc.setTabCompleter((sender, command, name, args)->object.complete(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args)));
+            pc.setTabCompleter((sender, command, name, args)->object.suggest(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args)));
             pc.setExecutor((sender, command, name, args)->
             {
                 object.execute(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args));

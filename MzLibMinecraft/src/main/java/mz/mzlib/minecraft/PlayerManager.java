@@ -25,4 +25,7 @@ public interface PlayerManager extends WrapperObject
     {
         return new ListWrapper<>(this.getPlayers0(),EntityPlayer::create);
     }
+    
+    @WrapMinecraftMethod(@VersionName(name="getPlayer"))
+    EntityPlayer getPlayer(String name);
 }

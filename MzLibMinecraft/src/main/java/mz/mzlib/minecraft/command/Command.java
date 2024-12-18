@@ -5,70 +5,92 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Command
 {
     public String prefix="minecraft";
     public String name;
     public String[] aliases;
-    public Map<String, Command> children;
-    public List<CommandExecutor> executor;
+    public List<Command> children;
+    public Function<GameObject, Text> permissionChecker;
+    public Consumer<CommandContext> executor;
     
-    public Command(String name, String[] aliases, Map<String, Command> children, List<CommandExecutor> executor)
+    public Command(String name, String ...aliases)
     {
         this.name = name;
         this.aliases = aliases;
-        this.children = children;
-        this.executor = executor;
     }
     
-    public Command(CommandBuilder builder)
+    public Command addChild(Command child)
     {
-        this.name = builder.name;
-        this.aliases = builder.aliases.toArray(new String[0]);
-        this.children = new HashMap<>(builder.children);
-        this.executor = new ArrayList<>(builder.executor);
+        this.children.add(child);
+        return this;
     }
     
-    public void addChild(Command child)
+    public List<String> suggest(GameObject sender, String command, String args)
     {
-        children.put(child.name, child);
-        for(String alias:child.aliases)
+        Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
+        if(permissionCheckInfo!=null)
+            return CollectionUtil.newArrayList(permissionCheckInfo.toPlain());
+        String[] argv2 = args.split("\\s+", 2);
+        if(argv2.length>1)
+            for(Command i:this.children)
+            {
+                if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
+                    return i.suggest(sender, command+' '+argv2[0], argv2[1]);
+            }
+        List<String> result=new ArrayList<>();
+        if(this.executor!=null)
         {
-            children.put(alias, child);
+            CommandContext context = new CommandContext(command, args, false);
+            this.executor.accept(context);
+            result.addAll(context.suggestions);
         }
-    }
-    
-    public List<String> complete(GameObject sender, String command, String args)
-    {
-        // TODO
-        return CollectionUtil.newArrayList("开发版未支持命令补全");
+        if(argv2.length==1)
+        {
+            for(Command i:this.children)
+            {
+                if(i.name.startsWith(argv2[0]))
+                    result.add(i.name);
+            }
+            for(Command i:this.children)
+                for(String j:i.aliases)
+                {
+                    if(j.startsWith(argv2[0]))
+                        result.add(j);
+                }
+        }
+        return result;
     }
     public void execute(GameObject sender, String command, String args)
     {
-        String[] argv2 = args.split("\\s+", 2);
-        Command subcommand = children.get(argv2[0]);
-        if(subcommand!=null)
+        Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
+        if(permissionCheckInfo!=null)
         {
-            subcommand.execute(sender, command+' '+argv2[0], argv2.length>1?argv2[1]:"");
+            sender.sendMessage(permissionCheckInfo);
             return;
         }
-        List<Text> hints = new ArrayList<>();
-        for(CommandExecutor e: executor)
+        String[] argv2 = args.split("\\s+", 2);
+        for(Command i:this.children)
         {
-            Text hint = e.execute(sender, command, args);
-            if(hint==null)
+            if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
+            {
+                i.execute(sender, command+' '+argv2[0], argv2.length>1?argv2[1]:null);
                 return;
-            hints.add(hint);
+            }
         }
-        // TODO
-        sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", children.keySet())+">"));
-        for(Text hint: hints)
+        CommandContext context = new CommandContext(command, args, true);
+        if(this.executor!=null)
+            this.executor.accept(context);
+        if(this.executor==null || !context.successful)
         {
-            sender.sendMessage(hint);
+            // TODO: i18n
+            sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", children.stream().map(c->c.name).collect(Collectors.toSet()))+"> ..."));
         }
     }
 }

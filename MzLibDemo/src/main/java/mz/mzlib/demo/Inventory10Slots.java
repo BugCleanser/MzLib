@@ -1,10 +1,8 @@
 package mz.mzlib.demo;
 
-import mz.mzlib.minecraft.command.CommandBuilder;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtInt;
 import mz.mzlib.minecraft.nbt.NbtString;

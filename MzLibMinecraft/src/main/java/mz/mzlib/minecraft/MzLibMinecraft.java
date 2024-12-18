@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.event.RegistrarEventListener;
+import mz.mzlib.minecraft.commands.CommandGiveNbt;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
@@ -38,6 +39,8 @@ public class MzLibMinecraft extends MzModule
             
             this.register(ModuleWindow.instance);
             this.register(UIStack.Module.instance);
+            
+            this.register(CommandGiveNbt.instance);
 
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
             {

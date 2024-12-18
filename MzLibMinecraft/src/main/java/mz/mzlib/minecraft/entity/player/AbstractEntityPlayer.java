@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
@@ -22,6 +23,14 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     static AbstractEntityPlayer create(Object wrapped)
     {
         return WrapperObject.create(AbstractEntityPlayer.class, wrapped);
+    }
+    
+    @WrapMinecraftMethod(@VersionName(name="getGameProfile"))
+    GameProfile getGameProfile();
+    
+    default String getName()
+    {
+        return this.getGameProfile().getName();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))

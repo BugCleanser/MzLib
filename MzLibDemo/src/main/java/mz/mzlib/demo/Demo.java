@@ -1,7 +1,6 @@
 package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
-import mz.mzlib.minecraft.command.CommandBuilder;
 import mz.mzlib.module.MzModule;
 
 public class Demo extends MzModule
