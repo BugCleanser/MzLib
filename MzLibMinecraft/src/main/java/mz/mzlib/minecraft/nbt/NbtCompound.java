@@ -48,8 +48,8 @@ public interface NbtCompound extends NbtElement
     
     static NbtCompound parse(String str)
     {
-        // TODO
-        throw new UnsupportedOperationException();
+        return NbtScanner.parseCompound(str);
+//        throw new UnsupportedOperationException();
     }
     
     @WrapConstructor
