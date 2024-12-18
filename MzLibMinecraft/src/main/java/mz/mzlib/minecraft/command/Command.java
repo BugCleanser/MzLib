@@ -1,6 +1,8 @@
 package mz.mzlib.minecraft.command;
 
 import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.permission.Permission;
+import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
 
@@ -16,7 +18,6 @@ public class Command
     public String prefix="minecraft";
     public String name;
     public String[] aliases;
-    public List<Command> children;
     public Function<GameObject, Text> permissionChecker;
     public Consumer<CommandContext> executor;
     
@@ -25,6 +26,8 @@ public class Command
         this.name = name;
         this.aliases = aliases;
     }
+    
+    public List<Command> children=new ArrayList<>();
     
     public Command addChild(Command child)
     {
@@ -36,6 +39,13 @@ public class Command
     {
         this.permissionChecker = value;
         return this;
+    }
+    
+    public static Text checkPermission(GameObject sender, Permission permission)
+    {
+        if(PermissionHelp.instance.check(sender, permission))
+            return null;
+        return Text.literal("§4需要权限"+permission.id); // TODO: i18n
     }
     
     public Command setExecutor(Consumer<CommandContext> value)
@@ -92,17 +102,31 @@ public class Command
         {
             if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
             {
-                i.execute(sender, command+' '+argv2[0], argv2.length>1?argv2[1]:null);
+                i.execute(sender, command+' '+argv2[0], argv2.length>1?argv2[1]:"");
                 return;
             }
         }
         CommandContext context = new CommandContext(sender, command, args, true);
         if(this.executor!=null)
-            this.executor.accept(context);
+        {
+            try
+            {
+                this.executor.accept(context);
+            }
+            catch(Throwable e)
+            {
+                sender.sendMessage(Text.literal("§4"+e.getMessage())); // TODO: i18n
+            }
+        }
         if(this.executor==null || !context.successful)
         {
+            for(String i:context.suggestions)
+                sender.sendMessage(Text.literal(i));
             // TODO: i18n
-            sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", children.stream().map(c->c.name).collect(Collectors.toSet()))+"> ..."));
+            if(!this.children.isEmpty())
+                sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", this.children.stream().map(i->i.name).collect(Collectors.toSet()))+"> ..."));
+            if(this.executor!=null)
+                sender.sendMessage(Text.literal("/"+command+" "+String.join(" ", context.argNames.stream().map(i->"<"+i+">").collect(Collectors.toSet()))));
         }
     }
 }

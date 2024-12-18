@@ -20,6 +20,8 @@ public class ArgumentParserString extends ArgumentParser<String>
         StringBuilder result = new StringBuilder();
         if(context.argsReader.hasNext())
             result.append(context.argsReader.next());
+        else
+            context.successful=false;
         int spaces=0;
         while(this.withSpace && context.argsReader.hasNext())
         {
@@ -28,7 +30,6 @@ public class ArgumentParserString extends ArgumentParser<String>
         }
         if(!context.argsReader.hasNext())
         {
-            context.successful=false;
             for(String preset : this.presets)
             {
                 if(preset.startsWith(result.toString()))

@@ -16,6 +16,16 @@ public abstract class ArgumentParser<T>
         context.argNames.add(this.name);
         if(!context.successful)
             return null;
-        return this.parse(context);
+        try
+        {
+            return this.parse(context);
+        }
+        catch(Throwable e)
+        {
+            context.successful=false;
+            // TODO: i18n
+            context.suggestions.add("§4"+e.getMessage());
+            return null;
+        }
     }
 }
