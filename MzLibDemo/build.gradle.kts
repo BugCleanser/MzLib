@@ -2,8 +2,6 @@ plugins {
     id("mz.lib.java-conventions")
 }
 
-group = "mz.mzlib.demo"
-version = "0.1"
 repositories {
     mavenLocal()
     maven("https://maven.aliyun.com/repository/public/")
