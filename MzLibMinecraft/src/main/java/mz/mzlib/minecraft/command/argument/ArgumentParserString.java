@@ -19,13 +19,13 @@ public class ArgumentParserString extends ArgumentParser<String>
     {
         StringBuilder result = new StringBuilder();
         if(context.argsReader.hasNext())
-            result.append(context.argsReader.next());
+            result.append(context.argsReader.readString());
         else
             context.successful=false;
         int spaces=0;
         while(this.withSpace && context.argsReader.hasNext())
         {
-            result.append(' ').append(context.argsReader.next());
+            result.append(' ').append(context.argsReader.readString());
             spaces++;
         }
         if(!context.argsReader.hasNext())

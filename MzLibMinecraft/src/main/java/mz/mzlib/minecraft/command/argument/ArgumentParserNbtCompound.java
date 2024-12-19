@@ -26,7 +26,7 @@ public class ArgumentParserNbtCompound extends ArgumentParser<NbtCompound>
         }
         do
         {
-            result.append(context.argsReader.next());
+            result.append(context.argsReader.readString());
         }while(context.argsReader.hasNext() && RuntimeUtil.runAndCatch(()->NbtCompound.parse(result.toString()))!=null);
         return NbtCompound.parse(result.toString());
     }
