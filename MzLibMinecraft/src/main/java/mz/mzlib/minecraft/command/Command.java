@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.command;
 
 import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.minecraft.text.Text;
@@ -39,6 +40,21 @@ public class Command
     {
         this.permissionChecker = value;
         return this;
+    }
+    
+    public static Text checkPermissionAnd(Text ...permissionCheckInfos)
+    {
+        for(Text i:permissionCheckInfos)
+            if(i!=null)
+                return i;
+        return null;
+    }
+    
+    public static Text checkPermissionSenderPlayer(GameObject sender)
+    {
+        if(!sender.isInstanceOf(EntityPlayer::create))
+            return Text.literal("§4只有玩家能执行该命令"); // TODO: i18n
+        return null;
     }
     
     public static Text checkPermission(GameObject sender, Permission permission)
