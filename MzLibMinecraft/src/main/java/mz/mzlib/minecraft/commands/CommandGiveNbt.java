@@ -36,7 +36,7 @@ public class CommandGiveNbt extends MzModule
             catch(Throwable e)
             {
                 context.successful=false;
-                context.sender.sendMessage(Text.literal("§4非法物品nbt "+e.getMessage())); // TODO: i18n
+                context.sender.sendMessage(Text.literal("§4非法物品 "+e.getMessage())); // TODO: i18n
             }
         }));
     }

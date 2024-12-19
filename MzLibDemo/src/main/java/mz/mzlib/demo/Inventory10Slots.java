@@ -28,7 +28,14 @@ public class Inventory10Slots extends MzModule
             if(!sender.isInstanceOf(EntityPlayer::create))
                 return Text.literal("只有玩家能执行该命令");
             return null;
-        }).setExecutor(context->ui.open(context.sender.castTo(EntityPlayer::create))));
+        }).setExecutor(context->
+        {
+            if(!context.successful)
+                return;
+            if(!context.doExecute)
+                return;
+            ui.open(context.sender.castTo(EntityPlayer::create));
+        }));
     }
     
     public static class Inventory10SlotsUI extends UIWindow

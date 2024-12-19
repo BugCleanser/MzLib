@@ -29,15 +29,37 @@ public interface Inventory extends WrapperObject
     {
         if(itemStack.isEmpty())
             return false;
-        int size=this.size();
-        // TODO
-        return false;
+        boolean result = false;
+        int size = this.size();
+        for(int i = 0; i<size && !itemStack.isEmpty(); i++)
+        {
+            ItemStack cnt = this.getItemStack(i);
+            if(ItemStack.isStackable(cnt, itemStack))
+            {
+                int count = Math.min(itemStack.getCount(), cnt.getMaxStackCount()-cnt.getCount());
+                cnt.grow(count);
+                itemStack.shrink(count);
+            }
+        }
+        if(!itemStack.isEmpty())
+            for(int i = 0; i<size; i++)
+            {
+                ItemStack is = this.getItemStack(i);
+                if(is.isEmpty())
+                {
+                    this.setItemStack(i, itemStack.copy());
+                    itemStack.setCount(0);
+                    result = true;
+                    break;
+                }
+            }
+        return result;
     }
     
     default void clear()
     {
-        int size=this.size();
-        for(int i=0; i<size; i++)
+        int size = this.size();
+        for(int i = 0; i<size; i++)
         {
             this.setItemStack(i, ItemStack.empty());
         }
