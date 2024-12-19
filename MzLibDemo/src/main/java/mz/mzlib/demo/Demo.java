@@ -7,7 +7,7 @@ public class Demo extends MzModule
 {
     public static Demo instance = new Demo();
     
-    public Command commandDemo=new Command("mzlibDemo".toLowerCase());
+    public Command commandDemo=new Command("mzlibDemo".toLowerCase()).setNamespace("mzlibDemo".toLowerCase());
     
     @Override
     public void onLoad()

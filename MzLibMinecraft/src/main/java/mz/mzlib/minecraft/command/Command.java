@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class Command
 {
-    public String prefix="minecraft";
+    public String namespace ="minecraft";
     public String name;
     public String[] aliases;
     public Function<GameObject, Text> permissionChecker;
@@ -26,6 +25,12 @@ public class Command
     {
         this.name = name;
         this.aliases = aliases;
+    }
+    
+    public Command setNamespace(String value)
+    {
+        this.namespace =value;
+        return this;
     }
     
     public List<Command> children=new ArrayList<>();

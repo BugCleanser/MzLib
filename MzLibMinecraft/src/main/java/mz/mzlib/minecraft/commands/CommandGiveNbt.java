@@ -19,7 +19,7 @@ public class CommandGiveNbt extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(new Command("giveNbt".toLowerCase()).setPermissionChecker(sender->Command.checkPermission(sender, this.permission)).setExecutor(context ->
+        this.register(new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)).setExecutor(context ->
         {
             EntityPlayer player=new ArgumentParserPlayer().process(context);
             NbtCompound nbt=new ArgumentParserNbtCompound().process(context);
@@ -31,7 +31,8 @@ public class CommandGiveNbt extends MzModule
             {
                 ItemStack is = ItemStack.decode(nbt);
                 player.getInventory().addItemStack(is);
-                player.drop(is, true);
+                if(!is.isEmpty())
+                    player.drop(is, true);
             }
             catch(Throwable e)
             {

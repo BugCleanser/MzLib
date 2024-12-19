@@ -56,7 +56,7 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
         {
             PluginCommand pc = constructorPluginCommand.newInstance(object.name, MzLibBukkitPlugin.instance);
             pc.setAliases(new ArrayList<>(Arrays.asList(object.aliases)));
-            commandMap.register(object.prefix, pc);
+            commandMap.register(object.namespace, pc);
             pc.setTabCompleter((sender, command, name, args)->object.suggest(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args)));
             pc.setExecutor((sender, command, name, args)->
             {
@@ -86,7 +86,7 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
         for(String name: CollectionUtil.addAll(new ArrayList<>(pc.getAliases()), pc.getName().toLowerCase(Locale.ENGLISH).trim()))
         {
             knownCommands.remove(name);
-            knownCommands.remove(object.prefix+":"+name);
+            knownCommands.remove(object.namespace+":"+name);
         }
         try
         {

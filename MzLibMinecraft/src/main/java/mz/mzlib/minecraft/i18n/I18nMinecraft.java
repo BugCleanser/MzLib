@@ -5,7 +5,6 @@ import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.AssetsHelp;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableSupplier;
 
 import java.io.ByteArrayInputStream;
@@ -28,7 +27,7 @@ public class I18nMinecraft extends MzModule
         {
             try
             {
-                MinecraftPlatform.instance.getMzLibLogger().info("[MzLib] 正在加载MC语言文件");
+                MinecraftPlatform.instance.getMzLibLogger().info("正在加载MC语言文件");
                 String folder = "minecraft/lang/";
                 Map<String, CompletableFuture<byte[]>> tasks = new HashMap<>();
                 for (String file : AssetsHelp.instance)
@@ -46,19 +45,19 @@ public class I18nMinecraft extends MzModule
                     if (result != null)
                         this.map.put(result.getKey(), result.getValue());
                 }
-                MinecraftPlatform.instance.getMzLibLogger().info("[MzLib] MC语言文件加载完成");
+                MinecraftPlatform.instance.getMzLibLogger().info("MC语言文件加载完成");
             }
             catch (Throwable e)
             {
                 e.printStackTrace(System.err);
-                MinecraftPlatform.instance.getMzLibLogger().warning("[MzLib] MC语言文件加载失败，请稍后重试");
+                MinecraftPlatform.instance.getMzLibLogger().warning("MC语言文件加载失败，请稍后重试");
             }
             this.taskLoading=null;
             return null;
         });
         this.taskLoading.join(); // TODO
     }
-
+    
     public void onLoad()
     {
         this.register(new I18n(this.map, Priority.VERY_VERY_LOW));

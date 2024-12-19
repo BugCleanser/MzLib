@@ -164,7 +164,7 @@ public abstract class AsyncFunctionContext
                         mn.instructions.add(AsmUtil.insnSwap(AsyncFunctionRunner.class, BasicAwait.class));
                         mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunction.class, 0));
                         mn.instructions.add(AsmUtil.insnSwap(AsyncFunction.class, BasicAwait.class));
-                        mn.visitMethodInsn(Opcodes.INVOKEINTERFACE, AsmUtil.getType(AsyncFunctionRunner.class), "schedule", AsmUtil.getDesc(void.class, AsyncFunction.class, BasicAwait.class), true); // this.function.runner.schedule(this,basicAwait);
+                        mn.visitMethodInsn(Opcodes.INVOKEINTERFACE, AsmUtil.getType(AsyncFunctionRunner.class), "schedule", AsmUtil.getDesc(void.class, Runnable.class, BasicAwait.class), true); // this.function.runner.schedule(this,basicAwait);
 
                     }
                     mn.instructions.add(AsmUtil.insnReturn(void.class)); // return;

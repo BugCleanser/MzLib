@@ -45,12 +45,12 @@ public class ExampleAsyncFunction extends MzModule
         {
             for(int i = 0; i<10; i++)
             {
-                System.out.println("Hello World");
+                System.out.println("Hello World0");
                 await(new SleepTicks(20));
             }
             await0(new Func2().start(this.getRunner()));
             await(new SleepTicks(100));
-            System.out.println("Hello World");
+            System.out.println("Hello World1");
             return null;
         }
     }
