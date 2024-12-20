@@ -23,7 +23,7 @@ public class I18nMinecraft extends MzModule
     {
         if(this.taskLoading!=null&&!this.taskLoading.isDone())
             return;
-        this.taskLoading=CompletableFuture.supplyAsync(()->
+        this.taskLoading=CompletableFuture.runAsync(()->
         {
             try
             {
@@ -53,9 +53,7 @@ public class I18nMinecraft extends MzModule
                 MinecraftPlatform.instance.getMzLibLogger().warning("MC语言文件加载失败，请稍后重试");
             }
             this.taskLoading=null;
-            return null;
         });
-        this.taskLoading.join(); // TODO
     }
     
     public void onLoad()
