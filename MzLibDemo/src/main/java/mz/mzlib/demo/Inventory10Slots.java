@@ -4,9 +4,6 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtInt;
-import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
@@ -19,18 +16,24 @@ public class Inventory10Slots extends MzModule
 {
     public static Inventory10Slots instance = new Inventory10Slots();
     
+    public Command command;
+    
     @Override
     public void onLoad()
     {
         Inventory10SlotsUI ui = new Inventory10SlotsUI();
-        Demo.instance.commandDemo.addChild(new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
+        Demo.instance.command.addChild(this.command=new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
-            if(!context.successful)
-                return;
-            if(!context.doExecute)
+            if(!context.successful || !context.doExecute)
                 return;
             ui.open(context.sender.castTo(EntityPlayer::create));
         }));
+    }
+    
+    @Override
+    public void onUnload()
+    {
+        Demo.instance.command.removeChild(this.command);
     }
     
     public static class Inventory10SlotsUI extends UIWindow
@@ -38,17 +41,6 @@ public class Inventory10Slots extends MzModule
         public Inventory10SlotsUI()
         {
             super(UnionWindowType.CRAFTING, 10);
-            NbtCompound item = NbtCompound.newInstance();
-            item.put("id", NbtString.newInstance("minecraft:nether_star"));
-            item.put("count", NbtInt.newInstance(1));
-            NbtCompound components=NbtCompound.newInstance();
-            item.put("components",components);
-            NbtCompound enchantments=NbtCompound.newInstance();
-            components.put("minecraft:enchantments", enchantments);
-            NbtCompound levels=NbtCompound.newInstance();
-            enchantments.put("levels", levels);
-            levels.put("minecraft:smite", NbtInt.newInstance(5));
-            this.inventory.setItemStack(0, ItemStack.decode(item));
         }
         
         @Override

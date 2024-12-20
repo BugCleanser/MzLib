@@ -41,6 +41,11 @@ public class Command
         return this;
     }
     
+    public void removeChild(Command child)
+    {
+        this.children.remove(child);
+    }
+    
     public Command setPermissionChecker(Function<GameObject, Text> value)
     {
         this.permissionChecker = value;
