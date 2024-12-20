@@ -13,7 +13,7 @@
 
 <br>
 
-## 开发教程参见[Wiki](https://github.com/BugCleanser/MzLib/wiki)
+## 开发教程参见[文档](https://bugcleanser.github.io/MzLib/)
 
 # 以下页面已过时
 ## 概述
