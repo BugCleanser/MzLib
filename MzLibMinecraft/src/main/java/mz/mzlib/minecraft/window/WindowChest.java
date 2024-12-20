@@ -12,21 +12,21 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.screen.ChestScreenHandler", end=1400), @VersionName(name="net.minecraft.container.GenericContainer",begin=1400, end=1600), @VersionName(name="net.minecraft.screen.GenericContainerScreenHandler", begin=1600)})
-public interface WindowGeneric9x extends WrapperObject, Window
+public interface WindowChest extends WrapperObject, Window
 {
     @WrapperCreator
-    static WindowGeneric9x create(Object wrapped)
+    static WindowChest create(Object wrapped)
     {
-        return WrapperObject.create(WindowGeneric9x.class, wrapped);
+        return WrapperObject.create(WindowChest.class, wrapped);
     }
     
-    WindowGeneric9x staticNewInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
+    WindowChest staticNewInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
     @WrapConstructor
     @VersionRange(end=1400)
-    WindowGeneric9x staticNewInstanceV_1400(Inventory inventoryPlayer, Inventory inventory, AbstractEntityPlayer player);
+    WindowChest staticNewInstanceV_1400(Inventory inventoryPlayer, Inventory inventory, AbstractEntityPlayer player);
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1400)
-    default WindowGeneric9x staticNewInstanceV_1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    default WindowChest staticNewInstanceV_1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
         if(rows*9!=inventory.size())
             throw new IllegalArgumentException();
@@ -35,12 +35,12 @@ public interface WindowGeneric9x extends WrapperObject, Window
     @WrapConstructor
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1400)
-    WindowGeneric9x staticNewInstanceV1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
-    static WindowGeneric9x newInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    WindowChest staticNewInstanceV1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
+    static WindowChest newInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
         return create(null).staticNewInstance(type, syncId, inventoryPlayer, inventory, rows);
     }
-    static WindowGeneric9x newInstance(int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    static WindowChest newInstance(int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
         return newInstance(UnionWindowType.generic9x(rows).typeV1400, syncId, inventoryPlayer, inventory, rows);
     }

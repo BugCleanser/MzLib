@@ -55,11 +55,11 @@ public interface WindowFactorySimple extends WindowFactory
         return newInstance(windowType.typeIdV_1400, displayName, windowCreator);
     }
     
-    static WindowFactorySimple generic9x(Text title, Inventory inventory, int rows, Consumer<? super WindowGeneric9x> initializer)
+    static WindowFactorySimple chest(Text title, Inventory inventory, int rows, Consumer<? super WindowChest> initializer)
     {
         return newInstance(UnionWindowType.generic9x(rows), title, (syncId, inventoryPlayer)->
         {
-            WindowGeneric9x result = WindowGeneric9x.newInstance(syncId, inventoryPlayer, inventory, rows);
+            WindowChest result = WindowChest.newInstance(syncId, inventoryPlayer, inventory, rows);
             initializer.accept(result);
             return result;
         });
