@@ -1,0 +1,6 @@
+[book]
+authors = ["NekokeCore"]
+language = "en"
+multilingual = false
+src = "docs"
+title = "MzLib Minecraft Documentation"
