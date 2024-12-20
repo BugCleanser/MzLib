@@ -19,10 +19,6 @@ MzLib 是一个充满魔法的 Minecraft 插件，主要包含以下三个模块
 - **描述**：这里是一些示例代码，帮助开发者快速上手。
 - **功能**：演示如何使用 MzLib 的各个功能。
 
-## 开始学习
+---
 
-现在让我们从几乎零基础开始学会使用 MzLib。
-
-**前提条件**：
-- 确保您有一定的 Bukkit 开发基础。
-
+Powered by [MzLib](https://github.com/BugCleanser/MzLib) © 2023 [BugCleanser](https://github.com/BugCleanser), All rights reserved.
