@@ -24,7 +24,7 @@ public class ExampleAsyncFunction extends MzModule
         }
         
         @Override
-        public Void template()
+        protected Void template()
         {
             System.out.println("Hello World2");
             await(new SleepTicks(100));
@@ -41,7 +41,7 @@ public class ExampleAsyncFunction extends MzModule
         }
         
         @Override
-        public Void template()
+        protected Void template()
         {
             for(int i = 0; i<10; i++)
             {

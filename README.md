@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/BugCleanser/MzLib/main/.github/assets/banner.png"/>
 
-***A base plugin and library in Bukkit***
+***A Minecraft Plugin***
 
 ![Code-Size](https://img.shields.io/github/languages/code-size/BugCleanser/MzLib?style=flat-square)
 ![Release](https://img.shields.io/github/v/release/BugCleanser/MzLib?style=flat-square)
@@ -13,6 +13,9 @@
 
 <br>
 
+## 开发教程参见[Wiki](https://github.com/BugCleanser/MzLib/wiki)
+
+# 以下页面已过时
 ## 概述
 MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功能。
 > 本插件同时在 [Mcbbs](https://www.mcbbs.net/thread-1250793-1-1.html) 上发布。

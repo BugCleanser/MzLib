@@ -32,7 +32,7 @@ public abstract class AsyncFunction<R> implements Runnable
      * Asynchronous operations can be performed using `await(BasicAwait)` or `await(CompletableFuture)`. <br/>
      * Avoid using 'await' in synchronous code blocks. <br/>
      */
-    public abstract R template() throws Throwable;
+    protected abstract R template() throws Throwable;
 
     /**
      * Processed by runner, await a BasicAwait
