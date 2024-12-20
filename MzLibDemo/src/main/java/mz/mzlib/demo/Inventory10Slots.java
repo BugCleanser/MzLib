@@ -23,7 +23,7 @@ public class Inventory10Slots extends MzModule
     public void onLoad()
     {
         Inventory10SlotsUI ui = new Inventory10SlotsUI();
-        Demo.instance.commandDemo.addChild(new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setExecutor(context->
+        Demo.instance.commandDemo.addChild(new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
             if(!context.successful)
                 return;

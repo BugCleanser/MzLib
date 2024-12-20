@@ -19,7 +19,7 @@ public class Command
     public String name;
     public String[] aliases;
     public Function<GameObject, Text> permissionChecker;
-    public Consumer<CommandContext> executor;
+    public Consumer<CommandContext> handler;
     
     public Command(String name, String ...aliases)
     {
@@ -69,9 +69,9 @@ public class Command
         return Text.literal("§4需要权限"+permission.id); // TODO: i18n
     }
     
-    public Command setExecutor(Consumer<CommandContext> value)
+    public Command setHandler(Consumer<CommandContext> value)
     {
-        this.executor = value;
+        this.handler = value;
         return this;
     }
     
@@ -88,10 +88,10 @@ public class Command
                     return i.suggest(sender, command+' '+argv2[0], argv2[1]);
             }
         List<String> result=new ArrayList<>();
-        if(this.executor!=null)
+        if(this.handler!=null)
         {
             CommandContext context = new CommandContext(sender, command, args, false);
-            this.executor.accept(context);
+            this.handler.accept(context);
             result.addAll(context.suggestions);
         }
         if(argv2.length==1)
@@ -128,25 +128,25 @@ public class Command
             }
         }
         CommandContext context = new CommandContext(sender, command, args, true);
-        if(this.executor!=null)
+        if(this.handler!=null)
         {
             try
             {
-                this.executor.accept(context);
+                this.handler.accept(context);
             }
             catch(Throwable e)
             {
                 sender.sendMessage(Text.literal("§4"+e.getMessage())); // TODO: i18n
             }
         }
-        if(this.executor==null || !context.successful)
+        if(this.handler==null || !context.successful)
         {
             for(String i:context.suggestions)
                 sender.sendMessage(Text.literal(i));
             // TODO: i18n
             if(!this.children.isEmpty())
                 sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", this.children.stream().map(i->i.name).collect(Collectors.toSet()))+"> ..."));
-            if(this.executor!=null)
+            if(this.handler!=null)
                 sender.sendMessage(Text.literal("/"+command+" "+String.join(" ", context.argNames.stream().map(i->"<"+i+">").collect(Collectors.toSet()))));
         }
     }

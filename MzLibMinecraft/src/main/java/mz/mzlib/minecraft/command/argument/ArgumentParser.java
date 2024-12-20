@@ -11,7 +11,7 @@ public abstract class ArgumentParser<T>
     }
     
     public abstract T parse(CommandContext context);
-    public T process(CommandContext context)
+    public T handle(CommandContext context)
     {
         context.argNames.add(this.name);
         if(!context.successful)

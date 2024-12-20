@@ -19,10 +19,10 @@ public class CommandGiveNbt extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)).setExecutor(context ->
+        this.register(new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)).setHandler(context ->
         {
-            EntityPlayer player=new ArgumentParserPlayer().process(context);
-            NbtCompound nbt=new ArgumentParserNbtCompound().process(context);
+            EntityPlayer player=new ArgumentParserPlayer().handle(context);
+            NbtCompound nbt=new ArgumentParserNbtCompound().handle(context);
             if(!context.successful)
                 return;
             if(!context.doExecute)
