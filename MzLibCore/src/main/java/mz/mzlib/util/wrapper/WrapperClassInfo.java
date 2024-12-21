@@ -258,7 +258,7 @@ public class WrapperClassInfo
                             }
                             k+=AsmUtil.getCategory(pts[j]);
                         }
-                        mn.visitInvokeDynamicInsn("new", AsmUtil.getDesc(Object.class, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getConstructorCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(AsmUtil.getDesc(i.getValue())));
+                        mn.visitInvokeDynamicInsn("new", AsmUtil.getDesc(Object.class, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getConstructorCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(AsmUtil.getDesc(i.getValue())));
                     }
                     mn.instructions.add(AsmUtil.insnCreateWrapper(this.getWrapperClass()));
                     mn.instructions.add(AsmUtil.insnReturn(this.getWrapperClass()));
@@ -309,7 +309,7 @@ public class WrapperClassInfo
                         }
                         if (!Modifier.isStatic(i.getValue().getModifiers()))
                             ptsTar = CollectionUtil.addAll(CollectionUtil.newArrayList(Object.class), ptsTar).toArray(new Class[0]);
-                        mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(rt, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class, int.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(AsmUtil.getDesc(i.getValue())), Modifier.isStatic(i.getValue().getModifiers()) ? 1 : 0);
+                        mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(rt, ptsTar), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class, int.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(AsmUtil.getDesc(i.getValue())), Modifier.isStatic(i.getValue().getModifiers()) ? 1 : 0);
                     }
                     if (WrapperObject.class.isAssignableFrom(i.getKey().getReturnType()))
                     {
@@ -344,12 +344,12 @@ public class WrapperClassInfo
                             else
                             {
                                 if (Modifier.isStatic(i.getValue().getModifiers()))
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,new Class[0]), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType())));
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,new Class[0]), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(Type.getType(((Field) i.getValue()).getType())));
                                 else
                                 {
                                     mn.instructions.add(AsmUtil.insnVarLoad(getWrapperClass(), 0));
                                     mn.instructions.add(AsmUtil.insnGetWrapped());
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,Object.class), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.getType(((Field) i.getValue()).getType()), Type.getType(i.getValue().getDeclaringClass())));
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(type,Object.class), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldGetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(Type.getType(((Field) i.getValue()).getType()), Type.getType(i.getValue().getDeclaringClass())));
                                 }
                             }
                             if (WrapperObject.class.isAssignableFrom(i.getKey().getReturnType()))
@@ -391,7 +391,7 @@ public class WrapperClassInfo
                                 if (Modifier.isStatic(i.getValue().getModifiers()))
                                 {
                                     MethodType mt = MethodType.methodType(void.class, inputType);
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldSetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.VOID_TYPE, Type.getType(((Field) i.getValue()).getType())));
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldSetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(Type.VOID_TYPE, Type.getType(((Field) i.getValue()).getType())));
                                 }
                                 else
                                 {
@@ -399,7 +399,7 @@ public class WrapperClassInfo
                                     mn.instructions.add(AsmUtil.insnGetWrapped());
                                     mn.instructions.add(AsmUtil.insnSwap(getWrapperClass(), inputType));
                                     MethodType mt = MethodType.methodType(void.class, Object.class, inputType);
-                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldSetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class, MethodType.class), false), Type.getType(i.getValue().getDeclaringClass()), Type.getMethodType(Type.VOID_TYPE, Type.getType(i.getValue().getDeclaringClass()), Type.getType(((Field) i.getValue()).getType())));
+                                    mn.visitInvokeDynamicInsn(i.getValue().getName(), AsmUtil.getDesc(mt), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getFieldSetterCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), i.getValue().getDeclaringClass().getName(), Type.getMethodType(Type.VOID_TYPE, Type.getType(i.getValue().getDeclaringClass()), Type.getType(((Field) i.getValue()).getType())));
                                 }
                             }
                             mn.instructions.add(AsmUtil.insnReturn(void.class));

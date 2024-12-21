@@ -105,7 +105,7 @@ public class NothingRegistration
         List<CallSite> callSites = new ArrayList<>();
         try
         {
-            callSites.add(ClassUtil.getMethodCallSite(Root.getTrusted(WrapperObject.class), "getWrapped", MethodType.methodType(Object.class, Object.class), WrapperObject.class, MethodType.methodType(Object.class), 0));
+            callSites.add(ClassUtil.getMethodCallSite(MethodHandles.lookup(), "getWrapped", MethodType.methodType(Object.class, Object.class), WrapperObject.class.getName(), MethodType.methodType(Object.class), 0));
         }
         catch (Throwable e)
         {

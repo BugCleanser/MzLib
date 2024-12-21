@@ -1,10 +1,13 @@
 package mz.mzlib.example;
 
+import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.Delegator;
 import mz.mzlib.util.wrapper.*;
 import org.junit.jupiter.api.Test;
+
+import java.lang.invoke.MethodType;
 
 public class ExampleCompound
 {
@@ -67,7 +70,7 @@ public class ExampleCompound
     }
     
     @Test
-    public void test()
+    public void test() throws Throwable
     {
         CompoundFoo.newInstance(new Foo(114)).g();
     }
