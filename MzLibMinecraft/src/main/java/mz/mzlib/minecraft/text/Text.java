@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.ListWrapper;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -17,9 +18,9 @@ import java.util.function.Consumer;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name = "net.minecraft.text.Text", end=1400),
-                @VersionName(name = "net.minecraft.network.chat.Component", begin=1400, end=1403),
-                @VersionName(name = "net.minecraft.text.Text", begin=1403)
+                @VersionName(name = "net.minecraft.network.chat.IChatBaseComponent",begin = 1403,end = 2005),
+                @VersionName(name = "net.minecraft.network.chat.Component", begin=2005),
+                @VersionName(name = "net.minecraft.text.Text", begin=1202)
         })
 public interface Text extends WrapperObject
 {
@@ -31,7 +32,25 @@ public interface Text extends WrapperObject
 
     static Text parse(JsonObject json)
     {
-        return null; // TODO
+        return create(null).staticParse(json);
+    }
+    Text staticParse(JsonObject json);
+    @SpecificImpl("staticParse")
+    @VersionRange(begin = 1605,end = 2005)
+    default Text staticParseV1605(JsonObject json){
+        return ChatSerializerV1605_2005.parseComponent(json.getAsString());
+    }
+    @SpecificImpl("staticParse")
+    @VersionRange(begin = 1202,end = 1605)
+    default Text staticParseV1202(JsonObject json){
+        //TODO
+        return null;
+    }
+    @SpecificImpl("staticParse")
+    @VersionRange(begin = 2005)
+    default Text staticParseV2005(JsonObject json){
+        //TODO
+        return null;
     }
 
     @WrapMinecraftMethod(@VersionName(name="getLiteralString"))
@@ -301,5 +320,23 @@ public interface Text extends WrapperObject
     {
         // TODO
         throw new UnsupportedOperationException();
+    }
+
+    @WrapMinecraftInnerClass(outer = Text.class,name = @VersionName(name = "ChatSerializer",begin = 1605))
+    interface ChatSerializerV1605_2005 extends WrapperObject{
+
+        @WrapperCreator
+        static ChatSerializerV1605_2005 create(Object wrapped)
+        {
+            return WrapperObject.create(ChatSerializerV1605_2005.class, wrapped);
+        }
+
+        static Text parseComponent(String json){
+            return ChatSerializerV1605_2005.create(null).staticParseComponent(json);
+        }
+
+        //TODO
+        @WrapMinecraftMethod(value = @VersionName(name = "b"))
+        Text staticParseComponent(String json);
     }
 }
