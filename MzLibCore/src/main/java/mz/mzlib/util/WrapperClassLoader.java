@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapMethod;
 @WrapClass(ClassLoader.class)
 public interface WrapperClassLoader extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperClassLoader create(ClassLoader wrapped)
     {
