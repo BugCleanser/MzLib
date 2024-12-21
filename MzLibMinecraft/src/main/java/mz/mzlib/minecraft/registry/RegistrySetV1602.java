@@ -17,7 +17,7 @@ public interface RegistrySetV1602 extends WrapperObject, RegistryEntryLookupV190
         return WrapperObject.create(RegistrySetV1602.class, wrapped);
     }
     
-    @WrapMinecraftInnerClass(wrapperSupper=RegistrySetV1602.class, name=@VersionName(name="Immutable", begin=1802))
+    @WrapMinecraftInnerClass(outer=RegistrySetV1602.class, name=@VersionName(name="Immutable", begin=1802))
     interface Immutable extends RegistrySetV1602
     {
         @WrapperCreator

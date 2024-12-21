@@ -30,7 +30,7 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
     @WrapMinecraftMethod(@VersionName(name="of"))
     DynamicOpsWithRegistriesV1903 staticNewInstance(DynamicOpsV1400 ops, C2 c2);
     
-    @WrapMinecraftInnerClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
+    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
     interface C2 extends WrapperObject
     {
         @WrapperCreator
@@ -39,7 +39,7 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
             return WrapperObject.create(C2.class, wrapped);
         }
     }
-    @WrapMinecraftInnerClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter"))
+    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter"))
     interface C3 extends WrapperObject, C2
     {
         @WrapperCreator

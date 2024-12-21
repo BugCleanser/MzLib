@@ -15,7 +15,7 @@ public interface DSLV1400 extends WrapperObject
         return WrapperObject.create(DSLV1400.class, wrapped);
     }
     
-    @WrapMinecraftInnerClass(wrapperSupper=DSLV1400.class, name=@VersionName(name="TypeReference"))
+    @WrapMinecraftInnerClass(outer=DSLV1400.class, name=@VersionName(name="TypeReference"))
     interface TypeReference extends WrapperObject
     {
         @WrapperCreator

@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @WrappedClassFinderClass(WrapInnerClass.Handler.class)
 public @interface WrapInnerClass
 {
-    Class<? extends WrapperObject> wrapperSupper();
+    Class<? extends WrapperObject> outer();
     String[] name();
 
     class Handler implements WrappedClassFinder
@@ -16,7 +16,7 @@ public @interface WrapInnerClass
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapInnerClass) annotation).wrapperSupper());
+            Class<?> superClass=WrapperObject.getWrappedClass(((WrapInnerClass) annotation).outer());
             if(superClass==null)
                 return null;
             String superName=superClass.getName();

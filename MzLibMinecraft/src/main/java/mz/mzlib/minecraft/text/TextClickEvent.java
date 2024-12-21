@@ -36,7 +36,7 @@ public interface TextClickEvent extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getValue"))
     String getValue();
 
-    @WrapMinecraftInnerClass(wrapperSupper=TextClickEvent.class, name=@VersionName(name="Action"))
+    @WrapMinecraftInnerClass(outer=TextClickEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
         @WrapperCreator

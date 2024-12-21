@@ -15,7 +15,7 @@ public interface RegistryEntryLookupV1903 extends WrapperObject
         return WrapperObject.create(RegistryEntryLookupV1903.class, wrapped);
     }
     
-    @WrapMinecraftInnerClass(wrapperSupper=RegistryEntryLookupV1903.class, name=@VersionName(name="WrapperLookup"))
+    @WrapMinecraftInnerClass(outer=RegistryEntryLookupV1903.class, name=@VersionName(name="WrapperLookup"))
     interface C1 extends WrapperObject
     {
         @WrapperCreator

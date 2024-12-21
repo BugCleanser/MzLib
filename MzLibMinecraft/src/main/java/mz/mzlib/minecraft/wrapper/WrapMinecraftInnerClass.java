@@ -17,7 +17,7 @@ import java.lang.reflect.AnnotatedElement;
 @WrappedClassFinderClass(WrapMinecraftInnerClass.Handler.class)
 public @interface WrapMinecraftInnerClass
 {
-    Class<? extends WrapperObject> wrapperSupper();
+    Class<? extends WrapperObject> outer();
     VersionName[] name();
 
     class Handler implements ElementSwitcher, WrappedClassFinder
@@ -26,7 +26,7 @@ public @interface WrapMinecraftInnerClass
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {
             WrapMinecraftInnerClass a = (WrapMinecraftInnerClass) annotation;
-            if(!ElementSwitcher.isEnabled(a.wrapperSupper()))
+            if(!ElementSwitcher.isEnabled(a.outer()))
                 return false;
             for(VersionName n:a.name())
             {
@@ -39,7 +39,7 @@ public @interface WrapMinecraftInnerClass
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapMinecraftInnerClass) annotation).wrapperSupper());
+            Class<?> superClass=WrapperObject.getWrappedClass(((WrapMinecraftInnerClass) annotation).outer());
             if(superClass==null)
                 return null;
             String superName= MinecraftPlatform.instance.getMappingsP2Y().mapClass(superClass.getName());

@@ -146,7 +146,7 @@ public interface TextHoverEvent extends WrapperObject
         return this.getContentsV1600().castTo(TextHoverEvent.ContentsEntityV1600::create);
     }
 
-    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="Action"))
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
         @WrapperCreator
@@ -177,7 +177,7 @@ public interface TextHoverEvent extends WrapperObject
         }
     }
 
-    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
     interface ContentsItemStackV1600 extends WrapperObject
     {
         @WrapperCreator
@@ -237,7 +237,7 @@ public interface TextHoverEvent extends WrapperObject
         }
     }
 
-    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
     interface ContentsEntityV1600 extends WrapperObject, Entity
     {
         @WrapperCreator

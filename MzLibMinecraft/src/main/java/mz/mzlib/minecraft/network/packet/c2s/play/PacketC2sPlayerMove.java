@@ -23,7 +23,7 @@ public interface PacketC2sPlayerMove extends Packet
         return WrapperObject.create(PacketC2sPlayerMove.class, wrapped);
     }
 
-    @WrapMinecraftInnerClass(wrapperSupper = PacketC2sPlayerMove.class,name=
+    @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
                     @VersionName(name = "PositionOnly", end=1700),
                     @VersionName(name = "PositionAndOnGround", begin = 1700)
@@ -31,7 +31,7 @@ public interface PacketC2sPlayerMove extends Packet
     interface LocationAndOnGround extends PacketC2sPlayerMove
     {
     }
-    @WrapMinecraftInnerClass(wrapperSupper = PacketC2sPlayerMove.class,name=
+    @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
                     @VersionName(name = "LookOnly", end=1700),
                     @VersionName(name = "LookAndOnGround", begin = 1700)
@@ -39,7 +39,7 @@ public interface PacketC2sPlayerMove extends Packet
     interface LookAndOnGround extends PacketC2sPlayerMove
     {
     }
-    @WrapMinecraftInnerClass(wrapperSupper = PacketC2sPlayerMove.class,name=
+    @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
                     @VersionName(name = "Both", end=1700),
                     @VersionName(name = "Full", begin = 1700)
@@ -47,7 +47,7 @@ public interface PacketC2sPlayerMove extends Packet
     interface Full extends PacketC2sPlayerMove
     {
     }
-    @WrapMinecraftInnerClass(wrapperSupper = PacketC2sPlayerMove.class,name=
+    @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
                     @VersionName(name = "OnGroundOnly", begin = 1700)
             })

@@ -20,7 +20,7 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     @WrapMinecraftMethod(@VersionName(name="string"))
     String getLiteral();
 
-    @WrapMinecraftInnerClass(wrapperSupper= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
+    @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
     interface Impl extends TextContentV1900
     {
         @WrapperCreator
