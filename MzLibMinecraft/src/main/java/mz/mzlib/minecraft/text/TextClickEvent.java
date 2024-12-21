@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -36,7 +36,7 @@ public interface TextClickEvent extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getValue"))
     String getValue();
 
-    @WrapMinecraftChildClass(wrapperSupper=TextClickEvent.class, name=@VersionName(name="Action"))
+    @WrapMinecraftInnerClass(wrapperSupper=TextClickEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
         @WrapperCreator

@@ -4,8 +4,8 @@ import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@WrappedClassFinderClass(WrapChildClass.Handler.class)
-public @interface WrapChildClass
+@WrappedClassFinderClass(WrapInnerClass.Handler.class)
+public @interface WrapInnerClass
 {
     Class<? extends WrapperObject> wrapperSupper();
     String[] name();
@@ -16,11 +16,11 @@ public @interface WrapChildClass
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapChildClass) annotation).wrapperSupper());
+            Class<?> superClass=WrapperObject.getWrappedClass(((WrapInnerClass) annotation).wrapperSupper());
             if(superClass==null)
                 return null;
             String superName=superClass.getName();
-            for (String i : ((WrapChildClass) annotation).name())
+            for (String i : ((WrapInnerClass) annotation).name())
             {
                 try
                 {

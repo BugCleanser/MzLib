@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.registry.entry;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -15,7 +15,7 @@ public interface RegistryEntryLookupV1903 extends WrapperObject
         return WrapperObject.create(RegistryEntryLookupV1903.class, wrapped);
     }
     
-    @WrapMinecraftChildClass(wrapperSupper=RegistryEntryLookupV1903.class, name=@VersionName(name="WrapperLookup"))
+    @WrapMinecraftInnerClass(wrapperSupper=RegistryEntryLookupV1903.class, name=@VersionName(name="WrapperLookup"))
     interface C1 extends WrapperObject
     {
         @WrapperCreator

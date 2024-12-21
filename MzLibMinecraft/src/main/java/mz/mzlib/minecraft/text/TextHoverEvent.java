@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtString;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -146,7 +146,7 @@ public interface TextHoverEvent extends WrapperObject
         return this.getContentsV1600().castTo(TextHoverEvent.ContentsEntityV1600::create);
     }
 
-    @WrapMinecraftChildClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="Action"))
+    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
         @WrapperCreator
@@ -177,7 +177,7 @@ public interface TextHoverEvent extends WrapperObject
         }
     }
 
-    @WrapMinecraftChildClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
+    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
     interface ContentsItemStackV1600 extends WrapperObject
     {
         @WrapperCreator
@@ -237,7 +237,7 @@ public interface TextHoverEvent extends WrapperObject
         }
     }
 
-    @WrapMinecraftChildClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
+    @WrapMinecraftInnerClass(wrapperSupper=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
     interface ContentsEntityV1600 extends WrapperObject, Entity
     {
         @WrapperCreator

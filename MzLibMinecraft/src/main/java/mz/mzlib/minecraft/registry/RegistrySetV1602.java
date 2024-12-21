@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.registry;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -17,7 +17,7 @@ public interface RegistrySetV1602 extends WrapperObject, RegistryEntryLookupV190
         return WrapperObject.create(RegistrySetV1602.class, wrapped);
     }
     
-    @WrapMinecraftChildClass(wrapperSupper=RegistrySetV1602.class, name=@VersionName(name="Immutable", begin=1802))
+    @WrapMinecraftInnerClass(wrapperSupper=RegistrySetV1602.class, name=@VersionName(name="Immutable", begin=1802))
     interface Immutable extends RegistrySetV1602
     {
         @WrapperCreator

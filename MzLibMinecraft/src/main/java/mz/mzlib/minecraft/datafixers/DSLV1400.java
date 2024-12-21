@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.datafixers;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -15,7 +15,7 @@ public interface DSLV1400 extends WrapperObject
         return WrapperObject.create(DSLV1400.class, wrapped);
     }
     
-    @WrapMinecraftChildClass(wrapperSupper=DSLV1400.class, name=@VersionName(name="TypeReference"))
+    @WrapMinecraftInnerClass(wrapperSupper=DSLV1400.class, name=@VersionName(name="TypeReference"))
     interface TypeReference extends WrapperObject
     {
         @WrapperCreator

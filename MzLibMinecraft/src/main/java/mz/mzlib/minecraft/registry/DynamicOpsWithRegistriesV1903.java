@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.registry;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.serialization.DynamicOpsV1400;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -30,7 +30,7 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
     @WrapMinecraftMethod(@VersionName(name="of"))
     DynamicOpsWithRegistriesV1903 staticNewInstance(DynamicOpsV1400 ops, C2 c2);
     
-    @WrapMinecraftChildClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
+    @WrapMinecraftInnerClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
     interface C2 extends WrapperObject
     {
         @WrapperCreator
@@ -39,7 +39,7 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
             return WrapperObject.create(C2.class, wrapped);
         }
     }
-    @WrapMinecraftChildClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter"))
+    @WrapMinecraftInnerClass(wrapperSupper=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter"))
     interface C3 extends WrapperObject, C2
     {
         @WrapperCreator

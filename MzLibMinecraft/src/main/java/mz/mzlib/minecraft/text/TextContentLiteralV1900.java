@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftChildClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -20,7 +20,7 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     @WrapMinecraftMethod(@VersionName(name="string"))
     String getLiteral();
 
-    @WrapMinecraftChildClass(wrapperSupper= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
+    @WrapMinecraftInnerClass(wrapperSupper= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
     interface Impl extends TextContentV1900
     {
         @WrapperCreator

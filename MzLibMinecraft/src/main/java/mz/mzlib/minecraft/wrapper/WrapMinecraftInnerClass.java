@@ -13,9 +13,9 @@ import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@ElementSwitcherClass(WrapMinecraftChildClass.Handler.class)
-@WrappedClassFinderClass(WrapMinecraftChildClass.Handler.class)
-public @interface WrapMinecraftChildClass
+@ElementSwitcherClass(WrapMinecraftInnerClass.Handler.class)
+@WrappedClassFinderClass(WrapMinecraftInnerClass.Handler.class)
+public @interface WrapMinecraftInnerClass
 {
     Class<? extends WrapperObject> wrapperSupper();
     VersionName[] name();
@@ -25,7 +25,7 @@ public @interface WrapMinecraftChildClass
         @Override
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {
-            WrapMinecraftChildClass a = (WrapMinecraftChildClass) annotation;
+            WrapMinecraftInnerClass a = (WrapMinecraftInnerClass) annotation;
             if(!ElementSwitcher.isEnabled(a.wrapperSupper()))
                 return false;
             for(VersionName n:a.name())
@@ -39,12 +39,12 @@ public @interface WrapMinecraftChildClass
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapMinecraftChildClass) annotation).wrapperSupper());
+            Class<?> superClass=WrapperObject.getWrappedClass(((WrapMinecraftInnerClass) annotation).wrapperSupper());
             if(superClass==null)
                 return null;
             String superName= MinecraftPlatform.instance.getMappingsP2Y().mapClass(superClass.getName());
             ClassNotFoundException lastException = null;
-            for (VersionName i : ((WrapMinecraftChildClass) annotation).name())
+            for (VersionName i : ((WrapMinecraftInnerClass) annotation).name())
             {
                 if(!MinecraftPlatform.instance.inVersion(i))
                     continue;
