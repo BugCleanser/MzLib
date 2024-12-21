@@ -135,14 +135,7 @@ public class Command
         CommandContext context = new CommandContext(sender, command, args, true);
         if(this.handler!=null)
         {
-            try
-            {
-                this.handler.accept(context);
-            }
-            catch(Throwable e)
-            {
-                sender.sendMessage(Text.literal("§4"+e.getMessage())); // TODO: i18n
-            }
+            this.handler.accept(context);
         }
         if(this.handler==null || !context.successful)
         {

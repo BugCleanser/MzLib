@@ -251,7 +251,7 @@ public interface ItemStack extends WrapperObject
     }
     
     @SpecificImpl("staticIsStackable")
-    @WrapMinecraftMethod(@VersionName(name="areItemsAndComponentsEqual", begin=1700))
+    @WrapMinecraftMethod({@VersionName(name="canCombine", begin=1700, end=2005), @VersionName(name="areItemsAndComponentsEqual", begin=2005)})
     boolean staticIsStackableV1700(ItemStack a, ItemStack b);
     
     static boolean isStackable(ItemStack a, ItemStack b)

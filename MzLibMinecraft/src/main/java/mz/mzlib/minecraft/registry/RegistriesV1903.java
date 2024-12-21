@@ -22,11 +22,11 @@ public interface RegistriesV1903 extends WrapperObject
         return create(null).staticItem();
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="DATA_COMPONENT_TYPE"))
-    Registry staticComponentKey();
+    @WrapMinecraftFieldAccessor(@VersionName(name="DATA_COMPONENT_TYPE", begin=2005))
+    Registry staticComponentKeyV2005();
     static Registry componentKey()
     {
-        return create(null).staticComponentKey();
+        return create(null).staticComponentKeyV2005();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="SCREEN_HANDLER"))

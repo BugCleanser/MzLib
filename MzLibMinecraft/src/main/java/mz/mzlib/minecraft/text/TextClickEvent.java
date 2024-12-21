@@ -45,42 +45,42 @@ public interface TextClickEvent extends WrapperObject
             return WrapperObject.create(Action.class, wrapped);
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="OPEN_URL"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="OPEN_URL", end=1400), @VersionName(name="field_11749", begin=1400)})
         Action staticOpenUrl();
         static Action openUrl()
         {
             return Action.create(null).staticOpenUrl();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="OPEN_FILE"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="OPEN_FILE", end=1400), @VersionName(name="field_11746", begin=1400)})
         Action staticOpenFile();
         static Action openFile()
         {
             return Action.create(null).staticOpenFile();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name = "RUN_COMMAND"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="RUN_COMMAND", end=1400), @VersionName(name="field_11750", begin=1400)})
         Action staticRunCommand();
         static Action runCommand()
         {
             return TextClickEvent.Action.create(null).staticRunCommand();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name = "SUGGEST_COMMAND"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="SUGGEST_COMMAND", end=1400), @VersionName(name="field_11745", begin=1400)})
         Action staticSuggestCommand();
         static Action suggestCommand()
         {
             return Action.create(null).staticSuggestCommand();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name = "CHANGE_PAGE"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="CHANGE_PAGE", end=1400), @VersionName(name="field_11748", begin=1400)})
         Action staticChangePage();
         static Action changePage()
         {
             return Action.create(null).staticChangePage();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="COPY_TO_CLIPBOARD", begin=1500))
+        @WrapMinecraftFieldAccessor({@VersionName(name="field_21462", begin=1500)})
         Action staticCopyToClipboardV1500();
         static Action copyToClipboardV1500()
         {

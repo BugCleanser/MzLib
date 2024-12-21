@@ -155,21 +155,21 @@ public interface TextHoverEvent extends WrapperObject
             return WrapperObject.create(Action.class, wrapped);
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="SHOW_TEXT"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_TEXT", end=1400), @VersionName(name="field_24342", begin=1400)})
         Action staticShowText();
         static Action showText()
         {
             return Action.create(null).staticShowText();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="SHOW_ITEM"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ITEM", end=1400), @VersionName(name="field_24343", begin=1400)})
         Action staticShowItem();
         static Action showItem()
         {
             return Action.create(null).staticShowItem();
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="SHOW_ENTITY"))
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ENTITY", end=1400), @VersionName(name="field_24344", begin=1400)})
         Action staticShowEntity();
         static Action showEntity()
         {
