@@ -24,7 +24,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.function.BooleanSupplier;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.server.MinecraftServer"))
-public interface MinecraftServer extends WrapperObject, GameObject, Instance, AsyncFunctionRunner
+public interface MinecraftServer extends WrapperObject, CommandSender, Instance, AsyncFunctionRunner
 {
     @WrapperCreator
     static MinecraftServer create(Object wrapped)

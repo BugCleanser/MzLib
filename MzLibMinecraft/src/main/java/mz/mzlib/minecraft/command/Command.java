@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
@@ -18,7 +18,7 @@ public class Command
     public String namespace ="minecraft";
     public String name;
     public String[] aliases;
-    public Function<GameObject, Text> permissionChecker;
+    public Function<CommandSender, Text> permissionChecker;
     public Consumer<CommandContext> handler;
     
     public Command(String name, String ...aliases)
@@ -46,7 +46,7 @@ public class Command
         this.children.remove(child);
     }
     
-    public Command setPermissionChecker(Function<GameObject, Text> value)
+    public Command setPermissionChecker(Function<CommandSender, Text> value)
     {
         this.permissionChecker = value;
         return this;
@@ -60,14 +60,14 @@ public class Command
         return null;
     }
     
-    public static Text checkPermissionSenderPlayer(GameObject sender)
+    public static Text checkPermissionSenderPlayer(CommandSender sender)
     {
         if(!sender.isInstanceOf(EntityPlayer::create))
             return Text.literal("§4只有玩家能执行该命令"); // TODO: i18n
         return null;
     }
     
-    public static Text checkPermission(GameObject sender, Permission permission)
+    public static Text checkPermission(CommandSender sender, Permission permission)
     {
         if(PermissionHelp.instance.check(sender, permission))
             return null;
@@ -80,7 +80,7 @@ public class Command
         return this;
     }
     
-    public List<String> suggest(GameObject sender, String command, String args)
+    public List<String> suggest(CommandSender sender, String command, String args)
     {
         Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
         if(permissionCheckInfo!=null)
@@ -115,7 +115,7 @@ public class Command
         }
         return result;
     }
-    public void execute(GameObject sender, String command, String args)
+    public void execute(CommandSender sender, String command, String args)
     {
         Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
         if(permissionCheckInfo!=null)

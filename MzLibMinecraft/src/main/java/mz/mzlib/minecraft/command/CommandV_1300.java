@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -19,13 +19,13 @@ public interface CommandV_1300 extends WrapperObject
     List<String> getAliases();
 
     @WrapMinecraftMethod(@VersionName(name="getUsageTranslationKey"))
-    String getUsageTranslationKey(GameObject sender);
+    String getUsageTranslationKey(CommandSender sender);
 
     @WrapMinecraftMethod(@VersionName(name="method_3278"))
-    boolean canExecute(MinecraftServer server, GameObject source);
+    boolean canExecute(MinecraftServer server, CommandSender source);
 
     @WrapMinecraftMethod(@VersionName(name="method_3279"))
-    void execute(MinecraftServer server, GameObject sender, String[] args);
+    void execute(MinecraftServer server, CommandSender sender, String[] args);
 
     // TODO
 //    List<String> method_10738(MinecraftServer server, GameObject source, String[] strings, BlockPos pos);

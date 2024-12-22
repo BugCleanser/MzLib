@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.bukkit.command.CraftBlockCommandSender;
@@ -9,12 +9,11 @@ import mz.mzlib.minecraft.bukkit.entity.EntityBukkit;
 import mz.mzlib.minecraft.entity.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.command.BlockCommandSender;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
-public class BukkitGameObjectUtil
+public class BukkitCommandSenderUtil
 {
-    public static GameObject fromBukkit(CommandSender object)
+    public static CommandSender fromBukkit(org.bukkit.command.CommandSender object)
     {
         if(object instanceof org.bukkit.entity.Entity)
             return CraftEntity.create(object).getHandle();
@@ -23,13 +22,13 @@ public class BukkitGameObjectUtil
         else if(object instanceof BlockCommandSender)
         {
             if(MinecraftPlatform.instance.getVersion()>=1400)
-                return CraftBlockCommandSender.create(object).getCommandSourceV1400().getGameObject();
+                return CraftBlockCommandSender.create(object).getCommandSourceV1400().getSender();
         }
         // TODO
         throw new UnsupportedOperationException(object.toString());
     }
     
-    public static CommandSender toBukkit(GameObject object)
+    public static org.bukkit.command.CommandSender toBukkit(CommandSender object)
     {
         if(object.isInstanceOf(Entity::create))
             return object.castTo(EntityBukkit::create).getBukkitEntity().getWrapped();

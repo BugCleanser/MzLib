@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.EntityLiving;
@@ -11,6 +12,7 @@ import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -49,4 +51,22 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     @WrapMinecraftMethod(@VersionName(name="dropItem"))
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
+    
+    default void openBook(ItemStack book)
+    {
+        // TODO
+        openBook0(book);
+    }
+    void openBook0(ItemStack book);
+    @SpecificImpl("openBook")
+    @WrapMinecraftMethod(@VersionName(name="openEditBookScreen", end=1400))
+    void openBookV_1400(ItemStack book);
+    @WrapMinecraftMethod({@VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
+    void openBookV1400(ItemStack book, EnumHand hand);
+    @SpecificImpl("openBook")
+    @VersionRange(begin=1400)
+    default void openBookV1400(ItemStack book)
+    {
+        this.openBookV1400(book, EnumHand.mainHand());
+    }
 }

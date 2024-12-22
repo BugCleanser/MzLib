@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.module.MzModule;
@@ -12,9 +12,9 @@ public class PermissionHelpBukkit implements PermissionHelp
     public static PermissionHelpBukkit instance=new PermissionHelpBukkit();
     
     @Override
-    public boolean check(GameObject object, String permission)
+    public boolean check(CommandSender object, String permission)
     {
-        return BukkitGameObjectUtil.toBukkit(object).hasPermission(permission);
+        return BukkitCommandSenderUtil.toBukkit(object).hasPermission(permission);
     }
     
     @Override

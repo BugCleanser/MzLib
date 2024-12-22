@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -18,5 +18,5 @@ public interface CommandSourceV1400 extends WrapperObject
     
     // TODO
     @WrapMinecraftFieldAccessor(@VersionName(name="output"))
-    GameObject getGameObject();
+    CommandSender getSender();
 }

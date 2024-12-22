@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit.command;
 
-import mz.mzlib.minecraft.bukkit.BukkitGameObjectUtil;
+import mz.mzlib.minecraft.bukkit.BukkitCommandSenderUtil;
 import mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.module.IRegistrar;
@@ -57,10 +57,10 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
             PluginCommand pc = constructorPluginCommand.newInstance(object.name, MzLibBukkitPlugin.instance);
             pc.setAliases(new ArrayList<>(Arrays.asList(object.aliases)));
             commandMap.register(object.namespace, pc);
-            pc.setTabCompleter((sender, command, name, args)->object.suggest(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args)));
+            pc.setTabCompleter((sender, command, name, args)->object.suggest(BukkitCommandSenderUtil.fromBukkit(sender), name, String.join(" ", args)));
             pc.setExecutor((sender, command, name, args)->
             {
-                object.execute(BukkitGameObjectUtil.fromBukkit(sender), name, String.join(" ", args));
+                object.execute(BukkitCommandSenderUtil.fromBukkit(sender), name, String.join(" ", args));
                 return true;
             });
         }

@@ -128,4 +128,6 @@ public abstract class UIWindow implements UI
         if(player.getCurrentWindow().isInstanceOf(WindowUIWindow::create) && player.getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow()==this)
             player.closeWindow();
     }
+    
+    // TODO: onPlayerClose
 }

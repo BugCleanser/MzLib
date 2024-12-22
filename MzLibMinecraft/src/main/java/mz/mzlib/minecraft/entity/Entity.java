@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.entity;
 
-import mz.mzlib.minecraft.GameObject;
+import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.Entity"))
-public interface Entity extends WrapperObject, GameObject
+public interface Entity extends WrapperObject, CommandSender
 {
     @WrapperCreator
     static Entity create(Object wrapped)
