@@ -17,33 +17,34 @@ public class CliTool
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
-        
-        try
-        {
-            cmd = parser.parse(options, args);
-            
-            if(cmd.hasOption("help"))
-            {
+        for(;;) {
+            try {
+                cmd = parser.parse(options, args);
+
+//                MapperCli.cli(cmd);
+                System.out.println(CliSorter.getCliMap("net.minecraft.text.Text"));
+
+                if (cmd.hasOption("help")) {
+                    formatter.printHelp(getJarName(), options);
+                    return;
+                }
+
+                if (cmd.hasOption("mapper")) {
+                    MapperCli.cli(cmd);
+                    return;
+                }
+
+                if (cmd.getOptions().length == 0) {
+                    System.out.println("未提供任何选项。");
+                    formatter.printHelp(getJarName(), options);
+                    return;
+                }
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
                 formatter.printHelp(getJarName(), options);
-                return;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            
-            if(cmd.getOptions().length==0)
-            {
-                System.out.println("未提供任何选项。");
-                formatter.printHelp(getJarName(), options);
-                return;
-            }
-            
-            if(cmd.hasOption("mapper"))
-            {
-                MapperCli.cli(cmd);
-            }
-        }
-        catch(ParseException e)
-        {
-            System.out.println(e.getMessage());
-            formatter.printHelp(getJarName(), options);
         }
     }
     

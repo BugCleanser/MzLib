@@ -13,26 +13,55 @@ import java.util.Scanner;
 
 public class MapperCli
 {
-	public static String getVersionString()
-	{
-		return "1.21.1";
+	public static CliVersion version = new CliVersion("1.16.5");
+//	public static int getVersion()
+//	{
+//		return version.version;
+//	}
+	public static MappingsPipe getY2PMapping(CliVersion version){
+		File folder = new File("./mappings");
+		Ref<Mappings> yarnLegacy=new StrongRef<>(null);
+		Ref<Mappings> yarn=new StrongRef<>(null);
+		Ref<Mappings> yarnIntermediary=new StrongRef<>(null);
+		Ref<Mappings> platform=new StrongRef<>(null);
+		try
+		{
+			{
+				YarnMappings y = new YarnMappingFetcher(version.getVersionString(), folder).fetch();
+				if (y.legacy != null)
+					yarnLegacy.set(Mappings.parseYarnLegacy(y.legacy));
+				else
+				{
+					yarn.set(Mappings.parseYarn(y.zip));
+					yarnIntermediary.set(Mappings.parseYarnIntermediary(y.intermediary));
+				}
+			}
+			if(version.isPaper()&& version.version>=2005)
+				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(version.getVersionString(), folder).fetch()));
+			else
+				platform.set(Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
+		}
+		catch (Throwable e)
+		{
+			throw RuntimeUtil.sneakilyThrow(e);
+		}
+
+		List<IMappings> result = new ArrayList<>();
+		if(yarnLegacy.get()!=null)
+			result.add(yarnLegacy.get().reverse());
+		else
+		{
+			result.add(yarn.get().reverse());
+			if (version.version >= 1403)
+				result.add(yarnIntermediary.get().reverse());
+		}
+		result.add(platform.get().reverse());
+		return new MappingsPipe(result);
 	}
-	public static boolean isPaper()
-	{
-		return true;
-	}
-	public static int version;
-	static
-	{
-		String[] versions = getVersionString().split("\\.", -1);
-		version = Integer.parseInt(versions[1]) * 100 + (versions.length > 2 ? Integer.parseInt(versions[2]) : 0);
-	}
-	public static int getVersion()
-	{
-		return version;
-	}
+
+
 	
-	public static void cli(CommandLine cmd)
+	public static void cli(CommandLine cmd,CliVersion version)
 	{
 		IMappings mappingsP2Y,mappingsY2P;
 		File folder = new File("./mappings");
@@ -43,7 +72,7 @@ public class MapperCli
 		try
 		{
 			{
-				YarnMappings y = new YarnMappingFetcher(getVersionString(), folder).fetch();
+				YarnMappings y = new YarnMappingFetcher(version.getVersionString(), folder).fetch();
 				if (y.legacy != null)
 					yarnLegacy.set(Mappings.parseYarnLegacy(y.legacy));
 				else
@@ -52,10 +81,10 @@ public class MapperCli
 					yarnIntermediary.set(Mappings.parseYarnIntermediary(y.intermediary));
 				}
 			}
-			if(isPaper()&&getVersion()>=2005)
-				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(getVersionString(), folder).fetch()));
+			if(version.isPaper()&& version.version>=2005)
+				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(version.getVersionString(), folder).fetch()));
 			else
-				platform.set(Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(getVersionString(), folder).fetch()));
+				platform.set(Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
 		}
 		catch (Throwable e)
 		{
@@ -68,7 +97,7 @@ public class MapperCli
 			result.add(yarnLegacy.get());
 		else
 		{
-			if (getVersion() >= 1403)
+			if (version.version >= 1403)
 				result.add(yarnIntermediary.get());
 			result.add(yarn.get());
 		}
@@ -80,7 +109,7 @@ public class MapperCli
 		else
 		{
 			result.add(yarn.get().reverse());
-			if (getVersion() >= 1403)
+			if (version.version >= 1403)
 				result.add(yarnIntermediary.get().reverse());
 		}
 		result.add(platform.get().reverse());
@@ -98,5 +127,10 @@ public class MapperCli
 			System.out.println(mappingsY2P.mapClass(input));
 		}
 		scanner.close();
+	}
+
+	public static void cli(CommandLine cmd)
+	{
+		cli(cmd,version);
 	}
 }
