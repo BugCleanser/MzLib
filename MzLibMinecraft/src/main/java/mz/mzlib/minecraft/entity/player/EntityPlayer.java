@@ -2,13 +2,15 @@ package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
+import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(end=1400,name="net.minecraft.entity.player.ServerPlayerEntity"),@VersionName(begin = 1400, name = "net.minecraft.server.network.ServerPlayerEntity")})
+@WrapMinecraftClass({@VersionName(end=1400,name="net.minecraft.entity.player.ServerPlayerEntity"), @VersionName(begin = 1400, name = "net.minecraft.server.network.ServerPlayerEntity")})
 public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
 {
     @WrapperCreator
@@ -26,5 +28,24 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     default String getLanguage()
     {
         return MinecraftPlatform.instance.getLanguage(this);
+    }
+    
+    default void sendPacket(Packet packet)
+    {
+        this.getNetworkHandler().getConnection().getChannel().write(packet.getWrapped());
+    }
+    
+    default void receivePacket(Packet packet)
+    {
+        this.getNetworkHandler().getConnection().getChannel().pipeline().fireChannelRead(packet.getWrapped());
+    }
+    
+    default void openBook(ItemStack book)
+    {
+        this.closeWindow();
+        int slot=36+this.getInventory().getHandIndex();
+        this.getCurrentWindow().sendSlotUpdate(this, slot, book);
+        this.openBook0(book);
+        this.getCurrentWindow().sendSlotUpdate(this, slot);
     }
 }

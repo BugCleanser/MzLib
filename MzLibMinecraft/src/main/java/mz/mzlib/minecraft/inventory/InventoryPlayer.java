@@ -18,4 +18,7 @@ public interface InventoryPlayer extends WrapperObject, Inventory
     
     @WrapMinecraftFieldAccessor(@VersionName(name="player"))
     AbstractEntityPlayer getPlayer();
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="selectedSlot"))
+    int getHandIndex();
 }

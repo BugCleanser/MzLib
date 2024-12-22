@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -117,13 +118,13 @@ public abstract class UIWindow implements UI
     }
     
     @Override
-    public void open(AbstractEntityPlayer player)
+    public void open(EntityPlayer player)
     {
         WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
     }
     
     @Override
-    public void close(AbstractEntityPlayer player)
+    public void close(EntityPlayer player)
     {
         if(player.getCurrentWindow().isInstanceOf(WindowUIWindow::create) && player.getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow()==this)
             player.closeWindow();

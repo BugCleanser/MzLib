@@ -58,7 +58,7 @@ public class TesterJarWrappers implements Tester<TesterContext>
 				Class<?> clazz;
 				try
 				{
-					clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()), true, classLoader);
+					clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'), true, classLoader);
 				}
 				catch(Throwable ignored)
 				{

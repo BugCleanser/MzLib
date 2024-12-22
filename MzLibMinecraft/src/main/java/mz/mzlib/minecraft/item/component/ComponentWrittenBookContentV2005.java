@@ -48,7 +48,7 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
     
     default ComponentWrittenBookContentV2005 withPagesReplaced(List<Text> pages)
     {
-        return this.withPagesReplaced0(pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null)).collect(Collectors.toList()));
+        return this.withPagesReplaced0(pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()));
     }
     @WrapMinecraftMethod(@VersionName(name="method_58188"))
     ComponentWrittenBookContentV2005 withPagesReplaced0(List<?> rawFilteredPairPages);

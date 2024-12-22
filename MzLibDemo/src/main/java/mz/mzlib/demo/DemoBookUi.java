@@ -1,7 +1,6 @@
 package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
@@ -31,7 +30,7 @@ public class DemoBookUi extends MzModule
     public static class UIDemoBook implements UIWrittenBook
     {
         @Override
-        public List<Text> getPages(AbstractEntityPlayer player)
+        public List<Text> getPages(EntityPlayer player)
         {
             return Arrays.asList(Text.literal("Hello World"), Text.literal("awa"));
         }

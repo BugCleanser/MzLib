@@ -39,7 +39,7 @@ public class WrapperClassInfo
         return wrappedClass;
     }
 
-    public static Map<Class<? extends WrapperObject>, WeakRef<WrapperClassInfo>> cache = Collections.synchronizedMap(new WeakHashMap<>());
+    public static Map<Class<? extends WrapperObject>, WeakRef<WrapperClassInfo>> cache = new WeakHashMap<>();
 
     public void analyse() throws InstantiationException, IllegalAccessException
     {
@@ -120,7 +120,7 @@ public class WrapperClassInfo
         }
     }
 
-    public static WrapperClassInfo get(Class<? extends WrapperObject> clazz)
+    public synchronized static WrapperClassInfo get(Class<? extends WrapperObject> clazz)
     {
         return cache.computeIfAbsent(clazz, k ->
         {
@@ -142,25 +142,13 @@ public class WrapperClassInfo
         }).get();
     }
 
-    public volatile MethodHandle constructor = null;
     public MethodHandle constructorCache = null;
 
-    public MethodHandle getConstructor()
+    public synchronized MethodHandle getConstructor()
     {
-        MethodHandle result = constructorCache;
-        if (result == null)
-        {
-            synchronized (this)
-            {
-                result = constructorCache = constructor;
-                if (result == null)
-                {
-                    genAClassAndPhuckTheJvm();
-                    result = constructorCache = constructor;
-                }
-            }
-        }
-        return result;
+        if(this.constructorCache==null)
+            genAClassAndPhuckTheJvm();
+        return this.constructorCache;
     }
 
     void genAClassAndPhuckTheJvm()
@@ -422,7 +410,7 @@ public class WrapperClassInfo
             Class<?> c = ClassUtil.defineClass(new SimpleClassLoader(this.wrapperClass.getClassLoader()), cn.name, cw.toByteArray());
             try
             {
-                constructor = ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(WrapperObject.class, Object.class));
+                constructorCache = ClassUtil.unreflect(c.getDeclaredConstructor(Object.class)).asType(MethodType.methodType(WrapperObject.class, Object.class));
             }
             catch (VerifyError e)
             {

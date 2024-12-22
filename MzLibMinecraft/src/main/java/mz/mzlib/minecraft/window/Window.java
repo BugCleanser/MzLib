@@ -5,7 +5,9 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.BukkitOnly;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
 import mz.mzlib.minecraft.util.collection.DefaultedList;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -29,6 +31,9 @@ public interface Window extends WrapperObject
     @WrapConstructor
     @VersionRange(begin=1400)
     Window staticNewInstanceV1400(WindowTypeV1400 type, int syncId);
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="syncId"))
+    int getSyncId();
     
     List<?> getSlots0();
     @SpecificImpl("getSlots0")
@@ -84,4 +89,25 @@ public interface Window extends WrapperObject
     ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
     @WrapMinecraftMethod(@VersionName(name="onSlotClick", begin=1700))
     void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    
+    @WrapMinecraftMethod(@VersionName(name="nextRevision", begin=1701))
+    int nextRevisionV1701();
+    
+    default void sendSlotUpdate(EntityPlayer player, int slot)
+    {
+        this.sendSlotUpdate(player, slot, this.getSlot(slot).getItemStack());
+    }
+    void sendSlotUpdate(EntityPlayer player, int slot, ItemStack itemStack);
+    @SpecificImpl("sendSlotUpdate")
+    @VersionRange(end=1701)
+    default void sendSlotUpdateV_1701(EntityPlayer player, int slot, ItemStack itemStack)
+    {
+        player.sendPacket(PacketS2cWindowSlotUpdate.newInstanceV_1701(this.getSyncId(), slot, itemStack));
+    }
+    @SpecificImpl("sendSlotUpdate")
+    @VersionRange(begin=1701)
+    default void sendSlotUpdateV1701(EntityPlayer player, int slot, ItemStack itemStack)
+    {
+        player.sendPacket(PacketS2cWindowSlotUpdate.newInstanceV1701(this.getSyncId(), this.nextRevisionV1701(), slot, itemStack));
+    }
 }

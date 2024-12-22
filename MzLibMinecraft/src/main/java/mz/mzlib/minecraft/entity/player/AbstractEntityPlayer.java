@@ -52,21 +52,16 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     @WrapMinecraftMethod(@VersionName(name="dropItem"))
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
     
-    default void openBook(ItemStack book)
-    {
-        // TODO
-        openBook0(book);
-    }
     void openBook0(ItemStack book);
-    @SpecificImpl("openBook")
+    @SpecificImpl("openBook0")
     @WrapMinecraftMethod(@VersionName(name="openEditBookScreen", end=1400))
-    void openBookV_1400(ItemStack book);
+    void openBook0V_1400(ItemStack book);
     @WrapMinecraftMethod({@VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
-    void openBookV1400(ItemStack book, EnumHand hand);
-    @SpecificImpl("openBook")
+    void openBook0V1400(ItemStack book, EnumHand hand);
+    @SpecificImpl("openBook0")
     @VersionRange(begin=1400)
-    default void openBookV1400(ItemStack book)
+    default void openBook0V1400(ItemStack book)
     {
-        this.openBookV1400(book, EnumHand.mainHand());
+        this.openBook0V1400(book, EnumHand.mainHand());
     }
 }

@@ -50,13 +50,13 @@ public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
     }
     
     @Override
-    default void open(AbstractEntityPlayer player)
+    default void open(EntityPlayer player)
     {
         player.openWindow(this);
     }
     
     @Override
-    default void close(AbstractEntityPlayer player)
+    default void close(EntityPlayer player)
     {
         player.closeWindow();
     }

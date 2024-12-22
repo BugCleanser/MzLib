@@ -364,24 +364,27 @@ public class ClassUtil
         return instrumentation;
     }
     
-    public static byte[] getByteCode(Class<?> clazz)
+    public synchronized static byte[] getByteCode(Class<?> clazz)
     {
         try
         {
             StrongRef<byte[]> result = new StrongRef<>(null);
-            ClassFileTransformer tr = new ClassFileTransformer()
+            while(result.get()==null)
             {
-                @Override
-                public byte[] transform(ClassLoader cl, String name, Class<?> c, ProtectionDomain d, byte[] byteCode)
+                ClassFileTransformer tr = new ClassFileTransformer()
                 {
-                    if(c==clazz)
-                        result.set(byteCode);
-                    getInstrumentation().removeTransformer(this);
-                    return null;
-                }
-            };
-            getInstrumentation().addTransformer(tr, true);
-            getInstrumentation().retransformClasses(clazz);
+                    @Override
+                    public byte[] transform(ClassLoader cl, String name, Class<?> c, ProtectionDomain d, byte[] byteCode)
+                    {
+                        if(c==clazz)
+                            result.set(byteCode);
+                        getInstrumentation().removeTransformer(this);
+                        return null;
+                    }
+                };
+                getInstrumentation().addTransformer(tr, true);
+                getInstrumentation().retransformClasses(clazz);
+            }
             return result.get();
         }
         catch(Throwable e)

@@ -257,7 +257,7 @@ public class AsmUtil
         {
             return new VarInsnNode(Opcodes.ALOAD, index);
         }
-        else if (type == boolean.class || type == byte.class || type == short.class || type == int.class)
+        else if (type == boolean.class || type == byte.class || type == short.class || type == int.class || type == char.class)
         {
             return new VarInsnNode(Opcodes.ILOAD, index);
         }

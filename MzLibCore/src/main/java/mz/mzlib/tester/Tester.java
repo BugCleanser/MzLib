@@ -40,7 +40,7 @@ public interface Tester<C extends TesterContext>
             this.testers.remove(object);
         }
     }
-    static CompletableFuture<List<Throwable>> testAll(TesterContext context, Executor executor)
+    static CompletableFuture<List<Throwable>> testAll(TesterContext testContext, Executor executor)
     {
         return new AsyncFunction<List<Throwable>>()
         {
@@ -55,9 +55,9 @@ public interface Tester<C extends TesterContext>
                 List<Throwable> result=new ArrayList<>();
                 for(Tester<?> tester: Registrar.instance.testers)
                 {
-                    if(tester.getContextType().isAssignableFrom(context.getClass()))
+                    if(tester.getContextType().isAssignableFrom(testContext.getClass()))
                     {
-                        CompletableFuture<List<Throwable>> test=tester.test(RuntimeUtil.cast(context));
+                        CompletableFuture<List<Throwable>> test=tester.test(RuntimeUtil.cast(testContext));
                         await0(test);
                         result.addAll(test.get());
                     }

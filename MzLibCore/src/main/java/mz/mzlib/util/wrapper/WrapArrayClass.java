@@ -32,7 +32,7 @@ public @interface WrapArrayClass
             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticNewInstance", AsmUtil.getDesc(WrapperArray.class, int.class), null, new String[0]);
             mn.instructions.add(AsmUtil.insnVarLoad(int.class, 1));
             mn.instructions.add(AsmUtil.insnArray(WrapperObject.getWrappedClass(type)));
-            mn.instructions.add(AsmUtil.insnCreateWrapper(Type.getType(cn.name)));
+            mn.instructions.add(AsmUtil.insnCreateWrapper(Type.getType("L"+cn.name+";")));
             mn.instructions.add(AsmUtil.insnReturn(WrapperArray.class));
             cn.methods.add(mn);
             mn = new MethodNode(Opcodes.ACC_PUBLIC, "get", AsmUtil.getDesc(Object.class, int.class), null, new String[0]);

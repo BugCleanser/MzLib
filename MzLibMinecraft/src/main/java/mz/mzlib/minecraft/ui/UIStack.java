@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.ui;
 
 import mz.mzlib.event.EventListener;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.EventPlayerQuit;
 import mz.mzlib.module.MzModule;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UIStack
 {
-    public static Map<AbstractEntityPlayer, UIStack> uiStacks=new ConcurrentHashMap<>();
+    public static Map<EntityPlayer, UIStack> uiStacks=new ConcurrentHashMap<>();
     
     public static class Module extends MzModule
     {
@@ -25,14 +25,14 @@ public class UIStack
         }
     }
     
-    public static UIStack get(AbstractEntityPlayer player)
+    public static UIStack get(EntityPlayer player)
     {
         return uiStacks.computeIfAbsent(player, UIStack::new);
     }
     
-    public AbstractEntityPlayer player;
+    public EntityPlayer player;
     public List<UI> data=new ArrayList<>();
-    public UIStack(AbstractEntityPlayer player)
+    public UIStack(EntityPlayer player)
     {
         this.player=player;
     }
