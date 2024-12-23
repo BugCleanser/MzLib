@@ -4,7 +4,6 @@ import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.ThrowableSupplier;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,44 +38,42 @@ public class TesterJarWrappers implements Tester<TesterContext>
 	@Override
 	public CompletableFuture<List<Throwable>> test(TesterContext context)
 	{
-		JarFile jar;
-		try
+		return CompletableFuture.supplyAsync(()->
 		{
-			jar=new JarFile(this.file);
-		}
-		catch(IOException e)
-		{
-			throw RuntimeUtil.sneakilyThrow(e);
-		}
-		return CompletableFuture.supplyAsync((ThrowableSupplier<List<Throwable>, Throwable>) ()->
-		{
-			List<Throwable> exceptions=new ArrayList<>();
-			for(JarEntry entry: jar.stream().toArray(JarEntry[]::new))
+			try(JarFile jar=new JarFile(this.file))
 			{
-				if(!entry.getName().endsWith(".class"))
-					continue;
-				Class<?> clazz;
-				try
+				List<Throwable> exceptions=new ArrayList<>();
+				for(JarEntry entry: jar.stream().toArray(JarEntry[]::new))
 				{
-					clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'), true, classLoader);
-				}
-				catch(Throwable ignored)
-				{
-					continue;
-				}
-				if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
-				{
+					if(!entry.getName().endsWith(".class"))
+						continue;
+					Class<?> clazz;
 					try
 					{
-						WrapperObject.create(RuntimeUtil.cast(clazz), null);
+						clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'), false, classLoader);
 					}
-					catch(Throwable e)
+					catch(Throwable ignored)
 					{
-						exceptions.add(e);
+						continue;
+					}
+					if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
+					{
+						try
+						{
+							WrapperObject.create(RuntimeUtil.cast(clazz), null);
+						}
+						catch(Throwable e)
+						{
+							exceptions.add(e);
+						}
 					}
 				}
+				return exceptions;
 			}
-			return exceptions;
+			catch(IOException e)
+			{
+				throw RuntimeUtil.sneakilyThrow(e);
+			}
 		});
 	}
 }

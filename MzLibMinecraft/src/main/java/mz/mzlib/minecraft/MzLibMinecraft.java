@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.window.*;
+import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
