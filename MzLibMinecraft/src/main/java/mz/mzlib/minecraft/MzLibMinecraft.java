@@ -42,6 +42,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(CommandGiveNbt.instance);
 
+            System.out.println("开始进行基本测试"); // TODO: i18n
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
             {
                 if(e != null)
@@ -53,6 +54,7 @@ public class MzLibMinecraft extends MzModule
                 {
                     t.printStackTrace(System.err);
                 }
+                System.out.println("测试结束"); // TODO: i18n
             });
             
         }

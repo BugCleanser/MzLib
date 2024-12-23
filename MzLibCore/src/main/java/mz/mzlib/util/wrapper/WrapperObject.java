@@ -105,13 +105,13 @@ public interface WrapperObject
     
     static FieldInsnNode insnField(int opcode, Class<? extends WrapperObject> owner, String getterName) throws NoSuchMethodException
     {
-        Field target = (Field)WrapperClassInfo.get(owner).wrappedMembers.get(owner.getMethod(getterName));
+        Field target = (Field)WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(getterName));
         return new FieldInsnNode(opcode, AsmUtil.getType(target.getDeclaringClass()), target.getName(), AsmUtil.getDesc(target.getType()));
     }
     
     static MethodInsnNode insnMethod(int opcode, Class<? extends WrapperObject> owner, String name, MethodType methodType, boolean isInterface) throws NoSuchMethodException
     {
-        Executable target = (Executable)WrapperClassInfo.get(owner).wrappedMembers.get(owner.getMethod(name, methodType.parameterArray()));
+        Executable target = (Executable)WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(name, methodType.parameterArray()));
         return new MethodInsnNode(opcode, AsmUtil.getType(target.getDeclaringClass()), target instanceof Constructor ? "<init>" : target.getName(), AsmUtil.getDesc(target), isInterface);
     }
 }

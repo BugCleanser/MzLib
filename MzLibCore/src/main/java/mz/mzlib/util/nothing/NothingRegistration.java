@@ -140,7 +140,7 @@ public class NothingRegistration
                         Set<Method> wrapper = Arrays.stream(nothing.getMethods()).filter(j -> j.getName().equals(ni.wrapperMethod())).collect(Collectors.toSet());
                         if(wrapper.isEmpty())
                             throw new IllegalStateException("Wrapper method not found: "+i);
-                        m= (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).wrappedMembers.get(wrapper.iterator().next());
+                        m= (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(wrapper.iterator().next());
                     }
                     catch (NullPointerException e)
                     {

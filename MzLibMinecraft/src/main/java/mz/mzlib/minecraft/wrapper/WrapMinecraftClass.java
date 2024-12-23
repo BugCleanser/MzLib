@@ -18,41 +18,41 @@ import java.lang.reflect.AnnotatedElement;
 public @interface WrapMinecraftClass
 {
     VersionName[] value();
-
-    class Handler implements ElementSwitcher,WrappedClassFinder
+    
+    class Handler implements ElementSwitcher, WrappedClassFinder
     {
         @Override
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {
-            WrapMinecraftClass a = (WrapMinecraftClass) annotation;
-            for(VersionName n:a.value())
+            WrapMinecraftClass a = (WrapMinecraftClass)annotation;
+            for(VersionName n: a.value())
             {
-                if (MinecraftPlatform.instance.inVersion(n))
+                if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-
+        
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
         {
             ClassNotFoundException lastException = null;
-            for (VersionName name : ((WrapMinecraftClass) annotation).value())
+            for(VersionName name: ((WrapMinecraftClass)annotation).value())
             {
-                if (MinecraftPlatform.instance.inVersion(name))
+                if(MinecraftPlatform.instance.inVersion(name))
                 {
                     try
                     {
-                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()),true,wrapperClass.getClassLoader());
+                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()), false, wrapperClass.getClassLoader());
                     }
-                    catch (ClassNotFoundException e)
+                    catch(ClassNotFoundException e)
                     {
                         lastException = e;
                     }
                 }
             }
-            if(lastException != null)
-                throw new ClassNotFoundException("No class found: " + annotation, lastException);
+            if(lastException!=null)
+                throw new ClassNotFoundException("No class found: "+annotation, lastException);
             return null;
         }
     }

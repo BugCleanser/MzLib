@@ -112,7 +112,7 @@ public @interface Compound
                         }
                         if(ElementSwitcher.isEnabled(wrapper))
                         {
-                            Method tar = Objects.requireNonNull((Method)WrapperClassInfo.get(compoundSuper.parent()).wrappedMembers.get(wrapper), "Wrapped method of "+wrapper);
+                            Method tar = Objects.requireNonNull((Method)WrapperClassInfo.get(compoundSuper.parent()).getWrappedMembers().get(wrapper), "Wrapped method of "+wrapper);
                             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, CompoundSuper.Handler.getInnerMethodName(compoundSuper), AsmUtil.getDesc(tar), null, null);
                             Class<?>[] tarParams = tar.getParameterTypes();
                             mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
@@ -141,7 +141,7 @@ public @interface Compound
                         }
                         if(ElementSwitcher.isEnabled(wrapper))
                         {
-                            wrapper = Objects.requireNonNull((Method)WrapperClassInfo.get(RuntimeUtil.cast(wrapper.getDeclaringClass())).wrappedMembers.get(wrapper), "Wrapped method of "+wrapper);
+                            wrapper = Objects.requireNonNull((Method)WrapperClassInfo.get(RuntimeUtil.cast(wrapper.getDeclaringClass())).getWrappedMembers().get(wrapper), "Wrapped method of "+wrapper);
                             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, wrapper.getName(), AsmUtil.getDesc(wrapper), null, null);
                             mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
                             mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
