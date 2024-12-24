@@ -25,6 +25,7 @@ public interface TextContentTranslatableV1900 extends WrapperObject, TextContent
     @VersionRange(end=1904)
     @WrapConstructor
     TextContentTranslatableV1900 staticNewInstance0V_1904(String key, Object[] args);
+    @VersionRange(begin=1904)
     @WrapConstructor
     TextContentTranslatableV1900 staticNewInstance0V1904(String key, String fallback, Object[] args);
     @SpecificImpl("staticNewInstance0")

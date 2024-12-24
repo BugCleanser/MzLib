@@ -1,11 +1,19 @@
 package mz.mzlib.minecraft.registry;
 
-import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 /**
  * Extends {@link SimpleRegistry}
  */
-@WrapSameClass(DefaultedRegistryV_1300__1400.class)
+@WrapMinecraftClass(@VersionName(name="net.minecraft.util.registry.DefaultedRegistry",begin = 1400, end=1903))
 public interface DefaultedRegistryV1400_1903 extends DefaultedRegistryV_1300__1400, SimpleRegistry
 {
+    @WrapperCreator
+    static DefaultedRegistryV1400_1903 create(Object wrapped)
+    {
+        return WrapperObject.create(DefaultedRegistryV1400_1903.class, wrapped);
+    }
 }

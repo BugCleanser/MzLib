@@ -5,9 +5,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.ListWrapper;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 import java.util.function.Function;

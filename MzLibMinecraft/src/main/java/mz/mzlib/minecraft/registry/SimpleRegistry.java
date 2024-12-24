@@ -37,6 +37,8 @@ public interface SimpleRegistry extends Registry
     }
     @SpecificImpl("getId")
     @VersionRange(begin=1300)
-    @Override
-    Identifier getIdV1300(WrapperObject value);
+    default Identifier getIdSpecificImplV1300(WrapperObject value)
+    {
+        return this.getIdV1300(value);
+    }
 }

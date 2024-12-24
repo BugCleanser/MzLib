@@ -10,7 +10,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtDouble"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.DoubleTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtDouble")})
 public interface NbtDouble extends NbtElement
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static NbtDouble create(Object wrapped)
     {
