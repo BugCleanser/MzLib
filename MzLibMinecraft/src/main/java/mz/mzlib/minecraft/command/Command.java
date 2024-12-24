@@ -83,7 +83,7 @@ public class Command
     {
         Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
         if(permissionCheckInfo!=null)
-            return CollectionUtil.newArrayList(permissionCheckInfo.toPlain());
+            return CollectionUtil.newArrayList(permissionCheckInfo.toLiteral());
         String[] argv2 = args.split("\\s+", 2);
         if(argv2.length>1)
             for(Command i:this.children)

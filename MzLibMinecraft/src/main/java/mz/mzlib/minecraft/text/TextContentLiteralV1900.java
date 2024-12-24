@@ -1,14 +1,16 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.PlainTextContent", begin=1900))
+@WrapMinecraftClass({@VersionName(name="net.minecraft.text.LiteralTextContent", begin=1900, end=2003), @VersionName(name="net.minecraft.text.PlainTextContent", begin=2003)})
 public interface TextContentLiteralV1900 extends TextContentV1900
 {
     @WrapperCreator
@@ -16,24 +18,41 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     {
         return WrapperObject.create(TextContentLiteralV1900.class, wrapped);
     }
+    
+    static TextContentLiteralV1900 newInstance(String literal)
+    {
+        return create(null).staticNewInstance(literal);
+    }
+    TextContentLiteralV1900 staticNewInstance(String literal);
+    @SpecificImpl("staticNewInstance")
+    @WrapConstructor
+    @VersionRange(end=2003)
+    TextContentLiteralV1900 staticNewInstanceV_2003(String literal);
+    @SpecificImpl("staticNewInstance")
+    @WrapConstructor
+    @VersionRange(begin=2003)
+    default TextContentLiteralV1900 staticNewInstanceV2003(String literal)
+    {
+        return ImplV2003.newInstance(literal);
+    }
 
     @WrapMinecraftMethod(@VersionName(name="string"))
     String getLiteral();
 
-    @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
-    interface Impl extends TextContentV1900
+    @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal", begin=2003))
+    interface ImplV2003 extends TextContentLiteralV1900
     {
         @WrapperCreator
-        static Impl create(Object wrapped)
+        static ImplV2003 create(Object wrapped)
         {
-            return WrapperObject.create(Impl.class, wrapped);
+            return WrapperObject.create(ImplV2003.class, wrapped);
         }
-
+        
+        static ImplV2003 newInstance(String literal)
+        {
+            return ImplV2003.create(null).staticNewInstance(literal);
+        }
         @WrapConstructor
-        Impl staticNewInstance(String literal);
-        static Impl newInstance(String literal)
-        {
-            return Impl.create(null).staticNewInstance(literal);
-        }
+        ImplV2003 staticNewInstance(String literal);
     }
 }

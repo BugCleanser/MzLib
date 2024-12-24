@@ -21,12 +21,12 @@ public interface NbtElementTypeV1500 extends WrapperObject
     
     NbtElement load(DataInput input, NbtReadingCounter counter);
     @WrapMinecraftMethod(@VersionName(name="read", end=2002))
-    NbtElement loadV_2002(DataInput input, int maxDepth, NbtReadingCounter counter);
+    NbtElement loadV_2002(DataInput input, int depth, NbtReadingCounter counter);
     @SpecificImpl("load")
     @VersionRange(end=2002)
     default NbtElement loadV_2002(DataInput input, NbtReadingCounter counter)
     {
-        return loadV_2002(input, NbtReadingCounter.MAX_MAX_DEPTH, counter);
+        return loadV_2002(input, 0, counter);
     }
     @SpecificImpl("load")
     @WrapMinecraftMethod(@VersionName(name="read", begin=2002))

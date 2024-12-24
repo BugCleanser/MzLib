@@ -51,7 +51,7 @@ public interface Item extends WrapperObject
     @VersionRange(end=1300)
     default void staticSetDisplayNameV_1300(ItemStack itemStack, Text displayName)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.toPlain()));
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.toLiteral()));
     }
     @SpecificImpl("staticSetDisplayName")
     @VersionRange(begin=1300, end=2005)
@@ -75,7 +75,7 @@ public interface Item extends WrapperObject
     @VersionRange(end=1300)
     default void staticSetLoreV_1300(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toPlain).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
     @SpecificImpl("staticSetLore")
     @VersionRange(begin=1300, end=2005)

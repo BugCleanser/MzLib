@@ -29,7 +29,9 @@ public interface Text extends WrapperObject
     {
         return create(null).staticDecode(json);
     }
+    
     Text staticDecode(JsonElement json);
+    
     @SpecificImpl("staticDecode")
     @VersionRange(end=1500)
     default Text staticParseV_1500(JsonElement json)
@@ -37,15 +39,13 @@ public interface Text extends WrapperObject
         //TODO
         throw new UnsupportedOperationException();
     }
+    
     @SpecificImpl("staticDecode")
     @VersionRange(begin=1500)
     default Text staticParseV1500(JsonElement json)
     {
         return SerializerV1500.decode(json);
     }
-    
-    @WrapMinecraftMethod(@VersionName(name="getLiteralString"))
-    String getLiteralString();
     
     Text staticLiteral(String str);
     
@@ -65,7 +65,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticLiteralV1900(String str)
     {
-        return TextMutableV1600.newInstance(TextContentLiteralV1900.Impl.newInstance(str), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstance(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.newInstance());
     }
     
     Text staticTranslatable(String key, Text... args);
@@ -332,7 +332,7 @@ public interface Text extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getContent", begin=1900))
     TextContentV1900 getContentV1900();
     
-    default String toPlain()
+    default String toLiteral()
     {
         // TODO
         return this.toString();
@@ -342,7 +342,9 @@ public interface Text extends WrapperObject
     {
         return staticEncode(this);
     }
+    
     JsonElement staticEncode(Text text);
+    
     @SpecificImpl("staticEncode")
     @VersionRange(end=1500)
     default JsonElement staticEncodeV_1500(Text text)
@@ -350,6 +352,7 @@ public interface Text extends WrapperObject
         //TODO
         throw new UnsupportedOperationException();
     }
+    
     @SpecificImpl("staticEncode")
     @VersionRange(begin=1500)
     default JsonElement staticEncodeV1500(Text text)
@@ -370,10 +373,13 @@ public interface Text extends WrapperObject
         {
             return SerializerV1500.create(null).staticEncode(text);
         }
+        
         JsonElement staticEncode(Text text);
+        
         @SpecificImpl("staticEncode")
         @WrapMinecraftMethod(value=@VersionName(name="toJsonTree", end=2005))
         JsonElement staticEncodeV_2005(Text text);
+        
         @SpecificImpl("staticEncode")
         @VersionRange(begin=2005)
         default JsonElement staticEncodeV2005(Text text)
@@ -385,13 +391,17 @@ public interface Text extends WrapperObject
         {
             return SerializerV1500.create(null).staticDecode(json);
         }
+        
         Text staticDecode(JsonElement json);
+        
         @SpecificImpl("staticDecode")
         @WrapMinecraftMethod(value=@VersionName(name="fromJson", end=1600))
         Text staticDecodeV_1600(JsonElement json);
+        
         @SpecificImpl("staticDecode")
         @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1600, end=2005))
         TextMutableV1600 staticDecodeV1600_2005(JsonElement json);
+        
         @SpecificImpl("staticDecode")
         @VersionRange(begin=2005)
         default Text staticDecodeV2005(JsonElement json)
