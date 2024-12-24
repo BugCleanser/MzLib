@@ -20,7 +20,7 @@ import java.util.function.Consumer;
         {
                 @VersionName(name = "net.minecraft.network.chat.IChatBaseComponent",begin = 1403,end = 2005),
                 @VersionName(name = "net.minecraft.network.chat.Component", begin=2005),
-                @VersionName(name = "net.minecraft.text.Text", begin=1202)
+                @VersionName(name = "net.minecraft.text.Text",end=2005)
         })
 public interface Text extends WrapperObject
 {
@@ -37,12 +37,12 @@ public interface Text extends WrapperObject
     Text staticParse(JsonObject json);
     @SpecificImpl("staticParse")
     @VersionRange(begin = 1605,end = 2005)
-    default Text staticParseV1605(JsonObject json){
-        return ChatSerializerV1605_2005.parseComponent(json.getAsString());
+    default Text staticParseV1605_2005(JsonObject json){
+        return SerializerV1605_2005.parseComponent(json.getAsString());
     }
     @SpecificImpl("staticParse")
     @VersionRange(begin = 1202,end = 1605)
-    default Text staticParseV1202(JsonObject json){
+    default Text staticParseV_1605(JsonObject json){
         //TODO
         return null;
     }
@@ -324,12 +324,12 @@ public interface Text extends WrapperObject
     String staticEncode(Text text);
     @SpecificImpl("staticEncode")
     @VersionRange(begin = 1605,end = 2005)
-    default String staticEncodeV1605(Text text){
-        return ChatSerializerV1605_2005.parseComponent(text);
+    default String staticEncodeV1605_2005(Text text){
+        return SerializerV1605_2005.parseComponent(text);
     }
     @SpecificImpl("staticEncode")
     @VersionRange(begin = 1202,end = 1605)
-    default String staticEncodeV1202(Text text){
+    default String staticEncodeV_1605(Text text){
         //TODO
         return null;
     }
@@ -340,28 +340,28 @@ public interface Text extends WrapperObject
         return null;
     }
 
-    @WrapMinecraftInnerClass(outer = Text.class,name = @VersionName(name = "ChatSerializer",begin = 1605))
-    interface ChatSerializerV1605_2005 extends WrapperObject{
+    @WrapMinecraftInnerClass(outer = Text.class,name = @VersionName(name = "Serializer",begin = 1605,end = 2005))
+    interface SerializerV1605_2005 extends WrapperObject{
 
         @WrapperCreator
-        static ChatSerializerV1605_2005 create(Object wrapped)
+        static SerializerV1605_2005 create(Object wrapped)
         {
-            return WrapperObject.create(ChatSerializerV1605_2005.class, wrapped);
+            return WrapperObject.create(SerializerV1605_2005.class, wrapped);
         }
 
         static Text parseComponent(String json){
-            return ChatSerializerV1605_2005.create(null).staticParseComponent(json);
+            return SerializerV1605_2005.create(null).staticParseComponent(json);
         }
 
         static String parseComponent(Text text){
-            return ChatSerializerV1605_2005.create(null).staticParseComponent(text);
+            return SerializerV1605_2005.create(null).staticParseComponent(text);
         }
 
         //TODO
-        @WrapMinecraftMethod(value = @VersionName(name = "b"))
+        @WrapMinecraftMethod(value = @VersionName(name = "fromLenientJson"))
         Text staticParseComponent(String json);
 
-        @WrapMinecraftMethod(value = @VersionName(name = "b"))
+        @WrapMinecraftMethod(value = @VersionName(name = "toJson"))
         String staticParseComponent(Text text);
     }
 }
