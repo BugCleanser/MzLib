@@ -42,7 +42,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(CommandGiveNbt.instance);
 
-            System.out.println("开始进行基本测试"); // TODO: i18n
+            MinecraftPlatform.instance.getMzLibLogger().info("开始进行基本测试"); // TODO: i18n
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
             {
                 if(e != null)
@@ -55,9 +55,9 @@ public class MzLibMinecraft extends MzModule
                     t.printStackTrace(System.err);
                 }
                 if(r.isEmpty())
-                    System.out.println("测试结束，未发现明显异常"); // TODO: i18n
+                    MinecraftPlatform.instance.getMzLibLogger().info("测试结束，未发现明显异常"); // TODO: i18n
                 else
-                    System.out.printf("测试结束，共%d个异常，可能无法在此服务器上正确运行\n", r.size()); // TODO: i18n
+                    MinecraftPlatform.instance.getMzLibLogger().warning("测试结束，共"+r.size()+"个异常，可能无法在此服务器上正确运行"); // TODO: i18n
             });
         }
         catch (Throwable e)
