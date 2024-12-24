@@ -7,18 +7,22 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType")) // TODO
-public interface EntityTypeTODO extends WrapperObject
+public interface EntityType extends WrapperObject
 {
     @WrapperCreator
-    static EntityTypeTODO create(Object wrapped)
+    static EntityType create(Object wrapped)
     {
-        return WrapperObject.create(EntityTypeTODO.class, wrapped);
+        return WrapperObject.create(EntityType.class, wrapped);
     }
 
-    static EntityTypeTODO fromId(Identifier id)
+    static EntityType fromId(Identifier id)
     {
         return null; // TODO
     }
-
-    Identifier getId(); // TODO
+    
+    default Identifier getId()
+    {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
 }

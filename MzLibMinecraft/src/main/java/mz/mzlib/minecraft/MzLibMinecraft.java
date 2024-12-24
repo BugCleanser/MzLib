@@ -54,9 +54,11 @@ public class MzLibMinecraft extends MzModule
                 {
                     t.printStackTrace(System.err);
                 }
-                System.out.println("测试结束"); // TODO: i18n
+                if(r.isEmpty())
+                    System.out.println("测试结束，未发现明显异常"); // TODO: i18n
+                else
+                    System.out.printf("测试结束，共%d个异常，可能无法在此服务器上正确运行\n", r.size()); // TODO: i18n
             });
-            
         }
         catch (Throwable e)
         {

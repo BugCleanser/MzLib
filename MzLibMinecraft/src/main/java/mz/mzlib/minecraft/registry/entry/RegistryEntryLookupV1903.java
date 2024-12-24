@@ -16,12 +16,12 @@ public interface RegistryEntryLookupV1903 extends WrapperObject
     }
     
     @WrapMinecraftInnerClass(outer=RegistryEntryLookupV1903.class, name=@VersionName(name="WrapperLookup"))
-    interface C1 extends WrapperObject
+    interface class_7874 extends WrapperObject
     {
         @WrapperCreator
-        static C1 create(Object wrapped)
+        static class_7874 create(Object wrapped)
         {
-            return WrapperObject.create(C1.class, wrapped);
+            return WrapperObject.create(class_7874.class, wrapped);
         }
     }
 }

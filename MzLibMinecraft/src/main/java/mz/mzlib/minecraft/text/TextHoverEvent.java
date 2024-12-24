@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.EntityTypeTODO;
+import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
@@ -83,6 +83,12 @@ public interface TextHoverEvent extends WrapperObject
     default TextHoverEvent staticShowItemV1600(ItemStack is)
     {
         return newInstanceV1600(Action.showItem(), ContentsItemStackV1600.newInstance(is));
+    }
+    
+    static TextHoverEvent showEntity(Identifier type, UUID uuid, Text name)
+    {
+        // TODO
+        throw new UnsupportedOperationException();
     }
 
     @WrapMinecraftMethod(@VersionName(name="getAction"))
@@ -238,7 +244,7 @@ public interface TextHoverEvent extends WrapperObject
     }
 
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
-    interface ContentsEntityV1600 extends WrapperObject, Entity
+    interface ContentsEntityV1600 extends WrapperObject, TextHoverEvent.Entity
     {
         @WrapperCreator
         static TextHoverEvent.ContentsEntityV1600 create(Object wrapped)
@@ -247,14 +253,14 @@ public interface TextHoverEvent extends WrapperObject
         }
 
         @WrapConstructor
-        ContentsEntityV1600 staticNewInstance(EntityTypeTODO type, UUID id, Text name);
-        static TextHoverEvent.ContentsEntityV1600 newInstance(EntityTypeTODO type, UUID id, Text name)
+        ContentsEntityV1600 staticNewInstance(EntityType type, UUID id, Text name);
+        static TextHoverEvent.ContentsEntityV1600 newInstance(EntityType type, UUID id, Text name)
         {
             return ContentsEntityV1600.create(null).staticNewInstance(type, id, name);
         }
 
-        @WrapMinecraftFieldAccessor(@VersionName(name="type"))
-        EntityTypeTODO getType0();
+        @WrapMinecraftFieldAccessor(@VersionName(name="entityType"))
+        EntityType getType0();
         default Identifier getType()
         {
             return this.getType0().getId();

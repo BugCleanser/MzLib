@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentMapImpl"))
+@WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentMapImpl", begin=2005))
 public interface ComponentMapMutableV2005 extends ComponentMapV2005
 {
     @WrapperCreator

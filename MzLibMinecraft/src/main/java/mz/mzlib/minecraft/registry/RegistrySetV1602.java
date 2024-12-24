@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 // Mojang: net.minecraft.core.RegistryAccess
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.DynamicRegistryManager", begin=1602, end=1903), @VersionName(name="net.minecraft.registry.DynamicRegistryManager", begin=1903)})
-public interface RegistrySetV1602 extends WrapperObject, RegistryEntryLookupV1903.C1
+public interface RegistrySetV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
 {
     @WrapperCreator
     static RegistrySetV1602 create(Object wrapped)

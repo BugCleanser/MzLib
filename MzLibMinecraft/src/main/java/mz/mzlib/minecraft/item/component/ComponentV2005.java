@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component"))
+@WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component", begin=2005))
 public interface ComponentV2005 extends WrapperObject
 {
     @WrapperCreator

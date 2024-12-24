@@ -21,38 +21,38 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
     
     static DynamicOpsWithRegistriesV1903 newInstance(DynamicOpsV1400 ops, RegistrySetV1602.Immutable registries)
     {
-        return newInstance(ops, C3.newInstance(registries));
+        return newInstance(ops, class_9683V2005.newInstance(registries));
     }
-    static DynamicOpsWithRegistriesV1903 newInstance(DynamicOpsV1400 ops, C2 c2)
+    static DynamicOpsWithRegistriesV1903 newInstance(DynamicOpsV1400 ops, class_7863 c2)
     {
         return create(null).staticNewInstance(ops, c2);
     }
     @WrapMinecraftMethod(@VersionName(name="of"))
-    DynamicOpsWithRegistriesV1903 staticNewInstance(DynamicOpsV1400 ops, C2 c2);
+    DynamicOpsWithRegistriesV1903 staticNewInstance(DynamicOpsV1400 ops, class_7863 c2);
     
     @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
-    interface C2 extends WrapperObject
+    interface class_7863 extends WrapperObject
     {
         @WrapperCreator
-        static C2 create(Object wrapped)
+        static class_7863 create(Object wrapped)
         {
-            return WrapperObject.create(C2.class, wrapped);
+            return WrapperObject.create(class_7863.class, wrapped);
         }
     }
-    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter"))
-    interface C3 extends WrapperObject, C2
+    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter", begin=2005))
+    interface class_9683V2005 extends WrapperObject, class_7863
     {
         @WrapperCreator
-        static C3 create(Object wrapped)
+        static class_9683V2005 create(Object wrapped)
         {
-            return WrapperObject.create(C3.class, wrapped);
+            return WrapperObject.create(class_9683V2005.class, wrapped);
         }
         
-        static C3 newInstance(RegistryEntryLookupV1903.C1 registries)
+        static class_9683V2005 newInstance(RegistryEntryLookupV1903.class_7874 registries)
         {
-            return C3.create(null).staticNewInstance(registries);
+            return class_9683V2005.create(null).staticNewInstance(registries);
         }
         @WrapConstructor
-        C3 staticNewInstance(RegistryEntryLookupV1903.C1 registries);
+        class_9683V2005 staticNewInstance(RegistryEntryLookupV1903.class_7874 registries);
     }
 }
