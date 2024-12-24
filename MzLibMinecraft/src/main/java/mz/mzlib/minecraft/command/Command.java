@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;

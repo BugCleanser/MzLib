@@ -233,7 +233,7 @@ public interface TextHoverEvent extends WrapperObject
             NbtElement result = this.nbt.get("name");
             if(!result.isPresent())
                 return null;
-            return Text.parse(new Gson().fromJson(result.castTo(NbtString::create).getValue(), JsonObject.class));
+            return Text.decode(new Gson().fromJson(result.castTo(NbtString::create).getValue(), JsonObject.class));
         }
     }
 

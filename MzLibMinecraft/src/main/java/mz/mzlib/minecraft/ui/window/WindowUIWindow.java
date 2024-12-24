@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.AbstractWindow;
@@ -61,7 +62,7 @@ public interface WindowUIWindow extends AbstractWindow
         WindowUIWindow result = newInstance0(uiWindow.windowType.typeV1400, syncId);
         result.setUIWindow(uiWindow);
         result.setPlayer(player);
-        uiWindow.initWindow(result, player);
+        uiWindow.initWindow(result, player.castTo(EntityPlayer::create));
         return result;
     }
     
@@ -84,7 +85,7 @@ public interface WindowUIWindow extends AbstractWindow
     @CompoundOverride(parent=Window.class, method="quickMove")
     default ItemStack quickMove(AbstractEntityPlayer player, int index)
     {
-        return this.getUIWindow().quickMove(this, player, index);
+        return this.getUIWindow().quickMove(this, player.castTo(EntityPlayer::create), index);
     }
     
     @Override
@@ -96,7 +97,7 @@ public interface WindowUIWindow extends AbstractWindow
     @Override
     default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        return this.getUIWindow().onAction(this, index, data, actionType, player);
+        return this.getUIWindow().onAction(this, index, data, actionType, player.castTo(EntityPlayer::create));
     }
     
     @CompoundSuper(parent=Window.class, method="onClosed")
@@ -105,6 +106,6 @@ public interface WindowUIWindow extends AbstractWindow
     @CompoundOverride(parent=Window.class, method="onClosed")
     default void onClosed(AbstractEntityPlayer player)
     {
-        this.getUIWindow().onClosed(this, player);
+        this.getUIWindow().onClosed(this, player.castTo(EntityPlayer::create));
     }
 }

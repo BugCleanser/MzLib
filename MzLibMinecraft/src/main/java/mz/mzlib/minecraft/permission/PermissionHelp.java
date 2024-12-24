@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.permission;
 
-import mz.mzlib.minecraft.CommandSender;
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.RuntimeUtil;

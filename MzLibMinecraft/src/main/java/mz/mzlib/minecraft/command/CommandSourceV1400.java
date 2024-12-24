@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;

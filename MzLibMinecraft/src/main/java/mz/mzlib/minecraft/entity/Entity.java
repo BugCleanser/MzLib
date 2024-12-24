@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.entity;
 
-import mz.mzlib.minecraft.CommandSender;
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;

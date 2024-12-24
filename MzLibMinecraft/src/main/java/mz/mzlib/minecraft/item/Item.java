@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.item;
 
+import com.google.gson.JsonElement;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -56,7 +57,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=1300, end=2005)
     default void staticSetDisplayNameV1300_2005(ItemStack itemStack, Text displayName)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.encode()));
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.encode().toString()));
     }
     @SpecificImpl("staticSetDisplayName")
     @VersionRange(begin=2005)
@@ -80,7 +81,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=1300, end=2005)
     default void staticSetLoreV1300_2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
     @SpecificImpl("staticSetLore")
     @VersionRange(begin=2005)

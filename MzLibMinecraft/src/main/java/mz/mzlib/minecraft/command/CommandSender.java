@@ -1,5 +1,6 @@
-package mz.mzlib.minecraft;
+package mz.mzlib.minecraft.command;
 
+import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;

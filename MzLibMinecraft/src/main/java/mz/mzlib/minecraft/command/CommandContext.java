@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.command;
 
-import mz.mzlib.minecraft.CommandSender;
 import mz.mzlib.minecraft.command.argument.ArgumentsReader;
 
 import java.util.ArrayList;

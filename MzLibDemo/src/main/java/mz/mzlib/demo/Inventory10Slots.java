@@ -1,7 +1,6 @@
 package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
@@ -46,7 +45,7 @@ public class Inventory10Slots extends MzModule
         }
         
         @Override
-        public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
+        public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
         {
             WindowSlot slot = window.getSlot(index);
             if(!slot.isPresent() || slot.getItemStack().isEmpty())
@@ -77,13 +76,13 @@ public class Inventory10Slots extends MzModule
         }
         
         @Override
-        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
         {
             player.sendMessage(Text.literal("Action "+actionType+" "+actionType.getWrapped()));
             return super.onAction(window, index, data, actionType, player);
         }
         @Override
-        public Text getTitle(AbstractEntityPlayer player)
+        public Text getTitle(EntityPlayer player)
         {
             return Text.literal("10个格子的物品栏");
         }

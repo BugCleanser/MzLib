@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft;
 
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.datafixers.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.registry.RegistrySetV1602;

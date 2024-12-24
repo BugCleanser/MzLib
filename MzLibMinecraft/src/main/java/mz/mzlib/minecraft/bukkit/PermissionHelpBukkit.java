@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.minecraft.CommandSender;
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.module.MzModule;

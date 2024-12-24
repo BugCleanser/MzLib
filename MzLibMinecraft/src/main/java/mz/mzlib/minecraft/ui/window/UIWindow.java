@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.ui.window;
 
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
@@ -55,9 +54,9 @@ public abstract class UIWindow implements UI
         this.buttons.put(index, handler);
     }
     
-    public abstract Text getTitle(AbstractEntityPlayer player);
+    public abstract Text getTitle(EntityPlayer player);
     
-    public void initWindow(WindowUIWindow window, AbstractEntityPlayer player)
+    public void initWindow(WindowUIWindow window, EntityPlayer player)
     {
         for(int i = 0; i<inventory.size(); i++)
         {
@@ -67,7 +66,7 @@ public abstract class UIWindow implements UI
         this.addPlayerInventorySlots(window, player);
     }
     
-    public void addPlayerInventorySlots(WindowUIWindow window, AbstractEntityPlayer player)
+    public void addPlayerInventorySlots(WindowUIWindow window, EntityPlayer player)
     {
         for(int i = 0; i<3; ++i)
         {
@@ -90,15 +89,15 @@ public abstract class UIWindow implements UI
 //        window.onContentChangedSuper(inventory);
 //    }
     
-    public ItemStack quickMove(WindowUIWindow window, AbstractEntityPlayer player, int index)
+    public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
     {
         return window.quickMoveSuper(player, index);
     }
     
     /**
-     * @see AbstractWindow#onAction(int, int, WindowActionType, AbstractEntityPlayer)
+     * @see AbstractWindow#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
      */
-    public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+    public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {
         ButtonHandler button = buttons.get(index);
         if(button!=null)
@@ -106,7 +105,7 @@ public abstract class UIWindow implements UI
         return window.onActionSuper(index, data, actionType, player);
     }
     
-    public void onClosed(WindowUIWindow window, AbstractEntityPlayer player)
+    public void onClosed(WindowUIWindow window, EntityPlayer player)
     {
         window.onClosedSuper(player);
     }
@@ -114,7 +113,7 @@ public abstract class UIWindow implements UI
     @FunctionalInterface
     public interface ButtonHandler
     {
-        void onClick(AbstractEntityPlayer player, WindowActionType actionType, int data);
+        void onClick(EntityPlayer player, WindowActionType actionType, int data);
     }
     
     @Override

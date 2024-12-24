@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.minecraft.CommandSender;
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.bukkit.command.CraftBlockCommandSender;

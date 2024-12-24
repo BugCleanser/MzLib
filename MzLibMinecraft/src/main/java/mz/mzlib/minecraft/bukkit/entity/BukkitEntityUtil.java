@@ -8,4 +8,9 @@ public class BukkitEntityUtil
     {
         return EntityBukkit.create(entity.getWrapped()).getBukkitEntity().getWrapped();
     }
+    
+    public static Entity fromBukkit(org.bukkit.entity.Entity entity)
+    {
+        return CraftEntity.create(entity).getHandle();
+    }
 }
