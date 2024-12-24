@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.bukkit.command;
 
-import mz.mzlib.minecraft.bukkit.BukkitCommandSenderUtil;
 import mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.module.IRegistrar;

@@ -1,11 +1,9 @@
-package mz.mzlib.minecraft.bukkit;
+package mz.mzlib.minecraft.bukkit.command;
 
-import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.bukkit.command.CraftBlockCommandSender;
-import mz.mzlib.minecraft.bukkit.entity.CraftEntity;
-import mz.mzlib.minecraft.bukkit.entity.EntityBukkit;
+import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
+import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.command.BlockCommandSender;
@@ -16,7 +14,7 @@ public class BukkitCommandSenderUtil
     public static CommandSender fromBukkit(org.bukkit.command.CommandSender object)
     {
         if(object instanceof org.bukkit.entity.Entity)
-            return CraftEntity.create(object).getHandle();
+            return BukkitEntityUtil.fromBukkit((org.bukkit.entity.Entity) object);
         else if(object instanceof ConsoleCommandSender)
             return MinecraftServer.instance;
         else if(object instanceof BlockCommandSender)
@@ -31,7 +29,7 @@ public class BukkitCommandSenderUtil
     public static org.bukkit.command.CommandSender toBukkit(CommandSender object)
     {
         if(object.isInstanceOf(Entity::create))
-            return object.castTo(EntityBukkit::create).getBukkitEntity().getWrapped();
+            return BukkitEntityUtil.toBukkit(object.castTo(Entity::create));
         else if(object.isInstanceOf(MinecraftServer::create))
             return Bukkit.getConsoleSender();
         // TODO
