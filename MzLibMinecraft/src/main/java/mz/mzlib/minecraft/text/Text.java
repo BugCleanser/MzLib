@@ -58,14 +58,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticLiteralV_1900(String str)
     {
-        return TextLiteralV_1900.newInstance(str);
+        return TextLiteralV_1900.newInstance(str).castTo(Text::create);
     }
     
     @SpecificImpl("staticLiteral")
     @VersionRange(begin=1900)
     default Text staticLiteralV1900(String str)
     {
-        return TextMutableV1600.newInstance(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.newInstance());
     }
     
     Text staticTranslatable(String key, Text... args);
@@ -79,14 +79,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticTranslatableV_1900(String key, Text... args)
     {
-        return TextTranslatableV_1900.newInstance(key, args);
+        return TextTranslatableV_1900.newInstance(key, args).castTo(Text::create);
     }
     
     @SpecificImpl("staticTranslatable")
     @VersionRange(begin=1900)
     default Text staticTranslatableV1900(String key, Text... args)
     {
-        return TextMutableV1600.newInstance(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.newInstance());
     }
     
     Text staticKeybind(String keybind);
@@ -100,14 +100,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticKeybindV_1900(String keybind)
     {
-        return TextKeybindV_1900.newInstance(keybind);
+        return TextKeybindV_1900.newInstance(keybind).castTo(Text::create);
     }
     
     @SpecificImpl("staticKeybind")
     @VersionRange(begin=1900)
     default Text staticKeybindV1900(String keybind)
     {
-        return TextMutableV1600.newInstance(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.newInstance());
     }
     
     Text staticScore(TextScore value);
@@ -121,14 +121,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticScoreV_1900(TextScore value)
     {
-        return value.castTo(TextScoreV_1900::create);
+        return value.castTo(TextScoreV_1900::create).castTo(Text::create);
     }
     
     @SpecificImpl("staticScore")
     @VersionRange(begin=1900)
     default Text staticScoreV1900(TextScore value)
     {
-        return TextMutableV1600.newInstance(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
     }
     
     Text staticSelector(TextSelector selector);
@@ -142,14 +142,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticSelectorV_1900(TextSelector selector)
     {
-        return selector.castTo(TextScoreV_1900::create);
+        return selector.castTo(TextScoreV_1900::create).castTo(Text::create);
     }
     
     @SpecificImpl("staticSelector")
     @VersionRange(begin=1900)
     default Text staticSelectorV1900(TextSelector selector)
     {
-        return TextMutableV1600.newInstance(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
     }
     
     String getLiteral();
@@ -220,7 +220,7 @@ public interface Text extends WrapperObject
     {
         if(!this.isInstanceOf(TextKeybindV_1900::create))
             return null;
-        return this.castTo(TextKeybindV_1900::create).getKeybind();
+        return this.castTo(TextKeybindV_1900::create).getKey();
     }
     
     @SpecificImpl("getKeybind")
@@ -278,8 +278,11 @@ public interface Text extends WrapperObject
     void setStyle(TextStyle style);
     
     @SpecificImpl("setStyle")
-    @WrapMinecraftMethod(@VersionName(name="setStyle", end=1900))
-    void setStyleV_1900(TextStyle style);
+    @VersionRange(end=1900)
+    default void setStyleV_1900(TextStyle style)
+    {
+        this.castTo(AbstractTextV_1900::create).setStyle(style);
+    }
     
     @SpecificImpl("setStyle")
     @VersionRange(begin=1900)

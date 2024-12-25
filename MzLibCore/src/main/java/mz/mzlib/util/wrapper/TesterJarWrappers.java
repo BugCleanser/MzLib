@@ -40,40 +40,45 @@ public class TesterJarWrappers implements Tester<TesterContext>
 	{
 		return CompletableFuture.supplyAsync(()->
 		{
+			List<String> classNames=new ArrayList<>();
 			try(JarFile jar=new JarFile(this.file))
 			{
-				List<Throwable> exceptions=new ArrayList<>();
 				for(JarEntry entry: jar.stream().toArray(JarEntry[]::new))
 				{
 					if(!entry.getName().endsWith(".class"))
 						continue;
-					Class<?> clazz;
-					try
-					{
-						clazz = Class.forName(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'), false, classLoader);
-					}
-					catch(Throwable ignored)
-					{
-						continue;
-					}
-					if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
-					{
-						try
-						{
-							WrapperObject.create(RuntimeUtil.cast(clazz), null);
-						}
-						catch(Throwable e)
-						{
-							exceptions.add(e);
-						}
-					}
+					classNames.add(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'));
 				}
-				return exceptions;
 			}
 			catch(IOException e)
 			{
 				throw RuntimeUtil.sneakilyThrow(e);
 			}
+			List<Throwable> exceptions=new ArrayList<>();
+			for(String className: classNames)
+			{
+				Class<?> clazz;
+				try
+				{
+					clazz = Class.forName(className, false, classLoader);
+				}
+				catch(Throwable ignored)
+				{
+					continue;
+				}
+				if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
+				{
+					try
+					{
+						WrapperObject.create(RuntimeUtil.cast(clazz), null);
+					}
+					catch(Throwable e)
+					{
+						exceptions.add(e);
+					}
+				}
+			}
+			return exceptions;
 		});
 	}
 }

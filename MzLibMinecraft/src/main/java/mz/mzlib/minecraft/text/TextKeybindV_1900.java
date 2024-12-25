@@ -27,6 +27,6 @@ public interface TextKeybindV_1900 extends WrapperObject, AbstractTextV_1900
         return create(null).staticNewInstance(keybind);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="getKeybind"))
-    String getKeybind();
+    @WrapMinecraftMethod(@VersionName(name="getKey"))
+    String getKey();
 }

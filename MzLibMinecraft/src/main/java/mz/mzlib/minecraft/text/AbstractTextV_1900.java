@@ -3,10 +3,8 @@ package mz.mzlib.minecraft.text;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.ListWrapped;
-import mz.mzlib.util.wrapper.ListWrapper;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
                 @VersionName(name = "net.minecraft.network.chat.BaseComponent", begin=1400, end=1403),
                 @VersionName(name = "net.minecraft.text.BaseText", begin=1403, end=1900)
         })
-public interface AbstractTextV_1900 extends WrapperObject,Text
+public interface AbstractTextV_1900 extends WrapperObject
 {
     @WrapperCreator
     static AbstractTextV_1900 create(Object wrapped)
@@ -30,4 +28,7 @@ public interface AbstractTextV_1900 extends WrapperObject,Text
     {
         this.setExtra0(new ListWrapped<>(value, Text::create));
     }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="style"))
+    void setStyle(TextStyle style);
 }

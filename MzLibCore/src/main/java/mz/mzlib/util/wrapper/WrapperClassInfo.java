@@ -104,61 +104,69 @@ public class WrapperClassInfo
     }
     public void analyseWrappedMembers()
     {
-        this.wrappedMembers = new ConcurrentHashMap<>();
-        this.inheritableWrappedMembers = new ConcurrentHashMap<>();
-        for(Method i: this.wrapperClass.getMethods())
+        try
         {
-            if(!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
-                continue;
-            Class<?> returnType = i.getReturnType();
-            if(WrapperObject.class.isAssignableFrom(returnType))
+            this.wrappedMembers = new ConcurrentHashMap<>();
+            this.inheritableWrappedMembers = new ConcurrentHashMap<>();
+            for(Method i: this.wrapperClass.getMethods())
             {
-                returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
-            }
-            Class<?>[] argTypes = i.getParameterTypes();
-            for(int j = 0; j<argTypes.length; j++)
-            {
-                if(WrapperObject.class.isAssignableFrom(argTypes[j]))
+                if(!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
+                    continue;
+                Class<?> returnType = i.getReturnType();
+                if(WrapperObject.class.isAssignableFrom(returnType))
                 {
-                    argTypes[j] = WrapperClassInfo.get(RuntimeUtil.cast(argTypes[j])).getWrappedClass();
+                    returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
                 }
-            }
-            Exception lastException1 = null;
-            for(Annotation j: i.getDeclaredAnnotations())
-            {
-                WrappedMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(WrappedMemberFinderClass.class);
-                if(finder!=null && (i.getDeclaringClass()==this.getWrapperClass() || !finder.inheritable()))
+                Class<?>[] argTypes = i.getParameterTypes();
+                for(int j = 0; j<argTypes.length; j++)
                 {
-                    try
+                    if(WrapperObject.class.isAssignableFrom(argTypes[j]))
                     {
-                        Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
-                        if(m!=null)
+                        argTypes[j] = WrapperClassInfo.get(RuntimeUtil.cast(argTypes[j])).getWrappedClass();
+                    }
+                }
+                Exception lastException1 = null;
+                for(Annotation j: i.getDeclaredAnnotations())
+                {
+                    WrappedMemberFinderClass finder = j.annotationType().getDeclaredAnnotation(WrappedMemberFinderClass.class);
+                    if(finder!=null && (i.getDeclaringClass()==this.getWrapperClass() || !finder.inheritable()))
+                    {
+                        try
                         {
-                            this.wrappedMembers.put(i, m);
-                            if(finder.inheritable())
-                                this.inheritableWrappedMembers.put(i, m);
+                            Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
+                            if(m!=null)
+                            {
+                                this.wrappedMembers.put(i, m);
+                                if(finder.inheritable())
+                                    this.inheritableWrappedMembers.put(i, m);
+                            }
+                        }
+                        catch(NoSuchMethodException|NoSuchFieldException|InstantiationException|
+                              IllegalAccessException e)
+                        {
+                            lastException1 = e;
                         }
                     }
-                    catch(NoSuchMethodException|NoSuchFieldException|InstantiationException|IllegalAccessException e)
+                }
+                if(lastException1!=null)
+                    throw RuntimeUtil.sneakilyThrow(new NoSuchElementException("Of wrapper: "+i).initCause(lastException1));
+            }
+            for(Method i: this.getWrapperClass().getMethods())
+            {
+                if(Modifier.isAbstract(i.getModifiers()) && ElementSwitcher.isEnabled(i) && i.getDeclaringClass()!=this.getWrapperClass() && WrapperObject.class.isAssignableFrom(i.getDeclaringClass()))
+                {
+                    Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).getInheritableWrappedMembers().get(i);
+                    if(tar!=null && !(tar instanceof Constructor))
                     {
-                        lastException1 = e;
+                        this.wrappedMembers.put(i, tar);
+                        this.inheritableWrappedMembers.put(i, tar);
                     }
                 }
             }
-            if(lastException1!=null)
-                throw RuntimeUtil.sneakilyThrow(new NoSuchElementException("Of wrapper: "+i).initCause(lastException1));
         }
-        for(Method i: this.getWrapperClass().getMethods())
+        catch(Throwable e)
         {
-            if(Modifier.isAbstract(i.getModifiers()) && ElementSwitcher.isEnabled(i) && i.getDeclaringClass()!=this.getWrapperClass() && WrapperObject.class.isAssignableFrom(i.getDeclaringClass()))
-            {
-                Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass())).getInheritableWrappedMembers().get(i);
-                if(tar!=null && !(tar instanceof Constructor))
-                {
-                    this.wrappedMembers.put(i, tar);
-                    this.inheritableWrappedMembers.put(i, tar);
-                }
-            }
+            throw new IllegalStateException("Field to analyze wrapped members, of Wrapper: "+this.getWrapperClass(), e);
         }
     }
     
