@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.text;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text", end=1400), @VersionName(name="net.minecraft.network.chat.Component", begin=1400, end=1403), @VersionName(name="net.minecraft.text.Text", begin=1403)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text")})
 public interface Text extends WrapperObject
 {
     @WrapperCreator
@@ -33,18 +34,9 @@ public interface Text extends WrapperObject
     Text staticDecode(JsonElement json);
     
     @SpecificImpl("staticDecode")
-    @VersionRange(end=1500)
-    default Text staticParseV_1500(JsonElement json)
+    default Text staticParse(JsonElement json)
     {
-        //TODO
-        throw new UnsupportedOperationException();
-    }
-    
-    @SpecificImpl("staticDecode")
-    @VersionRange(begin=1500)
-    default Text staticParseV1500(JsonElement json)
-    {
-        return SerializerV1500.decode(json);
+        return Serializer.decode(json);
     }
     
     Text staticLiteral(String str);
@@ -347,34 +339,25 @@ public interface Text extends WrapperObject
     }
     
     JsonElement staticEncode(Text text);
-    
+
     @SpecificImpl("staticEncode")
-    @VersionRange(end=1500)
-    default JsonElement staticEncodeV_1500(Text text)
+    default JsonElement staticParse(Text text)
     {
-        //TODO
-        throw new UnsupportedOperationException();
-    }
-    
-    @SpecificImpl("staticEncode")
-    @VersionRange(begin=1500)
-    default JsonElement staticEncodeV1500(Text text)
-    {
-        return SerializerV1500.encode(text);
+        return Serializer.encode(text);
     }
     
     @WrapMinecraftInnerClass(outer=Text.class, name={@VersionName(name="Serializer", end=2003), @VersionName(name="Serialization", begin=2003)})
-    interface SerializerV1500 extends WrapperObject
+    interface Serializer extends WrapperObject
     {
         @WrapperCreator
-        static SerializerV1500 create(Object wrapped)
+        static Serializer create(Object wrapped)
         {
-            return WrapperObject.create(SerializerV1500.class, wrapped);
+            return WrapperObject.create(Serializer.class, wrapped);
         }
         
         static JsonElement encode(Text text)
         {
-            return SerializerV1500.create(null).staticEncode(text);
+            return Serializer.create(null).staticEncode(text);
         }
         
         JsonElement staticEncode(Text text);
@@ -392,18 +375,32 @@ public interface Text extends WrapperObject
         
         static Text decode(JsonElement json)
         {
-            return SerializerV1500.create(null).staticDecode(json);
+            return Serializer.create(null).staticDecode(json);
         }
         
         Text staticDecode(JsonElement json);
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(value=@VersionName(name="fromJson", end=1600))
-        Text staticDecodeV_1600(JsonElement json);
+        @VersionRange(end = 1403)
+        default Text staticDecodeV_1403(JsonElement json){
+            return deserializeV_1403(json.toString());
+        }
+
+        @SpecificImpl("staticEncode")
+        @VersionRange(end = 1403)
+        default JsonElement staticEncodeV_1403(Text text){
+            return new Gson().toJsonTree(serializeV_1403(text));
+        }
+
+        @WrapMinecraftMethod(value=@VersionName(name="deserialize", end=1403))
+        Text deserializeV_1403(String json);
+
+        @WrapMinecraftMethod(value=@VersionName(name="serialize", end=1403))
+        String serializeV_1403(Text text);
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1600, end=2005))
-        TextMutableV1600 staticDecodeV1600_2005(JsonElement json);
+        @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1403, end=2005))
+        TextMutableV1600 staticDecodeV1403_2005(JsonElement json);
         
         @SpecificImpl("staticDecode")
         @VersionRange(begin=2005)
