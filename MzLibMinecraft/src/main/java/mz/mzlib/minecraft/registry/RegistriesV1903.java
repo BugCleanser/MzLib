@@ -35,4 +35,11 @@ public interface RegistriesV1903 extends WrapperObject
     {
         return create(null).staticWindowType();
     }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="BLOCK_ENTITY_TYPE"))
+    Registry staticBlockEntityType();
+    static Registry blockEntityType()
+    {
+        return create(null).staticBlockEntityType();
+    }
 }

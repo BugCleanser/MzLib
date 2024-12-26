@@ -13,6 +13,7 @@ public enum UnionWindowType
     
     CRAFTING("minecraft:crafting_table", getV1400OrNull("crafting")),
     HOPPER("minecraft:hopper", getV1400OrNull("hopper")),
+    ANVIL("minecraft:anvil", getV1400OrNull("anvil")),
     
     ;
     

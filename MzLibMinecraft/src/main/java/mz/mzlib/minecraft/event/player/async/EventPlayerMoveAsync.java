@@ -1,7 +1,6 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
@@ -11,24 +10,11 @@ import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.CompletableFuture;
 
-public abstract class EventPlayerMoveAsync extends EventPlayer
+public abstract class EventPlayerMoveAsync extends EventPlayerAsync
 {
-    public PacketEvent packetEvent;
-    public EventPlayerMoveAsync(EntityPlayer player, PacketEvent packetEvent)
+    public EventPlayerMoveAsync(PacketEvent packetEvent)
     {
-        super(player);
-        this.packetEvent = packetEvent;
-    }
-    
-    @Override
-    public boolean isCancelled()
-    {
-        return this.packetEvent.isCancelled();
-    }
-    @Override
-    public void setCancelled(boolean cancelled)
-    {
-        this.packetEvent.setCancelled(cancelled);
+        super(packetEvent);
     }
     
     public CompletableFuture<Void> sync()
@@ -76,9 +62,9 @@ public abstract class EventPlayerMoveAsync extends EventPlayer
     public static class EventPlayerMoveAsyncByPacketC2sPlayerMove extends EventPlayerMoveAsync
     {
         public PacketC2sPlayerMove packet;
-        public EventPlayerMoveAsyncByPacketC2sPlayerMove(EntityPlayer player, PacketEvent packetEvent, PacketC2sPlayerMove packet)
+        public EventPlayerMoveAsyncByPacketC2sPlayerMove(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            super(player, packetEvent);
+            super(packetEvent);
             this.packet = packet;
         }
         
@@ -188,9 +174,9 @@ public abstract class EventPlayerMoveAsync extends EventPlayer
     {
         public PacketC2sVehicleMove packet;
         
-        public EventPlayerMoveByPacketC2sVehicleMove(EntityPlayer player, PacketEvent packetEvent, PacketC2sVehicleMove packet)
+        public EventPlayerMoveByPacketC2sVehicleMove(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            super(player, packetEvent);
+            super(packetEvent);
             this.packet = packet;
         }
         
@@ -302,16 +288,14 @@ public abstract class EventPlayerMoveAsync extends EventPlayer
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent.getPlayer(), packetEvent, packet);
-            event.setCancelled(packetEvent.isCancelled());
+            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent, packet);
             event.call();
             packetEvent.runLater(event::complete);
         }
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent.getPlayer(), packetEvent, packet);
-            event.setCancelled(packetEvent.isCancelled());
+            EventPlayerMoveAsync event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent, packet);
             event.call();
             packetEvent.runLater(event::complete);
         }

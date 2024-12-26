@@ -13,7 +13,7 @@ public abstract class Event
     /**
      * Execute when the operation corresponding to the event ends or is canceled.
      */
-    public void runLater(Runnable runnable)
+    public void whenComplete(Runnable runnable)
     {
         this.future.whenComplete((r,e)->runnable.run());
     }

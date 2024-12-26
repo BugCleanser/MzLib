@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.entity.EventEntity;
+import mz.mzlib.minecraft.event.player.async.EventPlayerAsync;
 import mz.mzlib.module.MzModule;
 
 public abstract class EventPlayer extends EventEntity
@@ -15,6 +16,11 @@ public abstract class EventPlayer extends EventEntity
     public EntityPlayer getEntity()
     {
         return (EntityPlayer) super.getEntity();
+    }
+    
+    public EntityPlayer getPlayer()
+    {
+        return this.getEntity();
     }
     
     @Override
@@ -31,9 +37,9 @@ public abstract class EventPlayer extends EventEntity
         {
             this.register(EventPlayer.class);
             
+            this.register(EventPlayerAsync.Module.instance);
+            
             this.register(EventPlayerQuit.Module.instance);
-            this.register(EventPlayerChatAsync.Module.instance);
-            this.register(EventPlayerMoveAsync.Module.instance);
         }
     }
 }

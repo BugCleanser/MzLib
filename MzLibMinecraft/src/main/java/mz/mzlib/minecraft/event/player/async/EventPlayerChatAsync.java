@@ -1,6 +1,5 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
-import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
@@ -8,26 +7,13 @@ import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EventPlayerChatAsync extends EventPlayer
+public class EventPlayerChatAsync extends EventPlayerAsync
 {
-    public PacketEvent packetEvent;
     public PacketC2sChatMessage packet;
-    public EventPlayerChatAsync(EntityPlayer player, PacketEvent packetEvent, PacketC2sChatMessage packet)
+    public EventPlayerChatAsync(PacketEvent packetEvent, PacketC2sChatMessage packet)
     {
-        super(player);
-        this.packetEvent=packetEvent;
+        super(packetEvent);
         this.packet=packet;
-    }
-    
-    @Override
-    public boolean isCancelled()
-    {
-        return this.packetEvent.isCancelled();
-    }
-    @Override
-    public void setCancelled(boolean cancelled)
-    {
-        this.packetEvent.setCancelled(cancelled);
     }
 
     public String getMessage()
@@ -59,8 +45,7 @@ public class EventPlayerChatAsync extends EventPlayer
             this.register(EventPlayerChatAsync.class);
             this.register(new PacketListener<>(PacketC2sChatMessage.class, (e, p)->
             {
-                EventPlayerChatAsync event=new EventPlayerChatAsync(e.getPlayer(), e, p);
-                event.setCancelled(e.isCancelled());
+                EventPlayerChatAsync event=new EventPlayerChatAsync(e, p);
                 event.call();
                 e.runLater(event::complete);
             }));
