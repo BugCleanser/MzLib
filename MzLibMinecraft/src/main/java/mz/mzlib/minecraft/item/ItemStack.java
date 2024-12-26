@@ -92,7 +92,7 @@ public interface ItemStack extends WrapperObject
     {
         if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
             return empty();
-        return decode0(update(nbt));
+        return decode0(upgrade(nbt));
     }
     
     default NbtCompound encode()
@@ -259,7 +259,7 @@ public interface ItemStack extends WrapperObject
         return create(null).staticIsStackable(a, b);
     }
     
-    static NbtCompound update(NbtCompound nbt)
+    static NbtCompound upgrade(NbtCompound nbt)
     {
         int dataVersion;
         NbtInt nbtVersion=nbt.get("DataVersion", NbtInt::create);
@@ -294,23 +294,23 @@ public interface ItemStack extends WrapperObject
                 }
             }
         }
-        return update(nbt, dataVersion);
+        return upgrade(nbt, dataVersion);
     }
-    NbtCompound staticUpdate(NbtCompound nbt, int from);
-    @SpecificImpl("staticUpdate")
+    NbtCompound staticUpgrade(NbtCompound nbt, int from);
+    @SpecificImpl("staticUpgrade")
     @VersionRange(end=1400)
-    default NbtCompound staticUpdateV_1400(NbtCompound nbt, int from)
+    default NbtCompound staticUpgradeV_1400(NbtCompound nbt, int from)
     {
         return MinecraftServer.instance.getDataUpdaterV_1400().update(DataUpdateTypesV_1400.itemStack(), nbt, from);
     }
-    @SpecificImpl("staticUpdate")
+    @SpecificImpl("staticUpgrade")
     @VersionRange(begin=1400)
-    default NbtCompound staticUpdateV1400(NbtCompound nbt, int from)
+    default NbtCompound staticUpgradeV1400(NbtCompound nbt, int from)
     {
         return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1400().update(DataUpdateTypesV1400.itemStack(), DynamicV1400.newInstance(NbtOpsV1400.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
     }
-    static NbtCompound update(NbtCompound nbt, int from)
+    static NbtCompound upgrade(NbtCompound nbt, int from)
     {
-        return create(null).staticUpdate(nbt, from);
+        return create(null).staticUpgrade(nbt, from);
     }
 }

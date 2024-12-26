@@ -16,10 +16,12 @@ public class CommandGiveNbt extends MzModule
     
     public Permission permission=new Permission("mzlib.command.giveNbt".toLowerCase());
     
+    public Command command;
+    
     @Override
     public void onLoad()
     {
-        this.register(new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)).setHandler(context ->
+        this.register(this.command=new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context ->
         {
             EntityPlayer player=new ArgumentParserPlayer().handle(context);
             NbtCompound nbt=new ArgumentParserNbtCompound().handle(context);

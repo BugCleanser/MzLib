@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.ListWrapper;
@@ -28,15 +29,12 @@ public interface Text extends WrapperObject
     
     static Text decode(JsonElement json)
     {
-        return create(null).staticDecode(json);
+        return Serializer.decode(json);
     }
     
-    Text staticDecode(JsonElement json);
-    
-    @SpecificImpl("staticDecode")
-    default Text staticParse(JsonElement json)
+    default JsonElement encode()
     {
-        return Serializer.decode(json);
+        return Serializer.encode(this);
     }
     
     Text staticLiteral(String str);
@@ -312,7 +310,7 @@ public interface Text extends WrapperObject
         this.castTo(AbstractTextV_1900::create).setExtra(value);
     }
     
-    default Text extra(Text... value)
+    default Text addExtra(Text... value)
     {
         List<Text> extra = getExtra();
         if(extra==null)
@@ -324,26 +322,24 @@ public interface Text extends WrapperObject
         return this;
     }
     
+    default Text setColor(TextColor value)
+    {
+        throw new UnsupportedOperationException();
+    }
+    
+    default Text setClickEvent(TextClickEvent event)
+    {
+        // TODO
+        return this.style(s->s.setClickEvent(event));
+    }
+    
     @WrapMinecraftMethod(@VersionName(name="getContent", begin=1900))
     TextContentV1900 getContentV1900();
     
     default String toLiteral()
     {
         // TODO
-        return this.toString();
-    }
-    
-    default JsonElement encode()
-    {
-        return staticEncode(this);
-    }
-    
-    JsonElement staticEncode(Text text);
-
-    @SpecificImpl("staticEncode")
-    default JsonElement staticParse(Text text)
-    {
-        return Serializer.encode(text);
+        throw new UnsupportedOperationException();
     }
     
     @WrapMinecraftInnerClass(outer=Text.class, name={@VersionName(name="Serializer", end=2003), @VersionName(name="Serialization", begin=2003)})
@@ -355,6 +351,14 @@ public interface Text extends WrapperObject
             return WrapperObject.create(Serializer.class, wrapped);
         }
         
+        static Gson gson()
+        {
+            return Serializer.create(null).staticGson();
+        }
+        
+        @WrapMinecraftFieldAccessor(@VersionName(name="GSON"))
+        Gson staticGson();
+        
         static JsonElement encode(Text text)
         {
             return Serializer.create(null).staticEncode(text);
@@ -363,13 +367,21 @@ public interface Text extends WrapperObject
         JsonElement staticEncode(Text text);
         
         @SpecificImpl("staticEncode")
-        @WrapMinecraftMethod(value=@VersionName(name="toJsonTree", end=2005))
-        JsonElement staticEncodeV_2005(Text text);
+        @VersionRange(end=1400)
+        default JsonElement staticEncodeV_1400(Text text)
+        {
+            return gson().toJsonTree(text.getWrapped());
+        }
+        
+        @SpecificImpl("staticEncode")
+        @WrapMinecraftMethod(value=@VersionName(name="toJsonTree", begin=1400, end=2005))
+        JsonElement staticEncodeV1400_2005(Text text);
         
         @SpecificImpl("staticEncode")
         @VersionRange(begin=2005)
         default JsonElement staticEncodeV2005(Text text)
         {
+            // TODO
             throw new UnsupportedOperationException();
         }
         
@@ -381,31 +393,21 @@ public interface Text extends WrapperObject
         Text staticDecode(JsonElement json);
         
         @SpecificImpl("staticDecode")
-        @VersionRange(end = 1403)
-        default Text staticDecodeV_1403(JsonElement json){
-            return deserializeV_1403(json.toString());
+        @VersionRange(end=1400)
+        default Text staticDecodeV_1400(JsonElement json)
+        {
+            return Text.create(gson().fromJson(json, Text.create(null).staticGetWrappedClass()));
         }
-
-        @SpecificImpl("staticEncode")
-        @VersionRange(end = 1403)
-        default JsonElement staticEncodeV_1403(Text text){
-            return new Gson().toJsonTree(serializeV_1403(text));
-        }
-
-        @WrapMinecraftMethod(value=@VersionName(name="deserialize", end=1403))
-        Text deserializeV_1403(String json);
-
-        @WrapMinecraftMethod(value=@VersionName(name="serialize", end=1403))
-        String serializeV_1403(Text text);
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1403, end=2005))
-        TextMutableV1600 staticDecodeV1403_2005(JsonElement json);
+        @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1400, end=2005))
+        TextMutableV1600 staticDecodeV1400_2005(JsonElement json);
         
         @SpecificImpl("staticDecode")
         @VersionRange(begin=2005)
         default Text staticDecodeV2005(JsonElement json)
         {
+            // TODO
             throw new UnsupportedOperationException();
         }
     }

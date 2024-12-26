@@ -1,11 +1,13 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.event.RegistrarEventListener;
+import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.CommandGiveNbt;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.minecraft.ui.UIStack;
+import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.Tester;
@@ -19,6 +21,8 @@ public class MzLibMinecraft extends MzModule
 {
     public static MzLibMinecraft instance = new MzLibMinecraft();
     
+    public Command command;
+    
     @Override
     public void onLoad()
     {
@@ -29,6 +33,8 @@ public class MzLibMinecraft extends MzModule
             this.register(I18nMinecraft.instance);
 
             this.register(NothingMinecraftServer.class);
+            
+            this.register(this.command=new Command("mzlib", "mz"));
 
             this.register(RegistrarEventListener.instance);
             this.register(PacketListenerModule.instance);
@@ -38,7 +44,8 @@ public class MzLibMinecraft extends MzModule
             this.register(ModuleMapStackTrace.instance);
             
             this.register(ModuleWindow.instance);
-            this.register(UIStack.Module.instance);
+            this.register(UIStack.Module.instance);;
+            this.register(UIWrittenBook.Module.instance);
             
             this.register(CommandGiveNbt.instance);
 

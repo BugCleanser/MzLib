@@ -2,12 +2,13 @@ package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.module.MzModule;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DemoBookUi extends MzModule
@@ -27,12 +28,23 @@ public class DemoBookUi extends MzModule
         }));
     }
     
-    public static class UIDemoBook implements UIWrittenBook
+    public static class UIDemoBook extends UIWrittenBook
     {
+        int button0,button1;
+        
+        public UIDemoBook()
+        {
+            this.button0=this.newButton(player->player.sendMessage(Text.literal("Button 0")));
+            this.button1=this.newButton(player->player.sendMessage(Text.literal("Button 1")));
+        }
+        
         @Override
         public List<Text> getPages(EntityPlayer player)
         {
-            return Arrays.asList(Text.literal("Hello World"), Text.literal("awa"));
+            List<Text> lines=new ArrayList<>();
+            lines.add(setButton(Text.literal("awa\n"), button0));
+            lines.add(setButton(Text.literal("bwb\n"), button1));
+            return ItemWrittenBook.makePages(lines);
         }
-    }
+}
 }

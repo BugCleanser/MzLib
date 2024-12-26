@@ -42,7 +42,7 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     
     default void openBook(ItemStack book)
     {
-        this.closeWindow();
+        this.closeInterface();
         int slot=36+this.getInventory().getHandIndex();
         this.getCurrentWindow().sendSlotUpdate(this, slot, book);
         this.openBook0(book);

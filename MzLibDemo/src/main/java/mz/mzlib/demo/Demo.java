@@ -17,7 +17,7 @@ public class Demo extends MzModule
         this.register(this.permission);
         this.register(this.command =new Command("mzlibDemo".toLowerCase()).setNamespace("mzlibDemo".toLowerCase()).setPermissionChecker(sender->Command.checkPermission(sender, this.permission)));
         
-        this.register(Inventory10Slots.instance);
+        this.register(Tictactoe.instance);
         this.register(DemoBookUi.instance);
         this.register(ExampleAsyncFunction.instance);
     }

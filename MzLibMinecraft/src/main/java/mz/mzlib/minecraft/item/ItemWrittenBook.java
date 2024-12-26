@@ -12,6 +12,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.WrittenBookItem"))
@@ -21,6 +22,20 @@ public interface ItemWrittenBook extends Item
     static ItemWrittenBook create(Object wrapped)
     {
         return WrapperObject.create(ItemWrittenBook.class, wrapped);
+    }
+    
+    int MAX_PAGE_LINES=14;
+    
+    static List<Text> makePages(List<Text> lines)
+    {
+        List<Text> result=new ArrayList<>();
+        for(Text i: lines)
+        {
+            if(result.isEmpty() || result.get(result.size()-1).getExtra().size()==MAX_PAGE_LINES)
+                result.add(Text.literal("").addExtra());
+            result.get(result.size()-1).addExtra(i);
+        }
+        return result;
     }
     
     ComponentKeyV2005 componentKeyWrittenBookContentV2005 = MinecraftPlatform.instance.getVersion()<2005?null:ComponentKeyV2005.fromId("written_book_content");

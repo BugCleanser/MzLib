@@ -12,12 +12,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class I18n
 {
+    public static I18n custom = new I18n(new ConcurrentHashMap<>(), Float.NaN);
+    
     public Map<String, Map<String, String>> map;
     public float priority;
     
@@ -54,7 +57,7 @@ public class I18n
     }
     public static String getTranslation(String language, String key, String def)
     {
-        String result = I18nCustom.instance.get(language, key);
+        String result = custom.get(language, key);
         if(result!=null)
             return result;
         return getTranslationDefault(language, key, def);

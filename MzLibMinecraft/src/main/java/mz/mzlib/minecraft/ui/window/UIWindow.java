@@ -122,12 +122,5 @@ public abstract class UIWindow implements UI
         WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
     }
     
-    @Override
-    public void close(EntityPlayer player)
-    {
-        if(player.getCurrentWindow().isInstanceOf(WindowUIWindow::create) && player.getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow()==this)
-            player.closeWindow();
-    }
-    
     // TODO: onPlayerClose
 }

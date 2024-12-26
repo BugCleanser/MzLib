@@ -51,6 +51,21 @@ public class Command
         return this;
     }
     
+    @SafeVarargs
+    public final Command setPermissionCheckers(Function<CommandSender, Text>... value)
+    {
+        return this.setPermissionChecker(sender->
+        {
+            for(Function<CommandSender, Text> i:value)
+            {
+                Text result = i.apply(sender);
+                if(result!=null)
+                    return result;
+            }
+            return null;
+        });
+    }
+    
     public static Text checkPermissionAnd(Text ...permissionCheckInfos)
     {
         for(Text i:permissionCheckInfos)
@@ -71,6 +86,11 @@ public class Command
         if(PermissionHelp.instance.check(sender, permission))
             return null;
         return Text.literal("§4需要权限"+permission.id); // TODO: i18n
+    }
+    
+    public static Function<CommandSender, Text> permissionChecker(Permission permission)
+    {
+        return sender->checkPermission(sender, permission);
     }
     
     public Command setHandler(Consumer<CommandContext> value)

@@ -58,16 +58,16 @@ public interface WindowSlot extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="id"))
     void setSlotIndex(int value);
     
-    @WrapConstructor
-    WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
-    static WindowSlot newInstance(Inventory inventory, int index, int x, int y)
-    {
-        return create(null).staticNewInstance(inventory, index, x, y);
-    }
     static WindowSlot newInstance(Inventory inventory, int index)
     {
         return newInstance(inventory, index, 0, 0);
     }
+    static WindowSlot newInstance(Inventory inventory, int index, int x, int y)
+    {
+        return create(null).staticNewInstance(inventory, index, x, y);
+    }
+    @WrapConstructor
+    WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
     
     @WrapMinecraftMethod(@VersionName(name="getStack"))
     ItemStack getItemStack();

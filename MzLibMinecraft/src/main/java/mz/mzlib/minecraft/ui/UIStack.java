@@ -37,19 +37,19 @@ public class UIStack
         this.player=player;
     }
     
-    public synchronized void start(UI ui)
+    public void start(UI ui)
     {
         this.data.clear();
         this.go(ui);
     }
     
-    public synchronized void go(UI ui)
+    public void go(UI ui)
     {
         this.data.add(ui);
         ui.open(this.player);
     }
     
-    public synchronized void back()
+    public void back()
     {
         if(this.data.size()==1)
             this.data.get(0).close(this.player);
@@ -58,12 +58,19 @@ public class UIStack
             this.data.get(this.data.size()-1).open(this.player);
     }
     
-    public synchronized void clear()
+    public UI top()
+    {
+        if(this.data.isEmpty())
+            return null;
+        return this.data.get(this.data.size()-1);
+    }
+    
+    public void clear()
     {
         this.data.clear();
     }
     
-    public synchronized void close()
+    public void close()
     {
         if(this.data.isEmpty())
             return;

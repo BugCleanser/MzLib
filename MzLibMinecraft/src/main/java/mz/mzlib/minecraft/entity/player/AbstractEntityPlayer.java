@@ -47,7 +47,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     OptionalInt openWindow(WindowFactory windowFactory);
     
     @WrapMinecraftMethod({@VersionName(name="closeHandledScreen", end=1400), @VersionName(name="closeContainer", begin=1400, end=1600), @VersionName(name="closeHandledScreen", begin=1600)})
-    void closeWindow();
+    void closeInterface();
     
     @WrapMinecraftMethod(@VersionName(name="dropItem"))
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
