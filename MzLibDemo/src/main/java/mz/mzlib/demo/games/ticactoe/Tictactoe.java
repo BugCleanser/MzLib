@@ -85,9 +85,9 @@ public class Tictactoe extends MzModule
         {
             super(UnionWindowType.CRAFTING, 10);
             
-            this.setSlot(0, WindowSlotReward::newInstance);
+            this.putSlot(0, WindowSlotReward::newInstance);
             for(int i = 0; i<9; i++)
-                this.setSlot(1+i, WindowSlotButton::newInstance);
+                this.putSlot(1+i, WindowSlotButton::newInstance);
         }
         
         public boolean finished=false;

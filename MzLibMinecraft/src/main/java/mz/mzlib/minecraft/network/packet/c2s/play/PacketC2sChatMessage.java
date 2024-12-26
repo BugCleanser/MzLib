@@ -9,8 +9,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name = "net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket", end=1400),
-                @VersionName(name = "net.minecraft.server.network.packet.ChatMessageC2SPacket", begin=1400, end=1502),
+                @VersionName(name = "net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket", end=1500),
+                @VersionName(name = "net.minecraft.server.network.packet.ChatMessageC2SPacket", begin=1500, end=1502),
                 @VersionName(name = "net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket", begin=1502)
         })
 public interface PacketC2sChatMessage extends Packet

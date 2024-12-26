@@ -21,7 +21,7 @@ public abstract class UIWindowAnvil extends UIWindow
         super(UnionWindowType.ANVIL, 3);
     }
     
-    public void onTextChange(EntityPlayer player, String text)
+    public void onNameChanged(EntityPlayer player, String name)
     {
     }
     
@@ -42,7 +42,7 @@ public abstract class UIWindowAnvil extends UIWindow
                     {
                         UI ui = event.getPlayer().getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow();
                         if(ui instanceof UIWindowAnvil)
-                            ((UIWindowAnvil)ui).onTextChange(event.getPlayer(), event.getName());
+                            ((UIWindowAnvil)ui).onNameChanged(event.getPlayer(), event.getName());
                     }
                 });
             })));

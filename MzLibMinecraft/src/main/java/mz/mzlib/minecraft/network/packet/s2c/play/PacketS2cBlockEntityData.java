@@ -12,7 +12,12 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket"))
+@WrapMinecraftClass(
+        {
+                @VersionName(name = "net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket", end = 1500),
+                @VersionName(name = "net.minecraft.server.network.packet.BlockEntityUpdateS2CPacket", begin = 1500, end = 1502),
+                @VersionName(name = "net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket", begin = 1502)
+        })
 public interface PacketS2cBlockEntityData extends Packet
 {
     @WrapperCreator

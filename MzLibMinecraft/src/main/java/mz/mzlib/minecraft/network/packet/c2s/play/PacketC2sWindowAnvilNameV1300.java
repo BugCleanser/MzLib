@@ -8,7 +8,12 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.RenameItemC2SPacket", begin=1300))
+@WrapMinecraftClass(
+        {
+                @VersionName(name = "net.minecraft.network.packet.c2s.play.RenameItemC2SPacket", end = 1500),
+                @VersionName(name = "net.minecraft.server.network.packet.RenameItemC2SPacket", begin = 1500, end = 1502),
+                @VersionName(name = "net.minecraft.network.packet.c2s.play.RenameItemC2SPacket", begin = 1502)
+        })
 public interface PacketC2sWindowAnvilNameV1300 extends Packet
 {
     @WrapperCreator

@@ -61,7 +61,7 @@ public abstract class EventPlayerWindowAnvilSetNameAsync extends EventPlayerAsyn
                 {
                     EventPlayerWindowAnvilSetNameAsync e=new EventPlayerWindowAnvilSetNameAsyncV1300(event, packet);
                     e.call();
-                    event.runLater(e::complete);
+                    event.whenComplete(e::complete);
                 }));
             }
         }

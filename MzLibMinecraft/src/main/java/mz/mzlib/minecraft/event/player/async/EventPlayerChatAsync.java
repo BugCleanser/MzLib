@@ -47,7 +47,7 @@ public class EventPlayerChatAsync extends EventPlayerAsync
             {
                 EventPlayerChatAsync event=new EventPlayerChatAsync(e, p);
                 event.call();
-                e.runLater(event::complete);
+                e.whenComplete(event::complete);
             }));
         }
     }

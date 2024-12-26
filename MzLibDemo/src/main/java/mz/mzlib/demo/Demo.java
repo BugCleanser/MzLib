@@ -3,12 +3,12 @@ package mz.mzlib.demo;
 import mz.mzlib.demo.games.ticactoe.Tictactoe;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
+import mz.mzlib.minecraft.ui.window.UIWindowAnvilInput;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.RuntimeUtil;
 
 public class Demo extends MzModule
 {
@@ -27,22 +27,12 @@ public class Demo extends MzModule
                 return;
             if(!context.sender.isInstanceOf(EntityPlayer::create))
                 return;
-            UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UIWindowAnvil()
+            UIWindowAnvilInput.invoke(context.sender.castTo(EntityPlayer::create), "test", Text.literal("§2一个输入框")).whenComplete((text, e) ->
             {
-                {
-                    this.inventory.setItemStack(0, new ItemStackBuilder("name_tag").setDisplayName(Text.literal("")).build());
-                }
-                @Override
-                public Text getTitle(EntityPlayer player)
-                {
-                    return Text.literal("§2我是一个输入框");
-                }
-                
-                @Override
-                public void onTextChange(EntityPlayer player, String text)
-                {
-                    player.sendMessage(Text.literal(text));
-                }
+                if(e!=null)
+                    throw RuntimeUtil.sneakilyThrow(e);
+                UIStack.get(context.sender.castTo(EntityPlayer::create)).back();
+                context.sender.sendMessage(Text.literal("§a你输入了: §r"+text));
             });
         }));
         

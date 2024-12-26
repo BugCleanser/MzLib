@@ -59,10 +59,10 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
     {
     }
     
-    public static class EventPlayerMoveAsyncByPacketC2sPlayerMove extends EventPlayerMoveAsync
+    public static class ByPacketC2sPlayerMove extends EventPlayerMoveAsync
     {
         public PacketC2sPlayerMove packet;
-        public EventPlayerMoveAsyncByPacketC2sPlayerMove(PacketEvent packetEvent, PacketC2sPlayerMove packet)
+        public ByPacketC2sPlayerMove(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
             super(packetEvent);
             this.packet = packet;
@@ -170,11 +170,11 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
         }
     }
     
-    public static class EventPlayerMoveByPacketC2sVehicleMove extends EventPlayerMoveAsync
+    public static class ByPacketC2sVehicleMove extends EventPlayerMoveAsync
     {
         public PacketC2sVehicleMove packet;
         
-        public EventPlayerMoveByPacketC2sVehicleMove(PacketEvent packetEvent, PacketC2sVehicleMove packet)
+        public ByPacketC2sVehicleMove(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
             super(packetEvent);
             this.packet = packet;
@@ -288,16 +288,16 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveAsyncByPacketC2sPlayerMove(packetEvent, packet);
+            EventPlayerMoveAsync event = new ByPacketC2sPlayerMove(packetEvent, packet);
             event.call();
-            packetEvent.runLater(event::complete);
+            packetEvent.whenComplete(event::complete);
         }
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            EventPlayerMoveAsync event = new EventPlayerMoveByPacketC2sVehicleMove(packetEvent, packet);
+            EventPlayerMoveAsync event = new ByPacketC2sVehicleMove(packetEvent, packet);
             event.call();
-            packetEvent.runLater(event::complete);
+            packetEvent.whenComplete(event::complete);
         }
         
         @Override

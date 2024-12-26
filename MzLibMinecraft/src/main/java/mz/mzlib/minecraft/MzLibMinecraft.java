@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
+import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
@@ -46,8 +47,9 @@ public class MzLibMinecraft extends MzModule
             
             this.register(ModuleWindow.instance);
             this.register(UIStack.Module.instance);
-            this.register(UIWindowAnvil.Module.instance);
             this.register(UIWrittenBook.Module.instance);
+            this.register(UIWindow.Module.instance);
+            this.register(UIWindowAnvil.Module.instance);
             
             this.register(CommandGiveNbt.instance);
 

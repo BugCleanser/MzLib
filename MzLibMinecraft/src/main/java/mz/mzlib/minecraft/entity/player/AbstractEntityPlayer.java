@@ -38,6 +38,10 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))
     InventoryPlayer getInventory();
     
+    /**
+     * The open window
+     * or player inventory window if no window is open
+     */
     @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
     Window getCurrentWindow();
     @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})

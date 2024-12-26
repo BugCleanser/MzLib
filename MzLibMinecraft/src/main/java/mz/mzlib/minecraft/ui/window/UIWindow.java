@@ -1,16 +1,22 @@
 package mz.mzlib.minecraft.ui.window;
 
+import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.event.player.async.EventPlayerDisplayItemInWindowAsync;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UI;
 import mz.mzlib.minecraft.window.*;
+import mz.mzlib.module.MzModule;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public abstract class UIWindow implements UI
 {
@@ -28,6 +34,7 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
+    public Map<Integer, Consumer<EventPlayerDisplayItemInWindowAsync>> icons=new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
     
     public void clear()
@@ -35,23 +42,42 @@ public abstract class UIWindow implements UI
         this.inventory.clear();
         this.slots.clear();
         this.buttons.clear();
+        this.icons.clear();
     }
     
-    public void setSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
+    public void putSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
         this.slots.put(index, slotCreator);
     }
     
-    public void setSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator, ItemStack itemStack)
+    public void putSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator, ItemStack itemStack)
     {
-        this.setSlot(index, slotCreator);
+        this.putSlot(index, slotCreator);
         this.inventory.setItemStack(index, itemStack);
     }
     
-    public void setButton(int index, ButtonHandler handler)
+    public void putIcon0(int index, Consumer<EventPlayerDisplayItemInWindowAsync> icon)
     {
-        this.setSlot(index, WindowSlotButton::newInstance);
+        this.icons.put(index, icon);
+    }
+    
+    public void putIcon(int index, Function<EntityPlayer, ItemStack> icon)
+    {
+        this.putIcon0(index, event->
+        {
+            event.setItemStack(icon.apply(event.getPlayer()));
+        });
+    }
+    
+    public void putButton(int index, ButtonHandler handler)
+    {
+        this.putSlot(index, WindowSlotButton::newInstance);
         this.buttons.put(index, handler);
+    }
+    public void putButton(int index, Function<EntityPlayer, ItemStack> icon, ButtonHandler handler)
+    {
+        this.putIcon(index, icon);
+        this.putButton(index, handler);
     }
     
     public abstract Text getTitle(EntityPlayer player);
@@ -83,7 +109,7 @@ public abstract class UIWindow implements UI
             window.addSlot(creator==null ? WindowSlot.newInstance(player.getInventory(), i) : creator.apply(player.getInventory(), i));
         }
     }
-    
+
 //    public void onContentChanged(WindowUIWindow window, Inventory inventory)
 //    {
 //        window.onContentChangedSuper(inventory);
@@ -123,4 +149,22 @@ public abstract class UIWindow implements UI
     }
     
     // TODO: onPlayerClose
+    
+    public static class Module extends MzModule
+    {
+        public static Module instance = new Module();
+        
+        @Override
+        public void onLoad()
+        {
+            this.register(new EventListener<>(EventPlayerDisplayItemInWindowAsync.class, event->
+            {
+                if(!event.getWindow().isInstanceOf(WindowUIWindow::create))
+                    return;
+                Consumer<EventPlayerDisplayItemInWindowAsync> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
+                if(icon!=null)
+                    icon.accept(event);
+            }));
+        }
+    }
 }
