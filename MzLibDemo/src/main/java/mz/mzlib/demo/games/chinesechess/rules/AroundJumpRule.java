@@ -1,11 +1,13 @@
-package mz.mzlib.demo.games.chinesechess;
+package mz.mzlib.demo.games.chinesechess.rules;
+
+import mz.mzlib.demo.games.chinesechess.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AroundJumpRule implements ChessRule{
+public class AroundJumpRule implements ChessRule {
     protected int[] slots = new int[2];
 
     public AroundJumpRule(int x, int y){
