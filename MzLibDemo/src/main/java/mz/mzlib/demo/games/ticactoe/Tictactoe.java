@@ -1,5 +1,6 @@
-package mz.mzlib.demo;
+package mz.mzlib.demo.games.ticactoe;
 
+import mz.mzlib.demo.Demo;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;

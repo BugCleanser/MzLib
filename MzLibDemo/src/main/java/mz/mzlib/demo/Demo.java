@@ -1,5 +1,6 @@
 package mz.mzlib.demo;
 
+import mz.mzlib.demo.games.ticactoe.Tictactoe;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
