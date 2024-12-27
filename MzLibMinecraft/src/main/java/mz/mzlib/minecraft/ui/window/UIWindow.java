@@ -1,7 +1,9 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.event.EventListener;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.event.player.async.EventPlayerCloseWindowAsync;
 import mz.mzlib.minecraft.event.player.async.EventPlayerDisplayItemInWindowAsync;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
@@ -34,7 +36,7 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, Consumer<EventPlayerDisplayItemInWindowAsync>> icons=new ConcurrentHashMap<>();
+    public Map<Integer, Consumer<EventPlayerDisplayItemInWindowAsync>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
     
     public void clear()
@@ -109,11 +111,6 @@ public abstract class UIWindow implements UI
             window.addSlot(creator==null ? WindowSlot.newInstance(player.getInventory(), i) : creator.apply(player.getInventory(), i));
         }
     }
-
-//    public void onContentChanged(WindowUIWindow window, Inventory inventory)
-//    {
-//        window.onContentChangedSuper(inventory);
-//    }
     
     public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
     {
@@ -148,8 +145,6 @@ public abstract class UIWindow implements UI
         WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
     }
     
-    // TODO: onPlayerClose
-    
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
@@ -157,6 +152,13 @@ public abstract class UIWindow implements UI
         @Override
         public void onLoad()
         {
+            this.register(new EventListener<>(EventPlayerCloseWindowAsync.class, event->event.whenComplete(()->
+            {
+                if(event.isCancelled())
+                    return;
+                if(event.getWindow().isInstanceOf(WindowUIWindow::create))
+                    MinecraftServer.instance.execute(()->event.getWindow().castTo(WindowUIWindow::create).getUIWindow().onPlayerClose(event.getPlayer()));
+            })));
             this.register(new EventListener<>(EventPlayerDisplayItemInWindowAsync.class, event->
             {
                 if(!event.getWindow().isInstanceOf(WindowUIWindow::create))

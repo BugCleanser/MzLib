@@ -41,6 +41,8 @@ public class EventPlayerAsync extends EventPlayer
             
             this.register(EventPlayerChatAsync.Module.instance);
             this.register(EventPlayerMoveAsync.Module.instance);
+            
+            this.register(EventPlayerCloseWindowAsync.Module.instance);
             this.register(EventPlayerWindowAnvilSetNameAsync.Module.instance);
             
             this.register(EventPlayerDisplayItemAsync.class);

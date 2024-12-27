@@ -65,6 +65,12 @@ public abstract class UIWrittenBook implements UI
         }.start(MinecraftServer.instance);
     }
     
+    @Deprecated
+    @Override
+    public void onPlayerClose(EntityPlayer player)
+    {
+    }
+    
     public static class Module extends MzModule
     {
         public static Module instance = new Module();

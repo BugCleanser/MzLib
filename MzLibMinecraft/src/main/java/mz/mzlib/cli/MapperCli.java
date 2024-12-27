@@ -114,7 +114,8 @@ public class MapperCli
 		}
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
-		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.MinecraftServer", new MappingMethod("getVersion", new String[]{})));
+		System.out.println(mappingsY2P.mapMethod("net.minecraft.entity.player.PlayerEntity", new MappingMethod("closeHandledScreen", new String[]{})));
+		System.out.println(mappingsP2Y.mapMethod("net.minecraft.world.entity.player.Player", new MappingMethod("s", new String[]{})));
 		System.out.println("Input a Class Name:");
 		Scanner scanner = new Scanner(System.in);
 		while (scanner.hasNext())
