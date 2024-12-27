@@ -35,7 +35,7 @@ public class MzLibMinecraft extends MzModule
     {
         try
         {
-            this.config=Config.load(this.getClass().getResourceAsStream("config.json"), new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
+            this.config=Config.load(this.getClass().getResourceAsStream("/config.json"), new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
             
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
             

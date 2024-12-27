@@ -1,9 +1,6 @@
 package mz.mzlib.util;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,10 +15,10 @@ public class Config
     
     public JsonElement get(String path, JsonElement def)
     {
-        JsonElement result=this.json;
+        JsonElement result = this.json;
         for(String key: path.split("\\."))
         {
-            result=result.getAsJsonObject().get(key);
+            result = result.getAsJsonObject().get(key);
             if(result==null)
                 return def;
         }
@@ -45,20 +42,20 @@ public class Config
     
     public static Config load(InputStream def, File file) throws IOException
     {
-        JsonObject json=new Gson().fromJson(new String(IOUtil.readAll(def), StandardCharsets.UTF_8), JsonObject.class);
+        JsonObject json = new Gson().fromJson(new String(IOUtil.readAll(def), StandardCharsets.UTF_8), JsonObject.class);
         if(file.isFile())
         {
             JsonObject cnt;
-            try(FileInputStream fis=new FileInputStream(file))
+            try(FileInputStream fis = new FileInputStream(file))
             {
                 cnt = new Gson().fromJson(new String(IOUtil.readAll(fis), StandardCharsets.UTF_8), JsonObject.class);
             }
             merge(cnt, json);
-            json=cnt;
+            json = cnt;
         }
-        try(FileOutputStream fos=new FileOutputStream(file))
+        try(FileOutputStream fos = new FileOutputStream(file))
         {
-            fos.write(new Gson().toJson(json).getBytes(StandardCharsets.UTF_8));
+            fos.write(new GsonBuilder().setPrettyPrinting().create().toJson(json).getBytes(StandardCharsets.UTF_8));
         }
         return new Config(json);
     }
