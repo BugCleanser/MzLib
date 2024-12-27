@@ -43,9 +43,10 @@ public interface SimpleProxy
                     MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, m.getName(), AsmUtil.getDesc(m), null, new String[0]);
                     mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
                     Class<?>[] pts = m.getParameterTypes();
-                    for (int i = 0; i < pts.length; i++)
+                    for (int i = 0, loc = 1; i < pts.length; i++)
                     {
-                        mn.instructions.add(AsmUtil.insnVarLoad(pts[i], 1 + i));
+                        mn.instructions.add(AsmUtil.insnVarLoad(pts[i], loc));
+                        loc += AsmUtil.getCategory(pts[i]);
                     }
                     mn.visitMethodInsn(Opcodes.INVOKEVIRTUAL, AsmUtil.getType(target.getClass()), m.getName(), AsmUtil.getDesc(m), false);
                     mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));

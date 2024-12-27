@@ -291,14 +291,15 @@ public class WrapperClassInfo
                             mn.instructions.add(AsmUtil.insnGetWrapped());
                             mn.instructions.add(AsmUtil.insnCast(i.getValue().getDeclaringClass(), Object.class));
                         }
-                        for(int j = 0, k = 1; j<pts.length; j++)
+                        for(int j = 0, loc = 1; j<pts.length; j++)
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], 1+j));
+                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], loc));
                             if(WrapperObject.class.isAssignableFrom(pts[j]))
                             {
                                 mn.instructions.add(AsmUtil.insnGetWrapped());
                                 pts[j] = Object.class;
                             }
+                            loc += AsmUtil.getCategory(pts[j]);
                             mn.instructions.add(AsmUtil.insnCast(ptsTar[j], pts[j]));
                         }
                         mn.instructions.add(new MethodInsnNode(Modifier.isStatic(i.getValue().getModifiers()) ? Opcodes.INVOKESTATIC : Modifier.isInterface(i.getValue().getDeclaringClass().getModifiers()) ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL, AsmUtil.getType(i.getValue().getDeclaringClass()), i.getValue().getName(), AsmUtil.getDesc((Method)i.getValue())));
@@ -310,9 +311,10 @@ public class WrapperClassInfo
                             mn.instructions.add(AsmUtil.insnVarLoad(this.getWrapperClass(), 0));
                             mn.instructions.add(AsmUtil.insnGetWrapped());
                         }
-                        for(int j = 0; j<pts.length; j++)
+                        for(int j = 0, loc = 1; j<pts.length; j++)
                         {
-                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], 1+j));
+                            mn.instructions.add(AsmUtil.insnVarLoad(pts[j], loc));
+                            loc += AsmUtil.getCategory(pts[j]);
                             if(WrapperObject.class.isAssignableFrom(pts[j]))
                             {
                                 mn.instructions.add(AsmUtil.insnGetWrapped());
