@@ -1,8 +1,7 @@
 package mz.mzlib.demo.game.chinesechess.chesses;
 
 import mz.mzlib.demo.game.chinesechess.ChessGame;
-import mz.mzlib.demo.game.chinesechess.Position;
-import mz.mzlib.demo.game.chinesechess.Position2D;
+import mz.mzlib.demo.game.chinesechess.other.Position2D;
 import mz.mzlib.demo.game.chinesechess.rules.AroundJumpRule;
 import mz.mzlib.demo.game.chinesechess.rules.ChessRule;
 

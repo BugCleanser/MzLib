@@ -1,8 +1,8 @@
-package mz.mzlib.demo.game.chinesechess;
+package mz.mzlib.demo.game.chinesechess.other;
 
 import java.util.Objects;
 
-public class Position2D implements Position{
+public class Position2D implements Position {
     protected int x;
     protected int y;
 
