@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
@@ -15,13 +16,13 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
     {
         this.text=original;
         
-        this.putButton(0, player->new ItemStackBuilder("name_tag").setDisplayName(Text.literal(original)).setLore(Text.literal(/*TODO i18n*/"§a点此重置输入框")).build(), (player, actionType, data)->MinecraftServer.instance.execute(()->
+        this.putButton(0, player->new ItemStackBuilder("name_tag").setDisplayName(Text.literal(original)).setLore(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.ui.anvil_input.reset.lore"))).build(), (player, actionType, data)->MinecraftServer.instance.execute(()->
         {
             player.getCurrentWindow().sendSlotUpdate(player, 0);
             player.getCurrentWindow().sendSlotUpdate(player, 2);
         }));
-        this.putButton(1, player->new ItemStackBuilder("torch").setDisplayName(Text.literal(/*TODO i18n*/"§5返回")).build(), (player, actionType, data)->UIStack.get(player).back());
-        this.putButton(2, player->new ItemStackBuilder("slime_ball").setDisplayName(Text.literal(/*TODO i18n*/"§a完成")).build(), (player, actionType, data)->this.done(player, this.text));
+        this.putButton(1, player->new ItemStackBuilder("torch").setDisplayName(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.ui.anvil_input.back"))).build(), (player, actionType, data)->UIStack.get(player).back());
+        this.putButton(2, player->new ItemStackBuilder("slime_ball").setDisplayName(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.ui.anvil_input.done"))).build(), (player, actionType, data)->this.done(player, this.text));
     }
     
     @Override

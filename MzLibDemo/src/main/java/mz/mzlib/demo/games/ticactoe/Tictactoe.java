@@ -1,9 +1,9 @@
 package mz.mzlib.demo.games.ticactoe;
 
 import mz.mzlib.demo.Demo;
+import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.text.Text;
@@ -13,13 +13,8 @@ import mz.mzlib.minecraft.ui.window.WindowSlotButton;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
 import mz.mzlib.minecraft.window.UnionWindowType;
 import mz.mzlib.minecraft.window.WindowActionType;
-import mz.mzlib.minecraft.window.WindowSlot;
+import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.compound.Compound;
-import mz.mzlib.util.compound.CompoundOverride;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +33,7 @@ public class Tictactoe extends MzModule
         {
             if(!context.successful || !context.doExecute)
                 return;
-            UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UITictactoe());
+            UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UITictactoe(context.sender.castTo(EntityPlayer::create)));
         }));
     }
     
@@ -50,42 +45,17 @@ public class Tictactoe extends MzModule
     
     public static class UITictactoe extends UIWindow
     {
-        @Compound
-        public interface WindowSlotReward extends WindowSlot
-        {
-            @WrapperCreator
-            static WindowSlotReward create(Object wrapped)
-            {
-                return WrapperObject.create(WindowSlotReward.class, wrapped);
-            }
-            
-            static WindowSlot newInstance(Inventory inventory, int index)
-            {
-                return newInstance(inventory, index, -1, -1);
-            }
-            static WindowSlot newInstance(Inventory inventory, int index, int x, int y)
-            {
-                return create(null).staticNewInstance(inventory, index, x, y);
-            }
-            @WrapConstructor
-            WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
-            
-            @CompoundOverride(parent=WindowSlot.class, method="canPlace")
-            @Override
-            default boolean canPlace(ItemStack itemStack)
-            {
-                return false;
-            }
-        }
+        public ItemStack PLAYER;
+        public ItemStack AI;
         
-        public static ItemStack PLAYER=new ItemStackBuilder("structure_void").setDisplayName(Text.literal("§b你的棋子")).build();
-        public static ItemStack AI=new ItemStackBuilder("barrier").setDisplayName(Text.literal("§c对手的棋子")).build();
-        
-        public UITictactoe()
+        public UITictactoe(EntityPlayer player)
         {
             super(UnionWindowType.CRAFTING, 10);
             
-            this.putSlot(0, WindowSlotReward::newInstance);
+            PLAYER=new ItemStackBuilder("structure_void").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).build();
+            AI=new ItemStackBuilder("barrier").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).build();
+            
+            this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i<9; i++)
                 this.putSlot(1+i, WindowSlotButton::newInstance);
         }
@@ -184,7 +154,11 @@ public class Tictactoe extends MzModule
         {
             ItemStack result = super.onAction(window, index, data, actionType, player);
             if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
+            {
                 this.restart();
+                if(index>=0 && index<this.inventory.size())
+                    window.sendSlotUpdate(player, index);
+            }
             else if(actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick()))
                 if(index>=1 && index<10 && this.inventory.getItemStack(index).isEmpty())
             {
@@ -207,7 +181,7 @@ public class Tictactoe extends MzModule
         @Override
         public Text getTitle(EntityPlayer player)
         {
-            return Text.literal("Tictactoe");
+            return Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.title"));
         }
     }
 }

@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.event.RegistrarEventListener;
+import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.CommandGiveNbt;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
@@ -18,6 +19,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
 
 import java.util.concurrent.ForkJoinPool;
+import java.util.zip.ZipFile;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -33,6 +35,8 @@ public class MzLibMinecraft extends MzModule
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
             
             this.register(I18nMinecraft.instance);
+            
+            this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
 
             this.register(NothingMinecraftServer.class);
             
@@ -53,7 +57,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(CommandGiveNbt.instance);
 
-            MinecraftPlatform.instance.getMzLibLogger().info("开始进行基本测试"); // TODO: i18n
+            MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.begin"));
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->
             {
                 if(e != null)
@@ -66,9 +70,9 @@ public class MzLibMinecraft extends MzModule
                     t.printStackTrace(System.err);
                 }
                 if(r.isEmpty())
-                    MinecraftPlatform.instance.getMzLibLogger().info("测试结束，未发现明显异常"); // TODO: i18n
+                    MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.success"));
                 else
-                    MinecraftPlatform.instance.getMzLibLogger().warning("测试结束，共"+r.size()+"个异常，可能无法在此服务器上正确运行"); // TODO: i18n
+                    MinecraftPlatform.instance.getMzLibLogger().warning(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.fail"), r.size()));
             });
         }
         catch (Throwable e)

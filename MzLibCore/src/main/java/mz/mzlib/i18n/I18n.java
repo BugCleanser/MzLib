@@ -103,24 +103,27 @@ public class I18n
         return new I18n(map, priority);
     }
     
-    public static I18n load(ZipFile zip, String path, float priority) throws IOException
+    public static I18n load(File fileZip, String path, float priority) throws IOException
     {
-        if(!path.endsWith("/"))
-            path += '/';
-        Map<String, Map<String, String>> map = new HashMap<>();
-        for(Enumeration<? extends ZipEntry> i = zip.entries(); i.hasMoreElements(); )
+        try(ZipFile zip = new ZipFile(fileZip))
         {
-            ZipEntry e = i.nextElement();
-            if(e.getName().startsWith(path))
+            if(!path.endsWith("/"))
+                path += '/';
+            Map<String, Map<String, String>> map = new HashMap<>();
+            for(Enumeration<? extends ZipEntry> i = zip.entries(); i.hasMoreElements(); )
             {
-                try(InputStream is = zip.getInputStream(e))
+                ZipEntry e = i.nextElement();
+                if(e.getName().startsWith(path))
                 {
-                    Map.Entry<String, Map<String, String>> result = load(e.getName().substring(path.length()), is);
-                    if(result!=null)
-                        map.put(result.getKey(), result.getValue());
+                    try(InputStream is = zip.getInputStream(e))
+                    {
+                        Map.Entry<String, Map<String, String>> result = load(e.getName().substring(path.length()), is);
+                        if(result!=null)
+                            map.put(result.getKey(), result.getValue());
+                    }
                 }
             }
+            return new I18n(map, priority);
         }
-        return new I18n(map, priority);
     }
 }

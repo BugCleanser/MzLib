@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
@@ -73,7 +74,7 @@ public abstract class UIWrittenBook implements UI
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, sender->UIStack.get(sender.castTo(EntityPlayer::create)).top() instanceof UIWrittenBook ? null : Text.literal(/*TODO i18n*/"§4You are not opening a book UI.")).setHandler(context->
+            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, sender->UIStack.get(sender.castTo(EntityPlayer::create)).top() instanceof UIWrittenBook ? null : Text.literal(I18nMinecraft.getTranslation(sender, "mzlib.commands.mzlib.book_click.error.not_opening"))).setHandler(context->
             {
                 Integer button = new ArgumentParserInt("button").handle(context);
                 if(!context.successful || !context.doExecute)
@@ -82,7 +83,7 @@ public abstract class UIWrittenBook implements UI
                 if(button<0 || button>=buttons.size())
                 {
                     context.successful = false;
-                    context.suggestions.add("§4Invalid button number");
+                    context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.book_click.error.invalid_button_index")));
                     return;
                 }
                 buttons.get(button).accept(context.sender.castTo(EntityPlayer::create));

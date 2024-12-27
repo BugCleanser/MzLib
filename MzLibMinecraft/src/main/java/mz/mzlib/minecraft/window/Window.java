@@ -93,9 +93,9 @@ public interface Window extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="nextRevision", begin=1701))
     int nextRevisionV1701();
     
-    default void sendSlotUpdate(EntityPlayer player, int slot)
+    default void sendSlotUpdate(EntityPlayer player, int index)
     {
-        this.sendSlotUpdate(player, slot, this.getSlot(slot).getItemStack());
+        this.sendSlotUpdate(player, index, this.getSlot(index).getItemStack());
     }
     void sendSlotUpdate(EntityPlayer player, int slot, ItemStack itemStack);
     @SpecificImpl("sendSlotUpdate")

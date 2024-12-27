@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class IOUtil
@@ -13,7 +14,7 @@ public class IOUtil
     public static Properties readProperties(InputStream is) throws IOException
     {
         Properties properties=new Properties();
-        properties.load(is);
+        properties.load(new InputStreamReader(is, StandardCharsets.UTF_8));
         return properties;
     }
 

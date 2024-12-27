@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.command;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.minecraft.text.Text;
@@ -77,7 +78,7 @@ public class Command
     public static Text checkPermissionSenderPlayer(CommandSender sender)
     {
         if(!sender.isInstanceOf(EntityPlayer::create))
-            return Text.literal("§4只有玩家能执行该命令"); // TODO: i18n
+            return Text.literal(I18nMinecraft.getTranslation(sender, "mzlib.command.permission.not_player"));
         return null;
     }
     
@@ -85,7 +86,7 @@ public class Command
     {
         if(PermissionHelp.instance.check(sender, permission))
             return null;
-        return Text.literal("§4需要权限"+permission.id); // TODO: i18n
+        return Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.permission.lack"), permission.id));
     }
     
     public static Function<CommandSender, Text> permissionChecker(Permission permission)
@@ -158,13 +159,10 @@ public class Command
         }
         if(this.handler==null || !context.successful)
         {
-            for(String i:context.suggestions)
-                sender.sendMessage(Text.literal(i));
-            // TODO: i18n
             if(!this.children.isEmpty())
-                sender.sendMessage(Text.literal("/"+command+" <"+String.join(" | ", this.children.stream().map(i->i.name).collect(Collectors.toSet()))+"> ..."));
+                sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands"), command, String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands.subcommand.delimiter"), this.children.stream().map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands.subcommand"), i.name)).collect(Collectors.toSet())))));
             if(this.handler!=null)
-                sender.sendMessage(Text.literal("/"+command+" "+String.join(" ", context.argNames.stream().map(i->"<"+i+">").collect(Collectors.toSet()))));
+                sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage"), command, String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg.delimiter"), context.argNames.stream().map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg"), i)).collect(Collectors.toSet())))));
         }
     }
 }

@@ -4,6 +4,8 @@ import mz.mzlib.Priority;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.AssetsHelp;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.ThrowableSupplier;
 
@@ -55,6 +57,17 @@ public class I18nMinecraft extends MzModule
             }
             this.taskLoading = null;
         });
+    }
+    
+    public static String getLanguage(CommandSender sender)
+    {
+        if(sender.isInstanceOf(EntityPlayer::create))
+            return sender.castTo(EntityPlayer::create).getLanguage();
+        return "en_us";
+    }
+    public static String getTranslation(CommandSender sender, String key)
+    {
+        return I18n.getTranslation(getLanguage(sender), key);
     }
     
     public void onLoad()

@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserNbtCompound;
 import mz.mzlib.minecraft.command.argument.ArgumentParserPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
@@ -39,7 +40,7 @@ public class CommandGiveNbt extends MzModule
             catch(Throwable e)
             {
                 context.successful=false;
-                context.sender.sendMessage(Text.literal("§4非法物品 "+e.getMessage())); // TODO: i18n
+                context.sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.givenbt.error.illegal_item"), e.getMessage())));
             }
         }));
     }
