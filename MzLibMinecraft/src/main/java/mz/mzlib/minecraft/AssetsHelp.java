@@ -23,18 +23,15 @@ public class AssetsHelp implements Iterable<String>
     
     public int retry = 10;
     public String defaultHost = "launchermeta.mojang.com";
-    public String host = "bmclapi2.bangbang93.com"; // launchermeta.mojang.com
     public String getHost()
     {
-        if(host==null)
-            return defaultHost;
-        return host;
+        return MzLibMinecraft.instance.config.getString("assets_host", defaultHost);
     }
     public URL replaceHost(URL url) throws MalformedURLException
     {
-        if(host==null)
+        if(MzLibMinecraft.instance.config.getString("assets_host")==null)
             return url;
-        return new URL("https", host, -1, url.getFile());
+        return new URL("https", MzLibMinecraft.instance.config.getString("assets_host"), -1, url.getFile());
     }
     public LazyConstant<JsonObject> versionManifest = new LazyConstant<>(()->
     {
@@ -125,7 +122,7 @@ public class AssetsHelp implements Iterable<String>
             if(jsonElement==null)
                 throw new NoSuchFileException("Minecraft assets: "+file);
             String hash = jsonElement.getAsJsonObject().get("hash").getAsString();
-            try(InputStream is = IOUtil.openConnectionCheckRedirects(new URL("https", host, -1, "/assets/"+hash.substring(0, 2)+"/"+hash), retry))
+            try(InputStream is = IOUtil.openConnectionCheckRedirects(new URL("https", this.getHost(), -1, "/assets/"+hash.substring(0, 2)+"/"+hash), retry))
             {
                 return IOUtil.readAll(is);
             }

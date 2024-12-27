@@ -15,15 +15,18 @@ import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
+import mz.mzlib.util.Config;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
 
+import java.io.File;
 import java.util.concurrent.ForkJoinPool;
-import java.util.zip.ZipFile;
 
 public class MzLibMinecraft extends MzModule
 {
     public static MzLibMinecraft instance = new MzLibMinecraft();
+    
+    public Config config;
     
     public Command command;
     
@@ -32,6 +35,8 @@ public class MzLibMinecraft extends MzModule
     {
         try
         {
+            this.config=Config.load(this.getClass().getResourceAsStream("config.json"), new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
+            
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
             
             this.register(I18nMinecraft.instance);

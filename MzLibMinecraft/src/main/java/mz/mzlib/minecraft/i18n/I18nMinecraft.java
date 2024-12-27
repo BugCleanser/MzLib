@@ -4,6 +4,7 @@ import mz.mzlib.Priority;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.AssetsHelp;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.MzModule;
@@ -63,7 +64,7 @@ public class I18nMinecraft extends MzModule
     {
         if(sender.isInstanceOf(EntityPlayer::create))
             return sender.castTo(EntityPlayer::create).getLanguage();
-        return "en_us";
+        return MzLibMinecraft.instance.config.getString("default_language");
     }
     public static String getTranslation(CommandSender sender, String key)
     {
