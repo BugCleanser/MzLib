@@ -1,18 +1,21 @@
-package mz.mzlib.demo.game.chinesechess;
+package mz.mzlib.demo.game.chinesechess.chesses;
 
+import mz.mzlib.demo.game.chinesechess.ChessGame;
+import mz.mzlib.demo.game.chinesechess.Position;
+import mz.mzlib.demo.game.chinesechess.Position2D;
 import mz.mzlib.demo.game.chinesechess.rules.AroundJumpRule;
-import mz.mzlib.demo.game.chinesechess.rules.Chess;
 import mz.mzlib.demo.game.chinesechess.rules.ChessRule;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Horse implements Chess {
+public class Horse extends BaseChess2D {
     protected Position2D position = null;
     protected ChessGame game = null;
     protected List<ChessRule> chessRules = Arrays.asList(new AroundJumpRule(1,2));
 
     public Horse(Position2D position){
+        super(position);
         this.position = position;
     }
 
@@ -34,8 +37,13 @@ public class Horse implements Chess {
 
 
     @Override
-    public Position getPosition() {
+    public Position2D getPosition() {
         return position;
+    }
+
+    @Override
+    public Position2D getPreposition() {
+        return preposition;
     }
 
     @Override
