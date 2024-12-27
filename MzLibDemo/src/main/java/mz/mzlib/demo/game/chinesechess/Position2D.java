@@ -1,4 +1,4 @@
-package mz.mzlib.demo.games.chinesechess;
+package mz.mzlib.demo.game.chinesechess;
 
 import java.util.Objects;
 

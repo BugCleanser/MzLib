@@ -1,0 +1,9 @@
+{
+  "game":
+  {
+    "tictactoe":
+    {
+      "reward": "{id:\"apple\", Count:2b}"
+    }
+  }
+}

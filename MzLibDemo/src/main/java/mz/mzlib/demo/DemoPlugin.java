@@ -9,6 +9,7 @@ public class DemoPlugin extends JavaPlugin
     public void onEnable()
     {
         Demo.instance.jar=this.getFile();
+        Demo.instance.dataFolder=this.getDataFolder();
         MzLib.instance.register(Demo.instance);
     }
     

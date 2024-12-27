@@ -1,4 +1,4 @@
-package mz.mzlib.demo.games.ticactoe;
+package mz.mzlib.demo.game.tictactoe;
 
 import mz.mzlib.demo.Demo;
 import mz.mzlib.i18n.I18n;
@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
+import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.window.UIWindow;
@@ -152,6 +153,13 @@ public class Tictactoe extends MzModule
         @Override
         public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
         {
+            if(index==0)
+            {
+                if(actionType.equals(WindowActionType.click()))
+                    data = 0;
+                else if(actionType.equals(WindowActionType.drop()))
+                    data = 1;
+            }
             ItemStack result = super.onAction(window, index, data, actionType, player);
             if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
             {
@@ -166,7 +174,7 @@ public class Tictactoe extends MzModule
                 if(checkWin())
                 {
                     this.finished=true;
-                    this.inventory.setItemStack(0, new ItemStackBuilder("apple").build()); // reward
+                    this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
                 }
                 else
                 {

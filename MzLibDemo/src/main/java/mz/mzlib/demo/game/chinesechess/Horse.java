@@ -1,8 +1,8 @@
-package mz.mzlib.demo.games.chinesechess;
+package mz.mzlib.demo.game.chinesechess;
 
-import mz.mzlib.demo.games.chinesechess.rules.AroundJumpRule;
-import mz.mzlib.demo.games.chinesechess.rules.Chess;
-import mz.mzlib.demo.games.chinesechess.rules.ChessRule;
+import mz.mzlib.demo.game.chinesechess.rules.AroundJumpRule;
+import mz.mzlib.demo.game.chinesechess.rules.Chess;
+import mz.mzlib.demo.game.chinesechess.rules.ChessRule;
 
 import java.util.Arrays;
 import java.util.List;

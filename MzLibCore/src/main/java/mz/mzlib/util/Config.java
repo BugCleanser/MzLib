@@ -53,6 +53,10 @@ public class Config
             merge(cnt, json);
             json = cnt;
         }
+        else
+        {
+            boolean ignored = file.getParentFile().mkdirs();
+        }
         try(FileOutputStream fos = new FileOutputStream(file))
         {
             fos.write(new GsonBuilder().setPrettyPrinting().create().toJson(json).getBytes(StandardCharsets.UTF_8));
