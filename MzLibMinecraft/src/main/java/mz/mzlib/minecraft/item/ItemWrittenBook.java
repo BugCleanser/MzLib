@@ -81,7 +81,7 @@ public interface ItemWrittenBook extends Item
         ComponentWrittenBookContentV2005 last = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!last.isPresent())
             last=ComponentWrittenBookContentV2005.def();
-        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withTitleReplaced(title));
+        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withTitle(title));
     }
     
     static String getAuthor(ItemStack book)
@@ -123,7 +123,7 @@ public interface ItemWrittenBook extends Item
         ComponentWrittenBookContentV2005 last = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!last.isPresent())
             last=ComponentWrittenBookContentV2005.def();
-        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withAuthorReplaced(author));
+        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withAuthor(author));
     }
     
     static int getGeneration(ItemStack book)
@@ -165,7 +165,7 @@ public interface ItemWrittenBook extends Item
         ComponentWrittenBookContentV2005 last = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!last.isPresent())
             last=ComponentWrittenBookContentV2005.def();
-        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withGenerationReplaced(generation));
+        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withGeneration(generation));
     }
     
     static List<Text> getPages(ItemStack book)
@@ -207,7 +207,7 @@ public interface ItemWrittenBook extends Item
         ComponentWrittenBookContentV2005 last = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!last.isPresent())
             last=ComponentWrittenBookContentV2005.def();
-        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withPagesReplaced(pages));
+        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withPages(pages));
     }
     
     static boolean isResolved(ItemStack book)
@@ -249,6 +249,6 @@ public interface ItemWrittenBook extends Item
         ComponentWrittenBookContentV2005 last = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!last.isPresent())
             last=ComponentWrittenBookContentV2005.def();
-        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withResolvedReplaced(resolved));
+        book.setComponentV2005(componentKeyWrittenBookContentV2005, last.withResolved(resolved));
     }
 }

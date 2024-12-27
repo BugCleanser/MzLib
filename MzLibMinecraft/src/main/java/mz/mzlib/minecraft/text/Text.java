@@ -59,7 +59,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticLiteralV1900(String str)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.empty());
     }
     
     Text staticTranslatable(String key, Text... args);
@@ -80,7 +80,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticTranslatableV1900(String key, Text... args)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.empty());
     }
     
     Text staticKeybind(String keybind);
@@ -101,7 +101,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticKeybindV1900(String keybind)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.empty());
     }
     
     Text staticScore(TextScore value);
@@ -122,7 +122,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticScoreV1900(TextScore value)
     {
-        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.empty());
     }
     
     Text staticSelector(TextSelector selector);
@@ -143,7 +143,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1900)
     default Text staticSelectorV1900(TextSelector selector)
     {
-        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.newInstance());
+        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.empty());
     }
     
     String getLiteral();
@@ -285,17 +285,12 @@ public interface Text extends WrapperObject
         this.castTo(TextMutableV1600::create).setStyle(style);
     }
     
-    // TODO
-    default Text style(Consumer<TextStyle> consumer)
+    default TextStyle style()
     {
-        TextStyle style = this.getStyle();
-        if(!style.isPresent())
-        {
-            style = TextStyle.newInstance();
-            this.setStyle(style);
-        }
-        consumer.accept(style);
-        return this;
+        TextStyle result = this.getStyle();
+        if(!result.isPresent())
+            this.setStyle(result = TextStyle.empty());
+        return result;
     }
     
     @WrapMinecraftMethod(@VersionName(name="getSiblings"))
@@ -331,10 +326,164 @@ public interface Text extends WrapperObject
         throw new UnsupportedOperationException();
     }
     
-    default Text setClickEvent(TextClickEvent event)
+    default Boolean getBold()
     {
-        // TODO
-        return this.style(s->s.setClickEvent(event));
+        return this.getStyle().getBold();
+    }
+    Text setBold(Boolean bold);
+    @SpecificImpl("setBold")
+    @VersionRange(end=1600)
+    default Text setBoldV_1600(Boolean bold)
+    {
+        this.style().setBold(bold);
+        return this;
+    }
+    @SpecificImpl("setBold")
+    @VersionRange(begin=1600)
+    default Text setBoldV1600(Boolean bold)
+    {
+        this.setStyle(this.style().withBoldV1600(bold));
+        return this;
+    }
+    
+    default Boolean getItalic()
+    {
+        return this.getStyle().getItalic();
+    }
+    Text setItalic(Boolean italic);
+    @SpecificImpl("setItalic")
+    @VersionRange(end=1600)
+    default Text setItalicV_1600(Boolean italic)
+    {
+        this.style().setItalic(italic);
+        return this;
+    }
+    @SpecificImpl("setItalic")
+    @VersionRange(begin=1600)
+    default Text setItalicV1600(Boolean italic)
+    {
+        this.setStyle(this.style().withItalicV1600(italic));
+        return this;
+    }
+    
+    default Boolean getUnderlined()
+    {
+        return this.getStyle().getUnderlined();
+    }
+    Text setUnderlined(Boolean underlined);
+    @SpecificImpl("setUnderlined")
+    @VersionRange(end=1600)
+    default Text setUnderlinedV_1600(Boolean underlined)
+    {
+        this.style().setUnderlined(underlined);
+        return this;
+    }
+    @SpecificImpl("setUnderlined")
+    @VersionRange(begin=1600)
+    default Text setUnderlinedV1600(Boolean underlined)
+    {
+        this.setStyle(this.style().withUnderlinedV1600(underlined));
+        return this;
+    }
+    
+    default Boolean getStrikethrough()
+    {
+        return this.getStyle().getStrikethrough();
+    }
+    Text setStrikethrough(Boolean strikethrough);
+    @SpecificImpl("setStrikethrough")
+    @VersionRange(end=1600)
+    default Text setStrikethroughV_1600(Boolean strikethrough)
+    {
+        this.style().setStrikethrough(strikethrough);
+        return this;
+    }
+    @SpecificImpl("setStrikethrough")
+    @VersionRange(begin=1600)
+    default Text setStrikethroughV1600(Boolean strikethrough)
+    {
+        this.setStyle(this.style().withStrikethroughV1600(strikethrough));
+        return this;
+    }
+    
+    default Boolean getObfuscated()
+    {
+        return this.getStyle().getObfuscated();
+    }
+    Text setObfuscated(Boolean obfuscated);
+    @SpecificImpl("setObfuscated")
+    @VersionRange(end=1600)
+    default Text setObfuscatedV_1600(Boolean obfuscated)
+    {
+        this.style().setObfuscated(obfuscated);
+        return this;
+    }
+    @SpecificImpl("setObfuscated")
+    @VersionRange(begin=1600)
+    default Text setObfuscatedV1600(Boolean obfuscated)
+    {
+        this.setStyle(this.style().withObfuscatedV1600(obfuscated));
+        return this;
+    }
+    
+    default TextClickEvent getClickEvent()
+    {
+        return this.getStyle().getClickEvent();
+    }
+    Text setClickEvent(TextClickEvent event);
+    @SpecificImpl("setClickEvent")
+    @VersionRange(end=1600)
+    default Text setClickEventV_1600(TextClickEvent event)
+    {
+        this.style().setClickEvent(event);
+        return this;
+    }
+    @SpecificImpl("setClickEvent")
+    @VersionRange(begin=1600)
+    default Text setClickEventV1600(TextClickEvent event)
+    {
+        this.setStyle(this.style().withClickEventV1600(event));
+        return this;
+    }
+    
+    default TextHoverEvent getHoverEvent()
+    {
+        return this.getStyle().getHoverEvent();
+    }
+    Text setHoverEvent(TextHoverEvent event);
+    @SpecificImpl("setHoverEvent")
+    @VersionRange(end=1600)
+    default Text setHoverEventV_1600(TextHoverEvent event)
+    {
+        this.style().setHoverEvent(event);
+        return this;
+    }
+    @SpecificImpl("setHoverEvent")
+    @VersionRange(begin=1600)
+    default Text setHoverEventV1600(TextHoverEvent event)
+    {
+        this.setStyle(this.style().withHoverEventV1600(event));
+        return this;
+    }
+    
+    default String getInsertion()
+    {
+        return this.getStyle().getInsertion();
+    }
+    Text setInsertion(String insertion);
+    @SpecificImpl("setInsertion")
+    @VersionRange(end=1600)
+    default Text setInsertionV_1600(String insertion)
+    {
+        this.style().setInsertion(insertion);
+        return this;
+    }
+    @SpecificImpl("setInsertion")
+    @VersionRange(begin=1600)
+    default Text setInsertionV1600(String insertion)
+    {
+        this.setStyle(this.style().withInsertionV1600(insertion));
+        return this;
     }
     
     @WrapMinecraftMethod(@VersionName(name="getContent", begin=1900))
@@ -342,6 +491,9 @@ public interface Text extends WrapperObject
     
     default String toLiteral()
     {
+        String result = this.getLiteral();
+        if(result!=null)
+            return result;
         // TODO
         throw new UnsupportedOperationException();
     }

@@ -5,8 +5,6 @@ import mz.mzlib.minecraft.text.RawFilteredPairV2005;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.ListWrapper;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -65,27 +63,27 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
     @WrapConstructor
     ComponentWrittenBookContentV2005 staticNewInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
     
-    default ComponentWrittenBookContentV2005 withTitleReplaced(String title)
+    default ComponentWrittenBookContentV2005 withTitle(String title)
     {
         return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), this.getAuthor(), this.getGeneration(), this.getPages0(), this.isResolved());
     }
     
-    default ComponentWrittenBookContentV2005 withAuthorReplaced(String author)
+    default ComponentWrittenBookContentV2005 withAuthor(String author)
     {
         return newInstance0(this.getTitle0(), author, this.getGeneration(), this.getPages0(), this.isResolved());
     }
     
-    default ComponentWrittenBookContentV2005 withGenerationReplaced(int generation)
+    default ComponentWrittenBookContentV2005 withGeneration(int generation)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), generation, this.getPages0(), this.isResolved());
     }
     
-    default ComponentWrittenBookContentV2005 withPagesReplaced(List<Text> pages)
+    default ComponentWrittenBookContentV2005 withPages(List<Text> pages)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null)).collect(Collectors.toList()), this.isResolved());
     }
     
-    default ComponentWrittenBookContentV2005 withResolvedReplaced(boolean resolved)
+    default ComponentWrittenBookContentV2005 withResolved(boolean resolved)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), this.getPages0(), resolved);
     }
