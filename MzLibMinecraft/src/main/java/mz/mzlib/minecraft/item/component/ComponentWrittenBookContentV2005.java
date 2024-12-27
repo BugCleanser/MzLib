@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.ListWrapper;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -23,12 +24,35 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
         return WrapperObject.create(ComponentWrittenBookContentV2005.class, wrapped);
     }
     
-    static ComponentWrittenBookContentV2005 empty()
+    static ComponentWrittenBookContentV2005 def()
     {
-        return create(null).staticEmpty();
+        return create(null).staticDef();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="DEFAULT"))
-    ComponentWrittenBookContentV2005 staticEmpty();
+    ComponentWrittenBookContentV2005 staticDef();
+    
+    default String getTitle()
+    {
+        return (String)this.getTitle0().get0(false);
+    }
+    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2419"))
+    RawFilteredPairV2005 getTitle0();
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2420"))
+    String getAuthor();
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2421"))
+    int getGeneration();
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2422"))
+    List<?> getPages0();
+    default List<Text> getPages()
+    {
+        return this.getPages0().stream().map(RawFilteredPairV2005::create).map(p->p.get(false, Text::create)).collect(Collectors.toList());
+    }
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2423"))
+    boolean isResolved();
     
     static ComponentWrittenBookContentV2005 newInstance(String title, String author, int generation, List<Text> pages, boolean resolved)
     {
@@ -41,15 +65,28 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
     @WrapConstructor
     ComponentWrittenBookContentV2005 staticNewInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
     
-    static ComponentWrittenBookContentV2005 newInstance(String title, String author, int generation, List<Text> pages)
+    default ComponentWrittenBookContentV2005 withTitleReplaced(String title)
     {
-        return newInstance(title, author, generation, pages, false);
+        return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), this.getAuthor(), this.getGeneration(), this.getPages0(), this.isResolved());
+    }
+    
+    default ComponentWrittenBookContentV2005 withAuthorReplaced(String author)
+    {
+        return newInstance0(this.getTitle0(), author, this.getGeneration(), this.getPages0(), this.isResolved());
+    }
+    
+    default ComponentWrittenBookContentV2005 withGenerationReplaced(int generation)
+    {
+        return newInstance0(this.getTitle0(), this.getAuthor(), generation, this.getPages0(), this.isResolved());
     }
     
     default ComponentWrittenBookContentV2005 withPagesReplaced(List<Text> pages)
     {
-        return this.withPagesReplaced0(pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()));
+        return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null)).collect(Collectors.toList()), this.isResolved());
     }
-    @WrapMinecraftMethod(@VersionName(name="method_58188"))
-    ComponentWrittenBookContentV2005 withPagesReplaced0(List<?> rawFilteredPairPages);
+    
+    default ComponentWrittenBookContentV2005 withResolvedReplaced(boolean resolved)
+    {
+        return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), this.getPages0(), resolved);
+    }
 }

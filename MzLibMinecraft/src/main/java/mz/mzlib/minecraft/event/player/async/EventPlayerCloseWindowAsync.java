@@ -20,6 +20,12 @@ public class EventPlayerCloseWindowAsync extends EventPlayerAsync
         return this.window;
     }
     
+    @Override
+    public void call()
+    {
+        super.call();
+    }
+    
     public static class Module extends MzModule
     {
         public static Module instance = new Module();

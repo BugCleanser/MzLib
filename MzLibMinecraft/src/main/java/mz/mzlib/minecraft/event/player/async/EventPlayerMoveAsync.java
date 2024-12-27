@@ -8,18 +8,11 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
-import java.util.concurrent.CompletableFuture;
-
 public abstract class EventPlayerMoveAsync extends EventPlayerAsync
 {
     public EventPlayerMoveAsync(PacketEvent packetEvent)
     {
         super(packetEvent);
-    }
-    
-    public CompletableFuture<Void> sync()
-    {
-        return this.packetEvent.sync();
     }
     
     public abstract boolean isLocationChanged();

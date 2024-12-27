@@ -4,6 +4,7 @@ import com.google.gson.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class Config
 {
@@ -66,13 +67,12 @@ public class Config
     
     public static void merge(JsonObject json, JsonObject def)
     {
-        for(String key: def.keySet())
+        for(Map.Entry<String, JsonElement> i: def.entrySet())
         {
-            JsonElement value = def.get(key);
-            if(!json.has(key))
-                json.add(key, value);
-            else if(value instanceof JsonObject && json.get(key) instanceof JsonObject)
-                merge(json.getAsJsonObject(key), value.getAsJsonObject());
+            if(!json.has(i.getKey()))
+                json.add(i.getKey(), i.getValue());
+            else if(i.getValue() instanceof JsonObject && json.get(i.getKey()) instanceof JsonObject)
+                merge(json.getAsJsonObject(i.getKey()), i.getValue().getAsJsonObject());
         }
     }
 }

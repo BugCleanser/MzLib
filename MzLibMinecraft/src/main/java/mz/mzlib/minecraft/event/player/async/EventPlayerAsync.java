@@ -4,6 +4,8 @@ import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.module.MzModule;
 
+import java.util.concurrent.CompletableFuture;
+
 public class EventPlayerAsync extends EventPlayer
 {
     PacketEvent packetEvent;
@@ -22,6 +24,11 @@ public class EventPlayerAsync extends EventPlayer
     public void setCancelled(boolean cancelled)
     {
         this.packetEvent.setCancelled(cancelled);
+    }
+    
+    public CompletableFuture<Void> sync()
+    {
+        return this.packetEvent.sync();
     }
     
     @Override

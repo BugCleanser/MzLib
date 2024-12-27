@@ -170,6 +170,14 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod({@VersionName(end=1400, name="setNbt"), @VersionName(begin=1400, end=1701, name="setTag"), @VersionName(begin=1701, end=2005, name="setNbt")})
     void setTagV_2005(NbtCompound value);
     
+    default NbtCompound tagV_2005()
+    {
+        NbtCompound result = this.getTagV_2005();
+        if(!result.isPresent())
+            this.setTagV_2005(result=NbtCompound.newInstance());
+        return result;
+    }
+    
     @SpecificImpl("getCustomData")
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()

@@ -29,11 +29,6 @@ public class EventPlayerChatAsync extends EventPlayerAsync
     public void call()
     {
     }
-    
-    public CompletableFuture<Void> sync()
-    {
-        return this.packetEvent.sync();
-    }
 
     public static class Module extends MzModule
     {

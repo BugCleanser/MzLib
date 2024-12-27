@@ -1,8 +1,6 @@
 package mz.mzlib.minecraft.ui.book;
 
-import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -15,7 +13,6 @@ import mz.mzlib.minecraft.text.TextClickEvent;
 import mz.mzlib.minecraft.ui.UI;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.async.AsyncFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,22 +44,10 @@ public abstract class UIWrittenBook implements UI
     public void open(EntityPlayer player)
     {
         ItemStack book = new ItemStackBuilder("written_book").build();
+        ItemWrittenBook.setTitle(book, "");
+        ItemWrittenBook.setAuthor(book, "");
         ItemWrittenBook.setPages(book, getPages(player));
         player.openBook(book);
-        new AsyncFunction<Void>()
-        {
-            @Override
-            public void run()
-            {
-            }
-            @Override
-            protected Void template() throws Throwable
-            {
-                await(new SleepTicks(50));
-                UIWrittenBook.this.close(player);
-                return null;
-            }
-        }.start(MinecraftServer.instance);
     }
     
     @Deprecated
@@ -83,6 +68,8 @@ public abstract class UIWrittenBook implements UI
             MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, sender->UIStack.get(sender.castTo(EntityPlayer::create)).top() instanceof UIWrittenBook ? null : Text.literal(I18nMinecraft.getTranslation(sender, "mzlib.commands.mzlib.book_click.error.not_opening"))).setHandler(context->
             {
                 Integer button = new ArgumentParserInt("button").handle(context);
+                if(context.argsReader.hasNext())
+                    context.successful=false;
                 if(!context.successful || !context.doExecute)
                     return;
                 List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook)UIStack.get(context.sender.castTo(EntityPlayer::create)).top()).buttons;

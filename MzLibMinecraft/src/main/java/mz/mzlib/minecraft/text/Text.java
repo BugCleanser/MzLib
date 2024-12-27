@@ -31,6 +31,10 @@ public interface Text extends WrapperObject
     {
         return Serializer.decode(json);
     }
+    static Text decode(String json)
+    {
+        return decode(new Gson().fromJson(json, JsonElement.class));
+    }
     
     default JsonElement encode()
     {

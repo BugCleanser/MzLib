@@ -15,14 +15,17 @@ public interface NbtByte extends NbtElement
     {
         return WrapperObject.create(NbtByte.class, wrapped);
     }
-
-    @WrapConstructor
-    NbtByte staticNewInstance(byte value);
-
+    
+    static NbtByte newInstance(boolean value)
+    {
+        return newInstance(value ? (byte) 1 : (byte) 0);
+    }
     static NbtByte newInstance(byte value)
     {
         return create(null).staticNewInstance(value);
     }
+    @WrapConstructor
+    NbtByte staticNewInstance(byte value);
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
     byte getValue();

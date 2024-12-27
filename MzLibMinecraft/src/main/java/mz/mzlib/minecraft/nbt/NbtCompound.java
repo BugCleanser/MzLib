@@ -92,6 +92,11 @@ public interface NbtCompound extends NbtElement
         return this.get(key, NbtByte::create).getValue();
     }
     
+    default boolean getBoolean(String key)
+    {
+        return this.getByte(key)!=0;
+    }
+    
     default int getInt(String key)
     {
         return this.get(key, NbtInt::create).getValue();
