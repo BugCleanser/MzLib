@@ -3,7 +3,7 @@
   {
     "tictactoe":
     {
-      "reward": "{id:\"apple\", Count:2b}"
+      "reward": "{id:\"apple\", Count:1b}"
     }
   }
 }

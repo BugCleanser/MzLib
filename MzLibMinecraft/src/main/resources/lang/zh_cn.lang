@@ -2,6 +2,10 @@ mzlib.test.basic.begin = 开始进行基本测试
 mzlib.test.basic.success = 测试结束，未发现明显异常
 mzlib.test.basic.fail = 测试结束，发现%d个异常，MzLib可能无法在此服务端上正确运行
 
+mzlib.lang.minecraft.load = 正在加载MC语言文件
+mzlib.lang.minecraft.load.success = MC语言文件加载完成
+mzlib.lang.minecraft.load.fail = MC语言文件加载失败，请稍后重试
+
 mzlib.ui.anvil_input.reset.lore = §a点此重置输入框
 mzlib.ui.anvil_input.back = §5返回
 mzlib.ui.anvil_input.done = §a完成
@@ -20,3 +24,6 @@ mzlib.command.usage.subcommands.subcommand.delimiter = \ §a|\
 mzlib.commands.givenbt.error.illegal_item = §4非法物品：%s
 mzlib.commands.mzlib.book_click.error.not_opening = §4必须打开一个成书UI
 mzlib.commands.mzlib.book_click.error.invalid_button_index = §4无效的按钮索引
+
+mzlib.commands.mzlib.lang.loadmc.loading = §e已在加载中，请留意后台
+mzlib.commands.mzlib.lang.loadmc.begin = §a开始加载，请留意后台

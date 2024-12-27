@@ -4,6 +4,7 @@ import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.CommandGiveNbt;
+import mz.mzlib.minecraft.commands.CommandMzLibLang;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
@@ -61,6 +62,7 @@ public class MzLibMinecraft extends MzModule
             this.register(UIWindowAnvil.Module.instance);
             
             this.register(CommandGiveNbt.instance);
+            this.register(CommandMzLibLang.instance);
 
             MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.begin"));
             Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e) ->

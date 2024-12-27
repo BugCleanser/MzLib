@@ -1,6 +1,5 @@
 package mz.mzlib.util.asm;
 
-import com.google.common.collect.Lists;
 import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
@@ -584,7 +583,7 @@ public class AsmUtil
 
     public static List<AbstractInsnNode> toList(InsnList nodes)
     {
-        return Lists.newArrayList(nodes.toArray());
+        return CollectionUtil.newArrayList(nodes.toArray());
     }
 
     public static InsnList toList(AbstractInsnNode... nodes)
