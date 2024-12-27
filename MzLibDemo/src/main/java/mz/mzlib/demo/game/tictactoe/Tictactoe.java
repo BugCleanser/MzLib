@@ -53,15 +53,15 @@ public class Tictactoe extends MzModule
         {
             super(UnionWindowType.CRAFTING, 10);
             
-            PLAYER=new ItemStackBuilder("structure_void").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).build();
-            AI=new ItemStackBuilder("barrier").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).build();
+            PLAYER = new ItemStackBuilder("structure_void").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).build();
+            AI = new ItemStackBuilder("barrier").setDisplayName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).build();
             
             this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i<9; i++)
                 this.putSlot(1+i, WindowSlotButton::newInstance);
         }
         
-        public boolean finished=false;
+        public boolean finished = false;
         
         public boolean checkWin()
         {
@@ -72,7 +72,7 @@ public class Tictactoe extends MzModule
                 if(this.inventory.getItemStack(1+4).equals(this.inventory.getItemStack(1+2)) && this.inventory.getItemStack(1+4).equals(this.inventory.getItemStack(1+6)))
                     return true;
             }
-            for(int i=0; i<3; i++)
+            for(int i = 0; i<3; i++)
             {
                 if(!this.inventory.getItemStack(1+i*3).isEmpty())
                 {
@@ -91,13 +91,13 @@ public class Tictactoe extends MzModule
         public void restart()
         {
             this.inventory.clear();
-            this.finished=false;
+            this.finished = false;
         }
         
         public void aiDrop()
         {
             // 能赢直接下
-            for(int i=0; i<9; i++)
+            for(int i = 0; i<9; i++)
             {
                 if(this.inventory.getItemStack(1+i).isEmpty())
                 {
@@ -107,7 +107,7 @@ public class Tictactoe extends MzModule
                     this.inventory.setItemStack(1+i, ItemStack.empty());
                 }
             }
-            for(int i=0; i<9; i++)
+            for(int i = 0; i<9; i++)
             {
                 if(this.inventory.getItemStack(1+i).isEmpty())
                 {
@@ -126,8 +126,8 @@ public class Tictactoe extends MzModule
                 this.inventory.setItemStack(1+4, AI);
                 return;
             }
-            List<Integer> list=new ArrayList<>();
-            for(int i=0; i<9; i++)
+            List<Integer> list = new ArrayList<>();
+            for(int i = 0; i<9; i++)
                 list.add(i);
             Collections.shuffle(list);
             for(int i: list)
@@ -142,7 +142,7 @@ public class Tictactoe extends MzModule
         
         public boolean isFull()
         {
-            for(int i=0; i<9; i++)
+            for(int i = 0; i<9; i++)
             {
                 if(this.inventory.getItemStack(1+i).isEmpty())
                     return false;
@@ -153,13 +153,6 @@ public class Tictactoe extends MzModule
         @Override
         public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
         {
-            if(index==0)
-            {
-                if(actionType.equals(WindowActionType.click()))
-                    data = 0;
-                else if(actionType.equals(WindowActionType.drop()))
-                    data = 1;
-            }
             ItemStack result = super.onAction(window, index, data, actionType, player);
             if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
             {
@@ -169,20 +162,20 @@ public class Tictactoe extends MzModule
             }
             else if(actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick()))
                 if(index>=1 && index<10 && this.inventory.getItemStack(index).isEmpty())
-            {
-                this.inventory.setItemStack(index, PLAYER);
-                if(checkWin())
                 {
-                    this.finished=true;
-                    this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
+                    this.inventory.setItemStack(index, PLAYER);
+                    if(checkWin())
+                    {
+                        this.finished = true;
+                        this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
+                    }
+                    else
+                    {
+                        aiDrop();
+                        if(this.checkWin())
+                            this.finished = true;
+                    }
                 }
-                else
-                {
-                    aiDrop();
-                    if(this.checkWin())
-                        this.finished=true;
-                }
-            }
             return result;
         }
         
