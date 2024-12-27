@@ -1,10 +1,16 @@
 package mz.mzlib.demo.game.chinesechess;
 
-import mz.mzlib.demo.game.chinesechess.rules.Chess;
+import mz.mzlib.demo.game.chinesechess.chesses.Chess;
 
 //TODO
 public class ChessGame {
-    void layChess(Chess chess){
+    protected String name;
+
+    public ChessGame(String s){
+        this.name = s;
+    }
+
+    public void layChess(Chess chess){
 
     }
 }
