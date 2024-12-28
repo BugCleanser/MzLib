@@ -68,4 +68,9 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     {
         this.openBook0V1400(book, EnumHand.mainHand());
     }
+    
+    default ItemStack getHandItemStack()
+    {
+        return this.getInventory().getHandItemStack();
+    }
 }

@@ -30,9 +30,9 @@ public abstract class UIWrittenBook implements UI
         return this.buttons.size()-1;
     }
     
-    public static Text setButton(Text text, int button)
+    public static TextClickEvent buttonClickEvent(int button)
     {
-        return text.setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/"+MzLibMinecraft.instance.command.name+" "+Module.instance.command.name+" "+button));
+        return TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/"+MzLibMinecraft.instance.command.name+" "+Module.instance.command.name+" "+button);
     }
     
     public void clear()

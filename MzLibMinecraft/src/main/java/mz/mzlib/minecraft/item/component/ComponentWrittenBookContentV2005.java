@@ -54,7 +54,7 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
     
     static ComponentWrittenBookContentV2005 newInstance(String title, String author, int generation, List<Text> pages, boolean resolved)
     {
-        return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), author, generation, pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null)).collect(Collectors.toList()), resolved);
+        return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), author, generation, pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()), resolved);
     }
     static ComponentWrittenBookContentV2005 newInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved)
     {
@@ -80,7 +80,7 @@ public interface ComponentWrittenBookContentV2005 extends WrapperObject
     
     default ComponentWrittenBookContentV2005 withPages(List<Text> pages)
     {
-        return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null)).collect(Collectors.toList()), this.isResolved());
+        return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()), this.isResolved());
     }
     
     default ComponentWrittenBookContentV2005 withResolved(boolean resolved)

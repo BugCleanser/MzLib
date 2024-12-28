@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.inventory;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -21,4 +22,9 @@ public interface InventoryPlayer extends WrapperObject, Inventory
     
     @WrapMinecraftFieldAccessor(@VersionName(name="selectedSlot"))
     int getHandIndex();
+    
+    default ItemStack getHandItemStack()
+    {
+        return this.getItemStack(this.getHandIndex());
+    }
 }

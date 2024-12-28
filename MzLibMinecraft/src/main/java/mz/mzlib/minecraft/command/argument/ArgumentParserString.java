@@ -4,13 +4,13 @@ import mz.mzlib.minecraft.command.CommandContext;
 
 public class ArgumentParserString extends ArgumentParser<String>
 {
-    public boolean withSpace;
+    public boolean allowSpace;
     String[] presets;
     
-    public ArgumentParserString(String name, boolean withSpace, String... presets)
+    public ArgumentParserString(String name, boolean allowSpace, String... presets)
     {
         super(name);
-        this.withSpace=withSpace;
+        this.allowSpace =allowSpace;
         this.presets=presets;
     }
     
@@ -23,7 +23,7 @@ public class ArgumentParserString extends ArgumentParser<String>
         else
             context.successful=false;
         int spaces=0;
-        while(this.withSpace && context.argsReader.hasNext())
+        while(this.allowSpace && context.argsReader.hasNext())
         {
             result.append(' ').append(context.argsReader.readString());
             spaces++;

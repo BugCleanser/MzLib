@@ -16,7 +16,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text")})
 public interface Text extends WrapperObject
@@ -52,7 +51,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticLiteralV_1900(String str)
     {
-        return TextLiteralV_1900.newInstance(str).castTo(Text::create);
+        return TextLiteralV_1900.newInstance(str);
     }
     
     @SpecificImpl("staticLiteral")
@@ -73,7 +72,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticTranslatableV_1900(String key, Text... args)
     {
-        return TextTranslatableV_1900.newInstance(key, args).castTo(Text::create);
+        return TextTranslatableV_1900.newInstance(key, args);
     }
     
     @SpecificImpl("staticTranslatable")
@@ -94,7 +93,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticKeybindV_1900(String keybind)
     {
-        return TextKeybindV_1900.newInstance(keybind).castTo(Text::create);
+        return TextKeybindV_1900.newInstance(keybind);
     }
     
     @SpecificImpl("staticKeybind")
@@ -115,7 +114,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticScoreV_1900(TextScore value)
     {
-        return value.castTo(TextScoreV_1900::create).castTo(Text::create);
+        return value.castTo(TextScoreV_1900::create);
     }
     
     @SpecificImpl("staticScore")
@@ -136,7 +135,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticSelectorV_1900(TextSelector selector)
     {
-        return selector.castTo(TextScoreV_1900::create).castTo(Text::create);
+        return selector.castTo(TextScoreV_1900::create);
     }
     
     @SpecificImpl("staticSelector")
@@ -275,14 +274,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default void setStyleV_1900(TextStyle style)
     {
-        this.castTo(AbstractTextV_1900::create).setStyle(style);
+        this.castTo(AbstractTextV_1900::create).setStyleV_1900(style);
     }
     
     @SpecificImpl("setStyle")
     @VersionRange(begin=1900)
     default void setStyleV1900(TextStyle style)
     {
-        this.castTo(TextMutableV1600::create).setStyle(style);
+        this.castTo(TextMutableV1600::create).setStyleV1900(style);
     }
     
     default TextStyle style()
@@ -304,9 +303,18 @@ public interface Text extends WrapperObject
         return new ListWrapper<>(result, Text::create);
     }
     
-    default void setExtra(List<Text> value)
+    Text setExtra(List<Text> value);
+    @SpecificImpl("setExtra")
+    @VersionRange(end=1900)
+    default Text setExtraV_1900(List<Text> value)
     {
-        this.castTo(AbstractTextV_1900::create).setExtra(value);
+        return this.castTo(AbstractTextV_1900::create).setExtraV_1900(value);
+    }
+    @SpecificImpl("setExtra")
+    @VersionRange(begin=1900)
+    default Text setExtraV1900(List<Text> value)
+    {
+        return this.castTo(TextMutableV1600::create).setExtraV1900(value);
     }
     
     default Text addExtra(Text... value)

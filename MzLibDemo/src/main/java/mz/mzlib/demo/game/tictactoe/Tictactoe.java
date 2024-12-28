@@ -160,22 +160,21 @@ public class Tictactoe extends MzModule
                 if(index>=0 && index<this.inventory.size())
                     window.sendSlotUpdate(player, index);
             }
-            else if(actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick()))
-                if(index>=1 && index<10 && this.inventory.getItemStack(index).isEmpty())
+            else if(!this.finished && (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) && index>=1 && index<10 && this.inventory.getItemStack(index).isEmpty())
+            {
+                this.inventory.setItemStack(index, PLAYER);
+                if(checkWin())
                 {
-                    this.inventory.setItemStack(index, PLAYER);
-                    if(checkWin())
-                    {
-                        this.finished = true;
-                        this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
-                    }
-                    else
-                    {
-                        aiDrop();
-                        if(this.checkWin())
-                            this.finished = true;
-                    }
+                    this.finished = true;
+                    this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
                 }
+                else
+                {
+                    aiDrop();
+                    if(this.checkWin())
+                        this.finished = true;
+                }
+            }
             return result;
         }
         

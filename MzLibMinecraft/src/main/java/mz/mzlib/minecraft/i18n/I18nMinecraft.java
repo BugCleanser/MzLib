@@ -1,5 +1,8 @@
 package mz.mzlib.minecraft.i18n;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import mz.mzlib.Priority;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.AssetsHelp;
@@ -9,13 +12,18 @@ import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.IOUtil;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableSupplier;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class I18nMinecraft extends MzModule
 {
@@ -23,7 +31,7 @@ public class I18nMinecraft extends MzModule
     
     public I18n i18n = new I18n(new HashMap<>(), Priority.VERY_VERY_LOW);
     public CompletableFuture<Void> taskLoading;
-    public void loadLanguages()
+    public void loadMinecraftLanguages()
     {
         if(this.taskLoading!=null && !this.taskLoading.isDone())
             return;
@@ -72,9 +80,41 @@ public class I18nMinecraft extends MzModule
         return I18n.getTranslation(getLanguage(sender), key);
     }
     
+    public static void saveCustomLanguage(String lang)
+    {
+        try
+        {
+            File dir = new File(MinecraftPlatform.instance.getMzLibDataFolder(), "lang");
+            boolean ignored=dir.mkdirs();
+            Files.write(new File(dir, lang+".json").toPath(), new GsonBuilder().setPrettyPrinting().create().toJson(I18n.custom.map.get(lang)).getBytes(StandardCharsets.UTF_8));
+        }
+        catch(IOException e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+    
+    public static void loadCustomLanguages()
+    {
+        try
+        {
+            File dir = new File(MinecraftPlatform.instance.getMzLibDataFolder(), "lang");
+            boolean ignored = dir.mkdirs();
+            for(String file: Objects.requireNonNull(dir.list()))
+            {
+                I18n.custom.map.put(file.substring(0, file.length()-".json".length()) ,new ConcurrentHashMap<>(I18n.load(new Gson().fromJson(new String(Files.readAllBytes(new File(dir, file).toPath()), StandardCharsets.UTF_8), JsonObject.class))));
+            }
+        }
+        catch(IOException e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+    
     public void onLoad()
     {
         this.register(this.i18n);
-        loadLanguages();
+        loadCustomLanguages();
+        loadMinecraftLanguages();
     }
 }

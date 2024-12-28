@@ -43,8 +43,8 @@ public class DemoBookUi extends MzModule
         public List<Text> getPages(EntityPlayer player)
         {
             List<Text> lines=new ArrayList<>();
-            lines.add(setButton(Text.literal("awa\n"), button0));
-            lines.add(setButton(Text.literal("bwb\n"), button1));
+            lines.add(Text.literal("awa\n").setBold(true).setClickEvent(buttonClickEvent(button0)));
+            lines.add(Text.literal("qwq\n").setClickEvent(buttonClickEvent(button1)));
             return ItemWrittenBook.makePages(lines);
         }
 }

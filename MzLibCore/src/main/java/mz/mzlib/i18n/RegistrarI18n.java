@@ -23,13 +23,13 @@ public class RegistrarI18n implements IRegistrar<I18n>
 
     public Set<I18n> i18ns=new HashSet<>();
     @Override
-    public void register(MzModule module, I18n object)
+    public synchronized void register(MzModule module, I18n object)
     {
         this.i18ns.add(object);
         this.update();
     }
     @Override
-    public void unregister(MzModule module, I18n object)
+    public synchronized void unregister(MzModule module, I18n object)
     {
         this.i18ns.remove(object);
         this.update();
