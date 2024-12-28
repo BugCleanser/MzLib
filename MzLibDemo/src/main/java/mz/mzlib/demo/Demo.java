@@ -52,6 +52,7 @@ public class Demo extends MzModule
             
             this.register(Tictactoe.instance);
             this.register(DemoBookUi.instance);
+            this.register(Inventory10Slots.instance);
             this.register(ExampleAsyncFunction.instance);
         }
         catch(Throwable e)
