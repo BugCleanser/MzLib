@@ -48,7 +48,7 @@ public class LangEditor extends UIWrittenBook
                 }
                 catch(Throwable e1)
                 {
-                    player.sendMessage(Text.literal("反转义失败，你可能应输入: "+escape(r)));
+                    player.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.set.fail.unescape"), escape(r))));
                     return;
                 }
                 I18n.custom.map.computeIfAbsent(this.lang, k->new ConcurrentHashMap<>()).put(this.node, u);
