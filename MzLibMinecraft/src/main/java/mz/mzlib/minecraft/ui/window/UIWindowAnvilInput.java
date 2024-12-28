@@ -49,11 +49,6 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
             {
                 return title;
             }
-            @Override
-            public void onPlayerClose(EntityPlayer player)
-            {
-                result.complete(null);
-            }
         });
         return result;
     }

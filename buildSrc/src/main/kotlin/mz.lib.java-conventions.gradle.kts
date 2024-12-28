@@ -45,6 +45,7 @@ tasks {
     register<Copy>("copyBinaryResources") {
         from("src/main/resources") {
             include("**/*.lang")
+            include("**/*.json")
             include("mappings/yarn/*.tiny")
         }
         into("build/resources/main")
@@ -52,6 +53,7 @@ tasks {
     processResources {
         dependsOn("copyBinaryResources")
         exclude("**/*.lang")
+        exclude("**/*.json")
         exclude("mappings/yarn/*.tiny")
         expand("version" to project.version)
     }
