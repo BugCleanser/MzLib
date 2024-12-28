@@ -622,6 +622,8 @@ public class AsmUtil
 
     public static InsnList insnCast(Class<?> tar, Class<?> src)
     {
+        if(tar.equals(src))
+            return new InsnList();
         if (tar.isPrimitive())
         {
             if (tar == void.class)

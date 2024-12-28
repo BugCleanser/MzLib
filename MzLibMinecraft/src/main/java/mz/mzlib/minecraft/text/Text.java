@@ -321,14 +321,44 @@ public interface Text extends WrapperObject
         return this;
     }
     
-    default Text setColor(TextColor value)
+    TextColor getColor();
+    @SpecificImpl("getColor")
+    @VersionRange(end=1600)
+    default TextColor getColorV_1600()
     {
-        throw new UnsupportedOperationException();
+        TextFormatLegacy result = this.style().getColorV_1600();
+        if(!result.isPresent())
+            return null;
+        return new TextColor(result);
+    }
+    @VersionRange(begin=1600)
+    default TextColor getColorV1600()
+    {
+        TextColorV1600 result = this.style().getColorV1600();
+        if(!result.isPresent())
+            return null;
+        return new TextColor(result);
+    }
+    
+    Text setColor(TextColor value);
+    @SpecificImpl("setColor")
+    @VersionRange(end=1600)
+    default Text setColorV_1600(TextColor value)
+    {
+        this.style().setColorV_1600(value!=null?value.legacy:TextFormatLegacy.create(null));
+        return this;
+    }
+    @SpecificImpl("setColor")
+    @VersionRange(begin=1600)
+    default Text setColorV1600(TextColor value)
+    {
+        this.setStyle(this.style().withColorV1600(value!=null?value.v1600:TextColorV1600.create(null)));
+        return this;
     }
     
     default Boolean getBold()
     {
-        return this.getStyle().getBold();
+        return this.style().getBold();
     }
     Text setBold(Boolean bold);
     @SpecificImpl("setBold")
@@ -348,7 +378,7 @@ public interface Text extends WrapperObject
     
     default Boolean getItalic()
     {
-        return this.getStyle().getItalic();
+        return this.style().getItalic();
     }
     Text setItalic(Boolean italic);
     @SpecificImpl("setItalic")
@@ -368,7 +398,7 @@ public interface Text extends WrapperObject
     
     default Boolean getUnderlined()
     {
-        return this.getStyle().getUnderlined();
+        return this.style().getUnderlined();
     }
     Text setUnderlined(Boolean underlined);
     @SpecificImpl("setUnderlined")
@@ -388,7 +418,7 @@ public interface Text extends WrapperObject
     
     default Boolean getStrikethrough()
     {
-        return this.getStyle().getStrikethrough();
+        return this.style().getStrikethrough();
     }
     Text setStrikethrough(Boolean strikethrough);
     @SpecificImpl("setStrikethrough")
@@ -408,7 +438,7 @@ public interface Text extends WrapperObject
     
     default Boolean getObfuscated()
     {
-        return this.getStyle().getObfuscated();
+        return this.style().getObfuscated();
     }
     Text setObfuscated(Boolean obfuscated);
     @SpecificImpl("setObfuscated")
@@ -428,7 +458,7 @@ public interface Text extends WrapperObject
     
     default TextClickEvent getClickEvent()
     {
-        return this.getStyle().getClickEvent();
+        return this.style().getClickEvent();
     }
     Text setClickEvent(TextClickEvent event);
     @SpecificImpl("setClickEvent")
@@ -448,7 +478,7 @@ public interface Text extends WrapperObject
     
     default TextHoverEvent getHoverEvent()
     {
-        return this.getStyle().getHoverEvent();
+        return this.style().getHoverEvent();
     }
     Text setHoverEvent(TextHoverEvent event);
     @SpecificImpl("setHoverEvent")
@@ -468,7 +498,7 @@ public interface Text extends WrapperObject
     
     default String getInsertion()
     {
-        return this.getStyle().getInsertion();
+        return this.style().getInsertion();
     }
     Text setInsertion(String insertion);
     @SpecificImpl("setInsertion")

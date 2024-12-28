@@ -11,8 +11,6 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import javax.annotation.Nullable;
-
 /**
  * It's immutable since 1.16
  */
@@ -95,10 +93,10 @@ public interface TextStyle extends WrapperObject
     
     // TODO
     @WrapMinecraftFieldAccessor({@VersionName(name="formatting", end=1400), @VersionName(name="color", begin=1400, end=1600)})
-    TextFormat getColorV_1600();
+    TextFormatLegacy getColorV_1600();
     
     @WrapMinecraftFieldAccessor({@VersionName(name="formatting", end=1400), @VersionName(name="color", begin=1400, end=1600)})
-    void setColorV_1600(TextFormat value);
+    void setColorV_1600(TextFormatLegacy value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="color", begin=1600))
     TextColorV1600 getColorV1600();

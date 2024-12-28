@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.module.MzModule;
@@ -34,7 +35,7 @@ public class DemoBookUi extends MzModule
         
         public UIDemoBook()
         {
-            this.button0=this.newButton(player->player.sendMessage(Text.literal("Button 0")));
+            this.button0=this.newButton(player->player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));
             this.button1=this.newButton(player->player.sendMessage(Text.literal("Button 1")));
         }
         
