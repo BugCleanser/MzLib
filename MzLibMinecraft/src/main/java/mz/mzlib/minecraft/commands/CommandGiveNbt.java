@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.commands;
 
 import mz.mzlib.minecraft.command.Command;
+import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParserNbtCompound;
 import mz.mzlib.minecraft.command.argument.ArgumentParserPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -13,22 +14,40 @@ import mz.mzlib.module.MzModule;
 
 public class CommandGiveNbt extends MzModule
 {
-    public static CommandGiveNbt instance=new CommandGiveNbt();
+    public static CommandGiveNbt instance = new CommandGiveNbt();
     
-    public Permission permission=new Permission("mzlib.command.giveNbt".toLowerCase());
+    public Permission permission = new Permission("mzlib.command.givenbt");
     
     public Command command;
     
     @Override
     public void onLoad()
     {
-        this.register(this.command=new Command("giveNbt".toLowerCase()).setNamespace("mzlib").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context ->
+        this.register(this.command = new Command("givenbt").setNamespace("mzlib").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context->
         {
-            EntityPlayer player=new ArgumentParserPlayer().handle(context);
-            NbtCompound nbt=new ArgumentParserNbtCompound().handle(context);
-            if(!context.successful)
-                return;
-            if(!context.doExecute)
+            EntityPlayer player;
+            NbtCompound nbt;
+            
+            CommandContext fork = context.fork();
+            player = new ArgumentParserPlayer().handle(fork);
+            nbt = new ArgumentParserNbtCompound().handle(fork);
+            if(fork.argsReader.hasNext())
+                fork.successful = false;
+            if(fork.successful)
+                context=fork;
+            else
+            {
+                nbt = new ArgumentParserNbtCompound().handle(context);
+                if(context.argsReader.hasNext())
+                    context.successful = false;
+                if(!context.sender.isInstanceOf(EntityPlayer::create))
+                {
+                    context.successful=false;
+                    return;
+                }
+                player=context.sender.castTo(EntityPlayer::create);
+            }
+            if(!context.successful || !context.doExecute)
                 return;
             try
             {
@@ -39,7 +58,7 @@ public class CommandGiveNbt extends MzModule
             }
             catch(Throwable e)
             {
-                context.successful=false;
+                context.successful = false;
                 context.sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.givenbt.error.illegal_item"), e.getMessage())));
             }
         }));

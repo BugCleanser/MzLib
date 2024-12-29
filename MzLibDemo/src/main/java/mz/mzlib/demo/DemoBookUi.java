@@ -23,6 +23,8 @@ public class DemoBookUi extends MzModule
     {
         Demo.instance.command.addChild(this.command=new Command("book").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
+            if(context.argsReader.hasNext())
+                return;
             if(!context.successful || !context.doExecute)
                 return;
             UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UIDemoBook());

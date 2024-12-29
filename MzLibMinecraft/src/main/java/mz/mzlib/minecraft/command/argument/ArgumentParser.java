@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.command.argument;
 
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.text.Text;
 
 public abstract class ArgumentParser<T>
 {
@@ -23,8 +24,7 @@ public abstract class ArgumentParser<T>
         }
         catch(Throwable e)
         {
-            context.successful=false;
-            context.suggestions.add(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.command.arg.error"), e.getMessage()));
+            context.addArgError(Text.literal(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.command.arg.error"), e.getMessage())));
             return null;
         }
     }

@@ -153,7 +153,7 @@ public interface Text extends WrapperObject
     {
         if(!this.isInstanceOf(TextLiteralV_1900::create))
             return null;
-        return this.castTo(TextLiteralV_1900::create).getLiteral();
+        return this.castTo(TextLiteralV_1900::create).getLiteralV_1900();
     }
     
     @SpecificImpl("getLiteral")

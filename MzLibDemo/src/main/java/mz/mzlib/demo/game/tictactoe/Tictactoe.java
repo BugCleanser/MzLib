@@ -32,6 +32,8 @@ public class Tictactoe extends MzModule
     {
         Demo.instance.command.addChild(this.command = new Command("tictactoe").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
+            if(context.argsReader.hasNext())
+                context.successful = false;
             if(!context.successful || !context.doExecute)
                 return;
             UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UITictactoe(context.sender.castTo(EntityPlayer::create)));

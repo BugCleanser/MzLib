@@ -39,6 +39,7 @@
   "mzlib.command.permission.lack": "§4需要权限%s",
 
   "mzlib.command.arg.error": "§4%s",
+  "mzlib.command.arg.player.not_found": "§4找不到玩家%s",
   "mzlib.command.usage": "§a/%s §e%s",
   "mzlib.command.usage.arg": "<%s>",
   "mzlib.command.usage.arg.delimiter": " ",

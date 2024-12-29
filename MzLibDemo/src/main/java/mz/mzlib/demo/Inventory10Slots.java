@@ -24,6 +24,8 @@ public class Inventory10Slots extends MzModule
         Inventory10SlotsUI ui = new Inventory10SlotsUI();
         Demo.instance.command.addChild(this.command = new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
+            if(context.argsReader.hasNext())
+                context.successful=false;
             if(!context.successful || !context.doExecute)
                 return;
             ui.open(context.sender.castTo(EntityPlayer::create));

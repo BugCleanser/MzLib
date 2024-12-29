@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 
 public class Command
 {
-    public String namespace ="minecraft";
+    public String namespace = "minecraft";
     public String name;
     public String[] aliases;
     public Function<CommandSender, Text> permissionChecker;
     public Consumer<CommandContext> handler;
     
-    public Command(String name, String ...aliases)
+    public Command(String name, String... aliases)
     {
         this.name = name;
         this.aliases = aliases;
@@ -29,11 +29,11 @@ public class Command
     
     public Command setNamespace(String value)
     {
-        this.namespace =value;
+        this.namespace = value;
         return this;
     }
     
-    public List<Command> children=new ArrayList<>();
+    public List<Command> children = new ArrayList<>();
     
     public Command addChild(Command child)
     {
@@ -57,7 +57,7 @@ public class Command
     {
         return this.setPermissionChecker(sender->
         {
-            for(Function<CommandSender, Text> i:value)
+            for(Function<CommandSender, Text> i: value)
             {
                 Text result = i.apply(sender);
                 if(result!=null)
@@ -67,9 +67,9 @@ public class Command
         });
     }
     
-    public static Text checkPermissionAnd(Text ...permissionCheckInfos)
+    public static Text checkPermissionAnd(Text... permissionCheckInfos)
     {
-        for(Text i:permissionCheckInfos)
+        for(Text i: permissionCheckInfos)
             if(i!=null)
                 return i;
         return null;
@@ -102,32 +102,33 @@ public class Command
     
     public List<String> suggest(CommandSender sender, String command, String args)
     {
-        Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
+        Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(sender) : null;
         if(permissionCheckInfo!=null)
             return CollectionUtil.newArrayList(permissionCheckInfo.toLiteral());
         String[] argv2 = args.split("\\s+", 2);
         if(argv2.length>1)
-            for(Command i:this.children)
+            for(Command i: this.children)
             {
                 if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
                     return i.suggest(sender, command+' '+argv2[0], argv2[1]);
             }
-        List<String> result=new ArrayList<>();
+        List<String> result = new ArrayList<>();
         if(this.handler!=null)
         {
             CommandContext context = new CommandContext(sender, command, args, false);
             this.handler.accept(context);
-            result.addAll(context.suggestions);
+            result.addAll(context.getAllSuggestions());
+            result.addAll(context.getAllArgErrors().stream().map(Text::toLiteral).collect(Collectors.toList()));
         }
         if(argv2.length==1)
         {
-            for(Command i:this.children)
+            for(Command i: this.children)
             {
                 if(i.name.startsWith(argv2[0]))
                     result.add(i.name);
             }
-            for(Command i:this.children)
-                for(String j:i.aliases)
+            for(Command i: this.children)
+                for(String j: i.aliases)
                 {
                     if(j.startsWith(argv2[0]))
                         result.add(j);
@@ -137,18 +138,18 @@ public class Command
     }
     public void execute(CommandSender sender, String command, String args)
     {
-        Text permissionCheckInfo=this.permissionChecker!=null?this.permissionChecker.apply(sender):null;
+        Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(sender) : null;
         if(permissionCheckInfo!=null)
         {
             sender.sendMessage(permissionCheckInfo);
             return;
         }
         String[] argv2 = args.split("\\s+", 2);
-        for(Command i:this.children)
+        for(Command i: this.children)
         {
             if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
             {
-                i.execute(sender, command+' '+argv2[0], argv2.length>1?argv2[1]:"");
+                i.execute(sender, command+' '+argv2[0], argv2.length>1 ? argv2[1] : "");
                 return;
             }
         }
@@ -157,12 +158,17 @@ public class Command
         {
             this.handler.accept(context);
         }
-        if(this.handler==null || !context.successful)
+        if(this.handler==null || !context.isAnySuccessful())
         {
+            for(Text e: context.getAllArgErrors())
+                sender.sendMessage(e);
             if(!this.children.isEmpty())
                 sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands"), command, String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands.subcommand.delimiter"), this.children.stream().map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.subcommands.subcommand"), i.name)).collect(Collectors.toSet())))));
             if(this.handler!=null)
-                sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage"), command, String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg.delimiter"), context.argNames.stream().map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg"), i)).collect(Collectors.toSet())))));
+                for(List<String> argNames: context.getAllArgNames())
+                {
+                    sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage"), command, String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg.delimiter"), argNames.stream().map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.usage.arg"), i)).collect(Collectors.toSet())))));
+                }
         }
     }
 }
