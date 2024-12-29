@@ -104,6 +104,17 @@ public class LangEditor extends UIWrittenBook
         return pages;
     }
     
+    public static Set<String> getLanguages()
+    {
+        Set<String> result=new HashSet<>();
+        for(I18n i18n: RegistrarI18n.instance.sortedI18ns)
+        {
+            result.addAll(i18n.map.keySet());
+        }
+        result.addAll(I18n.custom.map.keySet());
+        return result;
+    }
+    
     public static Set<String> getTranslationKeyChildNodes(String parent)
     {
         String prefix = parent!=null ? parent+"." : "";

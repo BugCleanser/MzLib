@@ -19,11 +19,6 @@ public class ArgumentParserNbtCompound extends ArgumentParser<NbtCompound>
     public NbtCompound parse(CommandContext context)
     {
         StringBuilder result = new StringBuilder();
-        if(!context.argsReader.hasNext())
-        {
-            context.successful=false;
-            return null;
-        }
         do
         {
             result.append(context.argsReader.readString());

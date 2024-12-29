@@ -9,15 +9,18 @@ public abstract class ArgumentParser<T>
     public String name;
     public ArgumentParser(String name)
     {
-        this.name=name;
+        this.name = name;
     }
     
     public abstract T parse(CommandContext context);
     public T handle(CommandContext context)
     {
         context.argNames.add(this.name);
+        if(!context.argsReader.hasNext())
+            context.successful = false;
         if(!context.successful)
             return null;
+        context.suggestions.clear();
         try
         {
             return this.parse(context);

@@ -18,10 +18,7 @@ public class ArgumentParserString extends ArgumentParser<String>
     public String parse(CommandContext context)
     {
         StringBuilder result = new StringBuilder();
-        if(context.argsReader.hasNext())
-            result.append(context.argsReader.readString());
-        else
-            context.successful=false;
+        result.append(context.argsReader.readString());
         int spaces=0;
         while(this.allowSpace && context.argsReader.hasNext())
         {

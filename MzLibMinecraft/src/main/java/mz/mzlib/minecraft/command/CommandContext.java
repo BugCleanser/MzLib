@@ -69,12 +69,13 @@ public class CommandContext
         return this.successful || this.forks.stream().anyMatch(CommandContext::isAnySuccessful);
     }
     
-    public List<String> getAllSuggestions()
+    public List<String> getAllEffectiveSuggestions()
     {
         List<String> result = new ArrayList<>();
         for(CommandContext fork: this.forks)
-            result.addAll(fork.getAllSuggestions());
-        result.addAll(this.suggestions);
+            result.addAll(fork.getAllEffectiveSuggestions());
+        if(!this.argsReader.hasNext())
+            result.addAll(this.suggestions);
         return result;
     }
     

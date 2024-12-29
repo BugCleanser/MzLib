@@ -46,6 +46,7 @@
   "mzlib.command.usage.subcommands": "§a/%s <%s§a>",
   "mzlib.command.usage.subcommands.subcommand": "§b%s",
   "mzlib.command.usage.subcommands.subcommand.delimiter": " §a| ",
+  "mzlib.command.successful": "§a操作成功",
 
   "mzlib.commands.givenbt.error.illegal_item": "§4非法物品：%s",
   "mzlib.commands.mzlib.book_click.error.not_opening": "§4必须打开一个成书UI",
