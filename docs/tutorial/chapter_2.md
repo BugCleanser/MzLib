@@ -1,4 +1,6 @@
-# 命令的创建与注册
+# 创建简单命令
+
+这是MzLib命令系统的入门教程
 
 一个命令应该是mz.mzlib.minecraft.command.Command的实例
 
@@ -191,3 +193,7 @@ public class Demo extends MzModule
     }
 }
 ```
+
+## 进阶
+
+命令系统的进阶用法参见[进阶教程](../advanced/command.md)

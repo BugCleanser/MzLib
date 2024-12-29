@@ -42,8 +42,8 @@ public void onLoad()
 
 ## 发包
 
-TODO
+发送一个数据包非常简单，只需调用EntityPlayer#sendPacket
 
 ## 收包
 
-TODO
+使得服务器认为收到了一个玩家的数据包并进行处理，调用EntityPlayer#receivePacket
