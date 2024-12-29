@@ -1,6 +1,10 @@
 package mz.mzlib.minecraft.command.argument;
 
 import mz.mzlib.minecraft.command.CommandContext;
+import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
+
+import java.util.Arrays;
 
 public class ArgumentParserString extends ArgumentParser<String>
 {
@@ -12,6 +16,10 @@ public class ArgumentParserString extends ArgumentParser<String>
         super(name);
         this.allowSpace =allowSpace;
         this.presets=presets;
+    }
+    public ArgumentParserString(CommandSender sender, boolean allowSpace, String... presets)
+    {
+        this(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.arg.enum"), String.join(I18nMinecraft.getTranslation(sender, "mzlib.command.arg.enum.value.delimiter"), Arrays.stream(presets).map(i->String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.arg.enum.value"), i)).toArray(String[]::new))), allowSpace, presets);
     }
     
     @Override

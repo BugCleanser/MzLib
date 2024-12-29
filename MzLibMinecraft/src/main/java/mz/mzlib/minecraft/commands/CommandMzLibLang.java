@@ -15,7 +15,6 @@ import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class CommandMzLibLang extends MzModule
 {
@@ -44,7 +43,7 @@ public class CommandMzLibLang extends MzModule
             context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.loadmc.begin")));
         })).addChild(new Command("custom").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
-            String lang = new ArgumentParserLang().handle(context);
+            String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
             CommandContext fork = context.fork();
             if(fork.argsReader.hasNext())
                 fork.successful = false;
@@ -54,14 +53,23 @@ public class CommandMzLibLang extends MzModule
                     UIStack.get(fork.sender.castTo(EntityPlayer::create)).start(new LangEditor(lang));
                 return;
             }
-            String key = new ArgumentParserTranslationKey().handle(context);
-            String operate = new ArgumentParserString("operate", false, "set", "remove").handle(context);
+            String key = new ArgumentParserTranslationKey(I18nMinecraft.getTranslation(context.sender, "mzlib.generic.key")).handle(context);
+            fork = context.fork();
+            if(fork.argsReader.hasNext())
+                fork.successful = false;
+            if(fork.successful)
+            {
+                if(fork.doExecute)
+                    UIStack.get(fork.sender.castTo(EntityPlayer::create)).start(new LangEditor(lang, key));
+                return;
+            }
+            String operate = new ArgumentParserString(context.sender, false, "set", "remove").handle(context);
             if(!context.successful)
                 return;
             switch(operate)
             {
                 case "set":
-                    String value = new ArgumentParserTranslationValue(lang, key).handle(context);
+                    String value = new ArgumentParserTranslationValue(I18nMinecraft.getTranslation(context.sender, "mzlib.generic.value"), lang, key).handle(context);
                     if(context.argsReader.hasNext())
                         context.successful = false;
                     if(!context.successful)
@@ -70,7 +78,7 @@ public class CommandMzLibLang extends MzModule
                     {
                         I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).put(key, value);
                         I18nMinecraft.saveCustomLanguage(lang);
-                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.command.successful")));
+                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.generic.successful")));
                     }
                     break;
                 case "remove":
@@ -82,7 +90,7 @@ public class CommandMzLibLang extends MzModule
                     {
                         I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).remove(key);
                         I18nMinecraft.saveCustomLanguage(lang);
-                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.command.successful")));
+                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.generic.successful")));
                     }
                     break;
                 default:
@@ -98,13 +106,9 @@ public class CommandMzLibLang extends MzModule
         MzLibMinecraft.instance.command.removeChild(this.command);
     }
     
-    public static class ArgumentParserLang extends ArgumentParserString
+    public static class ArgumentParserLanguage extends ArgumentParserString
     {
-        public ArgumentParserLang()
-        {
-            this("language");
-        }
-        public ArgumentParserLang(String name)
+        public ArgumentParserLanguage(String name)
         {
             super(name, false, LangEditor.getLanguages().toArray(new String[0]));
         }
@@ -112,10 +116,6 @@ public class CommandMzLibLang extends MzModule
     
     public static class ArgumentParserTranslationKey extends ArgumentParser<String>
     {
-        public ArgumentParserTranslationKey()
-        {
-            this("key");
-        }
         public ArgumentParserTranslationKey(String name)
         {
             super(name);
@@ -143,10 +143,6 @@ public class CommandMzLibLang extends MzModule
         public String lang;
         public String key;
         
-        public ArgumentParserTranslationValue(String lang, String key)
-        {
-            this("value", lang, key);
-        }
         public ArgumentParserTranslationValue(String name, String lang, String key)
         {
             super(name, true, LangEditor.escape(I18n.getTranslation(lang, key)).replace(" ", "\\u0020"));
