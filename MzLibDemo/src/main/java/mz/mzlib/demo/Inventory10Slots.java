@@ -3,7 +3,6 @@ package mz.mzlib.demo;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
@@ -21,14 +20,17 @@ public class Inventory10Slots extends MzModule
     @Override
     public void onLoad()
     {
-        Inventory10SlotsUI ui = new Inventory10SlotsUI();
+        UIInventory10Slots ui = new UIInventory10Slots();
         Demo.instance.command.addChild(this.command = new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
             if(context.argsReader.hasNext())
                 context.successful=false;
-            if(!context.successful || !context.doExecute)
+            if(!context.successful)
                 return;
-            ui.open(context.sender.castTo(EntityPlayer::create));
+            if(context.doExecute)
+            {
+                ui.open(context.sender.castTo(EntityPlayer::create));
+            }
         }));
     }
     
@@ -38,9 +40,9 @@ public class Inventory10Slots extends MzModule
         Demo.instance.command.removeChild(this.command);
     }
     
-    public static class Inventory10SlotsUI extends UIWindow
+    public static class UIInventory10Slots extends UIWindow
     {
-        public Inventory10SlotsUI()
+        public UIInventory10Slots()
         {
             super(UnionWindowType.CRAFTING, 10);
         }
@@ -52,19 +54,20 @@ public class Inventory10Slots extends MzModule
             if(!slot.isPresent() || slot.getItemStack().isEmpty())
                 return ItemStack.empty();
             ItemStack is = slot.getItemStack();
-            ItemStack result = is.copy();
+            ItemStack copy = is.copy();
+            ItemStack result = ItemStack.empty();
             int upperSize = window.getSlots().size()-36;
             if(index<upperSize)
             {
-                if(!window.placeIn(is, upperSize, window.getSlots().size(), index==0))
-                    result = ItemStack.empty();
+                if(window.placeIn(is, upperSize, window.getSlots().size(), index==0))
+                    result = copy;
             }
             else
             {
-                if(!window.placeIn(is, 1, upperSize, false))
-                    result = ItemStack.empty();
-                if(!window.placeIn(is, 0, 1, false))
-                    result = ItemStack.empty();
+                if(window.placeIn(is, 1, upperSize, false))
+                    result = copy;
+                if(window.placeIn(is, 0, 1, false))
+                    result = copy;
             }
             if(!result.isEmpty())
             {
@@ -76,12 +79,6 @@ public class Inventory10Slots extends MzModule
             return result;
         }
         
-        @Override
-        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
-        {
-            player.sendMessage(Text.literal("Action "+actionType+" "+actionType.getWrapped()));
-            return super.onAction(window, index, data, actionType, player);
-        }
         @Override
         public Text getTitle(EntityPlayer player)
         {
