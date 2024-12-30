@@ -11,7 +11,7 @@
   "mzlib.lang.minecraft.load.success": "MC语言文件加载完成",
   "mzlib.lang.minecraft.load.fail": "MC语言文件加载失败，请稍后重试",
 
-  "mzlib.lang.editor.homepage.title": "§3§l语言编辑器",
+  "mzlib.lang.editor.homepage.title": "§1§l语言编辑器",
   "mzlib.lang.editor.homepage.lang": "§2%s",
   "mzlib.lang.editor.homepage.back": "§5§n[返回父节点]",
   "mzlib.lang.editor.homepage.back.lore.node": "返回节点%s",
@@ -34,6 +34,8 @@
   "mzlib.lang.editor.homepage.custom.remove.lore": "移除自定义值",
   "mzlib.lang.editor.homepage.tips": "\n§7§o子节点在下一页",
   "mzlib.lang.editor.list.node": "§0%s",
+  "mzlib.lang.editor.list.node.lore": "%s\n%s\n\n%s",
+  "mzlib.lang.editor.list.node.lore.child": ".%s %s",
 
   "mzlib.ui.anvil_input.reset.lore": "§a点此重置输入框",
   "mzlib.ui.anvil_input.back": "§5返回",

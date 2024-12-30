@@ -12,11 +12,12 @@ import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.IOUtil;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableSupplier;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class I18nMinecraft extends MzModule
 {
     public static I18nMinecraft instance = new I18nMinecraft();
     
-    public I18n i18n = new I18n(new HashMap<>(), Priority.VERY_VERY_LOW);
+    public I18n i18nMinecraft = new I18n(new HashMap<>(), Priority.VERY_VERY_LOW);
     public CompletableFuture<Void> taskLoading;
     public void loadMinecraftLanguages()
     {
@@ -50,14 +51,14 @@ public class I18nMinecraft extends MzModule
                         tasks.put(fileName.substring(0, fileName.lastIndexOf('.')), CompletableFuture.supplyAsync((ThrowableSupplier<byte[], IOException>)()->AssetsHelp.instance.getAsset(file)));
                     }
                 }
-                Map<String, Map<String, String>> map=new HashMap<>();
+                Map<String, Map<String, String>> map = new HashMap<>();
                 for(Map.Entry<String, CompletableFuture<byte[]>> task: tasks.entrySet())
                 {
                     Map.Entry<String, Map<String, String>> result = I18n.load(task.getKey(), new ByteArrayInputStream(task.getValue().get()));
                     if(result!=null)
                         map.put(result.getKey(), result.getValue());
                 }
-                i18n.map=map;
+                this.i18nMinecraft.map = map;
                 MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.success"));
             }
             catch(Throwable e)
@@ -85,7 +86,7 @@ public class I18nMinecraft extends MzModule
         try
         {
             File dir = new File(MinecraftPlatform.instance.getMzLibDataFolder(), "lang");
-            boolean ignored=dir.mkdirs();
+            boolean ignored = dir.mkdirs();
             Files.write(new File(dir, lang+".json").toPath(), new GsonBuilder().setPrettyPrinting().create().toJson(I18n.custom.map.get(lang)).getBytes(StandardCharsets.UTF_8));
         }
         catch(IOException e)
@@ -102,7 +103,7 @@ public class I18nMinecraft extends MzModule
             boolean ignored = dir.mkdirs();
             for(String file: Objects.requireNonNull(dir.list()))
             {
-                I18n.custom.map.put(file.substring(0, file.length()-".json".length()) ,new ConcurrentHashMap<>(I18n.load(new Gson().fromJson(new String(Files.readAllBytes(new File(dir, file).toPath()), StandardCharsets.UTF_8), JsonObject.class))));
+                I18n.custom.map.put(file.substring(0, file.length()-".json".length()), new ConcurrentHashMap<>(I18n.load(new Gson().fromJson(new String(Files.readAllBytes(new File(dir, file).toPath()), StandardCharsets.UTF_8), JsonObject.class))));
             }
         }
         catch(IOException e)
@@ -113,7 +114,7 @@ public class I18nMinecraft extends MzModule
     
     public void onLoad()
     {
-        this.register(this.i18n);
+        this.register(this.i18nMinecraft);
         loadCustomLanguages();
         loadMinecraftLanguages();
     }

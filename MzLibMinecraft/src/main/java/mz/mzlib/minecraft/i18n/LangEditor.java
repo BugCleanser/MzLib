@@ -8,6 +8,7 @@ import mz.mzlib.i18n.RegistrarI18n;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextClickEvent;
 import mz.mzlib.minecraft.text.TextHoverEvent;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
@@ -23,8 +24,8 @@ public class LangEditor extends UIWrittenBook
     public String lang;
     public String node;
     public String def, custom;
-    int buttonBack = -1, buttonSet = -1, buttonRemove = -1;
-    public Map<String, Integer> childNodes = new HashMap<>();
+    int buttonSet = -1, buttonRemove = -1;
+    public List<String> childNodes = new ArrayList<>();
     
     public LangEditor(String lang)
     {
@@ -36,7 +37,6 @@ public class LangEditor extends UIWrittenBook
         this.node = node;
         if(this.node!=null)
         {
-            this.buttonBack = this.newButton(player->UIStack.get(player).back());
             this.buttonSet = this.newButton(player->UIWindowAnvilInput.invoke(player, escape(I18n.getTranslation(this.lang, this.node, "")), Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.set.title"), this.node))).whenComplete((r, e)->
             {
                 if(e!=null)
@@ -62,10 +62,7 @@ public class LangEditor extends UIWrittenBook
                 this.open(player);
             });
         }
-        for(String childNode: getTranslationKeyChildNodes(node))
-        {
-            this.childNodes.put(childNode, this.newButton(player->UIStack.get(player).go(new LangEditor(lang, node!=null ? node+'.'+childNode : childNode))));
-        }
+        this.childNodes.addAll(getTranslationKeyChildNodes(node));
     }
     
     @Override
@@ -82,7 +79,7 @@ public class LangEditor extends UIWrittenBook
         }
         else
         {
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back")).setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.node"), this.node.substring(0, this.node.lastIndexOf('.'))) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(buttonClickEvent(this.buttonBack)));
+            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back")).setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.node"), this.node.substring(0, this.node.lastIndexOf('.'))) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".")?" "+this.node.substring(0, this.node.lastIndexOf('.')):""))));
             homepage.add(Text.literal("\n"));
             homepage.add(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.node"), this.node)));
             homepage.add(Text.literal("\n"));
@@ -100,7 +97,7 @@ public class LangEditor extends UIWrittenBook
         }
         homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.tips")));
         pages.add(Text.literal("").setExtra(homepage));
-        pages.addAll(ItemWrittenBook.makePages(childNodes.entrySet().stream().map(entry->Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node"), entry.getKey())+'\n').setClickEvent(buttonClickEvent(entry.getValue()))).collect(Collectors.toList())));
+        pages.addAll(ItemWrittenBook.makePages(childNodes.stream().map(n->Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node"), n)+'\n').setHoverEvent(TextHoverEvent.showText(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore"), this.node!=null?this.node+"."+n:n, escape(I18n.getTranslation(this.lang, this.node!=null?this.node+"."+n:n, "")), getTranslationKeyChildNodes(this.node!=null?this.node+"."+n:n).stream().map(m->String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore.child"), m, escape(I18n.getTranslation(this.lang, (this.node!=null?this.node+"."+n:n)+"."+m, "")))).collect(Collectors.joining("\n")))))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null?this.node+".":"")+n))).collect(Collectors.toList())));
         return pages;
     }
     
