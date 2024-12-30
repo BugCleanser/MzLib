@@ -13,7 +13,10 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WrapperClassInfo
@@ -41,8 +44,9 @@ public class WrapperClassInfo
     
     public static Map<Class<? extends WrapperObject>, WeakRef<WrapperClassInfo>> cache = new WeakHashMap<>();
     
-    public void analyseWrappedClass() throws InstantiationException, IllegalAccessException
+    public void analyseWrappedClass()
     {
+        Throwable lastException=null;
         for(Annotation i: this.wrapperClass.getDeclaredAnnotations())
         {
             WrappedClassFinderClass finder = i.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class);
@@ -52,8 +56,9 @@ public class WrapperClassInfo
                 {
                     this.wrappedClass = finder.value().newInstance().find(this.wrapperClass, i);
                 }
-                catch(ClassNotFoundException ignored)
+                catch(Throwable e)
                 {
+                    lastException=e;
                 }
                 if(this.wrappedClass!=null)
                 {
@@ -63,7 +68,7 @@ public class WrapperClassInfo
             }
         }
         if(this.wrappedClass==null)
-            throw new IllegalStateException("Wrapped class not found: "+this.wrapperClass);
+            throw new IllegalStateException("Wrapped class not found: "+this.wrapperClass, lastException);
     }
     
     public synchronized static WrapperClassInfo get(Class<? extends WrapperObject> clazz)

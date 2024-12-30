@@ -51,6 +51,6 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
         this.getCurrentWindow().sendSlotUpdate(this, slot);
     }
     
-    @WrapMinecraftMethod(@VersionName(name="refreshScreenHandler", end=1700))
+    @WrapMinecraftMethod({@VersionName(name="refreshScreenHandler", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600, end=1604), @VersionName(name="refreshScreenHandler", begin=1604, end=1700)})
     void updateWindowV_1700(Window window);
 }

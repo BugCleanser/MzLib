@@ -104,6 +104,7 @@ public interface MinecraftServer extends WrapperObject, CommandSender, Instance,
         return MinecraftVersionCurrentV1400.instanceV1800().getDataVersion().getNumber();
     }
     
+    @VersionRange(begin=1602)
     RegistrySetV1602 getRegistriesV1602();
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1602, end=1802))

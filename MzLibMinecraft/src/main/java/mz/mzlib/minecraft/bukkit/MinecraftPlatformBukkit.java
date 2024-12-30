@@ -8,6 +8,7 @@ import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.StrongRef;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     @Override
     public String getLanguage(EntityPlayer player)
     {
-        return ((org.bukkit.entity.Player)BukkitEntityUtil.toBukkit(player)).getLocale();
+        return ((Player)BukkitEntityUtil.toBukkit(player)).getLocale();
     }
     
     @Override
@@ -127,6 +128,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         Ref<Mappings> yarn = new StrongRef<>(null);
         Ref<Mappings> yarnIntermediary = new StrongRef<>(null);
         Ref<Mappings> platform = new StrongRef<>(null);
+        Mappings mappingsSpigot = null;
         try
         {
             {
@@ -142,7 +144,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
             if(this.isPaper() && this.getVersion()>=2005)
                 platform.set(Mappings.parseMojang(new MojangMappingsFetcher(getVersionString(), folder).fetch()));
             else
-                platform.set(Mappings.parseSpigot(this.getVersion(), new SpigotMinecraftMappingsFetcher(getVersionString(), folder).fetch()));
+                platform.set(mappingsSpigot = Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(getVersionString(), folder).fetch()));
         }
         catch(Throwable e)
         {
@@ -152,6 +154,17 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         List<IMappings> result = new ArrayList<>();
         if(getVersion()<1700)
             result.add(new SpigotPackageMappingV_1700());
+        Mappings mappingsV1605_1700 = null;
+        if(this.getVersion()==1605 && mappingsSpigot!=null)
+        {
+            mappingsV1605_1700 = new Mappings();
+            for(String c: mappingsSpigot.classes.keySet())
+            {
+                if(c.contains("."))
+                    mappingsV1605_1700.classes.put(c.substring(c.lastIndexOf('.')+1), c);
+            }
+            result.add(mappingsV1605_1700);
+        }
         result.add(platform.get());
         if(yarnLegacy.get()!=null)
             result.add(yarnLegacy.get());
@@ -173,6 +186,8 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
                 result.add(yarnIntermediary.get().reverse());
         }
         result.add(platform.get().reverse());
+        if(this.getVersion()==1605 && mappingsV1605_1700!=null)
+            result.add(mappingsV1605_1700.reverse());
         if(getVersion()<1700)
             result.add(new SpigotPackageMappingReversedV_1700());
         this.mappingsY2P = new MappingsPipe(result);

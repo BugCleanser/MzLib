@@ -186,7 +186,7 @@ public class Mappings implements IMappings
         }
         return result;
     }
-    public static Mappings parseSpigot(int version, SpigotMappings mappings)
+    public static Mappings parseSpigot(SpigotMappings mappings)
     {
         Mappings result = new Mappings();
         new BufferedReader(new StringReader(mappings.classMappings)).lines()
@@ -194,8 +194,6 @@ public class Mappings implements IMappings
                 .forEach(line -> {
                     String obfName = line.split(" ")[0].replace('/', '.');;
                     String deobfName = line.split(" ")[1].replace('/', '.');
-                    if(version==1605 && deobfName.contains("/"))
-                        deobfName=deobfName.substring(deobfName.lastIndexOf('/')+1);
                     result.classes.put(deobfName,obfName);
                 });
 

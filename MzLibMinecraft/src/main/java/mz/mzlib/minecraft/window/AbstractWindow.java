@@ -79,10 +79,13 @@ public interface AbstractWindow extends Window
     @Override
     default ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
+        ItemStack result = ItemStack.empty();
+        if(index>=0 && index<this.getSlots().size())
+            result = this.getSlot(index).getItemStack().copy();
         this.onAction(index, data, actionType, player);
         if(player.isInstanceOf(EntityPlayer::create))
             player.castTo(EntityPlayer::create).updateWindowV_1700(this); // TODO: data tracker
-        return ItemStack.empty();
+        return result;
     }
     
     @CompoundOverride(parent=Window.class, method="onActionV1700")
