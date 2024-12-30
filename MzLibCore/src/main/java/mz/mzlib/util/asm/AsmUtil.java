@@ -775,6 +775,8 @@ public class AsmUtil
         }
         else if (src.isPrimitive())
         {
+            if(src==void.class)
+                return toList(insnConst(null));
             InsnList r = toList(new MethodInsnNode(Opcodes.INVOKESTATIC, getType(ClassUtil.getWrapper(src)), "valueOf", getDesc(ClassUtil.getWrapper(src), src), false));
             r.add(insnCast(tar, ClassUtil.getWrapper(src)));
             return r;

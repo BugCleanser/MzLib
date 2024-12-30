@@ -49,12 +49,4 @@ public interface TextFormatLegacy extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="byName"))
     TextFormatLegacy staticFromName(String name);
-    
-    static TextFormatLegacy fromCode(char code)
-    {
-        return create(null).staticFromCode(code);
-    }
-    
-    @WrapMinecraftMethod(@VersionName(name="byCode"))
-    TextFormatLegacy staticFromCode(char code);
 }

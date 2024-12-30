@@ -153,9 +153,9 @@ public class Tictactoe extends MzModule
         }
         
         @Override
-        public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
+        public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
         {
-            ItemStack result = super.onAction(window, index, data, actionType, player);
+            super.onAction(window, index, data, actionType, player);
             if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
             {
                 this.restart();
@@ -177,7 +177,6 @@ public class Tictactoe extends MzModule
                         this.finished = true;
                 }
             }
-            return result;
         }
         
         @Override

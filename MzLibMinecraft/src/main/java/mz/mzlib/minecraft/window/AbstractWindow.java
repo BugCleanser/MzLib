@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
 import mz.mzlib.minecraft.bukkit.inventory.CraftInventoryView;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.util.compound.Compound;
@@ -67,20 +68,23 @@ public interface AbstractWindow extends Window
     
     /**
      * @param index the index of slot or -1 when click title bar with item or -999 when click outside
-     * @param data see {@link WindowActionType}
-     * @return item in the slot with index before action
+     * @param data  see {@link WindowActionType}
      */
-    default ItemStack onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+    default void onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        return this.onActionSuper(index, data, actionType, player);
+        this.onActionSuper(index, data, actionType, player);
     }
     
     @CompoundOverride(parent=Window.class, method="onActionV_1700")
     @Override
     default ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        return this.onAction(index, data, actionType, player);
+        this.onAction(index, data, actionType, player);
+        if(player.isInstanceOf(EntityPlayer::create))
+            player.castTo(EntityPlayer::create).updateWindowV_1700(this); // TODO: data tracker
+        return ItemStack.empty();
     }
+    
     @CompoundOverride(parent=Window.class, method="onActionV1700")
     @Override
     default void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
@@ -88,22 +92,20 @@ public interface AbstractWindow extends Window
         this.onAction(index, data, actionType, player);
     }
     
-    ItemStack onActionSuper(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    void onActionSuper(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    
     @CompoundSuper(parent=Window.class, method="onActionV_1700")
     ItemStack onActionSuperV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    
     @SpecificImpl("onActionSuper")
     @VersionRange(end=1700)
-    default ItemStack onActionSuperImplV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
+    default void onActionSuperImplV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        return this.onActionSuperV_1700(index, data, actionType, player);
+        ItemStack ignored = this.onActionSuperV_1700(index, data, actionType, player);
     }
-    @CompoundSuper(parent=Window.class, method="onActionV1700")
-    void onActionSuperV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    
     @SpecificImpl("onActionSuper")
     @VersionRange(begin=1700)
-    default ItemStack onActionSuperImplV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
-    {
-        this.onActionSuperV1700(index, data, actionType, player);
-        return null;
-    }
+    @CompoundSuper(parent=Window.class, method="onActionV1700")
+    void onActionSuperV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
 }

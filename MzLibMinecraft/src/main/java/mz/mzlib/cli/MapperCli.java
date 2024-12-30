@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class MapperCli
 {
-	public static CliVersion version = new CliVersion("1.16.1");
+	public static CliVersion version = new CliVersion("1.16.5");
 //	public static int getVersion()
 //	{
 //		return version.version;
@@ -39,7 +39,7 @@ public class MapperCli
 			if(version.isPaper()&& version.version>=2005)
 				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(version.getVersionString(), folder).fetch()));
 			else
-				platform.set(Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
+				platform.set(Mappings.parseSpigot(version.version, new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
 		}
 		catch (Throwable e)
 		{
@@ -84,7 +84,7 @@ public class MapperCli
 			if(version.isPaper()&& version.version>=2005)
 				platform.set(Mappings.parseMojang(new MojangMappingsFetcher(version.getVersionString(), folder).fetch()));
 			else
-				platform.set(Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
+				platform.set(Mappings.parseSpigot(version.version, new SpigotMinecraftMappingsFetcher(version.getVersionString(), folder).fetch()));
 		}
 		catch (Throwable e)
 		{
@@ -114,7 +114,7 @@ public class MapperCli
 		}
 		result.add(platform.get().reverse());
 		mappingsY2P = new MappingsPipe(result);
-		System.out.println(mappingsY2P.mapMethod("net.minecraft.entity.player.PlayerEntity", new MappingMethod("closeHandledScreen", new String[]{})));
+		System.out.println(mappingsY2P.mapMethod("net.minecraft.server.command.CommandOutput", new MappingMethod("sendSystemMessage", new String[]{"Lnet/minecraft/text/Text;", "Ljava/util/UUID;"})));
 		System.out.println(mappingsP2Y.mapMethod("net.minecraft.network.chat.TextColor", new MappingMethod("withUnderlined", new String[]{"Ljava/lang/Boolean;"})));
 		System.out.println("Input a Class Name:");
 		Scanner scanner = new Scanner(System.in);

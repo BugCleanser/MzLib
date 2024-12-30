@@ -460,9 +460,7 @@ public class WrapperClassInfo
             for(Method m: wrapperClass.getDeclaredMethods())
             {
                 if(!m.isAnnotationPresent(WrapperCreator.class))
-                {
                     continue;
-                }
                 mn = AsmUtil.getMethodNode(cn, m.getName(), AsmUtil.getDesc(m));
                 mn.instructions = new InsnList();
                 mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));

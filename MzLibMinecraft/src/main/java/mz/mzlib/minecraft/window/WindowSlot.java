@@ -87,8 +87,13 @@ public interface WindowSlot extends WrapperObject
     @WrapMinecraftMethod({@VersionName(name="getMaxStackAmount", end=1602), @VersionName(name="getMaxItemCount", begin=1602)})
     int getMaxStackCount(ItemStack itemStack);
     
-    @WrapMinecraftMethod(@VersionName(name="onTakeItem"))
-    void onTake(AbstractEntityPlayer player, ItemStack itemStack);
+    /**
+     * @return the item stack in the parameters
+     */
+    @WrapMinecraftMethod(@VersionName(name="onTakeItem", end=1700))
+    ItemStack onTakeV_1700(AbstractEntityPlayer player, ItemStack itemStack);
+    @WrapMinecraftMethod(@VersionName(name="onTakeItem", begin=1700))
+    void onTakeV1700(AbstractEntityPlayer player, ItemStack itemStack);
     
     default void setItemStackByPlayer(ItemStack itemStack)
     {

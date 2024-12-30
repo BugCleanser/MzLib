@@ -120,12 +120,12 @@ public abstract class UIWindow implements UI
     /**
      * @see AbstractWindow#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
      */
-    public ItemStack onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
+    public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {
         ButtonHandler button = buttons.get(index);
         if(button!=null)
             button.onClick(player, actionType, data);
-        return window.onActionSuper(index, data, actionType, player);
+        window.onActionSuper(index, data, actionType, player);
     }
     
     public void onClosed(WindowUIWindow window, EntityPlayer player)

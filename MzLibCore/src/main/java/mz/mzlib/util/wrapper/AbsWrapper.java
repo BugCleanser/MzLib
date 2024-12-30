@@ -34,7 +34,11 @@ public abstract class AbsWrapper
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof WrapperObject && ((WrapperObject)this).equals0((WrapperObject) obj);
+        if(!(obj instanceof WrapperObject))
+            return false;
+        if(this.getWrapped()==null)
+            return ((WrapperObject)obj).getWrapped()==null;
+        return ((WrapperObject)this).equals0((WrapperObject) obj);
     }
 
     @Override

@@ -513,6 +513,10 @@ public class ClassUtil
         {
             return RuntimeUtil.cast(double.class);
         }
+        else if(src==Void.class)
+        {
+            return RuntimeUtil.cast(void.class);
+        }
         else
         {
             return src;
@@ -552,6 +556,10 @@ public class ClassUtil
         else if(src==double.class)
         {
             return RuntimeUtil.cast(Double.class);
+        }
+        else if(src==void.class)
+        {
+            return RuntimeUtil.cast(Void.class);
         }
         else
         {
