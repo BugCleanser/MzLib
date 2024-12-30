@@ -1,73 +1,141 @@
-# 命令的监听和创建
+# 创建简单命令
 
-## 注册监听器
+这是MzLib命令系统的入门教程
 
-对于一个已注册的事件，你可以直接在模块上创建监听器实例并注册
+一个命令应该是mz.mzlib.minecraft.command.Command的实例
 
-例如假设我们要监听所有EventEntity的实例
+它的基本设置方法都会返回自身，因此我们可以用链式构造它，但下面的教程中我们会分步创建
+
+## 创建Command实例
+
+直接调用构造器，第一个参数是命令的名称，后面的参数是它的别名（可选）
 
 ```java
-// in your module
-@Override
-public void onLoad()
+Command command = new Command("mzlibdemo", "mzd");
+```
+
+## 设置命名空间
+
+命令可以以两种名称调用以防重名，/name 和 /namespace:name
+
+其中name是你的命令名，namespace是命令的命名空间，默认是minecraft，一般设置成你的插件名(MOD_ID)
+
+```java
+command.setNamespace(Demo.MOD_ID);
+```
+
+## 设置命令处理器
+
+你当然需要规定如何处理你的命令，使用setHandler
+
+```java
+command.setHandler(context->
 {
-    this.register(new EventListener<>(EventEntity.class, e->
+    if(!context.successful)
+        return;
+    if(context.doExecute)
     {
-        System.out.println("Event is called: "+e.getClass());
-    }));
+        // do sth. on execute
+        context.sender.sendMessage(Text.literal("Hello World!"));
+    }
+});
+```
+
+其中context是一个CommandContext的实例
+
+我们先判断context.successful，它代表命令是否被成功解析
+
+然后我们判断context.doExecute，它表示命令是否应该被执行（否则只是需要补全命令）
+
+示例中我们发送一条Hello World给命令发送者
+
+## 注册命令
+
+一般地，我们在一个模块中注册这个命令，不需要手动注销
+
+```java
+public class Demo extends MzModule
+{
+    public static Demo instance = new Demo();
+    
+    public Command command;
+    
+    @Override
+    public void onLoad()
+    {
+        this.register(this.command=new Command("demo", "d").setHandler(context->{/* ... */}));
+    }
 }
 ```
 
-## 注册事件类
+## 添加子命令
 
-创建一个自己的事件类，直接或间接继承Event，实现call方法，然后将类注册到你的模块中
+使用Command#addChild添加子命令，你可以在父命令创建时直接添加
 
-call方法中不需要写任何代码，但它必须有方法体
+如果子命令足够复杂，你也可以单独为它创建一个模块，并在onLoad中添加到父命令，并在onUnload中从父命令移除
 
 ```java
-public class MyEvent extends Event
+public class DemoSubcommand extends MzModule
 {
-    // 实现call方法
+    public static DemoSubcommand instance = new DemoSubcommand();
+    
+    public Command command;
+    
     @Override
-    public void call()
+    public void onLoad()
     {
-        // 这里不用写任何代码
+        Demo.instance.command.addChild(this.command=new Command("sub").setHandler(context->{/* ... */}));
     }
     
-    // 处理该事件的模块
-    public static class Module extends MzModule
+    @Override
+    public void onUnload()
     {
-        // 模块实例，在其父模块中注册
-        public static Module instance=new Module();
-        
-        @Override
-        public void onLoad()
-        {
-            // 注册事件类
-            this.register(MyEvent.class);
-        }
+        Demo.instance.command.removeChild(this.command);
     }
 }
 ```
 
-在合适的时候触发该事件即可
+然后在父命令注册后注册这个模块
 
-## 触发事件
+## 设置命令权限检查器
 
-若你创建了一个事件实例，调用call方法即可触发所有监听器
+使用setPermissionChecker方法设置权限检查器
 
-如果事件没有被取消，则执行事件
+检查sender的权限，如果权限不足，返回一个Text类型的提示，否则返回null
 
-无论如何，最后都应该调用complete方法来结束事件
+可以使用预设的静态方法Command#checkPermission，也可以使用Command#permissionChecker直接构造这个检查器
+
+记得注册你的权限到模块中
 
 ```java
-MyEvent event=new MyEvent();
-// 触发监听器
-event.call();
-if(!event.isCancelled())
+public class Demo extends MzModule
 {
-    // 执行事件
+    public static Demo instance = new Demo();
+    
+    public String MOD_ID="mzlibdemo";
+    
+    public Permission permission=new Permission(this.MOD_ID+".command.demo");
+    public Command command;
+    
+    @Override
+    public void onLoad()
+    {
+        // 注册权限
+        this.register(this.permission);
+        // 注册命令
+        this.register(this.command=new Command("demo").setNamespace(this.MOD_ID).setPermissionChecker(Command.permissionChecker(this.permission)));
+    }
 }
-// 完成事件
-event.complete();
 ```
+
+可以使用静态方法Command#checkPermissionSenderPlayer要求发送者必须是一个玩家
+
+可以使用setPermissionCheckers方法设置若干个权限检查器，通过全部检查器的发送者才能执行命令
+
+```java
+command.setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.permissionChecker(this.permission));
+```
+
+## 进阶
+
+命令系统的进阶用法参见[进阶教程](../advanced/command.md)

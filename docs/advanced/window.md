@@ -1,16 +1,8 @@
-# 物品栏、窗口和Compound
+# 自定义窗口
+
+在此之前，请确保你已经学习了[Compound类](./compound.md)
 
 在Bukkit中，一个物品栏可以被玩家直接打开，但在原版中并非如此
-
-## 物品栏
-
-物品栏是一个接口，表示大小固定、包含若干有序物品堆的对象，可以理解为ItemStack[]的接口
-
-通过InventorySimple可以创建一个简单的物品栏
-
-```java
-Inventory inventory=InventorySimple.newInstance(10 /* 容量*/);
-```
 
 ## 窗口
 
