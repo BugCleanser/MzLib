@@ -3,6 +3,8 @@
 - MzLib v10.0.1-beta-dev6
   - 添加语言文件
   - 添加配置文件
+  - 添加自定义语言编辑器
+  - 兼容至1.16+
 - MzLib v10.0.1-beta-dev5
   - 兼容至1.17+
 - MzLib v10.0.1-beta-dev4
