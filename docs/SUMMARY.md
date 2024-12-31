@@ -7,7 +7,7 @@
   - [监听事件](./tutorial/chapter_4.md)
   - [配置文件](./tutorial/chapter_5.md)
 
-- 进阶教程
+- [进阶教程](./advanced.md)
   - [配合BukkitAPI使用](./advanced/bukkit.md)
   - [自定义事件](./advanced/event.md)
   - [网络数据包](./advanced/packet.md)
