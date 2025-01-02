@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.event.window;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.event.player.EventPlayerByPacket;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAnvilNameV1300;
@@ -60,7 +59,7 @@ public abstract class EventWindowAnvilSetName extends EventWindow
             }
             else
             {
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300.class, (event, packet)->event.sync().whenComplete((v, t)->
+                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, (event, packet)->event.sync().whenComplete((v, t)->
                 {
                     if(t!=null)
                         throw RuntimeUtil.sneakilyThrow(t);

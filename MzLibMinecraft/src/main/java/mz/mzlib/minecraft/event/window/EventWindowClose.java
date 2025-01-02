@@ -29,7 +29,7 @@ public class EventWindowClose extends EventWindow
         {
             this.register(EventWindowClose.class);
             
-            this.register(new PacketListener<>(PacketC2sCloseWindow.class, (pe, packet)->pe.sync().whenComplete((v, e)->
+            this.register(new PacketListener<>(PacketC2sCloseWindow::create, (pe, packet)->pe.sync().whenComplete((v, e)->
             {
                 if(e!=null)
                     throw RuntimeUtil.sneakilyThrow(e);

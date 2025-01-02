@@ -30,6 +30,11 @@ public interface PacketC2sPlayerMove extends Packet
             })
     interface LocationAndOnGround extends PacketC2sPlayerMove
     {
+        @WrapperCreator
+        static LocationAndOnGround create(Object wrapped)
+        {
+            return WrapperObject.create(LocationAndOnGround.class, wrapped);
+        }
     }
     @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
@@ -38,6 +43,11 @@ public interface PacketC2sPlayerMove extends Packet
             })
     interface LookAndOnGround extends PacketC2sPlayerMove
     {
+        @WrapperCreator
+        static LookAndOnGround create(Object wrapped)
+        {
+            return WrapperObject.create(LookAndOnGround.class, wrapped);
+        }
     }
     @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
@@ -46,6 +56,11 @@ public interface PacketC2sPlayerMove extends Packet
             })
     interface Full extends PacketC2sPlayerMove
     {
+        @WrapperCreator
+        static Full create(Object wrapped)
+        {
+            return WrapperObject.create(Full.class, wrapped);
+        }
     }
     @WrapMinecraftInnerClass(outer= PacketC2sPlayerMove.class,name=
             {
@@ -53,6 +68,11 @@ public interface PacketC2sPlayerMove extends Packet
             })
     interface OnGroundOnlyV1700 extends PacketC2sPlayerMove
     {
+        @WrapperCreator
+        static OnGroundOnlyV1700 create(Object wrapped)
+        {
+            return WrapperObject.create(OnGroundOnlyV1700.class, wrapped);
+        }
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))

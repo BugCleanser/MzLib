@@ -49,7 +49,7 @@ public class PacketListenerModule extends MzModule
             {
                 try
                 {
-                    listener.handler.accept(event, RuntimeUtil.cast((Packet)listener.packetCreator.getTarget().invokeExact((Object)msg)));
+                    listener.call0(event, msg);
                 }
                 catch(Throwable e)
                 {

@@ -97,7 +97,7 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
         public void onLoad()
         {
             this.register(EventPlayerDisplayItemInWindow.class);
-            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate.class, (event, packet)->event.sync().whenComplete((v, t)->
+            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, (event, packet)->event.sync().whenComplete((v, t)->
             {
                 if(t!=null)
                     throw RuntimeUtil.sneakilyThrow(t);
@@ -107,7 +107,7 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
                 ByPacketS2cWindowSlotUpdate e = new ByPacketS2cWindowSlotUpdate(event, window, packet);
                 e.call();
             })));
-            this.register(new PacketListener<>(PacketS2cWindowItems.class, (event, packet)->event.sync().whenComplete((v, t)->
+            this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync().whenComplete((v, t)->
             {
                 if(t!=null)
                     throw RuntimeUtil.sneakilyThrow(t);
@@ -121,7 +121,7 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
                 }
             })));
             if(MinecraftPlatform.instance.getVersion()>=1701)
-                this.register(new PacketListener<>(PacketS2cWindowItems.class, (event, packet)->event.sync().whenComplete((v, t)->
+                this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync().whenComplete((v, t)->
                 {
                     if(t!=null)
                         throw RuntimeUtil.sneakilyThrow(t);

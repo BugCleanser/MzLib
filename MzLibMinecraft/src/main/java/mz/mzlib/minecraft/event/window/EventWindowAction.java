@@ -59,7 +59,7 @@ public class EventWindowAction extends EventWindow
         {
             this.register(EventWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction.class, (pe, packet) ->pe.sync().whenComplete((v,e)->
+            this.register(new PacketListener<>(PacketC2sWindowAction::create, (pe, packet)->pe.sync().whenComplete((v, e)->
             {
                 if(e!=null)
                     throw RuntimeUtil.sneakilyThrow(e);
@@ -69,7 +69,7 @@ public class EventWindowAction extends EventWindow
                     pe.setCancelled(true);
                     return;
                 }
-                EventWindowAction event=new EventWindowAction(pe, window, packet);
+                EventWindowAction event = new EventWindowAction(pe, window, packet);
                 event.call();
             })));
         }

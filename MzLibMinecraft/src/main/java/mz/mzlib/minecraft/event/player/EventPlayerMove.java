@@ -282,7 +282,7 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            packetEvent.sync().whenComplete((v,t)->
+            packetEvent.sync().whenComplete((v, t)->
             {
                 if(t!=null)
                     throw RuntimeUtil.sneakilyThrow(t);
@@ -293,7 +293,7 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            packetEvent.sync().whenComplete((v,t)->
+            packetEvent.sync().whenComplete((v, t)->
             {
                 if(t!=null)
                     throw RuntimeUtil.sneakilyThrow(t);
@@ -306,12 +306,12 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         public void onLoad()
         {
             this.register(EventPlayerMove.class);
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround.class, this::handle));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround.class, this::handle));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.Full.class, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround::create, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround::create, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handle));
             if(MinecraftPlatform.instance.getVersion()>=1700)
-                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700.class, this::handle));
-            this.register(new PacketListener<>(PacketC2sVehicleMove.class, this::handle));
+                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700::create, this::handle));
+            this.register(new PacketListener<>(PacketC2sVehicleMove::create, this::handle));
         }
     }
 }
