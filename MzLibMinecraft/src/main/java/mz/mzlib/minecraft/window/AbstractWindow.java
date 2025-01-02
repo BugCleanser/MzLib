@@ -84,7 +84,7 @@ public interface AbstractWindow extends Window
             result = this.getSlot(index).getItemStack().copy();
         this.onAction(index, data, actionType, player);
         if(player.isInstanceOf(EntityPlayer::create))
-            player.castTo(EntityPlayer::create).updateWindowV_1700(this); // TODO: data tracker
+            player.castTo(EntityPlayer::create).updateWindowV_1700(this);
         return result;
     }
     

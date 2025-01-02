@@ -23,7 +23,7 @@ public class ModuleWindow extends MzModule
     }
     
     @WrapSameClass(Window.class)
-    public interface NothingWindow extends Nothing, Window
+    public interface NothingWindow extends Window, Nothing
     {
         @WrapperCreator
         static NothingWindow create(Object wrapped)
@@ -31,100 +31,103 @@ public class ModuleWindow extends MzModule
             return WrapperObject.create(NothingWindow.class, wrapped);
         }
         
-        @NothingInject(wrapperMethod = "placeIn", type = NothingInjectType.INSERT_BEFORE, locateMethod = "")
-        default WrapperBoolean overwritePlaceIn(@LocalVar(1) ItemStack itemStack, @LocalVar(2) int begin, @LocalVar(3) int end, @LocalVar(4) boolean inverted)
+        @NothingInject(wrapperMethod="placeIn", type=NothingInjectType.INSERT_BEFORE, locateMethod="")
+        default WrapperBoolean placeInOverwrite(@LocalVar(1) ItemStack itemStack, @LocalVar(2) int begin, @LocalVar(3) int end, @LocalVar(4) boolean inverted)
         {
             return WrapperBoolean.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
         }
         
-        //TODO Bukkit
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)
         {
-            if (doCheck)
+            if(doCheck)
                 itemStack = itemStack.copy();
             
             boolean result = false;
             int k = begin;
-            if (inverted)
-                k = end - 1;
+            if(inverted)
+                k = end-1;
             
             List<WindowSlot> slots = this.getSlots();
             WindowSlot slot;
             ItemStack itemstack1;
             int l;
-            if (itemStack.isStackable()) {
-                while(!itemStack.isEmpty()) {
-                    if (inverted) {
-                        if (k < begin) {
+            if(itemStack.isStackable())
+            {
+                while(!itemStack.isEmpty())
+                {
+                    if(inverted)
+                    {
+                        if(k<begin)
                             break;
-                        }
-                    } else if (k >= end) {
-                        break;
                     }
+                    else if(k>=end)
+                        break;
                     
                     slot = slots.get(k);
                     itemstack1 = slot.getItemStack();
-                    if (doCheck) {
+                    if(doCheck)
                         itemstack1 = itemstack1.copy();
-                    }
                     
-                    if (!itemstack1.isEmpty() && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, itemstack1)) {
-                        l = itemstack1.getCount() + itemStack.getCount();
+                    if(!itemstack1.isEmpty() && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, itemstack1))
+                    {
+                        l = itemstack1.getCount()+itemStack.getCount();
                         int i1 = slot.getMaxStackCount(itemstack1);
-                        if (l <= i1) {
+                        if(l<=i1)
+                        {
                             itemStack.setCount(0);
                             itemstack1.setCount(l);
-                            if (!doCheck) {
+                            if(!doCheck)
                                 slot.markDirty();
-                            }
                             
                             result = true;
-                        } else if (itemstack1.getCount() < i1) {
-                            itemStack.shrink(i1 - itemstack1.getCount());
+                        }
+                        else if(itemstack1.getCount()<i1)
+                        {
+                            itemStack.shrink(i1-itemstack1.getCount());
                             itemstack1.setCount(i1);
-                            if (!doCheck) {
+                            if(!doCheck)
                                 slot.markDirty();
-                            }
                             
                             result = true;
                         }
                     }
                     
-                    if (inverted) {
+                    if(inverted)
                         --k;
-                    } else {
+                    else
                         ++k;
-                    }
                 }
             }
             
-            if (!itemStack.isEmpty()) {
-                if (inverted) {
-                    k = end - 1;
-                } else {
+            if(!itemStack.isEmpty())
+            {
+                if(inverted)
+                    k = end-1;
+                else
                     k = begin;
-                }
                 
-                while(true) {
-                    if (inverted) {
-                        if (k < begin) {
+                while(true)
+                {
+                    if(inverted)
+                    {
+                        if(k<begin)
                             break;
-                        }
-                    } else if (k >= end) {
-                        break;
                     }
+                    else if(k>=end)
+                        break;
                     
                     slot = slots.get(k);
                     itemstack1 = slot.getItemStack();
-                    if (doCheck) {
+                    if(doCheck)
                         itemstack1 = itemstack1.copy();
-                    }
                     
-                    if (itemstack1.isEmpty() && slot.canPlace(itemStack)) {
+                    if(itemstack1.isEmpty() && slot.canPlace(itemStack))
+                    {
                         l = slot.getMaxStackCount(itemStack);
-                        if (doCheck) {
+                        if(doCheck)
                             itemStack.shrink(Math.min(itemStack.getCount(), l));
-                        } else {
+                        else
+                        {
                             slot.setItemStackByPlayer(itemStack.split(Math.min(itemStack.getCount(), l)));
                             slot.markDirty();
                         }
@@ -133,11 +136,10 @@ public class ModuleWindow extends MzModule
                         break;
                     }
                     
-                    if (inverted) {
+                    if(inverted)
                         --k;
-                    } else {
+                    else
                         ++k;
-                    }
                 }
             }
             
