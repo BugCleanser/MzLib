@@ -123,9 +123,7 @@ public class NothingRegistration
         for (Class<? extends Nothing> nothing : nothings)
         {
             if (!ElementSwitcher.isEnabled(nothing))
-            {
                 continue;
-            }
             int nothingConstructor = callSites.size();
             callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(nothing), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(nothing)));
             for (Method i : nothing.getDeclaredMethods())

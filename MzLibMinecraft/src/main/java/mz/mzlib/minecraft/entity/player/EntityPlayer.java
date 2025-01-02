@@ -2,13 +2,16 @@ package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -32,9 +35,18 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
         return MinecraftPlatform.instance.getLanguage(this);
     }
     
-    default void sendPacket(Packet packet)
+    void sendPacket(Packet packet);
+    @SpecificImpl("sendPacket")
+    @VersionRange(end=2002)
+    default void sendPacketV_2002(Packet packet)
     {
-        this.getNetworkHandler().getConnection().getChannel().write(packet.getWrapped());
+        this.getNetworkHandler().sendPacketV_2002(packet);
+    }
+    @SpecificImpl("sendPacket")
+    @VersionRange(begin=2002)
+    default void sendPacketV2002(Packet packet)
+    {
+        this.getNetworkHandler().castTo(ServerCommonNetworkHandlerV2002::create).sendPacket(packet);
     }
     
     default void receivePacket(Packet packet)

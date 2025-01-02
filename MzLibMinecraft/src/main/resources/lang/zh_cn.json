@@ -27,7 +27,7 @@
   "mzlib.lang.editor.homepage.custom.lore.null": "无自定义值",
   "mzlib.lang.editor.homepage.custom.set": "§1§n[设置]",
   "mzlib.lang.editor.homepage.custom.set.lore": "设置自定义值",
-  "mzlib.lang.editor.homepage.custom.set.title": "§1自定义%s",
+  "mzlib.lang.editor.homepage.custom.set.title": "§1%s",
   "mzlib.lang.editor.homepage.custom.set.fail.unescape": "§4反转义失败，你可能应输入: %s",
   "mzlib.lang.editor.homepage.custom.gap": "    ",
   "mzlib.lang.editor.homepage.custom.remove": "§4§n[删除]",

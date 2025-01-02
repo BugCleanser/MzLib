@@ -1,5 +1,7 @@
 # MzLib Changelog (Since v10)
 
+- MzLib v10.0.1-beta-dev7
+  - 优化数据包监听
 - MzLib v10.0.1-beta-dev6
   - 添加语言文件
   - 添加配置文件

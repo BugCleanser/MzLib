@@ -34,6 +34,9 @@ public interface MinecraftServer extends WrapperObject, CommandSender, Instance,
     }
 
     MinecraftServer instance = RuntimeUtil.nul();
+    
+    @WrapMinecraftFieldAccessor(@VersionName(name="serverThread"))
+    Thread getThread();
 
     default List<EntityPlayer> getPlayers()
     {

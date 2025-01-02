@@ -1,11 +1,11 @@
-package mz.mzlib.minecraft.event.player.async;
+package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 
-public abstract class EventPlayerDisplayItemAsync extends EventPlayerAsync
+public abstract class EventPlayerDisplayItem extends EventPlayerByPacket
 {
-    public EventPlayerDisplayItemAsync(PacketEvent packetEvent)
+    public EventPlayerDisplayItem(PacketEvent packetEvent)
     {
         super(packetEvent);
     }

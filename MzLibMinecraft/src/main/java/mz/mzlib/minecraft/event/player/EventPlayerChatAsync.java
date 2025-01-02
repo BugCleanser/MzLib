@@ -1,13 +1,11 @@
-package mz.mzlib.minecraft.event.player.async;
+package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
 import mz.mzlib.module.MzModule;
 
-import java.util.concurrent.CompletableFuture;
-
-public class EventPlayerChatAsync extends EventPlayerAsync
+public class EventPlayerChatAsync extends EventPlayerByPacket
 {
     public PacketC2sChatMessage packet;
     public EventPlayerChatAsync(PacketEvent packetEvent, PacketC2sChatMessage packet)
@@ -42,7 +40,6 @@ public class EventPlayerChatAsync extends EventPlayerAsync
             {
                 EventPlayerChatAsync event=new EventPlayerChatAsync(e, p);
                 event.call();
-                e.whenComplete(event::complete);
             }));
         }
     }

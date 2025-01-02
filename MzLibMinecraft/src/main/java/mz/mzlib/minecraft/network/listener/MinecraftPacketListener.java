@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.listener.PacketListener"))
 public interface MinecraftPacketListener extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static MinecraftPacketListener create(Object object)
     {

@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.ui.window;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.event.player.async.EventPlayerWindowAnvilSetNameAsync;
+import mz.mzlib.minecraft.event.window.EventWindowAnvilSetName;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.ui.UI;
 import mz.mzlib.minecraft.window.UnionWindowType;
@@ -32,7 +32,7 @@ public abstract class UIWindowAnvil extends UIWindow
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventPlayerWindowAnvilSetNameAsync.class, event->event.whenComplete(()->
+            this.register(new EventListener<>(EventWindowAnvilSetName.class, event->event.whenComplete(()->
             {
                 if(event.isCancelled())
                     return;

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.player.async;
+package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
@@ -7,10 +7,11 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.RuntimeUtil;
 
-public abstract class EventPlayerMoveAsync extends EventPlayerAsync
+public abstract class EventPlayerMove extends EventPlayerByPacket
 {
-    public EventPlayerMoveAsync(PacketEvent packetEvent)
+    public EventPlayerMove(PacketEvent packetEvent)
     {
         super(packetEvent);
     }
@@ -52,7 +53,7 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
     {
     }
     
-    public static class ByPacketC2sPlayerMove extends EventPlayerMoveAsync
+    public static class ByPacketC2sPlayerMove extends EventPlayerMove
     {
         public PacketC2sPlayerMove packet;
         public ByPacketC2sPlayerMove(PacketEvent packetEvent, PacketC2sPlayerMove packet)
@@ -163,7 +164,7 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
         }
     }
     
-    public static class ByPacketC2sVehicleMove extends EventPlayerMoveAsync
+    public static class ByPacketC2sVehicleMove extends EventPlayerMove
     {
         public PacketC2sVehicleMove packet;
         
@@ -281,22 +282,30 @@ public abstract class EventPlayerMoveAsync extends EventPlayerAsync
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            EventPlayerMoveAsync event = new ByPacketC2sPlayerMove(packetEvent, packet);
-            event.call();
-            packetEvent.whenComplete(event::complete);
+            packetEvent.sync().whenComplete((v,t)->
+            {
+                if(t!=null)
+                    throw RuntimeUtil.sneakilyThrow(t);
+                EventPlayerMove event = new ByPacketC2sPlayerMove(packetEvent, packet);
+                event.call();
+            });
         }
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            EventPlayerMoveAsync event = new ByPacketC2sVehicleMove(packetEvent, packet);
-            event.call();
-            packetEvent.whenComplete(event::complete);
+            packetEvent.sync().whenComplete((v,t)->
+            {
+                if(t!=null)
+                    throw RuntimeUtil.sneakilyThrow(t);
+                EventPlayerMove event = new ByPacketC2sVehicleMove(packetEvent, packet);
+                event.call();
+            });
         }
         
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerMoveAsync.class);
+            this.register(EventPlayerMove.class);
             this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround.class, this::handle));
             this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround.class, this::handle));
             this.register(new PacketListener<>(PacketC2sPlayerMove.Full.class, this::handle));
