@@ -32,11 +32,16 @@ public class PacketListenerModule extends MzModule
 {
     public static PacketListenerModule instance = new PacketListenerModule();
     
-    public ConcurrentHashMap<Channel, Set<Object>> handledPackets = new ThreadLocalGrowingHashMap<>();
+    public ThreadLocalGrowingHashMap<Channel, Set<Object>> handledPackets = new ThreadLocalGrowingHashMap<>();
     public boolean handle(Channel channel, EntityPlayer player, Object msg, Runnable rehandler)
     {
         Set<Object> set = this.handledPackets.get(channel);
-        if(set==null || !set.add(msg))
+        if(set==null)
+        {
+            this.handledPackets.threadLocal.remove();
+            return true;
+        }
+        if(!set.add(msg))
             return true;
         
         List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(msg.getClass());

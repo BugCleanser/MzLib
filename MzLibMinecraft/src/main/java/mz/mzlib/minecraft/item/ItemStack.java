@@ -10,11 +10,13 @@ import mz.mzlib.minecraft.item.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1400;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.version.DataUpdateTypesV1400;
 import mz.mzlib.minecraft.version.DataUpdateTypesV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -280,7 +282,7 @@ public interface ItemStack extends WrapperObject
             else
             {
                 if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
-                    dataVersion=3837;
+                    dataVersion=3837; // 1.20.5
                 else
                 {
                     dataVersion=1952; // 1.14
@@ -294,8 +296,11 @@ public interface ItemStack extends WrapperObject
                             if(lore.isPresent())
                                 for(NbtString l:lore.asList(NbtString::create))
                                 {
-                                    if(!(l.getValue().startsWith("{")&&l.getValue().endsWith("}")) && !(l.getValue().startsWith("\"")&&l.getValue().endsWith("\"")))
-                                        dataVersion=1631; // 1.13.2
+                                    if(RuntimeUtil.runAndCatch(()->Text.decode(l.getValue()))!=null)
+                                    {
+                                        dataVersion = 1631; // 1.13.2
+                                        break;
+                                    }
                                 }
                         }
                     }

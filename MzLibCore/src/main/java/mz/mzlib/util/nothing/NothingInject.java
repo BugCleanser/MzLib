@@ -21,5 +21,5 @@ public @interface NothingInject
      * Represents how many insns you want to SKIP or CATCH
      * In particular, MAX_VALUE means that you make a try-catch for all subsequent insn.
      */
-    int length() default Integer.MAX_VALUE;
+    String locateMethodEnd() default "";
 }

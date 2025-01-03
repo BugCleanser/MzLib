@@ -14,7 +14,7 @@ public enum NothingInjectType
     /**
      * Skip some insns beginning with the located insns.
      */
-    SKIP,
+    BRTRUE,
     /**
      * Try some insns beginning with the located insns, <br/>
      * and catch exception by your handler

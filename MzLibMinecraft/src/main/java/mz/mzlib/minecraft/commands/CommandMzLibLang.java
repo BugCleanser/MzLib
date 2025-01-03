@@ -32,15 +32,18 @@ public class CommandMzLibLang extends MzModule
         {
             if(context.argsReader.hasNext())
                 context.successful = false;
-            if(!context.successful || !context.doExecute)
+            if(!context.successful)
                 return;
-            if(I18nMinecraft.instance.taskLoading!=null)
+            if(context.doExecute)
             {
-                context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.loadmc.loading")));
-                return;
+                if(I18nMinecraft.instance.taskLoading!=null)
+                {
+                    context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.loadmc.loading")));
+                    return;
+                }
+                I18nMinecraft.instance.loadMinecraftLanguages();
+                context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.loadmc.begin")));
             }
-            I18nMinecraft.instance.loadMinecraftLanguages();
-            context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.loadmc.begin")));
         })).addChild(new Command("custom").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
             String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
@@ -73,7 +76,7 @@ public class CommandMzLibLang extends MzModule
                     if(context.argsReader.hasNext())
                         context.successful = false;
                     if(!context.successful)
-                        return;
+                        break;
                     if(context.doExecute)
                     {
                         I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).put(key, value);
@@ -85,7 +88,7 @@ public class CommandMzLibLang extends MzModule
                     if(context.argsReader.hasNext())
                         context.successful = false;
                     if(!context.successful)
-                        return;
+                        break;
                     if(context.doExecute)
                     {
                         I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).remove(key);

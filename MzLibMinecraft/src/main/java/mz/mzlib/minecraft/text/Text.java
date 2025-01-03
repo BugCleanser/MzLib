@@ -2,8 +2,10 @@ package mz.mzlib.minecraft.text;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
@@ -30,6 +32,7 @@ public interface Text extends WrapperObject
     {
         return Serializer.decode(json);
     }
+    
     static Text decode(String json)
     {
         return decode(new Gson().fromJson(json, JsonElement.class));
@@ -304,12 +307,14 @@ public interface Text extends WrapperObject
     }
     
     Text setExtra(List<Text> value);
+    
     @SpecificImpl("setExtra")
     @VersionRange(end=1900)
     default Text setExtraV_1900(List<Text> value)
     {
         return this.castTo(AbstractTextV_1900::create).setExtraV_1900(value);
     }
+    
     @SpecificImpl("setExtra")
     @VersionRange(begin=1900)
     default Text setExtraV1900(List<Text> value)
@@ -330,6 +335,7 @@ public interface Text extends WrapperObject
     }
     
     TextColor getColor();
+    
     @SpecificImpl("getColor")
     @VersionRange(end=1600)
     default TextColor getColorV_1600()
@@ -339,6 +345,7 @@ public interface Text extends WrapperObject
             return null;
         return new TextColor(result);
     }
+    
     @VersionRange(begin=1600)
     default TextColor getColorV1600()
     {
@@ -349,18 +356,20 @@ public interface Text extends WrapperObject
     }
     
     Text setColor(TextColor value);
+    
     @SpecificImpl("setColor")
     @VersionRange(end=1600)
     default Text setColorV_1600(TextColor value)
     {
-        this.style().setColorV_1600(value!=null?value.legacy:TextFormatLegacy.create(null));
+        this.style().setColorV_1600(value!=null ? value.legacy : TextFormatLegacy.create(null));
         return this;
     }
+    
     @SpecificImpl("setColor")
     @VersionRange(begin=1600)
     default Text setColorV1600(TextColor value)
     {
-        this.setStyle(this.style().withColorV1600(value!=null?value.v1600:TextColorV1600.create(null)));
+        this.setStyle(this.style().withColorV1600(value!=null ? value.v1600 : TextColorV1600.create(null)));
         return this;
     }
     
@@ -368,7 +377,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getBold();
     }
+    
     Text setBold(Boolean bold);
+    
     @SpecificImpl("setBold")
     @VersionRange(end=1600)
     default Text setBoldV_1600(Boolean bold)
@@ -376,6 +387,7 @@ public interface Text extends WrapperObject
         this.style().setBold(bold);
         return this;
     }
+    
     @SpecificImpl("setBold")
     @VersionRange(begin=1600)
     default Text setBoldV1600(Boolean bold)
@@ -388,7 +400,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getItalic();
     }
+    
     Text setItalic(Boolean italic);
+    
     @SpecificImpl("setItalic")
     @VersionRange(end=1600)
     default Text setItalicV_1600(Boolean italic)
@@ -396,6 +410,7 @@ public interface Text extends WrapperObject
         this.style().setItalic(italic);
         return this;
     }
+    
     @SpecificImpl("setItalic")
     @VersionRange(begin=1600)
     default Text setItalicV1600(Boolean italic)
@@ -408,7 +423,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getUnderlined();
     }
+    
     Text setUnderlined(Boolean underlined);
+    
     @SpecificImpl("setUnderlined")
     @VersionRange(end=1600)
     default Text setUnderlinedV_1600(Boolean underlined)
@@ -416,6 +433,7 @@ public interface Text extends WrapperObject
         this.style().setUnderlined(underlined);
         return this;
     }
+    
     @SpecificImpl("setUnderlined")
     @VersionRange(begin=1600)
     default Text setUnderlinedV1600(Boolean underlined)
@@ -428,7 +446,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getStrikethrough();
     }
+    
     Text setStrikethrough(Boolean strikethrough);
+    
     @SpecificImpl("setStrikethrough")
     @VersionRange(end=1600)
     default Text setStrikethroughV_1600(Boolean strikethrough)
@@ -436,6 +456,7 @@ public interface Text extends WrapperObject
         this.style().setStrikethrough(strikethrough);
         return this;
     }
+    
     @SpecificImpl("setStrikethrough")
     @VersionRange(begin=1600)
     default Text setStrikethroughV1600(Boolean strikethrough)
@@ -448,7 +469,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getObfuscated();
     }
+    
     Text setObfuscated(Boolean obfuscated);
+    
     @SpecificImpl("setObfuscated")
     @VersionRange(end=1600)
     default Text setObfuscatedV_1600(Boolean obfuscated)
@@ -456,6 +479,7 @@ public interface Text extends WrapperObject
         this.style().setObfuscated(obfuscated);
         return this;
     }
+    
     @SpecificImpl("setObfuscated")
     @VersionRange(begin=1600)
     default Text setObfuscatedV1600(Boolean obfuscated)
@@ -468,7 +492,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getClickEvent();
     }
+    
     Text setClickEvent(TextClickEvent event);
+    
     @SpecificImpl("setClickEvent")
     @VersionRange(end=1600)
     default Text setClickEventV_1600(TextClickEvent event)
@@ -476,6 +502,7 @@ public interface Text extends WrapperObject
         this.style().setClickEvent(event);
         return this;
     }
+    
     @SpecificImpl("setClickEvent")
     @VersionRange(begin=1600)
     default Text setClickEventV1600(TextClickEvent event)
@@ -488,7 +515,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getHoverEvent();
     }
+    
     Text setHoverEvent(TextHoverEvent event);
+    
     @SpecificImpl("setHoverEvent")
     @VersionRange(end=1600)
     default Text setHoverEventV_1600(TextHoverEvent event)
@@ -496,6 +525,7 @@ public interface Text extends WrapperObject
         this.style().setHoverEvent(event);
         return this;
     }
+    
     @SpecificImpl("setHoverEvent")
     @VersionRange(begin=1600)
     default Text setHoverEventV1600(TextHoverEvent event)
@@ -508,7 +538,9 @@ public interface Text extends WrapperObject
     {
         return this.style().getInsertion();
     }
+    
     Text setInsertion(String insertion);
+    
     @SpecificImpl("setInsertion")
     @VersionRange(end=1600)
     default Text setInsertionV_1600(String insertion)
@@ -516,6 +548,7 @@ public interface Text extends WrapperObject
         this.style().setInsertion(insertion);
         return this;
     }
+    
     @SpecificImpl("setInsertion")
     @VersionRange(begin=1600)
     default Text setInsertionV1600(String insertion)
@@ -568,15 +601,17 @@ public interface Text extends WrapperObject
         }
         
         @SpecificImpl("staticEncode")
-        @WrapMinecraftMethod(value=@VersionName(name="toJsonTree", begin=1400, end=2005))
+        @WrapMinecraftMethod(@VersionName(name="toJsonTree", begin=1400, end=2005))
         JsonElement staticEncodeV1400_2005(Text text);
+        
+        @WrapMinecraftMethod(@VersionName(name="toJson", begin=2005))
+        JsonElement staticEncodeV2005(Text text, RegistryEntryLookupV1903.class_7874 registries);
         
         @SpecificImpl("staticEncode")
         @VersionRange(begin=2005)
         default JsonElement staticEncodeV2005(Text text)
         {
-            // TODO
-            throw new UnsupportedOperationException();
+            return this.staticEncodeV2005(text, MinecraftServer.instance.getRegistriesV1602());
         }
         
         static Text decode(JsonElement json)
@@ -594,15 +629,17 @@ public interface Text extends WrapperObject
         }
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(value=@VersionName(name="fromJson", begin=1400, end=2005))
+        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=1400, end=2005))
         TextMutableV1600 staticDecodeV1400_2005(JsonElement json);
+        
+        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=2005))
+        TextMutableV1600 staticDecodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);
         
         @SpecificImpl("staticDecode")
         @VersionRange(begin=2005)
         default Text staticDecodeV2005(JsonElement json)
         {
-            // TODO
-            throw new UnsupportedOperationException();
+            return this.staticDecodeV2005(json, MinecraftServer.instance.getRegistriesV1602());
         }
     }
 }

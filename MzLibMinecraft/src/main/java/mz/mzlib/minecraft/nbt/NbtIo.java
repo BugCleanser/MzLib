@@ -16,4 +16,5 @@ public interface NbtIo extends WrapperObject
     
 //    @WrapMinecraftMethod(@VersionName(name="read"))
 //    NbtElement staticRead(DataInput input, NbtReadingCounter counter);
+    // TODO
 }

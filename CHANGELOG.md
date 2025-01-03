@@ -1,7 +1,8 @@
 # MzLib Changelog (Since v10)
 
 - MzLib v10.0.1-beta-dev7
-  - 优化数据包监听
+  - 优化数据包同步监听
+  - 改进物品升级策略
 - MzLib v10.0.1-beta-dev6
   - 添加语言文件
   - 添加配置文件
