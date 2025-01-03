@@ -26,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PacketListenerModule extends MzModule
 {

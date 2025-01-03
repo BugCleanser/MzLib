@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="com.mojang.serialization.Encoder"))
+@WrapMinecraftClass(@VersionName(name="com.mojang.serialization.Encoder", begin=1600))
 public interface EncoderV1600 extends WrapperObject
 {
     @WrapperCreator

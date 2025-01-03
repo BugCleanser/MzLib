@@ -19,7 +19,7 @@ public interface CommandSender extends WrapperObject
     @WrapMinecraftMethod({@VersionName(name="sendMessage", end=1600), @VersionName(name="sendMessage", begin=1900)})
     void sendMessageV_1600__1900(Text msg);
     
-    @WrapMinecraftMethod(@VersionName(name="sendSystemMessage", end=1900))
+    @WrapMinecraftMethod(@VersionName(name="sendSystemMessage", begin=1600, end=1900))
     void sendMessageV1600_1900(Text msg, UUID sender);
     
     @SpecificImpl("sendMessage")

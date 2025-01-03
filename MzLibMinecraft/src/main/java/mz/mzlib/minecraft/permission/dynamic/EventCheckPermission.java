@@ -1,19 +1,19 @@
 package mz.mzlib.minecraft.permission.dynamic;
 
 import mz.mzlib.event.Event;
-import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.entity.Entity;
 
 public abstract class EventCheckPermission extends Event
 {
-    public CommandSender gameObject;
-    public EventCheckPermission(CommandSender gameObject)
+    public Entity entity;
+    public EventCheckPermission(Entity entity)
     {
-        this.gameObject = gameObject;
+        this.entity = entity;
     }
     
-    public CommandSender getGameObject()
+    public Entity getEntity()
     {
-        return this.gameObject;
+        return this.entity;
     }
     public void deny()
     {

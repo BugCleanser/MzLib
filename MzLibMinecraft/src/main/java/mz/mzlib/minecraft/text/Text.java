@@ -629,8 +629,12 @@ public interface Text extends WrapperObject
         }
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=1400, end=2005))
-        TextMutableV1600 staticDecodeV1400_2005(JsonElement json);
+        @WrapMinecraftMethod(@VersionName(name="fromJson", end=1600))
+        Text staticDecodeV1600(JsonElement json);
+        
+        @SpecificImpl("staticDecode")
+        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=1600, end=2005))
+        TextMutableV1600 staticDecodeV1600_2005(JsonElement json);
         
         @WrapMinecraftMethod(@VersionName(name="fromJson", begin=2005))
         TextMutableV1600 staticDecodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);

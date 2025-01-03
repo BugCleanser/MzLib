@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.datafixers.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.registry.RegistrySetV1602;
 import mz.mzlib.minecraft.version.DataUpdaterV_1400;
-import mz.mzlib.minecraft.version.MinecraftVersionCurrentV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -98,13 +97,13 @@ public interface MinecraftServer extends WrapperObject, CommandSender, Instance,
     @VersionRange(begin=1400, end=1800)
     default int getDataVersionV1400_1800()
     {
-        return MinecraftVersionCurrentV1400.instanceV_1800().getDataVersion();
+        return GlobalConstants.getMinecraftVersionV1400_1800().getDataVersion();
     }
     @SpecificImpl("getDataVersion")
     @VersionRange(begin=1800)
     default int getDataVersionV1800()
     {
-        return MinecraftVersionCurrentV1400.instanceV1800().getDataVersion().getNumber();
+        return GlobalConstants.getMinecraftVersionV1800().getDataVersion().getNumber();
     }
     
     @VersionRange(begin=1602)

@@ -30,10 +30,11 @@ public class EventPlayerByPacket extends EventPlayer
     }
     
     @Override
-    public void whenComplete(Runnable runnable)
+    public void whenComplete(Runnable runnable) throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
+    
     @Override
     public void call()
     {

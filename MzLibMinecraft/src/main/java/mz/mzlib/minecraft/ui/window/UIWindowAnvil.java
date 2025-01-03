@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.ui.window;
 
+import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -27,12 +28,12 @@ public abstract class UIWindowAnvil extends UIWindow
     
     public static class Module extends MzModule
     {
-        public static Module instance=new Module();
+        public static Module instance = new Module();
         
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventWindowAnvilSetName.class, event->event.whenComplete(()->
+            this.register(new EventListener<>(EventWindowAnvilSetName.class, Priority.VERY_LOW, event->
             {
                 if(event.isCancelled())
                     return;
@@ -45,7 +46,7 @@ public abstract class UIWindowAnvil extends UIWindow
                             ((UIWindowAnvil)ui).onNameChanged(event.getPlayer(), event.getName());
                     }
                 });
-            })));
+            }));
         }
     }
 }

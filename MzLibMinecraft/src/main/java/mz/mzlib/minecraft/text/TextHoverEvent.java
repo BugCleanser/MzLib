@@ -172,7 +172,7 @@ public interface TextHoverEvent extends WrapperObject
             return WrapperObject.create(Action.class, wrapped);
         }
         
-        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_TEXT", end=1400), @VersionName(name="field_24342", begin=1400)})
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_TEXT", end=1400), @VersionName(name="field_11762", begin=1400, end=1600), @VersionName(name="field_24342", begin=1600)})
         Action staticShowText();
         
         static Action showText()
@@ -180,7 +180,7 @@ public interface TextHoverEvent extends WrapperObject
             return Action.create(null).staticShowText();
         }
         
-        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ITEM", end=1400), @VersionName(name="field_24343", begin=1400)})
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ITEM", end=1400), @VersionName(name="field_11757", begin=1400, end=1600), @VersionName(name="field_24343", begin=1600)})
         Action staticShowItem();
         
         static Action showItem()
@@ -188,7 +188,7 @@ public interface TextHoverEvent extends WrapperObject
             return Action.create(null).staticShowItem();
         }
         
-        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ENTITY", end=1400), @VersionName(name="field_24344", begin=1400)})
+        @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ENTITY", end=1400), @VersionName(name="field_11761", begin=1400, end=1600), @VersionName(name="field_24344", begin=1600)})
         Action staticShowEntity();
         
         static Action showEntity()
