@@ -1,13 +1,12 @@
-package mz.mzlib.minecraft.version;
+package mz.mzlib.minecraft.datafixer;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.datafixers.DSLV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.datafixer.TypeReferences", begin=1400))
+@WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.TypeReferences", begin=1400, end=1500), @VersionName(name="net.minecraft.datafixers.TypeReferences", begin=1500, end=1501), @VersionName(name="net.minecraft.datafixer.TypeReferences", begin=1501)})
 public interface DataUpdateTypesV1400 extends WrapperObject, DSLV1400.TypeReference
 {
     @WrapperCreator

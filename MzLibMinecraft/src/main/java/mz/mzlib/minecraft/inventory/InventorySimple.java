@@ -17,6 +17,7 @@ public interface InventorySimple extends WrapperObject, Inventory
     
     @WrapConstructor
     InventorySimple staticNewInstance(int size);
+    
     static InventorySimple newInstance(int size)
     {
         return create(null).staticNewInstance(size);

@@ -1,12 +1,12 @@
-package mz.mzlib.minecraft.datafixers;
+package mz.mzlib.minecraft.datafixer;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.DSL", begin = 1400))
+@WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.DSL", begin=1400))
 public interface DSLV1400 extends WrapperObject
 {
     @WrapperCreator

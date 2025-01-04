@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.item;
 
 
+import com.google.gson.Gson;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -221,7 +222,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end=2005)
     default void staticSetPagesV_2005(ItemStack book, List<Text> pages)
     {
-        book.tagV_2005().put("pages", NbtList.newInstance(pages.stream().map(page->NbtString.newInstance(page.encode().toString())).toArray(NbtElement[]::new)));
+        book.tagV_2005().put("pages", NbtList.newInstance(pages.stream().map(page->NbtString.newInstance(new Gson().toJson(page.encode()))).toArray(NbtElement[]::new)));
     }
     
     @SpecificImpl("staticSetPages")

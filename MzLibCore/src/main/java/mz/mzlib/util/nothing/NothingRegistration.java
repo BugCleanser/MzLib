@@ -142,6 +142,8 @@ public class NothingRegistration
                         if(wrapper.isEmpty())
                             throw new IllegalStateException("Wrapper method not found: "+i);
                         m = (Executable)WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(wrapper.iterator().next());
+                        if(m==null)
+                            throw new NullPointerException();
                     }
                     catch(NullPointerException e)
                     {

@@ -2,12 +2,12 @@ package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
 import mz.mzlib.minecraft.window.UnionWindowType;
-import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.module.MzModule;
 
@@ -24,7 +24,7 @@ public class Inventory10Slots extends MzModule
         Demo.instance.command.addChild(this.command = new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
             if(context.argsReader.hasNext())
-                context.successful=false;
+                context.successful = false;
             if(!context.successful)
                 return;
             if(context.doExecute)
@@ -82,7 +82,7 @@ public class Inventory10Slots extends MzModule
         @Override
         public Text getTitle(EntityPlayer player)
         {
-            return Text.literal("10个格子的物品栏");
+            return Text.literal(I18nMinecraft.getTranslation(player, "mzlibdemo.inventory10slots.title"));
         }
     }
 }

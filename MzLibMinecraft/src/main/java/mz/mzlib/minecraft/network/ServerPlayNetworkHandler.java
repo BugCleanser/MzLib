@@ -29,7 +29,7 @@ public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacket
     ClientConnection getConnection();
     
     @SpecificImpl("getConnection")
-    @WrapMinecraftFieldAccessor(@VersionName(name="connection", end=2002))
+    @WrapMinecraftFieldAccessor({@VersionName(name="connection", end=1400), @VersionName(name="client", begin=1400, end=1502), @VersionName(name="connection", begin=1502, end=2002)})
     ClientConnection getConnectionV_2002();
     
     @SpecificImpl("getConnection")

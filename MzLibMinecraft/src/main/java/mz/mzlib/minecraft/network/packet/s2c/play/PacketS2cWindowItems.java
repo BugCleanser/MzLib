@@ -12,7 +12,12 @@ import mz.mzlib.util.wrapper.*;
 import java.util.Arrays;
 import java.util.List;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket", end=1500), @VersionName(name="net.minecraft.server.network.packet.InventoryS2CPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket", begin=1502)})
+@WrapMinecraftClass(
+        {
+                @VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket", end=1500),
+                @VersionName(name="net.minecraft.client.network.packet.InventoryS2CPacket", begin=1500, end=1502),
+                @VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket", begin=1502)
+        })
 public interface PacketS2cWindowItems extends Packet
 {
     @WrapperCreator

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.datafixers;
+package mz.mzlib.minecraft.datafixer;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.serialization.DynamicV1400;

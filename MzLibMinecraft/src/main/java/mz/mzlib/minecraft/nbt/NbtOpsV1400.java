@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.NbtOps", begin=1400, end=1602), @VersionName(name="net.minecraft.nbt.NbtOps", begin=1602)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.NbtOps", begin=1400, end=1500), @VersionName(name="net.minecraft.datafixers.NbtOps", begin=1500, end=1501), @VersionName(name="net.minecraft.datafixer.NbtOps", begin=1501, end=1602), @VersionName(name="net.minecraft.nbt.NbtOps", begin=1602)})
 public interface NbtOpsV1400 extends WrapperObject, DynamicOpsV1400
 {
     @WrapperCreator
@@ -17,9 +17,10 @@ public interface NbtOpsV1400 extends WrapperObject, DynamicOpsV1400
     {
         return WrapperObject.create(NbtOpsV1400.class, wrapped);
     }
-
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="INSTANCE"))
     NbtOpsV1400 staticInstance();
+    
     static NbtOpsV1400 instance()
     {
         return create(null).staticInstance();

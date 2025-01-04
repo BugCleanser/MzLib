@@ -13,7 +13,14 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", end=1400), @VersionName(name="net.minecraft.container.NameableContainerFactory",begin=1400, end=1600), @VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", begin=1600)})
+@WrapMinecraftClass(
+        {
+                @VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", end=1400),
+                @VersionName(name="net.minecraft.container.NameableContainerFactory",begin=1400, end=1500),
+                @VersionName(name="net.minecraft.container.NameableContainerProvider",begin=1500, end=1502),
+                @VersionName(name="net.minecraft.container.NameableContainerFactory",begin=1502, end=1600),
+                @VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", begin=1600)
+        })
 public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
 {
     @WrapperCreator

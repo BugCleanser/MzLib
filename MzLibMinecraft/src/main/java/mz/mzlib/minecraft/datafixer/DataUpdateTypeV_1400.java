@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.version;
+package mz.mzlib.minecraft.datafixer;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;

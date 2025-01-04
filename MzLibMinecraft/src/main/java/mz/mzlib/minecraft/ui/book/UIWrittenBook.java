@@ -44,9 +44,10 @@ public abstract class UIWrittenBook implements UI
     public void open(EntityPlayer player)
     {
         ItemStack book = new ItemStackBuilder("written_book").build();
-        ItemWrittenBook.setTitle(book, "");
-        ItemWrittenBook.setAuthor(book, "");
-        ItemWrittenBook.setPages(book, getPages(player));
+        ItemWrittenBook.setTitle(book, "UIWrittenBook");
+        ItemWrittenBook.setAuthor(book, "UIWrittenBook");
+        ItemWrittenBook.setPages(book, this.getPages(player));
+        ItemWrittenBook.setResolved(book, true);
         player.openBook(book);
     }
     
@@ -69,7 +70,7 @@ public abstract class UIWrittenBook implements UI
             {
                 Integer button = new ArgumentParserInt("button").handle(context);
                 if(context.argsReader.hasNext())
-                    context.successful=false;
+                    context.successful = false;
                 if(!context.successful || !context.doExecute)
                     return;
                 EntityPlayer sender = context.sender.castTo(EntityPlayer::create);

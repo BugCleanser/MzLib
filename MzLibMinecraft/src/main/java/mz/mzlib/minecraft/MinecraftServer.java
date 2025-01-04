@@ -1,10 +1,10 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.command.CommandSender;
-import mz.mzlib.minecraft.datafixers.DataFixerV1400;
+import mz.mzlib.minecraft.datafixer.DataFixerV1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.registry.RegistrySetV1602;
-import mz.mzlib.minecraft.version.DataUpdaterV_1400;
+import mz.mzlib.minecraft.datafixer.DataUpdaterV_1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;

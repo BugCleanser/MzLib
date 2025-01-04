@@ -10,7 +10,14 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", end=1400), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", begin=1400, end=1500), @VersionName(name="net.minecraft.server.network.packet.ClickWindowC2SPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", begin=1502, end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)})
+@WrapMinecraftClass(
+        {
+                @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", end=1400),
+                @VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", begin=1400, end=1500),
+                @VersionName(name="net.minecraft.server.network.packet.ClickWindowC2SPacket", begin=1500, end=1502),
+                @VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", begin=1502, end=1604),
+                @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)
+        })
 public interface PacketC2sWindowAction extends Packet
 {
     @WrapperCreator

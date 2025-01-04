@@ -95,13 +95,13 @@ public class WrapperClassInfo
     
     public Map<Method, Member> wrappedMembers;
     public Map<Method, Member> inheritableWrappedMembers;
-    public Map<Method, Member> getWrappedMembers()
+    public synchronized Map<Method, Member> getWrappedMembers()
     {
         if(this.wrappedMembers==null)
             this.analyseWrappedMembers();
         return this.wrappedMembers;
     }
-    public Map<Method, Member> getInheritableWrappedMembers()
+    public synchronized Map<Method, Member> getInheritableWrappedMembers()
     {
         if(this.inheritableWrappedMembers==null)
             this.analyseWrappedMembers();
