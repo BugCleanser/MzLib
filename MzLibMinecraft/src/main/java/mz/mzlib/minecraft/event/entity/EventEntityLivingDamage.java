@@ -66,7 +66,7 @@ public class EventEntityLivingDamage extends EventEntity
                 e.call();
                 if(e.isCancelled())
                 {
-                    e.complete();
+                    e.finish();
                     return Wrapper_boolean.create(false);
                 }
                 source.setWrappedFrom(e.getSource());
@@ -82,7 +82,7 @@ public class EventEntityLivingDamage extends EventEntity
             @NothingInject(wrapperMethod = "damage", locateMethod = "locateDamageAfter", type = NothingInjectType.INSERT_BEFORE)
             default Wrapper_boolean damageAfter(@CustomVar("event") WrapperObject event)
             {
-                ((EventEntityLivingDamage) event.getWrapped()).complete();
+                ((EventEntityLivingDamage) event.getWrapped()).finish();
                 return Nothing.notReturn();
             }
         }

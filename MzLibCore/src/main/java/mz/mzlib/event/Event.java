@@ -1,21 +1,21 @@
 package mz.mzlib.event;
 
-import java.util.concurrent.CompletableFuture;
+import mz.mzlib.util.TaskList;
 
 /**
  * Every child class must implement {@link #call()} and be registered
  */
 public abstract class Event
 {
-    public CompletableFuture<Void> future = new CompletableFuture<>();
+    public TaskList futureTasks = new TaskList();
     public boolean isCancelled = false;
     
     /**
      * Execute when the operation corresponding to the event ends or is canceled.
      */
-    public void whenComplete(Runnable runnable)
+    public void runLater(Runnable runnable)
     {
-        this.future.thenRun(runnable);
+        this.futureTasks.schedule(runnable);
     }
     
     public void setCancelled(boolean cancelled)
@@ -27,9 +27,9 @@ public abstract class Event
         return this.isCancelled;
     }
     
-    public void complete()
+    public void finish()
     {
-        this.future.complete(null);
+        this.futureTasks.run();
     }
     
     /**

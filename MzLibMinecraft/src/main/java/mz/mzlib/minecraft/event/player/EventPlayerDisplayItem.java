@@ -25,10 +25,9 @@ public abstract class EventPlayerDisplayItem extends EventPlayerByPacket
     @Override
     public void setCancelled(boolean cancelled)
     {
-        if(cancelled)
-            throw new UnsupportedOperationException();
-        super.setCancelled(false);
+        throw new UnsupportedOperationException();
     }
+    
     @Override
     public void call()
     {

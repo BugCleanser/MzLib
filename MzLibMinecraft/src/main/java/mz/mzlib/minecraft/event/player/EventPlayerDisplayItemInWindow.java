@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowItems;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 
 public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayItem
 {
@@ -97,39 +96,30 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
         public void onLoad()
         {
             this.register(EventPlayerDisplayItemInWindow.class);
-            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, (event, packet)->event.sync().whenComplete((v, t)->
+            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, (event, packet)->event.sync(()->
             {
-                if(t!=null)
-                    throw RuntimeUtil.sneakilyThrow(t);
                 Window window = event.getPlayer().getCurrentWindow();
                 if(window.getSyncId()!=packet.getSyncId())
                     return;
-                ByPacketS2cWindowSlotUpdate e = new ByPacketS2cWindowSlotUpdate(event, window, packet);
-                e.call();
+                new ByPacketS2cWindowSlotUpdate(event, window, packet).call();
             })));
-            this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync().whenComplete((v, t)->
+            this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync(()->
             {
-                if(t!=null)
-                    throw RuntimeUtil.sneakilyThrow(t);
                 Window window = event.getPlayer().getCurrentWindow();
                 if(window.getSyncId()!=packet.getSyncId())
                     return;
                 for(int i = 0; i<packet.getContents().size(); i++)
                 {
-                    ByPacketS2cWindowItems e = new ByPacketS2cWindowItems(event, window, i, packet);
-                    e.call();
+                    new ByPacketS2cWindowItems(event, window, i, packet).call();
                 }
             })));
             if(MinecraftPlatform.instance.getVersion()>=1701)
-                this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync().whenComplete((v, t)->
+                this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync(()->
                 {
-                    if(t!=null)
-                        throw RuntimeUtil.sneakilyThrow(t);
                     Window window = event.getPlayer().getCurrentWindow();
                     if(window.getSyncId()!=packet.getSyncId())
                         return;
-                    ByPacketS2cWindowItems e = new ByPacketS2cWindowItems(event, window, -1, packet);
-                    e.call();
+                    new ByPacketS2cWindowItems(event, window, -1, packet).call();
                 })));
         }
     }

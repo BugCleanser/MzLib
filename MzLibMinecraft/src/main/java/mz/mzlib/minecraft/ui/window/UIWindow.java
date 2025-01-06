@@ -168,7 +168,7 @@ public abstract class UIWindow implements UI
                         button.onClick(event.getPlayer(), event.getActionType(), event.getData());
                 }
             }));
-            this.register(new EventListener<>(EventPlayerDisplayItemInWindow.class, Priority.LOW, event->
+            this.register(new EventListener<>(EventPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event->
             {
                 if(!event.getWindow().isInstanceOf(WindowUIWindow::create))
                     return;

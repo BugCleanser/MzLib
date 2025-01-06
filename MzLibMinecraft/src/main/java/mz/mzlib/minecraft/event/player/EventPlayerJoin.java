@@ -3,10 +3,9 @@ package mz.mzlib.minecraft.event.player;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.MzModule;
 
-// TODO: call
-public class EventPlayerQuit extends EventPlayer
+public class EventPlayerJoin extends EventPlayer
 {
-    public EventPlayerQuit(EntityPlayer player)
+    public EventPlayerJoin(EntityPlayer player)
     {
         super(player);
     }
@@ -30,7 +29,8 @@ public class EventPlayerQuit extends EventPlayer
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerQuit.class);
+            this.register(EventPlayerJoin.class);
+            // TODO
         }
     }
 }

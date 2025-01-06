@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAction;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 
 public class EventWindowAction extends EventWindow
 {
@@ -59,18 +58,15 @@ public class EventWindowAction extends EventWindow
         {
             this.register(EventWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction::create, (pe, packet)->pe.sync().whenComplete((v, e)->
+            this.register(new PacketListener<>(PacketC2sWindowAction::create, (pe, packet)->pe.sync(()->
             {
-                if(e!=null)
-                    throw RuntimeUtil.sneakilyThrow(e);
                 Window window = pe.getPlayer().getCurrentWindow();
                 if(window.getSyncId()!=packet.getSyncId())
                 {
                     pe.setCancelled(true);
                     return;
                 }
-                EventWindowAction event = new EventWindowAction(pe, window, packet);
-                event.call();
+                new EventWindowAction(pe, window, packet).call();
             })));
         }
     }

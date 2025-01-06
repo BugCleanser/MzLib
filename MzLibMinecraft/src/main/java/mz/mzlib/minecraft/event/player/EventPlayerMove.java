@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 
 public abstract class EventPlayerMove extends EventPlayerByPacket
 {
@@ -282,10 +281,8 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         
         public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
         {
-            packetEvent.sync().whenComplete((v, t)->
+            packetEvent.sync(()->
             {
-                if(t!=null)
-                    throw RuntimeUtil.sneakilyThrow(t);
                 EventPlayerMove event = new ByPacketC2sPlayerMove(packetEvent, packet);
                 event.call();
             });
@@ -293,10 +290,8 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         
         public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
         {
-            packetEvent.sync().whenComplete((v, t)->
+            packetEvent.sync(()->
             {
-                if(t!=null)
-                    throw RuntimeUtil.sneakilyThrow(t);
                 EventPlayerMove event = new ByPacketC2sVehicleMove(packetEvent, packet);
                 event.call();
             });

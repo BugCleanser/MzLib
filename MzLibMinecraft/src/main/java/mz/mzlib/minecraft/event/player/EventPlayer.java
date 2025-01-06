@@ -36,6 +36,7 @@ public abstract class EventPlayer extends EventEntity
         {
             this.register(EventPlayer.class);
             
+            this.register(EventPlayerJoin.Module.instance);
             this.register(EventPlayerQuit.Module.instance);
             
             this.register(EventPlayerByPacket.class);

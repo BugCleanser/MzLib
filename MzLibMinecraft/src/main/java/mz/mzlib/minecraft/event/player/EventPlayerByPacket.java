@@ -2,8 +2,6 @@ package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 
-import java.util.concurrent.CompletableFuture;
-
 public class EventPlayerByPacket extends EventPlayer
 {
     PacketEvent packetEvent;
@@ -24,13 +22,13 @@ public class EventPlayerByPacket extends EventPlayer
         this.packetEvent.setCancelled(cancelled);
     }
     
-    public CompletableFuture<Void> sync()
+    public void sync(Runnable task)
     {
-        return this.packetEvent.sync();
+        this.packetEvent.sync(task);
     }
     
     @Override
-    public void whenComplete(Runnable runnable) throws UnsupportedOperationException
+    public void runLater(Runnable runnable) throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }

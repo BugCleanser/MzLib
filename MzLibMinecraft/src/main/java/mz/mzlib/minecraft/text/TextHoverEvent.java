@@ -303,7 +303,7 @@ public interface TextHoverEvent extends WrapperObject
         
         default Identifier getType()
         {
-            return this.getType0().getId();
+            return this.getType0().getIdV1300();
         }
         
         @Override

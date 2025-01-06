@@ -1,13 +1,13 @@
 package mz.mzlib.example;
 
-import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.Delegator;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.WrapClass;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperObject;
 import org.junit.jupiter.api.Test;
-
-import java.lang.invoke.MethodType;
 
 public class ExampleCompound
 {

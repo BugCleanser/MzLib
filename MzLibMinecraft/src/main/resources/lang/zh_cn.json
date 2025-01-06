@@ -5,11 +5,11 @@
 
   "mzlib.test.basic.begin": "开始进行基本测试",
   "mzlib.test.basic.success": "测试结束，未发现明显异常",
-  "mzlib.test.basic.fail": "测试结束，发现%d个异常，MzLib可能无法在此服务端上正确运行",
+  "mzlib.test.basic.failure": "测试结束，发现%d个异常，MzLib可能无法在此服务端上正确运行",
 
   "mzlib.lang.minecraft.load": "正在加载MC语言文件",
   "mzlib.lang.minecraft.load.success": "MC语言文件加载完成",
-  "mzlib.lang.minecraft.load.fail": "MC语言文件加载失败，请稍后重试",
+  "mzlib.lang.minecraft.load.failure": "MC语言文件加载失败，请稍后重试",
 
   "mzlib.lang.editor.homepage.title": "§1§l语言编辑器",
   "mzlib.lang.editor.homepage.lang": "§2%s",
@@ -28,7 +28,7 @@
   "mzlib.lang.editor.homepage.custom.set": "§1§n[设置]",
   "mzlib.lang.editor.homepage.custom.set.lore": "设置自定义值",
   "mzlib.lang.editor.homepage.custom.set.title": "§1%s",
-  "mzlib.lang.editor.homepage.custom.set.fail.unescape": "§4反转义失败，你可能应输入: %s",
+  "mzlib.lang.editor.homepage.custom.set.failure.unescape": "§4反转义失败，你可能应输入: %s",
   "mzlib.lang.editor.homepage.custom.gap": "    ",
   "mzlib.lang.editor.homepage.custom.remove": "§4§n[删除]",
   "mzlib.lang.editor.homepage.custom.remove.lore": "移除自定义值",

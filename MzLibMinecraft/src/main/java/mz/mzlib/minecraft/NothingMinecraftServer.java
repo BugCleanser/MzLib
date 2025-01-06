@@ -16,7 +16,7 @@ public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, 
     @NothingInject(wrapperMethod = "tickV_1400", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
     default Wrapper_void tickBeforeV_1400()
     {
-        while(!waitingTasks.isEmpty() && tickNumber.get()>=Objects.requireNonNull(waitingTasks.peek()).first)
+        while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).first-tickNumber.get()<=0)
         {
             try
             {

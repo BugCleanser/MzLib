@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.mappings.MappingsPipe;
 import java.util.*;
 
 public class CliSorter extends Sorter<String, CliSorter.VersionBucket,CliVersion>{
-    public static String[] versions = new String[]{"1.12.2","1.14.3","1.20.5","1.15","1.15.1","1.15.2","1.16.1","1.16.3","1.16.4","1.17.1","1.18","1.18.2","1.16.5","1.19.2","1.19.4","1.20.1","1.20.4","1.21.1"};
+    public static String[] versions = new String[]{"1.12.2","1.13.2","1.14.4","1.15","1.15.1","1.15.2","1.16.1","1.16.3","1.16.4","1.16.5","1.17.1","1.18","1.18.2","1.19.2","1.19.4","1.20.1","1.20.4","1.20.5","1.21.1"};
 
     public static Map<String,VersionBucket> getCliMap(String mappedClass) throws InterruptedException {
         CliSorter sorter = new CliSorter();

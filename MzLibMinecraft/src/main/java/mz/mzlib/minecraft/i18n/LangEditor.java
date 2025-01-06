@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.i18n.RegistrarI18n;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
@@ -15,7 +16,10 @@ import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.minecraft.ui.window.UIWindowAnvilInput;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -79,7 +83,7 @@ public class LangEditor extends UIWrittenBook
         }
         else
         {
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back")).setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.node"), this.node.substring(0, this.node.lastIndexOf('.'))) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".")?" "+this.node.substring(0, this.node.lastIndexOf('.')):""))));
+            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back")).setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.node"), this.node.substring(0, this.node.lastIndexOf('.'))) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".") ? " "+this.node.substring(0, this.node.lastIndexOf('.')) : ""))));
             homepage.add(Text.literal("\n"));
             homepage.add(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.node"), this.node)));
             homepage.add(Text.literal("\n"));
@@ -97,13 +101,13 @@ public class LangEditor extends UIWrittenBook
         }
         homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.tips")));
         pages.add(Text.literal("").setExtra(homepage));
-        pages.addAll(ItemWrittenBook.makePages(childNodes.stream().map(n->Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node"), n)+'\n').setHoverEvent(TextHoverEvent.showText(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore"), this.node!=null?this.node+"."+n:n, escape(I18n.getTranslation(this.lang, this.node!=null?this.node+"."+n:n, "")), getTranslationKeyChildNodes(this.node!=null?this.node+"."+n:n).stream().map(m->String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore.child"), m, escape(I18n.getTranslation(this.lang, (this.node!=null?this.node+"."+n:n)+"."+m, "")))).collect(Collectors.joining("\n")))))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null?this.node+".":"")+n))).collect(Collectors.toList())));
+        pages.addAll(ItemWrittenBook.makePages(childNodes.stream().map(n->Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node"), n)+'\n').setHoverEvent(TextHoverEvent.showText(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore"), this.node!=null ? this.node+"."+n : n, escape(I18n.getTranslation(this.lang, this.node!=null ? this.node+"."+n : n, "")), getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.list.node.lore.child"), m, escape(I18n.getTranslation(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, "")))).collect(Collectors.joining("\n")))))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n))).collect(Collectors.toList())));
         return pages;
     }
     
     public static Set<String> getLanguages()
     {
-        Set<String> result=new HashSet<>();
+        Set<String> result = new HashSet<>();
         for(I18n i18n: RegistrarI18n.instance.sortedI18ns)
         {
             result.addAll(i18n.map.keySet());
@@ -112,20 +116,22 @@ public class LangEditor extends UIWrittenBook
         return result;
     }
     
+    public static Set<String> cacheTranslationKeys;
+    public static long cacheTickTranslationKeys;
+    public static Set<String> getTranslationKeys()
+    {
+        if(cacheTranslationKeys!=null && MinecraftServer.tickNumber.get()-cacheTickTranslationKeys<20)
+            return cacheTranslationKeys;
+        Set<I18n> i18ns = new HashSet<>(RegistrarI18n.instance.sortedI18ns);
+        i18ns.add(I18n.custom);
+        cacheTickTranslationKeys = MinecraftServer.tickNumber.get();
+        return cacheTranslationKeys = i18ns.stream().flatMap(i18n->i18n.map.values().stream()).flatMap(map->map.keySet().stream()).collect(Collectors.toSet());
+    }
+    
     public static Set<String> getTranslationKeyChildNodes(String parent)
     {
         String prefix = parent!=null ? parent+"." : "";
-        Set<I18n> i18ns = new HashSet<>(RegistrarI18n.instance.sortedI18ns);
-        i18ns.add(I18n.custom);
-        Set<String> result = new HashSet<>();
-        for(I18n i18n: i18ns)
-        {
-            for(Map.Entry<String, Map<String, String>> entry: i18n.map.entrySet())
-            {
-                entry.getValue().keySet().stream().filter(key->key.startsWith(prefix)).map(key->key.substring(prefix.length()).split("\\.", 2)[0]).forEach(result::add);
-            }
-        }
-        return result;
+        return getTranslationKeys().stream().filter(key->key.startsWith(prefix)).map(key->key.substring(prefix.length()).split("\\.", 2)[0]).collect(Collectors.toSet());
     }
     
     public static String escape(String string)

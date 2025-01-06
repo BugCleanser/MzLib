@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sCloseWindow;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 
 public class EventWindowClose extends EventWindow
 {
@@ -29,10 +28,8 @@ public class EventWindowClose extends EventWindow
         {
             this.register(EventWindowClose.class);
             
-            this.register(new PacketListener<>(PacketC2sCloseWindow::create, (pe, packet)->pe.sync().whenComplete((v, e)->
+            this.register(new PacketListener<>(PacketC2sCloseWindow::create, (pe, packet)->pe.sync(()->
             {
-                if(e!=null)
-                    throw RuntimeUtil.sneakilyThrow(e);
                 Window window = pe.getPlayer().getCurrentWindow();
                 if(window.getSyncId()!=packet.getSyncId())
                 {

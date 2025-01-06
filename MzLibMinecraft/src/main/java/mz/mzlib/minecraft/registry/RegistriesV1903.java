@@ -29,6 +29,13 @@ public interface RegistriesV1903 extends WrapperObject
         return create(null).staticComponentKeyV2005();
     }
     
+    static Registry entityType()
+    {
+        return create(null).staticEntityType();
+    }
+    @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
+    Registry staticEntityType();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="SCREEN_HANDLER"))
     Registry staticWindowType();
     static Registry windowType()
