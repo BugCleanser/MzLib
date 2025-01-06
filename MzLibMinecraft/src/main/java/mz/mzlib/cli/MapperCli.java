@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class MapperCli
 {
-    public static CliVersion version = new CliVersion("1.15.2");
+    public static CliVersion version = new CliVersion("1.21.1");
     //	public static int getVersion()
 //	{
 //		return version.version;

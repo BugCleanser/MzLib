@@ -1,8 +1,7 @@
 package mz.mzlib.minecraft.network.packet;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-
-import java.util.concurrent.CompletableFuture;
+import mz.mzlib.util.TaskList;
 
 public class PacketEvent
 {
@@ -18,12 +17,12 @@ public class PacketEvent
         return player;
     }
     
-    public CompletableFuture<Void> synchronizer = null;
-    public CompletableFuture<Void> sync()
+    public TaskList syncTasks = null;
+    public void sync(Runnable task)
     {
-        if(this.synchronizer==null)
-            this.synchronizer = new CompletableFuture<>();
-        return this.synchronizer;
+        if(this.syncTasks==null)
+            this.syncTasks = new TaskList();
+        this.syncTasks.schedule(task);
     }
     
     public void setCancelled(boolean cancelled)

@@ -30,7 +30,7 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
     {
-        if(PacketListenerModule.instance.handle(ctx.channel(), this.getPlayer(), msg, ()->ctx.channel().write(msg)))
+        if(PacketListenerModule.instance.handle(ctx.channel(), this.getPlayer(), msg, ctx.channel()::write))
             ctx.write(msg, promise);
     }
 }

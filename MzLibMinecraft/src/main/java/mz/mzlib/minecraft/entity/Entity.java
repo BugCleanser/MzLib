@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.entity;
 
 import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.entity.data.EntityDataType;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -20,6 +21,28 @@ public interface Entity extends WrapperObject, CommandSender
     {
         return WrapperObject.create(Entity.class, wrapped);
     }
+    
+    /**
+     * type0: {@link java.util.Optional<mz.mzlib.minecraft.text.Text>}
+     */
+    static EntityDataType dataTypeCustomName()
+    {
+        return create(null).staticDataTypeCustomName();
+    }
+    // TODO: versioning
+    @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
+    EntityDataType staticDataTypeCustomName();
+    
+    /**
+     * type0: {@link Boolean}
+     */
+    static EntityDataType dataTypeCustomNameVisible()
+    {
+        return create(null).staticDataTypeCustomNameVisible();
+    }
+    // TODO: versioning
+    @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
+    EntityDataType staticDataTypeCustomNameVisible();
     
     Vec3d getPosition();
     

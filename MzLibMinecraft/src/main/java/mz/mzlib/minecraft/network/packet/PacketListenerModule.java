@@ -26,13 +26,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.function.Consumer;
 
 public class PacketListenerModule extends MzModule
 {
     public static PacketListenerModule instance = new PacketListenerModule();
     
     public ThreadLocalGrowingHashMap<Channel, Set<Object>> handledPackets = new ThreadLocalGrowingHashMap<>();
-    public boolean handle(Channel channel, EntityPlayer player, Object msg, Runnable rehandler)
+    public boolean handle(Channel channel, EntityPlayer player, Object msg, Consumer<Object> rehandler)
     {
         Set<Object> set = this.handledPackets.get(channel);
         if(set==null)
@@ -42,6 +43,12 @@ public class PacketListenerModule extends MzModule
         }
         if(!set.add(msg))
             return true;
+        if(WrapperObject.create(msg).isInstanceOf(PacketBundle::create))
+        {
+            for(Packet p: PacketBundle.create(msg).getPackets())
+                rehandler.accept(p.getWrapped());
+            return false;
+        }
         
         List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(msg.getClass());
         if(sortedListeners==null)
@@ -65,22 +72,22 @@ public class PacketListenerModule extends MzModule
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
-        if(event.synchronizer!=null && Thread.currentThread()==MinecraftServer.instance.getThread())
+        if(event.syncTasks!=null && Thread.currentThread()==MinecraftServer.instance.getThread())
         {
-            event.synchronizer.complete(null);
-            event.synchronizer = null;
+            event.syncTasks.run();
+            event.syncTasks = null;
         }
         if(event.isCancelled())
             return false;
-        if(event.synchronizer==null)
+        if(event.syncTasks==null)
             return true;
         MinecraftServer.instance.schedule(()->
         {
             try
             {
-                event.synchronizer.complete(null);
+                event.syncTasks.run();
                 if(!event.isCancelled())
-                    rehandler.run();
+                    rehandler.accept(msg);
             }
             catch(Throwable e)
             {
@@ -135,7 +142,7 @@ public class PacketListenerModule extends MzModule
         {
             if(!this.getChannel().isOpen())
                 return Nothing.notReturn();
-            if(PacketListenerModule.instance.handle(this.getChannel(), this.getPlayer(), packet.getWrapped(), ()->this.channelRead0(null, packet)))
+            if(PacketListenerModule.instance.handle(this.getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.channelRead0(null, Packet.create(msg))))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -149,7 +156,7 @@ public class PacketListenerModule extends MzModule
         @NothingInject(wrapperMethod="sendPacketV_1400", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
         {
-            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), ()->this.sendPacketV_1400(packet)))
+            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketV_1400(Packet.create(msg))))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -159,7 +166,9 @@ public class PacketListenerModule extends MzModule
         @NothingInject(wrapperMethod="sendPacketV1400_1901", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacks)
         {
-            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), ()->this.sendPacketV1400_1901(packet, callbacks)))
+            if(callbacks!=null)
+                return Nothing.notReturn();
+            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketV1400_1901(Packet.create(msg), null)))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -169,7 +178,9 @@ public class PacketListenerModule extends MzModule
         @NothingInject(wrapperMethod="sendPacketV1901_2002", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacks)
         {
-            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), ()->this.sendPacketV1901_2002(packet, callbacks)))
+            if(callbacks.isPresent())
+                return Nothing.notReturn();
+            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketV1901_2002(Packet.create(msg), PacketCallbacksV1901.create(null))))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -182,7 +193,7 @@ public class PacketListenerModule extends MzModule
         @NothingInject(wrapperMethod="sendPacket", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBegin(@LocalVar(1) Packet packet)
         {
-            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), ()->this.sendPacket(packet)))
+            if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacket(Packet.create(msg))))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);

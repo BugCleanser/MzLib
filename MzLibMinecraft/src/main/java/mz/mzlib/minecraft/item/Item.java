@@ -144,4 +144,8 @@ public interface Item extends WrapperObject
 
     @WrapMinecraftMethod(@VersionName(name="getRegistryEntry", begin=1802))
     RegistryEntryV1802 getRegistryEntryV1802();
+    
+    // TODO: versioning
+    @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
+    String getTranslationKey(ItemStack itemStack);
 }

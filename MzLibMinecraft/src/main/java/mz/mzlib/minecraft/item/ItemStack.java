@@ -236,6 +236,13 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getMaxCount"))
     int getMaxStackCount();
     
+    
+    default String getTranslationKey()
+    {
+        // TODO
+        return this.getItem().getTranslationKey(this);
+    }
+    
     boolean staticIsStackable(ItemStack a, ItemStack b);
     
     @SpecificImpl("staticIsStackable")

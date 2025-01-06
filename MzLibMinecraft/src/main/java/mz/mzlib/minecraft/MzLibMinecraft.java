@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.CommandGiveNbt;
 import mz.mzlib.minecraft.commands.CommandMzLibItemInfo;
 import mz.mzlib.minecraft.commands.CommandMzLibLang;
+import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.network.packet.PacketListenerModule;
@@ -53,6 +54,8 @@ public class MzLibMinecraft extends MzModule
             this.register(PacketListenerModule.instance);
             
             this.register(MinecraftEventModule.instance);
+            
+            this.register(DisplayEntityTracker.Module.instance);
             
             this.register(ModuleMapStackTrace.instance);
             
