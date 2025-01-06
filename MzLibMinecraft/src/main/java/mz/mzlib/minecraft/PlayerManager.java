@@ -1,6 +1,8 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.network.ClientConnection;
+import mz.mzlib.minecraft.network.ClientConnectionData;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.ListWrapper;
@@ -28,4 +30,8 @@ public interface PlayerManager extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="getPlayer"))
     EntityPlayer getPlayer(String name);
+    
+    // TODO: versioning
+    @WrapMinecraftMethod(@VersionName(name="onPlayerConnect"))
+    void addPlayer(ClientConnection connection, EntityPlayer player, ClientConnectionData connectionData);
 }

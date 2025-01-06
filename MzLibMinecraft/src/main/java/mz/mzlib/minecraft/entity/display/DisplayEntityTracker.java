@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.entity.display;
 
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.EventPlayerJoin;
 import mz.mzlib.minecraft.event.player.EventPlayerQuit;
@@ -23,8 +24,7 @@ public class DisplayEntityTracker
     
     public static DisplayEntityTracker get(EntityPlayer player)
     {
-        // TODO
-        return instances.computeIfAbsent(player, k->new DisplayEntityTracker());
+        return instances.get(player);
     }
     
     public Map<Integer, DisplayEntity> entities = new ConcurrentHashMap<>();
@@ -37,6 +37,8 @@ public class DisplayEntityTracker
         public void onLoad()
         {
             this.register(new EventListener<>(EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event->instances.put(event.getPlayer(), new DisplayEntityTracker())));
+            for(EntityPlayer player: MinecraftServer.instance.getPlayers())
+                instances.put(player, new DisplayEntityTracker());
             this.register(new EventListener<>(EventPlayerQuit.class, Priority.VERY_VERY_LOW, event->instances.remove(event.getPlayer())));
             
             this.register(new PacketListener<>(PacketS2cEntitySpawn::create, Priority.LOW, (e, p)->
