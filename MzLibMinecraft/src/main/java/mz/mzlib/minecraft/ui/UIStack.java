@@ -1,7 +1,10 @@
 package mz.mzlib.minecraft.ui;
 
+import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.event.player.EventPlayerJoin;
 import mz.mzlib.minecraft.event.player.EventPlayerQuit;
 import mz.mzlib.module.MzModule;
 
@@ -12,29 +15,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UIStack
 {
-    public static Map<EntityPlayer, UIStack> uiStacks=new ConcurrentHashMap<>();
+    public static Map<EntityPlayer, UIStack> uiStacks = new ConcurrentHashMap<>();
     
     public static class Module extends MzModule
     {
-        public static Module instance=new Module();
+        public static Module instance = new Module();
         
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventPlayerQuit.class, e -> uiStacks.remove(e.getEntity())));
+            this.register(new EventListener<>(EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event->
+            {
+                uiStacks.put(event.getPlayer(), new UIStack(event.getPlayer()));
+                if(event.isCancelled())
+                    uiStacks.remove(event.getPlayer());
+            }));
+            for(EntityPlayer player: MinecraftServer.instance.getPlayers())
+            {
+                uiStacks.put(player, new UIStack(player));
+            }
+            this.register(new EventListener<>(EventPlayerQuit.class, Priority.VERY_VERY_LOW, event->uiStacks.remove(event.getPlayer())));
         }
     }
     
     public static UIStack get(EntityPlayer player)
     {
-        return uiStacks.computeIfAbsent(player, UIStack::new);
+        return uiStacks.get(player);
     }
     
     public EntityPlayer player;
-    public List<UI> data=new ArrayList<>();
+    public List<UI> data = new ArrayList<>();
     public UIStack(EntityPlayer player)
     {
-        this.player=player;
+        this.player = player;
     }
     
     public void start(UI ui)

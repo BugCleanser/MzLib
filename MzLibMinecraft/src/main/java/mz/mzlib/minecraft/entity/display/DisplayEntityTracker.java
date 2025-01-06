@@ -36,7 +36,15 @@ public class DisplayEntityTracker
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event->instances.put(event.getPlayer(), new DisplayEntityTracker())));
+            this.register(new EventListener<>(EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event->
+            {
+                instances.put(event.getPlayer(), new DisplayEntityTracker());
+                event.runLater(()->
+                {
+                    if(event.isCancelled())
+                        instances.remove(event.getPlayer());
+                });
+            }));
             for(EntityPlayer player: MinecraftServer.instance.getPlayers())
                 instances.put(player, new DisplayEntityTracker());
             this.register(new EventListener<>(EventPlayerQuit.class, Priority.VERY_VERY_LOW, event->instances.remove(event.getPlayer())));
@@ -73,7 +81,7 @@ public class DisplayEntityTracker
                     EventDisplayEntityDataAsync event = new EventDisplayEntityDataAsync(displayEntity, e, p);
                     event.call();
                     if(!e.isCancelled())
-                        p.forEachData0(displayEntity::putSyncedData0);
+                        p.forEachData0(displayEntity::putData0);
                     event.finish();
                 }
             }));

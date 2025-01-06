@@ -46,6 +46,7 @@ public abstract class EventPlayer extends EventEntity
             
             this.register(EventPlayerDisplayItem.class);
             this.register(EventPlayerDisplayItemInWindow.Module.instance);
+            this.register(EventPlayerDisplayItemInEntity.Module.instance);
         }
     }
 }

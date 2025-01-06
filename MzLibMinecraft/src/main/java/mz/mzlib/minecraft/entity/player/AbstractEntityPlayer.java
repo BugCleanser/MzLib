@@ -47,6 +47,20 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
     void setCurrentWindow(Window value);
     
+    // TODO versioning
+    @WrapMinecraftFieldAccessor(@VersionName(name="playerScreenHandler"))
+    Window getDefaultWindow();
+    
+    default Window getWindow(int syncId)
+    {
+        if(syncId==0)
+            return this.getDefaultWindow();
+        else if(syncId==this.getCurrentWindow().getSyncId())
+            return this.getCurrentWindow();
+        else
+            return Window.create(null);
+    }
+    
     @WrapMinecraftMethod({@VersionName(name="openHandledScreen", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600)})
     OptionalInt openWindow(WindowFactory windowFactory);
     

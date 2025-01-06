@@ -3,11 +3,8 @@ package mz.mzlib.demo;
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.Entity;
-import mz.mzlib.minecraft.entity.EntityItem;
-import mz.mzlib.minecraft.entity.EntityType;
-import mz.mzlib.minecraft.event.player.displayentity.EventDisplayEntityDataAsync;
+import mz.mzlib.minecraft.event.player.EventPlayerDisplayItemInEntity;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
-import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.module.MzModule;
@@ -21,17 +18,13 @@ public class ModuleItemName extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(new EventListener<>(EventDisplayEntityDataAsync.class, Priority.LOW, event->
+        this.register(new EventListener<>(EventPlayerDisplayItemInEntity.InEntityItem.class, Priority.VERY_VERY_LOW, event->
         {
-            if(!event.getDisplayEntity().type.equals(EntityType.fromId("item")))
+            if(!event.getDisplayEntity().hasTag(ModuleItemName.class) && Boolean.TRUE.equals(event.getEventDisplayEntityData().getData0(Entity.dataTypeCustomNameVisible())))
                 return;
-            if(Boolean.TRUE.equals(event.getData0(Entity.dataTypeCustomNameVisible())))
-                return;
-            ItemStack item=event.getData(EntityItem.dataTypeItem(), ItemStack::create);
-            if(!item.isPresent())
-                return;
-            event.putNewData0(Entity.dataTypeCustomNameVisible(), true);
-            event.putNewData0(Entity.dataTypeCustomName(), Optional.of(Text.literal(I18nMinecraft.getTranslation(event.getPlayer(), item.getTranslationKey())).setColor(TextColor.YELLOW).getWrapped()));
+            event.getDisplayEntity().putTag(ModuleItemName.class, null);
+            event.eventDisplayEntityData.putNewData0(Entity.dataTypeCustomNameVisible(), true);
+            event.eventDisplayEntityData.putNewData0(Entity.dataTypeCustomName(), Optional.of(Text.literal(String.format("%sx%d", I18nMinecraft.getTranslation(event.getPlayer(), event.getItemStack().getTranslationKey()), event.getItemStack().getCount())).setColor(TextColor.YELLOW).getWrapped()));
         }));
     }
 }

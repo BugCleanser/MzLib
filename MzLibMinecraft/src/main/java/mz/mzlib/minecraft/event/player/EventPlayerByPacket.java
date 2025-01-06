@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.network.packet.PacketEvent;
 
 public class EventPlayerByPacket extends EventPlayer
 {
-    PacketEvent packetEvent;
+    public PacketEvent packetEvent;
     public EventPlayerByPacket(PacketEvent packetEvent)
     {
         super(packetEvent.getPlayer());

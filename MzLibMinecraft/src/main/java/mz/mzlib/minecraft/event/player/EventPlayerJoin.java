@@ -18,14 +18,8 @@ public class EventPlayerJoin extends EventPlayer
     public EventPlayerJoin(EntityPlayer player, ClientConnection connection, ClientConnectionData connectionData)
     {
         super(player);
-        this.connection=connection;
-        this.connectionData=connectionData;
-    }
-    
-    @Override
-    public void setCancelled(boolean cancelled)
-    {
-        throw new UnsupportedOperationException();
+        this.connection = connection;
+        this.connectionData = connectionData;
     }
     
     @Override
@@ -42,7 +36,7 @@ public class EventPlayerJoin extends EventPlayer
             @NothingInject(wrapperMethod="addPlayer", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_void addPlayerBegin(@CustomVar("eventJoin") WrapperObject wrapperEvent, @LocalVar(1) ClientConnection connection, @LocalVar(2) EntityPlayer player, @LocalVar(3) ClientConnectionData connectionData)
             {
-                EventPlayerJoin event=new EventPlayerJoin(player, connection, connectionData);
+                EventPlayerJoin event = new EventPlayerJoin(player, connection, connectionData);
                 event.call();
                 if(event.isCancelled())
                 {
@@ -58,15 +52,16 @@ public class EventPlayerJoin extends EventPlayer
                 locating.allAfter(AsmUtil.insnReturn(void.class).getOpcode());
                 assert !locating.locations.isEmpty();
             }
+            
             @NothingInject(wrapperMethod="addPlayer", locateMethod="addPlayerEndLocate", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_void addPlayerEnd(@CustomVar("eventJoin") WrapperObject wrapperEvent)
             {
-                ((EventPlayerJoin) wrapperEvent.getWrapped()).finish();
+                ((EventPlayerJoin)wrapperEvent.getWrapped()).finish();
                 return Nothing.notReturn();
             }
         }
         
-        public static Module instance=new Module();
+        public static Module instance = new Module();
         
         @Override
         public void onLoad()

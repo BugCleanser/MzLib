@@ -89,7 +89,7 @@ public interface PacketS2cEntityData extends Packet
         StrongRef<Object> result = new StrongRef<>(null);
         this.forEachData0((t, value)->
         {
-            if(t==type)
+            if(t.equals(type))
                 result.set(value);
         });
         return result.get();

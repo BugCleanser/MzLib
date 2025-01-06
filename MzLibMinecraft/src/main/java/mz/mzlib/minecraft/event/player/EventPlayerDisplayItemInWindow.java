@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
@@ -98,15 +99,15 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
             this.register(EventPlayerDisplayItemInWindow.class);
             this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, (event, packet)->event.sync(()->
             {
-                Window window = event.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=packet.getSyncId())
+                Window window=event.getPlayer().getWindow(packet.getSyncId());
+                if(!window.isPresent())
                     return;
                 new ByPacketS2cWindowSlotUpdate(event, window, packet).call();
             })));
             this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync(()->
             {
-                Window window = event.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=packet.getSyncId())
+                Window window=event.getPlayer().getWindow(packet.getSyncId());
+                if(!window.isPresent())
                     return;
                 for(int i = 0; i<packet.getContents().size(); i++)
                 {
@@ -116,8 +117,8 @@ public abstract class EventPlayerDisplayItemInWindow extends EventPlayerDisplayI
             if(MinecraftPlatform.instance.getVersion()>=1701)
                 this.register(new PacketListener<>(PacketS2cWindowItems::create, (event, packet)->event.sync(()->
                 {
-                    Window window = event.getPlayer().getCurrentWindow();
-                    if(window.getSyncId()!=packet.getSyncId())
+                    Window window=event.getPlayer().getWindow(packet.getSyncId());
+                    if(!window.isPresent())
                         return;
                     new ByPacketS2cWindowItems(event, window, -1, packet).call();
                 })));

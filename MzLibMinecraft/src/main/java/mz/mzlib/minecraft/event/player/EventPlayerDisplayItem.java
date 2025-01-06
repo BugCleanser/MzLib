@@ -14,12 +14,14 @@ public abstract class EventPlayerDisplayItem extends EventPlayerByPacket
     public abstract void setItemStack(ItemStack value);
     
     public boolean modified=false;
-    public void modify()
+    public ItemStack modifyItemStack()
     {
-        if(this.modified)
-            return;
-        this.setItemStack(this.getItemStack().copy());
-        this.modified=true;
+        if(!this.modified)
+        {
+            this.setItemStack(this.getItemStack().copy());
+            this.modified = true;
+        }
+        return this.getItemStack();
     }
     
     @Override
