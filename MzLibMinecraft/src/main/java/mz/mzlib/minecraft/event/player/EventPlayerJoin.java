@@ -1,9 +1,10 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.PlayerManager;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
-import mz.mzlib.minecraft.network.ClientConnectionData;
+import mz.mzlib.minecraft.network.ClientConnectionDataV2002;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
@@ -14,12 +15,10 @@ import mz.mzlib.util.wrapper.basic.Wrapper_void;
 public class EventPlayerJoin extends EventPlayer
 {
     public ClientConnection connection;
-    public ClientConnectionData connectionData;
-    public EventPlayerJoin(EntityPlayer player, ClientConnection connection, ClientConnectionData connectionData)
+    public EventPlayerJoin(EntityPlayer player, ClientConnection connection)
     {
         super(player);
         this.connection = connection;
-        this.connectionData = connectionData;
     }
     
     @Override
@@ -33,10 +32,11 @@ public class EventPlayerJoin extends EventPlayer
         @WrapSameClass(PlayerManager.class)
         public interface NothingPlayerManager extends Nothing, PlayerManager
         {
-            @NothingInject(wrapperMethod="addPlayer", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-            default Wrapper_void addPlayerBegin(@CustomVar("eventJoin") WrapperObject wrapperEvent, @LocalVar(1) ClientConnection connection, @LocalVar(2) EntityPlayer player, @LocalVar(3) ClientConnectionData connectionData)
+            @VersionRange(end=2002)
+            @NothingInject(wrapperMethodName="addPlayerV_2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_void addPlayerBeginV_2002(@CustomVar("eventJoin") WrapperObject wrapperEvent, @LocalVar(1) ClientConnection connection, @LocalVar(2) EntityPlayer player)
             {
-                EventPlayerJoin event = new EventPlayerJoin(player, connection, connectionData);
+                EventPlayerJoin event = new EventPlayerJoin(player, connection);
                 event.call();
                 if(event.isCancelled())
                 {
@@ -46,6 +46,12 @@ public class EventPlayerJoin extends EventPlayer
                 wrapperEvent.setWrapped(event);
                 return Nothing.notReturn();
             }
+            @VersionRange(begin=2002)
+            @NothingInject(wrapperMethodName="addPlayerV2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class, ClientConnectionDataV2002.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_void addPlayerBeginV2002(@CustomVar("eventJoin") WrapperObject wrapperEvent, @LocalVar(1) ClientConnection connection, @LocalVar(2) EntityPlayer player)
+            {
+                return this.addPlayerBeginV_2002(wrapperEvent, connection, player);
+            }
             
             static void addPlayerEndLocate(NothingInjectLocating locating)
             {
@@ -53,11 +59,18 @@ public class EventPlayerJoin extends EventPlayer
                 assert !locating.locations.isEmpty();
             }
             
-            @NothingInject(wrapperMethod="addPlayer", locateMethod="addPlayerEndLocate", type=NothingInjectType.INSERT_BEFORE)
-            default Wrapper_void addPlayerEnd(@CustomVar("eventJoin") WrapperObject wrapperEvent)
+            @VersionRange(end=2002)
+            @NothingInject(wrapperMethodName="addPlayerV_2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class}, locateMethod="addPlayerEndLocate", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_void addPlayerEndV_2002(@CustomVar("eventJoin") WrapperObject wrapperEvent)
             {
                 ((EventPlayerJoin)wrapperEvent.getWrapped()).finish();
                 return Nothing.notReturn();
+            }
+            @VersionRange(begin=2002)
+            @NothingInject(wrapperMethodName="addPlayerV2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class, ClientConnectionDataV2002.class}, locateMethod="addPlayerEndLocate", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_void addPlayerEndV2002(@CustomVar("eventJoin") WrapperObject wrapperEvent)
+            {
+                return this.addPlayerEndV_2002(wrapperEvent);
             }
         }
         

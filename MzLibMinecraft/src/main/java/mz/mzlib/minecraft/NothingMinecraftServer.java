@@ -4,16 +4,16 @@ import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
 import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
 @WrapSameClass(MinecraftServer.class)
-public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, Nothing
+public interface NothingMinecraftServer extends MinecraftServer, Nothing
 {
     @VersionRange(end=1400)
-    @NothingInject(wrapperMethod = "tickV_1400", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+    @NothingInject(wrapperMethodName="tickV_1400", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
     default Wrapper_void tickBeforeV_1400()
     {
         while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).first-tickNumber.get()<=0)
@@ -22,7 +22,7 @@ public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, 
             {
                 Objects.requireNonNull(waitingTasks.poll()).second.run();
             }
-            catch (Throwable e)
+            catch(Throwable e)
             {
                 e.printStackTrace(System.err);
             }
@@ -33,7 +33,7 @@ public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, 
             {
                 Objects.requireNonNull(tasks.poll()).run();
             }
-            catch (Throwable e)
+            catch(Throwable e)
             {
                 e.printStackTrace(System.err);
             }
@@ -41,8 +41,9 @@ public interface NothingMinecraftServer extends WrapperObject, MinecraftServer, 
         tickNumber.target++;
         return Nothing.notReturn();
     }
+    
     @VersionRange(begin=1400)
-    @NothingInject(wrapperMethod = "tickV1400", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+    @NothingInject(wrapperMethodName="tickV1400", wrapperMethodParams={BooleanSupplier.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
     default Wrapper_void tickBeforeV1400()
     {
         return tickBeforeV_1400();

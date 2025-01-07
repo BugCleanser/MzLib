@@ -12,12 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.UUID;
 
 // TODO
-@WrapMinecraftClass(
-        {
-                @VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", end=1500),
-                @VersionName(name="net.minecraft.client.network.packet.EntitySpawnS2CPacket", begin=1500, end=1502),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", begin=1502)
-        })
+@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", end=1500), @VersionName(name="net.minecraft.client.network.packet.EntitySpawnS2CPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", begin=1502)})
 public interface PacketS2cEntitySpawn extends Packet
 {
     @WrapperCreator
@@ -26,22 +21,30 @@ public interface PacketS2cEntitySpawn extends Packet
         return WrapperObject.create(PacketS2cEntitySpawn.class, wrapped);
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="entityId"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="id", end=2100), @VersionName(name="entityId", begin=2100)})
     int getEntityId();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="uuid"))
     UUID getUuid();
-    @WrapMinecraftFieldAccessor(@VersionName(name="entityType"))
-    EntityType getType();
+    
+    @WrapMinecraftFieldAccessor({@VersionName(name="entityTypeId", end=1903), @VersionName(name="entityType", begin=1903)})
+    EntityType getEntityType();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="x"))
     double getX();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="y"))
     double getY();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="z"))
     double getZ();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="yaw"))
     byte getScaledYaw();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="pitch"))
     byte getScaledPitch();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="headYaw"))
     byte getScaledHeadYaw();
     

@@ -20,46 +20,47 @@ public class EventEntityLivingDamage extends EventEntity
         this.source = source;
         this.damage = damage;
     }
-
+    
     @Override
     public EntityLiving getEntity()
     {
-        return (EntityLiving) super.getEntity();
+        return (EntityLiving)super.getEntity();
     }
-
+    
     public DamageSource getSource()
     {
         return this.source;
     }
-
+    
     public void setSource(DamageSource source)
     {
         this.source = source;
     }
-
+    
     public float getDamage()
     {
         return this.damage;
     }
-
+    
     public void setDamage(float damage)
     {
         this.damage = damage;
     }
-
+    
     @Override
     public void call()
     {
+        super.call();
     }
-
+    
     public static class Module extends MzModule
     {
-        public static Module instance=new Module();
-
+        public static Module instance = new Module();
+        
         @WrapSameClass(EntityLiving.class)
         public interface NothingEntityLiving extends EntityLiving, Nothing
         {
-            @NothingInject(wrapperMethod = "damage", locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+            @NothingInject(wrapperMethodName="damage", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_boolean damageBefore(@LocalVar(1) DamageSource source, @LocalVar(2) Wrapper_float damage, @CustomVar("event") WrapperObject event)
             {
                 EventEntityLivingDamage e = new EventEntityLivingDamage(this, source, damage.getWrapped());
@@ -74,19 +75,21 @@ public class EventEntityLivingDamage extends EventEntity
                 event.setWrapped(e);
                 return Nothing.notReturn();
             }
+            
             static void locateDamageAfter(NothingInjectLocating locating)
             {
                 locating.allAfter(AsmUtil.insnReturn(boolean.class).getOpcode());
                 assert !locating.locations.isEmpty();
             }
-            @NothingInject(wrapperMethod = "damage", locateMethod = "locateDamageAfter", type = NothingInjectType.INSERT_BEFORE)
+            
+            @NothingInject(wrapperMethodName="damage", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="locateDamageAfter", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_boolean damageAfter(@CustomVar("event") WrapperObject event)
             {
-                ((EventEntityLivingDamage) event.getWrapped()).finish();
+                ((EventEntityLivingDamage)event.getWrapped()).finish();
                 return Nothing.notReturn();
             }
         }
-
+        
         @Override
         public void onLoad()
         {

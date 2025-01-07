@@ -9,7 +9,9 @@ import java.lang.annotation.*;
 @Repeatable(NothingInjects.class)
 public @interface NothingInject
 {
-    String wrapperMethod();
+    String wrapperMethodName();
+    
+    Class<?>[] wrapperMethodParams();
 
     float priority() default Priority.NORMAL;
 

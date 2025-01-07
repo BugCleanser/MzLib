@@ -38,12 +38,18 @@ public interface EntityType extends WrapperObject
         return create(null).staticRegistry();
     }
     Registry staticRegistry();
-    @VersionRange(end=1903)
+    @VersionRange(end=1300)
     @SpecificImpl("staticRegistry")
-    default Registry staticRegistryV_1903()
+    default Registry staticRegistryV_1300()
     {
         // TODO
         throw new UnsupportedOperationException();
+    }
+    @VersionRange(begin=1300, end=1903)
+    @SpecificImpl("staticRegistry")
+    default Registry staticRegistryV1300_1903()
+    {
+        return Registry.entityTypeV1300_1903();
     }
     @VersionRange(begin=1903)
     @SpecificImpl("staticRegistry")

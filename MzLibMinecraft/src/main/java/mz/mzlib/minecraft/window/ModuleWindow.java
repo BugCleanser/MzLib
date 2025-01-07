@@ -31,7 +31,7 @@ public class ModuleWindow extends MzModule
             return WrapperObject.create(NothingWindow.class, wrapped);
         }
         
-        @NothingInject(wrapperMethod="placeIn", type=NothingInjectType.INSERT_BEFORE, locateMethod="")
+        @NothingInject(wrapperMethodName="placeIn", wrapperMethodParams={ItemStack.class, int.class, int.class, boolean.class}, type=NothingInjectType.INSERT_BEFORE, locateMethod="")
         default WrapperBoolean placeInOverwrite(@LocalVar(1) ItemStack itemStack, @LocalVar(2) int begin, @LocalVar(3) int end, @LocalVar(4) boolean inverted)
         {
             return WrapperBoolean.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));

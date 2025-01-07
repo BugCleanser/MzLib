@@ -27,7 +27,7 @@ public class DisplayEntity
         this.player = player;
         this.id = packetSpawn.getEntityId();
         this.uuid = packetSpawn.getUuid();
-        this.type = packetSpawn.getType();
+        this.type = packetSpawn.getEntityType();
         this.position = packetSpawn.getPosition();
     }
     

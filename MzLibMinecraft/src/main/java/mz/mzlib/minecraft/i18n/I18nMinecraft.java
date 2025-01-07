@@ -64,7 +64,7 @@ public class I18nMinecraft extends MzModule
             catch(Throwable e)
             {
                 e.printStackTrace(System.err);
-                MinecraftPlatform.instance.getMzLibLogger().warning(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.fail"));
+                MinecraftPlatform.instance.getMzLibLogger().warning(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.failure"));
             }
             this.taskLoading = null;
         });

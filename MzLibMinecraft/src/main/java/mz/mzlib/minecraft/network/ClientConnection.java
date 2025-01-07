@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.entity.EventEntity;
 import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.network.packet.PacketHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -40,6 +41,13 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="send"))
     void sendPacket(Packet packet);
     
-    @WrapMethod("channelRead0")
+    @WrapMethod("@0")
     void channelRead0(ChannelHandlerContext ctx, Packet packet);
+    
+    static void handlePacket(Packet packet, PacketHandler handler)
+    {
+        create(null).staticHandlePacket(packet, handler);
+    }
+    @WrapMinecraftMethod(@VersionName(name="handlePacket"))
+    void staticHandlePacket(Packet packet, PacketHandler handler);
 }

@@ -86,6 +86,10 @@ public class NothingInjectLocating
             return Collections.emptySet();
         });
     }
+    public void next(Predicate<Integer> predicate)
+    {
+        this.next(predicate, Integer.MAX_VALUE);
+    }
     public void allAfter(Predicate<Integer> predicate, int limit)
     {
         this.forEach(l->
@@ -98,6 +102,10 @@ public class NothingInjectLocating
             }
             return result;
         });
+    }
+    public void allAfter(Predicate<Integer> predicate)
+    {
+        this.allAfter(predicate, Integer.MAX_VALUE);
     }
     
     public void forEach(Function<Integer, Set<Integer>> action)

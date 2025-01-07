@@ -9,15 +9,13 @@ import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.PublicValues;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.AbsWrapper;
+import mz.mzlib.util.wrapper.WrapperClassInfo;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -636,7 +634,7 @@ public class AsmUtil
                 {
                     if (tar == boolean.class || tar == byte.class || tar == short.class || tar == int.class)
                     {
-                        if (tar == byte.class && src != byte.class)
+                        if (tar==byte.class)
                         {
                             return toList(new InsnNode(Opcodes.I2B));
                         }
@@ -680,10 +678,6 @@ public class AsmUtil
                     {
                         return toList(new InsnNode(Opcodes.L2I), new InsnNode(Opcodes.I2S));
                     }
-                    else if (tar == long.class)
-                    {
-                        return new InsnList();
-                    }
                     else if (tar == float.class)
                     {
                         return toList(new InsnNode(Opcodes.L2F));
@@ -715,10 +709,6 @@ public class AsmUtil
                     {
                         return toList(new InsnNode(Opcodes.F2L));
                     }
-                    else if (tar == float.class)
-                    {
-                        return new InsnList();
-                    }
                     else if (tar == double.class)
                     {
                         return toList(new InsnNode(Opcodes.F2D));
@@ -749,10 +739,6 @@ public class AsmUtil
                     else if (tar == float.class)
                     {
                         return toList(new InsnNode(Opcodes.D2F));
-                    }
-                    else if (tar == double.class)
-                    {
-                        return new InsnList();
                     }
                     else if (tar == char.class)
                     {
@@ -908,6 +894,64 @@ public class AsmUtil
         result.add(AsmUtil.insnConst(index));
         result.add(new MethodInsnNode(Opcodes.INVOKESTATIC, AsmUtil.getType(PublicValues.class), "get", AsmUtil.getDesc(Object.class, int.class), false));
         return result;
+    }
+    
+    public static boolean isVisitingWrapped(AbstractInsnNode insn, Class<? extends WrapperObject> wrapperClass, String wrapperMethodName, Class<?> ...wrapperMethodParams)
+    {
+        try
+        {
+            return isVisiting(insn, WrapperClassInfo.get(wrapperClass).getWrappedMembers().get(wrapperClass.getMethod(wrapperMethodName, wrapperMethodParams)));
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+    public static boolean isVisiting(AbstractInsnNode insn, Member member)
+    {
+        if(insn instanceof MethodInsnNode)
+        {
+            if(member instanceof Method)
+            {
+                if(Modifier.isStatic(member.getModifiers()))
+                {
+                    if(insn.getOpcode()!=Opcodes.INVOKESTATIC)
+                        return false;
+                }
+                else if(member.getDeclaringClass().isInterface())
+                {
+                    if(insn.getOpcode()!=Opcodes.INVOKEINTERFACE && insn.getOpcode()!=Opcodes.INVOKESPECIAL)
+                        return false;
+                }
+                if(!member.getName().equals(((MethodInsnNode)insn).name))
+                    return false;
+                if(!((MethodInsnNode)insn).owner.equals(AsmUtil.getType(member.getDeclaringClass())))
+                    return false;
+                return ((MethodInsnNode)insn).desc.equals(AsmUtil.getDesc(member));
+            }
+            else if(member instanceof Constructor)
+            {
+                if(insn.getOpcode()!=Opcodes.INVOKESPECIAL)
+                    return false;
+                if(!"<init>".equals(((MethodInsnNode)insn).name))
+                    return false;
+                if(!((MethodInsnNode)insn).owner.equals(AsmUtil.getType(member.getDeclaringClass())))
+                    return false;
+                return ((MethodInsnNode)insn).desc.equals(AsmUtil.getDesc(member));
+            }
+            else
+                return false;
+        }
+        else if(insn instanceof FieldInsnNode)
+        {
+            if(!(member instanceof Field))
+                return false;
+            if(!((FieldInsnNode)insn).owner.equals(AsmUtil.getType(member.getDeclaringClass())))
+                return false;
+            return ((FieldInsnNode)insn).name.equals(member.getName());
+        }
+        else
+            return false;
     }
 
     public static String toString(AbstractInsnNode insn)

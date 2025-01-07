@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.registry;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -24,6 +25,11 @@ public interface Registry extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="get"))
     WrapperObject get(Identifier id);
     
+    default WrapperObject get(int rawId)
+    {
+        return this.castTo(SimpleRegistry::create).get(rawId);
+    }
+    
     SimpleRegistry staticItemV1300_1903();
     
     static SimpleRegistry itemV1300_1903()
@@ -38,6 +44,15 @@ public interface Registry extends WrapperObject
     @SpecificImpl("staticItemV1300_1903")
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM", begin=1400, end=1903))
     DefaultedRegistryV1400_1903 staticItemV1400_1903();
+    
+    static Registry entityTypeV1300_1903()
+    {
+        return create(null).staticEntityTypeV1300_1903();
+    }
+    
+    @VersionRange(begin=1300, end=1903)
+    @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
+    Registry staticEntityTypeV1300_1903();
     
     static Registry windowTypeV1400_1903()
     {

@@ -27,6 +27,9 @@ public interface SimpleRegistry extends Registry
     {
         return idWrapperCreator.apply(this.getKey0V_1300(value.getWrapped()));
     }
+    
+    @WrapMinecraftMethod(@VersionName(name="@0"))
+    WrapperObject get(int rawId);
 
     Identifier getId(WrapperObject value);
     @SpecificImpl("getId")

@@ -25,7 +25,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NothingRegistration
@@ -138,14 +137,11 @@ public class NothingRegistration
                     Executable m;
                     try
                     {
-                        Set<Method> wrapper = Arrays.stream(nothing.getMethods()).filter(j->j.getName().equals(ni.wrapperMethod())).collect(Collectors.toSet());
-                        if(wrapper.isEmpty())
-                            throw new IllegalStateException("Wrapper method not found: "+i);
-                        m = (Executable)WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(wrapper.iterator().next());
+                        m = (Executable)WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(nothing.getMethod(ni.wrapperMethodName(), ni.wrapperMethodParams()));
                         if(m==null)
                             throw new NullPointerException();
                     }
-                    catch(NullPointerException e)
+                    catch(NullPointerException|NoSuchMethodException e)
                     {
                         throw RuntimeUtil.sneakilyThrow(new NoSuchMethodException("Target of "+i).initCause(e));
                     }

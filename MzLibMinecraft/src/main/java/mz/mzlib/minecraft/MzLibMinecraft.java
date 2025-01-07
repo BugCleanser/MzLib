@@ -40,6 +40,8 @@ public class MzLibMinecraft extends MzModule
         {
             this.config = Config.load(this.getClass().getResourceAsStream("/config.json"), new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
             
+            this.register(ModuleMapStackTrace.instance);
+            
             this.register(I18nMinecraft.instance);
             
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
@@ -56,8 +58,6 @@ public class MzLibMinecraft extends MzModule
             this.register(MinecraftEventModule.instance);
             
             this.register(DisplayEntityTracker.Module.instance);
-            
-            this.register(ModuleMapStackTrace.instance);
             
             this.register(ModuleWindow.instance);
             this.register(UIStack.Module.instance);
@@ -84,7 +84,7 @@ public class MzLibMinecraft extends MzModule
                 if(r.isEmpty())
                     MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.success"));
                 else
-                    MinecraftPlatform.instance.getMzLibLogger().warning(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.fail"), r.size()));
+                    MinecraftPlatform.instance.getMzLibLogger().warning(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.failure"), r.size()));
             });
         }
         catch(Throwable e)

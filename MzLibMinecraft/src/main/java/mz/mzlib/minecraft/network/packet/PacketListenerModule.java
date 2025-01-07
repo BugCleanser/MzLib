@@ -2,7 +2,10 @@ package mz.mzlib.minecraft.network.packet;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
+import mz.mzlib.asm.Opcodes;
+import mz.mzlib.asm.tree.AbstractInsnNode;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
@@ -43,12 +46,13 @@ public class PacketListenerModule extends MzModule
         }
         if(!set.add(msg))
             return true;
-        if(WrapperObject.create(msg).isInstanceOf(PacketBundle::create))
-        {
-            for(Packet p: PacketBundle.create(msg).getPackets())
-                rehandler.accept(p.getWrapped());
-            return false;
-        }
+        if(MinecraftPlatform.instance.getVersion()>=1904)
+            if(WrapperObject.create(msg).isInstanceOf(PacketBundleV1904::create))
+            {
+                for(Packet p: PacketBundleV1904.create(msg).getPackets())
+                    rehandler.accept(p.getWrapped());
+                return false;
+            }
         
         List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(msg.getClass());
         if(sortedListeners==null)
@@ -137,7 +141,17 @@ public class PacketListenerModule extends MzModule
     @WrapSameClass(ClientConnection.class)
     public interface NothingClientConnection extends ClientConnection, Nothing
     {
-        @NothingInject(wrapperMethod="channelRead0", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        static void channelRead0BeginLocate(NothingInjectLocating locating)
+        {
+            locating.allAfter(i->
+            {
+                AbstractInsnNode insn = locating.insns[i];
+                return insn.getOpcode()==Opcodes.INVOKESTATIC && AsmUtil.isVisitingWrapped(insn, ClientConnection.class, "staticHandlePacket", Packet.class, PacketHandler.class);
+            });
+            assert !locating.locations.isEmpty();
+        }
+        
+        @NothingInject(wrapperMethodName="channelRead0", wrapperMethodParams={ChannelHandlerContext.class, Packet.class}, locateMethod="channelRead0BeginLocate", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void channelRead0Begin(@LocalVar(2) Packet packet)
         {
             if(!this.getChannel().isOpen())
@@ -153,7 +167,7 @@ public class PacketListenerModule extends MzModule
     public interface NothingServerPlayNetworkHandler extends ServerPlayNetworkHandler, Nothing
     {
         @VersionRange(end=1400)
-        @NothingInject(wrapperMethod="sendPacketV_1400", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        @NothingInject(wrapperMethodName="sendPacketV_1400", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
         {
             if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketV_1400(Packet.create(msg))))
@@ -163,7 +177,7 @@ public class PacketListenerModule extends MzModule
         }
         
         @VersionRange(begin=1400, end=1901)
-        @NothingInject(wrapperMethod="sendPacketV1400_1901", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        @NothingInject(wrapperMethodName="sendPacketV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacks)
         {
             if(callbacks!=null)
@@ -175,7 +189,7 @@ public class PacketListenerModule extends MzModule
         }
         
         @VersionRange(begin=1901, end=2002)
-        @NothingInject(wrapperMethod="sendPacketV1901_2002", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        @NothingInject(wrapperMethodName="sendPacketV1901_2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacks)
         {
             if(callbacks.isPresent())
@@ -190,7 +204,7 @@ public class PacketListenerModule extends MzModule
     @WrapSameClass(ServerCommonNetworkHandlerV2002.class)
     public interface NothingServerCommonNetworkHandlerV2002 extends ServerCommonNetworkHandlerV2002, Nothing
     {
-        @NothingInject(wrapperMethod="sendPacket", locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        @NothingInject(wrapperMethodName="sendPacket", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBegin(@LocalVar(1) Packet packet)
         {
             if(PacketListenerModule.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacket(Packet.create(msg))))
@@ -211,7 +225,7 @@ public class PacketListenerModule extends MzModule
             locating.allAfter(AsmUtil.insnReturn(void.class).getOpcode());
         }
         
-        @NothingInject(wrapperMethod="initChannel", locateMethod="initChannelEndLocate", type=NothingInjectType.INSERT_BEFORE)
+        @NothingInject(wrapperMethodName="initChannel", wrapperMethodParams={Channel.class}, locateMethod="initChannelEndLocate", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void initChannelEnd(@LocalVar(1) Channel channel)
         {
             PacketListenerModule.instance.initChannel(channel);
