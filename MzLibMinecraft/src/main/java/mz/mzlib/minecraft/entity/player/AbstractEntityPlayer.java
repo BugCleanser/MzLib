@@ -53,7 +53,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     default Window getWindow(int syncId)
     {
-        if(syncId==0)
+        if(syncId==0 || syncId==-1)
             return this.getDefaultWindow();
         else if(syncId==this.getCurrentWindow().getSyncId())
             return this.getCurrentWindow();

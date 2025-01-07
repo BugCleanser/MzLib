@@ -5,22 +5,21 @@ import mz.mzlib.minecraft.network.packet.PacketEvent;
 
 public abstract class EventPlayerDisplayItem extends EventPlayerByPacket
 {
-    public EventPlayerDisplayItem(PacketEvent packetEvent)
+    public ItemStack original;
+    
+    public EventPlayerDisplayItem(PacketEvent packetEvent, ItemStack original)
     {
         super(packetEvent);
+        this.original=original;
     }
     
     public abstract ItemStack getItemStack();
     public abstract void setItemStack(ItemStack value);
     
-    public boolean modified=false;
     public ItemStack modifyItemStack()
     {
-        if(!this.modified)
-        {
+        if(original.getWrapped()==this.getItemStack().getWrapped())
             this.setItemStack(this.getItemStack().copy());
-            this.modified = true;
-        }
         return this.getItemStack();
     }
     

@@ -10,9 +10,9 @@ import mz.mzlib.module.MzModule;
 public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayItem
 {
     public EventDisplayEntityDataAsync eventDisplayEntityData;
-    public EventPlayerDisplayItemInEntity(EventDisplayEntityDataAsync eventDisplayEntityData)
+    public EventPlayerDisplayItemInEntity(ItemStack original, EventDisplayEntityDataAsync eventDisplayEntityData)
     {
-        super(eventDisplayEntityData.packetEvent);
+        super(eventDisplayEntityData.packetEvent, original);
         this.eventDisplayEntityData = eventDisplayEntityData;
     }
     
@@ -36,7 +36,7 @@ public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayI
     {
         public InEntityItem(EventDisplayEntityDataAsync eventDisplayEntityData)
         {
-            super(eventDisplayEntityData);
+            super(eventDisplayEntityData.getNewData(EntityItem.dataTypeItem(), ItemStack::create), eventDisplayEntityData);
         }
         @Override
         public ItemStack getItemStack()
