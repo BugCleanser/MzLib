@@ -58,6 +58,7 @@ public interface Registry extends WrapperObject
     {
         return create(null).staticWindowTypeV1400_1903();
     }
+    
     @WrapMinecraftFieldAccessor({@VersionName(name="CONTAINER", begin=1400, end=1600), @VersionName(name="SCREEN_HANDLER", begin=1600, end=1903)})
     Registry staticWindowTypeV1400_1903();
 }

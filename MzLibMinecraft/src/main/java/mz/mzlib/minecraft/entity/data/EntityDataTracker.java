@@ -81,7 +81,7 @@ public interface EntityDataTracker extends WrapperObject
         }
         
         @Override
-        @WrapMinecraftFieldAccessor(@VersionName(name="value"))
+        @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
         Object getValue0();
         
         default <T extends WrapperObject> T getValue(Function<Object, T> wrapperCreator)

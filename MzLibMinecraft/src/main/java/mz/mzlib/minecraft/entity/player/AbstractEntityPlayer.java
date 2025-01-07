@@ -44,11 +44,11 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
      */
     @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
     Window getCurrentWindow();
+    
     @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
     void setCurrentWindow(Window value);
     
-    // TODO versioning
-    @WrapMinecraftFieldAccessor(@VersionName(name="playerScreenHandler"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="playerScreenHandler", end=1400), @VersionName(name="playerContainer", begin=1400, end=1600), @VersionName(name="playerScreenHandler", begin=1600)})
     Window getDefaultWindow();
     
     default Window getWindow(int syncId)
@@ -71,11 +71,14 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
     
     void openBook0(ItemStack book);
+    
     @SpecificImpl("openBook0")
     @WrapMinecraftMethod(@VersionName(name="openEditBookScreen", end=1400))
     void openBook0V_1400(ItemStack book);
+    
     @WrapMinecraftMethod({@VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
     void openBook0V1400(ItemStack book, EnumHand hand);
+    
     @SpecificImpl("openBook0")
     @VersionRange(begin=1400)
     default void openBook0V1400(ItemStack book)

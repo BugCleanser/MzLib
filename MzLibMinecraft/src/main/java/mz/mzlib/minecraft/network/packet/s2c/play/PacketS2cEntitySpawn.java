@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.network.packet.s2c.play;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.Vec3d;
@@ -45,8 +46,9 @@ public interface PacketS2cEntitySpawn extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name="pitch"))
     byte getScaledPitch();
     
+    @VersionRange(begin=1900)
     @WrapMinecraftFieldAccessor(@VersionName(name="headYaw"))
-    byte getScaledHeadYaw();
+    byte getScaledHeadYawV1900();
     
     default Vec3d getPosition()
     {

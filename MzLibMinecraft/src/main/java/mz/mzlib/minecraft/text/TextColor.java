@@ -1,5 +1,7 @@
 package mz.mzlib.minecraft.text;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
+
 public class TextColor
 {
     public static TextColor BLACK = new TextColor(TextFormatLegacy.BLACK);
@@ -29,7 +31,7 @@ public class TextColor
     }
     public TextColor(TextFormatLegacy legacy)
     {
-        this(legacy, TextColorV1600.fromLegacy(legacy));
+        this(legacy, MinecraftPlatform.instance.getVersion()<1600?null:TextColorV1600.fromLegacy(legacy));
     }
     public TextColor(TextColorV1600 v1600)
     {

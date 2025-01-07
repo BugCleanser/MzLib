@@ -1,13 +1,15 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextColor", begin = 1600))
+@VersionRange(begin=1600)
+@WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextColor"))
 public interface TextColorV1600 extends WrapperObject
 {
     @WrapperCreator
