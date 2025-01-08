@@ -59,7 +59,7 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
             pc.setTabCompleter((sender, command, name, args)->object.suggest(BukkitCommandSenderUtil.fromBukkit(sender), name, String.join(" ", args)));
             pc.setExecutor((sender, command, name, args)->
             {
-                object.execute(BukkitCommandSenderUtil.fromBukkit(sender), name, String.join(" ", args));
+                object.execute(BukkitCommandSenderUtil.fromBukkit(sender), name, args.length==0?null:String.join(" ", args));
                 return true;
             });
         }
