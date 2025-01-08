@@ -5,25 +5,25 @@ import java.util.Objects;
 
 public class WeakRef<T> implements Ref<T>
 {
-    public int hash;
     public WeakReference<T> ref;
+    public int hashCode;
 
     public WeakRef(T value)
     {
-        set(value);
+        this.set(value);
     }
 
     @Override
     public T get()
     {
-        return ref.get();
+        return this.ref.get();
     }
 
     @Override
     public void set(T value)
     {
-        ref = new WeakReference<>(value);
-        hash = value.hashCode();
+        this.ref = new WeakReference<>(value);
+        this.hashCode = System.identityHashCode(value);
     }
 
     @Override
@@ -35,11 +35,7 @@ public class WeakRef<T> implements Ref<T>
     @Override
     public int hashCode()
     {
-        if (get() == null)
-        {
-            return hash;
-        }
-        return get().hashCode();
+        return this.hashCode;
     }
 
     @Override
