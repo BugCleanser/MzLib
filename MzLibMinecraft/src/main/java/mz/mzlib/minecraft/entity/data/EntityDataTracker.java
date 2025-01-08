@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.entity.data;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -22,6 +23,14 @@ public interface EntityDataTracker extends WrapperObject
     {
         return WrapperObject.create(EntityDataTracker.class, wrapped);
     }
+    
+    static EntityDataTracker newInstanceV_1903(Entity entity)
+    {
+        return create(null).staticNewInstanceV_1903(entity);
+    }
+    @VersionRange(end=1903)
+    @WrapConstructor
+    EntityDataTracker staticNewInstanceV_1903(Entity entity);
     
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name=@VersionName(name="Entry"))
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
@@ -53,14 +62,24 @@ public interface EntityDataTracker extends WrapperObject
         @WrapMinecraftMethod(@VersionName(name="get"))
         Object getValue0();
         
+        @Override
+        @WrapMinecraftMethod(@VersionName(name="set"))
+        void setValue0(Object value);
+        
         @VersionRange(begin=1903)
         @WrapMinecraftMethod(@VersionName(name="toSerialized"))
         EntityDataV1903 getDataV1903();
+        
+        @Override
+        default String toString0()
+        {
+            return PacketS2cEntityData.Entry.super.toString0();
+        }
     }
     
     @VersionRange(begin=1903)
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name=@VersionName(name="SerializedEntry"))
-    interface EntityDataV1903 extends WrapperObject, Entry
+    interface EntityDataV1903 extends WrapperObject, PacketS2cEntityData.Entry
     {
         @WrapperCreator
         static EntityDataV1903 create(Object wrapped)
@@ -84,9 +103,19 @@ public interface EntityDataTracker extends WrapperObject
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
         Object getValue0();
         
+        @Override
+        @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
+        void setValue0(Object value);
+        
         default <T extends WrapperObject> T getValue(Function<Object, T> wrapperCreator)
         {
             return wrapperCreator.apply(getValue0());
+        }
+        
+        @Override
+        default String toString0()
+        {
+            return PacketS2cEntityData.Entry.super.toString0();
         }
     }
 }

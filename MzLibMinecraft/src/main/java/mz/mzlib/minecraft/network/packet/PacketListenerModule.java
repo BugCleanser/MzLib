@@ -17,6 +17,7 @@ import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.StrongRef;
 import mz.mzlib.util.ThreadLocalGrowingHashMap;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
@@ -35,16 +36,16 @@ public class PacketListenerModule extends MzModule
 {
     public static PacketListenerModule instance = new PacketListenerModule();
     
-    public ThreadLocalGrowingHashMap<Channel, Set<Object>> handledPackets = new ThreadLocalGrowingHashMap<>();
+    public ThreadLocalGrowingHashMap<Channel, Set<StrongRef<Object>>> handledPackets = new ThreadLocalGrowingHashMap<>();
     public boolean handle(Channel channel, EntityPlayer player, Object msg, Consumer<Object> rehandler)
     {
-        Set<Object> set = this.handledPackets.get(channel);
+        Set<StrongRef<Object>> set = this.handledPackets.get(channel);
         if(set==null)
         {
             this.handledPackets.threadLocal.remove();
             return true;
         }
-        if(!set.add(msg))
+        if(!set.add(new StrongRef<>(msg)))
             return true;
         if(MinecraftPlatform.instance.getVersion()>=1904)
             if(WrapperObject.create(msg).isInstanceOf(PacketBundleV1904::create))
@@ -125,7 +126,7 @@ public class PacketListenerModule extends MzModule
     }
     public void initChannel(Channel channel)
     {
-        if(channel.pipeline().get(PacketListenerChannelHandler.class)!=null)
+        if(!channel.isOpen() || channel.pipeline().get(PacketListenerChannelHandler.class)!=null)
             return;
         this.handledPackets.put(channel, Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>())));
         channel.pipeline().addBefore("packet_handler", null, new PacketListenerChannelHandler(ClientConnection.create(channel.pipeline().get(RuntimeUtil.<Class<? extends ChannelHandler>>cast(ClientConnection.create(null).staticGetWrappedClass())))));

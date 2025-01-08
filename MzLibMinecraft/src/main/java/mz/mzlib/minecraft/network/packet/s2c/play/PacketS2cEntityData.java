@@ -2,18 +2,17 @@ package mz.mzlib.minecraft.network.packet.s2c.play;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.minecraft.entity.data.EntityDataTracker;
 import mz.mzlib.minecraft.entity.data.EntityDataType;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.StrongRef;
-import mz.mzlib.util.wrapper.ListWrapper;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -34,11 +33,41 @@ public interface PacketS2cEntityData extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name="trackedValues"))
     List<?> getDataList0();
     
+    static PacketS2cEntityData newInstance(int entityId)
+    {
+        return create(null).staticNewInstance(entityId);
+    }
+    PacketS2cEntityData staticNewInstance(int entityId);
+    @VersionRange(end=1903)
+    @WrapConstructor
+    PacketS2cEntityData staticNewInstanceV_1903(int entityId, EntityDataTracker dataTracker, boolean updateAll);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(end=1903)
+    default PacketS2cEntityData staticNewInstanceV_1903(int entityId)
+    {
+        return this.staticNewInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.create(null)), true);
+    }
+    @VersionRange(begin=1903)
+    @WrapConstructor
+    PacketS2cEntityData staticNewInstance0V1903(int entityId, List<?> dataList0);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=1903)
+    default PacketS2cEntityData staticNewInstanceV1903(int entityId)
+    {
+        return this.staticNewInstance0V1903(entityId, new ArrayList<>());
+    }
+    
     interface Entry
     {
         EntityDataType getType();
         
         Object getValue0();
+        void setValue0(Object value);
+        
+        default String toString0()
+        {
+            return this.getType().getIndex()+": "+getValue0().toString();
+        }
     }
     
     static Entry newEntry(EntityDataType type, WrapperObject value)
@@ -108,7 +137,14 @@ public interface PacketS2cEntityData extends Packet
     
     default void putData0(EntityDataType type, Object value)
     {
-        this.removeData(type);
+        for(Entry entry: this.getDataList())
+        {
+            if(type.equals(entry.getType()))
+            {
+                entry.setValue0(value);
+                return;
+            }
+        }
         this.addData0(type, value);
     }
     

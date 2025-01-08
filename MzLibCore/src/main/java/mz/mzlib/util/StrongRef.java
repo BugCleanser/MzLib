@@ -1,5 +1,7 @@
 package mz.mzlib.util;
 
+import io.github.karlatemp.unsafeaccessor.Root;
+
 import java.util.Objects;
 
 public class StrongRef<T> implements Ref<T>
@@ -32,7 +34,7 @@ public class StrongRef<T> implements Ref<T>
     @Override
     public int hashCode()
     {
-        return Objects.hashCode(get());
+        return Long.hashCode(Root.getUnsafe().getAddress(this.get(), 0)); // FIXME
     }
 
     @Override

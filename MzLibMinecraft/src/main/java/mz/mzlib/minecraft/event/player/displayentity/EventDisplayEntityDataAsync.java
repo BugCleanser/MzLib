@@ -45,6 +45,11 @@ public class EventDisplayEntityDataAsync extends EventDisplayEntityAsync
         return wrapperCreator.apply(this.getData0(type));
     }
     
+    public void removeData(EntityDataType type)
+    {
+        this.packet.removeData(type);
+    }
+    
     public void putNewData0(EntityDataType type, Object value)
     {
         this.packet.putData0(type, value);
