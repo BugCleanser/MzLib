@@ -124,7 +124,7 @@ public interface Item extends WrapperObject
     {
         return create(null).staticGetRegistryV1300();
     }
-    @SpecificImpl("staticGetRegistryV_1903")
+    @SpecificImpl("staticGetRegistry")
     @VersionRange(begin=1300)
     default Registry staticGetRegistryV1300()
     {

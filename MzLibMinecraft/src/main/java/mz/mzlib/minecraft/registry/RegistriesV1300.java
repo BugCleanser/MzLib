@@ -22,19 +22,23 @@ public interface RegistriesV1300 extends WrapperObject
     {
         return create(null).staticItem();
     }
+    
     Registry staticItem();
+    
     @SpecificImpl("staticItem")
-    @VersionRange(end=1400)
+    @VersionRange(end=1903)
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM"))
-    SimpleRegistry staticItemV_1400();
+    SimpleRegistry staticItemV_1903();
+    
     @SpecificImpl("staticItem")
-    @VersionRange(begin=1400)
+    @VersionRange(begin=1903)
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM"))
-    DefaultedRegistryV1400_1903 staticItemV1400();
+    Registry staticItemV1903();
     
     @VersionRange(begin=2005)
     @WrapMinecraftFieldAccessor(@VersionName(name="DATA_COMPONENT_TYPE"))
     Registry staticComponentKeyV2005();
+    
     static Registry componentKeyV2005()
     {
         return create(null).staticComponentKeyV2005();
@@ -44,12 +48,14 @@ public interface RegistriesV1300 extends WrapperObject
     {
         return create(null).staticEntityType();
     }
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
     Registry staticEntityType();
     
     @VersionRange(begin=1400)
     @WrapMinecraftFieldAccessor({@VersionName(name="CONTAINER", end=1600), @VersionName(name="SCREEN_HANDLER", begin=1600)})
     Registry staticWindowTypeV1400();
+    
     static Registry windowTypeV1400()
     {
         return create(null).staticWindowTypeV1400();
@@ -59,6 +65,7 @@ public interface RegistriesV1300 extends WrapperObject
     {
         return create(null).staticBlockEntityType();
     }
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="BLOCK_ENTITY_TYPE"))
     Registry staticBlockEntityType();
 }

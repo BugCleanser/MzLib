@@ -42,7 +42,7 @@ public interface EntityType extends WrapperObject
     Registry staticGetRegistry();
     
     @VersionRange(end=1300)
-    @SpecificImpl("staticRegistry")
+    @SpecificImpl("staticGetRegistry")
     default Registry staticRegistryV_1300()
     {
         // TODO
@@ -50,7 +50,7 @@ public interface EntityType extends WrapperObject
     }
     
     @VersionRange(begin=1300)
-    @SpecificImpl("staticRegistry")
+    @SpecificImpl("staticGetRegistry")
     default Registry staticRegistryV1300()
     {
         return RegistriesV1300.entityType();
