@@ -32,5 +32,8 @@ public class ExampleNothing
         MzLib.instance.load();
         MzLib.instance.register(NothingObject.class);
         System.out.println(new Object());
+        MzLib.instance.unregister(NothingObject.class);
+        System.out.println(new Object());
+        MzLib.instance.unload();
     }
 }

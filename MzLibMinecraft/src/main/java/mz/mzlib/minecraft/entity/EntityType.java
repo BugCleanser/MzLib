@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.entity;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.registry.RegistriesV1903;
+import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -18,26 +18,29 @@ public interface EntityType extends WrapperObject
     {
         return WrapperObject.create(EntityType.class, wrapped);
     }
-
+    
     static EntityType fromId(String id)
     {
         return fromId(Identifier.newInstance(id));
     }
+    
     static EntityType fromId(Identifier id)
     {
-        return registry().get(id).castTo(EntityType::create);
+        return getRegistry().get(id).castTo(EntityType::create);
     }
     
     default Identifier getIdV1300()
     {
-        return registry().getIdV1300(this);
+        return getRegistry().getIdV1300(this);
     }
     
-    static Registry registry()
+    static Registry getRegistry()
     {
-        return create(null).staticRegistry();
+        return create(null).staticGetRegistry();
     }
-    Registry staticRegistry();
+    
+    Registry staticGetRegistry();
+    
     @VersionRange(end=1300)
     @SpecificImpl("staticRegistry")
     default Registry staticRegistryV_1300()
@@ -45,16 +48,11 @@ public interface EntityType extends WrapperObject
         // TODO
         throw new UnsupportedOperationException();
     }
-    @VersionRange(begin=1300, end=1903)
+    
+    @VersionRange(begin=1300)
     @SpecificImpl("staticRegistry")
-    default Registry staticRegistryV1300_1903()
+    default Registry staticRegistryV1300()
     {
-        return Registry.entityTypeV1300_1903();
-    }
-    @VersionRange(begin=1903)
-    @SpecificImpl("staticRegistry")
-    default Registry staticRegistryV1903()
-    {
-        return RegistriesV1903.entityType();
+        return RegistriesV1300.entityType();
     }
 }

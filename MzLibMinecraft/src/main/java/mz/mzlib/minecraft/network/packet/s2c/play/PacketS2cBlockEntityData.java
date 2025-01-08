@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.network.packet.s2c.play;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.block.entity.BlockEntityType;
+import mz.mzlib.minecraft.block.entity.BlockEntityTypeV1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.BlockPos;
@@ -26,17 +26,17 @@ public interface PacketS2cBlockEntityData extends Packet
         return WrapperObject.create(PacketS2cBlockEntityData.class, wrapped);
     }
     
-    static PacketS2cBlockEntityData newInstance(BlockPos pos, BlockEntityType type, NbtCompound nbt)
+    static PacketS2cBlockEntityData newInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound nbt)
     {
         return create(null).staticNewInstance(pos, type, nbt);
     }
-    PacketS2cBlockEntityData staticNewInstance(BlockPos pos, BlockEntityType type, NbtCompound data);
+    PacketS2cBlockEntityData staticNewInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
     @VersionRange(end=1800)
     @WrapConstructor
     PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, int typeId, NbtCompound data);
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1800)
-    default PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, BlockEntityType type, NbtCompound data)
+    default PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data)
     {
         // TODO: cast type to id
         throw new UnsupportedOperationException();
@@ -44,5 +44,5 @@ public interface PacketS2cBlockEntityData extends Packet
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1800)
     @WrapConstructor
-    PacketS2cBlockEntityData staticNewInstanceV1800(BlockPos pos, BlockEntityType type, NbtCompound data);
+    PacketS2cBlockEntityData staticNewInstanceV1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
 }

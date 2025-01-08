@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.registry.DefaultedRegistryV_1300__1400;
-import mz.mzlib.minecraft.registry.RegistriesV1903;
+import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.registry.SimpleRegistry;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
@@ -93,57 +93,43 @@ public interface Item extends WrapperObject
 
     Identifier getId();
     @SpecificImpl("getId")
-    @VersionRange(end=1903)
-    default Identifier getIdV_1903()
+    @VersionRange(end=1300)
+    default Identifier getIdV_1300()
     {
-        return getRegistryV_1903().getId(this);
+        return getRegistryV_1300().getId(this);
     }
     @SpecificImpl("getId")
-    @VersionRange(begin=1903)
-    default Identifier getIdV1903()
+    @VersionRange(begin=1300)
+    default Identifier getIdV1300()
     {
-        return getRegistryV1903().getIdV1300(this);
+        return getRegistryV1300().getIdV1300(this);
     }
-
-    Registry staticGetRegistry();
+    
     static Registry getRegistry()
     {
         return create(null).staticGetRegistry();
     }
-
-    static SimpleRegistry getRegistryV_1903()
+    Registry staticGetRegistry();
+    static SimpleRegistry getRegistryV_1300()
     {
-        return create(null).staticGetRegistryV_1903();
+        return create(null).staticGetRegistryV_1300();
     }
 
     @SpecificImpl("staticGetRegistry")
-    @VersionRange(end=1903)
-    SimpleRegistry staticGetRegistryV_1903();
-
-    @SpecificImpl("staticGetRegistryV_1903")
-    @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY", end=1300))
+    @VersionRange(end=1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY"))
     SimpleRegistry staticGetRegistryV_1300();
-
+    
+    static Registry getRegistryV1300()
+    {
+        return create(null).staticGetRegistryV1300();
+    }
     @SpecificImpl("staticGetRegistryV_1903")
-    @VersionRange(begin=1300,end=1903)
-    default SimpleRegistry staticGetRegistryV1300_1903()
+    @VersionRange(begin=1300)
+    default Registry staticGetRegistryV1300()
     {
-        return Registry.itemV1300_1903();
+        return RegistriesV1300.item();
     }
-
-    @SpecificImpl("staticGetRegistry")
-    @VersionRange(begin=1903)
-    default DefaultedRegistryV_1300__1400 staticGetRegistryV1903()
-    {
-        return RegistriesV1903.item();
-    }
-    static DefaultedRegistryV_1300__1400 getRegistryV1903()
-    {
-        return create(null).staticGetRegistryV1903();
-    }
-
-    @WrapMinecraftMethod(@VersionName(name="getRegistryEntry", begin=1802))
-    RegistryEntryV1802 getRegistryEntryV1802();
     
     // TODO: versioning
     @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))

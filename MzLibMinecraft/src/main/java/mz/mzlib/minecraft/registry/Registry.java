@@ -2,11 +2,8 @@ package mz.mzlib.minecraft.registry;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -29,36 +26,4 @@ public interface Registry extends WrapperObject
     {
         return this.castTo(SimpleRegistry::create).get(rawId);
     }
-    
-    SimpleRegistry staticItemV1300_1903();
-    
-    static SimpleRegistry itemV1300_1903()
-    {
-        return create(null).staticItemV1300_1903();
-    }
-    
-    @SpecificImpl("staticItemV1300_1903")
-    @WrapMinecraftFieldAccessor(@VersionName(name="ITEM", begin=1300, end=1400))
-    SimpleRegistry staticItemV1300_1400();
-    
-    @SpecificImpl("staticItemV1300_1903")
-    @WrapMinecraftFieldAccessor(@VersionName(name="ITEM", begin=1400, end=1903))
-    DefaultedRegistryV1400_1903 staticItemV1400_1903();
-    
-    static Registry entityTypeV1300_1903()
-    {
-        return create(null).staticEntityTypeV1300_1903();
-    }
-    
-    @VersionRange(begin=1300, end=1903)
-    @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
-    Registry staticEntityTypeV1300_1903();
-    
-    static Registry windowTypeV1400_1903()
-    {
-        return create(null).staticWindowTypeV1400_1903();
-    }
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="CONTAINER", begin=1400, end=1600), @VersionName(name="SCREEN_HANDLER", begin=1600, end=1903)})
-    Registry staticWindowTypeV1400_1903();
 }
