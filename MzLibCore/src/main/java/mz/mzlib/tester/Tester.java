@@ -4,9 +4,9 @@ import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.async.AsyncFunction;
-import mz.mzlib.util.async.AsyncFunctionRunner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,13 +15,25 @@ import java.util.concurrent.Executor;
 public interface Tester<C extends TesterContext>
 {
     String getName();
+    
     Class<C> getContextType();
+    
+    default int getMinLevel()
+    {
+        return 0;
+    }
+    
+    default boolean shouldTest(TesterContext context)
+    {
+        return this.getContextType().isInstance(context) && context.level>=this.getMinLevel();
+    }
+    
     CompletableFuture<List<Throwable>> test(C context);
     
     class Registrar implements IRegistrar<Tester<?>>
     {
-        public static Registrar instance=new Registrar();
-        public List<Tester<?>> testers=new CopyOnWriteArrayList<>();
+        public static Registrar instance = new Registrar();
+        public List<Tester<?>> testers = new CopyOnWriteArrayList<>();
         
         @Override
         public Class<Tester<?>> getType()
@@ -30,40 +42,44 @@ public interface Tester<C extends TesterContext>
         }
         
         @Override
-        public void register(MzModule module,Tester<?> object)
+        public void register(MzModule module, Tester<?> object)
         {
             this.testers.add(object);
         }
         @Override
-        public void unregister(MzModule module,Tester<?> object)
+        public void unregister(MzModule module, Tester<?> object)
         {
             this.testers.remove(object);
         }
     }
-    static CompletableFuture<List<Throwable>> testAll(TesterContext testContext, Executor executor)
+    
+    class FunctionTestAll extends AsyncFunction<List<Throwable>>
     {
-        return new AsyncFunction<List<Throwable>>()
+        public TesterContext testContext;
+        public FunctionTestAll(TesterContext testContext)
         {
-            @Override
-            public void run()
+            this.testContext = testContext;
+        }
+        
+        @Override
+        protected List<Throwable> template() throws Throwable
+        {
+            List<Throwable> result = new ArrayList<>();
+            for(Tester<?> tester: Registrar.instance.testers)
             {
-            }
-            
-            @Override
-            public List<Throwable> template() throws Throwable
-            {
-                List<Throwable> result=new ArrayList<>();
-                for(Tester<?> tester: Registrar.instance.testers)
+                if(tester.shouldTest(this.testContext))
                 {
-                    if(tester.getContextType().isAssignableFrom(testContext.getClass()))
-                    {
-                        CompletableFuture<List<Throwable>> test=tester.test(RuntimeUtil.cast(testContext));
-                        await0(test);
-                        result.addAll(test.get());
-                    }
+                    CompletableFuture<List<Throwable>> test = tester.test(RuntimeUtil.cast(this.testContext));
+                    await0(test);
+                    result.addAll(test.get());
                 }
-                return result;
             }
-        }.start(executor);
+            return result;
+        }
+        
+        @Override
+        public void run()
+        {
+        }
     }
 }

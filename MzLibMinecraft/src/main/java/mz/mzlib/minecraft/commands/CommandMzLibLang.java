@@ -1,7 +1,9 @@
 package mz.mzlib.minecraft.commands;
 
+import mz.mzlib.MzLib;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.MzLibMinecraft;
+import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParser;
@@ -28,7 +30,7 @@ public class CommandMzLibLang extends MzModule
     public void onLoad()
     {
         this.register(this.permission);
-        MzLibMinecraft.instance.command.addChild(this.command = new Command("lang").setPermissionChecker(Command.permissionChecker(this.permission)).addChild(new Command("loadmc").setHandler(context->
+        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("lang").setPermissionChecker(Command.permissionChecker(this.permission)).addChild(new Command("loadmc").setHandler(context->
         {
             if(context.argsReader.hasNext())
                 context.successful = false;
@@ -100,13 +102,7 @@ public class CommandMzLibLang extends MzModule
                     context.successful = false;
                     break;
             }
-        })));
-    }
-    
-    @Override
-    public void onUnload()
-    {
-        MzLibMinecraft.instance.command.removeChild(this.command);
+        }))));
     }
     
     public static class ArgumentParserLanguage extends ArgumentParserString

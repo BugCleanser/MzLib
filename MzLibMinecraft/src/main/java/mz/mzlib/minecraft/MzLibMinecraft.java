@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.CommandGiveNbt;
 import mz.mzlib.minecraft.commands.CommandMzLibItemInfo;
 import mz.mzlib.minecraft.commands.CommandMzLibLang;
+import mz.mzlib.minecraft.commands.CommandMzLibTest;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
@@ -65,27 +66,10 @@ public class MzLibMinecraft extends MzModule
             this.register(UIWindow.Module.instance);
             this.register(UIWindowAnvil.Module.instance);
             
-            this.register(CommandGiveNbt.instance);
+            this.register(CommandMzLibTest.instance);
             this.register(CommandMzLibLang.instance);
             this.register(CommandMzLibItemInfo.instance);
-            
-            MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.begin"));
-            Tester.testAll(new TesterContext(), ForkJoinPool.commonPool()).whenComplete((r, e)->
-            {
-                if(e!=null)
-                {
-                    e.printStackTrace(System.err);
-                    return;
-                }
-                for(Throwable t: r)
-                {
-                    t.printStackTrace(System.err);
-                }
-                if(r.isEmpty())
-                    MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.success"));
-                else
-                    MinecraftPlatform.instance.getMzLibLogger().warning(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.test.basic.failure"), r.size()));
-            });
+            this.register(CommandGiveNbt.instance);
         }
         catch(Throwable e)
         {

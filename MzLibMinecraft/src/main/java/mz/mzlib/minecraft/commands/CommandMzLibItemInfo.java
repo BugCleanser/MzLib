@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.commands;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
+import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.permission.Permission;
@@ -18,7 +19,7 @@ public class CommandMzLibItemInfo extends MzModule
     @Override
     public void onLoad()
     {
-        MzLibMinecraft.instance.command.addChild(this.command = new Command("iteminfo").setPermissionChecker(Command::checkPermissionSenderPlayer).setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context->
+        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("iteminfo").setPermissionChecker(Command::checkPermissionSenderPlayer).setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context->
         {
             if(context.argsReader.hasNext())
                 context.successful = false;
@@ -28,7 +29,7 @@ public class CommandMzLibItemInfo extends MzModule
             {
                 context.sender.sendMessage(Text.literal(context.sender.castTo(EntityPlayer::create).getHandItemStack().encode().toString()));
             }
-        }));
+        })));
     }
     
     @Override

@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableSupplier;
@@ -40,7 +41,7 @@ public class I18nMinecraft extends MzModule
         {
             try
             {
-                MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load"));
+                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load")));
                 String folder = "minecraft/lang/";
                 Map<String, CompletableFuture<byte[]>> tasks = new HashMap<>();
                 for(String file: AssetsHelp.instance)
@@ -59,12 +60,12 @@ public class I18nMinecraft extends MzModule
                         map.put(result.getKey(), result.getValue());
                 }
                 this.i18nMinecraft.map = map;
-                MinecraftPlatform.instance.getMzLibLogger().info(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.success"));
+                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.success")));
             }
             catch(Throwable e)
             {
                 e.printStackTrace(System.err);
-                MinecraftPlatform.instance.getMzLibLogger().warning(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.failure"));
+                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.failure")));
             }
             this.taskLoading = null;
         });
