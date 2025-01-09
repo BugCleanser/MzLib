@@ -17,8 +17,8 @@ import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.StrongRef;
 import mz.mzlib.util.ThreadLocalGrowingHashMap;
+import mz.mzlib.util.WeakRefMap;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapMethod;
@@ -29,23 +29,23 @@ import mz.mzlib.util.wrapper.basic.Wrapper_void;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class PacketListenerModule extends MzModule
 {
     public static PacketListenerModule instance = new PacketListenerModule();
     
-    public ThreadLocalGrowingHashMap<Channel, Set<StrongRef<Object>>> handledPackets = new ThreadLocalGrowingHashMap<>();
+    public ThreadLocalGrowingHashMap<Channel, Set<Object>> handledPackets = new ThreadLocalGrowingHashMap<>();
     public boolean handle(Channel channel, EntityPlayer player, Object msg, Consumer<Object> rehandler)
     {
-        Set<StrongRef<Object>> set = this.handledPackets.get(channel);
+        Set<Object> set = this.handledPackets.get(channel);
         if(set==null)
         {
             this.handledPackets.threadLocal.remove();
             return true;
         }
-        if(!set.add(new StrongRef<>(msg)))
+        if(!set.add(msg))
             return true;
         if(MinecraftPlatform.instance.getVersion()>=1904)
             if(WrapperObject.create(msg).isInstanceOf(PacketBundleV1904::create))
@@ -128,7 +128,7 @@ public class PacketListenerModule extends MzModule
     {
         if(!channel.isOpen() || channel.pipeline().get(PacketListenerChannelHandler.class)!=null)
             return;
-        this.handledPackets.put(channel, Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>())));
+        this.handledPackets.put(channel, Collections.newSetFromMap(new WeakRefMap<>(new ConcurrentHashMap<>())));
         channel.pipeline().addBefore("packet_handler", null, new PacketListenerChannelHandler(ClientConnection.create(channel.pipeline().get(RuntimeUtil.<Class<? extends ChannelHandler>>cast(ClientConnection.create(null).staticGetWrappedClass())))));
     }
     public void restoreChannel(Channel channel)
