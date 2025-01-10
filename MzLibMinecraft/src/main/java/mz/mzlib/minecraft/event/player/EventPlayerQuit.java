@@ -1,9 +1,14 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.nothing.Nothing;
+import mz.mzlib.util.nothing.NothingInject;
+import mz.mzlib.util.nothing.NothingInjectType;
+import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
-// TODO: call
 public class EventPlayerQuit extends EventPlayer
 {
     public EventPlayerQuit(EntityPlayer player)
@@ -25,12 +30,29 @@ public class EventPlayerQuit extends EventPlayer
     
     public static class Module extends MzModule
     {
-        public static Module instance=new Module();
+        public static Module instance = new Module();
         
         @Override
         public void onLoad()
         {
             this.register(EventPlayerQuit.class);
+            this.register(NothingClientConnection.class);
+        }
+        
+        @WrapSameClass(ClientConnection.class)
+        public interface NothingClientConnection extends ClientConnection, Nothing
+        {
+            @NothingInject(wrapperMethodName="handleDisconnection", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_void handleDisconnectionBegin()
+            {
+                if(this.getChannel()==null || this.getChannel().isOpen())
+                    return Nothing.notReturn();
+                if(!this.getPlayer().isPresent())
+                    return Nothing.notReturn();
+                EventPlayerQuit event = new EventPlayerQuit(this.getPlayer());
+                event.call();
+                return Nothing.notReturn();
+            }
         }
     }
 }

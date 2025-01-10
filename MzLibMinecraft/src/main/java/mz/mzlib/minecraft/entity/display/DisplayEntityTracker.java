@@ -63,6 +63,8 @@ public class DisplayEntityTracker
             this.register(new PacketListener<>(PacketS2cEntityDestroy::create, Priority.LOW, (e, p)->
             {
                 DisplayEntityTracker tracker = get(e.getPlayer());
+                if(tracker==null)
+                    return;
                 for(int entityId: p.getEntityIds())
                 {
                     DisplayEntity displayEntity = tracker.entities.remove(entityId);

@@ -20,7 +20,7 @@ repositories {
 }
 
 group = "mz.mzlib"
-version = "10.0.1-beta-dev7"
+version = "10.0.1-beta-dev8"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 java.targetCompatibility = JavaVersion.VERSION_1_8
 

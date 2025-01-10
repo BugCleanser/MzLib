@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.entity;
 
 import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.data.EntityDataType;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -13,6 +14,8 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.Optional;
+
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
 public interface Entity extends WrapperObject, CommandSender
 {
@@ -23,7 +26,7 @@ public interface Entity extends WrapperObject, CommandSender
     }
     
     /**
-     * type0: {@link java.util.Optional<mz.mzlib.minecraft.text.Text>}
+     * type0V1300: {@link java.util.Optional<mz.mzlib.minecraft.text.Text>}
      */
     static EntityDataType dataTypeCustomName()
     {
@@ -32,6 +35,12 @@ public interface Entity extends WrapperObject, CommandSender
     // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
     EntityDataType staticDataTypeCustomName();
+    
+    // FIXME: V_1300
+    static Object newDataValue0CustomName(Text name)
+    {
+        return Optional.ofNullable(name.getWrapped());
+    }
     
     /**
      * type0: {@link Boolean}

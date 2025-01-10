@@ -104,6 +104,8 @@ public class I18nMinecraft extends MzModule
             boolean ignored = dir.mkdirs();
             for(String file: Objects.requireNonNull(dir.list()))
             {
+                if(!file.toLowerCase().endsWith(".json"))
+                    continue;
                 I18n.custom.map.put(file.substring(0, file.length()-".json".length()), new ConcurrentHashMap<>(I18n.load(new Gson().fromJson(new String(Files.readAllBytes(new File(dir, file).toPath()), StandardCharsets.UTF_8), JsonObject.class))));
             }
         }

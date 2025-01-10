@@ -38,8 +38,6 @@ public class Demo extends MzModule
             this.register(DemoBookUi.instance);
             this.register(Inventory10Slots.instance);
             this.register(ExampleAsyncFunction.instance);
-            
-            this.register(ModuleItemName.instance);
         }
         catch(Throwable e)
         {

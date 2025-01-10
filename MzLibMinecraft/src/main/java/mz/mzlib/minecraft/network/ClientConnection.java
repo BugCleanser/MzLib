@@ -35,7 +35,7 @@ public interface ClientConnection extends WrapperObject
         MinecraftPacketListener listener = this.getPacketListener();
         if(listener.isInstanceOf(ServerPlayNetworkHandler::create))
             return ServerPlayNetworkHandler.create(listener.getWrapped()).getPlayer();
-        return null;
+        return EntityPlayer.create(null);
     }
     
     @WrapMinecraftMethod(@VersionName(name="send"))
@@ -50,4 +50,7 @@ public interface ClientConnection extends WrapperObject
     }
     @WrapMinecraftMethod(@VersionName(name="handlePacket"))
     void staticHandlePacket(Packet packet, PacketHandler handler);
+    
+    @WrapMinecraftMethod(@VersionName(name="handleDisconnection"))
+    void handleDisconnection();
 }

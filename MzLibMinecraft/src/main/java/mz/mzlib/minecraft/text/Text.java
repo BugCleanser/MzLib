@@ -50,6 +50,11 @@ public interface Text extends WrapperObject
         return create(null).staticLiteral(str);
     }
     
+    static Text fromLiteral(String literal)
+    {
+        return literal(literal); // FIXME
+    }
+    
     @SpecificImpl("staticLiteral")
     @VersionRange(end=1900)
     default Text staticLiteralV_1900(String str)
@@ -565,8 +570,7 @@ public interface Text extends WrapperObject
         String result = this.getLiteral();
         if(result!=null)
             return result;
-        // TODO
-        throw new UnsupportedOperationException();
+        return "<unsupported>"; // FIXME
     }
     
     @WrapMinecraftInnerClass(outer=Text.class, name={@VersionName(name="Serializer", end=2003), @VersionName(name="Serialization", begin=2003)})

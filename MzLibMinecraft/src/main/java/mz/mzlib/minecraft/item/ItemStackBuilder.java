@@ -10,11 +10,11 @@ public class ItemStackBuilder
     public ItemStack result;
     public ItemStackBuilder(ItemStack itemStack)
     {
-        this.result=itemStack.copy();
+        this.result = itemStack.copy();
     }
     public ItemStackBuilder(Item item, int count)
     {
-        this.result=ItemStack.newInstance(item, count);
+        this.result = ItemStack.newInstance(item, count);
     }
     public ItemStackBuilder(Item item)
     {
@@ -39,9 +39,9 @@ public class ItemStackBuilder
         this(item, 1);
     }
     
-    public ItemStackBuilder setDisplayName(Text value)
+    public ItemStackBuilder setCustomName(Text value)
     {
-        Item.setDisplayName(result, value);
+        Item.setCustomName(result, value);
         return this;
     }
     

@@ -74,7 +74,7 @@ public class CommandMzLibTest extends MzModule
                 MinecraftServer.instance.schedule(()->
                 {
                     if(r.isEmpty())
-                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "zlib.commands.mzlib.test.success")));
+                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.success")));
                     else
                         context.sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.failure"), r.size())));
                 });

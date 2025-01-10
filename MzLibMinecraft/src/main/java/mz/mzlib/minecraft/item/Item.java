@@ -2,18 +2,18 @@ package mz.mzlib.minecraft.item;
 
 import com.google.gson.JsonElement;
 import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentLoreV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
-import mz.mzlib.minecraft.registry.DefaultedRegistryV_1300__1400;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.registry.SimpleRegistry;
-import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -42,28 +42,74 @@ public interface Item extends WrapperObject
         return fromId(Identifier.newInstance(id));
     }
     
-    static void setDisplayName(ItemStack itemStack, Text displayName)
+    ComponentKeyV2005 componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005?null:ComponentKeyV2005.fromId("custom_name");
+    ComponentKeyV2005 componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005?null:ComponentKeyV2005.fromId("lore");
+    
+    static Text getCustomName(ItemStack itemStack)
     {
-        create(null).staticSetDisplayName(itemStack, displayName);
+        return create(null).staticGetCustomName(itemStack);
     }
-    void staticSetDisplayName(ItemStack itemStack, Text displayName);
-    @SpecificImpl("staticSetDisplayName")
+    Text staticGetCustomName(ItemStack itemStack);
+    @SpecificImpl("staticGetCustomName")
     @VersionRange(end=1300)
-    default void staticSetDisplayNameV_1300(ItemStack itemStack, Text displayName)
+    default Text staticGetCustomNameV_1300(ItemStack itemStack)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.toLiteral()));
+        NbtCompound nbt = itemStack.getTagV_2005();
+        if(!nbt.isPresent())
+            return Text.create(null);
+        nbt = nbt.getNBTCompound("display");
+        if(!nbt.isPresent())
+            return Text.create(null);
+        NbtElement name = nbt.get("Name");
+        if(!name.isPresent())
+            return Text.create(null);
+        return Text.fromLiteral(name.castTo(NbtString::create).getValue());
     }
-    @SpecificImpl("staticSetDisplayName")
+    @SpecificImpl("staticGetCustomName")
     @VersionRange(begin=1300, end=2005)
-    default void staticSetDisplayNameV1300_2005(ItemStack itemStack, Text displayName)
+    default Text staticGetCustomNameV1300_2005(ItemStack itemStack)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(displayName.encode().toString()));
+        NbtCompound nbt = itemStack.getTagV_2005();
+        if(!nbt.isPresent())
+            return Text.create(null);
+        nbt = nbt.getNBTCompound("display");
+        if(!nbt.isPresent())
+            return Text.create(null);
+        NbtElement name = nbt.get("Name");
+        if(!name.isPresent())
+            return Text.create(null);
+        return Text.decode(name.castTo(NbtString::create).getValue());
     }
-    @SpecificImpl("staticSetDisplayName")
+    @SpecificImpl("staticGetCustomName")
     @VersionRange(begin=2005)
-    default void staticSetDisplayNameV2005(ItemStack itemStack, Text displayName)
+    default Text staticGetCustomNameV2005(ItemStack itemStack)
     {
-        itemStack.setComponentV2005(ComponentKeyV2005.fromId("custom_name"), displayName);
+        return itemStack.getComponentsV2005().get(componentKeyCustomNameV2005).castTo(Text::create);
+    }
+    
+    
+    static void setCustomName(ItemStack itemStack, Text customName)
+    {
+        create(null).staticSetCustomName(itemStack, customName);
+    }
+    void staticSetCustomName(ItemStack itemStack, Text customName);
+    @SpecificImpl("staticSetCustomName")
+    @VersionRange(end=1300)
+    default void staticSetCustomNameV_1300(ItemStack itemStack, Text customName)
+    {
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
+    }
+    @SpecificImpl("staticSetCustomName")
+    @VersionRange(begin=1300, end=2005)
+    default void staticSetCustomNameV1300_2005(ItemStack itemStack, Text customName)
+    {
+        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
+    }
+    @SpecificImpl("staticSetCustomName")
+    @VersionRange(begin=2005)
+    default void staticSetCustomNameV2005(ItemStack itemStack, Text customName)
+    {
+        itemStack.setComponentV2005(componentKeyCustomNameV2005, customName);
     }
     
     static void setLore(ItemStack itemStack, List<Text> lore)
@@ -87,7 +133,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.setComponentV2005(ComponentKeyV2005.fromId("lore"), ComponentLoreV2005.newInstance(lore));
+        itemStack.setComponentV2005(componentKeyLoreV2005, ComponentLoreV2005.newInstance(lore));
     }
     
 

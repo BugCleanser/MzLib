@@ -3,5 +3,14 @@
   "mzlibdemo.game.tictactoe.piece.player": "§b你的棋子",
   "mzlibdemo.game.tictactoe.piece.ai": "§c对方棋子",
 
-  "mzlibdemo.inventory10slots.title": "10个格子的物品栏"
+  "mzlibdemo.inventory10slots.title": "10个格子的物品栏",
+
+  "mzdropname.drop.name.default": "%s",
+  "mzdropname.drop.name.custom": "§o%s",
+  "mzdropname.drop.rarity.common": "§f%s",
+  "mzdropname.drop.rarity.uncommon": "§e%s",
+  "mzdropname.drop.rarity.rare": "§b%s",
+  "mzdropname.drop.rarity.epic": "§d%s",
+  "mzdropname.drop.single": "%s",
+  "mzdropname.drop.multiple": "%s§7*§b%d"
 }

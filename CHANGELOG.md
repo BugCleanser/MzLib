@@ -1,7 +1,10 @@
-# MzLib Changelog (Since v10)
+# MzLib Changelog
 
-- MzLib v10.0.1-beta-dev7
+- MzLib v10.0.1-beta-dev8
+  - 优化数据包监听
   - 添加实体数据追踪器
+  - 增加命令/mzlib test
+  - 兼容至1.14.4+
 - MzLib v10.0.1-beta-dev7
   - 优化数据包同步监听
   - 改进物品升级策略
