@@ -12,8 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.UUID;
 
-// TODO
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", end=1500), @VersionName(name="net.minecraft.client.network.packet.EntitySpawnS2CPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket", begin=1502)})
+@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket"))
 public interface PacketS2cEntitySpawn extends Packet
 {
     @WrapperCreator

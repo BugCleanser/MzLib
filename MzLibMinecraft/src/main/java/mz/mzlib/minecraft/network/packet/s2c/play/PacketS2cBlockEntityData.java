@@ -12,12 +12,7 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(
-        {
-                @VersionName(name="net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket", end=1500),
-                @VersionName(name="net.minecraft.client.network.packet.BlockEntityUpdateS2CPacket", begin=1500, end=1502),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket", begin=1502)
-        })
+@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket"))
 public interface PacketS2cBlockEntityData extends Packet
 {
     @WrapperCreator
@@ -30,10 +25,13 @@ public interface PacketS2cBlockEntityData extends Packet
     {
         return create(null).staticNewInstance(pos, type, nbt);
     }
+    
     PacketS2cBlockEntityData staticNewInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
+    
     @VersionRange(end=1800)
     @WrapConstructor
     PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, int typeId, NbtCompound data);
+    
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1800)
     default PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data)
@@ -41,6 +39,7 @@ public interface PacketS2cBlockEntityData extends Packet
         // TODO: cast type to id
         throw new UnsupportedOperationException();
     }
+    
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1800)
     @WrapConstructor

@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-// TODO
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket", end=1500), @VersionName(name="net.minecraft.client.network.packet.EntityTrackerUpdateS2CPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket", begin=1502)})
+@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket"))
 public interface PacketS2cEntityData extends Packet
 {
     @WrapperCreator
@@ -37,19 +36,24 @@ public interface PacketS2cEntityData extends Packet
     {
         return create(null).staticNewInstance(entityId);
     }
+    
     PacketS2cEntityData staticNewInstance(int entityId);
+    
     @VersionRange(end=1903)
     @WrapConstructor
     PacketS2cEntityData staticNewInstanceV_1903(int entityId, EntityDataTracker dataTracker, boolean updateAll);
+    
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1903)
     default PacketS2cEntityData staticNewInstanceV_1903(int entityId)
     {
         return this.staticNewInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.create(null)), true);
     }
+    
     @VersionRange(begin=1903)
     @WrapConstructor
     PacketS2cEntityData staticNewInstance0V1903(int entityId, List<?> dataList0);
+    
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1903)
     default PacketS2cEntityData staticNewInstanceV1903(int entityId)
@@ -62,6 +66,7 @@ public interface PacketS2cEntityData extends Packet
         EntityDataType getType();
         
         Object getValue0();
+        
         void setValue0(Object value);
         
         default String toString0()

@@ -33,7 +33,7 @@ public interface NbtElement extends WrapperObject
     NbtElement copy();
     
     @WrapMinecraftMethod(@VersionName(name="read", end=1500))
-    void loadV_1500(DataInput input, NbtReadingCounter counter);
+    void loadV_1500(DataInput input, int depth, NbtReadingCounter counter);
     
     @WrapMinecraftMethod(@VersionName(name="write"))
     void save(DataOutput output);

@@ -4,6 +4,7 @@ import mz.mzlib.event.RegistrarEventClass;
 import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.i18n.RegistrarI18n;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.module.RegistrableRegistrar;
 import mz.mzlib.tester.Tester;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.nothing.RegistrarNothingClass;
@@ -45,6 +46,8 @@ public class MzLib extends MzModule
     @Override
     public void onLoad()
     {
+        this.register(RegistrableRegistrar.instance);
+        
         this.register(Instance.Registrar.instance);
         
         this.register(Tester.Registrar.instance);

@@ -2,7 +2,7 @@ package mz.mzlib.module;
 
 public class RegistrableRegistrar implements IRegistrar<Registrable>
 {
-    public static RegistrarRegistrar instance = new RegistrarRegistrar();
+    public static RegistrableRegistrar instance = new RegistrableRegistrar();
 
     @Override
     public Class<Registrable> getType()

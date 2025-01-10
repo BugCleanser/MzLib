@@ -7,12 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(
-        {
-                @VersionName(name = "net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket", end=1500),
-                @VersionName(name = "net.minecraft.server.network.packet.ChatMessageC2SPacket", begin=1500, end=1502),
-                @VersionName(name = "net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket", begin=1502)
-        })
+@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket"))
 public interface PacketC2sChatMessage extends Packet
 {
     @WrapperCreator
@@ -20,9 +15,10 @@ public interface PacketC2sChatMessage extends Packet
     {
         return WrapperObject.create(PacketC2sChatMessage.class, wrapped);
     }
-
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="chatMessage"))
     String getMessage();
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="chatMessage"))
     void setMessage(String value);
 }

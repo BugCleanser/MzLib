@@ -36,7 +36,7 @@ public interface NbtCompound extends NbtElement
     default NbtCompound staticLoadV_1500(DataInput input)
     {
         NbtCompound result=newInstance();
-        result.loadV_1500(input, NbtReadingCounter.newInstance());
+        result.loadV_1500(input, 0, NbtReadingCounter.newInstance());
         return result;
     }
     @SpecificImpl("staticLoad")

@@ -13,9 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(
         {
                 @VersionName(name="net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket", end=1400),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.ContainerSlotUpdateS2CPacket", begin=1400, end=1500),
-                @VersionName(name="net.minecraft.client.network.packet.GuiSlotUpdateS2CPacket", begin=1500, end=1502),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.ContainerSlotUpdateS2CPacket", begin=1502, end=1600),
+                @VersionName(name="net.minecraft.network.packet.s2c.play.ContainerSlotUpdateS2CPacket", begin=1400, end=1600),
                 @VersionName(name="net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket", begin=1600)
         })
 public interface PacketS2cWindowSlotUpdate extends Packet

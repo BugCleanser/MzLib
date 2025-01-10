@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", end=1500), @VersionName(name="net.minecraft.server.network.packet.GuiCloseC2SPacket", begin=1500, end=1502), @VersionName(name="net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", begin=1502, end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket", begin=1604)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket", begin=1604)})
 public interface PacketC2sCloseWindow extends Packet
 {
     @WrapperCreator
@@ -25,6 +25,7 @@ public interface PacketC2sCloseWindow extends Packet
     {
         return create(null).staticNewInstance(syncId);
     }
+    
     @WrapConstructor
     PacketC2sCloseWindow staticNewInstance(int syncId);
 }
