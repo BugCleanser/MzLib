@@ -1,7 +1,9 @@
 package mz.mzlib.minecraft.event.entity;
 
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
@@ -60,8 +62,9 @@ public class EventEntityLivingDamage extends EventEntity
         @WrapSameClass(EntityLiving.class)
         public interface NothingEntityLiving extends EntityLiving, Nothing
         {
-            @NothingInject(wrapperMethodName="damage", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-            default Wrapper_boolean damageBefore(@LocalVar(1) DamageSource source, @LocalVar(2) Wrapper_float damage, @CustomVar("event") WrapperObject event)
+            @VersionRange(end=2102)
+            @NothingInject(wrapperMethodName="damageV_2102", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_boolean damageBeforeV_2102(@LocalVar(1) DamageSource source, @LocalVar(2) Wrapper_float damage, @CustomVar("event") WrapperObject event)
             {
                 EventEntityLivingDamage e = new EventEntityLivingDamage(this, source, damage.getWrapped());
                 e.call();
@@ -76,17 +79,32 @@ public class EventEntityLivingDamage extends EventEntity
                 return Nothing.notReturn();
             }
             
+            @VersionRange(begin=2102)
+            @NothingInject(wrapperMethodName="damageV2102", wrapperMethodParams={World.class, DamageSource.class, float.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_boolean damageBeforeV2102(@LocalVar(2) DamageSource source, @LocalVar(3) Wrapper_float damage, @CustomVar("event") WrapperObject event)
+            {
+                return this.damageBeforeV_2102(source, damage, event);
+            }
+            
             static void locateDamageAfter(NothingInjectLocating locating)
             {
                 locating.allAfter(AsmUtil.insnReturn(boolean.class).getOpcode());
                 assert !locating.locations.isEmpty();
             }
             
-            @NothingInject(wrapperMethodName="damage", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="locateDamageAfter", type=NothingInjectType.INSERT_BEFORE)
-            default Wrapper_boolean damageAfter(@CustomVar("event") WrapperObject event)
+            @VersionRange(end=2102)
+            @NothingInject(wrapperMethodName="damageV_2102", wrapperMethodParams={DamageSource.class, float.class}, locateMethod="locateDamageAfter", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_boolean damageAfterV_2102(@CustomVar("event") WrapperObject event)
             {
                 ((EventEntityLivingDamage)event.getWrapped()).finish();
                 return Nothing.notReturn();
+            }
+            
+            @VersionRange(begin=2102)
+            @NothingInject(wrapperMethodName="damageV2102", wrapperMethodParams={World.class, DamageSource.class, float.class}, locateMethod="locateDamageAfter", type=NothingInjectType.INSERT_BEFORE)
+            default Wrapper_boolean damageAfterV2102(@CustomVar("event") WrapperObject event)
+            {
+                return this.damageAfterV_2102(event);
             }
         }
         

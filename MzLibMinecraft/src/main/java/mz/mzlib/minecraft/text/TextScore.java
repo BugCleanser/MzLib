@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -21,16 +22,17 @@ public interface TextScore extends WrapperObject
     {
         return WrapperObject.create(TextScore.class, wrapped);
     }
-
+    
+    @VersionRange(end=2102)
     @WrapConstructor
-    TextScore staticNewInstance(String name, String objective);
-    static TextScore newInstance(String name, String objective)
+    TextScore staticNewInstanceV_2102(String name, String objective);
+    static TextScore newInstanceV_2102(String name, String objective)
     {
-        return create(null).staticNewInstance(name, objective);
+        return create(null).staticNewInstanceV_2102(name, objective);
     }
     static TextScore newInstanceV_1600(String name, String objective, String value)
     {
-        TextScore result = newInstance(name, objective);
+        TextScore result = newInstanceV_2102(name, objective);
         result.setValueV_1600(value);
         return result;
     }

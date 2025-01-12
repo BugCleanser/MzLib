@@ -240,7 +240,7 @@ public interface ItemStack extends WrapperObject
     default String getTranslationKey()
     {
         // FIXME
-        return this.getItem().getTranslationKey(this);
+        return this.getItem().getDefaultName(this).getTranslatableKey();
     }
     
     boolean staticIsStackable(ItemStack a, ItemStack b);

@@ -23,14 +23,14 @@ public class PacketListenerChannelHandler extends ChannelDuplexHandler
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception
     {
-        MinecraftServer.instance.schedule(()->PacketListenerModule.instance.restoreChannel(ctx.channel()));
+        MinecraftServer.instance.schedule(()->ModulePacketListener.instance.restoreChannel(ctx.channel()));
         super.channelInactive(ctx);
     }
     
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise)
     {
-        if(PacketListenerModule.instance.handle(ctx.channel(), this.getPlayer(), msg, ctx.channel()::write))
+        if(ModulePacketListener.instance.handle(ctx.channel(), this.getPlayer(), msg, ctx.channel()::write))
             ctx.write(msg, promise);
     }
 }

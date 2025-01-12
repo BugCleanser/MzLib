@@ -36,26 +36,33 @@ public interface TextSelector extends WrapperObject
     @VersionRange(end=1700)
     @WrapConstructor
     TextSelector staticNewInstanceV_1700(String pattern);
-    @VersionRange(begin=1700)
+    @VersionRange(begin=1700, end=2102)
     @WrapConstructor
-    TextSelector staticNewInstance0V1700(String pattern, Optional<?> separator0);
-    static TextSelector newInstance0V1700(String pattern, Optional<?> separator0)
+    TextSelector staticNewInstance0V1700_2102(String pattern, Optional<?> separator0);
+    static TextSelector newInstance0V1700_2102(String pattern, Optional<?> separator0)
     {
-        return create(null).staticNewInstance0V1700(pattern, separator0);
+        return create(null).staticNewInstance0V1700_2102(pattern, separator0);
     }
-    static TextSelector newInstanceV1700(String pattern, Text separator)
+    static TextSelector newInstanceV1700_2102(String pattern, Text separator)
     {
-        return newInstance0V1700(pattern, Optional.ofNullable(separator).map(Text::getWrapped));
+        return newInstance0V1700_2102(pattern, Optional.ofNullable(separator).map(Text::getWrapped));
     }
     @SpecificImpl("staticNewInstance")
-    @VersionRange(begin=1700)
-    default TextSelector staticNewInstanceV1700(String pattern)
+    @VersionRange(begin=1700, end=2102)
+    default TextSelector staticNewInstanceV1700_2102(String pattern)
     {
-        return this.staticNewInstance0V1700(pattern, Optional.empty());
+        return this.staticNewInstance0V1700_2102(pattern, Optional.empty());
+    }
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=2102)
+    default TextSelector staticNewInstanceV2102(String pattern)
+    {
+        throw new UnsupportedOperationException(); // TODO
     }
 
+    @VersionRange(end=2102)
     @WrapMinecraftMethod(@VersionName(name="getPattern"))
-    String getPattern();
+    String getPatternV_2102();
     @WrapMinecraftFieldAccessor(@VersionName(name="separator", begin=1700))
     Optional<?> getSeparator0V1700();
     default Text getSeparatorV1700()

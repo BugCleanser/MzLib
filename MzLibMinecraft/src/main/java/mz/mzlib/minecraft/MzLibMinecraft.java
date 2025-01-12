@@ -10,21 +10,18 @@ import mz.mzlib.minecraft.commands.CommandMzLibTest;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
-import mz.mzlib.minecraft.network.packet.PacketListenerModule;
+import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.tester.Tester;
-import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.Config;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
 
 import java.io.File;
-import java.util.concurrent.ForkJoinPool;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -54,7 +51,7 @@ public class MzLibMinecraft extends MzModule
             this.register(this.command = new Command("mzlib", "mz"));
             
             this.register(RegistrarEventListener.instance);
-            this.register(PacketListenerModule.instance);
+            this.register(ModulePacketListener.instance);
             
             this.register(MinecraftEventModule.instance);
             

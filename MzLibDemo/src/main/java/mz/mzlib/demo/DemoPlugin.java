@@ -8,8 +8,8 @@ public class DemoPlugin extends JavaPlugin
     @Override
     public void onEnable()
     {
-        Demo.instance.jar=this.getFile();
-        Demo.instance.dataFolder=this.getDataFolder();
+        Demo.instance.jar = this.getFile();
+        Demo.instance.dataFolder = this.getDataFolder();
         MzLib.instance.register(Demo.instance);
     }
     

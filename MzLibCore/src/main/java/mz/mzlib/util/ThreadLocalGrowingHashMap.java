@@ -2,12 +2,11 @@ package mz.mzlib.util;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ThreadLocalGrowingHashMap<K, V> extends ConcurrentHashMap<K, V>
 {
-    public ThreadLocal<Map<K, Optional<V>>> threadLocal = ThreadLocal.withInitial(WeakHashMap::new);
+    public ThreadLocal<Map<K, Optional<V>>> threadLocal = ThreadLocal.withInitial(WeakRefMap::new);
     
     @Override
     public V get(Object key)

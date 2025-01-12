@@ -43,13 +43,36 @@ public interface TextStyle extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY", begin=1600))
     TextStyle staticEmptyV1600();
     
-    static TextStyle newInstanceV1600(TextColorV1600 color, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
+    static TextStyle newInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
     {
-        return create(null).staticNewInstanceV1600(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
+        return create(null).staticNewInstanceV1600(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
+    }
+    TextStyle staticNewInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    @WrapConstructor
+    @VersionRange(begin=1600, end=2104)
+    TextStyle staticNewInstanceV1600_2104(TextColorV1600 color, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    @SpecificImpl("staticNewInstanceV1600")
+    @VersionRange(begin=1600, end=2104)
+    default TextStyle staticNewInstanceV1600_2104(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
+    {
+        return this.staticNewInstanceV1600_2104(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
     @WrapConstructor
-    @VersionRange(begin=1600)
-    TextStyle staticNewInstanceV1600(TextColorV1600 color, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    @VersionRange(begin=2104)
+    TextStyle staticNewInstanceV2104(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    
+    Integer getShadowColor();
+    @SpecificImpl("getShadowColor")
+    @VersionRange(end=2104)
+    default Integer getShadowColorV_2104()
+    {
+        return null;
+    }
+    @SpecificImpl("getShadowColor")
+    @VersionRange(begin=2104)
+    @WrapMinecraftFieldAccessor(@VersionName(name="shadowColor"))
+    Integer getShadowColorV2104();
+    
     
     static TextStyle checkEmptyV1600(TextStyle style)
     {
@@ -130,15 +153,15 @@ public interface TextStyle extends WrapperObject
     TextStyle withItalicV1600(Boolean italic);
     default TextStyle withUnderlinedV1600(Boolean underlined)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getBold(), this.getItalic(), underlined, this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), underlined, this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     default TextStyle withStrikethroughV1600(Boolean strikethrough)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getBold(), this.getItalic(), this.getUnderlined(), strikethrough, this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), strikethrough, this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     default TextStyle withObfuscatedV1600(Boolean obfuscated)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), obfuscated, this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), obfuscated, this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     @WrapMinecraftMethod(@VersionName(name="withClickEvent", begin=1600))
     TextStyle withClickEventV1600(TextClickEvent clickEvent);
@@ -146,4 +169,8 @@ public interface TextStyle extends WrapperObject
     TextStyle withHoverEventV1600(TextHoverEvent hoverEvent);
     @WrapMinecraftMethod(@VersionName(name="withInsertion", begin=1600))
     TextStyle withInsertionV1600(String insertion);
+    default TextStyle withShadowColorV2104(Integer shadowColor)
+    {
+        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), shadowColor, this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+    }
 }

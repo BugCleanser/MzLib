@@ -178,6 +178,11 @@ public interface Item extends WrapperObject
     }
     
     // TODO: versioning
+    @VersionRange(end=2102)
     @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
-    String getTranslationKey(ItemStack itemStack);
+    String getTranslationKeyV_2102(ItemStack itemStack);
+    
+    // TODO: versioning
+    @WrapMinecraftMethod(@VersionName(name="getName"))
+    Text getDefaultName(ItemStack itemStack);
 }

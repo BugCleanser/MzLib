@@ -1,5 +1,6 @@
 package mz.mzlib.util;
 
+import javax.management.ListenerNotFoundException;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import java.lang.management.GarbageCollectorMXBean;
@@ -51,8 +52,16 @@ public class RuntimeUtil
         try
         {
             for(GarbageCollectorMXBean gcBean: ManagementFactory.getGarbageCollectorMXBeans())
-                if(gcBean instanceof NotificationEmitter)
-                    ((NotificationEmitter)gcBean).removeNotificationListener(listener);
+            {
+                try
+                {
+                    if(gcBean instanceof NotificationEmitter)
+                        ((NotificationEmitter)gcBean).removeNotificationListener(listener);
+                }
+                catch(ListenerNotFoundException ignored)
+                {
+                }
+            }
         }
         catch(Throwable e)
         {

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.network.packet.c2s.play;
 
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.network.packet.Packet;
@@ -17,23 +18,29 @@ public interface PacketC2sVehicleMove extends Packet
         return WrapperObject.create(PacketC2sVehicleMove.class, wrapped);
     }
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="x"))
-    double getX();
+    double getXV_2104();
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="x"))
-    void setX(double value);
+    void setXV_2104(double value);
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="y"))
-    double getY();
+    double getYV_2104();
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="y"))
-    void setY(double value);
+    void setYV_2104(double value);
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="z"))
-    double getZ();
+    double getZV_2104();
     
+    @VersionRange(end=2104)
     @WrapMinecraftFieldAccessor(@VersionName(name="z"))
-    void setZ(double value);
+    void setZV_2104(double value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="yaw"))
     float getYaw();
@@ -47,15 +54,15 @@ public interface PacketC2sVehicleMove extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name="pitch"))
     void setPitch(float value);
     
-    default Vec3d getLocation()
+    default Vec3d getLocationV_2104()
     {
-        return Vec3d.newInstance(this.getX(), this.getY(), this.getZ());
+        return Vec3d.newInstance(this.getXV_2104(), this.getYV_2104(), this.getZV_2104());
     }
     
-    default void setLocation(Vec3d value)
+    default void setLocationV_2104(Vec3d value)
     {
-        this.setX(value.getX());
-        this.setY(value.getY());
-        this.setZ(value.getZ());
+        this.setXV_2104(value.getX());
+        this.setYV_2104(value.getY());
+        this.setZV_2104(value.getZ());
     }
 }

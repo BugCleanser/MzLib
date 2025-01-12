@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.entity;
 
+import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.entity.damage.DamageSource;
 import mz.mzlib.minecraft.entity.data.EntityDataType;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.util.math.Vec3d;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.damage.DamageSource;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -32,6 +33,7 @@ public interface Entity extends WrapperObject, CommandSender
     {
         return create(null).staticDataTypeCustomName();
     }
+    
     // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
     EntityDataType staticDataTypeCustomName();
@@ -49,6 +51,7 @@ public interface Entity extends WrapperObject, CommandSender
     {
         return create(null).staticDataTypeCustomNameVisible();
     }
+    
     // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
     EntityDataType staticDataTypeCustomNameVisible();
@@ -85,8 +88,13 @@ public interface Entity extends WrapperObject, CommandSender
     @WrapMinecraftMethod(@VersionName(name="setPosition", begin=1700))
     void setPositionV1700(Vec3d value);
     
+    @VersionRange(end=2102)
     @WrapMinecraftMethod(@VersionName(name="damage"))
-    boolean damage(DamageSource source, float amount);
+    boolean damageV_2102(DamageSource source, float amount);
+    
+    @VersionRange(begin=2102)
+    @WrapMinecraftMethod(@VersionName(name="damage"))
+    boolean damageV2102(World world, DamageSource source, float amount);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="x", end=1600))
     double getXV_1600();

@@ -178,10 +178,11 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
             return this.packet;
         }
         
+        public static boolean isLocationChanged=MinecraftPlatform.instance.getVersion()<2104;
         @Override
         public boolean isLocationChanged()
         {
-            return true;
+            return isLocationChanged;
         }
         
         @Override
@@ -217,13 +218,13 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         @Override
         public Vec3d getLocation()
         {
-            return this.getPacket().getLocation();
+            return this.getPacket().getLocationV_2104();
         }
         
         @Override
         public void setLocation(Vec3d value)
         {
-            this.getPacket().setLocation(value);
+            this.getPacket().setLocationV_2104(value);
         }
         
         @Override
