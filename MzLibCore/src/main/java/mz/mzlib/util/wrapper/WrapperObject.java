@@ -62,6 +62,8 @@ public interface WrapperObject
     
     Class<?> staticGetWrappedClass();
     
+    <T extends WrapperObject> T staticCreate(Object wrapped);
+    
     default boolean staticIsInstance(WrapperObject wrapper)
     {
         return this.staticGetWrappedClass().isInstance(wrapper.getWrapped());

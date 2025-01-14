@@ -11,6 +11,7 @@ dependencies {
     implementation(project(":MzLibCore", configuration = "shadow"))
     implementation("commons-cli:commons-cli:1.9.0")
     compileOnly("io.netty:netty-all:4.1.76.Final")
+
 }
 
 tasks.withType<Jar> {

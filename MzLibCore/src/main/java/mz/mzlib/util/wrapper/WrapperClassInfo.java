@@ -235,6 +235,13 @@ public class WrapperClassInfo
             mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));
             mn.instructions.add(AsmUtil.insnReturn(Class.class));
             cn.methods.add(mn);
+            mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticCreate", AsmUtil.getDesc(WrapperObject.class, new Class[]{Object.class}), null, new String[0]);
+            mn.visitTypeInsn(Opcodes.NEW, cn.name);
+            mn.instructions.add(AsmUtil.insnDup(WrapperObject.class));
+            mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 1));
+            mn.visitMethodInsn(Opcodes.INVOKESPECIAL, cn.name, "<init>", AsmUtil.getDesc(void.class, Object.class), false);
+            mn.instructions.add(AsmUtil.insnReturn(WrapperObject.class));
+            cn.methods.add(mn);
             for(Map.Entry<Method, Member> i: this.getWrappedMembers().entrySet())
             {
                 boolean isPublic = Modifier.isPublic(i.getValue().getDeclaringClass().getModifiers()) && Modifier.isPublic(i.getValue().getModifiers());
