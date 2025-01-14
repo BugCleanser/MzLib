@@ -36,7 +36,7 @@ public class Tictactoe extends MzModule
                 context.successful = false;
             if(!context.successful || !context.doExecute)
                 return;
-            UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UITictactoe(context.sender.castTo(EntityPlayer::create)));
+            UIStack.get(context.getSource().getPlayer()).start(new UITictactoe(context.getSource().getPlayer()));
         }));
     }
     

@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
-import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
@@ -50,15 +49,15 @@ public class CommandMzLibTest extends MzModule
                     return;
             }
             TesterContext testerContext;
-            if(context.sender.isInstanceOf(EntityPlayer::create))
+            if(context.getSource().getPlayer().isPresent())
             {
-                testerContext = new TesterContextPlayer(level, context.sender.castTo(EntityPlayer::create));
-                context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.begin.player")));
+                testerContext = new TesterContextPlayer(level, context.getSource().getPlayer());
+                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.begin.player")));
             }
             else
             {
                 testerContext = new TesterContext(level);
-                context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.begin.non_player")));
+                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.begin.non_player")));
             }
             new Tester.FunctionTestAll(testerContext).start(ForkJoinPool.commonPool()).whenComplete((r, e)->
             {
@@ -74,9 +73,9 @@ public class CommandMzLibTest extends MzModule
                 MinecraftServer.instance.schedule(()->
                 {
                     if(r.isEmpty())
-                        context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.success")));
+                        context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.success")));
                     else
-                        context.sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.commands.mzlib.test.failure"), r.size())));
+                        context.getSource().sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.failure"), r.size())));
                 });
             });
         })));

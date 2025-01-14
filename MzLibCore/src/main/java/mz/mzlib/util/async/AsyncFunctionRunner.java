@@ -1,5 +1,7 @@
 package mz.mzlib.util.async;
 
+import mz.mzlib.module.MzModule;
+
 import java.util.concurrent.Executor;
 
 public interface AsyncFunctionRunner extends Executor
@@ -33,5 +35,46 @@ public interface AsyncFunctionRunner extends Executor
                 throw new UnsupportedOperationException();
             }
         };
+    }
+    
+    class DelegatorModule implements AsyncFunctionRunner
+    {
+        public AsyncFunctionRunner delegate;
+        public MzModule module;
+        
+        public DelegatorModule(AsyncFunctionRunner delegate, MzModule module)
+        {
+            this.delegate = delegate;
+            this.module = module;
+        }
+        
+        @Override
+        public void schedule(Runnable function)
+        {
+            if(!module.isLoaded())
+                return;
+            delegate.schedule(()->
+            {
+                if(!module.isLoaded())
+                    return;
+                function.run();
+            });
+        }
+        @Override
+        public void schedule(Runnable function, BasicAwait await)
+        {
+            if(!module.isLoaded())
+                return;
+            delegate.schedule(()->
+            {
+                if(!module.isLoaded())
+                    return;
+                function.run();
+            }, await);
+        }
+    }
+    default DelegatorModule asModule(MzModule module)
+    {
+        return new DelegatorModule(this, module);
     }
 }

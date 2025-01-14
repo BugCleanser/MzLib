@@ -21,33 +21,33 @@ public class DemoBookUi extends MzModule
     @Override
     public void onLoad()
     {
-        Demo.instance.command.addChild(this.command=new Command("book").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
+        Demo.instance.command.addChild(this.command = new Command("book").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
         {
             if(context.argsReader.hasNext())
                 return;
             if(!context.successful || !context.doExecute)
                 return;
-            UIStack.get(context.sender.castTo(EntityPlayer::create)).start(new UIDemoBook());
+            UIStack.get(context.getSource().getPlayer()).start(new UIDemoBook());
         }));
     }
     
     public static class UIDemoBook extends UIWrittenBook
     {
-        int button0,button1;
+        int button0, button1;
         
         public UIDemoBook()
         {
-            this.button0=this.newButton(player->player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));
-            this.button1=this.newButton(player->player.sendMessage(Text.literal("Button 1")));
+            this.button0 = this.newButton(player->player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));
+            this.button1 = this.newButton(player->player.sendMessage(Text.literal("Button 1")));
         }
         
         @Override
         public List<Text> getPages(EntityPlayer player)
         {
-            List<Text> lines=new ArrayList<>();
+            List<Text> lines = new ArrayList<>();
             lines.add(Text.literal("awa\n").setBold(true).setClickEvent(buttonClickEvent(button0)));
             lines.add(Text.literal("qwq\n").setClickEvent(buttonClickEvent(button1)));
             return ItemWrittenBook.makePages(lines);
         }
-}
+    }
 }

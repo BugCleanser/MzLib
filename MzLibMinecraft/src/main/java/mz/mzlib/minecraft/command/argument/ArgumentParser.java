@@ -27,7 +27,7 @@ public abstract class ArgumentParser<T>
         }
         catch(Throwable e)
         {
-            context.addArgError(Text.literal(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.command.arg.error"), e.getMessage())));
+            context.addArgError(Text.literal(String.format(I18nMinecraft.getTranslation(context.source, "mzlib.command.arg.error"), e.getMessage())));
             return null;
         }
     }

@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.UUID;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
-public interface CommandSender extends WrapperObject
+public interface CommandOutput extends WrapperObject
 {
     void sendMessage(Text msg);
     

@@ -239,7 +239,6 @@ public interface ItemStack extends WrapperObject
     
     default String getTranslationKey()
     {
-        // FIXME
         return this.getItem().getDefaultName(this).getTranslatableKey();
     }
     

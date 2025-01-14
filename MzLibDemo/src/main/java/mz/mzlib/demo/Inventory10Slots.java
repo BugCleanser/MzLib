@@ -29,7 +29,7 @@ public class Inventory10Slots extends MzModule
                 return;
             if(context.doExecute)
             {
-                ui.open(context.sender.castTo(EntityPlayer::create));
+                ui.open(context.getSource().getPlayer());
             }
         }));
     }

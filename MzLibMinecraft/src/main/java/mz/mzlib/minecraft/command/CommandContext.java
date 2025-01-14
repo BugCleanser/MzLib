@@ -8,14 +8,14 @@ import java.util.List;
 
 public class CommandContext
 {
-    public CommandSender sender;
+    public CommandSource source;
     public String command;
     public ArgumentsReader argsReader;
     public boolean doExecute;
     
-    public CommandContext(CommandSender sender, String command, String args, boolean doExecute)
+    public CommandContext(CommandSource source, String command, String args, boolean doExecute)
     {
-        this.sender = sender;
+        this.source = source;
         this.command = command;
         this.argsReader = new ArgumentsReader(args);
         this.doExecute = doExecute;
@@ -26,7 +26,7 @@ public class CommandContext
     
     public CommandContext(CommandContext trunk)
     {
-        this.sender = trunk.sender;
+        this.source = trunk.source;
         this.command = trunk.command;
         this.argsReader = trunk.argsReader.clone();
         this.doExecute = trunk.doExecute;
@@ -36,6 +36,15 @@ public class CommandContext
         this.suggestions = new ArrayList<>();
         this.argErrors = new ArrayList<>();
         this.forks = new ArrayList<>();
+    }
+    
+    public CommandSource getSource()
+    {
+        return this.source;
+    }
+    public ArgumentsReader getArgsReader()
+    {
+        return this.argsReader;
     }
     
     public List<String> suggestions = new ArrayList<>();
@@ -69,11 +78,11 @@ public class CommandContext
         return this.successful || this.forks.stream().anyMatch(CommandContext::isAnySuccessful);
     }
     
-    public List<String> getAllEffectiveSuggestions()
+    public List<String> getAllSuggestions()
     {
         List<String> result = new ArrayList<>();
         for(CommandContext fork: this.forks)
-            result.addAll(fork.getAllEffectiveSuggestions());
+            result.addAll(fork.getAllSuggestions());
         if(!this.argsReader.hasNext())
             result.addAll(this.suggestions);
         return result;

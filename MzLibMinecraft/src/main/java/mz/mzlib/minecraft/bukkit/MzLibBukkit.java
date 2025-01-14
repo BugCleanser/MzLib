@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.bukkit.command.RegistrarCommandBukkit;
 import mz.mzlib.module.MzModule;
 import org.bukkit.Bukkit;
 
@@ -20,8 +19,6 @@ public class MzLibBukkit extends MzModule
         this.register(CraftServer.create(Bukkit.getServer()).getServer());
         
         this.register(BukkitWindowModule.instance);
-        
-        this.register(RegistrarCommandBukkit.instance);
         
         this.register(PermissionHelpBukkit.instance);
         

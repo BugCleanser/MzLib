@@ -18,13 +18,13 @@ public interface CommandV_1300 extends WrapperObject
     List<String> getAliases();
 
     @WrapMinecraftMethod(@VersionName(name="getUsageTranslationKey"))
-    String getUsageTranslationKey(CommandSender sender);
+    String getUsageTranslationKey(CommandSource source);
 
     @WrapMinecraftMethod(@VersionName(name="method_3278"))
-    boolean canExecute(MinecraftServer server, CommandSender source);
+    boolean canExecute(MinecraftServer server, CommandSource source);
 
     @WrapMinecraftMethod(@VersionName(name="method_3279"))
-    void execute(MinecraftServer server, CommandSender sender, String[] args);
+    void execute(MinecraftServer server, CommandSource source, String[] args);
 
     // TODO
 //    List<String> method_10738(MinecraftServer server, GameObject source, String[] strings, BlockPos pos);

@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -34,6 +35,9 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     {
         return MinecraftPlatform.instance.getLanguage(this);
     }
+    
+    @WrapMinecraftMethod(@VersionName(name="sendMessage"))
+    void sendMessage(Text message); // TODO
     
     void sendPacket(Packet packet);
     @SpecificImpl("sendPacket")

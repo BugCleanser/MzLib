@@ -40,15 +40,17 @@ public class MzLibMinecraft extends MzModule
             
             this.register(ModuleMapStackTrace.instance);
             
+            this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
+            
             this.register(I18nMinecraft.instance);
             
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
             
-            this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
-            
             this.register(NothingMinecraftServer.class);
             
-            this.register(this.command = new Command("mzlib", "mz"));
+            this.register(MinecraftServer.instance.getCommandManager());
+            
+            this.register(this.command = new Command("mzlib", "mz").setNamespace("mzlib"));
             
             this.register(RegistrarEventListener.instance);
             this.register(ModulePacketListener.instance);

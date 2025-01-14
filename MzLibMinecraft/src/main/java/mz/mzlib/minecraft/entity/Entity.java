@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.entity;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.command.CommandSender;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
 import mz.mzlib.minecraft.entity.data.EntityDataType;
 import mz.mzlib.minecraft.text.Text;
@@ -18,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Optional;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
-public interface Entity extends WrapperObject, CommandSender
+public interface Entity extends WrapperObject
 {
     @WrapperCreator
     static Entity create(Object wrapped)

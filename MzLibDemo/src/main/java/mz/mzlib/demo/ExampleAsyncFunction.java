@@ -12,7 +12,7 @@ public class ExampleAsyncFunction extends MzModule
     @Override
     public void onLoad()
     {
-        new Func1().start(MinecraftServer.instance);
+        new Func1().start(MinecraftServer.instance.asModule(this));
         System.out.println("ExampleAsyncFunction is Load");
     }
     

@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.AssetsHelp;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.command.CommandSender;
+import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
@@ -41,7 +41,7 @@ public class I18nMinecraft extends MzModule
         {
             try
             {
-                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load")));
+                MinecraftServer.instance.sendMessage(Text.literal(I18n.getTranslation(getDefaultLanguage(), "mzlib.lang.minecraft.load")));
                 String folder = "minecraft/lang/";
                 Map<String, CompletableFuture<byte[]>> tasks = new HashMap<>();
                 for(String file: AssetsHelp.instance)
@@ -60,26 +60,31 @@ public class I18nMinecraft extends MzModule
                         map.put(result.getKey(), result.getValue());
                 }
                 this.i18nMinecraft.map = map;
-                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.success")));
+                MinecraftServer.instance.sendMessage(Text.literal(I18n.getTranslation(getDefaultLanguage(), "mzlib.lang.minecraft.load.success")));
             }
             catch(Throwable e)
             {
                 e.printStackTrace(System.err);
-                MinecraftServer.instance.sendMessage(Text.literal(I18nMinecraft.getTranslation(MinecraftServer.instance, "mzlib.lang.minecraft.load.failure")));
+                MinecraftServer.instance.sendMessage(Text.literal(I18n.getTranslation(getDefaultLanguage(), "mzlib.lang.minecraft.load.failure")));
             }
             this.taskLoading = null;
         });
     }
     
-    public static String getLanguage(CommandSender sender)
+    public static String getDefaultLanguage()
     {
-        if(sender.isInstanceOf(EntityPlayer::create))
-            return sender.castTo(EntityPlayer::create).getLanguage();
         return MzLibMinecraft.instance.config.getString("default_language");
     }
-    public static String getTranslation(CommandSender sender, String key)
+    public static String getTranslation(CommandSource commandSource, String key)
     {
-        return I18n.getTranslation(getLanguage(sender), key);
+        EntityPlayer player = commandSource.getPlayer();
+        if(player.isPresent())
+            return getTranslation(player, key);
+        return I18n.getTranslation(getDefaultLanguage(), key);
+    }
+    public static String getTranslation(EntityPlayer player, String key)
+    {
+        return I18n.getTranslation(player.getLanguage(), key);
     }
     
     public static void saveCustomLanguage(String lang)

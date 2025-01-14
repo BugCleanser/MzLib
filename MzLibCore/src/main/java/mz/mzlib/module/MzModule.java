@@ -13,6 +13,11 @@ public abstract class MzModule
     public Set<MzModule> submodules = new HashSet<>();
     public Map<Object, Stack<IRegistrar<?>>> registeredObjects = new LinkedHashMap<>();
 
+    public boolean isLoaded()
+    {
+        return this.isLoaded;
+    }
+    
     public void register(Object object)
     {
         if (!isLoaded)

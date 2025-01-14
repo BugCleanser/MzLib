@@ -34,18 +34,18 @@ public class CommandGiveNbt extends MzModule
             if(fork.argsReader.hasNext())
                 fork.successful = false;
             if(fork.successful)
-                context=fork;
+                context = fork;
             else
             {
                 nbt = new ArgumentParserNbtCompound().handle(context);
                 if(context.argsReader.hasNext())
                     context.successful = false;
-                if(!context.sender.isInstanceOf(EntityPlayer::create))
+                if(!context.getSource().getPlayer().isPresent())
                 {
-                    context.successful=false;
+                    context.successful = false;
                     return;
                 }
-                player=context.sender.castTo(EntityPlayer::create);
+                player = context.getSource().getPlayer();
             }
             if(!context.successful || !context.doExecute)
                 return;
@@ -59,7 +59,7 @@ public class CommandGiveNbt extends MzModule
             catch(Throwable e)
             {
                 context.successful = false;
-                context.sender.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.givenbt.error.illegal_item"), e.getMessage())));
+                context.getSource().sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.givenbt.error.illegal_item"), e.getMessage())));
             }
         }));
     }

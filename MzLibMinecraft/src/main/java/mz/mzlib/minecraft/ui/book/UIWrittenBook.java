@@ -73,12 +73,12 @@ public abstract class UIWrittenBook implements UI
                     context.successful = false;
                 if(!context.successful || !context.doExecute)
                     return;
-                EntityPlayer sender = context.sender.castTo(EntityPlayer::create);
+                EntityPlayer sender = context.getSource().getPlayer();
                 List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook)UIStack.get(sender).top()).buttons;
                 if(button<0 || button>=buttons.size())
                 {
                     context.successful = false;
-                    context.sender.sendMessage(Text.literal(I18nMinecraft.getTranslation(context.sender, "mzlib.commands.mzlib.book_click.error.invalid_button_index")));
+                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.book_click.error.invalid_button_index")));
                     UIStack.get(sender).top().open(sender);
                     return;
                 }
