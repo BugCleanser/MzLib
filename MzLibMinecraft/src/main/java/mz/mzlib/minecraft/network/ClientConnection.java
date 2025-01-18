@@ -3,9 +3,11 @@ package mz.mzlib.minecraft.network;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.entity.EventEntity;
 import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
 import mz.mzlib.minecraft.network.packet.PacketHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -40,6 +42,10 @@ public interface ClientConnection extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="send"))
     void sendPacket(Packet packet);
+    
+    @VersionRange(begin=1901)
+    @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
+    void sendPacketImmediatelyV1901(Packet packet, PacketCallbacksV1901 callbacksV1901, boolean flush);
     
     @WrapMethod("@0")
     void channelRead0(ChannelHandlerContext ctx, Packet packet);

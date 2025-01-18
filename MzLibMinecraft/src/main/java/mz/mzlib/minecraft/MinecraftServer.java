@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.command.CommandOutput;
 import mz.mzlib.minecraft.datafixer.DataFixerV1400;
 import mz.mzlib.minecraft.datafixer.DataUpdaterV_1400;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.registry.RegistrySetV1602;
+import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -120,13 +120,13 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     }
     
     @VersionRange(begin=1602)
-    RegistrySetV1602 getRegistriesV1602();
+    RegistryManagerV1602 getRegistriesV1602();
     
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1602, end=1802))
-    RegistrySetV1602 getRegistriesV1602_1802();
+    RegistryManagerV1602 getRegistriesV1602_1802();
     
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1802))
-    RegistrySetV1602.Immutable getRegistriesV1802();
+    RegistryManagerV1602.Immutable getRegistriesV1802();
 }

@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.nbt;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.registry.DynamicOpsWithRegistriesV1903;
+import mz.mzlib.minecraft.incomprehensible.registry.DynamicOpsWithRegistriesV1903;
 import mz.mzlib.minecraft.serialization.DynamicOpsV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;

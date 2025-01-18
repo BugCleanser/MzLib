@@ -55,11 +55,11 @@ public class Command
     @SafeVarargs
     public final Command setPermissionCheckers(Function<CommandSource, Text>... value)
     {
-        return this.setPermissionChecker(sender->
+        return this.setPermissionChecker(source->
         {
             for(Function<CommandSource, Text> i: value)
             {
-                Text result = i.apply(sender);
+                Text result = i.apply(source);
                 if(result!=null)
                     return result;
             }
@@ -82,16 +82,16 @@ public class Command
         return null;
     }
     
-    public static Text checkPermission(CommandSource sender, Permission permission)
+    public static Text checkPermission(CommandSource source, Permission permission)
     {
-        if(PermissionHelp.instance.check(sender, permission))
+        if(PermissionHelp.instance.check(source, permission))
             return null;
-        return Text.literal(String.format(I18nMinecraft.getTranslation(sender, "mzlib.command.permission.lack"), permission.id));
+        return Text.literal(String.format(I18nMinecraft.getTranslation(source, "mzlib.command.permission.lack"), permission.id));
     }
     
     public static Function<CommandSource, Text> permissionChecker(Permission permission)
     {
-        return sender->checkPermission(sender, permission);
+        return source->checkPermission(source, permission);
     }
     
     public Command setHandler(Consumer<CommandContext> value)
@@ -100,9 +100,9 @@ public class Command
         return this;
     }
     
-    public List<String> suggest(CommandSource sender, String command, String args)
+    public List<String> suggest(CommandSource source, String command, String args)
     {
-        Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(sender) : null;
+        Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(source) : null;
         if(permissionCheckInfo!=null)
             return CollectionUtil.newArrayList(permissionCheckInfo.toLiteral());
         String[] argv2 = args.split("\\s+", 2);
@@ -110,12 +110,12 @@ public class Command
             for(Command i: this.children)
             {
                 if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
-                    return i.suggest(sender, command+' '+argv2[0], argv2[1]);
+                    return i.suggest(source, command+' '+argv2[0], argv2[1]);
             }
         List<String> result = new ArrayList<>();
         if(this.handler!=null)
         {
-            CommandContext context = new CommandContext(sender, command, " "+args, false);
+            CommandContext context = new CommandContext(source, command, " "+args, false);
             this.handler.accept(context);
             result.addAll(context.getAllSuggestions());
 //            result.addAll(context.getAllArgErrors().stream().map(Text::toLiteral).collect(Collectors.toList()));

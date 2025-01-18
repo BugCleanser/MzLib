@@ -4,7 +4,10 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
-import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
@@ -15,7 +18,6 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThreadLocalGrowingHashMap;
 import mz.mzlib.util.WeakRefMap;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.async.AsyncFunction;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapSameClass;
@@ -23,7 +25,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -97,8 +98,6 @@ public class ModulePacketListener extends MzModule
         return false;
     }
     
-    private HashSet<Packet> tickSentPackets = new HashSet<>();
-    
     @Override
     public void onLoad()
     {
@@ -112,23 +111,6 @@ public class ModulePacketListener extends MzModule
         {
             this.initChannel(player.getNetworkHandler().getConnection().getChannel());
         }
-        new AsyncFunction<Void>()
-        {
-            @SuppressWarnings("InfiniteLoopStatement")
-            @Override
-            protected Void template()
-            {
-                while(true)
-                {
-                    instance.tickSentPackets.clear();
-                    await(new SleepTicks(1));
-                }
-            }
-            @Override
-            public void run()
-            {
-            }
-        }.start(MinecraftServer.instance.asModule(this));
     }
     @Override
     public void onUnload()
@@ -170,6 +152,18 @@ public class ModulePacketListener extends MzModule
             else
                 return Wrapper_void.create(null);
         }
+        
+        @VersionRange(begin=1901)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1901", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1901(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
+        {
+            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !packet.isBundle())
+                packet.setWrappedFrom(Packet.copy(packet));
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketImmediatelyV1901(Packet.create(msg), callbacksV1901, flush)))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
     }
     
     @WrapSameClass(ServerPlayNetworkHandler.class)
@@ -179,8 +173,8 @@ public class ModulePacketListener extends MzModule
         @NothingInject(wrapperMethodName="sendPacketV_1400", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
         {
-            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !instance.tickSentPackets.add(packet))
-                instance.tickSentPackets.add(packet=Packet.copy(packet));
+            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !packet.isBundle())
+                packet = Packet.copy(packet);
             if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacketV_2002(Packet.create(msg))))
                 return Nothing.notReturn();
             else
@@ -210,16 +204,16 @@ public class ModulePacketListener extends MzModule
     @WrapSameClass(ServerCommonNetworkHandlerV2002.class)
     public interface NothingServerCommonNetworkHandlerV2002 extends ServerCommonNetworkHandlerV2002, Nothing
     {
-        @NothingInject(wrapperMethodName="sendPacket", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketBegin(@LocalVar(1) Packet packet)
-        {
-            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !instance.tickSentPackets.add(packet))
-                instance.tickSentPackets.add(packet=Packet.copy(packet));
-            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacket(Packet.create(msg))))
-                return Nothing.notReturn();
-            else
-                return Wrapper_void.create(null);
-        }
+//        @NothingInject(wrapperMethodName="sendPacket", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+//        default Wrapper_void sendPacketBegin(@LocalVar(1) Packet packet)
+//        {
+//            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !packet.isBundle())
+//                packet = Packet.copy(packet);
+//            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacket(Packet.create(msg))))
+//                return Nothing.notReturn();
+//            else
+//                return Wrapper_void.create(null);
+//        }
     }
     
     @WrapMinecraftClass({@VersionName(name="net.minecraft.server.ServerNetworkIo$4", end=1300), @VersionName(name="net.minecraft.server.ServerNetworkIo$1", begin=1300)})

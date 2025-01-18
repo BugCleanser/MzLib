@@ -36,8 +36,12 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
         return MinecraftPlatform.instance.getLanguage(this);
     }
     
-    @WrapMinecraftMethod(@VersionName(name="sendMessage"))
-    void sendMessage(Text message); // TODO
+    default void sendMessage(Text message)
+    {
+        this.sendMessage(message, false);
+    }
+    @WrapMinecraftMethod(@VersionName(name="sendMessageToClient"))
+    void sendMessage(Text message, boolean overlay); // TODO
     
     void sendPacket(Packet packet);
     @SpecificImpl("sendPacket")

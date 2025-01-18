@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.registry;
+package mz.mzlib.minecraft.incomprehensible.registry;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
@@ -19,7 +19,7 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
         return WrapperObject.create(DynamicOpsWithRegistriesV1903.class, wrapped);
     }
     
-    static DynamicOpsWithRegistriesV1903 newInstance(DynamicOpsV1400 ops, RegistrySetV1602.Immutable registries)
+    static DynamicOpsWithRegistriesV1903 newInstance(DynamicOpsV1400 ops, RegistryManagerV1602.Immutable registries)
     {
         return newInstance(ops, class_9683V2005.newInstance(registries));
     }

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.registry;
+package mz.mzlib.minecraft.incomprehensible.registry;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
@@ -9,16 +9,16 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 // Mojang: net.minecraft.core.RegistryAccess
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.DynamicRegistryManager", begin=1602, end=1903), @VersionName(name="net.minecraft.registry.DynamicRegistryManager", begin=1903)})
-public interface RegistrySetV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
+public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
 {
     @WrapperCreator
-    static RegistrySetV1602 create(Object wrapped)
+    static RegistryManagerV1602 create(Object wrapped)
     {
-        return WrapperObject.create(RegistrySetV1602.class, wrapped);
+        return WrapperObject.create(RegistryManagerV1602.class, wrapped);
     }
     
-    @WrapMinecraftInnerClass(outer=RegistrySetV1602.class, name=@VersionName(name="Immutable", begin=1802))
-    interface Immutable extends RegistrySetV1602
+    @WrapMinecraftInnerClass(outer=RegistryManagerV1602.class, name=@VersionName(name="Immutable", begin=1802))
+    interface Immutable extends RegistryManagerV1602
     {
         @WrapperCreator
         static Immutable create(Object wrapped)
