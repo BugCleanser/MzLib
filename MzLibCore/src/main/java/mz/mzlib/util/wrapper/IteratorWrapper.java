@@ -25,12 +25,8 @@ public class IteratorWrapper<T extends WrapperObject> implements Iterator<T>
         return wrapperCreator.apply(delegate.next());
     }
     
-    public static <T extends WrapperObject> Iterable<T> iterable(Iterator<?> iterator, Function<Object, T> wrapperCreator)
-    {
-        return ()->new IteratorWrapper<>(iterator, wrapperCreator);
-    }
     public static <T extends WrapperObject> Iterable<T> iterable(Iterable<?> iterator, Function<Object, T> wrapperCreator)
     {
-        return iterable(iterator.iterator(), wrapperCreator);
+        return ()->new IteratorWrapper<>(iterator.iterator(), wrapperCreator);
     }
 }

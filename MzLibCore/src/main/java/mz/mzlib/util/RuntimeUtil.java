@@ -28,6 +28,27 @@ public class RuntimeUtil
         throw RuntimeUtil.<T>cast(e);
     }
     
+    /**
+     * Throw an exception, but it's an expression <br/>
+     * Used with a triadic operator <br/>
+     * Example:
+     * <pre><code>
+     *     Object o = null;
+     *     if(condition)
+     *         o = new Object();
+     *     else
+     *         throw new UnsupportedOperationException();
+     * </code></pre>
+     * After simplification:
+     * <pre><code>
+     *     Object o = condition ? new Object() : RuntimeUtil.valueThrow(new UnsupportedOperationException());
+     * </code></pre>
+     */
+    public static <T, E extends Throwable> T valueThrow(E throwable) throws E
+    {
+        throw throwable;
+    }
+    
     @SuppressWarnings("RedundantThrows")
     public static <T extends Throwable> void declaredlyThrow() throws T
     {

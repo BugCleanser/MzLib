@@ -24,8 +24,8 @@ public class PacketListener<T extends Packet>
     {
         this.handler.accept(event, packet);
     }
-    public void call0(PacketEvent event, Object packet0)
+    public void call0(PacketEvent event, Packet packet)
     {
-        this.call(event, this.wrapperCreator.apply(packet0));
+        this.handler.accept(event, packet.castTo(this.wrapperCreator));
     }
 }
