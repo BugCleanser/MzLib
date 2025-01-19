@@ -15,6 +15,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.Packet", end=1904), @VersionName(name="net.minecraft.network.packet.Packet", begin=1904)})
 public interface Packet extends WrapperObject
@@ -26,12 +27,14 @@ public interface Packet extends WrapperObject
     }
     
     boolean isBundle();
+    
     @VersionRange(end=1904)
     @SpecificImpl("isBundle")
     default boolean isBundleV_1904()
     {
         return false;
     }
+    
     @VersionRange(begin=1904)
     @SpecificImpl("isBundle")
     default boolean isBundleV1904()
@@ -40,6 +43,7 @@ public interface Packet extends WrapperObject
     }
     
     <T extends Packet> T copy();
+    
     @VersionRange(end=2005)
     @SpecificImpl("copy")
     default <T extends Packet> T copyV_2005()
@@ -47,6 +51,7 @@ public interface Packet extends WrapperObject
         // TODO
         throw new UnsupportedOperationException();
     }
+    
     List<NetworkPhaseSidedPacketManagerV2005> networkPhaseSidedPacketManagersV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : Arrays.asList //
             ( //
                     NetworkPlaySidedPacketManagerFactoriesV2005.s2c().make(ByteBufWithRegistriesV2005.method_56350(MinecraftServer.instance.getRegistriesV1602())), //
@@ -59,12 +64,13 @@ public interface Packet extends WrapperObject
                     NetworkLoginSidedPacketManagersV2005.s2c(), //
                     NetworkLoginSidedPacketManagersV2005.c2s() //
             );
+    
     @VersionRange(begin=2005)
     @SpecificImpl("copy")
     default <T extends Packet> T copyV2005() // TODO optimize
     {
         ByteBuf byteBuf = Unpooled.buffer();
-        RuntimeException exception = new RuntimeException();
+        RuntimeException exception = null;
         for(NetworkPhaseSidedPacketManagerV2005 i: networkPhaseSidedPacketManagersV2005)
         {
             try
@@ -75,10 +81,12 @@ public interface Packet extends WrapperObject
             catch(Throwable e)
             {
                 byteBuf.clear();
+                if(exception==null)
+                    exception = new RuntimeException();
                 exception.addSuppressed(e);
             }
         }
-        throw exception;
+        throw Objects.requireNonNull(exception);
     }
     
     static <T extends Packet> T copy(T packet)
