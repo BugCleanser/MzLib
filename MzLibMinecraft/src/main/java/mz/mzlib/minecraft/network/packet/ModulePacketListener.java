@@ -73,7 +73,7 @@ public class ModulePacketListener extends MzModule
                 return true;
             }
             if(isSending)
-                packet.setWrappedFrom(packet.copy());
+                packet.setWrappedFrom(packet.copy(channel.alloc().buffer(4096)));
             
             List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(packet.getWrapped().getClass());
             if(sortedListeners==null)

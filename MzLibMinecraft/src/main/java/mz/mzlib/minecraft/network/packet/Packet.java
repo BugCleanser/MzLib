@@ -42,11 +42,11 @@ public interface Packet extends WrapperObject
         return this.isInstanceOf(PacketBundleV1904::create);
     }
     
-    <T extends Packet> T copy();
+    <T extends Packet> T copy(ByteBuf byteBuf);
     
     @VersionRange(end=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV_2005()
+    default <T extends Packet> T copyV_2005(ByteBuf byteBuf)
     {
         // TODO
         throw new UnsupportedOperationException();
@@ -67,9 +67,8 @@ public interface Packet extends WrapperObject
     
     @VersionRange(begin=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV2005() // TODO optimize
+    default <T extends Packet> T copyV2005(ByteBuf byteBuf) // TODO optimize
     {
-        ByteBuf byteBuf = Unpooled.buffer();
         RuntimeException exception = null;
         for(NetworkPhaseSidedPacketManagerV2005 i: networkPhaseSidedPacketManagersV2005)
         {
@@ -89,8 +88,12 @@ public interface Packet extends WrapperObject
         throw Objects.requireNonNull(exception);
     }
     
+    static <T extends Packet> T copy(T packet, ByteBuf byteBuf)
+    {
+        return packet.copy(byteBuf);
+    }
     static <T extends Packet> T copy(T packet)
     {
-        return packet.copy();
+        return copy(packet, Unpooled.buffer(4096));
     }
 }
