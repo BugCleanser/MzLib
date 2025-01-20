@@ -4,18 +4,19 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
-import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
-import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.packet.s2c.PacketBundleS2cV1904;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.*;
+import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.TaskList;
+import mz.mzlib.util.ThreadLocalGrowingHashMap;
+import mz.mzlib.util.WeakRefMap;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapMethod;
@@ -123,8 +124,6 @@ public class ModulePacketListener extends MzModule
         this.register(NothingServerNetworkIoChannelInitializer.class);
         this.register(NothingClientConnection.class);
         this.register(NothingServerPlayNetworkHandler.class);
-        if(MinecraftPlatform.instance.getVersion()>=2002)
-            this.register(NothingServerCommonNetworkHandlerV2002.class);
         for(EntityPlayer player: MinecraftServer.instance.getPlayers())
         {
             this.initChannel(player.getNetworkHandler().getConnection().getChannel());
@@ -138,9 +137,9 @@ public class ModulePacketListener extends MzModule
             this.restoreChannel(player.getNetworkHandler().getConnection().getChannel());
         }
     }
-    public void initChannel(Channel channel)
+    public void initChannel(Channel channel) // FIXME
     {
-        if(!channel.isOpen() || channel.pipeline().get(PacketListenerChannelHandler.class)!=null)
+        if(channel.pipeline().get(PacketListenerChannelHandler.class)!=null)
             return;
         this.handledPackets.put(channel, Collections.newSetFromMap(new WeakRefMap<>(new ConcurrentHashMap<>())));
         channel.pipeline().addBefore("packet_handler", null, new PacketListenerChannelHandler(ClientConnection.create(channel.pipeline().get(RuntimeUtil.<Class<? extends ChannelHandler>>cast(ClientConnection.create(null).staticGetWrappedClass())))));
@@ -171,11 +170,33 @@ public class ModulePacketListener extends MzModule
                 return Wrapper_void.create(null);
         }
         
-        @VersionRange(begin=1901)
-        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1901", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketImmediatelyBeginV1901(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
+        // TODO V_1400
+        
+        @VersionRange(begin=1400, end=1901)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901)
         {
-            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1901(p, callbacksV1901, flush), true))
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1400_1901(p, callbacksV1901), true))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
+        
+        @VersionRange(begin=1901, end=2002)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1901_2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901)
+        {
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1901_2002(p, callbacksV1901), true))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
+        
+        @VersionRange(begin=2002)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
+        {
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV2002(p, callbacksV1901, flush), true))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -185,6 +206,7 @@ public class ModulePacketListener extends MzModule
     @WrapSameClass(ServerPlayNetworkHandler.class)
     public interface NothingServerPlayNetworkHandler extends ServerPlayNetworkHandler, Nothing
     {
+        // TODO
         @VersionRange(end=1400)
         @NothingInject(wrapperMethodName="sendPacketV_1400", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
@@ -194,42 +216,6 @@ public class ModulePacketListener extends MzModule
             else
                 return Wrapper_void.create(null);
         }
-        
-        @VersionRange(begin=1400, end=1901)
-        @NothingInject(wrapperMethodName="sendPacketV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacks)
-        {
-            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet, p->this.sendPacketV1400_1901(p, callbacks), true))
-                return Nothing.notReturn();
-            else
-                return Wrapper_void.create(null);
-        }
-        
-        @VersionRange(begin=1901, end=2002)
-        @NothingInject(wrapperMethodName="sendPacketV1901_2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacks)
-        {
-            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet, p->this.sendPacketV1901_2002(p, callbacks), true))
-                return Nothing.notReturn();
-            else
-                return Wrapper_void.create(null);
-        }
-    }
-    
-    @VersionRange(begin=2002)
-    @WrapSameClass(ServerCommonNetworkHandlerV2002.class)
-    public interface NothingServerCommonNetworkHandlerV2002 extends ServerCommonNetworkHandlerV2002, Nothing
-    {
-//        @NothingInject(wrapperMethodName="sendPacket", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-//        default Wrapper_void sendPacketBegin(@LocalVar(1) Packet packet)
-//        {
-//            if(Thread.currentThread()==MinecraftServer.instance.getThread() && !packet.isBundle())
-//                packet = Packet.copy(packet);
-//            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet.getWrapped(), msg->this.sendPacket(Packet.create(msg))))
-//                return Nothing.notReturn();
-//            else
-//                return Wrapper_void.create(null);
-//        }
     }
     
     @WrapMinecraftClass({@VersionName(name="net.minecraft.server.ServerNetworkIo$4", end=1300), @VersionName(name="net.minecraft.server.ServerNetworkIo$1", begin=1300)})
@@ -241,6 +227,7 @@ public class ModulePacketListener extends MzModule
         static void initChannelEndLocate(NothingInjectLocating locating)
         {
             locating.allAfter(AsmUtil.insnReturn(void.class).getOpcode());
+            assert !locating.locations.isEmpty();
         }
         
         @NothingInject(wrapperMethodName="initChannel", wrapperMethodParams={Channel.class}, locateMethod="initChannelEndLocate", type=NothingInjectType.INSERT_BEFORE)

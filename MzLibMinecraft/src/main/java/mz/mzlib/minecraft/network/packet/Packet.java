@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.network.*;
 import mz.mzlib.minecraft.incomprehensible.registry.ByteBufWithRegistriesV2005;
+import mz.mzlib.minecraft.network.ByteBufPacket;
+import mz.mzlib.minecraft.network.PacketDirection;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -42,13 +45,59 @@ public interface Packet extends WrapperObject
         return this.isInstanceOf(PacketBundleV1904::create);
     }
     
+    @VersionRange(end=2005)
+    @WrapMinecraftMethod(@VersionName(name="write"))
+    void writeV_2005(ByteBufPacket byteBuf);
+    
     <T extends Packet> T copy(ByteBuf byteBuf);
     
-    @VersionRange(end=2005)
+    @VersionRange(end=1400)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV_2005(ByteBuf byteBuf)
+    default <T extends Packet> T copyV_1400(ByteBuf byteBuf)
     {
         // TODO
+        throw new UnsupportedOperationException();
+    }
+    
+    List<NetworkPhasePacketManagerV1400_2005> networkPhasePacketManagersV1400_2005 = MinecraftPlatform.instance.getVersion()>=1400 && MinecraftPlatform.instance.getVersion()<2005 ? Arrays.asList //
+            ( //
+                    NetworkPhasePacketManagerV1400_2005.play(), //
+                    NetworkPhasePacketManagerV1400_2005.handshake(), //
+                    NetworkPhasePacketManagerV1400_2005.login(), //
+                    NetworkPhasePacketManagerV1400_2005.query() //
+            ) : null;
+    
+    @VersionRange(begin=1400, end=2005)
+    @SpecificImpl("copy")
+    default <T extends Packet> T copyV1400_2005(ByteBuf byteBuf) // TODO optimize
+    {
+        ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
+        for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
+        {
+            PacketDirection direction = PacketDirection.s2c();
+            Integer id = null;
+            try
+            {
+                id = i.getPacketId(direction, this);
+            }
+            catch(NullPointerException ignored)
+            {
+            }
+            if(id==null)
+            {
+                try
+                {
+                    id = i.getPacketId(direction = PacketDirection.c2s(), this);
+                }
+                catch(NullPointerException ignored)
+                {
+                }
+            }
+            if(id==null)
+                continue;
+            this.writeV_2005(byteBufPacket);
+            return i.decode(direction, id, byteBufPacket).castTo(this::staticCreate);
+        }
         throw new UnsupportedOperationException();
     }
     
@@ -92,6 +141,7 @@ public interface Packet extends WrapperObject
     {
         return packet.copy(byteBuf);
     }
+    
     static <T extends Packet> T copy(T packet)
     {
         return copy(packet, Unpooled.buffer(4096));

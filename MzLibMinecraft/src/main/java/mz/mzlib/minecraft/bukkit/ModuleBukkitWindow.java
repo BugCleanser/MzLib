@@ -14,9 +14,9 @@ import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.basic.WrapperBoolean;
 
-public class BukkitWindowModule extends MzModule
+public class ModuleBukkitWindow extends MzModule
 {
-    public static BukkitWindowModule instance = new BukkitWindowModule();
+    public static ModuleBukkitWindow instance = new ModuleBukkitWindow();
     
     @Override
     public void onLoad()

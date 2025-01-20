@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.network;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -43,9 +44,19 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="send"))
     void sendPacket(Packet packet);
     
-    @VersionRange(begin=1901)
+    // TODO V_1400
+    
+    @VersionRange(begin=1400, end=1901)
     @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
-    void sendPacketImmediatelyV1901(Packet packet, PacketCallbacksV1901 callbacksV1901, boolean flush);
+    void sendPacketImmediatelyV1400_1901(Packet packet, GenericFutureListener<?> callbacks);
+    
+    @VersionRange(begin=1901, end=2002)
+    @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
+    void sendPacketImmediatelyV1901_2002(Packet packet, PacketCallbacksV1901 callbacks);
+    
+    @VersionRange(begin=2002)
+    @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
+    void sendPacketImmediatelyV2002(Packet packet, PacketCallbacksV1901 callbacks, boolean flush);
     
     @WrapMethod("@0")
     void channelRead0(ChannelHandlerContext ctx, Packet packet);

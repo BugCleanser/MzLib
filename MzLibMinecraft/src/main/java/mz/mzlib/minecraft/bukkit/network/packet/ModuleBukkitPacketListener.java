@@ -1,0 +1,48 @@
+package mz.mzlib.minecraft.bukkit.network.packet;
+
+import io.netty.util.concurrent.GenericFutureListener;
+import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.bukkit.network.ClientConnectionBukkit;
+import mz.mzlib.minecraft.network.ClientConnection;
+import mz.mzlib.minecraft.network.packet.ModulePacketListener;
+import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
+import mz.mzlib.module.MzModule;
+import mz.mzlib.util.nothing.*;
+import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.wrapper.basic.Wrapper_void;
+
+public class ModuleBukkitPacketListener extends MzModule
+{
+    public static ModuleBukkitPacketListener instance = new ModuleBukkitPacketListener();
+    
+    @Override
+    public void onLoad()
+    {
+        this.register(NothingClientConnection.class);
+    }
+    
+    @WrapSameClass(ClientConnection.class)
+    public interface NothingClientConnection extends ClientConnectionBukkit, Nothing
+    {
+        @VersionRange(begin=1400, end=1901)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class, Boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901, @LocalVar(3) Boolean flush)
+        {
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1400_1901(p, callbacksV1901, flush), true))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
+        
+        @VersionRange(begin=1901, end=2002)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1901_2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, Boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) Boolean flush)
+        {
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1901_2002(p, callbacksV1901, flush), true))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
+    }
+}
