@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
@@ -8,9 +9,9 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventPlayerMove extends EventPlayerByPacket
+public abstract class EventPlayerMove<P extends Packet> extends EventPlayerByPacket<P>
 {
-    public EventPlayerMove(PacketEvent packetEvent)
+    public EventPlayerMove(PacketEvent.Specialized<P> packetEvent)
     {
         super(packetEvent);
     }
@@ -52,18 +53,11 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
     {
     }
     
-    public static class ByPacketC2sPlayerMove extends EventPlayerMove
+    public static class ByPacketC2sPlayerMove extends EventPlayerMove<PacketC2sPlayerMove>
     {
-        public PacketC2sPlayerMove packet;
-        public ByPacketC2sPlayerMove(PacketEvent packetEvent, PacketC2sPlayerMove packet)
+        public ByPacketC2sPlayerMove(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
         {
             super(packetEvent);
-            this.packet = packet;
-        }
-        
-        public PacketC2sPlayerMove getPacket()
-        {
-            return this.packet;
         }
         
         @Override
@@ -163,22 +157,15 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         }
     }
     
-    public static class ByPacketC2sVehicleMove extends EventPlayerMove
+    public static class ByPacketC2sVehicleMove extends EventPlayerMove<PacketC2sVehicleMove>
     {
-        public PacketC2sVehicleMove packet;
         
-        public ByPacketC2sVehicleMove(PacketEvent packetEvent, PacketC2sVehicleMove packet)
+        public ByPacketC2sVehicleMove(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
         {
             super(packetEvent);
-            this.packet = packet;
         }
         
-        public PacketC2sVehicleMove getPacket()
-        {
-            return this.packet;
-        }
-        
-        public static boolean isLocationChanged=MinecraftPlatform.instance.getVersion()<2104;
+        public static boolean isLocationChanged = MinecraftPlatform.instance.getVersion()<2104;
         @Override
         public boolean isLocationChanged()
         {
@@ -280,21 +267,19 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
     {
         public static Module instance = new Module();
         
-        public void handle(PacketEvent packetEvent, PacketC2sPlayerMove packet)
+        public void handlePlayer(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
         {
             packetEvent.sync(()->
             {
-                EventPlayerMove event = new ByPacketC2sPlayerMove(packetEvent, packet);
-                event.call();
+                new ByPacketC2sPlayerMove(packetEvent).call();
             });
         }
         
-        public void handle(PacketEvent packetEvent, PacketC2sVehicleMove packet)
+        public void handleVehicle(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
         {
             packetEvent.sync(()->
             {
-                EventPlayerMove event = new ByPacketC2sVehicleMove(packetEvent, packet);
-                event.call();
+                new ByPacketC2sVehicleMove(packetEvent).call();
             });
         }
         
@@ -302,12 +287,12 @@ public abstract class EventPlayerMove extends EventPlayerByPacket
         public void onLoad()
         {
             this.register(EventPlayerMove.class);
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround::create, this::handle));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround::create, this::handle));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handle));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround::create, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround::create, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handlePlayer));
             if(MinecraftPlatform.instance.getVersion()>=1700)
-                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700::create, this::handle));
-            this.register(new PacketListener<>(PacketC2sVehicleMove::create, this::handle));
+                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700::create, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sVehicleMove::create, this::handleVehicle));
         }
     }
 }

@@ -1,14 +1,15 @@
 package mz.mzlib.minecraft.event.window;
 
 import mz.mzlib.minecraft.event.player.EventPlayerByPacket;
+import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventWindow extends EventPlayerByPacket
+public abstract class EventWindow<P extends Packet> extends EventPlayerByPacket<P>
 {
     public Window window;
-    public EventWindow(PacketEvent packetEvent, Window window)
+    public EventWindow(PacketEvent.Specialized<P> packetEvent, Window window)
     {
         super(packetEvent);
         this.window = window;

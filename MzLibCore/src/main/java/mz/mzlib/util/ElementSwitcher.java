@@ -3,9 +3,9 @@ package mz.mzlib.util;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
-public interface ElementSwitcher
+public interface ElementSwitcher<T extends Annotation>
 {
-    boolean isEnabled(Annotation annotation, AnnotatedElement element);
+    boolean isEnabled(T annotation, AnnotatedElement element);
 
     static boolean isEnabled(AnnotatedElement element)
     {
@@ -22,6 +22,7 @@ public interface ElementSwitcher
                 {
                     continue;
                 }
+                //noinspection unchecked
                 if (!clazz.value().newInstance().isEnabled(a, element))
                 {
                     return false;

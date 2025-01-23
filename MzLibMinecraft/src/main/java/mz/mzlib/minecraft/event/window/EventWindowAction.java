@@ -7,40 +7,38 @@ import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.module.MzModule;
 
-public class EventWindowAction extends EventWindow
+public class EventWindowAction extends EventWindow<PacketC2sWindowAction>
 {
-    public PacketC2sWindowAction packet;
-    public EventWindowAction(PacketEvent packetEvent, Window window, PacketC2sWindowAction packet)
+    public EventWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent, Window window)
     {
         super(packetEvent, window);
-        this.packet = packet;
     }
     
     public WindowActionType getActionType()
     {
-        return this.packet.getActionType();
+        return this.getPacket().getActionType();
     }
     public void setActionType(WindowActionType value)
     {
-        this.packet.setActionType(value);
+        this.getPacket().setActionType(value);
     }
     
     public int getSlotIndex()
     {
-        return this.packet.getSlotIndex();
+        return this.getPacket().getSlotIndex();
     }
     public void setSlotIndex(int value)
     {
-        this.packet.setSlotIndex(value);
+        this.getPacket().setSlotIndex(value);
     }
     
     public int getData()
     {
-        return this.packet.getData();
+        return this.getPacket().getData();
     }
     public void setData(int value)
     {
-        this.packet.setData(value);
+        this.getPacket().setData(value);
     }
     
     @Override
@@ -58,15 +56,15 @@ public class EventWindowAction extends EventWindow
         {
             this.register(EventWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction::create, (pe, packet)->pe.sync(()->
+            this.register(new PacketListener<>(PacketC2sWindowAction::create, eventPacket->eventPacket.sync(()->
             {
-                Window window = pe.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=packet.getSyncId())
+                Window window = eventPacket.getPlayer().getCurrentWindow();
+                if(window.getSyncId()!=eventPacket.getPacket().getSyncId())
                 {
-                    pe.setCancelled(true);
+                    eventPacket.setCancelled(true);
                     return;
                 }
-                new EventWindowAction(pe, window, packet).call();
+                new EventWindowAction(eventPacket, window).call();
             })));
         }
     }

@@ -20,6 +20,7 @@ import java.util.zip.ZipFile;
 public class I18n
 {
     public static I18n custom = new I18n(new ConcurrentHashMap<>(), Float.NaN);
+    public static String defaultLanguage = "zh_cn";
     
     public Map<String, Map<String, String>> map;
     public float priority;
@@ -41,7 +42,7 @@ public class I18n
             return null;
         return result.get(key);
     }
-    public static String getTranslationDefault(String language, String key, String def)
+    public static String getTranslationDefault(String language, String key)
     {
         for(I18n i: RegistrarI18n.instance.sortedI18ns)
         {
@@ -49,18 +50,19 @@ public class I18n
             if(result!=null)
                 return result;
         }
-        return def;
-    }
-    public static String getTranslationDefault(String language, String key)
-    {
-        return getTranslationDefault(language, key, key);
+        return null;
     }
     public static String getTranslation(String language, String key, String def)
     {
         String result = custom.get(language, key);
         if(result!=null)
             return result;
-        return getTranslationDefault(language, key, def);
+        result = getTranslationDefault(language, key);
+        if(result!=null)
+            return result;
+        if(!Objects.equals(language, defaultLanguage))
+            return getTranslation(defaultLanguage, key, def);
+        return def;
     }
     public static String getTranslation(String language, String key)
     {

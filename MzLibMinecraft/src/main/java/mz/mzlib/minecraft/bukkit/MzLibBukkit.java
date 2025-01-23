@@ -1,6 +1,8 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MzLibMinecraft;
+import mz.mzlib.minecraft.bukkit.command.RegistrarCommandBukkit;
 import mz.mzlib.minecraft.bukkit.network.packet.ModuleBukkitPacketListener;
 import mz.mzlib.module.MzModule;
 import org.bukkit.Bukkit;
@@ -24,6 +26,8 @@ public class MzLibBukkit extends MzModule
         this.register(ModuleBukkitPacketListener.instance);
         
         this.register(PermissionHelpBukkit.instance);
+        
+        this.register(RegistrarCommandBukkit.instance);
         
         this.register(MzLibMinecraft.instance);
     }

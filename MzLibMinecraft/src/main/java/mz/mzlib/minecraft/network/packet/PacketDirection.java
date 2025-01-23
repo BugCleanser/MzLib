@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.network;
+package mz.mzlib.minecraft.network.packet;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;

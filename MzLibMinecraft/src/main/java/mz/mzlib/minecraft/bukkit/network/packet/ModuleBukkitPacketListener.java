@@ -25,11 +25,20 @@ public class ModuleBukkitPacketListener extends MzModule
     @WrapSameClass(ClientConnection.class)
     public interface NothingClientConnection extends ClientConnectionBukkit, Nothing
     {
+        ThreadLocal<Boolean> rehandling = new ThreadLocal<>();
+        
         @VersionRange(begin=1400, end=1901)
         @NothingInject(wrapperMethodName="sendPacketImmediatelyV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class, Boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketImmediatelyBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901, @LocalVar(3) Boolean flush)
         {
-            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1400_1901(p, callbacksV1901, flush), true))
+            if(rehandling.get()==Boolean.TRUE)
+                return Nothing.notReturn();
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
+            {
+                rehandling.set(true);
+                this.sendPacketImmediatelyV1400_1901(p, callbacksV1901, flush);
+                rehandling.set(false);
+            }))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);
@@ -39,7 +48,14 @@ public class ModuleBukkitPacketListener extends MzModule
         @NothingInject(wrapperMethodName="sendPacketImmediatelyV1901_2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, Boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
         default Wrapper_void sendPacketImmediatelyBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) Boolean flush)
         {
-            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->this.sendPacketImmediatelyV1901_2002(p, callbacksV1901, flush), true))
+            if(rehandling.get()==Boolean.TRUE)
+                return Nothing.notReturn();
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
+            {
+                rehandling.set(true);
+                this.sendPacketImmediatelyV1901_2002(p, callbacksV1901, flush);
+                rehandling.set(false);
+            }))
                 return Nothing.notReturn();
             else
                 return Wrapper_void.create(null);

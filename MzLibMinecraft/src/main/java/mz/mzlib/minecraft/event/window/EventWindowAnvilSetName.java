@@ -1,14 +1,15 @@
 package mz.mzlib.minecraft.event.window;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAnvilNameV1300;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventWindowAnvilSetName extends EventWindow
+public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWindow<P>
 {
-    public EventWindowAnvilSetName(PacketEvent packetEvent)
+    public EventWindowAnvilSetName(PacketEvent.Specialized<P> packetEvent)
     {
         super(packetEvent, packetEvent.getPlayer().getCurrentWindow());
     }
@@ -23,24 +24,22 @@ public abstract class EventWindowAnvilSetName extends EventWindow
         super.call();
     }
     
-    public static class V1300 extends EventWindowAnvilSetName
+    public static class V1300 extends EventWindowAnvilSetName<PacketC2sWindowAnvilNameV1300>
     {
-        public PacketC2sWindowAnvilNameV1300 packet;
-        public V1300(PacketEvent packetEvent, PacketC2sWindowAnvilNameV1300 packet)
+        public V1300(PacketEvent.Specialized<PacketC2sWindowAnvilNameV1300> packetEvent)
         {
             super(packetEvent);
-            this.packet = packet;
         }
         
         @Override
         public String getName()
         {
-            return this.packet.getName();
+            return this.getPacket().getName();
         }
         @Override
         public void setName(String value)
         {
-            this.packet.setName(value);
+            this.getPacket().setName(value);
         }
     }
     
@@ -57,13 +56,7 @@ public abstract class EventWindowAnvilSetName extends EventWindow
                 // TODO
             }
             else
-            {
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, (event, packet)->event.sync(()->
-                {
-                    EventWindowAnvilSetName e = new V1300(event, packet);
-                    e.call();
-                })));
-            }
+                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, eventPacket->eventPacket.sync(()->new V1300(eventPacket).call())));
         }
     }
 }

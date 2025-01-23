@@ -6,6 +6,8 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.asm.AsmUtil;
+import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperObject;
 import net.bytebuddy.agent.ByteBuddyAgent;
 
 import java.io.FileOutputStream;
@@ -21,6 +23,7 @@ import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ClassUtil
 {
@@ -200,6 +203,10 @@ public class ClassUtil
             return Root.getTrusted(declaringClass).findGetter(declaringClass, name, type);
         }
     }
+    public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name) throws NoSuchFieldException, IllegalAccessException
+    {
+        return findFieldGetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
+    }
     
     public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException
     {
@@ -211,6 +218,10 @@ public class ClassUtil
         {
             return Root.getTrusted(declaringClass).findSetter(declaringClass, name, type);
         }
+    }
+    public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name) throws NoSuchFieldException, IllegalAccessException
+    {
+        return findFieldSetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
     }
     
     public static MethodHandle unreflect(Constructor<?> constructor)
@@ -595,5 +606,36 @@ public class ClassUtil
     public static CallSite getFieldSetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
     {
         return new ConstantCallSite(findFieldSetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==1, invokedName, methodType.parameterType(methodType.parameterCount()-1)).asType(invokedType));
+    }
+    
+    public static Class<?> toWrappedClass(Class<?> wrapperClass)
+    {
+        if(WrapperObject.class.isAssignableFrom(wrapperClass))
+            return WrapperClassInfo.get(RuntimeUtil.cast(wrapperClass)).getWrappedClass();
+        return wrapperClass;
+    }
+    public static MethodType getWrappedType(MethodType wrapperType)
+    {
+        return MethodType.methodType(toWrappedClass(wrapperType.returnType()), Arrays.stream(wrapperType.parameterArray()).map(ClassUtil::toWrappedClass).collect(Collectors.toList()));
+    }
+    
+    public static CallSite getConstructorCallSiteWithWrapperType(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+    {
+        return getConstructorCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType));
+    }
+    
+    public static CallSite getMethodCallSiteWithWrapperType(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType, int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+    {
+        return getMethodCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType), isStatic);
+    }
+    
+    public static CallSite getFieldGetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+    {
+        return new ConstantCallSite(findFieldGetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==0, invokedName).asType(invokedType));
+    }
+    
+    public static CallSite getFieldSetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+    {
+        return new ConstantCallSite(findFieldSetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==1, invokedName).asType(invokedType));
     }
 }

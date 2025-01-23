@@ -88,7 +88,7 @@ public class LangEditor extends UIWrittenBook
             homepage.add(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.node"), this.node)));
             homepage.add(Text.literal("\n"));
             homepage.add(Text.literal("\n"));
-            String def = I18n.getTranslationDefault(this.lang, this.node, null);
+            String def = I18n.getTranslationDefault(this.lang, this.node);
             homepage.add(Text.literal(String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default"), (def!=null ? escape(def) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default.null")))).setHoverEvent(TextHoverEvent.showText(Text.literal(def!=null ? String.format(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default.lore"), def) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default.lore.null")))));
             homepage.add(Text.literal("\n"));
             String custom = I18n.custom.get(this.lang, this.node);

@@ -1,11 +1,12 @@
 package mz.mzlib.minecraft.event.player;
 
+import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 
-public class EventPlayerByPacket extends EventPlayer
+public class EventPlayerByPacket<P extends Packet> extends EventPlayer
 {
-    public PacketEvent packetEvent;
-    public EventPlayerByPacket(PacketEvent packetEvent)
+    public PacketEvent.Specialized<P> packetEvent;
+    public EventPlayerByPacket(PacketEvent.Specialized<P> packetEvent)
     {
         super(packetEvent.getPlayer());
         this.packetEvent = packetEvent;
@@ -20,6 +21,11 @@ public class EventPlayerByPacket extends EventPlayer
     public void setCancelled(boolean cancelled)
     {
         this.packetEvent.setCancelled(cancelled);
+    }
+    
+    public P getPacket()
+    {
+        return this.packetEvent.getPacket();
     }
     
     public void sync(Runnable task)

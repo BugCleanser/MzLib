@@ -1,15 +1,14 @@
 package mz.mzlib.minecraft.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.UnpooledByteBufAllocator;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.network.*;
 import mz.mzlib.minecraft.incomprehensible.registry.ByteBufWithRegistriesV2005;
-import mz.mzlib.minecraft.network.ByteBufPacket;
-import mz.mzlib.minecraft.network.PacketDirection;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -49,11 +48,11 @@ public interface Packet extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="write"))
     void writeV_2005(ByteBufPacket byteBuf);
     
-    <T extends Packet> T copy(ByteBuf byteBuf);
+    <T extends Packet> T copy(ByteBufAllocator byteBufAllocator);
     
     @VersionRange(end=1400)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV_1400(ByteBuf byteBuf)
+    default <T extends Packet> T copyV_1400(ByteBufAllocator byteBufAllocator)
     {
         // TODO
         throw new UnsupportedOperationException();
@@ -69,36 +68,44 @@ public interface Packet extends WrapperObject
     
     @VersionRange(begin=1400, end=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV1400_2005(ByteBuf byteBuf) // TODO optimize
+    default <T extends Packet> T copyV1400_2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {
-        ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
-        for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
+        ByteBuf byteBuf=byteBufAllocator.buffer(4096);
+        try
         {
-            PacketDirection direction = PacketDirection.s2c();
-            Integer id = null;
-            try
+            ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
+            for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
             {
-                id = i.getPacketId(direction, this);
-            }
-            catch(NullPointerException ignored)
-            {
-            }
-            if(id==null)
-            {
+                PacketDirection direction = PacketDirection.s2c();
+                Integer id = null;
                 try
                 {
-                    id = i.getPacketId(direction = PacketDirection.c2s(), this);
+                    id = i.getPacketId(direction, this);
                 }
                 catch(NullPointerException ignored)
                 {
                 }
+                if(id==null)
+                {
+                    try
+                    {
+                        id = i.getPacketId(direction = PacketDirection.c2s(), this);
+                    }
+                    catch(NullPointerException ignored)
+                    {
+                    }
+                }
+                if(id==null)
+                    continue;
+                this.writeV_2005(byteBufPacket);
+                return i.decode(direction, id, byteBufPacket).castTo(this::staticCreate);
             }
-            if(id==null)
-                continue;
-            this.writeV_2005(byteBufPacket);
-            return i.decode(direction, id, byteBufPacket).castTo(this::staticCreate);
+            throw new UnsupportedOperationException();
         }
-        throw new UnsupportedOperationException();
+        finally
+        {
+            byteBuf.release();
+        }
     }
     
     List<NetworkPhaseSidedPacketManagerV2005> networkPhaseSidedPacketManagersV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : Arrays.asList //
@@ -116,34 +123,42 @@ public interface Packet extends WrapperObject
     
     @VersionRange(begin=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV2005(ByteBuf byteBuf) // TODO optimize
+    default <T extends Packet> T copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {
-        RuntimeException exception = null;
-        for(NetworkPhaseSidedPacketManagerV2005 i: networkPhaseSidedPacketManagersV2005)
+        ByteBuf byteBuf=byteBufAllocator.buffer(4096);
+        try
         {
-            try
+            RuntimeException exception = null;
+            for(NetworkPhaseSidedPacketManagerV2005 i: networkPhaseSidedPacketManagersV2005)
             {
-                i.getCodec().encode(byteBuf, this.getWrapped());
-                return this.staticCreate(i.getCodec().decode(byteBuf));
+                try
+                {
+                    i.getCodec().encode(byteBuf, this.getWrapped());
+                    return this.staticCreate(i.getCodec().decode(byteBuf));
+                }
+                catch(Throwable e)
+                {
+                    byteBuf.clear();
+                    if(exception==null)
+                        exception = new RuntimeException();
+                    exception.addSuppressed(e);
+                }
             }
-            catch(Throwable e)
-            {
-                byteBuf.clear();
-                if(exception==null)
-                    exception = new RuntimeException();
-                exception.addSuppressed(e);
-            }
+            throw Objects.requireNonNull(exception);
         }
-        throw Objects.requireNonNull(exception);
+        finally
+        {
+            byteBuf.release();
+        }
     }
     
-    static <T extends Packet> T copy(T packet, ByteBuf byteBuf)
+    static <T extends Packet> T copy(T packet, ByteBufAllocator byteBufAllocator)
     {
-        return packet.copy(byteBuf);
+        return packet.copy(byteBufAllocator);
     }
     
     static <T extends Packet> T copy(T packet)
     {
-        return copy(packet, Unpooled.buffer(4096));
+        return copy(packet, UnpooledByteBufAllocator.DEFAULT);
     }
 }

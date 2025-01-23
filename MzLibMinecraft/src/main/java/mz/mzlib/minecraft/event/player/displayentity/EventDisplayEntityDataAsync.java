@@ -9,13 +9,11 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import javax.annotation.Nullable;
 import java.util.function.Function;
 
-public class EventDisplayEntityDataAsync extends EventDisplayEntityAsync
+public class EventDisplayEntityDataAsync extends EventDisplayEntityAsync<PacketS2cEntityData>
 {
-    public PacketS2cEntityData packet;
-    public EventDisplayEntityDataAsync(DisplayEntity displayEntity, PacketEvent packetEvent, PacketS2cEntityData packet)
+    public EventDisplayEntityDataAsync(DisplayEntity displayEntity, PacketEvent.Specialized<PacketS2cEntityData> packetEvent)
     {
         super(displayEntity, packetEvent);
-        this.packet = packet;
     }
     
     @Override
@@ -26,7 +24,7 @@ public class EventDisplayEntityDataAsync extends EventDisplayEntityAsync
     
     public @Nullable Object getNewData0(EntityDataType type)
     {
-        return this.packet.getData0(type);
+        return this.getPacket().getData0(type);
     }
     public <T extends WrapperObject> T getNewData(EntityDataType type, Function<Object, T> wrapperCreator)
     {
@@ -45,14 +43,16 @@ public class EventDisplayEntityDataAsync extends EventDisplayEntityAsync
         return wrapperCreator.apply(this.getData0(type));
     }
     
-    public void removeData(EntityDataType type)
+    public void removeNewData(EntityDataType type)
     {
-        this.packet.removeData(type);
+        this.packetEvent.ensureCopied();
+        this.getPacket().removeData(type);
     }
     
     public void putNewData0(EntityDataType type, Object value)
     {
-        this.packet.putData0(type, value);
+        this.packetEvent.ensureCopied();
+        this.getPacket().putData0(type, value);
     }
     public void putNewData(EntityDataType type, WrapperObject value)
     {

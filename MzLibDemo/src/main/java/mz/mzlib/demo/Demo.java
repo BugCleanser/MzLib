@@ -34,6 +34,7 @@ public class Demo extends MzModule
             this.register(I18n.load(this.jar, "lang", 0));
             this.register(this.command = new Command("mzlibdemo").setNamespace("mzlibdemo").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)));
             
+            this.register(DemoReload.instance);
             this.register(Tictactoe.instance);
             this.register(DemoBookUi.instance);
             this.register(Inventory10Slots.instance);

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.network;
+package mz.mzlib.minecraft.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import mz.mzlib.minecraft.VersionName;

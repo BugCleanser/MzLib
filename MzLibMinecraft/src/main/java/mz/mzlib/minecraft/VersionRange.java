@@ -2,7 +2,6 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
-import mz.mzlib.util.nothing.NothingInjects;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
@@ -11,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
-@ElementSwitcherClass(VersionRange.Switcher.class)
+@ElementSwitcherClass(VersionRange.Handler.class)
 @Repeatable(VersionRanges.class)
 public @interface VersionRange
 {
@@ -25,7 +24,7 @@ public @interface VersionRange
      */
     int end() default Integer.MAX_VALUE;
 
-    class Switcher implements ElementSwitcher
+    class Handler implements ElementSwitcher
     {
         public boolean isEnabled(Annotation annotation, AnnotatedElement element)
         {

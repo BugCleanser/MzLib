@@ -8,8 +8,13 @@ import java.lang.management.ManagementFactory;
 
 public class RuntimeUtil
 {
-    private RuntimeUtil()
+    public static int jvmVersion;
+    static
     {
+        String[] v = System.getProperty("java.version").split("\\.");
+        jvmVersion = Integer.parseInt(v[0]);
+        if(jvmVersion==1)
+            jvmVersion = Integer.parseInt(v[1]);
     }
     
     public static <T> T nul()

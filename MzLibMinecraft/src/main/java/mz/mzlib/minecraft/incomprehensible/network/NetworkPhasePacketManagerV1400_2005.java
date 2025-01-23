@@ -2,8 +2,8 @@ package mz.mzlib.minecraft.incomprehensible.network;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.network.PacketDirection;
-import mz.mzlib.minecraft.network.ByteBufPacket;
+import mz.mzlib.minecraft.network.packet.PacketDirection;
+import mz.mzlib.minecraft.network.packet.ByteBufPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
