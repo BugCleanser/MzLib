@@ -36,7 +36,7 @@ command.setHandler(context->
     if(context.doExecute)
     {
         // do sth. on execute
-        context.sender.sendMessage(Text.literal("Hello World!"));
+        context.source.sendMessage(Text.literal("Hello World!"));
     }
 });
 ```
@@ -101,7 +101,7 @@ public class DemoSubcommand extends MzModule
 
 使用setPermissionChecker方法设置权限检查器
 
-检查sender的权限，如果权限不足，返回一个Text类型的提示，否则返回null
+检查命令源的权限，如果权限不足，返回一个Text类型的提示，否则返回null
 
 可以使用预设的静态方法Command#checkPermission，也可以使用Command#permissionChecker直接构造这个检查器
 

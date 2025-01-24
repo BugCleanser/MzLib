@@ -60,23 +60,23 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
     
     @Override
-    default void schedule(Runnable function)
+    default void schedule(Runnable task)
     {
-        tasks.add(function);
+        tasks.add(task);
     }
     
     StrongRef<Long> tickNumber = new StrongRef<>(0L);
     Queue<Pair<Long, Runnable>> waitingTasks = new PriorityBlockingQueue<>(11, Collections.reverseOrder(Pair.comparingByFirst()));
     
     @Override
-    default void schedule(Runnable function, BasicAwait await)
+    default void schedule(Runnable task, BasicAwait await)
     {
         if(await instanceof SleepTicks)
         {
             if(((SleepTicks)await).ticks==0)
-                this.schedule(function);
+                this.schedule(task);
             else
-                waitingTasks.add(new Pair<>(tickNumber.get()+((SleepTicks)await).ticks, function));
+                waitingTasks.add(new Pair<>(tickNumber.get()+((SleepTicks)await).ticks, task));
         }
         else
             throw new UnsupportedOperationException();
