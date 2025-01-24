@@ -35,11 +35,30 @@ public class Demo extends MzModule
 
 ## 从Bukkit加载主模块
 
-主模块需要被手动加载和卸载
+主模块需要被手动加载和卸载，你有两种方法来实现
 
-一般地，在Bukkit插件onEnable中将其注册到MzLib
+法一：调用load与unload
 
-在onDisable中将其注销
+```java
+public class DemoPlugin extends JavaPlugin
+{
+    @Override
+    public void onEnable()
+    {
+        Demo.instance.load();
+    }
+    
+    @Override
+    public void onDisable()
+    {
+        Demo.instance.unload();
+    }
+}
+```
+
+法二：将其注册到MzLib并手动将其注销
+
+在这种情况下，MzLib作为它的父模块，MzLib卸载时它也会被一起卸载
 
 ```java
 public class DemoPlugin extends JavaPlugin
