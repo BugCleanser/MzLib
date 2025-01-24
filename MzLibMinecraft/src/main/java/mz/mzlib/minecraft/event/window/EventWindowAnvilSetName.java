@@ -56,7 +56,7 @@ public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWin
                 // TODO
             }
             else
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, eventPacket->eventPacket.sync(()->new V1300(eventPacket).call())));
+                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, packetEvent->packetEvent.sync(()->new V1300(packetEvent).call())));
         }
     }
 }

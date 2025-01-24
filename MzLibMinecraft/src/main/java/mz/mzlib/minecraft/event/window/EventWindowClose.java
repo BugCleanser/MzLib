@@ -28,15 +28,15 @@ public class EventWindowClose extends EventWindow<PacketC2sCloseWindow>
         {
             this.register(EventWindowClose.class);
             
-            this.register(new PacketListener<>(PacketC2sCloseWindow::create, eventPacket->eventPacket.sync(()->
+            this.register(new PacketListener<>(PacketC2sCloseWindow::create, packetEvent->packetEvent.sync(()->
             {
-                Window window = eventPacket.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=eventPacket.getPacket().getSyncId())
+                Window window = packetEvent.getPlayer().getCurrentWindow();
+                if(window.getSyncId()!=packetEvent.getPacket().getSyncId())
                 {
-                    eventPacket.setCancelled(true);
+                    packetEvent.setCancelled(true);
                     return;
                 }
-                EventWindowClose event = new EventWindowClose(eventPacket, window);
+                EventWindowClose event = new EventWindowClose(packetEvent, window);
                 event.call();
             })));
         }

@@ -23,9 +23,13 @@ public class EventPlayerByPacket<P extends Packet> extends EventPlayer
         this.packetEvent.setCancelled(cancelled);
     }
     
+    public PacketEvent.Specialized<P> getPacketEvent()
+    {
+        return this.packetEvent;
+    }
     public P getPacket()
     {
-        return this.packetEvent.getPacket();
+        return this.getPacketEvent().getPacket();
     }
     
     public void sync(Runnable task)

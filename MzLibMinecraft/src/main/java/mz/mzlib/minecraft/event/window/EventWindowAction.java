@@ -56,15 +56,15 @@ public class EventWindowAction extends EventWindow<PacketC2sWindowAction>
         {
             this.register(EventWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction::create, eventPacket->eventPacket.sync(()->
+            this.register(new PacketListener<>(PacketC2sWindowAction::create, packetEvent->packetEvent.sync(()->
             {
-                Window window = eventPacket.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=eventPacket.getPacket().getSyncId())
+                Window window = packetEvent.getPlayer().getCurrentWindow();
+                if(window.getSyncId()!=packetEvent.getPacket().getSyncId())
                 {
-                    eventPacket.setCancelled(true);
+                    packetEvent.setCancelled(true);
                     return;
                 }
-                new EventWindowAction(eventPacket, window).call();
+                new EventWindowAction(packetEvent, window).call();
             })));
         }
     }
