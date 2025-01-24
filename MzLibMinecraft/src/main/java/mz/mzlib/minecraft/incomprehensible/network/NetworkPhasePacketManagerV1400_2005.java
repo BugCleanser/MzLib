@@ -26,35 +26,38 @@ public interface NetworkPhasePacketManagerV1400_2005 extends WrapperObject
     {
         return create(null).staticHandshake();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_20590"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_11689", begin=1400, end=1500), @VersionName(name="field_20590", begin=1500)})
     NetworkPhasePacketManagerV1400_2005 staticHandshake();
     
     static NetworkPhasePacketManagerV1400_2005 play()
     {
         return create(null).staticPlay();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_20591"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_11690", begin=1400, end=1500), @VersionName(name="field_20591", begin=1500)})
     NetworkPhasePacketManagerV1400_2005 staticPlay();
     
     static NetworkPhasePacketManagerV1400_2005 query()
     {
         return create(null).staticQuery();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_20592"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_11691", begin=1400, end=1500), @VersionName(name="field_20592", begin=1500)})
     NetworkPhasePacketManagerV1400_2005 staticQuery();
     
     static NetworkPhasePacketManagerV1400_2005 login()
     {
         return create(null).staticLogin();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_20593"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_11688", begin=1400, end=1500), @VersionName(name="field_20593", begin=1500)})
     NetworkPhasePacketManagerV1400_2005 staticLogin();
     
-    // TODO versioning
     @WrapMinecraftMethod(@VersionName(name="getPacketId"))
     Integer getPacketId(PacketDirection direction, Packet packet);
     
-    // TODO versioning
+    @VersionRange(end=1700)
     @WrapMinecraftMethod(@VersionName(name="getPacketHandler"))
-    Packet decode(PacketDirection direction, int packetId, ByteBufPacket byteBuf);
+    Packet newPacketV_1700(PacketDirection direction, int packetId);
+    
+    @VersionRange(begin=1700)
+    @WrapMinecraftMethod(@VersionName(name="getPacketHandler"))
+    Packet decodePacketV1700(PacketDirection direction, int packetId, ByteBufPacket byteBuf);
 }

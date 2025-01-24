@@ -22,9 +22,9 @@ public interface ClientConnectionBukkit extends ClientConnection
         return WrapperObject.create(ClientConnectionBukkit.class, object);
     }
     
-    @VersionRange(begin=1400, end=1901)
-    @WrapMinecraftMethod(@VersionName(name="sendPacket"))
-    void sendPacketImmediatelyV1400_1901(Packet packet, GenericFutureListener<?> callbacks, Boolean flush);
+    @VersionRange(begin=1701, end=1901)
+    @WrapMinecraftMethod(@VersionName(name="writePacket"))
+    void sendPacketImmediatelyV1701_1901(Packet packet, GenericFutureListener<?> callbacks, Boolean flush);
     
     @VersionRange(begin=1901, end=2002)
     @WrapMinecraftMethod(@VersionName(name="sendPacket"))

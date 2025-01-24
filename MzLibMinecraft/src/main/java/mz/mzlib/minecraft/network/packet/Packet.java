@@ -44,6 +44,10 @@ public interface Packet extends WrapperObject
         return this.isInstanceOf(PacketBundleV1904::create);
     }
     
+    @VersionRange(end=1700)
+    @WrapMinecraftMethod(@VersionName(name="read"))
+    void readV_1700(ByteBufPacket byteBuf);
+    
     @VersionRange(end=2005)
     @WrapMinecraftMethod(@VersionName(name="write"))
     void writeV_2005(ByteBufPacket byteBuf);
@@ -66,11 +70,11 @@ public interface Packet extends WrapperObject
                     NetworkPhasePacketManagerV1400_2005.query() //
             ) : null;
     
-    @VersionRange(begin=1400, end=2005)
+    @VersionRange(begin=1400, end=1700)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV1400_2005(ByteBufAllocator byteBufAllocator) // TODO optimize
+    default <T extends Packet> T copyV1400_1700(ByteBufAllocator byteBufAllocator)
     {
-        ByteBuf byteBuf=byteBufAllocator.buffer(4096);
+        ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
         {
             ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
@@ -98,7 +102,51 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                return i.decode(direction, id, byteBufPacket).castTo(this::staticCreate);
+                T result = i.newPacketV_1700(direction, id).castTo(this::staticCreate);
+                result.readV_1700(byteBufPacket);
+                return result;
+            }
+            throw new UnsupportedOperationException();
+        }
+        finally
+        {
+            byteBuf.release();
+        }
+    }
+    
+    @VersionRange(begin=1700, end=2005)
+    @SpecificImpl("copy")
+    default <T extends Packet> T copyV1700_2005(ByteBufAllocator byteBufAllocator)
+    {
+        ByteBuf byteBuf = byteBufAllocator.buffer(4096);
+        try
+        {
+            ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
+            for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
+            {
+                PacketDirection direction = PacketDirection.s2c();
+                Integer id = null;
+                try
+                {
+                    id = i.getPacketId(direction, this);
+                }
+                catch(NullPointerException ignored)
+                {
+                }
+                if(id==null)
+                {
+                    try
+                    {
+                        id = i.getPacketId(direction = PacketDirection.c2s(), this);
+                    }
+                    catch(NullPointerException ignored)
+                    {
+                    }
+                }
+                if(id==null)
+                    continue;
+                this.writeV_2005(byteBufPacket);
+                return i.decodePacketV1700(direction, id, byteBufPacket).castTo(this::staticCreate);
             }
             throw new UnsupportedOperationException();
         }
@@ -125,7 +173,7 @@ public interface Packet extends WrapperObject
     @SpecificImpl("copy")
     default <T extends Packet> T copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {
-        ByteBuf byteBuf=byteBufAllocator.buffer(4096);
+        ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
         {
             RuntimeException exception = null;

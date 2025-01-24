@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -85,7 +86,7 @@ public class I18n
         if(fileName.endsWith(".lang"))
             return new MapEntry<>(fileName.substring(0, fileName.length()-".lang".length()), load(IOUtil.readProperties(is)));
         else if(fileName.endsWith(".json"))
-            return new MapEntry<>(fileName.substring(0, fileName.length()-".json".length()), load(new Gson().fromJson(new InputStreamReader(is), JsonObject.class)));
+            return new MapEntry<>(fileName.substring(0, fileName.length()-".json".length()), load(new Gson().fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), JsonObject.class)));
         else
             return null;
     }

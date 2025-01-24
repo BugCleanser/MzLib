@@ -6,11 +6,9 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.async.AsyncFunction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executor;
 
 public interface Tester<C extends TesterContext>
 {

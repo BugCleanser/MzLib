@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -60,6 +61,17 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
         else
             return Window.create(null);
     }
+    
+    void sendMessage(Text message);
+    @VersionRange(begin=1600)
+    @SpecificImpl("sendMessage")
+    default void sendMessageV1600(Text message)
+    {
+        this.sendMessageV1600(message, false);
+    }
+    @VersionRange(begin=1600)
+    @WrapMinecraftMethod(@VersionName(name="sendMessage"))
+    void sendMessageV1600(Text message, boolean actionBar);
     
     @WrapMinecraftMethod({@VersionName(name="openHandledScreen", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600)})
     OptionalInt openWindow(WindowFactory windowFactory);

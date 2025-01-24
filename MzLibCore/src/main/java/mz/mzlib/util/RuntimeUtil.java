@@ -5,16 +5,23 @@ import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.InvocationTargetException;
 
 public class RuntimeUtil
 {
     public static int jvmVersion;
     static
     {
-        String[] v = System.getProperty("java.version").split("\\.");
-        jvmVersion = Integer.parseInt(v[0]);
-        if(jvmVersion==1)
-            jvmVersion = Integer.parseInt(v[1]);
+        try
+        {
+            //noinspection JavaReflectionMemberAccess
+            Object v = Runtime.class.getMethod("version").invoke(null);
+            jvmVersion = (int)v.getClass().getMethod("major").invoke(v);
+        }
+        catch(NoSuchMethodException|IllegalAccessException|InvocationTargetException ignored)
+        {
+            jvmVersion = 8;
+        }
     }
     
     public static <T> T nul()
