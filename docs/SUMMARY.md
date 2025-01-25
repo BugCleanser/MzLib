@@ -14,3 +14,4 @@
   - [使用和创建包装类](./advanced/wrapper.md)
   - [Compound类](./advanced/compound.md)
   - [窗口](./advanced/window.md)
+  - [异步函数](./advanced/async_function.md)

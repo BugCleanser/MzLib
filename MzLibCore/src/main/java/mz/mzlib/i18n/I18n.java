@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -70,6 +71,20 @@ public class I18n
         return getTranslation(language, key, key);
     }
     
+    public static String getTranslationWithArgs(String language, String key, Map<String, Object> args)
+    {
+        String result = getTranslation(language, key, null);
+        if(result==null)
+            return key+args;
+        try
+        {
+            return new Formatting(result, args).parse();
+        }
+        catch(ParseException e)
+        {
+            return "[Error]"+key+"="+e.getMessage()+":"+e.getErrorOffset()+(e.getCause()!=null ? e.getCause().getMessage() : "")+args;
+        }
+    }
     
     public static Map<String, String> load(Properties properties)
     {

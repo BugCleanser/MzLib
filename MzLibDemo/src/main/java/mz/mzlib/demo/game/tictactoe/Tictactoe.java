@@ -55,8 +55,8 @@ public class Tictactoe extends MzModule
         {
             super(UnionWindowType.CRAFTING, 10);
             
-            PLAYER = new ItemStackBuilder("structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).build();
-            AI = new ItemStackBuilder("barrier").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).build();
+            PLAYER = new ItemStackBuilder("structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).get();
+            AI = new ItemStackBuilder("barrier").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).get();
             
             this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i<9; i++)

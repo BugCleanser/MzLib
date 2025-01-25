@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class MapperCli
 {
-    public static CliVersion version = new CliVersion("1.21.1");
+    public static CliVersion version = new CliVersion("1.14.4");
     //	public static int getVersion()
 //	{
 //		return version.version;
@@ -114,8 +114,8 @@ public class MapperCli
         }
         result.add(platform.get().reverse());
         mappingsY2P = new MappingsPipe(result);
-        System.out.println(mappingsY2P.mapMethod("net.minecraft.server.command.CommandOutput", new MappingMethod("sendSystemMessage", new String[]{"Lnet/minecraft/text/Text;", "Ljava/util/UUID;"})));
-        System.out.println(mappingsP2Y.mapMethod("net.minecraft.network.chat.TextColor", new MappingMethod("withUnderlined", new String[]{"Ljava/lang/Boolean;"})));
+        System.out.println(mappingsY2P.mapMethod("net.minecraft.network.ClientConnection", new MappingMethod("sendImmediately", new String[]{"Lnet/minecraft/network/Packet;", "Lio/netty/util/concurrent/GenericFutureListener;"})));
+        System.out.println(mappingsP2Y.mapMethod("net.minecraft.network.ClientConnection", new MappingMethod("sendImmediately", new String[]{"Lnet.minecraft.network.Packet;", "Lio.netty.util.concurrent.GenericFutureListener;"})));
         System.out.println("Input a Class Name:");
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNext())

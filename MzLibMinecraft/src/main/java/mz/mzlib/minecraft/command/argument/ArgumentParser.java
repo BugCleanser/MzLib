@@ -4,6 +4,8 @@ import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.text.Text;
 
+import java.util.Collections;
+
 public abstract class ArgumentParser<T>
 {
     public String name;
@@ -27,7 +29,7 @@ public abstract class ArgumentParser<T>
         }
         catch(Throwable e)
         {
-            context.addArgError(Text.literal(String.format(I18nMinecraft.getTranslation(context.source, "mzlib.command.arg.error"), e.getMessage())));
+            context.addArgError(Text.literal(I18nMinecraft.getTranslationWithArgs(context.source, "mzlib.command.arg.error", Collections.singletonMap("msg", e.getMessage()))));
             return null;
         }
     }

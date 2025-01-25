@@ -10,7 +10,7 @@ public class ItemStackBuilder
     public ItemStack result;
     public ItemStackBuilder(ItemStack itemStack)
     {
-        this.result = itemStack.copy();
+        this.result = itemStack;
     }
     public ItemStackBuilder(Item item, int count)
     {
@@ -51,6 +51,12 @@ public class ItemStackBuilder
         return this;
     }
     
+    public ItemStack get()
+    {
+        return result;
+    }
+    
+    @Deprecated
     public ItemStack build()
     {
         return result.copy();

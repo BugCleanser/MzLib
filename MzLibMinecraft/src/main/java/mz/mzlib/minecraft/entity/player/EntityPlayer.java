@@ -45,6 +45,7 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     }
     
     @VersionRange(end=1600)
+    @WrapMinecraftMethod(@VersionName(name="sendChatMessage"))
     void sendMessageV_1600(Text message, MessageTypeV_1900 type);
     
     void sendPacket(Packet packet);

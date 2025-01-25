@@ -12,6 +12,8 @@ import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 
+import java.util.Collections;
+
 public class CommandGiveNbt extends MzModule
 {
     public static CommandGiveNbt instance = new CommandGiveNbt();
@@ -59,7 +61,7 @@ public class CommandGiveNbt extends MzModule
             catch(Throwable e)
             {
                 context.successful = false;
-                context.getSource().sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.givenbt.error.illegal_item"), e.getMessage())));
+                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", e.getMessage()))));
             }
         }));
     }

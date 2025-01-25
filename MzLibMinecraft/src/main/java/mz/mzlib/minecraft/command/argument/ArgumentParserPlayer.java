@@ -6,6 +6,8 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.text.Text;
 
+import java.util.Collections;
+
 public class ArgumentParserPlayer extends ArgumentParser<EntityPlayer>
 {
     public ArgumentParserPlayer(String name)
@@ -25,7 +27,7 @@ public class ArgumentParserPlayer extends ArgumentParser<EntityPlayer>
             return null;
         EntityPlayer result = MinecraftServer.instance.getPlayerManager().getPlayer(name);
         if(!result.isPresent())
-            context.addArgError(Text.literal(String.format(I18nMinecraft.getTranslation(context.source, "mzlib.command.arg.player.not_found"), name)));
+            context.addArgError(Text.literal(I18nMinecraft.getTranslationWithArgs(context.source, "mzlib.command.arg.player.not_found", Collections.singletonMap("name", name))));
         return result;
     }
 }

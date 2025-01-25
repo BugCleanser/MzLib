@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.entity.display;
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.EventPlayerJoin;
 import mz.mzlib.minecraft.event.player.EventPlayerQuit;
@@ -13,6 +14,7 @@ import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityDestroy;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntitySpawn;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 
 import java.util.Map;

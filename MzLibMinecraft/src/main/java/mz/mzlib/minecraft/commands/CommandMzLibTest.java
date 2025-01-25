@@ -14,6 +14,7 @@ import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
 
+import java.util.Collections;
 import java.util.concurrent.ForkJoinPool;
 
 public class CommandMzLibTest extends MzModule
@@ -42,7 +43,7 @@ public class CommandMzLibTest extends MzModule
             {
                 level = new ArgumentParserInt("level", 0, 1, 2).handle(context);
                 if(context.argsReader.hasNext())
-                    context.successful=false;
+                    context.successful = false;
                 if(!context.successful)
                     return;
                 if(!context.doExecute)
@@ -75,7 +76,7 @@ public class CommandMzLibTest extends MzModule
                     if(r.isEmpty())
                         context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.success")));
                     else
-                        context.getSource().sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.failure"), r.size())));
+                        context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.mzlib.test.failure", Collections.singletonMap("num", r.size()))));
                 });
             });
         })));

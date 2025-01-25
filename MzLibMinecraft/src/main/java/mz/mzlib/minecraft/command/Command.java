@@ -5,9 +5,11 @@ import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
+import mz.mzlib.util.MapBuilder;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -86,7 +88,7 @@ public class Command
     {
         if(PermissionHelp.instance.check(source, permission))
             return null;
-        return Text.literal(String.format(I18nMinecraft.getTranslation(source, "mzlib.command.permission.lack"), permission.id));
+        return Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.permission.lack", Collections.singletonMap("permission", permission.id)));
     }
     
     public static Function<CommandSource, Text> permissionChecker(Permission permission)
@@ -166,11 +168,11 @@ public class Command
             for(Text e: context.getAllArgErrors())
                 source.sendMessage(e);
             if(!this.children.isEmpty())
-                source.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(source, "mzlib.command.usage.subcommands"), command, this.children.stream().map(i->String.format(I18nMinecraft.getTranslation(source, "mzlib.command.usage.subcommands.subcommand"), i.name)).collect(Collectors.joining(I18nMinecraft.getTranslation(source, "mzlib.command.usage.subcommands.subcommand.delimiter"))))));
+                source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage.subcommands", MapBuilder.hashMap().put("command", command).put("subcommands", this.children.stream().map(c->c.name).collect(Collectors.toList())).get())));
             if(this.handler!=null)
                 for(List<String> argNames: context.getAllArgNames())
                 {
-                    source.sendMessage(Text.literal(String.format(I18nMinecraft.getTranslation(source, "mzlib.command.usage"), command, argNames.stream().map(i->String.format(I18nMinecraft.getTranslation(source, "mzlib.command.usage.arg"), i)).collect(Collectors.joining(I18nMinecraft.getTranslation(source, "mzlib.command.usage.arg.delimiter"))))));
+                    source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage", MapBuilder.hashMap().put("command", command).put("args", argNames).get())));
                 }
         }
     }

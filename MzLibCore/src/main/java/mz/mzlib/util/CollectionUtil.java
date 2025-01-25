@@ -1,6 +1,7 @@
 package mz.mzlib.util;
 
 import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,6 +56,13 @@ public class CollectionUtil
         return StreamSupport.stream(elements.spliterator(), false).collect(Collectors.toList());
     }
     
+    public static <K, V> HashMap<K, V> newHashMap(K key, V value)
+    {
+        HashMap<K, V> result = new HashMap<>();
+        result.put(key, value);
+        return result;
+    }
+    
     @SafeVarargs
     public static <T, C extends Collection<T>> C addAll(C collection, T... elements)
     {
@@ -79,6 +87,18 @@ public class CollectionUtil
             }
         }
         result.add(current);
+        return result;
+    }
+    
+    public static Object[] toObjectArray(Object array)
+    {
+        if(array instanceof Object[])
+            return (Object[])array;
+        Object[] result = (Object[])Array.newInstance(ClassUtil.getWrapper(array.getClass().getComponentType()), Array.getLength(array));
+        for(int i = 0; i<result.length; i++)
+        {
+            result[i] = Array.get(array, i);
+        }
         return result;
     }
 }

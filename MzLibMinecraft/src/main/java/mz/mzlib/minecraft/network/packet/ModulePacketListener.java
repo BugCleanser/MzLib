@@ -124,12 +124,14 @@ public class ModulePacketListener extends MzModule
         default Wrapper_void channelRead0Begin(@LocalVar(2) Packet packet)
         {
             if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
                 return Nothing.notReturn();
+            }
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, msg->
             {
                 rehandling.set(true);
                 this.channelRead0(null, msg);
-                rehandling.set(false);
             }))
                 return Nothing.notReturn();
             else
@@ -143,12 +145,14 @@ public class ModulePacketListener extends MzModule
         default Wrapper_void sendPacketImmediatelyBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901)
         {
             if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
                 return Nothing.notReturn();
+            }
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
                 this.sendPacketImmediatelyV1400_1901(p, callbacksV1901);
-                rehandling.set(false);
             }))
                 return Nothing.notReturn();
             else
@@ -160,12 +164,14 @@ public class ModulePacketListener extends MzModule
         default Wrapper_void sendPacketImmediatelyBeginV1901_2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901)
         {
             if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
                 return Nothing.notReturn();
+            }
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
                 this.sendPacketImmediatelyV1901_2002(p, callbacksV1901);
-                rehandling.set(false);
             }))
                 return Nothing.notReturn();
             else
@@ -177,12 +183,14 @@ public class ModulePacketListener extends MzModule
         default Wrapper_void sendPacketImmediatelyBeginV2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
         {
             if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
                 return Nothing.notReturn();
+            }
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
                 this.sendPacketImmediatelyV2002(p, callbacksV1901, flush);
-                rehandling.set(false);
             }))
                 return Nothing.notReturn();
             else
@@ -199,12 +207,14 @@ public class ModulePacketListener extends MzModule
         default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
         {
             if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
                 return Nothing.notReturn();
+            }
             if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
                 this.sendPacketV_1400(p);
-                rehandling.set(false);
             }))
                 return Nothing.notReturn();
             else

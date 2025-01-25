@@ -43,7 +43,7 @@ public abstract class UIWrittenBook implements UI
     @Override
     public void open(EntityPlayer player)
     {
-        ItemStack book = new ItemStackBuilder("written_book").build();
+        ItemStack book = new ItemStackBuilder("written_book").get();
         ItemWrittenBook.setTitle(book, "UIWrittenBook");
         ItemWrittenBook.setAuthor(book, "UIWrittenBook");
         ItemWrittenBook.setPages(book, this.getPages(player));
