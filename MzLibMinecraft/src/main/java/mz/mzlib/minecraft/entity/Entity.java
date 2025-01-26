@@ -33,12 +33,26 @@ public interface Entity extends WrapperObject
         return create(null).staticDataTypeCustomName();
     }
     
-    // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
     EntityDataType staticDataTypeCustomName();
     
-    // FIXME: V_1300
     static Object newDataValue0CustomName(Text name)
+    {
+        return create(null).staticNewDataValue0CustomName(name);
+    }
+    
+    Object staticNewDataValue0CustomName(Text name);
+    
+    @SpecificImpl("staticNewDataValue0CustomName")
+    @VersionRange(end=1300)
+    default Object staticNewDataValue0CustomNameV_1300(Text name)
+    {
+        return name.toLiteral();
+    }
+    
+    @SpecificImpl("staticNewDataValue0CustomName")
+    @VersionRange(begin=1300)
+    default Object staticNewDataValue0CustomNameV1300(Text name)
     {
         return Optional.ofNullable(name.getWrapped());
     }
@@ -51,7 +65,6 @@ public interface Entity extends WrapperObject
         return create(null).staticDataTypeCustomNameVisible();
     }
     
-    // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
     EntityDataType staticDataTypeCustomNameVisible();
     

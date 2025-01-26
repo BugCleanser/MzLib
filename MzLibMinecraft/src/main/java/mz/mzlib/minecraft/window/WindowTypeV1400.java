@@ -2,13 +2,15 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.container.ContainerType", begin=1400, end=1600), @VersionName(name="net.minecraft.screen.ScreenHandlerType", begin=1600)})
+@VersionRange(begin=1400)
+@WrapMinecraftClass({@VersionName(name="net.minecraft.container.ContainerType", end=1600), @VersionName(name="net.minecraft.screen.ScreenHandlerType", begin=1600)})
 public interface WindowTypeV1400 extends WrapperObject
 {
     @WrapperCreator

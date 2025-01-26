@@ -20,28 +20,33 @@ public interface WindowChest extends WrapperObject, Window
         return WrapperObject.create(WindowChest.class, wrapped);
     }
     
-    WindowChest staticNewInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
+    WindowChest staticNewInstance(UnionWindowType type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
     @WrapConstructor
     @VersionRange(end=1400)
     WindowChest staticNewInstanceV_1400(Inventory inventoryPlayer, Inventory inventory, AbstractEntityPlayer player);
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1400)
-    default WindowChest staticNewInstanceV_1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    default WindowChest staticNewInstanceV_1400(UnionWindowType type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
         if(rows*9!=inventory.size())
             throw new IllegalArgumentException();
         return staticNewInstanceV_1400(inventoryPlayer, inventory, inventoryPlayer.getPlayer());
     }
+    @VersionRange(begin=1400)
     @WrapConstructor
+    WindowChest staticNewInstanceV1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1400)
-    WindowChest staticNewInstanceV1400(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows);
-    static WindowChest newInstance(WindowTypeV1400 type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    default WindowChest staticNewInstanceV1400(UnionWindowType type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
+    {
+        return this.staticNewInstanceV1400(type.typeV1400, syncId, inventoryPlayer, inventory, rows);
+    }
+    static WindowChest newInstance(UnionWindowType type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
         return create(null).staticNewInstance(type, syncId, inventoryPlayer, inventory, rows);
     }
     static WindowChest newInstance(int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
-        return newInstance(UnionWindowType.generic9x(rows).typeV1400, syncId, inventoryPlayer, inventory, rows);
+        return newInstance(UnionWindowType.generic9x(rows), syncId, inventoryPlayer, inventory, rows);
     }
 }

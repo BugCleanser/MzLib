@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -90,7 +91,8 @@ public interface WindowSlot extends WrapperObject
     /**
      * @return the item stack in the parameters
      */
-    @WrapMinecraftMethod(@VersionName(name="onTakeItem", end=1700))
+    @VersionRange(end=1700)
+    @WrapMinecraftMethod({@VersionName(name="method_3298", end=1400), @VersionName(name="onTakeItem", begin=1400)})
     ItemStack onTakeV_1700(AbstractEntityPlayer player, ItemStack itemStack);
     @WrapMinecraftMethod(@VersionName(name="onTakeItem", begin=1700))
     void onTakeV1700(AbstractEntityPlayer player, ItemStack itemStack);

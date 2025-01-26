@@ -10,13 +10,13 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.UUID;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.class_3893", end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
 public interface CommandOutput extends WrapperObject
 {
     void sendMessage(Text msg);
     
     @SpecificImpl("sendMessage")
-    @WrapMinecraftMethod({@VersionName(name="sendMessage", end=1600), @VersionName(name="sendMessage", begin=1900)})
+    @WrapMinecraftMethod({@VersionName(name="method_5505", end=1400), @VersionName(name="sendMessage", begin=1400, end=1600), @VersionName(name="sendMessage", begin=1900)})
     void sendMessageV_1600__1900(Text msg);
     
     @WrapMinecraftMethod(@VersionName(name="sendSystemMessage", begin=1600, end=1900))

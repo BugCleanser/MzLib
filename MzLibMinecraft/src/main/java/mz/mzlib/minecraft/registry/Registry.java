@@ -19,7 +19,7 @@ public interface Registry extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getId", begin=1300))
     Identifier getIdV1300(WrapperObject value);
     
-    @WrapMinecraftMethod(@VersionName(name="get"))
+    @WrapMinecraftMethod({@VersionName(name="getByIdentifier", end=1400), @VersionName(name="get", begin=1400)})
     WrapperObject get(Identifier id);
     
     default WrapperObject get(int rawId)

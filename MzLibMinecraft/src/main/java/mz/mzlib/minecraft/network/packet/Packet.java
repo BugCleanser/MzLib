@@ -54,31 +54,23 @@ public interface Packet extends WrapperObject
     
     <T extends Packet> T copy(ByteBufAllocator byteBufAllocator);
     
-    @VersionRange(end=1400)
-    @SpecificImpl("copy")
-    default <T extends Packet> T copyV_1400(ByteBufAllocator byteBufAllocator)
-    {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
-    
-    List<NetworkPhasePacketManagerV1400_2005> networkPhasePacketManagersV1400_2005 = MinecraftPlatform.instance.getVersion()>=1400 && MinecraftPlatform.instance.getVersion()<2005 ? Arrays.asList //
+    List<NetworkPhasePacketManagerV_2005> networkPhasePacketManagersV_2005 = MinecraftPlatform.instance.getVersion()<2005 ? Arrays.asList //
             ( //
-                    NetworkPhasePacketManagerV1400_2005.play(), //
-                    NetworkPhasePacketManagerV1400_2005.handshake(), //
-                    NetworkPhasePacketManagerV1400_2005.login(), //
-                    NetworkPhasePacketManagerV1400_2005.query() //
+                    NetworkPhasePacketManagerV_2005.play(), //
+                    NetworkPhasePacketManagerV_2005.handshake(), //
+                    NetworkPhasePacketManagerV_2005.login(), //
+                    NetworkPhasePacketManagerV_2005.query() //
             ) : null;
     
-    @VersionRange(begin=1400, end=1700)
+    @VersionRange(end=1700)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV1400_1700(ByteBufAllocator byteBufAllocator)
+    default <T extends Packet> T copyV_1700(ByteBufAllocator byteBufAllocator)
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
         {
             ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
-            for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
+            for(NetworkPhasePacketManagerV_2005 i: networkPhasePacketManagersV_2005)
             {
                 PacketDirection direction = PacketDirection.s2c();
                 Integer id = null;
@@ -102,7 +94,7 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                T result = i.newPacketV_1700(direction, id).castTo(this::staticCreate);
+                T result = i.createPacketV_1700(direction, id).castTo(this::staticCreate);
                 result.readV_1700(byteBufPacket);
                 return result;
             }
@@ -122,7 +114,7 @@ public interface Packet extends WrapperObject
         try
         {
             ByteBufPacket byteBufPacket = ByteBufPacket.newInstance(byteBuf);
-            for(NetworkPhasePacketManagerV1400_2005 i: networkPhasePacketManagersV1400_2005)
+            for(NetworkPhasePacketManagerV_2005 i: networkPhasePacketManagersV_2005)
             {
                 PacketDirection direction = PacketDirection.s2c();
                 Integer id = null;

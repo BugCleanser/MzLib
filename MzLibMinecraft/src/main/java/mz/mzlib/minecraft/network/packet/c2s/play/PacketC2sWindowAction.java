@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", end=1400), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", begin=1400, end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)})
 public interface PacketC2sWindowAction extends Packet
 {
     @WrapperCreator
@@ -24,37 +24,41 @@ public interface PacketC2sWindowAction extends Packet
     
     WindowActionType getActionType();
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="actionType"))
-    int getActionTypeIdV_1400();
+    @VersionRange(end=1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name="actionType", begin=1400))
+    int getActionTypeIdV_1300();
     
     @SpecificImpl("getActionType")
-    @VersionRange(end=1400)
-    default WindowActionType getActionTypeV_1400()
+    @VersionRange(end=1300)
+    default WindowActionType getActionTypeV_1300()
     {
         // TODO
         throw new UnsupportedOperationException();
     }
     
     @SpecificImpl("getActionType")
-    @WrapMinecraftFieldAccessor(@VersionName(name="actionType", begin=1400))
-    WindowActionType getActionTypeV1400();
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_13798", end=1400), @VersionName(name="actionType", begin=1400)})
+    WindowActionType getActionTypeV1300();
     
     void setActionType(WindowActionType value);
     
+    @VersionRange(end=1300)
     @WrapMinecraftFieldAccessor(@VersionName(name="actionType"))
-    void setActionTypeIdV_1400(int value);
+    void setActionTypeIdV_1300(int value);
     
     @SpecificImpl("setActionType")
-    @VersionRange(end=1400)
-    default void setActionTypeV_1400(WindowActionType value)
+    @VersionRange(end=1300)
+    default void setActionTypeV_1300(WindowActionType value)
     {
         // TODO
         throw new UnsupportedOperationException();
     }
     
     @SpecificImpl("setActionType")
-    @WrapMinecraftFieldAccessor(@VersionName(name="actionType", begin=1400))
-    void setActionTypeV1400(WindowActionType value);
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_13798", end=1400), @VersionName(name="actionType", begin=1400)})
+    void setActionTypeV1300(WindowActionType value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="slot"))
     int getSlotIndex();

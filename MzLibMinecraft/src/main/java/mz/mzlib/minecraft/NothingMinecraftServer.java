@@ -12,9 +12,9 @@ import java.util.function.BooleanSupplier;
 @WrapSameClass(MinecraftServer.class)
 public interface NothingMinecraftServer extends MinecraftServer, Nothing
 {
-    @VersionRange(end=1400)
-    @NothingInject(wrapperMethodName="tickV_1400", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-    default Wrapper_void tickBeforeV_1400()
+    @VersionRange(end=1300)
+    @NothingInject(wrapperMethodName="tickV_1300", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+    default Wrapper_void tickBeforeV_1300()
     {
         while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).first-tickNumber.get()<=0)
         {
@@ -42,10 +42,10 @@ public interface NothingMinecraftServer extends MinecraftServer, Nothing
         return Nothing.notReturn();
     }
     
-    @VersionRange(begin=1400)
-    @NothingInject(wrapperMethodName="tickV1400", wrapperMethodParams={BooleanSupplier.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-    default Wrapper_void tickBeforeV1400()
+    @VersionRange(begin=1300)
+    @NothingInject(wrapperMethodName="tickV1300", wrapperMethodParams={BooleanSupplier.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+    default Wrapper_void tickBeforeV1300()
     {
-        return tickBeforeV_1400();
+        return tickBeforeV_1300();
     }
 }

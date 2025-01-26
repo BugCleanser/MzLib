@@ -2,8 +2,8 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.command.CommandManager;
 import mz.mzlib.minecraft.command.CommandOutput;
-import mz.mzlib.minecraft.datafixer.DataFixerV1400;
-import mz.mzlib.minecraft.datafixer.DataUpdaterV_1400;
+import mz.mzlib.minecraft.datafixer.DataFixerV1300;
+import mz.mzlib.minecraft.datafixer.DataUpdaterV_1300;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -48,14 +48,16 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name="getPlayerManager"))
     PlayerManager getPlayerManager();
     
-    @WrapMinecraftMethod(@VersionName(name="getCommandManager"))
+    @WrapMinecraftMethod({@VersionName(name="method_2971", end=1400), @VersionName(name="getCommandManager", begin=1400)})
     CommandManager getCommandManager();
     
-    @WrapMinecraftMethod(@VersionName(name="tick", end=1400))
-    void tickV_1400();
+    @VersionRange(end=1300)
+    @WrapMinecraftMethod(@VersionName(name="tick"))
+    void tickV_1300();
     
-    @WrapMinecraftMethod(@VersionName(name="tick", begin=1400))
-    void tickV1400(BooleanSupplier booleanSupplier);
+    @VersionRange(begin=1300)
+    @WrapMinecraftMethod({@VersionName(name="method_20324", end=1400), @VersionName(name="tick", begin=1400)})
+    void tickV1300(BooleanSupplier booleanSupplier);
     
     Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
     
@@ -82,11 +84,13 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
             throw new UnsupportedOperationException();
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", end=1400))
-    DataUpdaterV_1400 getDataUpdaterV_1400();
+    @VersionRange(end=1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name="field_21612"))
+    DataUpdaterV_1300 getDataUpdaterV_1300();
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer", begin=1400))
-    DataFixerV1400 getDataUpdaterV1400();
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_21612", end=1400), @VersionName(name="dataFixer", begin=1400)})
+    DataFixerV1300 getDataUpdaterV1300();
     
     /**
      * 1.12.2: 1343
@@ -99,10 +103,23 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     int getDataVersion();
     
     @SpecificImpl("getDataVersion")
-    @VersionRange(end=1400)
-    default int getDataVersionV_1400()
+    @VersionRange(end=1202)
+    @VersionRange(begin=1300, end=1302)
+    default int getDataVersionUnsupported()
     {
-        return this.getDataUpdaterV_1400().getDataVersion();
+        throw new UnsupportedOperationException();
+    }
+    @SpecificImpl("getDataVersion")
+    @VersionRange(begin=1202, end=1300)
+    default int getDataVersionV1202_1300()
+    {
+        return 1343;
+    }
+    @SpecificImpl("getDataVersion")
+    @VersionRange(begin=1302, end=1400)
+    default int getDataVersionV1302_1400()
+    {
+        return 1631;
     }
     
     @SpecificImpl("getDataVersion")

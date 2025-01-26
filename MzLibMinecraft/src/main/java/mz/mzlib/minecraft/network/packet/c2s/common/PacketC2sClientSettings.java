@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
  * nameV_2002: net.minecraft.network.packet.c2s.play.ClientSettingsC2SPacket
  * nameV2002: net.minecraft.network.packet.c2s.common.ClientOptionsC2SPacket
  */
-@WrapMinecraftClass({@VersionName(name="net.minecraft.class_2056", end=1400), @VersionName(name="net.minecraft.class_2803", begin=1400)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClientSettingsC2SPacket", end=1400), @VersionName(name="net.minecraft.class_2803", begin=1400)})
 public interface PacketC2sClientSettings extends WrapperObject, Packet
 {
     @WrapperCreator
@@ -29,7 +29,7 @@ public interface PacketC2sClientSettings extends WrapperObject, Packet
     String getLanguage();
     @SpecificImpl("getLanguage")
     @VersionRange(end=2002)
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_8770", end=1400), @VersionName(name="field_12777", begin=1400, end=1800), @VersionName(name="comp_266", begin=1800)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="language", end=1400), @VersionName(name="field_12777", begin=1400, end=1800), @VersionName(name="comp_266", begin=1800)})
     String getLanguageV_2002();
     @SpecificImpl("getLanguage")
     @VersionRange(begin=2002)

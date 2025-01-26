@@ -14,7 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
 
-// TODO
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.data.DataTracker"))
 public interface EntityDataTracker extends WrapperObject
 {
@@ -32,7 +31,7 @@ public interface EntityDataTracker extends WrapperObject
     @WrapConstructor
     EntityDataTracker staticNewInstanceV_1903(Entity entity);
     
-    @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name=@VersionName(name="Entry"))
+    @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name={@VersionName(name="DataEntry", end=1400), @VersionName(name="Entry", begin=1400)})
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
     {
         @WrapperCreator
@@ -55,20 +54,20 @@ public interface EntityDataTracker extends WrapperObject
         Entry staticNewInstance0(EntityDataType type, Object value);
         
         @Override
-        @WrapMinecraftMethod(@VersionName(name="getData"))
+        @WrapMinecraftMethod({@VersionName(name="method_12758", end=1400), @VersionName(name="getData", begin=1400)})
         EntityDataType getType();
         
         @Override
-        @WrapMinecraftMethod(@VersionName(name="get"))
+        @WrapMinecraftMethod({@VersionName(name="getValue", end=1400), @VersionName(name="get", begin=1400)})
         Object getValue0();
         
         @Override
-        @WrapMinecraftMethod(@VersionName(name="set"))
+        @WrapMinecraftMethod({@VersionName(name="setValue", end=1400), @VersionName(name="set", begin=1400)})
         void setValue0(Object value);
         
         @VersionRange(begin=1903)
         @WrapMinecraftMethod(@VersionName(name="toSerialized"))
-        EntityDataV1903 getDataV1903();
+        EntityDataV1903 toDataV1903();
         
         @Override
         default String toString0()

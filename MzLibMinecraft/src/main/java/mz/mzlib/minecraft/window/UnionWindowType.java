@@ -2,20 +2,18 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 
-public enum UnionWindowType
+public class UnionWindowType
 {
-    GENERIC_9x1("minecraft:chest", "generic_9x1"),
-    GENERIC_9x2("minecraft:chest", "generic_9x2"),
-    GENERIC_9x3("minecraft:chest", "generic_9x3"),
-    GENERIC_9x4("minecraft:chest", "generic_9x4"),
-    GENERIC_9x5("minecraft:chest", "generic_9x5"),
-    GENERIC_9x6("minecraft:chest", "generic_9x6"),
+    public static UnionWindowType GENERIC_9x1 = new UnionWindowType("minecraft:chest", "generic_9x1");
+    public static UnionWindowType GENERIC_9x2 = new UnionWindowType("minecraft:chest", "generic_9x2");
+    public static UnionWindowType GENERIC_9x3 = new UnionWindowType("minecraft:chest", "generic_9x3");
+    public static UnionWindowType GENERIC_9x4 = new UnionWindowType("minecraft:chest", "generic_9x4");
+    public static UnionWindowType GENERIC_9x5 = new UnionWindowType("minecraft:chest", "generic_9x5");
+    public static UnionWindowType GENERIC_9x6 = new UnionWindowType("minecraft:chest", "generic_9x6");
     
-    CRAFTING("minecraft:crafting_table", "crafting"),
-    HOPPER("minecraft:hopper", "hopper"),
-    ANVIL("minecraft:anvil", "anvil"),
-    
-    ;
+    public static UnionWindowType CRAFTING = new UnionWindowType("minecraft:crafting_table", "crafting");
+    public static UnionWindowType HOPPER = new UnionWindowType("minecraft:hopper", "hopper");
+    public static UnionWindowType ANVIL = new UnionWindowType("minecraft:anvil", "anvil");
     
     public static UnionWindowType generic9x(int rows)
     {
@@ -40,14 +38,14 @@ public enum UnionWindowType
     
     public final String typeIdV_1400;
     public final WindowTypeV1400 typeV1400;
-    UnionWindowType(String typeIdV_1400, WindowTypeV1400 typeV1400)
+    public UnionWindowType(String typeIdV_1400, WindowTypeV1400 typeV1400)
     {
-        this.typeIdV_1400=typeIdV_1400;
-        this.typeV1400=typeV1400;
+        this.typeIdV_1400 = typeIdV_1400;
+        this.typeV1400 = typeV1400;
     }
     
-    UnionWindowType(String typeIdV_1400, String typeIdV1400)
+    public UnionWindowType(String typeIdV_1400, String typeIdV1400)
     {
-        this(typeIdV_1400, MinecraftPlatform.instance.getVersion()<1400?null:WindowTypeV1400.fromId(typeIdV1400));
+        this(typeIdV_1400, MinecraftPlatform.instance.getVersion()<1400 ? null : WindowTypeV1400.fromId(typeIdV1400));
     }
 }

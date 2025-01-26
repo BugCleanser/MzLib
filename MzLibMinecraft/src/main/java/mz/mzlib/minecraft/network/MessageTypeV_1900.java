@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(end=1900)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.MessageType"))
+@WrapMinecraftClass({@VersionName(name="net.minecraft.util.ChatMessageType", end=1400), @VersionName(name="net.minecraft.network.MessageType", begin=1400)})
 public interface MessageTypeV_1900 extends WrapperObject
 {
     @WrapperCreator
@@ -21,20 +21,23 @@ public interface MessageTypeV_1900 extends WrapperObject
     {
         return create(null).staticChat();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_11737"))
+    
+    @WrapMinecraftFieldAccessor({@VersionName(name="CHAT", end=1400), @VersionName(name="field_11737", begin=1400)})
     MessageTypeV_1900 staticChat();
     
     static MessageTypeV_1900 system()
     {
         return create(null).staticSystem();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_11735"))
+    
+    @WrapMinecraftFieldAccessor({@VersionName(name="SYSTEM", end=1400), @VersionName(name="field_11735", begin=1400)})
     MessageTypeV_1900 staticSystem();
     
     static MessageTypeV_1900 actionBar()
     {
         return create(null).staticActionBar();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_11733"))
+    
+    @WrapMinecraftFieldAccessor({@VersionName(name="GAME_INFO", end=1400), @VersionName(name="field_11733", begin=1400)})
     MessageTypeV_1900 staticActionBar();
 }

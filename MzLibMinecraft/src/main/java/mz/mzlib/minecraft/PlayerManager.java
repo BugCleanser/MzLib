@@ -31,9 +31,8 @@ public interface PlayerManager extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getPlayer"))
     EntityPlayer getPlayer(String name);
     
-    // TODO: versioning
     @VersionRange(end=2002)
-    @WrapMinecraftMethod(@VersionName(name="onPlayerConnect"))
+    @WrapMinecraftMethod({@VersionName(name="method_12827", end=1400), @VersionName(name="onPlayerConnect", begin=1400)})
     void addPlayerV_2002(ClientConnection connection, EntityPlayer player);
     
     @VersionRange(begin=2002)

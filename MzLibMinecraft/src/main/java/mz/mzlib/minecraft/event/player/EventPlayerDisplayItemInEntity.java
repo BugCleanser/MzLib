@@ -5,9 +5,10 @@ import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.display.DisplayEntity;
 import mz.mzlib.minecraft.event.player.displayentity.EventDisplayEntityDataAsync;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayItem
+public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayItem<PacketS2cEntityData>
 {
     public EventDisplayEntityDataAsync eventDisplayEntityData;
     public EventPlayerDisplayItemInEntity(ItemStack original, EventDisplayEntityDataAsync eventDisplayEntityData)
@@ -67,7 +68,7 @@ public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayI
             this.register(InEntityItem.class);
             this.register(new EventListener<>(EventDisplayEntityDataAsync.class, event->
             {
-                if(!event.getDisplayEntity().type.equals(EntityItem.ENTITY_TYPE))
+                if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
                     return;
                 if(event.getNewData0(EntityItem.dataTypeItem())==null)
                     return;

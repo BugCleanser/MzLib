@@ -6,7 +6,6 @@ import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.event.entity.EventEntity;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
 import mz.mzlib.minecraft.network.packet.PacketHandler;
@@ -44,11 +43,13 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="send"))
     void sendPacket(Packet packet);
     
-    // TODO V_1400
-    
-    @VersionRange(begin=1400, end=1901)
+    @VersionRange(end=1300)
     @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
-    void sendPacketImmediatelyV1400_1901(Packet packet, GenericFutureListener<?> callbacks);
+    void sendPacketImmediatelyV_1300(Packet packet, GenericFutureListener<?>[] callbacks);
+    
+    @VersionRange(begin=1300, end=1901)
+    @WrapMinecraftMethod({@VersionName(name="method_20161", end=1400), @VersionName(name="sendImmediately", begin=1400)})
+    void sendPacketImmediatelyV1300_1901(Packet packet, GenericFutureListener<?> callbacks);
     
     @VersionRange(begin=1901, end=2002)
     @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
@@ -65,7 +66,7 @@ public interface ClientConnection extends WrapperObject
     {
         create(null).staticHandlePacket(packet, handler);
     }
-    @WrapMinecraftMethod(@VersionName(name="handlePacket"))
+    @WrapMinecraftMethod({@VersionName(name="method_20159", end=1400), @VersionName(name="handlePacket", begin=1400)})
     void staticHandlePacket(Packet packet, PacketHandler handler);
     
     @WrapMinecraftMethod(@VersionName(name="handleDisconnection"))

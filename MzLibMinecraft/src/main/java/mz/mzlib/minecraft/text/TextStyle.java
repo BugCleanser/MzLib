@@ -95,10 +95,10 @@ public interface TextStyle extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="italic"))
     void setItalic(Boolean value);
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="underlined"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="underline", end=1400), @VersionName(name="underlined", begin=1400)})
     Boolean getUnderlined();
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="underlined"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="underline", end=1400), @VersionName(name="underlined", begin=1400)})
     void setUnderlined(Boolean value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="strikethrough"))

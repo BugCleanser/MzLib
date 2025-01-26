@@ -16,5 +16,5 @@ public interface DecoderV1600 extends WrapperObject
     }
     
     @WrapMinecraftMethod(@VersionName(name="parse"))
-    DataResultV1600 parse(DynamicOpsV1400 ops, Object data);
+    DataResultV1600 parse(DynamicOpsV1300 ops, Object data);
 }

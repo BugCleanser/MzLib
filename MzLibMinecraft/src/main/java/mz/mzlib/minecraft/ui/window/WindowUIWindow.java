@@ -5,10 +5,7 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.window.AbstractWindow;
-import mz.mzlib.minecraft.window.Window;
-import mz.mzlib.minecraft.window.WindowActionType;
-import mz.mzlib.minecraft.window.WindowTypeV1400;
+import mz.mzlib.minecraft.window.*;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
@@ -27,7 +24,7 @@ public interface WindowUIWindow extends AbstractWindow
         return WrapperObject.create(WindowUIWindow.class, wrapped);
     }
     
-    WindowUIWindow staticNewInstance0(WindowTypeV1400 typeV1400, int syncId);
+    WindowUIWindow staticNewInstance0(UnionWindowType type, int syncId);
     
     @WrapConstructor
     @VersionRange(end=1400)
@@ -35,15 +32,20 @@ public interface WindowUIWindow extends AbstractWindow
     
     @SpecificImpl("staticNewInstance0")
     @VersionRange(end=1400)
-    default WindowUIWindow staticNewInstance0V_1400(WindowTypeV1400 type, int syncId)
+    default WindowUIWindow staticNewInstance0V_1400(UnionWindowType type, int syncId)
     {
         return this.staticNewInstance0V_1400();
     }
     
-    @SpecificImpl("staticNewInstance0")
     @WrapConstructor
     @VersionRange(begin=1400)
     WindowUIWindow staticNewInstance0V1400(WindowTypeV1400 type, int syncId);
+    @SpecificImpl("staticNewInstance0")
+    @VersionRange(begin=1400)
+    default WindowUIWindow staticNewInstance0V1400(UnionWindowType type, int syncId)
+    {
+        return this.staticNewInstance0V1400(type.typeV1400, syncId);
+    }
     
     @PropAccessor("uiWindow")
     UIWindow getUIWindow();
@@ -58,14 +60,14 @@ public interface WindowUIWindow extends AbstractWindow
     @PropAccessor("player")
     void setPlayer(AbstractEntityPlayer value);
     
-    static WindowUIWindow newInstance0(WindowTypeV1400 typeV1400, int syncId)
+    static WindowUIWindow newInstance0(UnionWindowType type, int syncId)
     {
-        return create(null).staticNewInstance0(typeV1400, syncId);
+        return create(null).staticNewInstance0(type, syncId);
     }
     
     static WindowUIWindow newInstance(UIWindow uiWindow, AbstractEntityPlayer player, int syncId)
     {
-        WindowUIWindow result = newInstance0(uiWindow.windowType.typeV1400, syncId);
+        WindowUIWindow result = newInstance0(uiWindow.windowType, syncId);
         result.setUIWindow(uiWindow);
         result.setPlayer(player);
         uiWindow.initWindow(result, player.castTo(EntityPlayer::create));

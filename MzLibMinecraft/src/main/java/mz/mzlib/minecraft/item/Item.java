@@ -177,12 +177,11 @@ public interface Item extends WrapperObject
         return RegistriesV1300.item();
     }
     
-    // TODO: versioning
     @VersionRange(end=2102)
     @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
     String getTranslationKeyV_2102(ItemStack itemStack);
     
-    // TODO: versioning
-    @WrapMinecraftMethod(@VersionName(name="getName"))
-    Text getDefaultName(ItemStack itemStack);
+    @VersionRange(begin=1300)
+    @WrapMinecraftMethod({@VersionName(name="getDisplayName", end=1400), @VersionName(name="getName", begin=1400)})
+    Text getDefaultNameV1300(ItemStack itemStack);
 }

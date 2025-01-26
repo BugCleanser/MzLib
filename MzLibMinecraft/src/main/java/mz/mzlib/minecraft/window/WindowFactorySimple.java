@@ -24,24 +24,9 @@ public interface WindowFactorySimple extends WindowFactory
         return WrapperObject.create(WindowFactorySimple.class, wrapped);
     }
     
-    @CompoundOverride(parent=WindowFactory.class, method="getWindowTypeIdV_1400")
-    @PropAccessor("windowTypeIdV_1400")
-    String getWindowTypeIdV_1400();
-    @PropAccessor("windowTypeIdV_1400")
-    void setWindowTypeIdV_1400(String windowId);
-    
-    @PropAccessor("displayName")
-    Text getDisplayName();
-    @PropAccessor("displayName")
-    void setDisplayName(Text displayName);
-    
-    @PropAccessor("windowCreator")
-    BiFunction<Integer, InventoryPlayer, Window> getWindowCreator();
-    @PropAccessor("windowCreator")
-    void setWindowCreator(BiFunction<Integer, InventoryPlayer, Window> windowCreator);
-    
     @WrapConstructor
     WindowFactorySimple staticNewInstance();
+    
     static WindowFactorySimple newInstance(String windowIdV_1400, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
     {
         WindowFactorySimple result = create(null).staticNewInstance();
@@ -50,6 +35,58 @@ public interface WindowFactorySimple extends WindowFactory
         result.setWindowCreator(windowCreator);
         return result;
     }
+    
+    @VersionRange(end=1300)
+    @CompoundOverride(parent=AbstractWindowFactory.class, method="getTranslationKeyV_1300")
+    @Override
+    default String getTranslationKeyV_1300()
+    {
+        return null;
+    }
+    
+    @VersionRange(begin=1300, end=1400)
+    @CompoundOverride(parent=AbstractWindowFactory.class, method="getDefaultNameV1300_1400")
+    @Override
+    default Text getDefaultNameV1300_1400()
+    {
+        return this.propDisplayName();
+    }
+    
+    @VersionRange(end=1400)
+    @CompoundOverride(parent=AbstractWindowFactory.class, method="hasCustomNameV_1400")
+    @Override
+    default boolean hasCustomNameV_1400()
+    {
+        return true;
+    }
+    
+    @VersionRange(end=1400)
+    @CompoundOverride(parent=AbstractWindowFactory.class, method="getCustomNameV_1400")
+    @Override
+    default Text getCustomNameV_1400()
+    {
+        return this.propDisplayName();
+    }
+    
+    @CompoundOverride(parent=WindowFactory.class, method="getWindowTypeIdV_1400")
+    @PropAccessor("windowTypeIdV_1400")
+    String getWindowTypeIdV_1400();
+    
+    @PropAccessor("windowTypeIdV_1400")
+    void setWindowTypeIdV_1400(String windowId);
+    
+    @PropAccessor("displayName")
+    Text propDisplayName();
+    
+    @PropAccessor("displayName")
+    void setDisplayName(Text displayName);
+    
+    @PropAccessor("windowCreator")
+    BiFunction<Integer, InventoryPlayer, Window> getWindowCreator();
+    
+    @PropAccessor("windowCreator")
+    void setWindowCreator(BiFunction<Integer, InventoryPlayer, Window> windowCreator);
+    
     static WindowFactorySimple newInstance(UnionWindowType windowType, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
     {
         return newInstance(windowType.typeIdV_1400, displayName, windowCreator);
@@ -65,25 +102,11 @@ public interface WindowFactorySimple extends WindowFactory
         });
     }
     
-    @CompoundOverride(parent=WindowFactory.class, method="getDisplayNameV_1400")
-    @VersionRange(end=1400)
-    default Text getDisplayNameV_1400()
-    {
-        return this.getDisplayName();
-    }
-    
-    @CompoundOverride(parent=WindowFactory.class, method="hasDisplayNameV_1400")
-    @VersionRange(end=1400)
-    default boolean hasDisplayNameV_1400()
-    {
-        return this.getDisplayName().isPresent();
-    }
-    
     @CompoundOverride(parent=WindowFactory.class, method="getDisplayNameV1400")
     @VersionRange(begin=1400)
     default Text getDisplayNameV1400()
     {
-        return this.getDisplayName();
+        return this.propDisplayName();
     }
     
     @CompoundOverride(parent=WindowFactory.class, method="createWindowV_1400")

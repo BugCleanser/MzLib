@@ -16,7 +16,7 @@ public interface EntityDataType extends WrapperObject
         return WrapperObject.create(EntityDataType.class, wrapped);
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="id"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_13816", end=1400), @VersionName(name="id", begin=1400)})
     int getIndex();
     
     static EntityDataType newInstance(int index, EntityDataHandler handler)

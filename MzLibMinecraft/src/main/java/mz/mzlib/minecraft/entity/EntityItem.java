@@ -26,7 +26,6 @@ public interface EntityItem extends WrapperObject, Entity
     {
         return create(null).staticDataTypeItem();
     }
-    // TODO: versioning
     @WrapMinecraftFieldAccessor(@VersionName(name="STACK"))
     EntityDataType staticDataTypeItem();
 }

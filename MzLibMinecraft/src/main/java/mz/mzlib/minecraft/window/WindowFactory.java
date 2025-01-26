@@ -34,11 +34,13 @@ public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
     
     Text getDisplayName();
     @SpecificImpl("getDisplayName")
-    @WrapMinecraftMethod(@VersionName(name="getDisplayName", begin=1400))
-    Text getDisplayNameV1400();
-    @SpecificImpl("getDisplayName")
     @VersionRange(end=1400)
+    @Override
     Text getDisplayNameV_1400();
+    @SpecificImpl("getDisplayName")
+    @VersionRange(begin=1400)
+    @WrapMinecraftMethod(@VersionName(name="getDisplayName"))
+    Text getDisplayNameV1400();
     
     Window createWindow(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
     @WrapMinecraftMethod(@VersionName(name="createScreenHandler", end=1400))

@@ -29,7 +29,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticDrag();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12263", end=1400), @VersionName(name="field_7789", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7789", begin=1400)})
     WindowActionType staticDrag();
     
     /**
@@ -40,7 +40,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticClick();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12264", end=1400), @VersionName(name="field_7790", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12263", end=1400), @VersionName(name="field_7790", begin=1400)})
     WindowActionType staticClick();
     
     /**
@@ -61,7 +61,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticPickUpAll();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12266", end=1400), @VersionName(name="field_7793", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7793", begin=1400)})
     WindowActionType staticPickUpAll();
     
     /**
@@ -72,7 +72,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticShiftClick();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12267", end=1400), @VersionName(name="field_7794", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12264", end=1400), @VersionName(name="field_7794", begin=1400)})
     WindowActionType staticShiftClick();
     
     /**
@@ -87,7 +87,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticDrop();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7795", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12267", end=1400), @VersionName(name="field_7795", begin=1400)})
     WindowActionType staticDrop();
     
     /**
@@ -97,7 +97,7 @@ public interface WindowActionType extends WrapperObject
     {
         return create(null).staticCopy();
     }
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7796", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_12266", end=1400), @VersionName(name="field_7796", begin=1400)})
     WindowActionType staticCopy();
     
     @Override

@@ -106,7 +106,6 @@ public class ModulePacketListener extends MzModule
     {
         this.register(PacketListenerRegistrar.instance);
         this.register(NothingClientConnection.class);
-        this.register(NothingServerPlayNetworkHandler.class);
     }
     
     @WrapSameClass(ClientConnection.class)
@@ -138,11 +137,9 @@ public class ModulePacketListener extends MzModule
                 return Wrapper_void.create(null);
         }
         
-        // TODO V_1400
-        
-        @VersionRange(begin=1400, end=1901)
-        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1400_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketImmediatelyBeginV1400_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901)
+        @VersionRange(end=1300)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV_1300", wrapperMethodParams={Packet.class, GenericFutureListener[].class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV_1300(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?>[] callbacksV1901)
         {
             if(rehandling.get()==Boolean.TRUE)
             {
@@ -152,7 +149,26 @@ public class ModulePacketListener extends MzModule
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
-                this.sendPacketImmediatelyV1400_1901(p, callbacksV1901);
+                this.sendPacketImmediatelyV_1300(p, callbacksV1901);
+            }))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.create(null);
+        }
+        
+        @VersionRange(begin=1300, end=1901)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV1300_1901", wrapperMethodParams={Packet.class, GenericFutureListener.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV1300_1901(@LocalVar(1) Packet packet, @LocalVar(2) GenericFutureListener<?> callbacksV1901)
+        {
+            if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
+                return Nothing.notReturn();
+            }
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
+            {
+                rehandling.set(true);
+                this.sendPacketImmediatelyV1300_1901(p, callbacksV1901);
             }))
                 return Nothing.notReturn();
             else
@@ -191,30 +207,6 @@ public class ModulePacketListener extends MzModule
             {
                 rehandling.set(true);
                 this.sendPacketImmediatelyV2002(p, callbacksV1901, flush);
-            }))
-                return Nothing.notReturn();
-            else
-                return Wrapper_void.create(null);
-        }
-    }
-    
-    @WrapSameClass(ServerPlayNetworkHandler.class)
-    public interface NothingServerPlayNetworkHandler extends ServerPlayNetworkHandler, Nothing
-    {
-        ThreadLocal<Boolean> rehandling = new ThreadLocal<>();
-        @VersionRange(end=1400)
-        @NothingInject(wrapperMethodName="sendPacketV_1400", wrapperMethodParams={Packet.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketBeginV_1400(@LocalVar(1) Packet packet)
-        {
-            if(rehandling.get()==Boolean.TRUE)
-            {
-                rehandling.set(false);
-                return Nothing.notReturn();
-            }
-            if(ModulePacketListener.instance.handle(this.getConnection().getChannel(), this.getPlayer(), packet, p->
-            {
-                rehandling.set(true);
-                this.sendPacketV_1400(p);
             }))
                 return Nothing.notReturn();
             else

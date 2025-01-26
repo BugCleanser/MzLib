@@ -9,10 +9,10 @@ import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
-import mz.mzlib.minecraft.serialization.DynamicV1400;
+import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1400;
-import mz.mzlib.minecraft.datafixer.DataUpdateTypesV_1400;
+import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
+import mz.mzlib.minecraft.datafixer.DataUpdateTypesV_1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -79,7 +79,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1400.withRegistriesV1903(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
+        return create(codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
     }
     
     static ItemStack decode0(NbtCompound nbt)
@@ -122,7 +122,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound encode0V2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1400.withRegistriesV1903(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).getOrThrow(RuntimeException::new));
     }
     
     
@@ -237,9 +237,18 @@ public interface ItemStack extends WrapperObject
     int getMaxStackCount();
     
     
-    default String getTranslationKey()
+    String getTranslationKey();
+    @SpecificImpl("getTranslationKey")
+    @VersionRange(end=2102)
+    default String getTranslationKeyV_2102()
     {
-        return this.getItem().getDefaultName(this).getTranslatableKey();
+        return this.getItem().getTranslationKeyV_2102(this);
+    }
+    @SpecificImpl("getTranslationKey")
+    @VersionRange(begin=2102)
+    default String getTranslationKeyV2102()
+    {
+        return this.getItem().getDefaultNameV1300(this).getTranslatableKey();
     }
     
     boolean staticIsStackable(ItemStack a, ItemStack b);
@@ -317,16 +326,16 @@ public interface ItemStack extends WrapperObject
     }
     NbtCompound staticUpgrade(NbtCompound nbt, int from);
     @SpecificImpl("staticUpgrade")
-    @VersionRange(end=1400)
-    default NbtCompound staticUpgradeV_1400(NbtCompound nbt, int from)
+    @VersionRange(end=1300)
+    default NbtCompound staticUpgradeV_1300(NbtCompound nbt, int from)
     {
-        return MinecraftServer.instance.getDataUpdaterV_1400().update(DataUpdateTypesV_1400.itemStack(), nbt, from);
+        return MinecraftServer.instance.getDataUpdaterV_1300().update(DataUpdateTypesV_1300.itemStack(), nbt, from);
     }
     @SpecificImpl("staticUpgrade")
-    @VersionRange(begin=1400)
-    default NbtCompound staticUpgradeV1400(NbtCompound nbt, int from)
+    @VersionRange(begin=1300)
+    default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
     {
-        return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1400().update(DataUpdateTypesV1400.itemStack(), DynamicV1400.newInstance(NbtOpsV1400.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
+        return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
     }
     static NbtCompound upgrade(NbtCompound nbt, int from)
     {

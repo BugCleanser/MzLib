@@ -102,7 +102,7 @@ public interface PacketS2cEntityData extends Packet
 	@VersionRange(begin = 1903)
 	default EntityDataTracker.EntityDataV1903 staticNewEntry0V1903(EntityDataType type,Object value)
 	{
-		return this.staticNewEntry0V_1903(type,value).getDataV1903();
+		return this.staticNewEntry0V_1903(type,value).toDataV1903();
 	}
 	
 	List<Entry> getDataList();

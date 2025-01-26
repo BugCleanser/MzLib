@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.server.command.ServerCommandSource"))
+@WrapMinecraftClass({@VersionName(name="net.minecraft.class_3915", end=1400), @VersionName(name="net.minecraft.server.command.ServerCommandSource", begin=1400)})
 public interface CommandSource extends WrapperObject
 {
     @WrapperCreator
@@ -21,13 +21,14 @@ public interface CommandSource extends WrapperObject
         return WrapperObject.create(CommandSource.class, wrapped);
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="silent"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19283", end=1400), @VersionName(name="silent", begin=1400)})
     boolean isSilent();
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="output"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19276", end=1400), @VersionName(name="output", begin=1400)})
     CommandOutput getOutput();
     
     void sendMessage(Text message);
+    
     @VersionRange(end=1901)
     @SpecificImpl("sendMessage")
     default void sendMessageV_1901(Text message)
@@ -36,12 +37,13 @@ public interface CommandSource extends WrapperObject
             return;
         this.getOutput().sendMessage(message);
     }
+    
     @VersionRange(begin=1901)
     @SpecificImpl("sendMessage")
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
     void sendMessageV1901(Text message);
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="entity"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19284", end=1400), @VersionName(name="entity", begin=1400)})
     Entity getEntity();
     
     default EntityPlayer getPlayer()

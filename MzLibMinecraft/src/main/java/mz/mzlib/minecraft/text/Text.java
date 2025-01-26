@@ -605,10 +605,12 @@ public interface Text extends WrapperObject
         }
         
         @SpecificImpl("staticEncode")
-        @WrapMinecraftMethod(@VersionName(name="toJsonTree", begin=1400, end=2005))
+        @VersionRange(begin=1400, end=2005)
+        @WrapMinecraftMethod(@VersionName(name="toJsonTree"))
         JsonElement staticEncodeV1400_2005(Text text);
         
-        @WrapMinecraftMethod(@VersionName(name="toJson", begin=2005))
+        @VersionRange(begin=2005)
+        @WrapMinecraftMethod(@VersionName(name="toJson"))
         JsonElement staticEncodeV2005(Text text, RegistryEntryLookupV1903.class_7874 registries);
         
         @SpecificImpl("staticEncode")
@@ -626,21 +628,17 @@ public interface Text extends WrapperObject
         Text staticDecode(JsonElement json);
         
         @SpecificImpl("staticDecode")
-        @VersionRange(end=1400)
-        default Text staticDecodeV_1400(JsonElement json)
-        {
-            return Text.create(gson().fromJson(json, Text.create(null).staticGetWrappedClass()));
-        }
-        
-        @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(@VersionName(name="fromJson", end=1600))
+        @VersionRange(end=1600)
+        @WrapMinecraftMethod({@VersionName(name="method_20179", end=1400), @VersionName(name="fromJson", begin=1400)})
         Text staticDecodeV1600(JsonElement json);
         
         @SpecificImpl("staticDecode")
-        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=1600, end=2005))
+        @VersionRange(begin=1600, end=2005)
+        @WrapMinecraftMethod(@VersionName(name="fromJson"))
         TextMutableV1600 staticDecodeV1600_2005(JsonElement json);
         
-        @WrapMinecraftMethod(@VersionName(name="fromJson", begin=2005))
+        @VersionRange(begin=2005)
+        @WrapMinecraftMethod(@VersionName(name="fromJson"))
         TextMutableV1600 staticDecodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);
         
         @SpecificImpl("staticDecode")

@@ -19,13 +19,13 @@ public interface PacketDirection extends WrapperObject
     {
         return create(null).staticC2s();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_11941"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="SERVERBOUND", end=1400), @VersionName(name="field_11941", begin=1400)})
     PacketDirection staticC2s();
     
     static PacketDirection s2c()
     {
         return create(null).staticS2c();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_11942"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="CLIENTBOUND", end=1400), @VersionName(name="field_11942", begin=1400)})
     PacketDirection staticS2c();
 }

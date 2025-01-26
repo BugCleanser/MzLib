@@ -15,10 +15,10 @@ public interface CommandManager extends WrapperObject, Instance
 {
     CommandManager instance = RuntimeUtil.nul();
     
-    @WrapMinecraftMethod(@VersionName(name="getDispatcher"))
+    @WrapMinecraftMethod({@VersionName(name="method_17518", end=1400), @VersionName(name="getDispatcher", begin=1400)})
     CommandDispatcher<?> getDispatcher();
     
-    @WrapMinecraftMethod(@VersionName(name="sendCommandTree"))
+    @WrapMinecraftMethod({@VersionName(name="method_17532", end=1400), @VersionName(name="sendCommandTree", begin=1400)})
     void sendCommandTree(EntityPlayer player);
     
     default void updateAll()

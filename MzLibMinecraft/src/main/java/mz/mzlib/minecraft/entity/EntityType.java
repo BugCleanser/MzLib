@@ -6,11 +6,12 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType")) // TODO
+@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType"))
 public interface EntityType extends WrapperObject
 {
     @WrapperCreator
@@ -43,11 +44,8 @@ public interface EntityType extends WrapperObject
     
     @VersionRange(end=1300)
     @SpecificImpl("staticGetRegistry")
-    default Registry staticRegistryV_1300()
-    {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
+    @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY"))
+    Registry staticRegistryV_1300();
     
     @VersionRange(begin=1300)
     @SpecificImpl("staticGetRegistry")
