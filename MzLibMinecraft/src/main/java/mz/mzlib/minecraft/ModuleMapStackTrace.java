@@ -46,7 +46,7 @@ public class ModuleMapStackTrace extends MzModule
         
         static void locatePrintStackTraceAfter(NothingInjectLocating locating)
         {
-            locating.allAfter(Opcodes.RETURN);
+            locating.allLater(Opcodes.RETURN);
             assert !locating.locations.isEmpty();
         }
         
@@ -59,7 +59,7 @@ public class ModuleMapStackTrace extends MzModule
         
         static void locateGetOurStackTraceAfter(NothingInjectLocating locating)
         {
-            locating.allAfter(Opcodes.ARETURN);
+            locating.allLater(Opcodes.ARETURN);
             assert !locating.locations.isEmpty();
         }
         

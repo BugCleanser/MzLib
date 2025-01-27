@@ -1539,4 +1539,11 @@ public class AsmUtil
         }
         return r;
     }
+    public static String getName(Member member)
+    {
+        if(member instanceof Constructor)
+            return "<init>";
+        else
+            return member.getName();
+    }
 }

@@ -1,6 +1,8 @@
 package mz.mzlib.util.nothing;
 
+import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.AbstractInsnNode;
+import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.asm.tree.VarInsnNode;
 import mz.mzlib.util.asm.AsmUtil;
 
@@ -57,13 +59,13 @@ public class NothingInjectLocating
     {
         this.next(l->insns[l].getOpcode()==opcode, limit);
     }
-    public void allAfter(int opcode)
+    public void allLater(int opcode)
     {
-        this.allAfter(opcode, Integer.MAX_VALUE);
+        this.allLater(opcode, Integer.MAX_VALUE);
     }
-    public void allAfter(int opcode, int limit)
+    public void allLater(int opcode, int limit)
     {
-        this.allAfter(l->insns[l].getOpcode()==opcode, limit);
+        this.allLater(l->insns[l].getOpcode()==opcode, limit);
     }
     public void next(AbstractInsnNode insn)
     {
@@ -90,7 +92,7 @@ public class NothingInjectLocating
     {
         this.next(predicate, Integer.MAX_VALUE);
     }
-    public void allAfter(Predicate<Integer> predicate, int limit)
+    public void allLater(Predicate<Integer> predicate, int limit)
     {
         this.forEach(l->
         {
@@ -103,9 +105,9 @@ public class NothingInjectLocating
             return result;
         });
     }
-    public void allAfter(Predicate<Integer> predicate)
+    public void allLater(Predicate<Integer> predicate)
     {
-        this.allAfter(predicate, Integer.MAX_VALUE);
+        this.allLater(predicate, Integer.MAX_VALUE);
     }
     
     public void forEach(Function<Integer, Set<Integer>> action)

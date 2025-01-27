@@ -93,6 +93,22 @@ public class WrapperClassInfo
         }).get();
     }
     
+    public static Class<?>[] toUnwrappedClasses(Class<?>[] classes)
+    {
+        Class<?>[] result = new Class[classes.length];
+        for(int i=0; i<classes.length; i++)
+        {
+            if(WrapperObject.class.isAssignableFrom(classes[i]))
+            {
+                if(ElementSwitcher.isEnabled(classes[i]))
+                    result[i] = WrapperClassInfo.get(RuntimeUtil.cast(classes[i])).getWrappedClass();
+            }
+            else
+                result[i] = classes[i];
+        }
+        return result;
+    }
+    
     public Map<Method, Member> wrappedMembers;
     public Map<Method, Member> inheritableWrappedMembers;
     public synchronized Map<Method, Member> getWrappedMembers()
@@ -122,14 +138,7 @@ public class WrapperClassInfo
                 {
                     returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
                 }
-                Class<?>[] argTypes = i.getParameterTypes();
-                for(int j = 0; j<argTypes.length; j++)
-                {
-                    if(WrapperObject.class.isAssignableFrom(argTypes[j]))
-                    {
-                        argTypes[j] = WrapperClassInfo.get(RuntimeUtil.cast(argTypes[j])).getWrappedClass();
-                    }
-                }
+                Class<?>[] argTypes = toUnwrappedClasses(i.getParameterTypes());
                 Exception lastException1 = null;
                 for(Annotation j: i.getDeclaredAnnotations())
                 {

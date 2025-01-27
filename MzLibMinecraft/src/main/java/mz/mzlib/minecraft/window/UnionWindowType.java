@@ -4,16 +4,16 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 
 public class UnionWindowType
 {
-    public static UnionWindowType GENERIC_9x1 = new UnionWindowType("minecraft:chest", "generic_9x1");
-    public static UnionWindowType GENERIC_9x2 = new UnionWindowType("minecraft:chest", "generic_9x2");
-    public static UnionWindowType GENERIC_9x3 = new UnionWindowType("minecraft:chest", "generic_9x3");
-    public static UnionWindowType GENERIC_9x4 = new UnionWindowType("minecraft:chest", "generic_9x4");
-    public static UnionWindowType GENERIC_9x5 = new UnionWindowType("minecraft:chest", "generic_9x5");
-    public static UnionWindowType GENERIC_9x6 = new UnionWindowType("minecraft:chest", "generic_9x6");
+    public static UnionWindowType GENERIC_9x1 = new UnionWindowType("minecraft:chest", "generic_9x1", 9);
+    public static UnionWindowType GENERIC_9x2 = new UnionWindowType("minecraft:chest", "generic_9x2", 18);
+    public static UnionWindowType GENERIC_9x3 = new UnionWindowType("minecraft:chest", "generic_9x3", 27);
+    public static UnionWindowType GENERIC_9x4 = new UnionWindowType("minecraft:chest", "generic_9x4", 36);
+    public static UnionWindowType GENERIC_9x5 = new UnionWindowType("minecraft:chest", "generic_9x5", 45);
+    public static UnionWindowType GENERIC_9x6 = new UnionWindowType("minecraft:chest", "generic_9x6", 54);
     
-    public static UnionWindowType CRAFTING = new UnionWindowType("minecraft:crafting_table", "crafting");
-    public static UnionWindowType HOPPER = new UnionWindowType("minecraft:hopper", "hopper");
-    public static UnionWindowType ANVIL = new UnionWindowType("minecraft:anvil", "anvil");
+    public static UnionWindowType CRAFTING = new UnionWindowType("minecraft:crafting_table", "crafting", 10);
+    public static UnionWindowType HOPPER = new UnionWindowType("minecraft:hopper", "hopper", 5);
+    public static UnionWindowType ANVIL = new UnionWindowType("minecraft:anvil", "anvil", 3);
     
     public static UnionWindowType generic9x(int rows)
     {
@@ -36,16 +36,18 @@ public class UnionWindowType
         }
     }
     
-    public final String typeIdV_1400;
-    public final WindowTypeV1400 typeV1400;
-    public UnionWindowType(String typeIdV_1400, WindowTypeV1400 typeV1400)
+    public String typeIdV_1400;
+    public WindowTypeV1400 typeV1400;
+    public int upperSize;
+    public UnionWindowType(String typeIdPrefixV_1400, WindowTypeV1400 typeV1400, int upperSize)
     {
-        this.typeIdV_1400 = typeIdV_1400;
+        this.typeIdV_1400 = typeIdPrefixV_1400+"*"+upperSize;
         this.typeV1400 = typeV1400;
+        this.upperSize = upperSize;
     }
     
-    public UnionWindowType(String typeIdV_1400, String typeIdV1400)
+    public UnionWindowType(String typeIdV_1400, String typeIdV1400, int upperSize)
     {
-        this(typeIdV_1400, MinecraftPlatform.instance.getVersion()<1400 ? null : WindowTypeV1400.fromId(typeIdV1400));
+        this(typeIdV_1400, MinecraftPlatform.instance.getVersion()<1400 ? null : WindowTypeV1400.fromId(typeIdV1400), upperSize);
     }
 }

@@ -88,7 +88,7 @@ public class EventEntityLivingDamage extends EventEntity
             
             static void locateDamageAfter(NothingInjectLocating locating)
             {
-                locating.allAfter(AsmUtil.insnReturn(boolean.class).getOpcode());
+                locating.allLater(AsmUtil.insnReturn(boolean.class).getOpcode());
                 assert !locating.locations.isEmpty();
             }
             

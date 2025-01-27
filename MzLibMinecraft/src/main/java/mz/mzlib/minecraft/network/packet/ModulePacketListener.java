@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
-import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.packet.s2c.PacketBundleS2cV1904;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
@@ -115,7 +114,7 @@ public class ModulePacketListener extends MzModule
         
         static void channelRead0BeginLocate(NothingInjectLocating locating)
         {
-            locating.allAfter(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "staticHandlePacket", Packet.class, PacketHandler.class));
+            locating.allLater(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "staticHandlePacket", Packet.class, PacketHandler.class));
             assert !locating.locations.isEmpty();
         }
         

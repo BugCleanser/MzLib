@@ -88,7 +88,7 @@ public abstract class UIWindow implements UI
     
     public void initWindow(WindowUIWindow window, EntityPlayer player)
     {
-        for(int i = 0; i<inventory.size(); i++)
+        for(int i = 0; i<this.windowType.upperSize; i++)
         {
             BiFunction<Inventory, Integer, WindowSlot> creator = this.slots.get(i);
             window.addSlot(creator==null ? WindowSlot.newInstance(this.inventory, i) : creator.apply(this.inventory, i));

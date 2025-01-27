@@ -3,7 +3,7 @@ package mz.mzlib.util.wrapper.basic;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapClass;
 
-@WrapClass(Integer.class)
+@WrapClass(int.class)
 public interface Wrapper_int extends WrapperObject
 {
     @SuppressWarnings("deprecation")

@@ -137,7 +137,10 @@ public class NothingRegistration
                     Executable m;
                     try
                     {
-                        m = (Executable)WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(nothing.getMethod(ni.wrapperMethodName(), ni.wrapperMethodParams()));
+                        if(ni.wrapperMethodName().equals("<init>"))
+                            m = WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedClass().getConstructor(WrapperClassInfo.toUnwrappedClasses(ni.wrapperMethodParams()));
+                        else
+                            m = (Executable)WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers().get(nothing.getMethod(ni.wrapperMethodName(), ni.wrapperMethodParams()));
                         if(m==null)
                             throw new NullPointerException();
                     }
@@ -147,13 +150,13 @@ public class NothingRegistration
                     }
                     operations.add(new MapEntry<>(ni.priority(), ()->
                     {
-                        MethodNode mn = AsmUtil.getMethodNode(cn, m.getName(), AsmUtil.getDesc(m));
+                        MethodNode mn = AsmUtil.getMethodNode(cn, AsmUtil.getName(m), AsmUtil.getDesc(m));
                         assert mn!=null;
                         NothingInjectLocating locating = new NothingInjectLocating(raws.get(mn));
                         try
                         {
                             if(!ni.locateMethod().isEmpty())
-                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(null, locating);
+                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(WrapperObject.create(RuntimeUtil.cast(nothing), null), locating);
                         }
                         catch(Throwable e)
                         {
@@ -209,9 +212,7 @@ public class NothingRegistration
                                     {
                                         Class<?> lvt = paramTypes[k];
                                         if(WrapperObject.class.isAssignableFrom(lvt))
-                                        {
                                             lvt = WrapperObject.getWrappedClass(RuntimeUtil.cast(lvt));
-                                        }
                                         loadingVars.add(AsmUtil.insnVarLoad(lvt, lv.value()));
                                         if(WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                         {
@@ -299,7 +300,7 @@ public class NothingRegistration
                                 InsnList caller = new InsnList();
                                 caller.add(loadingVars);
                                 Class<?>[] invokeType = argTypes;
-                                if(!Modifier.isStatic(m.getModifiers()))
+                                if(!Modifier.isStatic(i.getModifiers()))
                                 {
                                     caller.add(AsmUtil.insnVarLoad(Object.class, 0));
                                     caller.add(insnInvokeDynamic(cn.name, nothingConstructor, AsmUtil.getDesc(Object.class, Object.class)));
@@ -309,8 +310,8 @@ public class NothingRegistration
                                 {
                                     caller.add(AsmUtil.insnVarLoad(argTypes[k], args[k]));
                                 }
-                                caller.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, invokeType)));
-                                callSites.add(new ConstantCallSite(ClassUtil.unreflect(i).asType(MethodType.methodType(Object.class, invokeType))));
+                                caller.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(ClassUtil.baseType(i.getReturnType()), invokeType)));
+                                callSites.add(new ConstantCallSite(ClassUtil.unreflect(i).asType(MethodType.methodType(ClassUtil.baseType(i.getReturnType()), invokeType))));
                                 caller.add(afterCall);
                                 if(ni.type()==NothingInjectType.BRTRUE)
                                 {
@@ -339,15 +340,18 @@ public class NothingRegistration
                                 }
                                 else
                                 {
-                                    caller.add(AsmUtil.insnDup(Object.class));
-                                    LabelNode later = new LabelNode();
-                                    caller.add(new JumpInsnNode(Opcodes.IFNULL, later));
-                                    caller.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
-                                    caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m), Object.class));
-                                    caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
-                                    caller.add(later);
-                                    caller.add(AsmUtil.insnPop(Object.class));
-                                    caller.add(afterPop);
+                                    if(i.getReturnType()!=void.class)
+                                    {
+                                        caller.add(AsmUtil.insnDup(Object.class));
+                                        LabelNode later = new LabelNode();
+                                        caller.add(new JumpInsnNode(Opcodes.IFNULL, later));
+                                        caller.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
+                                        caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m), Object.class));
+                                        caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
+                                        caller.add(later);
+                                        caller.add(AsmUtil.insnPop(Object.class));
+                                        caller.add(afterPop);
+                                    }
                                 }
                                 switch(ni.type())
                                 {

@@ -5,10 +5,9 @@ import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapClass(Double.class)
+@WrapClass(Boolean.class)
 public interface WrapperBoolean extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperBoolean create(Boolean wrapped)
     {

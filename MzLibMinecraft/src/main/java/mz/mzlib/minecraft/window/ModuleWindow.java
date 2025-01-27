@@ -1,6 +1,9 @@
 package mz.mzlib.minecraft.window;
 
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowOpen;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.nothing.LocalVar;
 import mz.mzlib.util.nothing.Nothing;
@@ -10,6 +13,8 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.WrapperBoolean;
+import mz.mzlib.util.wrapper.basic.WrapperString;
+import mz.mzlib.util.wrapper.basic.Wrapper_int;
 
 import java.util.List;
 
@@ -19,7 +24,23 @@ public class ModuleWindow extends MzModule
     
     public void onLoad()
     {
+        this.register(NothingPacketS2cWindowOpen.class);
         this.register(NothingWindow.class);
+    }
+    
+    @WrapSameClass(PacketS2cWindowOpen.class)
+    public interface NothingPacketS2cWindowOpen extends PacketS2cWindowOpen, Nothing
+    {
+        @VersionRange(end=1400)
+        @NothingInject(wrapperMethodName="<init>", wrapperMethodParams={int.class, String.class, Text.class, int.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        static void initBeforeV_1400(@LocalVar(2) WrapperString typeId, @LocalVar(4) Wrapper_int size)
+        {
+            int i = typeId.getWrapped().indexOf('*');
+            if(i==-1)
+                return;
+            size.setWrapped(Integer.parseInt(typeId.getWrapped().substring(i+1)));
+            typeId.setWrapped(typeId.getWrapped().substring(0, i));
+        }
     }
     
     @WrapSameClass(Window.class)

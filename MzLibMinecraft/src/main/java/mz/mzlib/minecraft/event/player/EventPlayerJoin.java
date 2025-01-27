@@ -55,7 +55,7 @@ public class EventPlayerJoin extends EventPlayer
             
             static void addPlayerEndLocate(NothingInjectLocating locating)
             {
-                locating.allAfter(AsmUtil.insnReturn(void.class).getOpcode());
+                locating.allLater(AsmUtil.insnReturn(void.class).getOpcode());
                 assert !locating.locations.isEmpty();
             }
             
