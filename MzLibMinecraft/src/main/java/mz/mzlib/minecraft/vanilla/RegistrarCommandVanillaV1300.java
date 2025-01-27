@@ -32,7 +32,7 @@ public class RegistrarCommandVanillaV1300 implements IRegistrar<Command>
     @Override
     public void register(MzModule module, Command command)
     {
-        LiteralCommandNode<?> node = CommandManager.instance.getDispatcher().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.namespace!=null ? command.namespace+":"+command.name : command.name).executes(executor(command)).then(RequiredArgumentBuilder.argument("args", StringArgumentType.greedyString()).executes(context->
+        LiteralCommandNode<?> node = CommandManager.instance.getDispatcherV1300().getWrapped().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.namespace!=null ? command.namespace+":"+command.name : command.name).executes(executor(command)).then(RequiredArgumentBuilder.argument("args", StringArgumentType.greedyString()).executes(context->
         {
             command.execute(CommandSource.create(context.getSource()), context.getInput().substring(0, context.getRange().getStart()-1), context.getInput().substring(context.getRange().getStart()));
             return 1;
@@ -47,28 +47,28 @@ public class RegistrarCommandVanillaV1300 implements IRegistrar<Command>
             return b.buildFuture();
         }).build())));
         if(command.namespace!=null)
-            CommandManager.instance.getDispatcher().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.name).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
+            CommandManager.instance.getDispatcherV1300().getWrapped().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.name).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
         for(String alias: command.aliases)
         {
-            CommandManager.instance.getDispatcher().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(alias).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
+            CommandManager.instance.getDispatcherV1300().getWrapped().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(alias).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
             if(command.namespace!=null)
-                CommandManager.instance.getDispatcher().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.namespace+":"+alias).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
+                CommandManager.instance.getDispatcherV1300().getWrapped().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(command.namespace+":"+alias).executes(executor(command)).redirect(RuntimeUtil.cast(node))));
         }
-        CommandManager.instance.updateAll();
+        CommandManager.instance.updateAllV1300();
     }
     
     @Override
     public void unregister(MzModule module, Command command)
     {
         if(command.namespace!=null)
-            CommandDispatcherV1300.create(CommandManager.instance.getDispatcher()).getRoot().removeChild(command.namespace+":"+command.name);
-        CommandDispatcherV1300.create(CommandManager.instance.getDispatcher()).getRoot().removeChild(command.name);
+            CommandDispatcherV1300.create(CommandManager.instance.getDispatcherV1300().getWrapped()).getRoot().removeChild(command.namespace+":"+command.name);
+        CommandDispatcherV1300.create(CommandManager.instance.getDispatcherV1300().getWrapped()).getRoot().removeChild(command.name);
         for(String alias: command.aliases)
         {
-            CommandDispatcherV1300.create(CommandManager.instance.getDispatcher()).getRoot().removeChild(alias);
+            CommandDispatcherV1300.create(CommandManager.instance.getDispatcherV1300().getWrapped()).getRoot().removeChild(alias);
             if(command.namespace!=null)
-                CommandDispatcherV1300.create(CommandManager.instance.getDispatcher()).getRoot().removeChild(command.namespace+":"+alias);
+                CommandDispatcherV1300.create(CommandManager.instance.getDispatcherV1300().getWrapped()).getRoot().removeChild(command.namespace+":"+alias);
         }
-        CommandManager.instance.updateAll();
+        CommandManager.instance.updateAllV1300();
     }
 }

@@ -63,15 +63,17 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     }
     
     void sendMessage(Text message);
+    @VersionRange(end=1300)
     @VersionRange(begin=1600)
     @SpecificImpl("sendMessage")
-    default void sendMessageV1600(Text message)
+    default void sendMessageV_1300__1600(Text message)
     {
-        this.sendMessageV1600(message, false);
+        this.sendMessageV_1300__1600(message, false);
     }
+    @VersionRange(end=1300)
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
-    void sendMessageV1600(Text message, boolean actionBar);
+    void sendMessageV_1300__1600(Text message, boolean actionBar);
     
     @WrapMinecraftMethod({@VersionName(name="openHandledScreen", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600)})
     OptionalInt openWindow(WindowFactory windowFactory);
@@ -85,19 +87,19 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     void openBook0(ItemStack book);
     
     @SpecificImpl("openBook0")
-    @VersionRange(end=1300)
+    @VersionRange(end=1200)
     @WrapMinecraftMethod(@VersionName(name="openEditBookScreen"))
-    void openBook0V_1300(ItemStack book);
+    void openBook0V_1200(ItemStack book);
     
-    @VersionRange(begin=1300)
+    @VersionRange(begin=1200)
     @WrapMinecraftMethod({@VersionName(name="method_3201", end=1400), @VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
-    void openBook0V1300(ItemStack book, EnumHand hand);
+    void openBook0V1200(ItemStack book, EnumHand hand);
     
     @SpecificImpl("openBook0")
-    @VersionRange(begin=1300)
-    default void openBook0V1300(ItemStack book)
+    @VersionRange(begin=1200)
+    default void openBook0V1200(ItemStack book)
     {
-        this.openBook0V1300(book, EnumHand.mainHand());
+        this.openBook0V1200(book, EnumHand.mainHand());
     }
     
     default ItemStack getHandItemStack()

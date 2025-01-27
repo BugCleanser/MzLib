@@ -628,9 +628,16 @@ public interface Text extends WrapperObject
         Text staticDecode(JsonElement json);
         
         @SpecificImpl("staticDecode")
-        @VersionRange(end=1600)
+        @VersionRange(end=1300)
+        default Text staticDecodeV_1300(JsonElement json)
+        {
+            return Text.create(gson().fromJson(json, Text.create(null).staticGetWrappedClass()));
+        }
+        
+        @SpecificImpl("staticDecode")
+        @VersionRange(begin=1300, end=1600)
         @WrapMinecraftMethod({@VersionName(name="method_20179", end=1400), @VersionName(name="fromJson", begin=1400)})
-        Text staticDecodeV1600(JsonElement json);
+        Text staticDecodeV1300_1600(JsonElement json);
         
         @SpecificImpl("staticDecode")
         @VersionRange(begin=1600, end=2005)

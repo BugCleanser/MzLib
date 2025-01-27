@@ -22,43 +22,11 @@ public interface PacketC2sWindowAction extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name="syncId"))
     int getSyncId();
     
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_13798", end=1400), @VersionName(name="actionType", begin=1400)})
     WindowActionType getActionType();
     
-    @VersionRange(end=1300)
-    @WrapMinecraftFieldAccessor(@VersionName(name="actionType", begin=1400))
-    int getActionTypeIdV_1300();
-    
-    @SpecificImpl("getActionType")
-    @VersionRange(end=1300)
-    default WindowActionType getActionTypeV_1300()
-    {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
-    
-    @SpecificImpl("getActionType")
-    @VersionRange(begin=1300)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_13798", end=1400), @VersionName(name="actionType", begin=1400)})
-    WindowActionType getActionTypeV1300();
-    
     void setActionType(WindowActionType value);
-    
-    @VersionRange(end=1300)
-    @WrapMinecraftFieldAccessor(@VersionName(name="actionType"))
-    void setActionTypeIdV_1300(int value);
-    
-    @SpecificImpl("setActionType")
-    @VersionRange(end=1300)
-    default void setActionTypeV_1300(WindowActionType value)
-    {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
-    
-    @SpecificImpl("setActionType")
-    @VersionRange(begin=1300)
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_13798", end=1400), @VersionName(name="actionType", begin=1400)})
-    void setActionTypeV1300(WindowActionType value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="slot"))
     int getSlotIndex();

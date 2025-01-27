@@ -37,16 +37,16 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
         return MinecraftPlatform.instance.getLanguage(this);
     }
     
-    @VersionRange(end=1600)
+    @VersionRange(begin=1300, end=1600)
     @SpecificImpl("sendMessage")
-    default void sendMessageV_1600(Text message)
+    default void sendMessageV1300_1600(Text message)
     {
-        this.sendMessageV_1600(message, MessageTypeV_1900.system());
+        this.sendMessageV1300_1600(message, MessageTypeV_1900.system());
     }
     
-    @VersionRange(end=1600)
+    @VersionRange(begin=1300, end=1600)
     @WrapMinecraftMethod({@VersionName(name="method_21277", end=1400), @VersionName(name="sendChatMessage", begin=1400)})
-    void sendMessageV_1600(Text message, MessageTypeV_1900 type);
+    void sendMessageV1300_1600(Text message, MessageTypeV_1900 type);
     
     void sendPacket(Packet packet);
     

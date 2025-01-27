@@ -49,6 +49,48 @@ public interface Item extends WrapperObject
     {
         return create(null).staticGetCustomName(itemStack);
     }
+    
+    static int damageForColorV_1300(String color)
+    {
+        switch(color)
+        {
+            case "white":
+                return 0;
+            case "orange":
+                return 1;
+            case "magenta":
+                return 2;
+            case "light_blue":
+                return 3;
+            case "yellow":
+                return 4;
+            case "lime":
+                return 5;
+            case "pink":
+                return 6;
+            case "gray":
+                return 7;
+            case "light_gray":
+                return 8;
+            case "cyan":
+                return 9;
+            case "purple":
+                return 10;
+            case "blue":
+                return 11;
+            case "brown":
+                return 12;
+            case "green":
+                return 13;
+            case "red":
+                return 14;
+            case "black":
+                return 15;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+    
     Text staticGetCustomName(ItemStack itemStack);
     @SpecificImpl("staticGetCustomName")
     @VersionRange(end=1300)
@@ -177,9 +219,20 @@ public interface Item extends WrapperObject
         return RegistriesV1300.item();
     }
     
-    @VersionRange(end=2102)
-    @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
     String getTranslationKeyV_2102(ItemStack itemStack);
+    @VersionRange(end=1300)
+    @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
+    String getTranslationKey0V_1300(ItemStack itemStack);
+    @SpecificImpl("getTranslationKeyV_2102")
+    @VersionRange(end=1300)
+    default String getTranslationKeyV_1300(ItemStack itemStack)
+    {
+        return this.getTranslationKey0V_1300(itemStack)+".name";
+    }
+    @SpecificImpl("getTranslationKeyV_2102")
+    @VersionRange(begin=1300, end=2102)
+    @WrapMinecraftMethod(@VersionName(name="getTranslationKey"))
+    String getTranslationKeyV1300_2102(ItemStack itemStack);
     
     @VersionRange(begin=1300)
     @WrapMinecraftMethod({@VersionName(name="getDisplayName", end=1400), @VersionName(name="getName", begin=1400)})

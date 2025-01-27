@@ -2,14 +2,14 @@ package mz.mzlib.util;
 
 public interface ThrowableRunnable<E extends Throwable> extends Runnable
 {
-    void runWithThrowable() throws E;
+    void runOrThrow() throws E;
 
     @Override
     default void run()
     {
         try
         {
-            runWithThrowable();
+            this.runOrThrow();
         }
         catch (Throwable e)
         {

@@ -48,11 +48,11 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name="getPlayerManager"))
     PlayerManager getPlayerManager();
     
-    @WrapMinecraftMethod({@VersionName(name="method_2971", end=1400), @VersionName(name="getCommandManager", begin=1400)})
+    @WrapMinecraftMethod({@VersionName(name="getCommandManager", end=1300), @VersionName(name="method_2971", begin=1300, end=1400), @VersionName(name="getCommandManager", begin=1400)})
     CommandManager getCommandManager();
     
     @VersionRange(end=1300)
-    @WrapMinecraftMethod(@VersionName(name="tick"))
+    @WrapMinecraftMethod(@VersionName(name="setupWorld"))
     void tickV_1300();
     
     @VersionRange(begin=1300)
@@ -85,7 +85,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     }
     
     @VersionRange(end=1300)
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_21612"))
+    @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer"))
     DataUpdaterV_1300 getDataUpdaterV_1300();
     
     @VersionRange(begin=1300)

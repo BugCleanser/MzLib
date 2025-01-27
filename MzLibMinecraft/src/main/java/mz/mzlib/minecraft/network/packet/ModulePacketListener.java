@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.network.packet;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -114,7 +115,8 @@ public class ModulePacketListener extends MzModule
         
         static void channelRead0BeginLocate(NothingInjectLocating locating)
         {
-            locating.allLater(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "staticHandlePacket", Packet.class, PacketHandler.class));
+            if(MinecraftPlatform.instance.getVersion()>=1300)
+                locating.allLater(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "staticHandlePacketV1300", Packet.class, PacketHandler.class));
             assert !locating.locations.isEmpty();
         }
         
@@ -126,6 +128,8 @@ public class ModulePacketListener extends MzModule
                 rehandling.set(false);
                 return Nothing.notReturn();
             }
+            if(!this.getChannel().isOpen())
+                return Wrapper_void.create(null);
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, msg->
             {
                 rehandling.set(true);

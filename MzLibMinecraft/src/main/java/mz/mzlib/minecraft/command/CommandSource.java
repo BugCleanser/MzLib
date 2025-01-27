@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.class_3915", end=1400), @VersionName(name="net.minecraft.server.command.ServerCommandSource", begin=1400)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3915", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.ServerCommandSource", begin=1400)})
 public interface CommandSource extends WrapperObject
 {
     @WrapperCreator
@@ -21,11 +21,33 @@ public interface CommandSource extends WrapperObject
         return WrapperObject.create(CommandSource.class, wrapped);
     }
     
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_19283", end=1400), @VersionName(name="silent", begin=1400)})
     boolean isSilent();
     
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_19276", end=1400), @VersionName(name="output", begin=1400)})
+    @SpecificImpl("isSilent")
+    @VersionRange(end=1300)
+    default boolean isSilentV_1300()
+    {
+        return false;
+    }
+    
+    @SpecificImpl("isSilent")
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19283", end=1400), @VersionName(name="silent", begin=1400)})
+    boolean isSilentV1300();
+    
     CommandOutput getOutput();
+    
+    @SpecificImpl("getOutput")
+    @VersionRange(end=1300)
+    default CommandOutput getOutputV_1300()
+    {
+        return this.castTo(CommandOutput::create);
+    }
+    
+    @SpecificImpl("getOutput")
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19276", end=1400), @VersionName(name="output", begin=1400)})
+    CommandOutput getOutputV1300();
     
     void sendMessage(Text message);
     
@@ -43,8 +65,22 @@ public interface CommandSource extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
     void sendMessageV1901(Text message);
     
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_19284", end=1400), @VersionName(name="entity", begin=1400)})
     Entity getEntity();
+    
+    @SpecificImpl("getEntity")
+    @VersionRange(end=1300)
+    default Entity getEntityV_1300()
+    {
+        if(this.isInstanceOf(Entity::create))
+            return this.castTo(Entity::create);
+        else
+            return Entity.create(null);
+    }
+    
+    @SpecificImpl("getEntity")
+    @VersionRange(begin=1300)
+    @WrapMinecraftFieldAccessor({@VersionName(name="field_19284", end=1400), @VersionName(name="entity", begin=1400)})
+    Entity getEntityV1300();
     
     default EntityPlayer getPlayer()
     {

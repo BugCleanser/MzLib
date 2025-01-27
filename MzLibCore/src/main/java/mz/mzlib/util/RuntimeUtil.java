@@ -40,6 +40,15 @@ public class RuntimeUtil
         throw RuntimeUtil.<T>cast(e);
     }
     
+    public static void sneakilyRun(ThrowableRunnable<? extends Throwable> action)
+    {
+        action.run();
+    }
+    public static <T> T sneakilyRun(ThrowableSupplier<T, ? extends Throwable> action)
+    {
+        return action.get();
+    }
+    
     /**
      * Throw an exception, but it's an expression <br/>
      * Used with a triadic operator <br/>
@@ -106,7 +115,7 @@ public class RuntimeUtil
     {
         try
         {
-            runnable.runWithThrowable();
+            runnable.runOrThrow();
         }
         catch(Throwable e)
         {

@@ -24,17 +24,21 @@ import java.util.function.Function;
 
 public abstract class UIWindow implements UI
 {
-    public UnionWindowType windowType;
+    public WindowType windowType;
     public Inventory inventory;
     
-    public UIWindow(UnionWindowType windowType, Inventory inventory)
+    public UIWindow(WindowType windowType, Inventory inventory)
     {
         this.windowType = windowType;
         this.inventory = inventory;
     }
-    public UIWindow(UnionWindowType windowType, int size)
+    public UIWindow(WindowType windowType, int size)
     {
         this(windowType, InventorySimple.newInstance(size));
+    }
+    public UIWindow(WindowType windowType)
+    {
+        this(windowType, windowType.upperSize);
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();

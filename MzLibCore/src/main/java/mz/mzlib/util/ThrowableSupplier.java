@@ -4,14 +4,14 @@ import java.util.function.Supplier;
 
 public interface ThrowableSupplier<T,E extends Throwable> extends Supplier<T>
 {
-    T getWithThrowable() throws E;
+    T getOrThrow() throws E;
 
     @Override
     default T get()
     {
         try
         {
-            return getWithThrowable();
+            return getOrThrow();
         }
         catch (Throwable e)
         {

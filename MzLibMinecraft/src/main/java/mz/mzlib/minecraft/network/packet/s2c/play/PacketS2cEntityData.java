@@ -184,6 +184,4 @@ public interface PacketS2cEntityData extends Packet
 	{
 		return wrapperCreator.apply(this.getData0(type));
 	}
-	
-	// TODO newInstance
 }

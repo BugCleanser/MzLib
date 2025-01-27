@@ -119,7 +119,7 @@ public class Formatting
                                     throw this.parser.exception(new IllegalArgumentException());
                                 if(this.parser.read()!=')')
                                     throw this.parser.exception();
-                                result = (result instanceof Collection ? ((Collection<?>)result).stream() : Arrays.stream(CollectionUtil.toObjectArray(result))).map(((ThrowableFunction<Object, String, ParseException>)it->new Formatting((String)action, MapBuilder.hashMap().put(param, it).get()).parse()).toFunction()).collect(Collectors.toList());
+                                result = (result instanceof Collection ? ((Collection<?>)result).stream() : Arrays.stream(CollectionUtil.toObjectArray(result))).map(((ThrowableFunction<Object, String, ParseException>)it->new Formatting((String)action, MapBuilder.hashMap().put(param, it).get()).parse())).collect(Collectors.toList());
                                 break;
                             case "join":
                                 if(this.parser.read()!='(')

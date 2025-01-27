@@ -6,20 +6,30 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.UUID;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.class_3893", end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
+@WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3893", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
 public interface CommandOutput extends WrapperObject
 {
+    @WrapperCreator
+    static CommandOutput create(Object wrapped)
+    {
+        return WrapperObject.create(CommandOutput.class, wrapped);
+    }
+    
     void sendMessage(Text msg);
     
     @SpecificImpl("sendMessage")
-    @WrapMinecraftMethod({@VersionName(name="method_5505", end=1400), @VersionName(name="sendMessage", begin=1400, end=1600), @VersionName(name="sendMessage", begin=1900)})
+    @VersionRange(end=1600)
+    @VersionRange(begin=1900)
+    @WrapMinecraftMethod({@VersionName(name="sendMessage", end=1300), @VersionName(name="method_5505", begin=1300, end=1400), @VersionName(name="sendMessage", begin=1400)})
     void sendMessageV_1600__1900(Text msg);
     
-    @WrapMinecraftMethod(@VersionName(name="sendSystemMessage", begin=1600, end=1900))
+    @VersionRange(begin=1600, end=1900)
+    @WrapMinecraftMethod(@VersionName(name="sendSystemMessage"))
     void sendMessageV1600_1900(Text msg, UUID sender);
     
     @SpecificImpl("sendMessage")

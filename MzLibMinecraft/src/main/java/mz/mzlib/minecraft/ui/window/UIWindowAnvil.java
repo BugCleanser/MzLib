@@ -7,19 +7,19 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.window.EventWindowAnvilSetName;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.ui.UI;
-import mz.mzlib.minecraft.window.UnionWindowType;
+import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
 
 public abstract class UIWindowAnvil extends UIWindow
 {
     public UIWindowAnvil(Inventory inventory)
     {
-        super(UnionWindowType.ANVIL, inventory);
+        super(WindowType.ANVIL, inventory);
     }
     
     public UIWindowAnvil()
     {
-        super(UnionWindowType.ANVIL, 3);
+        super(WindowType.ANVIL, 3);
     }
     
     public void onNameChanged(EntityPlayer player, String name)

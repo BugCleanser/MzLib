@@ -41,7 +41,7 @@ public class IOUtil
         }
         else
         {
-            byte[] result=supplier.getWithThrowable();
+            byte[] result=supplier.getOrThrow();
             boolean ignored=file.getParentFile().mkdirs();
             try(FileOutputStream fos=new FileOutputStream(file))
             {

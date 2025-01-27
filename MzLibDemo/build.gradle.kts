@@ -14,10 +14,11 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
-    compileOnly(project(":MzLibMinecraft", configuration = "shadow"))
+    compileOnly(project(":MzLibCore"))
+    compileOnly(project(":MzLibMinecraft"))
 
     testImplementation(fileTree("../lib"))
-    testImplementation(project(":MzLibMinecraft", configuration = "shadow"))
+    testImplementation(project(":MzLibMinecraft"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }

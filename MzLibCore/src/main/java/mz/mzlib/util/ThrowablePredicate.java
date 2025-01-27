@@ -2,22 +2,20 @@ package mz.mzlib.util;
 
 import java.util.function.Predicate;
 
-public interface ThrowablePredicate<T, E extends Throwable>
+public interface ThrowablePredicate<T, E extends Throwable> extends Predicate<T>
 {
-    boolean test(T arg) throws E;
-
-    default Predicate<T> toPredicate()
+    boolean testOrThrow(T arg) throws E;
+    
+    @Override
+    default boolean test(T t)
     {
-        return arg ->
+        try
         {
-            try
-            {
-                return this.test(arg);
-            }
-            catch (Throwable e)
-            {
-                throw RuntimeUtil.sneakilyThrow(e);
-            }
-        };
+            return testOrThrow(t);
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
     }
 }

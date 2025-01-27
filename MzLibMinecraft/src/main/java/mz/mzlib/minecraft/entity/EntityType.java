@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.entity;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.registry.EntityTypesV_1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -11,7 +12,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType"))
+@WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
 {
     @WrapperCreator
@@ -44,8 +45,10 @@ public interface EntityType extends WrapperObject
     
     @VersionRange(end=1300)
     @SpecificImpl("staticGetRegistry")
-    @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY"))
-    Registry staticRegistryV_1300();
+    default Registry staticRegistryV_1300()
+    {
+        return EntityTypesV_1300.registry();
+    }
     
     @VersionRange(begin=1300)
     @SpecificImpl("staticGetRegistry")

@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowSlotButton;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
-import mz.mzlib.minecraft.window.UnionWindowType;
+import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.module.MzModule;
@@ -53,7 +53,7 @@ public class Tictactoe extends MzModule
         
         public UITictactoe(EntityPlayer player)
         {
-            super(UnionWindowType.CRAFTING, 10);
+            super(WindowType.CRAFTING, 10);
             
             PLAYER = new ItemStackBuilder("structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).get();
             AI = new ItemStackBuilder("barrier").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).get();

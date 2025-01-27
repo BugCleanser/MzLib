@@ -1,12 +1,14 @@
 package mz.mzlib.minecraft.item;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", begin=1300, end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
+@VersionRange(begin=1300)
+@WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
 public interface ItemConvertibleV1300 extends WrapperObject
 {
     @WrapperCreator

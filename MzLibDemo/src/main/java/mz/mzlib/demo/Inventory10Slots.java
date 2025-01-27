@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
-import mz.mzlib.minecraft.window.UnionWindowType;
+import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.module.MzModule;
 
@@ -44,7 +44,7 @@ public class Inventory10Slots extends MzModule
     {
         public UIInventory10Slots()
         {
-            super(UnionWindowType.CRAFTING, 10);
+            super(WindowType.CRAFTING, 10);
         }
         
         @Override

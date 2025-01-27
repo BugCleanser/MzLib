@@ -62,12 +62,13 @@ public interface ClientConnection extends WrapperObject
     @WrapMethod("@0")
     void channelRead0(ChannelHandlerContext ctx, Packet packet);
     
-    static void handlePacket(Packet packet, PacketHandler handler)
+    static void handlePacketV1300(Packet packet, PacketHandler handler)
     {
-        create(null).staticHandlePacket(packet, handler);
+        create(null).staticHandlePacketV1300(packet, handler);
     }
+    @VersionRange(begin=1300)
     @WrapMinecraftMethod({@VersionName(name="method_20159", end=1400), @VersionName(name="handlePacket", begin=1400)})
-    void staticHandlePacket(Packet packet, PacketHandler handler);
+    void staticHandlePacketV1300(Packet packet, PacketHandler handler);
     
     @WrapMinecraftMethod(@VersionName(name="handleDisconnection"))
     void handleDisconnection();

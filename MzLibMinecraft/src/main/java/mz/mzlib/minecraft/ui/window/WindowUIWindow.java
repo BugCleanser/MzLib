@@ -24,7 +24,7 @@ public interface WindowUIWindow extends AbstractWindow
         return WrapperObject.create(WindowUIWindow.class, wrapped);
     }
     
-    WindowUIWindow staticNewInstance0(UnionWindowType type, int syncId);
+    WindowUIWindow staticNewInstance0(WindowType type, int syncId);
     
     @WrapConstructor
     @VersionRange(end=1400)
@@ -32,7 +32,7 @@ public interface WindowUIWindow extends AbstractWindow
     
     @SpecificImpl("staticNewInstance0")
     @VersionRange(end=1400)
-    default WindowUIWindow staticNewInstance0V_1400(UnionWindowType type, int syncId)
+    default WindowUIWindow staticNewInstance0V_1400(WindowType type, int syncId)
     {
         return this.staticNewInstance0V_1400();
     }
@@ -42,7 +42,7 @@ public interface WindowUIWindow extends AbstractWindow
     WindowUIWindow staticNewInstance0V1400(WindowTypeV1400 type, int syncId);
     @SpecificImpl("staticNewInstance0")
     @VersionRange(begin=1400)
-    default WindowUIWindow staticNewInstance0V1400(UnionWindowType type, int syncId)
+    default WindowUIWindow staticNewInstance0V1400(WindowType type, int syncId)
     {
         return this.staticNewInstance0V1400(type.typeV1400, syncId);
     }
@@ -60,7 +60,7 @@ public interface WindowUIWindow extends AbstractWindow
     @PropAccessor("player")
     void setPlayer(AbstractEntityPlayer value);
     
-    static WindowUIWindow newInstance0(UnionWindowType type, int syncId)
+    static WindowUIWindow newInstance0(WindowType type, int syncId)
     {
         return create(null).staticNewInstance0(type, syncId);
     }
