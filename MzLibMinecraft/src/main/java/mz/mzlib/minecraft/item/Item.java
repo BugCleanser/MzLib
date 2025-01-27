@@ -118,14 +118,14 @@ public interface Item extends WrapperObject
     }
     void staticSetLore(ItemStack itemStack, List<Text> lore);
     @SpecificImpl("staticSetLore")
-    @VersionRange(end=1300)
-    default void staticSetLoreV_1300(ItemStack itemStack, List<Text> lore)
+    @VersionRange(end=1400)
+    default void staticSetLoreV_1400(ItemStack itemStack, List<Text> lore)
     {
         itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
     @SpecificImpl("staticSetLore")
-    @VersionRange(begin=1300, end=2005)
-    default void staticSetLoreV1300_2005(ItemStack itemStack, List<Text> lore)
+    @VersionRange(begin=1400, end=2005)
+    default void staticSetLoreV1400_2005(ItemStack itemStack, List<Text> lore)
     {
         itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
