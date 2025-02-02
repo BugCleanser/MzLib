@@ -134,6 +134,8 @@ public class I18nMinecraft extends MzModule
     
     public void onLoad()
     {
+        if(MinecraftPlatform.instance.getVersion()<1300)
+            this.register(VanillaI18nV_1300.class);
         this.register(this.i18nMinecraft);
         loadCustomLanguages();
         loadMinecraftLanguages();

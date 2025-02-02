@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -8,11 +9,12 @@ import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
 
+@VersionRange(end=1900)
 @WrapMinecraftClass(
         {
                 @VersionName(name = "net.minecraft.text.BaseText", end=1400),
                 @VersionName(name = "net.minecraft.network.chat.BaseComponent", begin=1400, end=1403),
-                @VersionName(name = "net.minecraft.text.BaseText", begin=1403, end=1900)
+                @VersionName(name = "net.minecraft.text.BaseText", begin=1403)
         })
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {

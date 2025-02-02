@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.network.MessageTypeV_1900;
+import mz.mzlib.minecraft.network.MessageTypeV1200_1900;
 import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
 import mz.mzlib.minecraft.network.ServerPlayNetworkHandler;
 import mz.mzlib.minecraft.network.packet.Packet;
@@ -41,12 +41,12 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     @SpecificImpl("sendMessage")
     default void sendMessageV1300_1600(Text message)
     {
-        this.sendMessageV1300_1600(message, MessageTypeV_1900.system());
+        this.sendMessageV1300_1600(message, MessageTypeV1200_1900.system());
     }
     
     @VersionRange(begin=1300, end=1600)
     @WrapMinecraftMethod({@VersionName(name="method_21277", end=1400), @VersionName(name="sendChatMessage", begin=1400)})
-    void sendMessageV1300_1600(Text message, MessageTypeV_1900 type);
+    void sendMessageV1300_1600(Text message, MessageTypeV1200_1900 type);
     
     void sendPacket(Packet packet);
     

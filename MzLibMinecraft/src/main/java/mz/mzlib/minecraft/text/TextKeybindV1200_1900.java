@@ -1,28 +1,30 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+@VersionRange(begin=1200, end=1900)
 @WrapMinecraftClass(
         {
                 @VersionName(name = "net.minecraft.util.KeyBindComponent", end=1403),
-                @VersionName(name = "net.minecraft.text.KeybindText", begin=1403, end=1900)
+                @VersionName(name = "net.minecraft.text.KeybindText", begin=1403)
         })
-public interface TextKeybindV_1900 extends WrapperObject, AbstractTextV_1900
+public interface TextKeybindV1200_1900 extends WrapperObject, AbstractTextV_1900
 {
     @WrapperCreator
-    static TextKeybindV_1900 create(Object wrapped)
+    static TextKeybindV1200_1900 create(Object wrapped)
     {
-        return WrapperObject.create(TextKeybindV_1900.class, wrapped);
+        return WrapperObject.create(TextKeybindV1200_1900.class, wrapped);
     }
 
     @WrapConstructor
-    TextKeybindV_1900 staticNewInstance(String keybind);
-    static TextKeybindV_1900 newInstance(String keybind)
+    TextKeybindV1200_1900 staticNewInstance(String keybind);
+    static TextKeybindV1200_1900 newInstance(String keybind)
     {
         return create(null).staticNewInstance(keybind);
     }

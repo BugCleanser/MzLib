@@ -64,17 +64,16 @@ public class Mappings implements IMappings
         }
         return result;
     }
-    public static Mappings parseYarn(ZipInputStream mappings)
+    public static Mappings parseZipMapping(ZipInputStream mappings, String prefix)
     {
         Mappings result = new Mappings();
         try
         {
             for (ZipEntry i = mappings.getNextEntry(); i != null; i = mappings.getNextEntry())
             {
-                String[] parts = i.getName().split("/");
-                if (!i.isDirectory() && parts.length > 2 && parts[1].equals("mappings") && i.getName().endsWith(".mapping"))
+                if (!i.isDirectory() && i.getName().startsWith(prefix) && i.getName().endsWith(".mapping"))
                 {
-                    Iterator<String> it = new BufferedReader(new StringReader(new String(Util.readInputStream(mappings), StandardCharsets.UTF_8))).lines().filter(_it -> !_it.trim().startsWith("COMMENT")).iterator();
+                    Iterator<String> it = new BufferedReader(new StringReader(new String(MappingsUtil.readInputStream(mappings), StandardCharsets.UTF_8))).lines().filter(_it -> !_it.trim().startsWith("COMMENT")).iterator();
                     List<String> fromPath=new ArrayList<>(),toPath=new ArrayList<>();
                     Supplier<String> from=()->String.join("$",fromPath),to=()->String.join("$",toPath);
                     while ( it.hasNext() )
@@ -83,7 +82,7 @@ public class Mappings implements IMappings
                         int tab=0;
                         while(tab<line.length()&&line.charAt(tab)=='\t')
                             tab++;
-                        String[] a = line.substring(tab).split(" ");
+                        String[] a = line.substring(tab).split("[ \\t]");
                         while(fromPath.size()>tab)
                             fromPath.remove(fromPath.size()-1);
                         while(toPath.size()>tab)
@@ -110,7 +109,7 @@ public class Mappings implements IMappings
                             case "ARG":
                                 break;
                             default:
-                                throw new UnsupportedOperationException(line);
+                                throw new UnsupportedOperationException(line+" in file "+i.getName());
                         }
                     }
                 }
@@ -122,7 +121,7 @@ public class Mappings implements IMappings
         }
         return result;
     }
-    public static Mappings parseYarnIntermediary(String mappings)
+    public static Mappings parseTiny(String mappings)
     {
         Mappings result = new Mappings();
         Iterator<String> it = new BufferedReader(new StringReader(mappings)).lines().filter(_it -> !_it.startsWith("#")).iterator();
@@ -186,10 +185,10 @@ public class Mappings implements IMappings
         }
         return result;
     }
-    public static Mappings parseSpigot(SpigotMappings mappings)
+    public static Mappings parseCsrg(String classMappings, String memberMappings)
     {
         Mappings result = new Mappings();
-        new BufferedReader(new StringReader(mappings.classMappings)).lines()
+        new BufferedReader(new StringReader(classMappings)).lines()
                 .filter(l -> !l.startsWith("#"))
                 .forEach(line -> {
                     String obfName = line.split(" ")[0].replace('/', '.');;
@@ -197,7 +196,7 @@ public class Mappings implements IMappings
                     result.classes.put(deobfName,obfName);
                 });
 
-        new BufferedReader(new StringReader(mappings.memberMappings)).lines()
+        new BufferedReader(new StringReader(memberMappings)).lines()
                 .filter(l -> !l.startsWith("#"))
                 .forEach(it1-> handleMember(result,it1));
 

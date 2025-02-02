@@ -7,37 +7,37 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(end=1900)
+@VersionRange(begin=1200, end=1900)
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.ChatMessageType", end=1400), @VersionName(name="net.minecraft.network.MessageType", begin=1400)})
-public interface MessageTypeV_1900 extends WrapperObject
+public interface MessageTypeV1200_1900 extends WrapperObject
 {
     @WrapperCreator
-    static MessageTypeV_1900 create(Object wrapped)
+    static MessageTypeV1200_1900 create(Object wrapped)
     {
-        return WrapperObject.create(MessageTypeV_1900.class, wrapped);
+        return WrapperObject.create(MessageTypeV1200_1900.class, wrapped);
     }
     
-    static MessageTypeV_1900 chat()
+    static MessageTypeV1200_1900 chat()
     {
         return create(null).staticChat();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="CHAT", end=1400), @VersionName(name="field_11737", begin=1400)})
-    MessageTypeV_1900 staticChat();
+    MessageTypeV1200_1900 staticChat();
     
-    static MessageTypeV_1900 system()
+    static MessageTypeV1200_1900 system()
     {
         return create(null).staticSystem();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="SYSTEM", end=1400), @VersionName(name="field_11735", begin=1400)})
-    MessageTypeV_1900 staticSystem();
+    MessageTypeV1200_1900 staticSystem();
     
-    static MessageTypeV_1900 actionBar()
+    static MessageTypeV1200_1900 actionBar()
     {
         return create(null).staticActionBar();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="GAME_INFO", end=1400), @VersionName(name="field_11733", begin=1400)})
-    MessageTypeV_1900 staticActionBar();
+    MessageTypeV1200_1900 staticActionBar();
 }

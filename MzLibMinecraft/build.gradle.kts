@@ -9,13 +9,5 @@ dependencies {
     compileOnly("com.mojang:brigadier:1.3.10")
 
     api(project(":MzLibCore"))
-    implementation("commons-cli:commons-cli:1.9.0")
     compileOnly("io.netty:netty-all:4.1.76.Final")
-
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "mz.mzlib.cli.CliTool"
-    }
 }

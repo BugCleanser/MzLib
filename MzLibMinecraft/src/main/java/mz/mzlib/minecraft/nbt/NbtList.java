@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.nbt;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.RuntimeUtil;
@@ -132,8 +133,9 @@ public interface NbtList extends NbtElement
         return this.get(index).castTo(NbtIntArray::create);
     }
     
-    default NbtLongArray getLongArray(int index)
+    @VersionRange(begin=1200)
+    default NbtLongArrayV1200 getLongArrayV1200(int index)
     {
-        return this.get(index).castTo(NbtLongArray::create);
+        return this.get(index).castTo(NbtLongArrayV1200::create);
     }
 }

@@ -4,15 +4,14 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.mappings.*;
-import mz.mzlib.util.Ref;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.StrongRef;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
@@ -21,7 +20,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     @Override
     public String getLanguage(EntityPlayer player)
     {
-        return ((Player)BukkitEntityUtil.toBukkit(player)).getLocale();
+        return ((Player)BukkitEntityUtil.toBukkit(player)).spigot().getLocale();
     }
     
     public String protocolVersion;
@@ -117,27 +116,29 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     
     {
         File folder = new File(getMzLibDataFolder(), "mappings");
-        Ref<Mappings> yarnLegacy = new StrongRef<>(null);
-        Ref<Mappings> yarn = new StrongRef<>(null);
-        Ref<Mappings> yarnIntermediary = new StrongRef<>(null);
-        Ref<Mappings> platform = new StrongRef<>(null);
+        Mappings yarn;
+        Mappings yarnIntermediary;
+        Mappings platform;
         Mappings mappingsSpigot = null;
         try
         {
+            if(this.getVersion()<1400)
             {
-                YarnMappings y = new YarnMappingFetcher(getVersionString(), folder).fetch();
-                if(y.legacy!=null)
-                    yarnLegacy.set(Mappings.parseYarnLegacy(y.legacy));
-                else
-                {
-                    yarn.set(Mappings.parseYarn(y.zip));
-                    yarnIntermediary.set(Mappings.parseYarnIntermediary(y.intermediary));
-                }
+                yarn = new MinecraftMappingsFetcherLegacyYarn().fetch(getVersionString(), folder);
+                yarnIntermediary = null; // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(getVersionString(), folder);
+            }
+            else
+            {
+                yarn = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder);
+                yarnIntermediary = new MinecraftMappingsFetcherYarnIntermediary().fetch(getVersionString(), folder);
             }
             if(this.isPaper() && this.getVersion()>=2005)
-                platform.set(Mappings.parseMojang(new MojangMappingsFetcher(getVersionString(), folder).fetch()));
+                platform = new MinecraftMappingsFetcherMojang().fetch(getVersionString(), folder);
             else
-                platform.set(mappingsSpigot = Mappings.parseSpigot(new SpigotMinecraftMappingsFetcher(getVersionString(), folder).fetch()));
+            {
+                platform = new MinecraftMappingsFetcherSpigot().fetch(getVersionString(), folder);
+                mappingsSpigot = platform;
+            }
         }
         catch(Throwable e)
         {
@@ -158,27 +159,17 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
             }
             result.add(mappingsV1605_1700);
         }
-        result.add(platform.get());
-        if(yarnLegacy.get()!=null)
-            result.add(yarnLegacy.get());
-        else
-        {
-            if(getVersion()>=1403)
-                result.add(yarnIntermediary.get());
-            result.add(yarn.get());
-        }
+        result.add(platform);
+        if(yarnIntermediary!=null)
+            result.add(yarnIntermediary);
+        result.add(yarn);
         this.mappingsP2Y = new MappingsPipe(result);
         
         result = new ArrayList<>();
-        if(yarnLegacy.get()!=null)
-            result.add(yarnLegacy.get().reverse());
-        else
-        {
-            result.add(yarn.get().reverse());
-            if(getVersion()>=1403)
-                result.add(yarnIntermediary.get().reverse());
-        }
-        result.add(platform.get().reverse());
+        result.add(yarn.reverse());
+        if(yarnIntermediary!=null)
+            result.add(yarnIntermediary.reverse());
+        result.add(Objects.requireNonNull(platform).reverse());
         if(this.getVersion()==1605 && mappingsV1605_1700!=null)
             result.add(mappingsV1605_1700.reverse());
         if(getVersion()<1700)

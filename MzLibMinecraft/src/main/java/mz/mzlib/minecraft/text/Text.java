@@ -90,21 +90,21 @@ public interface Text extends WrapperObject
         return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.empty());
     }
     
-    Text staticKeybind(String keybind);
+    Text staticKeybindV1200(String keybind);
     
-    static Text keybind(String keybind)
+    static Text keybindV1200(String keybind)
     {
-        return create(null).staticKeybind(keybind);
+        return create(null).staticKeybindV1200(keybind);
     }
     
-    @SpecificImpl("staticKeybind")
-    @VersionRange(end=1900)
-    default Text staticKeybindV_1900(String keybind)
+    @SpecificImpl("staticKeybindV1200")
+    @VersionRange(begin=1200, end=1900)
+    default Text staticKeybindV1200_1900(String keybind)
     {
-        return TextKeybindV_1900.newInstance(keybind);
+        return TextKeybindV1200_1900.newInstance(keybind);
     }
     
-    @SpecificImpl("staticKeybind")
+    @SpecificImpl("staticKeybindV1200")
     @VersionRange(begin=1900)
     default Text staticKeybindV1900(String keybind)
     {
@@ -213,18 +213,19 @@ public interface Text extends WrapperObject
         return this.getContentV1900().castTo(TextContentTranslatableV1900::create).getArgs();
     }
     
-    String getKeybind();
+    @VersionRange(begin=1200)
+    String getKeybindV1200();
     
-    @SpecificImpl("getKeybind")
-    @VersionRange(end=1900)
-    default String getKeybindV_1900()
+    @SpecificImpl("getKeybindV1200")
+    @VersionRange(begin=1200, end=1900)
+    default String getKeybindV1200_1900()
     {
-        if(!this.isInstanceOf(TextKeybindV_1900::create))
+        if(!this.isInstanceOf(TextKeybindV1200_1900::create))
             return null;
-        return this.castTo(TextKeybindV_1900::create).getKey();
+        return this.castTo(TextKeybindV1200_1900::create).getKey();
     }
     
-    @SpecificImpl("getKeybind")
+    @SpecificImpl("getKeybindV1200")
     @VersionRange(begin=1900)
     default String getKeybindV1900()
     {

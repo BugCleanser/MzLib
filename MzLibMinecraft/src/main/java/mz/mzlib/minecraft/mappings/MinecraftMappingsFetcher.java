@@ -1,17 +1,9 @@
 package mz.mzlib.minecraft.mappings;
 
 import java.io.File;
+import java.io.IOException;
 
-public abstract class MinecraftMappingsFetcher<T>
+public interface MinecraftMappingsFetcher
 {
-    public String version;
-    public File cacheFolder;
-    
-    public MinecraftMappingsFetcher(String version, File cacheFolder)
-    {
-        this.version = version;
-        this.cacheFolder = cacheFolder;
-    }
-    
-    public abstract T fetch();
+    Mappings fetch(String version, File cacheFolder) throws IOException;
 }

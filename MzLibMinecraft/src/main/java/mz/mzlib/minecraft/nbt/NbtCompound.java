@@ -137,8 +137,9 @@ public interface NbtCompound extends NbtElement
         return this.get(key, NbtIntArray::create);
     }
     
-    default NbtLongArray getLongArray(String key)
+    @VersionRange(begin=1200)
+    default NbtLongArrayV1200 getLongArrayV1200(String key)
     {
-        return this.get(key, NbtLongArray::create);
+        return this.get(key, NbtLongArrayV1200::create);
     }
 }

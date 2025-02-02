@@ -103,17 +103,17 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     int getDataVersion();
     
     @SpecificImpl("getDataVersion")
-    @VersionRange(end=1202)
+    @VersionRange(end=1300)
+    default int getDataVersionV_1300()
+    {
+        return this.getDataUpdaterV_1300().getDataVersion();
+    }
+    
+    @SpecificImpl("getDataVersion")
     @VersionRange(begin=1300, end=1302)
     default int getDataVersionUnsupported()
     {
         throw new UnsupportedOperationException();
-    }
-    @SpecificImpl("getDataVersion")
-    @VersionRange(begin=1202, end=1300)
-    default int getDataVersionV1202_1300()
-    {
-        return 1343;
     }
     @SpecificImpl("getDataVersion")
     @VersionRange(begin=1302, end=1400)

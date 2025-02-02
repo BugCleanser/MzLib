@@ -115,6 +115,7 @@ public class NothingRegistration
         }
         ClassNode cn = new ClassNode();
         new ClassReader(this.rawByteCode).accept(cn, 0);
+        cn.version=Math.max(cn.version, Opcodes.V1_8);
         Map<MethodNode, AbstractInsnNode[]> raws = new HashMap<>();
         for(MethodNode m: cn.methods)
         {

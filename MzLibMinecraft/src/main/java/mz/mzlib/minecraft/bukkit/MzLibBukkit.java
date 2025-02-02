@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.bukkit;
 
-import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.bukkit.command.RegistrarCommandBukkit;
 import mz.mzlib.minecraft.bukkit.network.packet.ModuleBukkitPacketListener;
@@ -14,9 +13,6 @@ public class MzLibBukkit extends MzModule
     @Override
     public void onLoad()
     {
-        if (MinecraftPlatformBukkit.instance.getVersion() < 1400 && MinecraftPlatformBukkit.instance.getVersion() != 1202 && MinecraftPlatformBukkit.instance.getVersion() != 1302)
-            throw new IllegalStateException("MzLib is unsupported on your MC version: " + MinecraftPlatformBukkit.instance.getVersionString());
-
         this.register(MinecraftPlatformBukkit.instance);
 
         this.register(CraftServer.create(Bukkit.getServer()).getServer());

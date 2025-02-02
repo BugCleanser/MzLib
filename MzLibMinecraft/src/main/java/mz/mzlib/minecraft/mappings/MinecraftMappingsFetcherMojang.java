@@ -2,11 +2,9 @@ package mz.mzlib.minecraft.mappings;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import mz.mzlib.util.async.AsyncFunction;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.StreamSupport;
 
 /**
@@ -24,25 +22,20 @@ import java.util.stream.StreamSupport;
  * <p>
  * get: mappingsUrl
  */
-public class MojangMappingsFetcher extends MinecraftMappingsFetcher<String>
+public class MinecraftMappingsFetcherMojang implements MinecraftMappingsFetcher
 {
-    public MojangMappingsFetcher(String version, File cacheFolder)
-    {
-        super(version, cacheFolder);
-    }
-
     /**
      * 此答辩由mz拉
      * @author MZ
      */
     @Override
-    public String fetch()
+    public Mappings fetch(String version, File cacheFolder)
     {
-        return Util.cache(Optional.ofNullable(this.cacheFolder).map(it->new File(new File(it,"Mojang"),this.version+".txt")).orElse(null), ()->Util.request(new Gson().fromJson(Util.request(
-                StreamSupport.stream(new Gson().fromJson(Util.request("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"), JsonObject.class).getAsJsonArray("versions").spliterator(), false)
+        return Mappings.parseMojang(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it,"Mojang"),version+".txt")).orElse(null), ()->MappingsUtil.request(new Gson().fromJson(MappingsUtil.request(
+                StreamSupport.stream(new Gson().fromJson(MappingsUtil.request("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"), JsonObject.class).getAsJsonArray("versions").spliterator(), false)
                         .map(it -> ((JsonObject) it))
                         .filter(it->it.get("id").getAsString().equals(version)).findFirst().orElseThrow(() -> new RuntimeException("mojang not found version" + version))
                         .get("url").getAsString()
-        ), JsonObject.class).getAsJsonObject("downloads").getAsJsonObject("server_mappings").get("url").getAsString()));
+        ), JsonObject.class).getAsJsonObject("downloads").getAsJsonObject("server_mappings").get("url").getAsString())));
     }
 }

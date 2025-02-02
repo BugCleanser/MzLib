@@ -1,16 +1,15 @@
 package mz.mzlib.minecraft.mappings;
 
+import mz.mzlib.util.IOUtil;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
-public class Util
+public class MappingsUtil
 {
     public static String cache(File file, Supplier<String> supplier)
     {
@@ -55,7 +54,7 @@ public class Util
     
     public static byte[] request0(URL url)
     {
-        try(InputStream is = openConnectionCheckRedirects(url.openConnection()))
+        try(InputStream is = IOUtil.openConnectionCheckRedirects(url))
         {
             return readInputStream(is);
         }
@@ -113,45 +112,5 @@ public class Util
         {
             throw new RuntimeException(e);
         }
-    }
-    
-    public static InputStream openConnectionCheckRedirects(URLConnection c) throws IOException
-    {
-        boolean redir;
-        int redirects = 0;
-        InputStream in;
-        do
-        {
-            if(c instanceof HttpURLConnection)
-            {
-                ((HttpURLConnection)c).setInstanceFollowRedirects(false);
-            }
-            in = c.getInputStream();
-            redir = false;
-            if(c instanceof HttpURLConnection)
-            {
-                HttpURLConnection http = (HttpURLConnection)c;
-                int stat = http.getResponseCode();
-                if(stat>=300 && stat<=307 && stat!=306 && stat!=HttpURLConnection.HTTP_NOT_MODIFIED)
-                {
-                    URL base = http.getURL();
-                    String loc = http.getHeaderField("Location");
-                    URL target = null;
-                    if(loc!=null)
-                    {
-                        target = new URL(base, loc);
-                    }
-                    http.disconnect();
-                    if(target==null || redirects>=5)
-                    {
-                        throw new SecurityException("illegal URL redirect");
-                    }
-                    redir = true;
-                    c = target.openConnection();
-                    redirects++;
-                }
-            }
-        }while(redir);
-        return in;
     }
 }

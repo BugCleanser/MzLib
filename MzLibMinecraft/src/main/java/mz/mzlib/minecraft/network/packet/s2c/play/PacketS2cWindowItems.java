@@ -36,39 +36,39 @@ public interface PacketS2cWindowItems extends Packet
         return new ListWrapper<>(this.getContents0(), ItemStack::create);
     }
     
-    @VersionRange(end=1200)
+    @VersionRange(end=1000)
     @WrapMinecraftFieldAccessor(@VersionName(name="stacks"))
-    Object[] getContents0V_1200();
+    Object[] getContents0V_1000();
     
     @SpecificImpl("getContents0")
-    @VersionRange(end=1200)
-    default List<?> getContentsV_1200()
+    @VersionRange(end=1000)
+    default List<?> getContentsV_1000()
     {
-        return Arrays.asList(this.getContents0V_1200());
+        return Arrays.asList(this.getContents0V_1000());
     }
     
     @SpecificImpl("getContents0")
-    @VersionRange(begin=1200)
+    @VersionRange(begin=1000)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_15348", end=1400), @VersionName(name="slotStackList", begin=1400, end=1600), @VersionName(name="contents", begin=1600)})
-    List<?> getContents0V1200();
+    List<?> getContents0V1000();
     
     void setContents0(List<?> value);
     
-    @VersionRange(end=1200)
+    @VersionRange(end=1000)
     @WrapMinecraftFieldAccessor(@VersionName(name="stacks"))
-    void setContents0V_1200(Object[] value);
+    void setContents0V_1000(Object[] value);
     
     @SpecificImpl("setContents0")
-    @VersionRange(end=1200)
-    default void setContents0V_1200(List<?> value)
+    @VersionRange(end=1000)
+    default void setContents0V_1000(List<?> value)
     {
-        this.setContents0V_1200(value.toArray());
+        this.setContents0V_1000(value.toArray());
     }
     
     @SpecificImpl("setContents0")
-    @VersionRange(begin=1200)
+    @VersionRange(begin=1000)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_15348", end=1400), @VersionName(name="slotStackList", begin=1400, end=1600), @VersionName(name="contents", begin=1600)})
-    void setContents0V1200(List<?> value);
+    void setContents0V1000(List<?> value);
     
     default void setContents(List<ItemStack> value)
     {
@@ -85,13 +85,13 @@ public interface PacketS2cWindowItems extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name="revision", begin=1701))
     int getRevisionV1701();
     
-    @VersionRange(end=1200)
+    @VersionRange(end=1000)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstance0V_1200(int syncId, List<Object> contents);
+    PacketS2cWindowItems staticNewInstance0V_1000(int syncId, List<Object> contents);
     
-    @VersionRange(begin=1200, end=1701)
+    @VersionRange(begin=1000, end=1701)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstanceV1200_1701(int syncId, DefaultedList contents);
+    PacketS2cWindowItems staticNewInstanceV1000_1701(int syncId, DefaultedList contents);
     
     @VersionRange(begin=1701)
     @WrapConstructor
