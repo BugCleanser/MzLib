@@ -146,4 +146,15 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
+    
+    @WrapMinecraftMethod({@VersionName(name="run", end=1400), @VersionName(name="method_29741", begin=1400)})
+    void run();
+    
+    @VersionRange(end=1904)
+    @WrapMinecraftMethod({@VersionName(name="setServerMeta", end=1400), @VersionName(name="setFavicon", begin=1400)})
+    void setFaviconV_1904(ServerMetadata metadata);
+    
+    @VersionRange(begin=1904)
+    @WrapMinecraftMethod(@VersionName(name="createMetadata"))
+    ServerMetadata createMetadataV1904();
 }

@@ -15,7 +15,6 @@ import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
 
 import java.util.Collections;
-import java.util.concurrent.ForkJoinPool;
 
 public class CommandMzLibTest extends MzModule
 {
@@ -60,7 +59,7 @@ public class CommandMzLibTest extends MzModule
                 testerContext = new TesterContext(level);
                 context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.begin.non_player")));
             }
-            new Tester.FunctionTestAll(testerContext).start(ForkJoinPool.commonPool()).whenComplete((r, e)->
+            Tester.testAll(testerContext).whenComplete((r, e)->
             {
                 if(e!=null)
                 {

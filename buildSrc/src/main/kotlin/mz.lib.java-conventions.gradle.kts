@@ -17,6 +17,7 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://raw.githubusercontent.com/TheBlackEntity/PlugMan/repository/")
     maven("https://repo.maven.apache.org/maven2/")
+    maven("https://maven.fabricmc.net/")
 }
 
 group = "mz.mzlib"
@@ -44,17 +45,17 @@ tasks {
     }
     register<Copy>("copyBinaryResources") {
         from("src/main/resources") {
-            include("**/*.lang")
-            include("**/*.json")
-            include("mappings/yarn/*.tiny")
+            include("assets/**/*")
+            include("lang/**/*")
+            include("mappings/**/*")
         }
         into("build/resources/main")
     }
     processResources {
         dependsOn("copyBinaryResources")
-        exclude("**/*.lang")
-        exclude("**/*.json")
-        exclude("mappings/yarn/*.tiny")
+        exclude("assets/**/*")
+        exclude("lang/**/*")
+        exclude("mappings/**/*")
         expand("version" to project.version)
     }
     withType<JavaCompile>() {

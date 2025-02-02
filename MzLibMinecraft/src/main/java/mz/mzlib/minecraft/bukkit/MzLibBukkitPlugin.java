@@ -16,7 +16,7 @@ public class MzLibBukkitPlugin extends JavaPlugin
     public void onEnable()
     {
         MzLib.instance.load();
-        MzLib.instance.register(MzLibBukkit.instance);
+        MzLibBukkit.instance.load();
     }
 
     @Override

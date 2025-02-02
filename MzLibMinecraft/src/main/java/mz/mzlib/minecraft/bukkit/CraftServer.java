@@ -7,6 +7,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapMethod;
 
+@BukkitOnly
 @WrapCraftbukkitClass(@VersionName(name = "OBC.CraftServer"))
 public interface CraftServer extends WrapperObject
 {

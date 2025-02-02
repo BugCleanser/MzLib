@@ -12,10 +12,10 @@ import java.lang.reflect.AnnotatedElement;
 @ElementSwitcherClass(BukkitOnly.Handler.class)
 public @interface BukkitOnly
 {
-    class Handler implements ElementSwitcher
+    class Handler implements ElementSwitcher<BukkitOnly>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(BukkitOnly annotation, AnnotatedElement element)
         {
             return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit;
         }

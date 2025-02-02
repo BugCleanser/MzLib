@@ -3,7 +3,7 @@ package mz.mzlib.demo;
 import mz.mzlib.MzLib;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class DemoPlugin extends JavaPlugin
+public class DemoBukkit extends JavaPlugin
 {
     @Override
     public void onEnable()

@@ -8,7 +8,7 @@
 name: MzLibDemo
 version: 0.1
 authors: [ mz ]
-main: mz.mzlib.demo.DemoPlugin
+main: mz.mzlib.demo.DemoBukkit
 depend: [ MzLib ]
 api-version: 1.13
 ```

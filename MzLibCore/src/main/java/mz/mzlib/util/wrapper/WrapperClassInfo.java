@@ -511,7 +511,7 @@ public class WrapperClassInfo
         }
         catch(Throwable e)
         {
-            throw RuntimeUtil.sneakilyThrow(e);
+            throw new RuntimeException("Of wrapper "+this.getWrapperClass().getName(), e);
         }
     }
 }

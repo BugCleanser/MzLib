@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 
@@ -11,11 +12,11 @@ import java.lang.reflect.AnnotatedElement;
 @ElementSwitcherClass(PaperOnly.Switcher.class)
 public @interface PaperOnly
 {
-    class Switcher implements ElementSwitcher
+    class Switcher implements ElementSwitcher<PaperOnly>
     {
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(PaperOnly annotation, AnnotatedElement element)
         {
-            return MinecraftPlatformBukkit.instance.isPaper;
+            return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit && MinecraftPlatformBukkit.instance.isPaper;
         }
     }
 }

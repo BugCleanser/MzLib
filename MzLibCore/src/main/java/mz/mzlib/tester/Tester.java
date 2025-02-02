@@ -6,9 +6,11 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.async.AsyncFunction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ForkJoinPool;
 
 public interface Tester<C extends TesterContext>
 {
@@ -51,33 +53,27 @@ public interface Tester<C extends TesterContext>
         }
     }
     
-    class FunctionTestAll extends AsyncFunction<List<Throwable>>
+    static CompletableFuture<List<Throwable>> testAll(TesterContext testContext)
     {
-        public TesterContext testContext;
-        public FunctionTestAll(TesterContext testContext)
+        return new AsyncFunction<List<Throwable>>()
         {
-            this.testContext = testContext;
-        }
-        
-        @Override
-        protected List<Throwable> template() throws Throwable
-        {
-            List<Throwable> result = new ArrayList<>();
-            for(Tester<?> tester: Registrar.instance.testers)
+            protected List<Throwable> template() throws Throwable
             {
-                if(tester.shouldTest(this.testContext))
+                List<Throwable> result = new ArrayList<>();
+                for(Tester<?> tester: Registrar.instance.testers)
                 {
-                    CompletableFuture<List<Throwable>> test = tester.test(RuntimeUtil.cast(this.testContext));
-                    await0(test);
-                    result.addAll(test.get());
+                    if(tester.shouldTest(testContext))
+                    {
+                        CompletableFuture<List<Throwable>> test = tester.test(RuntimeUtil.cast(testContext));
+                        await0(test);
+                        result.addAll(test.get());
+                    }
                 }
+                return result;
             }
-            return result;
-        }
-        
-        @Override
-        public void run()
-        {
-        }
+            public void run()
+            {
+            }
+        }.start(ForkJoinPool.commonPool());
     }
 }

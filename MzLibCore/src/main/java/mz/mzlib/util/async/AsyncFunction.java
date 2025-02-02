@@ -19,13 +19,13 @@ public abstract class AsyncFunction<R> implements Runnable
     public AsyncFunction()
     {
     }
-
+    
     /**
      * Override this method and do nothing. <br/>
      * Called by AsyncFunctionRunner. <br/>
      */
     public abstract void run();
-
+    
     /**
      * Implement this template method. <br/>
      * You can use local variables or class fields in your implementation. <br/>
@@ -33,19 +33,19 @@ public abstract class AsyncFunction<R> implements Runnable
      * Avoid using 'await' in synchronous code blocks. <br/>
      */
     protected abstract R template() throws Throwable;
-
+    
     /**
      * Processed by runner, await a BasicAwait
      */
     @SuppressWarnings("all")
     public static void await(BasicAwait await)
     {
-        if (RuntimeUtil.nul() == null)
+        if(RuntimeUtil.nul()==null)
         {
             throw new UnsupportedOperationException("Must be invoked by async function via 'this'.");
         }
     }
-
+    
     /**
      * Await for the completion of a CompletableFuture
      * If it fails, it will throw an exception, otherwise it will not return a result, and you need to use future.get() to get the result
@@ -54,18 +54,18 @@ public abstract class AsyncFunction<R> implements Runnable
     {
         await(null);
     }
-
+    
     public AsyncFunctionRunner runner;
-
+    
     public AsyncFunctionRunner getRunner()
     {
         return runner;
     }
-
+    
     public CompletableFuture<R> start(AsyncFunctionRunner runner)
     {
         this.runner = runner;
-        if (this.context == null)
+        if(this.context==null)
             this.context = AsyncFunctionContext.init(this);
         runner.schedule(this);
         return RuntimeUtil.cast(context.future);
@@ -75,15 +75,14 @@ public abstract class AsyncFunction<R> implements Runnable
         return this.start(AsyncFunctionRunner.fromExecutor(executor));
     }
     
-
+    
     public AsyncFunctionContext context;
-
+    
     public void run(Object result, Throwable e)
     {
-        if (e != null)
-        {
-            throw RuntimeUtil.sneakilyThrow(e);
-        }
-        this.run();
+        if(e!=null)
+            this.context.future.completeExceptionally(e);
+        else
+            this.run();
     }
 }

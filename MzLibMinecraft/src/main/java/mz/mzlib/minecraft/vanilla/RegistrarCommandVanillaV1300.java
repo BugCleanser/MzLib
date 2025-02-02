@@ -14,6 +14,8 @@ import mz.mzlib.util.RuntimeUtil;
 
 public class RegistrarCommandVanillaV1300 implements IRegistrar<Command>
 {
+    public static RegistrarCommandVanillaV1300 instance = new RegistrarCommandVanillaV1300();
+    
     @Override
     public Class<Command> getType()
     {

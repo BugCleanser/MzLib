@@ -32,11 +32,9 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     
     public String versionString;
     public int version;
-    
     {
-        versionString = Bukkit.getBukkitVersion().split("-")[0];
-        String[] versions = versionString.split("\\.", -1);
-        version = Integer.parseInt(versions[1])*100+(versions.length>2 ? Integer.parseInt(versions[2]) : 0);
+        this.versionString = Bukkit.getBukkitVersion().split("-")[0];
+        this.version = MinecraftPlatform.parseVersion(this.versionString);
     }
     
     public boolean isPaper = RuntimeUtil.runAndCatch(()->Class.forName("com.destroystokyo.paper.PaperConfig"))==null || RuntimeUtil.runAndCatch(()->Class.forName("io.papermc.paper.configuration.Configuration"))==null;
