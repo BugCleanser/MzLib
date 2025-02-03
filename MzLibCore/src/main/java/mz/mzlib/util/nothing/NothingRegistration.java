@@ -65,16 +65,13 @@ public class NothingRegistration
         return nothings.isEmpty();
     }
     
-    public static String getMetafactoryName(String className)
-    {
-        return className+"$0NothingMetafactory";
-    }
+    public String metafactory;
     
-    public static void defineMetafactory(Class<?> clazz, CallSite[] callSites)
+    public void defineMetafactory(CallSite[] callSites)
     {
         ClassNode cn = new ClassNode();
-        cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, getMetafactoryName(AsmUtil.getType(clazz.getName())), null, AsmUtil.getType(Object.class), new String[0]);
-        cn.outerClass = AsmUtil.getType(clazz.getName());
+        cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, this.metafactory, null, AsmUtil.getType(Object.class), new String[0]);
+        cn.outerClass = AsmUtil.getType(this.target.getName());
         
         cn.visitField(Opcodes.ACC_PUBLIC|Opcodes.ACC_STATIC, "callSites", AsmUtil.getDesc(CallSite[].class), null, null).visitEnd();
         
@@ -89,7 +86,7 @@ public class NothingRegistration
         cn.accept(cw);
         try
         {
-            ClassUtil.defineClass(clazz.getClassLoader(), cn.name, cw.toByteArray()).getField("callSites").set(null, callSites);
+            ClassUtil.defineClass(this.target.getClassLoader(), cn.name, cw.toByteArray()).getField("callSites").set(null, callSites);
         }
         catch(Throwable e)
         {
@@ -97,13 +94,14 @@ public class NothingRegistration
         }
     }
     
-    public static AbstractInsnNode insnInvokeDynamic(String className, int callSiteIndex, String desc)
+    public AbstractInsnNode insnInvokeDynamic(int callSiteIndex, String desc)
     {
-        return new InvokeDynamicInsnNode("invokeDynamic", desc, new Handle(Opcodes.H_INVOKESTATIC, getMetafactoryName(className), "metafactory", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, int.class), false), callSiteIndex);
+        return new InvokeDynamicInsnNode("invokeDynamic", desc, new Handle(Opcodes.H_INVOKESTATIC, this.metafactory, "metafactory", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, int.class), false), callSiteIndex);
     }
     
     public synchronized void apply()
     {
+        this.metafactory = AsmUtil.getType(this.target)+"$0NothingMetafactory"+UUID.randomUUID().toString().replace("-", "");
         List<CallSite> callSites = new ArrayList<>();
         try
         {
@@ -218,14 +216,14 @@ public class NothingRegistration
                                         if(WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                         {
                                             loadingVars.add(AsmUtil.insnCast(Object.class, lvt));
-                                            loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
+                                            loadingVars.add(insnInvokeDynamic(callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
                                             callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
                                             int wrapper = mn.maxLocals++;
                                             loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
                                             loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                             argTypes[k] = Object.class;
                                             afterCall.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
-                                            afterCall.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
+                                            afterCall.add(insnInvokeDynamic(0, AsmUtil.getDesc(Object.class, Object.class)));
                                             afterCall.add(AsmUtil.insnCast(lvt, Object.class));
                                             afterCall.add(AsmUtil.insnVarStore(lvt, lv.value()));
                                         }
@@ -246,14 +244,14 @@ public class NothingRegistration
                                         loadingVars.add(AsmUtil.insnVarLoad(Object.class, index));
                                         if(WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                         {
-                                            loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
+                                            loadingVars.add(insnInvokeDynamic(callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
                                             callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
                                             int wrapper = mn.maxLocals++;
                                             loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
                                             loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                             argTypes[k] = Object.class;
                                             afterCall.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
-                                            afterCall.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
+                                            afterCall.add(insnInvokeDynamic(0, AsmUtil.getDesc(Object.class, Object.class)));
                                             afterCall.add(AsmUtil.insnVarStore(Object.class, index));
                                         }
                                         else
@@ -272,14 +270,14 @@ public class NothingRegistration
                                         if(WrapperObject.class.isAssignableFrom(paramTypes[k]))
                                         {
                                             loadingVars.add(AsmUtil.insnCast(Object.class, stt));
-                                            loadingVars.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
+                                            loadingVars.add(insnInvokeDynamic(callSites.size(), AsmUtil.getDesc(Object.class, Object.class)));
                                             callSites.add(WrapperObject.getConstructorCallSite(Root.getTrusted(paramTypes[k]), "create", MethodType.methodType(Object.class, Object.class), RuntimeUtil.cast(paramTypes[k])));
                                             loadingVars.add(AsmUtil.insnDup(WrapperObject.class));
                                             int wrapper = mn.maxLocals++;
                                             loadingVars.add(AsmUtil.insnVarStore(WrapperObject.class, wrapper));
                                             argTypes[k] = Object.class;
                                             afterPop.add(AsmUtil.insnVarLoad(WrapperObject.class, wrapper));
-                                            afterPop.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
+                                            afterPop.add(insnInvokeDynamic(0, AsmUtil.getDesc(Object.class, Object.class)));
                                             afterPop.add(AsmUtil.insnCast(stt, Object.class));
                                         }
                                         else
@@ -304,14 +302,14 @@ public class NothingRegistration
                                 if(!Modifier.isStatic(i.getModifiers()))
                                 {
                                     caller.add(AsmUtil.insnVarLoad(Object.class, 0));
-                                    caller.add(insnInvokeDynamic(cn.name, nothingConstructor, AsmUtil.getDesc(Object.class, Object.class)));
+                                    caller.add(insnInvokeDynamic(nothingConstructor, AsmUtil.getDesc(Object.class, Object.class)));
                                     invokeType = Stream.concat(Stream.of(Object.class), Stream.of(invokeType)).toArray(Class<?>[]::new);
                                 }
                                 for(int k = 0; k<args.length; k++)
                                 {
                                     caller.add(AsmUtil.insnVarLoad(argTypes[k], args[k]));
                                 }
-                                caller.add(insnInvokeDynamic(cn.name, callSites.size(), AsmUtil.getDesc(ClassUtil.baseType(i.getReturnType()), invokeType)));
+                                caller.add(insnInvokeDynamic(callSites.size(), AsmUtil.getDesc(ClassUtil.baseType(i.getReturnType()), invokeType)));
                                 callSites.add(new ConstantCallSite(ClassUtil.unreflect(i).asType(MethodType.methodType(ClassUtil.baseType(i.getReturnType()), invokeType))));
                                 caller.add(afterCall);
                                 if(ni.type()==NothingInjectType.BRTRUE)
@@ -346,7 +344,7 @@ public class NothingRegistration
                                         caller.add(AsmUtil.insnDup(Object.class));
                                         LabelNode later = new LabelNode();
                                         caller.add(new JumpInsnNode(Opcodes.IFNULL, later));
-                                        caller.add(insnInvokeDynamic(cn.name, 0, AsmUtil.getDesc(Object.class, Object.class)));
+                                        caller.add(insnInvokeDynamic(0, AsmUtil.getDesc(Object.class, Object.class)));
                                         caller.add(AsmUtil.insnCast(ClassUtil.getReturnType(m), Object.class));
                                         caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
                                         caller.add(later);
@@ -396,7 +394,7 @@ public class NothingRegistration
         {
             operations.poll().getValue().run();
         }
-        defineMetafactory(this.target, callSites.toArray(new CallSite[0]));
+        defineMetafactory(callSites.toArray(new CallSite[0]));
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
         cn.accept(cw);
         ClassUtil.defineClass(target.getClassLoader(), cn.name, cw.toByteArray());

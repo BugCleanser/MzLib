@@ -22,7 +22,7 @@ public class ModuleBukkitPacketListener extends MzModule
         this.register(NothingClientConnection.class);
     }
     
-    @WrapSameClass(ClientConnection.class)
+    @WrapSameClass(ClientConnectionBukkit.class)
     public interface NothingClientConnection extends ClientConnectionBukkit, Nothing
     {
         ThreadLocal<Boolean> rehandling = new ThreadLocal<>();

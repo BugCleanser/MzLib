@@ -17,14 +17,22 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
     public static MinecraftPlatformBukkit instance = new MinecraftPlatformBukkit();
     
-    @SuppressWarnings("deprecation")
     @Override
     public String getLanguage(EntityPlayer player)
     {
         if(MinecraftPlatform.instance.getVersion()<1200)
-            return ((Player)BukkitEntityUtil.toBukkit(player)).spigot().getLocale();
+            return this.getLanguageV_1200(player);
         else
-            return ((Player)BukkitEntityUtil.toBukkit(player)).getLocale();
+            return this.getLanguageV1200(player);
+    }
+    @SuppressWarnings("deprecation")
+    public String getLanguageV_1200(EntityPlayer player)
+    {
+        return ((Player)BukkitEntityUtil.toBukkit(player)).spigot().getLocale();
+    }
+    public String getLanguageV1200(EntityPlayer player)
+    {
+        return ((Player)BukkitEntityUtil.toBukkit(player)).getLocale();
     }
     
     public String protocolVersion;
@@ -36,6 +44,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     
     public String versionString;
     public int version;
+    
     {
         this.versionString = Bukkit.getBukkitVersion().split("-")[0];
         this.version = MinecraftPlatform.parseVersion(this.versionString);

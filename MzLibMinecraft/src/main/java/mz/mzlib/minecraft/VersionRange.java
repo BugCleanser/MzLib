@@ -24,11 +24,11 @@ public @interface VersionRange
      */
     int end() default Integer.MAX_VALUE;
 
-    class Handler implements ElementSwitcher
+    class Handler implements ElementSwitcher<VersionRange>
     {
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(VersionRange annotation, AnnotatedElement element)
         {
-            return MinecraftPlatform.instance.inVersion((VersionRange) annotation);
+            return MinecraftPlatform.instance.inVersion(annotation);
         }
     }
 }
