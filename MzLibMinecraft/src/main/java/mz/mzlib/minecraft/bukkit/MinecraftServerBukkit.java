@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.bukkit;
 
 import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -17,6 +18,7 @@ public interface MinecraftServerBukkit extends MinecraftServer
         return WrapperObject.create(MinecraftServerBukkit.class, wrapped);
     }
     
+    @VersionRange(end=2002)
     @WrapFieldAccessor("remoteConsole")
-    RemoteConsoleCommandSender getRemoteConsole();
+    RemoteConsoleCommandSender getRemoteConsoleV_2002();
 }

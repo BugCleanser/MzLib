@@ -26,6 +26,7 @@ public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockE
     @WrapMethod("unwrapSender")
     CommandSender staticCommandSourceToBukkitV1200_1300(CommandSource source);
     
+    @VersionRange(end=1300)
     @WrapFieldAccessor("sender")
-    CommandSender getBukkitSender();
+    CommandSender getBukkitSenderV_1300();
 }
