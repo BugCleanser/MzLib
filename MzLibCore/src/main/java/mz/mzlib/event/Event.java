@@ -15,6 +15,8 @@ public abstract class Event
      */
     public void runLater(Runnable runnable)
     {
+        if(this.isFinished())
+            throw new IllegalStateException("Event finished");
         this.futureTasks.schedule(runnable);
     }
     
@@ -30,6 +32,11 @@ public abstract class Event
     public void finish()
     {
         this.futureTasks.run();
+        this.futureTasks = null;
+    }
+    public boolean isFinished()
+    {
+        return this.futureTasks == null;
     }
     
     /**

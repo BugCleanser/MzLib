@@ -11,7 +11,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
-public class MinecraftPlatformFabric implements MinecraftPlatform
+public class  MinecraftPlatformFabric implements MinecraftPlatform
 {
     public static MinecraftPlatformFabric instance = new MinecraftPlatformFabric();
     
@@ -24,7 +24,7 @@ public class MinecraftPlatformFabric implements MinecraftPlatform
     {
         this.versionString = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
         this.version = MinecraftPlatform.parseVersion(this.versionString);
-        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabric.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
+        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricInitializer.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
         assert paths.size()==1;
         this.mzLibJar = paths.get(0).toFile();
         this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "mzlib");

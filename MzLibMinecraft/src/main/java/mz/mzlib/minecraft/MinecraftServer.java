@@ -157,4 +157,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(begin=1904)
     @WrapMinecraftMethod(@VersionName(name="createMetadata"))
     ServerMetadata createMetadataV1904();
+    
+    @WrapMinecraftMethod({@VersionName(name="stopServer", end=1400), @VersionName(name="shutdown", begin=1400)})
+    void onStop();
 }
