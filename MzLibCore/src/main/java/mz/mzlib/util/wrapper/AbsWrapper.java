@@ -41,8 +41,8 @@ public abstract class AbsWrapper
         return ((WrapperObject)this).equals0((WrapperObject) obj);
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
-    @SuppressWarnings("all")
     public WrapperObject clone()
     {
         return ((WrapperObject)this).clone0();

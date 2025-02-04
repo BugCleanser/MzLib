@@ -4,6 +4,8 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
+import mz.mzlib.minecraft.datafixer.DataUpdateTypesV_1300;
 import mz.mzlib.minecraft.item.component.ComponentCustomDataV2005;
 import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentMapV2005;
@@ -11,8 +13,6 @@ import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
-import mz.mzlib.minecraft.datafixer.DataUpdateTypesV_1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -21,6 +21,8 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
+
+import java.util.Objects;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.ItemStack"))
 public interface ItemStack extends WrapperObject
@@ -33,29 +35,35 @@ public interface ItemStack extends WrapperObject
     
     @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY"))
     ItemStack staticEmpty();
+    
     static ItemStack empty()
     {
         return create(null).staticEmpty();
     }
     
     ItemStack staticNewInstance(Item item);
+    
     @WrapConstructor
     @VersionRange(end=1300)
     @SpecificImpl("staticNewInstance")
     ItemStack staticNewInstanceV_1300(Item item);
+    
     @WrapConstructor
     @VersionRange(begin=1300)
     ItemStack staticNewInstanceV1300(ItemConvertibleV1300 item);
+    
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1300)
     default ItemStack staticNewInstanceV1300(Item item)
     {
-        return staticNewInstanceV1300((ItemConvertibleV1300) item.castTo(ItemV1300::create));
+        return staticNewInstanceV1300((ItemConvertibleV1300)item.castTo(ItemV1300::create));
     }
+    
     static ItemStack newInstance(Item item)
     {
         return create(null).staticNewInstance(item);
     }
+    
     static ItemStack newInstance(Item item, int count)
     {
         ItemStack result = newInstance(item);
@@ -63,18 +71,26 @@ public interface ItemStack extends WrapperObject
         return result;
     }
     
+    static ItemStack newInstance(ItemType type, int count)
+    {
+        return new ItemStackBuilder(type.itemStack.copy()).setCount(count).get();
+    }
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC", begin=1600))
     CodecV1600 staticCodecV1600();
+    
     static CodecV1600 codecV1600()
     {
         return create(null).staticCodecV1600();
     }
     
     ItemStack staticDecode0(NbtCompound nbt);
+    
     @WrapConstructor
     @SpecificImpl("staticDecode0")
     @VersionRange(end=2005)
     ItemStack staticNewInstanceV_2005(NbtCompound nbt);
+    
     @SpecificImpl("staticDecode0")
     @VersionRange(begin=2005)
     default ItemStack staticDecode0V2005(NbtCompound nbt)
@@ -101,7 +117,7 @@ public interface ItemStack extends WrapperObject
     {
         if(this.isEmpty())
         {
-            NbtCompound result=NbtCompound.newInstance();
+            NbtCompound result = NbtCompound.newInstance();
             result.put("id", NbtString.newInstance("minecraft:air"));
             return result;
         }
@@ -109,15 +125,19 @@ public interface ItemStack extends WrapperObject
         result.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
         return result;
     }
+    
     NbtCompound encode0();
+    
     @WrapMinecraftMethod({@VersionName(name="toNbt", end=1400), @VersionName(name="toTag", begin=1400, end=1605), @VersionName(name="writeNbt", begin=1605, end=2005)})
     NbtCompound encode0V_2005(NbtCompound nbt);
+    
     @SpecificImpl("encode0")
     @VersionRange(end=2005)
     default NbtCompound encode0V_2005()
     {
         return encode0V_2005(NbtCompound.newInstance());
     }
+    
     @SpecificImpl("encode0")
     @VersionRange(begin=2005)
     default NbtCompound encode0V2005()
@@ -176,7 +196,7 @@ public interface ItemStack extends WrapperObject
     {
         NbtCompound result = this.getTagV_2005();
         if(!result.isPresent())
-            this.setTagV_2005(result=NbtCompound.newInstance());
+            this.setTagV_2005(result = NbtCompound.newInstance());
         return result;
     }
     
@@ -191,10 +211,11 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), ComponentCustomDataV2005.newInstance(value));
+        WrapperObject ignored = this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), ComponentCustomDataV2005.newInstance(value));
     }
     
-    @WrapMinecraftMethod(@VersionName(name="method_65359", begin=2005))
+    @VersionRange(begin=2005)
+    @WrapMinecraftFieldAccessor(@VersionName(name="components"))
     ComponentMapV2005 getComponentsV2005();
     
     @WrapMinecraftMethod(@VersionName(name="set", begin=2005))
@@ -238,17 +259,29 @@ public interface ItemStack extends WrapperObject
     
     
     String getTranslationKey();
+    
     @SpecificImpl("getTranslationKey")
     @VersionRange(end=2102)
     default String getTranslationKeyV_2102()
     {
         return this.getItem().getTranslationKeyV_2102(this);
     }
+    
     @SpecificImpl("getTranslationKey")
     @VersionRange(begin=2102)
     default String getTranslationKeyV2102()
     {
         return this.getItem().getDefaultNameV1300(this).getTranslatableKey();
+    }
+    
+    default ItemType getType()
+    {
+        return new ItemType(this);
+    }
+    
+    static boolean isStackable(ItemStack a, ItemStack b)
+    {
+        return create(null).staticIsStackable(a, b);
     }
     
     boolean staticIsStackable(ItemStack a, ItemStack b);
@@ -279,28 +312,58 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod({@VersionName(name="canCombine", begin=1700, end=2005), @VersionName(name="areItemsAndComponentsEqual", begin=2005)})
     boolean staticIsStackableV1700(ItemStack a, ItemStack b);
     
-    static boolean isStackable(ItemStack a, ItemStack b)
+    @Override
+    int hashCode0();
+    
+    @SpecificImpl("hashCode0")
+    @VersionRange(end=1300)
+    default int hashCodeV_1300()
     {
-        return create(null).staticIsStackable(a, b);
+        return Objects.hash(this.hashCodeV1300_2005(), this.getDamageV_1300());
+    }
+    
+    @SpecificImpl("hashCode0")
+    @VersionRange(begin=1300, end=2005)
+    default int hashCodeV1300_2005()
+    {
+        return Objects.hash(this.getItem(), this.getCount(), this.getTagV_2005());
+    }
+    
+    @SpecificImpl("hashCode0")
+    @VersionRange(begin=2005)
+    default int hashCodeV2005()
+    {
+        return Objects.hash(this.getItem(), this.getCount(), this.getComponentsV2005());
+    }
+    
+    @Override
+    default boolean equals0(WrapperObject object)
+    {
+        if(!(object instanceof ItemStack))
+            return false;
+        ItemStack that = (ItemStack)object;
+        if(this.isEmpty() && that.isEmpty())
+            return true;
+        return this.getCount()==that.getCount() && isStackable(this, that);
     }
     
     static NbtCompound upgrade(NbtCompound nbt)
     {
         int dataVersion;
-        NbtInt nbtVersion=nbt.get("DataVersion", NbtInt::create);
+        NbtInt nbtVersion = nbt.get("DataVersion", NbtInt::create);
         if(nbtVersion.isPresent())
-            dataVersion=nbtVersion.getValue();
+            dataVersion = nbtVersion.getValue();
         else
         {
             if(nbt.get("Damage").isPresent())
-                dataVersion=1343; // 1.12.2
+                dataVersion = 1343; // 1.12.2
             else
             {
                 if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
-                    dataVersion=3837; // 1.20.5
+                    dataVersion = 3837; // 1.20.5
                 else
                 {
-                    dataVersion=1952; // 1.14
+                    dataVersion = 1952; // 1.14
                     NbtCompound tag = nbt.get("tag", NbtCompound::create);
                     if(tag.isPresent())
                     {
@@ -309,7 +372,7 @@ public interface ItemStack extends WrapperObject
                         {
                             NbtList lore = display.get("Lore", NbtList::create);
                             if(lore.isPresent())
-                                for(NbtString l:lore.asList(NbtString::create))
+                                for(NbtString l: lore.asList(NbtString::create))
                                 {
                                     if(RuntimeUtil.runAndCatch(()->Text.decode(l.getValue()))!=null)
                                     {
@@ -324,19 +387,23 @@ public interface ItemStack extends WrapperObject
         }
         return upgrade(nbt, dataVersion);
     }
+    
     NbtCompound staticUpgrade(NbtCompound nbt, int from);
+    
     @SpecificImpl("staticUpgrade")
     @VersionRange(end=1300)
     default NbtCompound staticUpgradeV_1300(NbtCompound nbt, int from)
     {
         return MinecraftServer.instance.getDataUpdaterV_1300().update(DataUpdateTypesV_1300.itemStack(), nbt, from);
     }
+    
     @SpecificImpl("staticUpgrade")
     @VersionRange(begin=1300)
     default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
     {
         return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
     }
+    
     static NbtCompound upgrade(NbtCompound nbt, int from)
     {
         return create(null).staticUpgrade(nbt, from);
