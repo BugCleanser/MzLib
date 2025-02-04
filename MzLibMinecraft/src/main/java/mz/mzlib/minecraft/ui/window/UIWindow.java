@@ -42,7 +42,7 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, Consumer<EventPlayerDisplayItemInWindow>> icons = new ConcurrentHashMap<>();
+    public Map<Integer, Consumer<EventPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
     
     public void clear()
@@ -64,7 +64,7 @@ public abstract class UIWindow implements UI
         this.inventory.setItemStack(index, itemStack);
     }
     
-    public void putIcon0(int index, Consumer<EventPlayerDisplayItemInWindow> icon)
+    public void putIcon0(int index, Consumer<EventPlayerDisplayItemInWindow<?>> icon)
     {
         this.icons.put(index, icon);
     }
@@ -176,7 +176,7 @@ public abstract class UIWindow implements UI
             {
                 if(!event.getWindow().isInstanceOf(WindowUIWindow::create))
                     return;
-                Consumer<EventPlayerDisplayItemInWindow> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
+                Consumer<EventPlayerDisplayItemInWindow<?>> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
                 if(icon!=null)
                     icon.accept(event);
             }));

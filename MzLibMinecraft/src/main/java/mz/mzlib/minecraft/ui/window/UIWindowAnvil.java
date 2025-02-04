@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
-import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.window.EventWindowAnvilSetName;
 import mz.mzlib.minecraft.inventory.Inventory;
@@ -37,15 +36,12 @@ public abstract class UIWindowAnvil extends UIWindow
             {
                 if(event.isCancelled())
                     return;
-                MinecraftServer.instance.execute(()->
+                if(event.getPlayer().getCurrentWindow().isInstanceOf(WindowUIWindow::create))
                 {
-                    if(event.getPlayer().getCurrentWindow().isInstanceOf(WindowUIWindow::create))
-                    {
-                        UI ui = event.getPlayer().getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow();
-                        if(ui instanceof UIWindowAnvil)
-                            ((UIWindowAnvil)ui).onNameChanged(event.getPlayer(), event.getName());
-                    }
-                });
+                    UI ui = event.getPlayer().getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow();
+                    if(ui instanceof UIWindowAnvil)
+                        ((UIWindowAnvil)ui).onNameChanged(event.getPlayer(), event.getName());
+                }
             }));
         }
     }

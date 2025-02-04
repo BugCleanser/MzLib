@@ -147,7 +147,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name="getRegistryManager", begin=1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
     
-    @WrapMinecraftMethod({@VersionName(name="run", end=1400), @VersionName(name="method_29741", begin=1400)})
+    @WrapMinecraftMethod({@VersionName(name="run", end=1601), @VersionName(name="method_29741", begin=1601)})
     void run();
     
     @VersionRange(end=1904)
