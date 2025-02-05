@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -69,7 +69,7 @@ public interface Window extends WrapperObject
     @WrapMinecraftMethod({@VersionName(name="close", end=1904), @VersionName(name="onClosed", begin=1904)})
     void onClosed(AbstractEntityPlayer player);
     
-    @BukkitOnly
+    @BukkitEnabled
     @WrapMinecraftMethod(@VersionName(name="getBukkitView"))
     BukkitInventoryView getBukkitView();
     

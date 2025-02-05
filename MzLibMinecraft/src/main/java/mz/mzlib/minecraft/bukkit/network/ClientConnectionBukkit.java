@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.bukkit.network;
 import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapSameClass(ClientConnection.class)
 public interface ClientConnectionBukkit extends ClientConnection
 {

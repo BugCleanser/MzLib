@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.MinecraftServerBukkit;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.command.CommandSource;
@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapSameClass(CommandSource.class)
 public interface CommandSourceBukkit extends CommandSource
 {

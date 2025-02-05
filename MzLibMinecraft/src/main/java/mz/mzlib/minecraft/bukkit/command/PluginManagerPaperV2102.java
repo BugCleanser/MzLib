@@ -1,13 +1,13 @@
 package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.PaperOnly;
+import mz.mzlib.minecraft.bukkit.PaperEnabled;
 import mz.mzlib.util.wrapper.WrapClassForName;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@PaperOnly
+@PaperEnabled
 @VersionRange(begin=2102)
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginManagerImpl")
 public interface PluginManagerPaperV2102 extends WrapperObject

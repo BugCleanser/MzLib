@@ -9,12 +9,12 @@ import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
-@ElementSwitcherClass(PaperOnly.Switcher.class)
-public @interface PaperOnly
+@ElementSwitcherClass(PaperEnabled.Switcher.class)
+public @interface PaperEnabled
 {
-    class Switcher implements ElementSwitcher<PaperOnly>
+    class Switcher implements ElementSwitcher<PaperEnabled>
     {
-        public boolean isEnabled(PaperOnly annotation, AnnotatedElement element)
+        public boolean isEnabled(PaperEnabled annotation, AnnotatedElement element)
         {
             return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit && MinecraftPlatformBukkit.instance.isPaper;
         }

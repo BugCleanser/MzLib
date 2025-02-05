@@ -1,17 +1,17 @@
-package mz.mzlib.minecraft.fabric;
+package mz.mzlib.minecraft.vanilla;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.vanilla.RegistrarCommandVanillaV1300;
 import mz.mzlib.module.MzModule;
 
-public class MzLibFabric extends MzModule
+public class MzLibVanilla extends MzModule
 {
-    public static MzLibFabric instance = new MzLibFabric();
+    public static MzLibVanilla instance = new MzLibVanilla();
     
     @Override
     public void onLoad()
     {
         this.register(RegistrarCommandVanillaV1300.instance);
+        
         this.register(MzLibMinecraft.instance);
     }
 }

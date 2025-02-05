@@ -1,15 +1,14 @@
 package mz.mzlib.minecraft.bukkit.inventory;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.inventory.Inventory;
-import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventory"))
 public interface CraftInventory extends BukkitInventory
 {

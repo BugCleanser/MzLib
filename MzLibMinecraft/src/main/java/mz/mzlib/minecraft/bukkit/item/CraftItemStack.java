@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.bukkit.item;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftItemStack"))
 public interface CraftItemStack extends WrapperObject
 {

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft;
 
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ClientConnectionDataV2002;
@@ -38,4 +39,7 @@ public interface PlayerManager extends WrapperObject
     @VersionRange(begin=2002)
     @WrapMinecraftMethod(@VersionName(name="onPlayerConnect"))
     void addPlayerV2002(ClientConnection connection, EntityPlayer player, ClientConnectionDataV2002 connectionData);
+    
+    @WrapMinecraftMethod(@VersionName(name="isOperator"))
+    boolean isOp(GameProfile playerProfile);
 }

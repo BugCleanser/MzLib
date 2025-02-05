@@ -9,13 +9,13 @@ import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
-@ElementSwitcherClass(BukkitOnly.Handler.class)
-public @interface BukkitOnly
+@ElementSwitcherClass(BukkitEnabled.Handler.class)
+public @interface BukkitEnabled
 {
-    class Handler implements ElementSwitcher<BukkitOnly>
+    class Handler implements ElementSwitcher<BukkitEnabled>
     {
         @Override
-        public boolean isEnabled(BukkitOnly annotation, AnnotatedElement element)
+        public boolean isEnabled(BukkitEnabled annotation, AnnotatedElement element)
         {
             return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit;
         }

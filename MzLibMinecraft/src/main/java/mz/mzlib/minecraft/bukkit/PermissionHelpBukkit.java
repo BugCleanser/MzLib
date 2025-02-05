@@ -15,9 +15,9 @@ public class PermissionHelpBukkit implements PermissionHelp
     public static PermissionHelpBukkit instance = new PermissionHelpBukkit();
     
     @Override
-    public boolean check(CommandSource object, String permission)
+    public boolean check(CommandSource commandSource, String permission)
     {
-        return BukkitCommandSourceUtil.toBukkit(object).hasPermission(permission);
+        return BukkitCommandSourceUtil.toBukkit(commandSource).hasPermission(permission);
     }
     
     @Override
@@ -29,7 +29,7 @@ public class PermissionHelpBukkit implements PermissionHelp
     @Override
     public void register(MzModule module, Permission object)
     {
-        Bukkit.getPluginManager().addPermission(new org.bukkit.permissions.Permission(object.id, object.commonDefault ? (object.opDefault ? PermissionDefault.TRUE : PermissionDefault.NOT_OP) : (object.opDefault ? PermissionDefault.OP : PermissionDefault.FALSE)));
+        Bukkit.getPluginManager().addPermission(new org.bukkit.permissions.Permission(object.id, object.defaultNonOp ? (object.defaultOp ? PermissionDefault.TRUE : PermissionDefault.NOT_OP) : (object.defaultOp ? PermissionDefault.OP : PermissionDefault.FALSE)));
     }
     @Override
     public void unregister(MzModule module, Permission object)

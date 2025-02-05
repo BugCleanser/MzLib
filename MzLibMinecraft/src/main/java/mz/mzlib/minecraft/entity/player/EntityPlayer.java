@@ -1,8 +1,12 @@
 package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.bukkit.BukkitDisabled;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
+import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.MessageTypeV1200_1900;
 import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
@@ -24,6 +28,20 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     static EntityPlayer create(Object wrapped)
     {
         return WrapperObject.create(EntityPlayer.class, wrapped);
+    }
+    
+    boolean isOp();
+    @SpecificImpl("isOp")
+    @BukkitDisabled
+    default boolean isOpNonBukkit()
+    {
+        return MinecraftServer.instance.getPlayerManager().isOp(this.getGameProfile());
+    }
+    @SpecificImpl("isOp")
+    @BukkitEnabled
+    default boolean isOpBukkit()
+    {
+        return BukkitEntityUtil.toBukkit(this).isOp();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="networkHandler"))

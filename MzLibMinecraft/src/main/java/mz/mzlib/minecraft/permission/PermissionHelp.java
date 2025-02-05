@@ -9,11 +9,16 @@ import mz.mzlib.util.RuntimeUtil;
 public interface PermissionHelp extends Instance, IRegistrar<Permission>
 {
     PermissionHelp instance = RuntimeUtil.nul();
-    
-    boolean check(CommandSource object, String permission);
-    default boolean check(CommandSource object, Permission permission)
+    default boolean check(CommandSource commandSource, String permission)
     {
-        return this.check(object, permission.id);
+        if(commandSource.getPlayer().isPresent())
+            return this.check(commandSource.getPlayer(), permission);
+        else
+            return true;
+    }
+    default boolean check(CommandSource commandSource, Permission permission)
+    {
+        return this.check(commandSource, permission.id);
     }
     
     boolean check(EntityPlayer player, String permission);

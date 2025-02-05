@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.bukkit.command;
 
-import mz.mzlib.minecraft.bukkit.BukkitOnly;
+import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.util.wrapper.WrapClassForName;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapClassForName("org.bukkit.command.PluginCommand")
 public interface CommandBukkit extends WrapperObject
 {

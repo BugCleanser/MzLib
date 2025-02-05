@@ -15,9 +15,9 @@ public class CollectionUtil
     
     public static MethodHandle synchronizedSet;
     
-    @SuppressWarnings("all")
     public static <T> Stream<T> reverse(Stream<T> stream)
     {
+        //noinspection ComparatorMethodParameterNotUsed
         return stream.sorted((prev, next)->-1);
     }
     

@@ -24,7 +24,7 @@ public class ModuleBukkitWindow extends MzModule
         this.register(NothingWindow.class);
     }
     
-    @BukkitOnly
+    @BukkitEnabled
     @WrapSameClass(Window.class)
     public interface NothingWindow extends Window, Nothing
     {

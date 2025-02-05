@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.RemoteConsoleCommandSender;
 
-@BukkitOnly
+@BukkitEnabled
 @WrapSameClass(MinecraftServer.class)
 public interface MinecraftServerBukkit extends MinecraftServer
 {

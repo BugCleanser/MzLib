@@ -11,6 +11,10 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
+/**
+ * An event for the server lifecycle.
+ * This event is available only in the mod environment.
+ */
 public class EventServer extends Event
 {
     public MinecraftServer server;
