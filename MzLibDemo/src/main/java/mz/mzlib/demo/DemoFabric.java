@@ -1,5 +1,6 @@
 package mz.mzlib.demo;
 
+import mz.mzlib.minecraft.vanilla.MzLibMinecraftInitializer;
 import mz.mzlib.minecraft.vanilla.ServerModule;
 import mz.mzlib.module.MzModule;
 import net.fabricmc.api.ModInitializer;
@@ -11,7 +12,7 @@ public class DemoFabric extends MzModule implements ModInitializer
 {
     public static DemoFabric instance;
     {
-        instance=this;
+        instance = this;
     }
     
     @Override
@@ -19,7 +20,7 @@ public class DemoFabric extends MzModule implements ModInitializer
     {
         Demo.instance.jar = FabricLoader.getInstance().getModContainer("mzlib_demo").orElseThrow(AssertionError::new).getOrigin().getPaths().get(0).toFile();
         Demo.instance.dataFolder = new File(Demo.instance.jar.getParentFile(), "MzLibDemo");
-        this.load();
+        MzLibMinecraftInitializer.instance.future.thenRun(this::load);
     }
     
     @Override

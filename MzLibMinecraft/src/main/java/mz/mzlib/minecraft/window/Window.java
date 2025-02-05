@@ -35,6 +35,7 @@ public interface Window extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="syncId"))
     int getSyncId();
     
+    @VersionRange(begin=1700)
     @WrapMinecraftMethod(@VersionName(name="syncState"))
     void updateV1700();
     

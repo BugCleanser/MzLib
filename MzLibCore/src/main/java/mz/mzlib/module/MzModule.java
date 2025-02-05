@@ -5,14 +5,16 @@ import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public abstract class MzModule
 {
-    public boolean isLoaded = false;
     public Set<MzModule> submodules = new HashSet<>();
     public Map<Object, Stack<IRegistrar<?>>> registeredObjects = new LinkedHashMap<>();
     
+    public boolean isLoaded = false;
+    public CompletableFuture<Void> future = new CompletableFuture<>();
     public boolean isLoaded()
     {
         return this.isLoaded;
@@ -20,15 +22,16 @@ public abstract class MzModule
     
     public void load()
     {
-        if(this.isLoaded)
+        if(this.isLoaded())
             throw new IllegalStateException("Try to load the module but it has been loaded: "+this+".");
         this.isLoaded = true;
         this.onLoad();
+        this.future.complete(null);
     }
     
     public void unload()
     {
-        if(!this.isLoaded)
+        if(!this.isLoaded())
             throw new IllegalStateException("Try to unload the module but it's not loaded: "+this+".");
         List<Throwable> es = new ArrayList<>();
         for(Object i: CollectionUtil.reverse(this.registeredObjects.keySet().stream()).collect(Collectors.toList()))
@@ -43,6 +46,7 @@ public abstract class MzModule
             }
         }
         this.isLoaded = false;
+        this.future = new CompletableFuture<>();
         try
         {
             this.onUnload();
@@ -61,7 +65,7 @@ public abstract class MzModule
     
     public void register(Object object)
     {
-        if(!isLoaded)
+        if(!this.isLoaded())
             throw new IllegalStateException("Try to register an object but the module is not loaded: "+this+".");
         if(registeredObjects.containsKey(object))
             throw new IllegalStateException("Try to register the object but it has been registered: "+object+".");
@@ -137,7 +141,7 @@ public abstract class MzModule
     
     public void unregister(Object object)
     {
-        if(!isLoaded)
+        if(!this.isLoaded())
             throw new IllegalStateException("Try to unregister an object but the module has been unloaded: "+this+".");
         List<Throwable> es = new ArrayList<>();
         if(object instanceof MzModule)

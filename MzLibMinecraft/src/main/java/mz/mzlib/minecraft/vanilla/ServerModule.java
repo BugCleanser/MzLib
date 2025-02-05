@@ -45,7 +45,14 @@ public class ServerModule implements Registrable
                 this.register(event.server);
                 for(Map.Entry<ServerModule, MzModule> entry: moduleParents.entrySet())
                 {
-                    entry.getValue().register(entry.getKey().module);
+                    try
+                    {
+                        entry.getValue().register(entry.getKey().module);
+                    }
+                    catch(Throwable e)
+                    {
+                        e.printStackTrace(System.err);
+                    }
                 }
             })));
             this.register(new EventListener<>(EventServerStop.class, event->

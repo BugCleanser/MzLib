@@ -1,9 +1,11 @@
 package mz.mzlib.minecraft.network.packet.c2s.play;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -20,12 +22,27 @@ public interface PacketC2sWindowClose extends Packet
     
     @WrapMinecraftFieldAccessor({@VersionName(name="id", end=1604), @VersionName(name="syncId", begin=1604)})
     int getSyncId();
+    @WrapMinecraftFieldAccessor({@VersionName(name="id", end=1604), @VersionName(name="syncId", begin=1604)})
+    void setSyncId(int value);
     
     static PacketC2sWindowClose newInstance(int syncId)
     {
         return create(null).staticNewInstance(syncId);
     }
-    
-    @WrapConstructor
     PacketC2sWindowClose staticNewInstance(int syncId);
+    @VersionRange(end=1700)
+    @WrapConstructor
+    PacketC2sWindowClose staticNewInstanceV_1700();
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(end=1700)
+    default PacketC2sWindowClose staticNewInstanceV_1700(int syncId)
+    {
+        PacketC2sWindowClose result = this.staticNewInstanceV_1700();
+        result.setSyncId(syncId);
+        return result;
+    }
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=1700)
+    @WrapConstructor
+    PacketC2sWindowClose staticNewInstanceV1700(int syncId);
 }

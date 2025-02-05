@@ -66,6 +66,6 @@ public interface RegistriesV1300 extends WrapperObject
         return create(null).staticBlockEntityType();
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="BLOCK_ENTITY_TYPE"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="BLOCK_ENTITY_TYPE", end=1400), @VersionName(name="field_11137", begin=1400, end=1903), @VersionName(name="field_41181", begin=1903)})
     Registry staticBlockEntityType();
 }
