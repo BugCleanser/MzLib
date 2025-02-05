@@ -145,7 +145,8 @@ public abstract class UIWindow implements UI
     @Override
     public void open(EntityPlayer player)
     {
-        WindowFactorySimple.newInstance(this.windowType.typeIdV_1400, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
+        WindowFactorySimple.newInstance(this.windowType, this.getTitle(player), (syncId, inventoryPlayer)->WindowUIWindow.newInstance(this, player, syncId)).open(player);
+        player.updateWindow();
     }
     
     public static class Module extends MzModule

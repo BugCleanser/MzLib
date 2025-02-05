@@ -35,6 +35,9 @@ public interface Window extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="syncId"))
     int getSyncId();
     
+    @WrapMinecraftMethod(@VersionName(name="syncState"))
+    void updateV1700();
+    
     List<?> getSlots0();
     @SpecificImpl("getSlots0")
     @WrapMinecraftFieldAccessor(@VersionName(name="slots", end=1700))

@@ -87,9 +87,9 @@ public interface WindowFactorySimple extends WindowFactory
     @PropAccessor("windowCreator")
     void setWindowCreator(BiFunction<Integer, InventoryPlayer, Window> windowCreator);
     
-    static WindowFactorySimple newInstance(WindowType windowType, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
+    static WindowFactorySimple newInstance(WindowType windowType, Text displayName, BiFunction<Integer, InventoryPlayer, Window> initializer)
     {
-        return newInstance(windowType.typeIdV_1400, displayName, windowCreator);
+        return newInstance(windowType.typeIdV_1400, displayName, initializer);
     }
     
     static WindowFactorySimple chest(Text title, Inventory inventory, int rows, Consumer<? super WindowChest> initializer)
