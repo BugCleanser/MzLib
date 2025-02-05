@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
+    compileOnly("net.fabricmc:fabric-loader:0.16.10")
     compileOnly(project(":MzLibCore"))
     compileOnly(project(":MzLibMinecraft"))
 

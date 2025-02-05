@@ -27,7 +27,7 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
         List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricEntrypoint.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
         assert paths.size()==1;
         this.mzLibJar = paths.get(0).toFile();
-        this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "mzlib");
+        this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "MzLib");
         
         File cacheMappings = new File(getMzLibDataFolder(), "mappings");
         this.mappingsP2Y = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), cacheMappings);

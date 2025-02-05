@@ -10,8 +10,6 @@ import net.luckperms.api.util.Tristate;
 
 public class PermissionHelpLuckPerms extends PermissionRegistry
 {
-    public static PermissionHelpLuckPerms instance = new PermissionHelpLuckPerms();
-    
     public LuckPerms provider;
     public PlayerAdapter<?> playerAdapter;
     {

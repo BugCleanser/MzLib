@@ -45,7 +45,7 @@ tasks {
     }
     register<Copy>("copyBinaryResources") {
         from("src/main/resources") {
-            include("assets/**/*")
+            include("**/*.png")
             include("lang/**/*")
             include("mappings/**/*")
         }
@@ -53,7 +53,7 @@ tasks {
     }
     processResources {
         dependsOn("copyBinaryResources")
-        exclude("assets/**/*")
+        exclude("**/*.png")
         exclude("lang/**/*")
         exclude("mappings/**/*")
         expand("version" to project.version)

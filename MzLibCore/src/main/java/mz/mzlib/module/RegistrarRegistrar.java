@@ -1,6 +1,5 @@
 package mz.mzlib.module;
 
-import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.Map;
@@ -14,7 +13,8 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     public final Map<Class<?>, Set<IRegistrar<?>>> registrars = new ConcurrentHashMap<>();
 
     {
-        registrars.put(IRegistrar.class, CollectionUtil.addAll(ConcurrentHashMap.newKeySet(), this));
+        this.register(null, this);
+        this.register(null, RegistrableRegistrar.instance);
     }
 
     @Override

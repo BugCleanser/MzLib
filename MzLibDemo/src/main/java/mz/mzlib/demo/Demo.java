@@ -9,7 +9,8 @@ import mz.mzlib.util.Config;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.io.File;
-import java.util.Objects;
+import java.io.InputStream;
+import java.net.URL;
 
 public class Demo extends MzModule
 {
@@ -28,7 +29,10 @@ public class Demo extends MzModule
     {
         try
         {
-            this.config = Config.load(Objects.requireNonNull(this.getClass().getResourceAsStream("/config.json")), new File(this.dataFolder, "config.json"));
+            try(InputStream is = new URL("jar", "", -1, this.jar.toURI().toURL()+"!/config.json").openConnection().getInputStream())
+            {
+                this.config = Config.load(is, new File(this.dataFolder, "config.json"));
+            }
             
             this.register(this.permission);
             this.register(I18n.load(this.jar, "lang", 0));

@@ -22,6 +22,8 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -36,7 +38,10 @@ public class MzLibMinecraft extends MzModule
     {
         try
         {
-            this.config = Config.load(this.getClass().getResourceAsStream("/config.json"), new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
+            try(InputStream is = new URL("jar", "", -1, MinecraftPlatform.instance.getMzLibJar().toURI().toURL()+"!/config.json").openConnection().getInputStream())
+            {
+                this.config = Config.load(is, new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
+            }
             
             this.register(ModuleMapStackTrace.instance);
             

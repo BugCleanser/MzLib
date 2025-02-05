@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.fabric;
 
-import mz.mzlib.minecraft.vanilla.MzLibInitializer;
-import mz.mzlib.minecraft.vanilla.PermissionHelpLuckPerms;
+import mz.mzlib.MzLib;
+import mz.mzlib.minecraft.vanilla.MzLibMinecraftInitializer;
 import mz.mzlib.module.MzModule;
 import net.fabricmc.api.ModInitializer;
 
@@ -24,8 +24,8 @@ public class MzLibFabricEntrypoint extends MzModule implements ModInitializer
     @Override
     public void onLoad()
     {
+        this.register(MzLib.instance);
         this.register(MinecraftPlatformFabric.instance);
-        this.register(PermissionHelpLuckPerms.instance);
-        this.register(MzLibInitializer.instance);
+        this.register(MzLibMinecraftInitializer.instance);
     }
 }

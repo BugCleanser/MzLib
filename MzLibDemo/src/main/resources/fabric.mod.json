@@ -1,32 +1,24 @@
 {
   "schemaVersion": 1,
-  "id": "mzlib",
+  "id": "mzlib_demo",
   "version": "${version}",
-  "name": "MzLib",
+  "name": "MzLibDemo",
   "authors": [
-    "lvyitian",
-    "mz",
-    "Yurinann",
-    "awa",
-    "Core2002",
-    "hpwriterkyle"
+    "mz"
   ],
   "contact": {
     "homepage": "https://github.com/BugCleanser/MzLib",
     "sources": "https://github.com/BugCleanser/MzLib"
   },
   "license": "MPL-2.0",
-  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mz.mzlib.minecraft.fabric.MzLibFabricEntrypoint"
+      "mz.mzlib.demo.DemoFabric"
     ]
   },
   "depends": {
-    "minecraft": ">=1.14.4"
-  },
-  "suggests": {
-    "luckperms": ">=5"
+    "minecraft": ">=1.14.4",
+    "mzlib": ">=${version}"
   }
 }

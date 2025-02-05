@@ -8,7 +8,7 @@ import mz.mzlib.module.MzModule;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class PermissionRegistry implements PermissionHelp
+public class PermissionRegistry implements PermissionHelp
 {
     public Set<Permission> permissions = new HashSet<>();
     public Set<String> defaultNonOp = new HashSet<>();
