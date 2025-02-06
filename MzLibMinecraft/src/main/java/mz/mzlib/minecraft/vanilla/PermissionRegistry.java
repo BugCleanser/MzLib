@@ -12,12 +12,15 @@ public class PermissionRegistry implements PermissionHelp
 {
     public Set<Permission> permissions = new HashSet<>();
     public Set<String> defaultNonOp = new HashSet<>();
-    public Set<String> defaultOp = new HashSet<>();
+    public Set<String> defaultDenialOp = new HashSet<>();
     
     @Override
     public boolean check(EntityPlayer player, String permission)
     {
-        return (player.isOp() ? this.defaultOp : this.defaultNonOp).contains(permission);
+        if(player.isOp())
+            return !this.defaultDenialOp.contains(permission);
+        else
+            return this.defaultNonOp.contains(permission);
     }
     
     @Override
@@ -26,8 +29,8 @@ public class PermissionRegistry implements PermissionHelp
         this.permissions.add(object);
         if(object.defaultNonOp)
             this.defaultNonOp.add(object.id);
-        if(object.defaultOp)
-            this.defaultOp.add(object.id);
+        if(!object.defaultOp)
+            this.defaultDenialOp.add(object.id);
     }
     
     @Override
@@ -35,6 +38,6 @@ public class PermissionRegistry implements PermissionHelp
     {
         this.permissions.remove(object);
         this.defaultNonOp.remove(object.id);
-        this.defaultOp.remove(object.id);
+        this.defaultDenialOp.remove(object.id);
     }
 }

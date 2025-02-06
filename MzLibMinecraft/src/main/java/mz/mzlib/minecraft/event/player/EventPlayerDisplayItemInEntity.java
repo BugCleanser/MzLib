@@ -70,10 +70,10 @@ public abstract class EventPlayerDisplayItemInEntity extends EventPlayerDisplayI
             {
                 if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
                     return;
-                if(event.getNewData0(EntityItem.dataTypeItem())==null)
-                    return;
                 event.sync(()->
                 {
+                    if(event.getNewData0(EntityItem.dataTypeItem())==null)
+                        return;
                     synchronized(event.getDisplayEntity())
                     {
                         new InEntityItem(event).call();

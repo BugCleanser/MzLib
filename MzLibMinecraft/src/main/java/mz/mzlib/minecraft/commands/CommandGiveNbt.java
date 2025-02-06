@@ -25,6 +25,7 @@ public class CommandGiveNbt extends MzModule
     @Override
     public void onLoad()
     {
+        this.register(this.permission);
         this.register(this.command = new Command("givenbt").setNamespace("mzlib").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context->
         {
             EntityPlayer player;
