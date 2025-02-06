@@ -15,7 +15,7 @@ public class MzLibVanilla extends MzModule
             this.register(new PermissionHelpLuckPerms());
         else
             this.register(new PermissionRegistry());
-        this.register(RegistrarCommandVanillaV1300.instance);
+        this.register(RegistrarCommandBrigadierV1300.instance);
         
         this.register(MzLibMinecraft.instance);
     }

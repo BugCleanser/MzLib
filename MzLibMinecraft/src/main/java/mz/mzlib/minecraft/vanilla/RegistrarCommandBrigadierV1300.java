@@ -15,9 +15,9 @@ import mz.mzlib.util.RuntimeUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrarCommandVanillaV1300 implements IRegistrar<Command>
+public class RegistrarCommandBrigadierV1300 implements IRegistrar<Command>
 {
-    public static RegistrarCommandVanillaV1300 instance = new RegistrarCommandVanillaV1300();
+    public static RegistrarCommandBrigadierV1300 instance = new RegistrarCommandBrigadierV1300();
     
     @Override
     public Class<Command> getType()
@@ -38,16 +38,20 @@ public class RegistrarCommandVanillaV1300 implements IRegistrar<Command>
         {
             CommandManager.instance.getDispatcherV1300().getWrapped().register(RuntimeUtil.cast(LiteralArgumentBuilder.literal(name).executes(context->
             {
-                command.execute(CommandSource.create(context.getSource()), context.getInput(), null);
+                command.execute(CommandSource.create(context.getSource()), context.getRange().get(context.getInput()), null);
                 return 1;
             }).then(RequiredArgumentBuilder.argument("args", StringArgumentType.greedyString()).executes(context->
             {
-                command.execute(CommandSource.create(context.getSource()), context.getInput().substring(0, context.getRange().getStart()-1), context.getInput().substring(context.getRange().getStart()));
+                command.execute(CommandSource.create(context.getSource()), context.getNodes().get(0).getRange().get(context.getInput()), context.getNodes().get(1).getRange().get(context.getInput()));
                 return 1;
             }).suggests((context, b)->
             {
-                b = b.createOffset(context.getInput().lastIndexOf(' ')+1);
-                String[] argv2 = context.getInput().substring(0, b.getStart()+b.getRemaining().length()).split(" ", 2);
+                while(context.getChild()!=null)
+                    context = context.getChild();
+                int start = context.getRange().getStart();
+                String input = context.getInput().substring(start);
+                b = b.createOffset(start+input.lastIndexOf(' ')+1);
+                String[] argv2 = input.split(" ", 2);
                 for(String s: command.suggest(CommandSource.create(context.getSource()), argv2[0], argv2[1]))
                 {
                     b.suggest(s, null);

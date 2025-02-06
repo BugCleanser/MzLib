@@ -44,7 +44,7 @@ public class CommandMzLibLang extends MzModule
                 I18nMinecraft.instance.loadMinecraftLanguages();
                 context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.begin")));
             }
-        })).addChild(new Command("custom").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
+        })).addChild(new Command("custom").setHandler(context->
         {
             String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
             CommandContext fork = context.fork();
@@ -53,7 +53,15 @@ public class CommandMzLibLang extends MzModule
             if(fork.successful)
             {
                 if(fork.doExecute)
+                {
+                    Text check = Command.checkPermissionSenderPlayer(context.getSource());
+                    if(check!=null)
+                    {
+                        fork.getSource().sendMessage(check);
+                        return;
+                    }
                     UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang));
+                }
                 return;
             }
             String key = new ArgumentParserTranslationKey(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.key")).handle(context);
@@ -63,7 +71,15 @@ public class CommandMzLibLang extends MzModule
             if(fork.successful)
             {
                 if(fork.doExecute)
+                {
+                    Text check = Command.checkPermissionSenderPlayer(context.getSource());
+                    if(check!=null)
+                    {
+                        fork.getSource().sendMessage(check);
+                        return;
+                    }
                     UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang, key));
+                }
                 return;
             }
             String operate = new ArgumentParserString(context.getSource(), false, "set", "remove").handle(context);
