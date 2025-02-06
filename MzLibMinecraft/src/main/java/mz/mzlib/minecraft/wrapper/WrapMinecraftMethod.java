@@ -1,17 +1,20 @@
 package mz.mzlib.minecraft.wrapper;
 
-import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
+import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
-import mz.mzlib.util.wrapper.WrapMethod;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 import java.util.Arrays;
@@ -23,25 +26,24 @@ import java.util.Arrays;
 public @interface WrapMinecraftMethod
 {
     VersionName[] value();
-
-    class Handler implements ElementSwitcher, WrappedMemberFinder
+    
+    class Handler implements ElementSwitcher<WrapMinecraftMethod>, WrappedMemberFinder<WrapMinecraftMethod>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(WrapMinecraftMethod annotation, AnnotatedElement element)
         {
-            WrapMinecraftMethod a = (WrapMinecraftMethod) annotation;
-            for(VersionName n:a.value())
+            for(VersionName n: annotation.value())
             {
-                if (MinecraftPlatform.instance.inVersion(n))
+                if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-
+        
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<?> wrappedClass, WrapMinecraftMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
-            String[] names = Arrays.stream(((WrapMinecraftMethod) annotation).value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name ->
+            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name-> //
                     MinecraftPlatform.instance.getMappingsY2P().mapMethod(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), new MappingMethod(name, Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappingsP2Y()::mapType).toArray(String[]::new)))).toArray(String[]::new);
             if(names.length==0)
                 return null;
@@ -54,7 +56,7 @@ public @interface WrapMinecraftMethod
                     {
                         return WrapMethod.class;
                     }
-
+                    
                     @Override
                     public String[] value()
                     {
@@ -62,8 +64,7 @@ public @interface WrapMinecraftMethod
                     }
                 }, returnType, argTypes);
             }
-            catch (InstantiationException |
-                   IllegalAccessException e)
+            catch(InstantiationException|IllegalAccessException e)
             {
                 throw RuntimeUtil.sneakilyThrow(e);
             }

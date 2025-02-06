@@ -25,15 +25,14 @@ public @interface CompoundSuper
      */
     String method();
     
-    class Handler implements ElementSwitcher, WrappedMemberFinder
+    class Handler implements ElementSwitcher<CompoundSuper>, WrappedMemberFinder<CompoundSuper>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(CompoundSuper annotation, AnnotatedElement element)
         {
             try
             {
-                CompoundSuper compoundSuper = (CompoundSuper)annotation;
-                return ElementSwitcher.isEnabled(compoundSuper.parent().getMethod(compoundSuper.method(), ((Method)element).getParameterTypes()));
+                return ElementSwitcher.isEnabled(annotation.parent().getMethod(annotation.method(), ((Method)element).getParameterTypes()));
             }
             catch(Throwable e)
             {
@@ -42,9 +41,9 @@ public @interface CompoundSuper
         }
         
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<?> wrappedClass, CompoundSuper annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
-            return wrappedClass.getDeclaredMethod(getInnerMethodName((CompoundSuper) annotation), argTypes);
+            return wrappedClass.getDeclaredMethod(getInnerMethodName(annotation), argTypes);
         }
         
         public static String getInnerMethodName(CompoundSuper annotation)

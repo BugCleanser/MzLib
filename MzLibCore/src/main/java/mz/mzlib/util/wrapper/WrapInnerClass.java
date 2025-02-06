@@ -1,6 +1,9 @@
 package mz.mzlib.util.wrapper;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -10,17 +13,17 @@ public @interface WrapInnerClass
     Class<? extends WrapperObject> outer();
     String[] name();
 
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<WrapInnerClass>
     {
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapInnerClass annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapInnerClass) annotation).outer());
+            Class<?> superClass=WrapperObject.getWrappedClass(annotation.outer());
             if(superClass==null)
                 return null;
             String superName=superClass.getName();
-            for (String i : ((WrapInnerClass) annotation).name())
+            for (String i : annotation.name())
             {
                 try
                 {

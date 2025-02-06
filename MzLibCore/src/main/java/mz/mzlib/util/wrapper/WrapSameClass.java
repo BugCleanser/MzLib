@@ -14,18 +14,18 @@ public @interface WrapSameClass
 {
     Class<? extends WrapperObject> value();
 
-    class Handler implements ElementSwitcher, WrappedClassFinder
+    class Handler implements ElementSwitcher<WrapSameClass>, WrappedClassFinder<WrapSameClass>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(WrapSameClass annotation, AnnotatedElement element)
         {
             return ElementSwitcher.isEnabled(((WrapSameClass) annotation).value());
         }
         
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapSameClass annotation)
         {
-            return WrapperClassInfo.get(((WrapSameClass) annotation).value()).getWrappedClass();
+            return WrapperClassInfo.get(annotation.value()).getWrappedClass();
         }
     }
 }

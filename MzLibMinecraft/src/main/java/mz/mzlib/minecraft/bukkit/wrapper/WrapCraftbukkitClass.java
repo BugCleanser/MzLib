@@ -7,7 +7,10 @@ import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -16,12 +19,12 @@ public @interface WrapCraftbukkitClass
 {
     VersionName[] value();
     
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<WrapCraftbukkitClass>
     {
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapCraftbukkitClass annotation) throws ClassNotFoundException
         {
-            for(VersionName name: ((WrapCraftbukkitClass)annotation).value())
+            for(VersionName name: annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(name))
                 {

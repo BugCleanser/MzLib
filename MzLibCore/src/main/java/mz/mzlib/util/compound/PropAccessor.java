@@ -15,10 +15,10 @@ public @interface PropAccessor
 {
     String value();
 
-    class Handler implements WrappedMemberFinder
+    class Handler implements WrappedMemberFinder<PropAccessor>
     {
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<?> wrappedClass, PropAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
             switch (argTypes.length)
@@ -32,7 +32,7 @@ public @interface PropAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
-            return RuntimeUtil.require(wrappedClass.getDeclaredField(((PropAccessor)annotation).value()), f -> f.getType() == type);
+            return RuntimeUtil.require(wrappedClass.getDeclaredField(annotation.value()), f -> f.getType() == type);
         }
     }
 }

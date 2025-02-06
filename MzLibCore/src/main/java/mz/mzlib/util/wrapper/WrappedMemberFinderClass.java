@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface WrappedMemberFinderClass
 {
-    Class<? extends WrappedMemberFinder> value();
+    Class<? extends WrappedMemberFinder<?>> value();
     boolean inheritable() default true;
 }

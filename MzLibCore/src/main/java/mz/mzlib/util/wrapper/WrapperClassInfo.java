@@ -54,7 +54,7 @@ public class WrapperClassInfo
             {
                 try
                 {
-                    this.wrappedClass = finder.value().newInstance().find(this.wrapperClass, i);
+                    this.wrappedClass = finder.value().newInstance().find(this.wrapperClass, RuntimeUtil.cast(i));
                 }
                 catch(Throwable e)
                 {
@@ -147,7 +147,7 @@ public class WrapperClassInfo
                     {
                         try
                         {
-                            Member m = finder.value().newInstance().find(wrappedClass, j, returnType, argTypes);
+                            Member m = finder.value().newInstance().find(wrappedClass, RuntimeUtil.cast(j), returnType, argTypes);
                             if(m!=null)
                             {
                                 this.wrappedMembers.put(i, m);
@@ -257,6 +257,7 @@ public class WrapperClassInfo
             mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));
             mn.instructions.add(AsmUtil.insnReturn(Class.class));
             cn.methods.add(mn);
+            //noinspection RedundantArrayCreation
             mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticCreate", AsmUtil.getDesc(WrapperObject.class, new Class[]{Object.class}), null, new String[0]);
             mn.visitTypeInsn(Opcodes.NEW, cn.name);
             mn.instructions.add(AsmUtil.insnDup(WrapperObject.class));
@@ -469,7 +470,7 @@ public class WrapperClassInfo
                 mn.visitEnd();
                 cn.methods.add(mn);
             }
-            this.wrapperClassAnnotation.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class).value().newInstance().extra(this.wrapperClassAnnotation, cn);
+            this.wrapperClassAnnotation.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class).value().newInstance().extra(RuntimeUtil.cast(this.wrapperClassAnnotation), cn);
             cn.visitEnd();
             ClassWriter cw = new ClassWriter(wrapperClass.getClassLoader());
             cn.accept(cw);

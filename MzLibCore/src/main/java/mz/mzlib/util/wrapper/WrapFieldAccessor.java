@@ -2,7 +2,10 @@ package mz.mzlib.util.wrapper;
 
 import mz.mzlib.util.RuntimeUtil;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
@@ -19,10 +22,10 @@ public @interface WrapFieldAccessor
      */
     String[] value();
 
-    class Handler implements WrappedMemberFinder
+    class Handler implements WrappedMemberFinder<WrapFieldAccessor>
     {
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<?> wrappedClass, WrapFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
             switch (argTypes.length)
@@ -36,7 +39,7 @@ public @interface WrapFieldAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
-            for (String i : ((WrapFieldAccessor) annotation).value())
+            for (String i : annotation.value())
             {
                 try
                 {
@@ -53,7 +56,7 @@ public @interface WrapFieldAccessor
                 {
                 }
             }
-            throw new NoSuchFieldException("No such field: " + Arrays.toString(((WrapFieldAccessor) annotation).value()) + ".");
+            throw new NoSuchFieldException("No such field: " + Arrays.toString(annotation.value()) + ".");
         }
     }
 }

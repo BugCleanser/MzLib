@@ -11,14 +11,14 @@ public @interface ElementSwitcherSimple
 {
     Class<? extends Supplier<Boolean>> value();
     
-    class Handler implements ElementSwitcher
+    class Handler implements ElementSwitcher<ElementSwitcherSimple>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(ElementSwitcherSimple annotation, AnnotatedElement element)
         {
             try
             {
-                return ((ElementSwitcherSimple)element).value().newInstance().get();
+                return annotation.value().newInstance().get();
             }
             catch(Throwable e)
             {

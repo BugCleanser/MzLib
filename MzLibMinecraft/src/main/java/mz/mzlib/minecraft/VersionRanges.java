@@ -14,11 +14,11 @@ public @interface VersionRanges
 {
     VersionRange[] value();
 
-    class Switcher implements ElementSwitcher
+    class Switcher implements ElementSwitcher<VersionRanges>
     {
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(VersionRanges annotation, AnnotatedElement element)
         {
-            for (VersionRange versionRange : ((VersionRanges) annotation).value())
+            for (VersionRange versionRange : annotation.value())
             {
                 if (MinecraftPlatform.instance.inVersion(versionRange))
                     return true;

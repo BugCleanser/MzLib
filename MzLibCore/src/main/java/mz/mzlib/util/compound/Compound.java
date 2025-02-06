@@ -1,14 +1,10 @@
 package mz.mzlib.util.compound;
 
 import mz.mzlib.asm.ClassWriter;
-import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.ClassNode;
-import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
@@ -17,10 +13,10 @@ import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.lang.annotation.*;
-import java.lang.invoke.CallSite;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -32,11 +28,11 @@ import java.util.stream.Collectors;
 @WrappedClassFinderClass(Compound.Handler.class)
 public @interface Compound
 {
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<Compound>
     {
         @Override
         @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Compound annotation) throws ClassNotFoundException
         {
             synchronized(wrapperClass)
             {
@@ -61,7 +57,10 @@ public @interface Compound
                     for(Class<?> j: superclasses)
                     {
                         if(!j.isAssignableFrom(i))
+                        {
                             flag = false;
+                            break;
+                        }
                     }
                     if(flag)
                     {

@@ -16,19 +16,17 @@ public @interface WrapArrayClass
 {
     Class<? extends WrapperObject> value();
 
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<WrapArrayClass>
     {
-        @SuppressWarnings("deprecation")
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapArrayClass annotation)
         {
-            return Array.newInstance(WrapperObject.getWrappedClass(((WrapArrayClass) annotation).value()), 0).getClass();
+            return Array.newInstance(WrapperObject.getWrappedClass(annotation.value()), 0).getClass();
         }
 
-        @SuppressWarnings("deprecation")
         @Override
-        public void extra(Annotation annotation, ClassNode cn)
+        public void extra(WrapArrayClass annotation, ClassNode cn)
         {
-            Class<? extends WrapperObject> type = ((WrapArrayClass) annotation).value();
+            Class<? extends WrapperObject> type = annotation.value();
             MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticNewInstance", AsmUtil.getDesc(WrapperArray.class, int.class), null, new String[0]);
             mn.instructions.add(AsmUtil.insnVarLoad(int.class, 1));
             mn.instructions.add(AsmUtil.insnArray(WrapperObject.getWrappedClass(type)));

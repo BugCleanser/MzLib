@@ -9,14 +9,14 @@ public @interface WrapClassForName
 {
     String[] value();
 
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<WrapClassForName>
     {
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapClassForName annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            for (String i : ((WrapClassForName) annotation).value())
+            for (String i : annotation.value())
             {
                 try
                 {

@@ -8,7 +8,10 @@ import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -20,15 +23,14 @@ public @interface WrapMinecraftInnerClass
     Class<? extends WrapperObject> outer();
     VersionName[] name();
 
-    class Handler implements ElementSwitcher, WrappedClassFinder
+    class Handler implements ElementSwitcher<WrapMinecraftInnerClass>, WrappedClassFinder<WrapMinecraftInnerClass>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(WrapMinecraftInnerClass annotation, AnnotatedElement element)
         {
-            WrapMinecraftInnerClass a = (WrapMinecraftInnerClass) annotation;
-            if(!ElementSwitcher.isEnabled(a.outer()))
+            if(!ElementSwitcher.isEnabled(annotation.outer()))
                 return false;
-            for(VersionName n:a.name())
+            for(VersionName n: annotation.name())
             {
                 if (MinecraftPlatform.instance.inVersion(n))
                     return true;
@@ -36,15 +38,15 @@ public @interface WrapMinecraftInnerClass
             return false;
         }
 
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftInnerClass annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            Class<?> superClass=WrapperObject.getWrappedClass(((WrapMinecraftInnerClass) annotation).outer());
+            Class<?> superClass=WrapperObject.getWrappedClass(annotation.outer());
             if(superClass==null)
                 return null;
             String superName= MinecraftPlatform.instance.getMappingsP2Y().mapClass(superClass.getName());
             ClassNotFoundException lastException = null;
-            for (VersionName i : ((WrapMinecraftInnerClass) annotation).name())
+            for (VersionName i : annotation.name())
             {
                 if(!MinecraftPlatform.instance.inVersion(i))
                     continue;

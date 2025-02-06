@@ -4,11 +4,11 @@ import mz.mzlib.asm.tree.ClassNode;
 
 import java.lang.annotation.Annotation;
 
-public interface WrappedClassFinder
+public interface WrappedClassFinder<T extends Annotation>
 {
-    Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException;
+    Class<?> find(Class<? extends WrapperObject> wrapperClass, T annotation) throws ClassNotFoundException;
 
-    default void extra(Annotation annotation, ClassNode cn)
+    default void extra(T annotation, ClassNode cn)
     {
     }
 }

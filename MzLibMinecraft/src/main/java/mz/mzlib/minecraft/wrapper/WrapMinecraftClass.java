@@ -8,7 +8,10 @@ import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -19,13 +22,12 @@ public @interface WrapMinecraftClass
 {
     VersionName[] value();
     
-    class Handler implements ElementSwitcher, WrappedClassFinder
+    class Handler implements ElementSwitcher<WrapMinecraftClass>, WrappedClassFinder<WrapMinecraftClass>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(WrapMinecraftClass annotation, AnnotatedElement element)
         {
-            WrapMinecraftClass a = (WrapMinecraftClass)annotation;
-            for(VersionName n: a.value())
+            for(VersionName n: annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(n))
                     return true;
@@ -34,10 +36,10 @@ public @interface WrapMinecraftClass
         }
         
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftClass annotation) throws ClassNotFoundException
         {
             ClassNotFoundException lastException = null;
-            for(VersionName name: ((WrapMinecraftClass)annotation).value())
+            for(VersionName name: annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(name))
                 {

@@ -9,7 +9,10 @@ import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 import java.util.Arrays;
@@ -21,27 +24,26 @@ import java.util.Arrays;
 public @interface WrapMinecraftFieldAccessor
 {
     VersionName[] value();
-
-    class Handler implements ElementSwitcher, WrappedMemberFinder
+    
+    class Handler implements ElementSwitcher<WrapMinecraftFieldAccessor>, WrappedMemberFinder<WrapMinecraftFieldAccessor>
     {
         @Override
-        public boolean isEnabled(Annotation annotation, AnnotatedElement element)
+        public boolean isEnabled(WrapMinecraftFieldAccessor annotation, AnnotatedElement element)
         {
-            WrapMinecraftFieldAccessor a = (WrapMinecraftFieldAccessor) annotation;
-            for(VersionName n:a.value())
+            for(VersionName n: annotation.value())
             {
-                if (MinecraftPlatform.instance.inVersion(n))
+                if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-
+        
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<?> wrappedClass, WrapMinecraftFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
-            String[] names = Arrays.stream(((WrapMinecraftFieldAccessor) annotation).value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name ->
+            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name-> //
                     MinecraftPlatform.instance.getMappingsY2P().mapField(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), name)).toArray(String[]::new);
-            if(names.length == 0)
+            if(names.length==0)
                 return null;
             try
             {
@@ -52,7 +54,7 @@ public @interface WrapMinecraftFieldAccessor
                     {
                         return WrapFieldAccessor.class;
                     }
-
+                    
                     @Override
                     public String[] value()
                     {
@@ -60,7 +62,7 @@ public @interface WrapMinecraftFieldAccessor
                     }
                 }, returnType, argTypes);
             }
-            catch (InstantiationException|IllegalAccessException e)
+            catch(InstantiationException|IllegalAccessException e)
             {
                 throw RuntimeUtil.sneakilyThrow(e);
             }

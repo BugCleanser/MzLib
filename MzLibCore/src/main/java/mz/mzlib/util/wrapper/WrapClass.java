@@ -9,11 +9,11 @@ public @interface WrapClass
 {
     Class<?> value();
 
-    class Handler implements WrappedClassFinder
+    class Handler implements WrappedClassFinder<WrapClass>
     {
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, Annotation annotation)
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapClass annotation)
         {
-            return ((WrapClass) annotation).value();
+            return annotation.value();
         }
     }
 }

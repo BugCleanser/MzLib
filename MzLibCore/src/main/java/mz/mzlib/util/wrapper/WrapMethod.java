@@ -1,6 +1,9 @@
 package mz.mzlib.util.wrapper;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -17,13 +20,13 @@ public @interface WrapMethod
      */
     String[] value();
 
-    class Handler implements WrappedMemberFinder
+    class Handler implements WrappedMemberFinder<WrapMethod>
     {
         @Override
-        public Member find(Class<?> wrappedClass, Annotation annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<?> wrappedClass, WrapMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
             NoSuchMethodException lastException = null;
-            for (String i : ((WrapMethod) annotation).value())
+            for (String i : annotation.value())
             {
                 try
                 {

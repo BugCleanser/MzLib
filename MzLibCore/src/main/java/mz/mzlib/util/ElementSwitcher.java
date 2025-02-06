@@ -22,8 +22,7 @@ public interface ElementSwitcher<T extends Annotation>
                 {
                     continue;
                 }
-                //noinspection unchecked
-                if (!clazz.value().newInstance().isEnabled(a, element))
+                if (!clazz.value().newInstance().isEnabled(RuntimeUtil.cast(a), element))
                 {
                     return false;
                 }
