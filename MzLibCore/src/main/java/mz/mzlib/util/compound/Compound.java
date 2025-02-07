@@ -171,6 +171,23 @@ public @interface Compound
                         }
                     }
                 }
+                for(Constructor<?> constructor: superclass.getDeclaredConstructors())
+                {
+                    if(Modifier.isPrivate(constructor.getModifiers()))
+                        continue;
+                    MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "<init>", AsmUtil.getDesc(constructor), null, null);
+                    mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                    int i = 1;
+                    for(Class<?> param: constructor.getParameterTypes())
+                    {
+                        mn.instructions.add(AsmUtil.insnVarLoad(param, i));
+                        i += AsmUtil.getCategory(param);
+                    }
+                    mn.visitMethodInsn(Opcodes.INVOKESPECIAL, AsmUtil.getType(superclass), "<init>", AsmUtil.getDesc(constructor), false);
+                    mn.instructions.add(AsmUtil.insnReturn(void.class));
+                    mn.visitEnd();
+                    cn.methods.add(mn);
+                }
                 if(Delegator.class.isAssignableFrom(wrapperClass))
                 {
                     String delegateField = "mzlib$Delegate";
@@ -205,26 +222,6 @@ public @interface Compound
                         }
                         mn.visitMethodInsn(Modifier.isInterface(method.getModifiers()) ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL, AsmUtil.getType(method.getDeclaringClass()), method.getName(), AsmUtil.getDesc(method), Modifier.isInterface(method.getModifiers()));
                         mn.instructions.add(AsmUtil.insnReturn(method.getReturnType()));
-                        mn.visitEnd();
-                        cn.methods.add(mn);
-                    }
-                }
-                else
-                {
-                    for(Constructor<?> constructor: superclass.getDeclaredConstructors())
-                    {
-                        if(Modifier.isPrivate(constructor.getModifiers()))
-                            continue;
-                        MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "<init>", AsmUtil.getDesc(constructor), null, null);
-                        mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-                        int i = 1;
-                        for(Class<?> param: constructor.getParameterTypes())
-                        {
-                            mn.instructions.add(AsmUtil.insnVarLoad(param, i));
-                            i += AsmUtil.getCategory(param);
-                        }
-                        mn.visitMethodInsn(Opcodes.INVOKESPECIAL, AsmUtil.getType(superclass), "<init>", AsmUtil.getDesc(constructor), false);
-                        mn.instructions.add(AsmUtil.insnReturn(void.class));
                         mn.visitEnd();
                         cn.methods.add(mn);
                     }

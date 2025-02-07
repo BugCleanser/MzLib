@@ -1,13 +1,13 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
 import mz.mzlib.module.MzModule;
 
-public class EventPlayerChatAsync extends EventPlayerByPacket<PacketC2sChatMessage>
+public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessage>
 {
-    public EventPlayerChatAsync(PacketEvent.Specialized<PacketC2sChatMessage> packetEvent)
+    public EventAsyncPlayerChat(PacketEvent.Specialized<PacketC2sChatMessage> packetEvent)
     {
         super(packetEvent);
     }
@@ -33,8 +33,8 @@ public class EventPlayerChatAsync extends EventPlayerByPacket<PacketC2sChatMessa
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerChatAsync.class);
-            this.register(new PacketListener<>(PacketC2sChatMessage::create, packetEvent->new EventPlayerChatAsync(packetEvent).call()));
+            this.register(EventAsyncPlayerChat.class);
+            this.register(new PacketListener<>(PacketC2sChatMessage::create, packetEvent->new EventAsyncPlayerChat(packetEvent).call()));
         }
     }
 }

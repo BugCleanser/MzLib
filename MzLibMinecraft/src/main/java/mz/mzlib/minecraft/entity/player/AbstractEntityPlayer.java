@@ -63,17 +63,17 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     }
     
     void sendMessage(Text message);
-    @VersionRange(end=1300)
-    @VersionRange(begin=1600)
-    @SpecificImpl("sendMessage")
-    default void sendMessageV_1300__1600(Text message)
-    {
-        this.sendMessageV_1300__1600(message, false);
-    }
-    @VersionRange(end=1300)
+    @VersionRange(begin=1100, end=1300)
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
-    void sendMessageV_1300__1600(Text message, boolean actionBar);
+    void sendMessageV1100_1300__1600(Text message, boolean actionBar);
+    @VersionRange(begin=1100, end=1300)
+    @VersionRange(begin=1600)
+    @SpecificImpl("sendMessage")
+    default void sendMessageV1100_1300__1600(Text message)
+    {
+        this.sendMessageV1100_1300__1600(message, false);
+    }
     
     @WrapMinecraftMethod({@VersionName(name="openHandledScreen", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600)})
     OptionalInt openWindow(WindowFactory windowFactory);

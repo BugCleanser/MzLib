@@ -40,30 +40,30 @@ public interface EntityDataTracker extends WrapperObject
             return WrapperObject.create(Entry.class, wrapped);
         }
         
-        static Entry newInstance(EntityDataType type, WrapperObject value)
+        static Entry newInstance(EntityDataKey type, WrapperObject value)
         {
             return newInstance0(type, value.getWrapped());
         }
         
-        static Entry newInstance0(EntityDataType type, Object value)
+        static Entry newInstance0(EntityDataKey type, Object value)
         {
             return Entry.create(null).staticNewInstance0(type, value);
         }
         
         @WrapConstructor
-        Entry staticNewInstance0(EntityDataType type, Object value);
+        Entry staticNewInstance0(EntityDataKey type, Object value);
         
         @Override
         @WrapMinecraftMethod({@VersionName(name="method_12758", end=1400), @VersionName(name="getData", begin=1400)})
-        EntityDataType getType();
+        EntityDataKey getKey();
         
         @Override
         @WrapMinecraftMethod({@VersionName(name="getValue", end=1400), @VersionName(name="get", begin=1400)})
-        Object getValue0();
+        Object getValue();
         
         @Override
         @WrapMinecraftMethod({@VersionName(name="setValue", end=1400), @VersionName(name="set", begin=1400)})
-        void setValue0(Object value);
+        void setValue(Object value);
         
         @VersionRange(begin=1903)
         @WrapMinecraftMethod(@VersionName(name="toSerialized"))
@@ -93,22 +93,22 @@ public interface EntityDataTracker extends WrapperObject
         EntityDataHandler getHandler();
         
         @Override
-        default EntityDataType getType()
+        default EntityDataKey getKey()
         {
-            return EntityDataType.newInstance(this.getIndex(), this.getHandler());
+            return EntityDataKey.newInstance(this.getIndex(), this.getHandler());
         }
         
         @Override
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
-        Object getValue0();
+        Object getValue();
         
         @Override
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
-        void setValue0(Object value);
+        void setValue(Object value);
         
         default <T extends WrapperObject> T getValue(Function<Object, T> wrapperCreator)
         {
-            return wrapperCreator.apply(getValue0());
+            return wrapperCreator.apply(getValue());
         }
         
         @Override

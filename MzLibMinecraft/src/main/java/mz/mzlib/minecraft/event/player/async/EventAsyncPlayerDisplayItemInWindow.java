@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -10,11 +10,11 @@ import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventPlayerDisplayItemInWindow<P extends Packet> extends EventPlayerDisplayItem<P>
+public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> extends EventAsyncPlayerDisplayItem<P>
 {
     public Window window;
     public int slotIndex;
-    public EventPlayerDisplayItemInWindow(PacketEvent.Specialized<P> packetEvent, ItemStack original, Window window, int slotIndex)
+    public EventAsyncPlayerDisplayItemInWindow(PacketEvent.Specialized<P> packetEvent, ItemStack original, Window window, int slotIndex)
     {
         super(packetEvent, original);
         this.window = window;
@@ -41,7 +41,7 @@ public abstract class EventPlayerDisplayItemInWindow<P extends Packet> extends E
         super.call();
     }
     
-    public static class ByPacketS2cWindowSlotUpdate extends EventPlayerDisplayItemInWindow<PacketS2cWindowSlotUpdate>
+    public static class ByPacketS2cWindowSlotUpdate extends EventAsyncPlayerDisplayItemInWindow<PacketS2cWindowSlotUpdate>
     {
         public ByPacketS2cWindowSlotUpdate(PacketEvent.Specialized<PacketS2cWindowSlotUpdate> packetEvent, ItemStack original, Window window)
         {
@@ -61,7 +61,7 @@ public abstract class EventPlayerDisplayItemInWindow<P extends Packet> extends E
         }
     }
     
-    public static class ByPacketS2cWindowItems extends EventPlayerDisplayItemInWindow<PacketS2cWindowItems>
+    public static class ByPacketS2cWindowItems extends EventAsyncPlayerDisplayItemInWindow<PacketS2cWindowItems>
     {
         public ByPacketS2cWindowItems(PacketEvent.Specialized<PacketS2cWindowItems> packetEvent, ItemStack original, Window window, int slotIndex)
         {
@@ -94,15 +94,15 @@ public abstract class EventPlayerDisplayItemInWindow<P extends Packet> extends E
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerDisplayItemInWindow.class);
-            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEvent->packetEvent.sync(()->
+            this.register(EventAsyncPlayerDisplayItemInWindow.class);
+            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEvent->
             {
                 Window window = packetEvent.getPlayer().getWindow(packetEvent.getPacket().getSyncId());
                 if(!window.isPresent())
                     return;
                 new ByPacketS2cWindowSlotUpdate(packetEvent, packetEvent.getPacket().getItemStack(), window).call();
-            })));
-            this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->packetEvent.sync(()->
+            }));
+            this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->
             {
                 Window window = packetEvent.getPlayer().getWindow(packetEvent.getPacket().getSyncId());
                 if(!window.isPresent())
@@ -111,15 +111,15 @@ public abstract class EventPlayerDisplayItemInWindow<P extends Packet> extends E
                 {
                     new ByPacketS2cWindowItems(packetEvent, packetEvent.getPacket().getContents().get(i), window, i).call();
                 }
-            })));
+            }));
             if(MinecraftPlatform.instance.getVersion()>=1701)
-                this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->packetEvent.sync(()->
+                this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->
                 {
                     Window window = packetEvent.getPlayer().getWindow(packetEvent.getPacket().getSyncId());
                     if(!window.isPresent())
                         return;
                     new ByPacketS2cWindowItems(packetEvent, packetEvent.getPacket().getCursorV1701(), window, -1).call();
-                })));
+                }));
         }
     }
 }

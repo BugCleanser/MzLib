@@ -8,21 +8,21 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.data.TrackedData"))
-public interface EntityDataType extends WrapperObject
+public interface EntityDataKey extends WrapperObject
 {
     @WrapperCreator
-    static EntityDataType create(Object wrapped)
+    static EntityDataKey create(Object wrapped)
     {
-        return WrapperObject.create(EntityDataType.class, wrapped);
+        return WrapperObject.create(EntityDataKey.class, wrapped);
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="field_13816", end=1400), @VersionName(name="id", begin=1400)})
     int getIndex();
     
-    static EntityDataType newInstance(int index, EntityDataHandler handler)
+    static EntityDataKey newInstance(int index, EntityDataHandler handler)
     {
         return create(null).staticNewInstance(index, handler);
     }
     @WrapConstructor
-    EntityDataType staticNewInstance(int index, EntityDataHandler handler);
+    EntityDataKey staticNewInstance(int index, EntityDataHandler handler);
 }

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.MzLib;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.bukkit.command.RegistrarCommandBukkit;
 import mz.mzlib.minecraft.bukkit.network.packet.ModuleBukkitPacketListener;
@@ -18,6 +19,8 @@ public class MzLibBukkit extends MzModule
     @Override
     public void onLoad()
     {
+        this.register(MzLib.instance);
+        
         this.register(MinecraftPlatformBukkit.instance);
 
         this.register(CraftServer.create(Bukkit.getServer()).getServer());

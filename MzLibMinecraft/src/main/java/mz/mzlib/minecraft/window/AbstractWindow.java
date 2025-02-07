@@ -39,10 +39,10 @@ public interface AbstractWindow extends Window
     default ItemStack quickMove(AbstractEntityPlayer player, int index)
     {
         WindowSlot slot = this.getSlot(index);
-        if(!slot.isPresent() || slot.getItemStack().isEmpty())
+        if(!slot.isPresent() || ItemStack.isEmpty(slot.getItemStack()))
             return ItemStack.empty();
         ItemStack is = slot.getItemStack();
-        ItemStack original = is.copy();
+        ItemStack original = ItemStack.copy(is);
         int upperSize = this.getSlots().size()-36;
         if(index<upperSize)
         {
@@ -52,7 +52,7 @@ public interface AbstractWindow extends Window
         else if(!this.placeIn(is, 0, upperSize, false))
             return ItemStack.empty();
         
-        if(is.isEmpty())
+        if(ItemStack.isEmpty(is))
             slot.setItemStackByPlayer(ItemStack.empty());
         else
             slot.markDirty();

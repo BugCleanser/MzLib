@@ -1,15 +1,19 @@
 package mz.mzlib.minecraft.entity;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
-import mz.mzlib.minecraft.entity.data.EntityDataType;
+import mz.mzlib.minecraft.entity.data.EntityDataAdapter;
+import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -26,47 +30,33 @@ public interface Entity extends WrapperObject
     }
     
     /**
-     * type0V1300: {@link java.util.Optional<mz.mzlib.minecraft.text.Text>}
+     * typeV_1300: {@link String}
+     * typeV1300: {@link Optional<mz.mzlib.minecraft.text.Text>}
      */
-    static EntityDataType dataTypeCustomName()
+    static EntityDataKey dataKeyCustomName()
     {
-        return create(null).staticDataTypeCustomName();
+        return create(null).staticDataKeyCustomName();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
-    EntityDataType staticDataTypeCustomName();
+    EntityDataKey staticDataKeyCustomName();
     
-    static Object newDataValue0CustomName(Text name)
-    {
-        return create(null).staticNewDataValue0CustomName(name);
-    }
-    
-    Object staticNewDataValue0CustomName(Text name);
-    
-    @SpecificImpl("staticNewDataValue0CustomName")
-    @VersionRange(end=1300)
-    default Object staticNewDataValue0CustomNameV_1300(Text name)
-    {
-        return name.toLiteral();
-    }
-    
-    @SpecificImpl("staticNewDataValue0CustomName")
-    @VersionRange(begin=1300)
-    default Object staticNewDataValue0CustomNameV1300(Text name)
-    {
-        return Optional.ofNullable(name.getWrapped());
-    }
+    EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
+            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, name->Text.fromLiteral((String)name)) : //
+                    new InvertibleFunction<>(Text::getWrapped, Text::create));
     
     /**
      * type0: {@link Boolean}
      */
-    static EntityDataType dataTypeCustomNameVisible()
+    static EntityDataKey dataKeyCustomNameVisible()
     {
-        return create(null).staticDataTypeCustomNameVisible();
+        return create(null).staticDataKeyCustomNameVisible();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
-    EntityDataType staticDataTypeCustomNameVisible();
+    EntityDataKey staticDataKeyCustomNameVisible();
+    
+    EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), RuntimeUtil.cast(InvertibleFunction.empty()));
     
     Vec3d getPosition();
     

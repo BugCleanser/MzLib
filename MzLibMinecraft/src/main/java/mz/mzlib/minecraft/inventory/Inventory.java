@@ -27,11 +27,11 @@ public interface Inventory extends WrapperObject
     
     default boolean addItemStack(ItemStack itemStack)
     {
-        if(itemStack.isEmpty())
+        if(ItemStack.isEmpty(itemStack))
             return false;
         boolean result = false;
         int size = this.size();
-        for(int i = 0; i<size && !itemStack.isEmpty(); i++)
+        for(int i = 0; i<size && !ItemStack.isEmpty(itemStack); i++)
         {
             ItemStack cnt = this.getItemStack(i);
             if(ItemStack.isStackable(cnt, itemStack))
@@ -41,13 +41,13 @@ public interface Inventory extends WrapperObject
                 itemStack.shrink(count);
             }
         }
-        if(!itemStack.isEmpty())
+        if(!ItemStack.isEmpty(itemStack))
             for(int i = 0; i<size; i++)
             {
                 ItemStack is = this.getItemStack(i);
-                if(is.isEmpty())
+                if(ItemStack.isEmpty(is))
                 {
-                    this.setItemStack(i, itemStack.copy());
+                    this.setItemStack(i, ItemStack.copy(itemStack));
                     itemStack.setCount(0);
                     result = true;
                     break;

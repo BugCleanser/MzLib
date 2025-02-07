@@ -1,20 +1,19 @@
 package mz.mzlib.minecraft.entity.display;
 
 import mz.mzlib.minecraft.entity.EntityType;
-import mz.mzlib.minecraft.entity.data.EntityDataType;
+import mz.mzlib.minecraft.entity.data.EntityDataHolder;
+import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntitySpawn;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapperObject;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
 
-public class DisplayEntity
+public class DisplayEntity implements EntityDataHolder
 {
     public EntityPlayer player;
     public int id;
@@ -31,26 +30,36 @@ public class DisplayEntity
         this.position = packetSpawn.getPosition();
     }
     
-    public Map<EntityDataType, Object> dataMap = new HashMap<>();
+    public EntityDataHolder dataHolder = EntityDataHolder.of(new HashMap<>());
+    public EntityDataHolder unsynced = EntityDataHolder.of(new HashMap<>());
     
-    public synchronized void putData0(EntityDataType type, Object value)
+    @Override
+    public Object getData(EntityDataKey key)
     {
-        this.dataMap.put(type, value);
+        return this.dataHolder.getData(key);
     }
-    public synchronized void putData(EntityDataType type, WrapperObject value)
+    @Override
+    public Object putData(EntityDataKey key, Object value)
     {
-        this.putData0(type, value.getWrapped());
+        this.unsynced.putData(key, value);
+        return this.dataHolder.putData(key, value);
+    }
+    @Override
+    public Object removeData(EntityDataKey key)
+    {
+        this.unsynced.removeData(key);
+        return this.dataHolder.removeData(key);
+    }
+    @Override
+    public void forEachData(BiConsumer<EntityDataKey, Object> action)
+    {
+        this.dataHolder.forEachData(action);
     }
     
-    public synchronized @Nullable Object getData0(EntityDataType type)
+    public void removeTag(Class<?> type)
     {
-        return this.dataMap.get(type);
+        this.tags.remove(type);
     }
-    public synchronized <T extends WrapperObject> T getData(EntityDataType type, Function<Object, T> wrapperCreator)
-    {
-        return wrapperCreator.apply(this.getData0(type));
-    }
-    
     public Map<Class<?>, ?> tags = new HashMap<>();
     public <T> void putTag(Class<T> type, T value)
     {
@@ -63,9 +72,5 @@ public class DisplayEntity
     public <T> T getTag(Class<T> type)
     {
         return RuntimeUtil.cast(this.tags.get(type));
-    }
-    public void removeTag(Class<?> type)
-    {
-        this.tags.remove(type);
     }
 }

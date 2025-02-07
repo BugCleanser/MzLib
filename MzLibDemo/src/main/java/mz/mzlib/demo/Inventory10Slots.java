@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
+import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.module.MzModule;
@@ -51,10 +52,10 @@ public class Inventory10Slots extends MzModule
         public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
         {
             WindowSlot slot = window.getSlot(index);
-            if(!slot.isPresent() || slot.getItemStack().isEmpty())
+            ItemStack is;
+            if(!slot.isPresent() || ItemStack.isEmpty(is = slot.getItemStack()))
                 return ItemStack.empty();
-            ItemStack is = slot.getItemStack();
-            ItemStack copy = is.copy();
+            ItemStack copy = ItemStack.copy(is);
             ItemStack result = ItemStack.empty();
             int upperSize = window.getSlots().size()-36;
             if(index<upperSize)
@@ -69,14 +70,21 @@ public class Inventory10Slots extends MzModule
                 if(window.placeIn(is, 0, 1, false))
                     result = copy;
             }
-            if(!result.isEmpty())
+            if(!ItemStack.isEmpty(result))
             {
-                if(is.isEmpty())
+                if(ItemStack.isEmpty(is))
                     slot.setItemStackByPlayer(ItemStack.empty());
                 else
                     slot.markDirty();
             }
             return result;
+        }
+        
+        @Override
+        public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
+        {
+            super.onAction(window, index, data, actionType, player);
+            window.sendSlotUpdate(player, 0);
         }
         
         @Override

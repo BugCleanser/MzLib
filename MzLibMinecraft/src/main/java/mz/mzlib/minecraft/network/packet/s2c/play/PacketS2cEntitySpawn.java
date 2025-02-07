@@ -76,15 +76,38 @@ public interface PacketS2cEntitySpawn extends Packet
     {
         public static Map<EntityType, Integer> typeIdsV_1400 = new HashMap<>();
         public static Map<Integer, EntityType> typesV_1400 = new HashMap<>();
-        public static void registerTypeIdV_1400(EntityType type, int id)
+        public static void register(EntityType type, int id)
         {
             typeIdsV_1400.put(type, id);
             typesV_1400.put(id, type);
         }
+        public static void register(String type, int id)
+        {
+            register(EntityType.fromId(type), id);
+        }
         static
         {
-            registerTypeIdV_1400(EntityType.fromId("item"), 2);
-            // TODO
+            register("item", 2);
+            register("xp_orb", 7);
+            register("area_effect_cloud", 3);
+            register("painting", 9);
+            register("arrow", 10);
+            register("snowball", 61);
+            register("small_fireball", 13);
+            register("ender_pearl", 14);
+            register("eye_of_ender_signal", 15);
+            register("potion", 73);
+            register("xp_bottle", 75);
+            register("item_frame", 71);
+            register("wither_skull", 66);
+            register("tnt", 50);
+            register("falling_block", 70);
+            register("fireworks_rocket", 76);
+            register("spectral_arrow", 91);
+            register("shulker_bullet", 67);
+            register("dragon_fireball", 93);
+            register("armor_stand", 78);
+            register("ender_crystal", 51);
         }
         
         public static int toId(EntityType type)

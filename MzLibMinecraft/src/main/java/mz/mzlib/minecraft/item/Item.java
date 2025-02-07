@@ -45,6 +45,8 @@ public interface Item extends WrapperObject
         return fromId(Identifier.newInstance(id));
     }
     
+    Item AIR = fromId(Identifier.ofMinecraft("air"));
+    
     ComponentKeyV2005 componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name");
     ComponentKeyV2005 componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore");
     

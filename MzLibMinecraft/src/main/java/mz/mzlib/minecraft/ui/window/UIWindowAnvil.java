@@ -36,11 +36,21 @@ public abstract class UIWindowAnvil extends UIWindow
             {
                 if(event.isCancelled())
                     return;
-                if(event.getPlayer().getCurrentWindow().isInstanceOf(WindowUIWindow::create))
+                if(event.getWindow().isInstanceOf(WindowUIWindow::create))
                 {
-                    UI ui = event.getPlayer().getCurrentWindow().castTo(WindowUIWindow::create).getUIWindow();
+                    UI ui = event.getWindow().castTo(WindowUIWindow::create).getUIWindow();
                     if(ui instanceof UIWindowAnvil)
-                        ((UIWindowAnvil)ui).onNameChanged(event.getPlayer(), event.getName());
+                    {
+                        event.sync(()->
+                        {
+                            if(event.getWindow().isInstanceOf(WindowUIWindow::create))
+                            {
+                                UI ui1 = event.getWindow().castTo(WindowUIWindow::create).getUIWindow();
+                                if(ui1 instanceof UIWindowAnvil)
+                                    ((UIWindowAnvil)ui1).onNameChanged(event.getPlayer(), event.getName());
+                            }
+                        });
+                    }
                 }
             }));
         }

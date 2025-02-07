@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.network.packet.Packet;
@@ -9,9 +9,9 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventPlayerMove<P extends Packet> extends EventPlayerByPacket<P>
+public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncByPacket<P>
 {
-    public EventPlayerMove(PacketEvent.Specialized<P> packetEvent)
+    public EventAsyncPlayerMove(PacketEvent.Specialized<P> packetEvent)
     {
         super(packetEvent);
     }
@@ -53,7 +53,7 @@ public abstract class EventPlayerMove<P extends Packet> extends EventPlayerByPac
     {
     }
     
-    public static class ByPacketC2sPlayerMove extends EventPlayerMove<PacketC2sPlayerMove>
+    public static class ByPacketC2sPlayerMove extends EventAsyncPlayerMove<PacketC2sPlayerMove>
     {
         public ByPacketC2sPlayerMove(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
         {
@@ -157,7 +157,7 @@ public abstract class EventPlayerMove<P extends Packet> extends EventPlayerByPac
         }
     }
     
-    public static class ByPacketC2sVehicleMove extends EventPlayerMove<PacketC2sVehicleMove>
+    public static class ByPacketC2sVehicleMove extends EventAsyncPlayerMove<PacketC2sVehicleMove>
     {
         
         public ByPacketC2sVehicleMove(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
@@ -269,24 +269,18 @@ public abstract class EventPlayerMove<P extends Packet> extends EventPlayerByPac
         
         public void handlePlayer(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
         {
-            packetEvent.sync(()->
-            {
-                new ByPacketC2sPlayerMove(packetEvent).call();
-            });
+            new ByPacketC2sPlayerMove(packetEvent).call();
         }
         
         public void handleVehicle(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
         {
-            packetEvent.sync(()->
-            {
-                new ByPacketC2sVehicleMove(packetEvent).call();
-            });
+            new ByPacketC2sVehicleMove(packetEvent).call();
         }
         
         @Override
         public void onLoad()
         {
-            this.register(EventPlayerMove.class);
+            this.register(EventAsyncPlayerMove.class);
             this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround::create, this::handlePlayer));
             this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround::create, this::handlePlayer));
             this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handlePlayer));

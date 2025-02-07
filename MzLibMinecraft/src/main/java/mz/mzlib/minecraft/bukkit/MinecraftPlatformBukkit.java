@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.mappings.*;
+import mz.mzlib.util.LazyConstant;
 import mz.mzlib.util.RuntimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -82,14 +83,10 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         public String nms = "net.minecraft.server."+MinecraftPlatformBukkit.this.protocolVersion;
         public String mapClass0(String from)
         {
-            String result;
             if(from.startsWith(nms+'.'))
-                result = from.substring((nms+'.').length());
+                return from.substring((nms+'.').length());
             else
-                result = from;
-            if(result.equals("MinecraftServer"))
-                return "net.minecraft.server."+result;
-            return result;
+                return from;
         }
         public String mapField0(String fromClass, String fromField)
         {
@@ -106,8 +103,6 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         public String nms = "net.minecraft.server."+MinecraftPlatformBukkit.this.protocolVersion;
         public String mapClass0(String from)
         {
-            if(from.equals("net.minecraft.server.MinecraftServer"))
-                from = "MinecraftServer";
             if(!from.contains("."))
                 return nms+"."+from;
             else
@@ -124,7 +119,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     }
     
     public IMappings mappingsP2Y, mappingsY2P;
-    
+    public LazyConstant<Void> loadMappings = new LazyConstant<>(()->
     {
         File folder = new File(getMzLibDataFolder(), "mappings");
         Mappings yarn;
@@ -186,16 +181,19 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         if(getVersion()<1700)
             result.add(new SpigotPackageMappingReversedV_1700());
         this.mappingsY2P = new MappingsPipe(result);
-    }
+        return null;
+    });
     
     @Override
     public IMappings getMappingsP2Y()
     {
+        loadMappings.get();
         return this.mappingsP2Y;
     }
     @Override
     public IMappings getMappingsY2P()
     {
+        loadMappings.get();
         return this.mappingsY2P;
     }
 }

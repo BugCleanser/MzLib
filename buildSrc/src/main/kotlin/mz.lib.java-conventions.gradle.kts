@@ -21,7 +21,7 @@ repositories {
 }
 
 group = "mz.mzlib"
-version = "10.0.1-beta-dev11"
+version = "10.0.1-beta-dev12"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 java.targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -34,9 +34,6 @@ publishing {
 val outputDir = File(rootProject.projectDir, "out")
 
 tasks {
-    clean {
-        delete(outputDir)
-    }
     named<Jar>("jar") {
         archiveClassifier.set("original")
     }

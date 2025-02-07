@@ -4,7 +4,7 @@ import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.event.player.EventPlayerDisplayItemInWindow;
+import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;
 import mz.mzlib.minecraft.event.window.EventWindowAction;
 import mz.mzlib.minecraft.event.window.EventWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
@@ -42,7 +42,7 @@ public abstract class UIWindow implements UI
     }
     
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, Consumer<EventPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
+    public Map<Integer, Consumer<EventAsyncPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
     
     public void clear()
@@ -64,17 +64,14 @@ public abstract class UIWindow implements UI
         this.inventory.setItemStack(index, itemStack);
     }
     
-    public void putIcon0(int index, Consumer<EventPlayerDisplayItemInWindow<?>> icon)
+    public void putIcon0(int index, Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon)
     {
         this.icons.put(index, icon);
     }
     
     public void putIcon(int index, Function<EntityPlayer, ItemStack> icon)
     {
-        this.putIcon0(index, event->
-        {
-            event.setItemStack(icon.apply(event.getPlayer()));
-        });
+        this.putIcon0(index, event->event.setItemStack(icon.apply(event.getPlayer())));
     }
     
     public void putButton(int index, ButtonHandler handler)
@@ -173,11 +170,11 @@ public abstract class UIWindow implements UI
                         button.onClick(event.getPlayer(), event.getActionType(), event.getData());
                 }
             }));
-            this.register(new EventListener<>(EventPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event->
+            this.register(new EventListener<>(EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event->
             {
                 if(!event.getWindow().isInstanceOf(WindowUIWindow::create))
                     return;
-                Consumer<EventPlayerDisplayItemInWindow<?>> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
+                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
                 if(icon!=null)
                     icon.accept(event);
             }));

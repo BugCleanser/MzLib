@@ -1,12 +1,13 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 
-public class EventPlayerByPacket<P extends Packet> extends EventPlayer
+public class EventAsyncByPacket<P extends Packet> extends EventPlayer
 {
     public PacketEvent.Specialized<P> packetEvent;
-    public EventPlayerByPacket(PacketEvent.Specialized<P> packetEvent)
+    public EventAsyncByPacket(PacketEvent.Specialized<P> packetEvent)
     {
         super(packetEvent.getPlayer());
         this.packetEvent = packetEvent;

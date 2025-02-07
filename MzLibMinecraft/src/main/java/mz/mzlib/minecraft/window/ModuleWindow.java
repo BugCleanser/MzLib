@@ -60,8 +60,12 @@ public class ModuleWindow extends MzModule
         
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)
         {
+            if(!itemStack.isPresent())
+                throw new NullPointerException("ItemStack is null");
+            if(ItemStack.isEmpty(itemStack))
+                return false;
             if(doCheck)
-                itemStack = itemStack.copy();
+                itemStack = ItemStack.copy(itemStack);
             
             boolean result = false;
             int k = begin;
@@ -70,11 +74,11 @@ public class ModuleWindow extends MzModule
             
             List<WindowSlot> slots = this.getSlots();
             WindowSlot slot;
-            ItemStack itemstack1;
+            ItemStack is;
             int l;
             if(itemStack.isStackable())
             {
-                while(!itemStack.isEmpty())
+                while(!ItemStack.isEmpty(itemStack))
                 {
                     if(inverted)
                     {
@@ -85,27 +89,27 @@ public class ModuleWindow extends MzModule
                         break;
                     
                     slot = slots.get(k);
-                    itemstack1 = slot.getItemStack();
+                    is = slot.getItemStack();
                     if(doCheck)
-                        itemstack1 = itemstack1.copy();
+                        is = ItemStack.copy(is);
                     
-                    if(!itemstack1.isEmpty() && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, itemstack1))
+                    if(!ItemStack.isEmpty(is) && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, is))
                     {
-                        l = itemstack1.getCount()+itemStack.getCount();
-                        int i1 = slot.getMaxStackCount(itemstack1);
+                        l = is.getCount()+itemStack.getCount();
+                        int i1 = slot.getMaxStackCount(is);
                         if(l<=i1)
                         {
                             itemStack.setCount(0);
-                            itemstack1.setCount(l);
+                            is.setCount(l);
                             if(!doCheck)
                                 slot.markDirty();
                             
                             result = true;
                         }
-                        else if(itemstack1.getCount()<i1)
+                        else if(is.getCount()<i1)
                         {
-                            itemStack.shrink(i1-itemstack1.getCount());
-                            itemstack1.setCount(i1);
+                            itemStack.shrink(i1-is.getCount());
+                            is.setCount(i1);
                             if(!doCheck)
                                 slot.markDirty();
                             
@@ -120,7 +124,7 @@ public class ModuleWindow extends MzModule
                 }
             }
             
-            if(!itemStack.isEmpty())
+            if(!ItemStack.isEmpty(itemStack))
             {
                 if(inverted)
                     k = end-1;
@@ -138,11 +142,11 @@ public class ModuleWindow extends MzModule
                         break;
                     
                     slot = slots.get(k);
-                    itemstack1 = slot.getItemStack();
+                    is = slot.getItemStack();
                     if(doCheck)
-                        itemstack1 = itemstack1.copy();
+                        is = ItemStack.copy(is);
                     
-                    if(itemstack1.isEmpty() && slot.canPlace(itemStack))
+                    if(ItemStack.isEmpty(is) && slot.canPlace(itemStack))
                     {
                         l = slot.getMaxStackCount(itemStack);
                         if(doCheck)

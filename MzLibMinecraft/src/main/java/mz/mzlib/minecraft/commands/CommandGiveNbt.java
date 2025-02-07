@@ -56,7 +56,7 @@ public class CommandGiveNbt extends MzModule
             {
                 ItemStack is = ItemStack.decode(nbt);
                 player.getInventory().addItemStack(is);
-                if(!is.isEmpty())
+                if(!ItemStack.isEmpty(is))
                     player.drop(is, true);
             }
             catch(Throwable e)

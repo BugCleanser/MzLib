@@ -36,8 +36,7 @@ public class EventWindowClose extends EventWindow<PacketC2sWindowClose>
                     packetEvent.setCancelled(true);
                     return;
                 }
-                EventWindowClose event = new EventWindowClose(packetEvent, window);
-                event.call();
+                new EventWindowClose(packetEvent, window).call();
             })));
         }
     }

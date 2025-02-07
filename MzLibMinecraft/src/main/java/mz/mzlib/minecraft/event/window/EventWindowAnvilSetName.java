@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.event.window;
 
-import io.netty.buffer.ByteBuf;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
@@ -83,19 +82,11 @@ public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWin
             this.register(EventWindowAnvilSetName.class);
             if(MinecraftPlatform.instance.getVersion()<1300)
             {
-                this.register(new PacketListener<>(PacketC2sCustom::create, packetEvent->
+                this.register(new PacketListener<>(PacketC2sCustom::create, packetEvent->packetEvent.sync(()->
                 {
                     if(packetEvent.getPacket().getChannelV_1300().equals("MC|ItemName"))
-                    {
-                        ByteBuf buf = packetEvent.getPacket().getPayload().getWrapped();
-                        buf.retain();
-                        packetEvent.sync(()->
-                        {
-                            new V_1300(packetEvent).call();
-                            buf.release();
-                        });
-                    }
-                }));
+                        new V_1300(packetEvent).call();
+                })));
             }
             else
                 this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, packetEvent->packetEvent.sync(()->new V1300(packetEvent).call())));

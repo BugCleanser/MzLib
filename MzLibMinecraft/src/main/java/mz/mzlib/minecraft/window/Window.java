@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
-import mz.mzlib.minecraft.util.collection.DefaultedList;
+import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -44,7 +44,7 @@ public interface Window extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="slots", end=1700))
     List<?> getSlots0V_1700();
     @WrapMinecraftFieldAccessor(@VersionName(name="slots", begin=1700))
-    DefaultedList getSlots00V1700();
+    DefaultedListV1100 getSlots00V1700();
     @SpecificImpl("getSlots0")
     @VersionRange(begin=1700)
     default List<?> getSlots0V1700()

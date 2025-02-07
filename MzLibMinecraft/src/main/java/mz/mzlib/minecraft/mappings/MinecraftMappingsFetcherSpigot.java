@@ -32,7 +32,9 @@ public class MinecraftMappingsFetcherSpigot implements MinecraftMappingsFetcher
         CachedValue<String> refsGetter = new CachedValue<>(()->Objects.requireNonNull(new Gson().fromJson(MappingsUtil.request(MappingsUtil.url("https://hub.spigotmc.org/versions/"+version+".json")), JsonObject.class)).getAsJsonObject("refs").get("BuildData").getAsString());
         CachedValue<JsonObject> infoGetter = new CachedValue<>(()->new Gson().fromJson(MappingsUtil.request(MappingsUtil.url(baseUrl+"info.json"+"?at="+refsGetter.get())), JsonObject.class));
         
-        return Mappings.parseCsrg(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+".csrg")).orElse(null), ()->MappingsUtil.request(MappingsUtil.url(baseUrl+"mappings/"+infoGetter.get().get("classMappings").getAsString()+"?at="+refsGetter.get()))),
-                MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+"-members.csrg")).orElse(null), ()->Optional.ofNullable(infoGetter.get().get("memberMappings")).map(it->MappingsUtil.request(baseUrl+"mappings/"+infoGetter.get().get("memberMappings").getAsString()+"?at="+refsGetter.get())).orElse("")));
+        Mappings result = Mappings.parseCsrg(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+".csrg")).orElse(null), ()->MappingsUtil.request(MappingsUtil.url(baseUrl+"mappings/"+infoGetter.get().get("classMappings").getAsString()+"?at="+refsGetter.get()))), MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+"-members.csrg")).orElse(null), ()->Optional.ofNullable(infoGetter.get().get("memberMappings")).map(it->MappingsUtil.request(baseUrl+"mappings/"+infoGetter.get().get("memberMappings").getAsString()+"?at="+refsGetter.get())).orElse("")));
+        if(!result.classes.containsKey("MinecraftServer"))
+            result.classes.put("MinecraftServer", "net.minecraft.server.MinecraftServer");
+        return result;
     }
 }

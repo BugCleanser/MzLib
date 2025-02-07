@@ -67,7 +67,7 @@ public class Tictactoe extends MzModule
         
         public boolean checkWin()
         {
-            if(!this.inventory.getItemStack(1+4).isEmpty())
+            if(!ItemStack.isEmpty(this.inventory.getItemStack(1+4)))
             {
                 if(this.inventory.getItemStack(1+4).equals(this.inventory.getItemStack(1)) && this.inventory.getItemStack(1+4).equals(this.inventory.getItemStack(1+8)))
                     return true;
@@ -76,12 +76,12 @@ public class Tictactoe extends MzModule
             }
             for(int i = 0; i<3; i++)
             {
-                if(!this.inventory.getItemStack(1+i*3).isEmpty())
+                if(!ItemStack.isEmpty(this.inventory.getItemStack(1+i*3)))
                 {
                     if(this.inventory.getItemStack(1+i*3).equals(this.inventory.getItemStack(1+i*3+1)) && this.inventory.getItemStack(1+i*3).equals(this.inventory.getItemStack(1+i*3+2)))
                         return true;
                 }
-                if(!this.inventory.getItemStack(1+i).isEmpty())
+                if(!ItemStack.isEmpty(this.inventory.getItemStack(1+i)))
                 {
                     if(this.inventory.getItemStack(1+i).equals(this.inventory.getItemStack(1+3+i)) && this.inventory.getItemStack(1+i).equals(this.inventory.getItemStack(1+6+i)))
                         return true;
@@ -101,7 +101,7 @@ public class Tictactoe extends MzModule
             // 能赢直接下
             for(int i = 0; i<9; i++)
             {
-                if(this.inventory.getItemStack(1+i).isEmpty())
+                if(ItemStack.isEmpty(this.inventory.getItemStack(1+i)))
                 {
                     this.inventory.setItemStack(1+i, AI);
                     if(checkWin())
@@ -111,7 +111,7 @@ public class Tictactoe extends MzModule
             }
             for(int i = 0; i<9; i++)
             {
-                if(this.inventory.getItemStack(1+i).isEmpty())
+                if(ItemStack.isEmpty(this.inventory.getItemStack(1+i)))
                 {
                     this.inventory.setItemStack(1+i, PLAYER);
                     if(checkWin())
@@ -123,7 +123,7 @@ public class Tictactoe extends MzModule
                 }
             }
             // 抢中心位
-            if(this.inventory.getItemStack(1+4).isEmpty())
+            if(ItemStack.isEmpty(this.inventory.getItemStack(1+4)))
             {
                 this.inventory.setItemStack(1+4, AI);
                 return;
@@ -134,7 +134,7 @@ public class Tictactoe extends MzModule
             Collections.shuffle(list);
             for(int i: list)
             {
-                if(this.inventory.getItemStack(1+i).isEmpty())
+                if(ItemStack.isEmpty(this.inventory.getItemStack(1+i)))
                 {
                     this.inventory.setItemStack(1+i, AI);
                     return;
@@ -146,7 +146,7 @@ public class Tictactoe extends MzModule
         {
             for(int i = 0; i<9; i++)
             {
-                if(this.inventory.getItemStack(1+i).isEmpty())
+                if(ItemStack.isEmpty(this.inventory.getItemStack(1+i)))
                     return false;
             }
             return true;
@@ -156,13 +156,13 @@ public class Tictactoe extends MzModule
         public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
         {
             super.onAction(window, index, data, actionType, player);
-            if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
+            if(ItemStack.isEmpty(this.inventory.getItemStack(0)) && (this.finished || this.isFull()))
             {
                 this.restart();
                 if(index>=0 && index<this.inventory.size())
                     window.sendSlotUpdate(player, index);
             }
-            else if(!this.finished && (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) && index>=1 && index<10 && this.inventory.getItemStack(index).isEmpty())
+            else if(!this.finished && (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) && index>=1 && index<10 && ItemStack.isEmpty(this.inventory.getItemStack(index)))
             {
                 this.inventory.setItemStack(index, PLAYER);
                 if(checkWin())

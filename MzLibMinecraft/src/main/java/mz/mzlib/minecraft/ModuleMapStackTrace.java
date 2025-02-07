@@ -1,21 +1,25 @@
 package mz.mzlib.minecraft;
 
-import mz.mzlib.asm.Opcodes;
 import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.nothing.*;
+import mz.mzlib.util.nothing.Nothing;
+import mz.mzlib.util.nothing.NothingInject;
+import mz.mzlib.util.nothing.NothingInjectType;
+import mz.mzlib.util.nothing.StackTop;
 import mz.mzlib.util.wrapper.WrapClass;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperObject;
-import mz.mzlib.util.wrapper.basic.Wrapper_void;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.message.Message;
+import org.apache.logging.log4j.spi.AbstractLogger;
 
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
-import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 // TODO
@@ -23,8 +27,34 @@ public class ModuleMapStackTrace extends MzModule
 {
     public static ModuleMapStackTrace instance = new ModuleMapStackTrace();
     
+    @Override
+    public void onLoad()
+    {
+        this.register(NothingThrowable.class);
+        this.register(NothingAbstractLogger.class);
+    }
+    
+    @WrapClass(AbstractLogger.class)
+    public interface NothingAbstractLogger extends Nothing
+    {
+        @WrapMethod("logMessageSafely")
+        void logMessageSafely(String fqcn, Level level, Marker marker, Message msg, Throwable throwable);
+        
+        @NothingInject(wrapperMethodName="logMessageSafely", wrapperMethodParams={String.class, Level.class, Marker.class, Message.class, Throwable.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default void logMessageSafelyBegin()
+        {
+            NothingThrowable.isStackTracePrinting.set(true);
+        }
+        
+        @NothingInject(wrapperMethodName="logMessageSafely", wrapperMethodParams={String.class, Level.class, Marker.class, Message.class, Throwable.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+        default void logMessageSafelyEnd()
+        {
+            NothingThrowable.isStackTracePrinting.remove();
+        }
+    }
+    
     @WrapClass(Throwable.class)
-    public interface NothingThrowable extends WrapperObject, Nothing
+    public interface NothingThrowable extends Nothing
     {
         @Override
         Throwable getWrapped();
@@ -35,38 +65,24 @@ public class ModuleMapStackTrace extends MzModule
         @WrapMethod("getOurStackTrace")
         StackTraceElement[] getOurStackTrace();
         
-        ThreadLocal<WeakHashMap<Throwable, Boolean>> isStackTracePrinting = ThreadLocal.withInitial(WeakHashMap::new);
+        ThreadLocal<Boolean> isStackTracePrinting = new ThreadLocal<>();
         
         @NothingInject(wrapperMethodName="printStackTrace", wrapperMethodParams={PrintStream.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void printStackTraceBefore()
+        default void printStackTraceBegin()
         {
-            isStackTracePrinting.get().put(this.getWrapped(), true);
-            return Nothing.notReturn();
+            isStackTracePrinting.set(true);
         }
         
-        static void locatePrintStackTraceAfter(NothingInjectLocating locating)
+        @NothingInject(wrapperMethodName="printStackTrace", wrapperMethodParams={PrintStream.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+        default void printStackTraceEnd()
         {
-            locating.allLater(Opcodes.RETURN);
-            assert !locating.locations.isEmpty();
+            isStackTracePrinting.remove();
         }
         
-        @NothingInject(wrapperMethodName="printStackTrace", wrapperMethodParams={PrintStream.class}, locateMethod="locatePrintStackTraceAfter", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void printStackTraceAfter()
+        @NothingInject(wrapperMethodName="getOurStackTrace", wrapperMethodParams={}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+        default WrapperObject getOurStackTraceEnd(@StackTop StackTraceElement[] returnValue)
         {
-            isStackTracePrinting.get().remove(this.getWrapped());
-            return Nothing.notReturn();
-        }
-        
-        static void locateGetOurStackTraceAfter(NothingInjectLocating locating)
-        {
-            locating.allLater(Opcodes.ARETURN);
-            assert !locating.locations.isEmpty();
-        }
-        
-        @NothingInject(wrapperMethodName="getOurStackTrace", wrapperMethodParams={}, locateMethod="locateGetOurStackTraceAfter", type=NothingInjectType.INSERT_BEFORE)
-        default WrapperObject getOurStackTraceAfter(@StackTop StackTraceElement[] returnValue)
-        {
-            if(!isStackTracePrinting.get().getOrDefault(this.getWrapped(), false))
+            if(!Boolean.TRUE.equals(isStackTracePrinting.get()))
                 return Nothing.notReturn();
             StackTraceElement[] result = new StackTraceElement[returnValue.length];
             for(int i = 0; i<result.length; i++)
@@ -84,7 +100,7 @@ public class ModuleMapStackTrace extends MzModule
                             if(methods.size()!=1)
                                 throw new NoSuchMethodException();
                             Method method = methods.iterator().next();
-                            methodName = MinecraftPlatform.instance.getMappingsP2Y().mapMethod(name, new MappingMethod(method.getName(), Arrays.stream(method.getParameterTypes()).map(AsmUtil::getType).toArray(String[]::new)));
+                            methodName = MinecraftPlatform.instance.getMappingsP2Y().mapMethod(returnValue[i].getClassName(), new MappingMethod(method.getName(), Arrays.stream(method.getParameterTypes()).map(AsmUtil::getType).toArray(String[]::new)));
                         }
                         catch(ClassNotFoundException|NoSuchMethodException e)
                         {
@@ -98,11 +114,5 @@ public class ModuleMapStackTrace extends MzModule
             }
             return WrapperObject.create(result);
         }
-    }
-    
-    @Override
-    public void onLoad()
-    {
-        this.register(NothingThrowable.class);
     }
 }

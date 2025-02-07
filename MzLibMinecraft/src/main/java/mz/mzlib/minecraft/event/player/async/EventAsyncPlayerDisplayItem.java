@@ -1,14 +1,14 @@
-package mz.mzlib.minecraft.event.player;
+package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 
-public abstract class EventPlayerDisplayItem<P extends Packet> extends EventPlayerByPacket<P>
+public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends EventAsyncByPacket<P>
 {
     public ItemStack original;
     
-    public EventPlayerDisplayItem(PacketEvent.Specialized<P> packetEvent, ItemStack original)
+    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<P> packetEvent, ItemStack original)
     {
         super(packetEvent);
         this.original=original;
@@ -24,7 +24,7 @@ public abstract class EventPlayerDisplayItem<P extends Packet> extends EventPlay
     public ItemStack modifyItemStack()
     {
         if(this.original.getWrapped()==this.getItemStack().getWrapped())
-            this.setItemStack(this.getItemStack().copy());
+            this.setItemStack(ItemStack.copy(this.getItemStack()));
         return this.getItemStack();
     }
     

@@ -20,7 +20,7 @@ public class Player
     
     public boolean isOnline()
     {
-        return false; // TODO
+        return this.getEntity().isPresent();
     }
     
     public EntityPlayer getEntity()

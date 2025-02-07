@@ -23,7 +23,12 @@ public class Mappings implements IMappings
             return result;
         int index=from.lastIndexOf('$');
         if(index!=-1)
-            return this.mapClass(from.substring(0,index))+from.substring(index);
+        {
+            String s = this.mapClass0(from.substring(0, index));
+            if(s==null)
+                return null;
+            return s+from.substring(index);
+        }
         return null;
     }
 
@@ -39,6 +44,7 @@ public class Mappings implements IMappings
         return Optional.ofNullable(this.methods.get(fromClass)).map(it->it.getOrDefault(fromMethod,fromMethod.name)).orElse(null);
     }
 
+    // TODO: parse intermediary mappings
     public static Mappings parseYarnLegacy(String mappings)
     {
         Mappings result = new Mappings();

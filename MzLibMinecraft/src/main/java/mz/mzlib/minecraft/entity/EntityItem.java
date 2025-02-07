@@ -1,10 +1,15 @@
 package mz.mzlib.minecraft.entity;
 
+import com.google.common.base.Optional;
 import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.entity.data.EntityDataType;
+import mz.mzlib.minecraft.entity.data.EntityDataAdapter;
+import mz.mzlib.minecraft.entity.data.EntityDataKey;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,12 +25,18 @@ public interface EntityItem extends WrapperObject, Entity
     EntityType ENTITY_TYPE = EntityType.fromId(Identifier.ofMinecraft("item"));
     
     /**
-     * type: {@link mz.mzlib.minecraft.item.ItemStack}
+     * typeV_1100: {@link Optional<ItemStack>}
+     * typeV1100: {@link ItemStack}
      */
-    static EntityDataType dataTypeItem()
+    static EntityDataKey dataKeyItem()
     {
         return create(null).staticDataTypeItem();
     }
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="STACK"))
-    EntityDataType staticDataTypeItem();
+    EntityDataKey staticDataTypeItem();
+    
+    EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(dataKeyItem(), //
+            MinecraftPlatform.instance.getVersion()<1100 ? new InvertibleFunction<>(is->Optional.fromNullable(is.getWrapped()), op->ItemStack.create(((Optional<?>)op).orNull())) : //
+                    new InvertibleFunction<>(ItemStack::getWrapped, ItemStack::create));
 }

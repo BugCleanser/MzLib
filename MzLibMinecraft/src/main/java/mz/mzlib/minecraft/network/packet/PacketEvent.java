@@ -57,44 +57,46 @@ public class PacketEvent
     
     public <T extends Packet> Specialized<T> specialized(Function<Object, T> packetCreator)
     {
-        return new Specialized<>(packetCreator);
+        return new Specialized<>(this, packetCreator);
     }
     
-    public class Specialized<T extends Packet>
+    public static class Specialized<T extends Packet>
     {
+        public PacketEvent common;
         public Function<Object, T> packetCreator;
-        public Specialized(Function<Object, T> packetCreator)
+        public Specialized(PacketEvent common, Function<Object, T> packetCreator)
         {
+            this.common = common;
             this.packetCreator = packetCreator;
         }
         
         public EntityPlayer getPlayer()
         {
-            return PacketEvent.this.getPlayer();
+            return this.common.getPlayer();
         }
         
         public T getPacket()
         {
-            return PacketEvent.this.getPacket(this.packetCreator);
+            return this.common.getPacket(this.packetCreator);
         }
         
         public void ensureCopied()
         {
-            PacketEvent.this.ensureCopied();
+            this.common.ensureCopied();
         }
         
         public void sync(Runnable task)
         {
-            PacketEvent.this.sync(task);
+            this.common.sync(task);
         }
         
         public void setCancelled(boolean cancelled)
         {
-            PacketEvent.this.setCancelled(cancelled);
+            this.common.setCancelled(cancelled);
         }
         public boolean isCancelled()
         {
-            return PacketEvent.this.isCancelled();
+            return this.common.isCancelled();
         }
     }
 }
