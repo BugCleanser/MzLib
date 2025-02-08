@@ -10,6 +10,8 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -37,6 +39,8 @@ public interface EntityItem extends WrapperObject, Entity
     EntityDataKey staticDataTypeItem();
     
     EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(dataKeyItem(), //
-            MinecraftPlatform.instance.getVersion()<1100 ? new InvertibleFunction<>(is->Optional.fromNullable(is.getWrapped()), op->ItemStack.create(((Optional<?>)op).orNull())) : //
+            MinecraftPlatform.instance.getVersion()<1100 ? new InvertibleFunction<>( //
+                    ThrowableFunction.of(ItemStack::getWrapped).andThen(Optional::fromNullable), //
+                    RuntimeUtil.<Optional<?>>functionCast().andThen(Optional::orNull).andThen(ItemStack::create)) : //
                     new InvertibleFunction<>(ItemStack::getWrapped, ItemStack::create));
 }

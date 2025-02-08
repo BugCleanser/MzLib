@@ -19,6 +19,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
 public interface Entity extends WrapperObject
@@ -42,8 +43,8 @@ public interface Entity extends WrapperObject
     EntityDataKey staticDataKeyCustomName();
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
-            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, name->Text.fromLiteral((String)name)) : //
-                    new InvertibleFunction<>(Text::getWrapped, Text::create));
+            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, ((Function<Object, String>)RuntimeUtil::cast).andThen(Text::fromLiteral)) : //
+                    new InvertibleFunction<>(((Function<Text, Object>)Text::getWrapped).andThen(Optional::ofNullable), ((Function<Object, Optional<?>>)RuntimeUtil::cast).andThen(RuntimeUtil::orNull).andThen(Text::create)));
     
     /**
      * type0: {@link Boolean}
@@ -56,7 +57,7 @@ public interface Entity extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
     EntityDataKey staticDataKeyCustomNameVisible();
     
-    EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), RuntimeUtil.cast(InvertibleFunction.empty()));
+    EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), InvertibleFunction.cast());
     
     Vec3d getPosition();
     

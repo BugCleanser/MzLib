@@ -18,4 +18,21 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
+    
+    @SuppressWarnings("NullableProblems")
+    @Override
+    default <V> ThrowableFunction<T, V, E> andThen(Function<? super R, ? extends V> after)
+    {
+        return of(Function.super.andThen(after));
+    }
+    
+    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(ThrowableFunction<T, R, E> function)
+    {
+        return function;
+    }
+    
+    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(Function<T, R> function)
+    {
+        return of(function::apply);
+    }
 }

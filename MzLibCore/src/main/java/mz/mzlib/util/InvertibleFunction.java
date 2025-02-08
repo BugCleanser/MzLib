@@ -32,9 +32,14 @@ public class InvertibleFunction<T, U> implements Function<T, U>
         return this.forward.apply(t);
     }
     
-    public static <T> Empty<T> empty()
+    public static <T> InvertibleFunction<T, T> empty()
     {
         return RuntimeUtil.cast(Empty.instance);
+    }
+    
+    public static <T, U> InvertibleFunction<T, U> cast()
+    {
+        return new InvertibleFunction<>(RuntimeUtil::cast, RuntimeUtil::cast);
     }
     
     public static class Empty<T> extends InvertibleFunction<T, T>
