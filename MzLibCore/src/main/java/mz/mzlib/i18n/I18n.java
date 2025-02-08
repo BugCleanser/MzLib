@@ -44,8 +44,13 @@ public class I18n
             return null;
         return result.get(key);
     }
+    public static String getDefaultLanguage()
+    {
+        return defaultLanguage;
+    }
     public static String getTranslationDefault(String language, String key)
     {
+        language = language.toLowerCase();
         for(I18n i: RegistrarI18n.instance.sortedI18ns)
         {
             String result = i.get(language, key);
@@ -56,13 +61,14 @@ public class I18n
     }
     public static String getTranslation(String language, String key, String def)
     {
+        language = language.toLowerCase();
         String result = custom.get(language, key);
         if(result!=null)
             return result;
         result = getTranslationDefault(language, key);
         if(result!=null)
             return result;
-        if(!Objects.equals(language, defaultLanguage))
+        if(!Objects.equals(language, defaultLanguage.toLowerCase()))
             return getTranslation(defaultLanguage, key, def);
         return def;
     }
@@ -98,6 +104,7 @@ public class I18n
     
     public static Map.Entry<String, Map<String, String>> load(String fileName, InputStream is) throws IOException
     {
+        fileName = fileName.toLowerCase();
         if(fileName.endsWith(".lang"))
             return new MapEntry<>(fileName.substring(0, fileName.length()-".lang".length()), load(IOUtil.readProperties(is)));
         else if(fileName.endsWith(".json"))

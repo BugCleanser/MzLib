@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
 public class IOUtil
 {
@@ -48,6 +49,28 @@ public class IOUtil
                 fos.write(result);
             }
             return result;
+        }
+    }
+    
+    public static InputStream openFileInZip(File zipFile, String entryName) throws IOException
+    {
+        ZipFile zf=new ZipFile(zipFile);
+        try
+        {
+            return new FilterInputStream(zf.getInputStream(zf.getEntry(entryName)))
+            {
+                @Override
+                public void close() throws IOException
+                {
+                    super.close();
+                    zf.close();
+                }
+            };
+        }
+        catch(Throwable e)
+        {
+            zf.close();
+            throw e;
         }
     }
 

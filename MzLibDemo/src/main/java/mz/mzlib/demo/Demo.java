@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
+import mz.mzlib.util.IOUtil;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class Demo extends MzModule
     {
         try
         {
-            try(InputStream is = new URL("jar", "", -1, this.jar.toURI().toURL()+"!/config.json").openConnection().getInputStream())
+            try(InputStream is = IOUtil.openFileInZip(this.jar, "config.json"))
             {
                 this.config = Config.load(is, new File(this.dataFolder, "config.json"));
             }

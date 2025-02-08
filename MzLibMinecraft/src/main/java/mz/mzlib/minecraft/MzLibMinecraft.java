@@ -18,12 +18,12 @@ import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
+import mz.mzlib.util.IOUtil;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.TesterJarWrappers;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 
 public class MzLibMinecraft extends MzModule
 {
@@ -38,7 +38,7 @@ public class MzLibMinecraft extends MzModule
     {
         try
         {
-            try(InputStream is = new URL("jar", "", -1, MinecraftPlatform.instance.getMzLibJar().toURI().toURL()+"!/config.json").openConnection().getInputStream())
+            try(InputStream is = IOUtil.openFileInZip(MinecraftPlatform.instance.getMzLibJar(), "config.json"))
             {
                 this.config = Config.load(is, new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.json"));
             }
