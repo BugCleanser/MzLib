@@ -35,6 +35,7 @@ public interface NbtElement extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="read", end=1500))
     void loadV_1500(DataInput input, int depth, NbtReadingCounter counter);
     
+    @Deprecated
     @WrapMinecraftMethod(@VersionName(name="write"))
     void save(DataOutput output);
 }

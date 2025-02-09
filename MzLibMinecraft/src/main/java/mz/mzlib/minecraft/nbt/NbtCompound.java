@@ -26,11 +26,12 @@ public interface NbtCompound extends NbtElement
     int typeId=newInstance().getTypeId();
     NbtElementTypeV1500 typeV1500= MinecraftPlatform.instance.getVersion()<1500?null:newInstance().getTypeV1500();
     
-    NbtCompound staticLoad(DataInput input);
+    @Deprecated
     static NbtCompound load(DataInput input)
     {
         return create(null).staticLoad(input);
     }
+    NbtCompound staticLoad(DataInput input);
     @SpecificImpl("staticLoad")
     @VersionRange(end=1500)
     default NbtCompound staticLoadV_1500(DataInput input)

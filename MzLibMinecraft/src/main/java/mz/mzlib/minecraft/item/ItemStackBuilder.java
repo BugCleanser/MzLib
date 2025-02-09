@@ -8,18 +8,18 @@ import java.util.Arrays;
 
 public class ItemStackBuilder
 {
-    public static Colored dye = new Colored("dye");
-    public static Colored wool = new Colored("wool");
-    public static Colored stainedGlass = new Colored("stained_glass");
-    public static Colored stainedGlassPane = new Colored("stained_glass_pane");
-    public static Colored stainedHardenedClay = new Colored("stained_hardened_clay", "terracotta");
-    public static Colored carpet = new Colored("carpet");
-    public static Colored banner = new Colored("banner");
-    public static Colored bedV1200 = new Colored("bed");
-    public static Colored shulkerBoxV1100 = new Colored("shulker_box");
-    public static Colored concreteV1200 = new Colored("concrete");
-    public static Colored concretePowderV1200 = new Colored("concrete_powder");
-    public static Colored glazedTerracottaV1200 = new Colored("glazed_terracotta");
+    public static final Colored DYE = new Colored("dye");
+    public static final Colored WOOL = new Colored("wool");
+    public static final Colored STAINED_GLASS = new Colored("stained_glass");
+    public static final Colored STAINED_GLASS_PANE = new Colored("stained_glass_pane");
+    public static final Colored TERRACOTTA = new Colored("stained_hardened_clay", "terracotta");
+    public static final Colored CARPET = new Colored("carpet");
+    public static final Colored BANNER = new Colored("banner");
+    public static final Colored SHULKER_BOX_V1100 = new Colored("shulker_box");
+    public static final Colored BED_V1200 = new Colored("bed");
+    public static final Colored CONCRETE_V1200 = new Colored("concrete");
+    public static final Colored CONCRETE_POWDER_V1200 = new Colored("concrete_powder");
+    public static final Colored GLAZED_TERRACOTTA_V1200 = new Colored("glazed_terracotta");
     
     public static ItemStackBuilder forFlattening(String idV_1300, int damageV_1300, String idV1300)
     {
