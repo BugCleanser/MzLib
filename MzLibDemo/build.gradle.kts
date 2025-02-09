@@ -1,5 +1,5 @@
 plugins {
-    id("mz.lib.java-conventions")
+    java
 }
 
 repositories {
@@ -7,8 +7,10 @@ repositories {
     maven("https://maven.aliyun.com/repository/public/")
     maven("https://maven.aliyun.com/repository/gradle-plugin/")
     maven("https://maven.aliyun.com/repository/apache-snapshots/")
-    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://lss233.littleservice.cn/repositories/minecraft/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://libraries.minecraft.net/")
+    maven("https://maven.fabricmc.net/")
     mavenCentral()
 }
 
@@ -18,12 +20,18 @@ dependencies {
     compileOnly(project(":MzLibCore"))
     compileOnly(project(":MzLibMinecraft"))
 
-    testImplementation(fileTree("../lib"))
+    testImplementation(project(":MzLibCore"))
     testImplementation(project(":MzLibMinecraft"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+    testImplementation(fileTree("../lib"))
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
-    useJUnitPlatform()
+testing {
+    suites {
+        val test by getting(JvmTestSuite::class) {
+            useJUnitJupiter()
+        }
+    }
 }
