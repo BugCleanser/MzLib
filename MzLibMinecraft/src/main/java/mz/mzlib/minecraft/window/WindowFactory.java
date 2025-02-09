@@ -13,6 +13,8 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.OptionalInt;
+
 @WrapMinecraftClass(
         {
                 @VersionName(name="net.minecraft.screen.NamedScreenHandlerFactory", end=1400),

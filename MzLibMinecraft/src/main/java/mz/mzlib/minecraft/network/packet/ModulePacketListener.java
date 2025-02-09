@@ -88,7 +88,12 @@ public class ModulePacketListener extends MzModule
                 return true;
             syncer.accept(()->
             {
-                event.syncTasks.run();
+                while(event.syncTasks!=null)
+                {
+                    TaskList syncTasks = event.syncTasks;
+                    event.syncTasks = null;
+                    syncTasks.run();
+                }
                 if(!event.isCancelled())
                     rehandler.accept(packet);
             });

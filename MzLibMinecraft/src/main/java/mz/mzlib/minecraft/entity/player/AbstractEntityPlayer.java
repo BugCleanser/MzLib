@@ -75,8 +75,20 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
         this.sendMessageV1100_1300__1600(message, false);
     }
     
-    @WrapMinecraftMethod({@VersionName(name="openHandledScreen", end=1400), @VersionName(name="openContainer", begin=1400, end=1600), @VersionName(name="openHandledScreen", begin=1600)})
-    OptionalInt openWindow(WindowFactory windowFactory);
+    void openWindow(WindowFactory windowFactory);
+    @SpecificImpl("openWindow")
+    @VersionRange(end=1400)
+    @WrapMinecraftMethod(@VersionName(name="openHandledScreen"))
+    void openWindowV_1400(WindowFactory windowFactory);
+    @VersionRange(begin=1400)
+    @WrapMinecraftMethod({@VersionName(name="openContainer", end=1600), @VersionName(name="openHandledScreen", begin=1600)})
+    OptionalInt openWindowV1400(WindowFactory windowFactory);
+    @SpecificImpl("openWindow")
+    @VersionRange(begin=1400)
+    default void openWindowSpecificImplV1400(WindowFactory windowFactory)
+    {
+        OptionalInt ignored = this.openWindowV1400(windowFactory);
+    }
     
     @WrapMinecraftMethod({@VersionName(name="closeHandledScreen", end=1400), @VersionName(name="closeContainer", begin=1400, end=1600), @VersionName(name="closeHandledScreen", begin=1600)})
     void closeInterface();
@@ -87,19 +99,19 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     void openBook0(ItemStack book);
     
     @SpecificImpl("openBook0")
-    @VersionRange(end=1000)
+    @VersionRange(end=900)
     @WrapMinecraftMethod(@VersionName(name="openEditBookScreen"))
-    void openBook0V_1000(ItemStack book);
+    void openBook0V_900(ItemStack book);
     
-    @VersionRange(begin=1000)
+    @VersionRange(begin=900)
     @WrapMinecraftMethod({@VersionName(name="method_3201", end=1400), @VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
-    void openBook0V1000(ItemStack book, EnumHand hand);
+    void openBook0V900(ItemStack book, EnumHand hand);
     
     @SpecificImpl("openBook0")
-    @VersionRange(begin=1000)
-    default void openBook0V1000(ItemStack book)
+    @VersionRange(begin=900)
+    default void openBook0V900(ItemStack book)
     {
-        this.openBook0V1000(book, EnumHand.mainHand());
+        this.openBook0V900(book, EnumHand.mainHand());
     }
     
     default ItemStack getHandItemStack()

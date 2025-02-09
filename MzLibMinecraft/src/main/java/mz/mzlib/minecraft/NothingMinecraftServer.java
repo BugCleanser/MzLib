@@ -4,7 +4,6 @@ import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.basic.Wrapper_void;
 
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
@@ -13,8 +12,8 @@ import java.util.function.BooleanSupplier;
 public interface NothingMinecraftServer extends MinecraftServer, Nothing
 {
     @VersionRange(end=1300)
-    @NothingInject(wrapperMethodName="tickV_1300", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-    default Wrapper_void tickBeforeV_1300()
+    @NothingInject(wrapperMethodName="tickV_1300", wrapperMethodParams={}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+    default void tickEndV_1300()
     {
         while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).first-tickNumber.get()<=0)
         {
@@ -39,13 +38,12 @@ public interface NothingMinecraftServer extends MinecraftServer, Nothing
             }
         }
         tickNumber.target++;
-        return Nothing.notReturn();
     }
     
     @VersionRange(begin=1300)
-    @NothingInject(wrapperMethodName="tickV1300", wrapperMethodParams={BooleanSupplier.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-    default Wrapper_void tickBeforeV1300()
+    @NothingInject(wrapperMethodName="tickV1300", wrapperMethodParams={BooleanSupplier.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+    default void tickEndV1300()
     {
-        return tickBeforeV_1300();
+        tickEndV_1300();
     }
 }
