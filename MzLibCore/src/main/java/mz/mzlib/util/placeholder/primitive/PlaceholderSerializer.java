@@ -1,5 +1,7 @@
 package mz.mzlib.util.placeholder.primitive;
 
+import top.vrilhyc.plugins.customforge.placeholders.ForgePlaceholder;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PlaceholderSerializer<T> {
-    //
     protected String origin;
 
     public PlaceholderSerializer(String origin) {
@@ -37,13 +38,13 @@ public class PlaceholderSerializer<T> {
     }
 
     public static <T>String placeholderred(String origin,PlaceholderParser<T> parser,T t) throws InvocationTargetException, IllegalAccessException {
-        String ss = origin.substring(1).substring(0,origin.length()-1);
-        String[] sss = ss.split(":");
+        String ss = origin.substring(0,origin.length()-1).replace("%","");
+        String[] sss = ForgePlaceholder.getParameters(ss);
         return parser.parse(sss,t);
     }
 
     public static String deleteCharacters(String origin){
-        String ss = origin.substring(1).substring(0,origin.length()-1);
+        String ss = origin.substring(0,origin.length()-1).replace("%","");
         return ss;
     }
 }
