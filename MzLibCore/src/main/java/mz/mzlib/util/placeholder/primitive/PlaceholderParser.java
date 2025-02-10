@@ -4,10 +4,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public interface PlaceholderParser<T> {
-    //
     String getName();
     default String parse(String[] s, T tiered){
-        String parsed = "";
+        String parsed = defaultParse(tiered);
         try {
             for (Method method : getClass().getDeclaredMethods()) {
                 PlaceholderParseable placeholderParseable = method.getAnnotation(PlaceholderParseable.class);
@@ -27,7 +26,7 @@ public interface PlaceholderParser<T> {
                 Class<?> product = method.getReturnType();
                 if (SubPlaceholder.class.isAssignableFrom(product)) {
                     SubPlaceholder<T, ?> object = (SubPlaceholder<T, ?>) method.invoke(this, s, tiered);
-                    return object.parse(s, tiered);
+                    return object.parse(PlaceholderUtil.deleteStrings(s,Math.max(1,placeholderParseable.params().length)), tiered);
                 }
                 parsed = (String) method.invoke(this, s, tiered);
             }
