@@ -1,9 +1,8 @@
-package mz.mzlib.minecraft.item.component;
+package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 

@@ -51,7 +51,7 @@ public interface EntityItem extends WrapperObject, Entity
     
     EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(dataKeyItem(), //
             MinecraftPlatform.instance.getVersion()>=900 && MinecraftPlatform.instance.getVersion()<1100 ? new InvertibleFunction<>( //
-                    ThrowableFunction.of(ItemStack::getWrapped).andThen(Optional::fromNullable), //
+                    ThrowableFunction.of(ItemStack::getWrapped).thenApply(Optional::fromNullable), //
                     RuntimeUtil.<Optional<?>>functionCast().andThen(Optional::orNull).andThen(ItemStack::create)) : //
                     new InvertibleFunction<>(ItemStack::getWrapped, ItemStack::create));
 }

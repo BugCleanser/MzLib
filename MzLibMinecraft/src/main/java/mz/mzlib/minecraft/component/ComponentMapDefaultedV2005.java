@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.item.component;
+package mz.mzlib.minecraft.component;
 
 
 import mz.mzlib.minecraft.VersionName;

@@ -64,6 +64,11 @@ public interface NbtCompound extends NbtElement
     @WrapMinecraftMethod(@VersionName(name="get"))
     NbtElement get(String key);
     
+    default boolean containsKey(String key)
+    {
+        return this.get(key).isPresent();
+    }
+    
     default <T extends NbtElement> T get(String key, Function<Object, T> wrapperCreator)
     {
         return this.get(key).castTo(wrapperCreator);

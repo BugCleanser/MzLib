@@ -2,6 +2,7 @@ package mz.mzlib.demo.game.tictactoe;
 
 import mz.mzlib.demo.Demo;
 import mz.mzlib.i18n.I18n;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -12,9 +13,9 @@ import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowSlotButton;
 import mz.mzlib.minecraft.ui.window.WindowUIWindow;
-import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
+import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class Tictactoe extends MzModule
         {
             super(WindowType.CRAFTING, 10);
             
-            PLAYER = new ItemStackBuilder("structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).get();
+            PLAYER = new ItemStackBuilder(MinecraftPlatform.instance.getVersion()<1000 ? "ender_eye" : "structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).get();
             AI = new ItemStackBuilder("barrier").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).get();
             
             this.putSlot(0, WindowSlotOutput::newInstance);
@@ -169,6 +170,8 @@ public class Tictactoe extends MzModule
                 {
                     this.finished = true;
                     this.inventory.setItemStack(0, ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward"))));
+                    player.closeInterface();
+                    this.open(player); // FIXME
                 }
                 else
                 {
