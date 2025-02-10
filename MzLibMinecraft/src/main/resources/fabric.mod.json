@@ -20,7 +20,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mz.mzlib.minecraft.fabric.MzLibFabricEntrypoint"
+      "mz.mzlib.minecraft.fabric.MzLibFabricInitializer"
     ]
   },
   "depends": {

@@ -10,12 +10,20 @@ allprojects {
     version = "10.0.1-beta-dev12"
 
     repositories {
-        maven("https://maven.aliyun.com/repository/public/")
-        maven("https://maven.aliyun.com/repository/gradle-plugin/")
-        maven("https://maven.aliyun.com/repository/apache-snapshots/")
         mavenCentral()
         mavenLocal()
         gradlePluginPortal()
+        maven("https://maven.fabricmc.net/")
+        maven("https://libraries.minecraft.net/")
+        maven("https://maven.aliyun.com/repository/public/")
+        maven("https://maven.aliyun.com/repository/gradle-plugin/")
+        maven("https://maven.aliyun.com/repository/apache-snapshots/")
+        maven("https://lss233.littleservice.cn/repositories/minecraft/")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://raw.githubusercontent.com/TheBlackEntity/PlugMan/repository/")
+    //    maven("https://maven.fastmirror.net/repositories/minecraft/")
+    //    maven("https://oss.sonatype.org/content/repositories/snapshots")
+    //    maven("https://repo.maven.apache.org/maven2/")
     }
 }
 
@@ -33,10 +41,10 @@ subprojects {
     val outputDir = File(rootProject.projectDir, "out")
 
     tasks {
-        named<Jar>("jar") {
+        jar {
             archiveClassifier.set("original")
         }
-        named<ShadowJar>("shadowJar") {
+        shadowJar {
             archiveClassifier.set("")
         }
         register<Copy>("copyBinaryResources") {

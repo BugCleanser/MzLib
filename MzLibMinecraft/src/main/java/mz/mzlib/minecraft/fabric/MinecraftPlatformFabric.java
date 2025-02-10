@@ -54,7 +54,7 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
             return this.mappings;
         this.versionString = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
         this.version = MinecraftPlatform.parseVersion(this.versionString);
-        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricEntrypoint.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
+        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricInitializer.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
         assert paths.size()==1;
         this.mzLibJar = paths.get(0).toFile();
         this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "MzLib");

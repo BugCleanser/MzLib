@@ -5,9 +5,9 @@ import mz.mzlib.minecraft.vanilla.MzLibMinecraftInitializer;
 import mz.mzlib.module.MzModule;
 import net.fabricmc.api.ModInitializer;
 
-public class MzLibFabricEntrypoint extends MzModule implements ModInitializer
+public class MzLibFabricInitializer extends MzModule implements ModInitializer
 {
-    public static MzLibFabricEntrypoint instance;
+    public static MzLibFabricInitializer instance;
     
     {
         instance = this;
