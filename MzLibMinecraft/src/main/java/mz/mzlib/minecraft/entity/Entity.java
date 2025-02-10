@@ -14,6 +14,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -80,7 +81,7 @@ public interface Entity extends WrapperObject
     EntityDataKey staticDataKeyCustomNameVisibleV900();
     
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
-            MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil.<Byte>functionCast().andThen(RuntimeUtil::castByteToBoolean)) : //
+            MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, ThrowableFunction.<Object, Byte, Error>of(RuntimeUtil::cast).andThen(RuntimeUtil::castByteToBoolean)) : //
                     InvertibleFunction.cast());
     
     Vec3d getPosition();

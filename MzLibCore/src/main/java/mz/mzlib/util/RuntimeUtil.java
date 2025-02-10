@@ -7,8 +7,6 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class RuntimeUtil
 {
@@ -52,30 +50,6 @@ public class RuntimeUtil
     public static <T> T orNull(Optional<T> optional)
     {
         return optional.orElse(null);
-    }
-    
-    public static <T, R, E extends Throwable> ThrowableFunction<T, R, E> function(ThrowableFunction<T, R, E> function)
-    {
-        return function;
-    }
-    
-    public static <T> Function<Object, T> functionCast()
-    {
-        return RuntimeUtil::cast;
-    }
-    
-    public static <T, U, R> Function<T, R> functionBind0(BiFunction<U, T, R> function, U arg)
-    {
-        return t->function.apply(arg, t);
-    }
-    public static <T, U, R> Function<T, R> functionBind1(BiFunction<T, U, R> function, U arg)
-    {
-        return t->function.apply(t, arg);
-    }
-    
-    public static <T> Function<Optional<T>, T> functionOrElse(T other)
-    {
-        return functionBind1(Optional::orElse, other);
     }
     
     public static <T extends Throwable> RuntimeException sneakilyThrow(Throwable e) throws T

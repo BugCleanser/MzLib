@@ -39,4 +39,9 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
     {
         return value::get;
     }
+    
+    static <T> ThrowableSupplier<T, RuntimeException> constant(T value)
+    {
+        return () -> value;
+    }
 }
