@@ -1,10 +1,9 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.mappings.IMappings;
+import mz.mzlib.minecraft.mappings.Mappings;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.RuntimeUtil;
-import org.bukkit.Bukkit;
 
 import java.io.File;
 
@@ -32,9 +31,7 @@ public interface MinecraftPlatform extends Instance
     
     File getMzLibDataFolder();
     
-    IMappings getMappingsP2Y(); // platform -> yarn
-    
-    IMappings getMappingsY2P(); // yarn -> platform
+    Mappings<?> getMappings();
     
     static int parseVersion(String version)
     {

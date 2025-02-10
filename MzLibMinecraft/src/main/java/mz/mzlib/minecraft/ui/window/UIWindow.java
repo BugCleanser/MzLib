@@ -2,11 +2,10 @@ package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
-import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;
-import mz.mzlib.minecraft.event.window.EventWindowAction;
-import mz.mzlib.minecraft.event.window.EventWindowClose;
+import mz.mzlib.minecraft.event.window.async.EventAsyncWindowAction;
+import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -153,31 +152,38 @@ public abstract class UIWindow implements UI
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventWindowClose.class, Priority.VERY_LOW, event->
+            this.register(new EventListener<>(EventAsyncWindowClose.class, Priority.VERY_LOW, event->event.sync(()->
             {
                 if(event.isCancelled())
                     return;
-                if(event.getWindow().isInstanceOf(WindowUIWindow::create))
-                    MinecraftServer.instance.execute(()->event.getWindow().castTo(WindowUIWindow::create).getUIWindow().onPlayerClose(event.getPlayer()));
-            }));
-            this.register(new EventListener<>(EventWindowAction.class, event->
-            {
-                if(event.getWindow().isInstanceOf(WindowUIWindow::create))
-                {
-                    UIWindow ui = event.getWindow().castTo(WindowUIWindow::create).getUIWindow();
-                    ButtonHandler button = ui.buttons.get(event.getSlotIndex());
-                    if(button!=null)
-                        button.onClick(event.getPlayer(), event.getActionType(), event.getData());
-                }
-            }));
-            this.register(new EventListener<>(EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event->
-            {
-                if(!event.getWindow().isInstanceOf(WindowUIWindow::create))
+                Window window = event.getPlayer().getWindow(event.getSyncId());
+                if(!window.isInstanceOf(WindowUIWindow::create))
                     return;
-                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = event.getWindow().castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
+                window.castTo(WindowUIWindow::create).getUIWindow().onPlayerClose(event.getPlayer());
+            })));
+            this.register(new EventListener<>(EventAsyncWindowAction.class, event->event.sync(()->
+            {
+                if(event.isCancelled())
+                    return;
+                Window window = event.getPlayer().getWindow(event.getSyncId());
+                if(!window.isInstanceOf(WindowUIWindow::create))
+                    return;
+                UIWindow ui = window.castTo(WindowUIWindow::create).getUIWindow();
+                ButtonHandler button = ui.buttons.get(event.getSlotIndex());
+                if(button!=null)
+                    button.onClick(event.getPlayer(), event.getActionType(), event.getData());
+            })));
+            this.register(new EventListener<>(EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event->event.sync(()->
+            {
+                if(event.isCancelled())
+                    return;
+                Window window = event.getPlayer().getWindow(event.getSyncId());
+                if(!window.isInstanceOf(WindowUIWindow::create))
+                    return;
+                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
                 if(icon!=null)
                     icon.accept(event);
-            }));
+            })));
         }
     }
 }

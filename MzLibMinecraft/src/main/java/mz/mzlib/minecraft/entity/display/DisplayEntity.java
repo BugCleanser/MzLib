@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.entity.display;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.entity.data.EntityDataHolder;
 import mz.mzlib.minecraft.entity.data.EntityDataKey;
@@ -17,7 +18,7 @@ public class DisplayEntity implements EntityDataHolder
 {
     public EntityPlayer player;
     public int id;
-    public UUID uuid;
+    public UUID uuidV900;
     public EntityType type;
     public Vec3d position;
     
@@ -25,7 +26,8 @@ public class DisplayEntity implements EntityDataHolder
     {
         this.player = player;
         this.id = packetSpawn.getEntityId();
-        this.uuid = packetSpawn.getUuid();
+        if(MinecraftPlatform.instance.getVersion() >= 900)
+            this.uuidV900 = packetSpawn.getUuidV900();
         this.type = packetSpawn.getEntityType();
         this.position = packetSpawn.getPosition();
     }

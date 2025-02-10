@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sPlayerMove;
-import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMove;
+import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMoveV900;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
@@ -157,10 +157,9 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
         }
     }
     
-    public static class ByPacketC2sVehicleMove extends EventAsyncPlayerMove<PacketC2sVehicleMove>
+    public static class ByPacketC2sVehicleMoveV900 extends EventAsyncPlayerMove<PacketC2sVehicleMoveV900>
     {
-        
-        public ByPacketC2sVehicleMove(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
+        public ByPacketC2sVehicleMoveV900(PacketEvent.Specialized<PacketC2sVehicleMoveV900> packetEvent)
         {
             super(packetEvent);
         }
@@ -272,9 +271,9 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
             new ByPacketC2sPlayerMove(packetEvent).call();
         }
         
-        public void handleVehicle(PacketEvent.Specialized<PacketC2sVehicleMove> packetEvent)
+        public void handleVehicleV900(PacketEvent.Specialized<PacketC2sVehicleMoveV900> packetEvent)
         {
-            new ByPacketC2sVehicleMove(packetEvent).call();
+            new ByPacketC2sVehicleMoveV900(packetEvent).call();
         }
         
         @Override
@@ -286,7 +285,8 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
             this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handlePlayer));
             if(MinecraftPlatform.instance.getVersion()>=1700)
                 this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700::create, this::handlePlayer));
-            this.register(new PacketListener<>(PacketC2sVehicleMove::create, this::handleVehicle));
+            if(MinecraftPlatform.instance.getVersion()>=900)
+                this.register(new PacketListener<>(PacketC2sVehicleMoveV900::create, this::handleVehicleV900));
         }
     }
 }

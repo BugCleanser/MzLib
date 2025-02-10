@@ -39,8 +39,19 @@ public interface Entity extends WrapperObject
         return create(null).staticDataKeyCustomName();
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
     EntityDataKey staticDataKeyCustomName();
+    
+    @SpecificImpl("staticDataKeyCustomName")
+    @VersionRange(end=900)
+    default EntityDataKey staticDataKeyCustomNameV_900()
+    {
+        return EntityDataKey.newInstanceV_900(2, (byte)4);
+    }
+    
+    @SpecificImpl("staticDataKeyCustomName")
+    @VersionRange(begin=900)
+    @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
+    EntityDataKey staticDataKeyCustomNameV900();
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
             MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, ((Function<Object, String>)RuntimeUtil::cast).andThen(Text::fromLiteral)) : //
@@ -54,10 +65,23 @@ public interface Entity extends WrapperObject
         return create(null).staticDataKeyCustomNameVisible();
     }
     
-    @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
     EntityDataKey staticDataKeyCustomNameVisible();
     
-    EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), InvertibleFunction.cast());
+    @SpecificImpl("staticDataKeyCustomNameVisible")
+    @VersionRange(end=900)
+    default EntityDataKey staticDataKeyCustomNameVisibleV_900()
+    {
+        return EntityDataKey.newInstanceV_900(3, (byte)0);
+    }
+    
+    @SpecificImpl("staticDataKeyCustomNameVisible")
+    @VersionRange(begin=900)
+    @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
+    EntityDataKey staticDataKeyCustomNameVisibleV900();
+    
+    EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
+            MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil.<Byte>functionCast().andThen(RuntimeUtil::castByteToBoolean)) : //
+                    InvertibleFunction.cast());
     
     Vec3d getPosition();
     

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.fabric;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.mappings.IMappings;
 import mz.mzlib.minecraft.mappings.Mappings;
 import mz.mzlib.minecraft.mappings.MinecraftMappingsFetcherYarn;
 import net.fabricmc.loader.api.FabricLoader;
@@ -19,20 +18,7 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
     public int version;
     public File mzLibJar;
     public File mzLibDataFolder;
-    public IMappings mappingsP2Y, mappingsY2P;
-    
-    {
-        this.versionString = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
-        this.version = MinecraftPlatform.parseVersion(this.versionString);
-        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricEntrypoint.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
-        assert paths.size()==1;
-        this.mzLibJar = paths.get(0).toFile();
-        this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "MzLib");
-        
-        File cacheMappings = new File(getMzLibDataFolder(), "mappings");
-        this.mappingsP2Y = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), cacheMappings);
-        this.mappingsY2P = ((Mappings)this.mappingsP2Y).reverse();
-    }
+    public Mappings<?> mappings;
     
     @Override
     public String getVersionString()
@@ -62,13 +48,17 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
     }
     
     @Override
-    public IMappings getMappingsP2Y()
+    public Mappings<?> getMappings()
     {
-        return this.mappingsP2Y;
-    }
-    @Override
-    public IMappings getMappingsY2P()
-    {
-        return this.mappingsY2P;
+        if(this.mappings!=null)
+            return this.mappings;
+        this.versionString = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
+        this.version = MinecraftPlatform.parseVersion(this.versionString);
+        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibFabricEntrypoint.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
+        assert paths.size()==1;
+        this.mzLibJar = paths.get(0).toFile();
+        this.mzLibDataFolder = new File(this.mzLibJar.getParentFile(), "MzLib");
+        File cacheMappings = new File(getMzLibDataFolder(), "mappings");
+        return this.mappings = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), cacheMappings);
     }
 }

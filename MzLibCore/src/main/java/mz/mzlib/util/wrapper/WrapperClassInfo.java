@@ -371,6 +371,7 @@ public class WrapperClassInfo
                     }
                     if(WrapperObject.class.isAssignableFrom(i.getKey().getReturnType()))
                     {
+                        mn.instructions.add(AsmUtil.insnCast(Object.class, rt));
                         mn.instructions.add(AsmUtil.insnCreateWrapper(RuntimeUtil.<Class<WrapperObject>>cast(i.getKey().getReturnType())));
                     }
                     else
@@ -412,9 +413,12 @@ public class WrapperClassInfo
                                 }
                             }
                             if(WrapperObject.class.isAssignableFrom(i.getKey().getReturnType()))
+                            {
+                                mn.instructions.add(AsmUtil.insnCast(Object.class, ClassUtil.baseType(type)));
                                 mn.instructions.add(AsmUtil.insnCreateWrapper(RuntimeUtil.<Class<WrapperObject>>cast(i.getKey().getReturnType())));
+                            }
                             else
-                                mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(), type.isPrimitive() ? type : Object.class));
+                                mn.instructions.add(AsmUtil.insnCast(i.getKey().getReturnType(), ClassUtil.baseType(type)));
                             mn.instructions.add(AsmUtil.insnReturn(i.getKey().getReturnType()));
                             break;
                         case 1:

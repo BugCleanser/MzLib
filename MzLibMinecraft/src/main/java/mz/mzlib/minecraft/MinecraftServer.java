@@ -3,7 +3,7 @@ package mz.mzlib.minecraft;
 import mz.mzlib.minecraft.command.CommandManager;
 import mz.mzlib.minecraft.command.CommandOutput;
 import mz.mzlib.minecraft.datafixer.DataFixerV1300;
-import mz.mzlib.minecraft.datafixer.DataUpdaterV_1300;
+import mz.mzlib.minecraft.datafixer.DataUpdaterV900_1300;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -84,9 +84,9 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
             throw new UnsupportedOperationException();
     }
     
-    @VersionRange(end=1300)
+    @VersionRange(begin=900, end=1300)
     @WrapMinecraftFieldAccessor(@VersionName(name="dataFixer"))
-    DataUpdaterV_1300 getDataUpdaterV_1300();
+    DataUpdaterV900_1300 getDataUpdaterV900_1300();
     
     @VersionRange(begin=1300)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_21612", end=1400), @VersionName(name="dataFixer", begin=1400)})
@@ -103,10 +103,17 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     int getDataVersion();
     
     @SpecificImpl("getDataVersion")
-    @VersionRange(end=1300)
-    default int getDataVersionV_1300()
+    @VersionRange(end=900)
+    default int getDataVersionV_900()
     {
-        return this.getDataUpdaterV_1300().getDataVersion();
+        return 0;
+    }
+    
+    @SpecificImpl("getDataVersion")
+    @VersionRange(begin=900, end=1300)
+    default int getDataVersionV900_1300()
+    {
+        return this.getDataUpdaterV900_1300().getDataVersion();
     }
     
     @SpecificImpl("getDataVersion")

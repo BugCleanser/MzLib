@@ -31,7 +31,7 @@ public class ClassUtil
     public static ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
     public static ClassLoader extClassLoader = sysClassLoader.getParent();
     
-    public static Class<?> forName(String name, ClassLoader cl)
+    public static Class<?> classForName(String name, ClassLoader cl) throws ClassNotFoundException
     {
         switch(name)
         {
@@ -54,14 +54,7 @@ public class ClassUtil
             case "char":
                 return char.class;
             default:
-                try
-                {
-                    return Class.forName(name, false, cl);
-                }
-                catch(Throwable e)
-                {
-                    throw RuntimeUtil.sneakilyThrow(e);
-                }
+                return Class.forName(name, false, cl);
         }
     }
     
@@ -128,13 +121,9 @@ public class ClassUtil
     public static Class<?> baseType(Class<?> type)
     {
         if(type.isPrimitive())
-        {
             return type;
-        }
         else
-        {
             return Object.class;
-        }
     }
     
     public static Class<?> getReturnType(Member m)

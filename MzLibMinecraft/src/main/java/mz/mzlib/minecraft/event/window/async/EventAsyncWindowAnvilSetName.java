@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.window;
+package mz.mzlib.minecraft.event.window.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.network.packet.Packet;
@@ -8,11 +8,11 @@ import mz.mzlib.minecraft.network.packet.c2s.common.PacketC2sCustom;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAnvilNameV1300;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWindow<P>
+public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends EventAsyncWindow<P>
 {
-    public EventWindowAnvilSetName(PacketEvent.Specialized<P> packetEvent)
+    public EventAsyncWindowAnvilSetName(PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent, packetEvent.getPlayer().getCurrentWindow());
+        super(packetEvent, 0);
     }
     
     public abstract String getName();
@@ -25,7 +25,7 @@ public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWin
         super.call();
     }
     
-    public static class V_1300 extends EventWindowAnvilSetName<PacketC2sCustom>
+    public static class V_1300 extends EventAsyncWindowAnvilSetName<PacketC2sCustom>
     {
         public V_1300(PacketEvent.Specialized<PacketC2sCustom> packetEvent)
         {
@@ -53,7 +53,7 @@ public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWin
         }
     }
     
-    public static class V1300 extends EventWindowAnvilSetName<PacketC2sWindowAnvilNameV1300>
+    public static class V1300 extends EventAsyncWindowAnvilSetName<PacketC2sWindowAnvilNameV1300>
     {
         public V1300(PacketEvent.Specialized<PacketC2sWindowAnvilNameV1300> packetEvent)
         {
@@ -79,17 +79,17 @@ public abstract class EventWindowAnvilSetName<P extends Packet> extends EventWin
         @Override
         public void onLoad()
         {
-            this.register(EventWindowAnvilSetName.class);
+            this.register(EventAsyncWindowAnvilSetName.class);
             if(MinecraftPlatform.instance.getVersion()<1300)
             {
-                this.register(new PacketListener<>(PacketC2sCustom::create, packetEvent->packetEvent.sync(()->
+                this.register(new PacketListener<>(PacketC2sCustom::create, packetEvent->
                 {
                     if(packetEvent.getPacket().getChannelV_1300().equals("MC|ItemName"))
                         new V_1300(packetEvent).call();
-                })));
+                }));
             }
             else
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, packetEvent->packetEvent.sync(()->new V1300(packetEvent).call())));
+                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, packetEvent->new V1300(packetEvent).call()));
         }
     }
 }

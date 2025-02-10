@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.mappings.*;
-import mz.mzlib.util.LazyConstant;
 import mz.mzlib.util.RuntimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,7 +11,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
@@ -78,122 +76,37 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     {
         return MzLibBukkitPlugin.instance.getDataFolder();
     }
-    public class SpigotPackageMappingV_1700 implements IMappings
-    {
-        public String nms = "net.minecraft.server."+MinecraftPlatformBukkit.this.protocolVersion;
-        public String mapClass0(String from)
-        {
-            if(from.startsWith(nms+'.'))
-                return from.substring((nms+'.').length());
-            else
-                return from;
-        }
-        public String mapField0(String fromClass, String fromField)
-        {
-            return null;
-        }
-        public String mapMethod0(String fromClass, MappingMethod fromMethod)
-        {
-            return null;
-        }
-    }
     
-    public class SpigotPackageMappingReversedV_1700 implements IMappings
-    {
-        public String nms = "net.minecraft.server."+MinecraftPlatformBukkit.this.protocolVersion;
-        public String mapClass0(String from)
-        {
-            if(!from.contains("."))
-                return nms+"."+from;
-            else
-                return from;
-        }
-        public String mapField0(String fromClass, String fromField)
-        {
-            return null;
-        }
-        public String mapMethod0(String fromClass, MappingMethod fromMethod)
-        {
-            return null;
-        }
-    }
+    public Mappings<?> mappings;
     
-    public IMappings mappingsP2Y, mappingsY2P;
-    public LazyConstant<Void> loadMappings = new LazyConstant<>(()->
+    @Override
+    public Mappings<?> getMappings()
     {
-        File folder = new File(getMzLibDataFolder(), "mappings");
-        Mappings yarn;
-        Mappings yarnIntermediary;
-        Mappings platform;
-        Mappings mappingsSpigot = null;
+        if(this.mappings!=null)
+            return this.mappings;
         try
         {
+            File folder = new File(getMzLibDataFolder(), "mappings");
+            List<Mappings<?>> result = new ArrayList<>();
+            if(this.isPaper() && this.getVersion()>=2005)
+                result.add(new MinecraftMappingsFetcherMojang().fetch(getVersionString(), folder));
+            else
+                result.add(new MinecraftMappingsFetcherSpigot().fetch(getVersionString(), this.protocolVersion, folder));
             if(this.getVersion()<1400)
             {
-                yarn = new MinecraftMappingsFetcherLegacyYarn().fetch(getVersionString(), folder);
-                yarnIntermediary = null; // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(getVersionString(), folder);
+                // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(getVersionString(), folder);
+                result.add(new MinecraftMappingsFetcherLegacyYarn().fetch(getVersionString(), folder));
             }
             else
             {
-                yarn = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder);
-                yarnIntermediary = new MinecraftMappingsFetcherYarnIntermediary().fetch(getVersionString(), folder);
+                result.add(new MinecraftMappingsFetcherYarnIntermediary().fetch(getVersionString(), folder));
+                result.add(new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder));
             }
-            if(this.isPaper() && this.getVersion()>=2005)
-                platform = new MinecraftMappingsFetcherMojang().fetch(getVersionString(), folder);
-            else
-            {
-                platform = new MinecraftMappingsFetcherSpigot().fetch(getVersionString(), folder);
-                mappingsSpigot = platform;
-            }
+            return this.mappings =new MappingsPipe(result);
         }
         catch(Throwable e)
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
-        
-        List<IMappings> result = new ArrayList<>();
-        if(getVersion()<1700)
-            result.add(new SpigotPackageMappingV_1700());
-        Mappings mappingsV1605_1700 = null;
-        if(this.getVersion()==1605 && mappingsSpigot!=null)
-        {
-            mappingsV1605_1700 = new Mappings();
-            for(String c: mappingsSpigot.classes.keySet())
-            {
-                if(c.contains("."))
-                    mappingsV1605_1700.classes.put(c.substring(c.lastIndexOf('.')+1), c);
-            }
-            result.add(mappingsV1605_1700);
-        }
-        result.add(platform);
-        if(yarnIntermediary!=null)
-            result.add(yarnIntermediary);
-        result.add(yarn);
-        this.mappingsP2Y = new MappingsPipe(result);
-        
-        result = new ArrayList<>();
-        result.add(yarn.reverse());
-        if(yarnIntermediary!=null)
-            result.add(yarnIntermediary.reverse());
-        result.add(Objects.requireNonNull(platform).reverse());
-        if(this.getVersion()==1605 && mappingsV1605_1700!=null)
-            result.add(mappingsV1605_1700.reverse());
-        if(getVersion()<1700)
-            result.add(new SpigotPackageMappingReversedV_1700());
-        this.mappingsY2P = new MappingsPipe(result);
-        return null;
-    });
-    
-    @Override
-    public IMappings getMappingsP2Y()
-    {
-        loadMappings.get();
-        return this.mappingsP2Y;
-    }
-    @Override
-    public IMappings getMappingsY2P()
-    {
-        loadMappings.get();
-        return this.mappingsY2P;
     }
 }

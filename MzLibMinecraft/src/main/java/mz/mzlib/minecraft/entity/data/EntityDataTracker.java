@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -27,6 +28,7 @@ public interface EntityDataTracker extends WrapperObject
     {
         return create(null).staticNewInstanceV_1903(entity);
     }
+    
     @VersionRange(end=1903)
     @WrapConstructor
     EntityDataTracker staticNewInstanceV_1903(Entity entity);
@@ -40,6 +42,14 @@ public interface EntityDataTracker extends WrapperObject
             return WrapperObject.create(Entry.class, wrapped);
         }
         
+        @VersionRange(end=900)
+        @WrapMinecraftFieldAccessor(@VersionName(name="valueType"))
+        int getTypeIdV_900();
+        
+        @VersionRange(end=900)
+        @WrapMinecraftFieldAccessor(@VersionName(name="field_3424"))
+        int getIndexV_900();
+        
         static Entry newInstance(EntityDataKey type, WrapperObject value)
         {
             return newInstance0(type, value.getWrapped());
@@ -50,12 +60,38 @@ public interface EntityDataTracker extends WrapperObject
             return Entry.create(null).staticNewInstance0(type, value);
         }
         
-        @WrapConstructor
         Entry staticNewInstance0(EntityDataKey type, Object value);
         
+        @VersionRange(end=900)
+        @WrapConstructor
+        Entry staticNewInstance0V_900(int typeId, int index, Object value);
+        
+        @SpecificImpl("staticNewInstance0")
+        @VersionRange(end=900)
+        default Entry staticNewInstance0V_900(EntityDataKey type, Object value)
+        {
+            return this.staticNewInstance0V_900(type.getTypeIdV_900(), type.getIndexV_900(), value);
+        }
+        
+        @SpecificImpl("staticNewInstance0")
+        @VersionRange(begin=900)
+        @WrapConstructor
+        Entry staticNewInstance0V900(EntityDataKey type, Object value);
+        
         @Override
-        @WrapMinecraftMethod({@VersionName(name="method_12758", end=1400), @VersionName(name="getData", begin=1400)})
         EntityDataKey getKey();
+        
+        @SpecificImpl("getKey")
+        @VersionRange(end=900)
+        default EntityDataKey getKeyV_900()
+        {
+            return EntityDataKey.newInstanceV_900(this.getIndexV_900(), (byte)this.getTypeIdV_900());
+        }
+        
+        @SpecificImpl("getKey")
+        @VersionRange(begin=900)
+        @WrapMinecraftMethod({@VersionName(name="method_12758", end=1400), @VersionName(name="getData", begin=1400)})
+        EntityDataKey getKeyV900();
         
         @Override
         @WrapMinecraftMethod({@VersionName(name="getValue", end=1400), @VersionName(name="get", begin=1400)})

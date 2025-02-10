@@ -21,8 +21,9 @@ import java.lang.reflect.AnnotatedElement;
 public @interface WrapMinecraftInnerClass
 {
     Class<? extends WrapperObject> outer();
+    
     VersionName[] name();
-
+    
     class Handler implements ElementSwitcher<WrapMinecraftInnerClass>, WrappedClassFinder<WrapMinecraftInnerClass>
     {
         @Override
@@ -32,34 +33,34 @@ public @interface WrapMinecraftInnerClass
                 return false;
             for(VersionName n: annotation.name())
             {
-                if (MinecraftPlatform.instance.inVersion(n))
+                if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-
+        
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftInnerClass annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            Class<?> superClass=WrapperObject.getWrappedClass(annotation.outer());
+            Class<?> superClass = WrapperObject.getWrappedClass(annotation.outer());
             if(superClass==null)
                 return null;
-            String superName= MinecraftPlatform.instance.getMappingsP2Y().mapClass(superClass.getName());
+            String superName = MinecraftPlatform.instance.getMappings().mapClass(superClass.getName());
             ClassNotFoundException lastException = null;
-            for (VersionName i : annotation.name())
+            for(VersionName i: annotation.name())
             {
                 if(!MinecraftPlatform.instance.inVersion(i))
                     continue;
                 try
                 {
-                    return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(superName+"$"+i.name()), false, classLoader);
+                    return Class.forName(i.remap() ? MinecraftPlatform.instance.getMappings().inverse().mapClass(superName+"$"+i.name()) : (superName+"$"+i.name()), false, classLoader);
                 }
-                catch (ClassNotFoundException e)
+                catch(ClassNotFoundException e)
                 {
                     lastException = e;
                 }
             }
-            if (lastException != null)
+            if(lastException!=null)
                 throw lastException;
             return null;
         }

@@ -13,4 +13,6 @@ public @interface VersionName
     int end() default Integer.MAX_VALUE;
 
     String name();
+    
+    boolean remap() default true;
 }

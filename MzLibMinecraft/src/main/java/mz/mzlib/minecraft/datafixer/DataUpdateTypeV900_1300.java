@@ -6,13 +6,13 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(end=1300)
+@VersionRange(begin=900, end=1300)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.datafixer.DataFixType"))
-public interface DataUpdateTypeV_1300 extends WrapperObject
+public interface DataUpdateTypeV900_1300 extends WrapperObject
 {
     @WrapperCreator
-    static DataUpdateTypeV_1300 create(Object wrapped)
+    static DataUpdateTypeV900_1300 create(Object wrapped)
     {
-        return WrapperObject.create(DataUpdateTypeV_1300.class, wrapped);
+        return WrapperObject.create(DataUpdateTypeV900_1300.class, wrapped);
     }
 }

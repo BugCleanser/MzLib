@@ -13,6 +13,7 @@ import java.util.function.Function;
 public class RuntimeUtil
 {
     public static int jvmVersion;
+    
     static
     {
         try
@@ -38,6 +39,15 @@ public class RuntimeUtil
         return (T)object;
     }
     
+    public static byte castBooleanToByte(boolean value)
+    {
+        return (byte)(value ? 1 : 0);
+    }
+    public static boolean castByteToBoolean(byte value)
+    {
+        return value!=0;
+    }
+    
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <T> T orNull(Optional<T> optional)
     {
@@ -56,11 +66,11 @@ public class RuntimeUtil
     
     public static <T, U, R> Function<T, R> functionBind0(BiFunction<U, T, R> function, U arg)
     {
-        return t -> function.apply(arg, t);
+        return t->function.apply(arg, t);
     }
     public static <T, U, R> Function<T, R> functionBind1(BiFunction<T, U, R> function, U arg)
     {
-        return t -> function.apply(t, arg);
+        return t->function.apply(t, arg);
     }
     
     public static <T> Function<Optional<T>, T> functionOrElse(T other)

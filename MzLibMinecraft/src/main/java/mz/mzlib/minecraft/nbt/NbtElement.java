@@ -35,6 +35,10 @@ public interface NbtElement extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="read", end=1500))
     void loadV_1500(DataInput input, int depth, NbtReadingCounter counter);
     
+    /**
+     * @deprecated this method will not save the type of the tag
+     * @see NbtIo
+     */
     @Deprecated
     @WrapMinecraftMethod(@VersionName(name="write"))
     void save(DataOutput output);

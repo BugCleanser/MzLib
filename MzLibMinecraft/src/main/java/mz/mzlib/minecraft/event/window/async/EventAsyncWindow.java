@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.window;
+package mz.mzlib.minecraft.event.window.async;
 
 import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
@@ -6,18 +6,18 @@ import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventWindow<P extends Packet> extends EventAsyncByPacket<P>
+public abstract class EventAsyncWindow<P extends Packet> extends EventAsyncByPacket<P>
 {
-    public Window window;
-    public EventWindow(PacketEvent.Specialized<P> packetEvent, Window window)
+    public int syncId;
+    public EventAsyncWindow(PacketEvent.Specialized<P> packetEvent, int syncId)
     {
         super(packetEvent);
-        this.window = window;
+        this.syncId = syncId;
     }
     
-    public Window getWindow()
+    public int getSyncId()
     {
-        return this.window;
+        return this.syncId;
     }
     
     @Override
@@ -33,11 +33,11 @@ public abstract class EventWindow<P extends Packet> extends EventAsyncByPacket<P
         @Override
         public void onLoad()
         {
-            this.register(EventWindow.class);
+            this.register(EventAsyncWindow.class);
             
-            this.register(EventWindowAction.Module.instance);
-            this.register(EventWindowClose.Module.instance);
-            this.register(EventWindowAnvilSetName.Module.instance);
+            this.register(EventAsyncWindowAction.Module.instance);
+            this.register(EventAsyncWindowClose.Module.instance);
+            this.register(EventAsyncWindowAnvilSetName.Module.instance);
         }
     }
 }

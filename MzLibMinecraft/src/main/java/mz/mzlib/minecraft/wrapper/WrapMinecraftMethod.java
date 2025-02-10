@@ -43,8 +43,8 @@ public @interface WrapMinecraftMethod
         @Override
         public Member find(Class<?> wrappedClass, WrapMinecraftMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
-            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name-> //
-                    MinecraftPlatform.instance.getMappingsY2P().mapMethod(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), new MappingMethod(name, Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappingsP2Y()::mapType).toArray(String[]::new)))).toArray(String[]::new);
+            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(name-> //
+                    name.remap() ? MinecraftPlatform.instance.getMappings().inverse().mapMethod(MinecraftPlatform.instance.getMappings().mapClass(wrappedClass.getName()), new MappingMethod(name.name(), Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappings()::mapType).toArray(String[]::new))) : name.name()).toArray(String[]::new);
             if(names.length==0)
                 return null;
             try

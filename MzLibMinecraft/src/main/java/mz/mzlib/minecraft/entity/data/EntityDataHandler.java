@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.data.TrackedDataHandler"))
+@WrapMinecraftClass({@VersionName(name="byte", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedDataHandler", begin=900)})
 public interface EntityDataHandler extends WrapperObject
 {
     @WrapperCreator

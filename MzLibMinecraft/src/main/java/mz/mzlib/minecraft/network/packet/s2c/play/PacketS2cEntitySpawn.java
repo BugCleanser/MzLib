@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.network.packet.s2c.play;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityType;
@@ -27,8 +28,9 @@ public interface PacketS2cEntitySpawn extends Packet
     @WrapMinecraftFieldAccessor({@VersionName(name="id", end=2100), @VersionName(name="entityId", begin=2100)})
     int getEntityId();
     
+    @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor(@VersionName(name="uuid"))
-    UUID getUuid();
+    UUID getUuidV900();
     
     EntityType getEntityType();
     
@@ -87,27 +89,41 @@ public interface PacketS2cEntitySpawn extends Packet
         }
         static
         {
+            register("boat", 1);
             register("item", 2);
-            register("xp_orb", 7);
-            register("area_effect_cloud", 3);
-            register("painting", 9);
-            register("arrow", 10);
-            register("snowball", 61);
-            register("small_fireball", 13);
-            register("ender_pearl", 14);
-            register("eye_of_ender_signal", 15);
-            register("potion", 73);
-            register("xp_bottle", 75);
-            register("item_frame", 71);
-            register("wither_skull", 66);
+            if(MinecraftPlatform.instance.getVersion()>=900)
+                register("area_effect_cloud", 3);
+            register("minecart", 10);
             register("tnt", 50);
+            register(MinecraftPlatform.instance.getVersion()<1300 ? "ender_crystal" : "end_crystal", 51);
+            register("arrow", 60);
+            register("snowball", 61);
+            register("egg", 62);
+            register("fireball", 63);
+            register("small_fireball", 64);
+            register("ender_pearl", 65);
+            register("wither_skull", 66);
+            if(MinecraftPlatform.instance.getVersion()>=900)
+                register("shulker_bullet", 67);
+            if(MinecraftPlatform.instance.getVersion()>=1100)
+                register("llama_spit", 68);
             register("falling_block", 70);
-            register("fireworks_rocket", 76);
-            register("spectral_arrow", 91);
-            register("shulker_bullet", 67);
-            register("dragon_fireball", 93);
+            register("item_frame", 71);
+            register(MinecraftPlatform.instance.getVersion()<1300 ? "eye_of_ender_signal" : "eye_of_ender", 72);
+            register("potion", 73);
+            register(MinecraftPlatform.instance.getVersion()<1300 ? "xp_bottle" : "experience_bottle", 75);
+            register(MinecraftPlatform.instance.getVersion()<1300 ? "fireworks_rocket" : "firework_rocket", 76);
+            register("leash_knot", 77);
             register("armor_stand", 78);
-            register("ender_crystal", 51);
+            if(MinecraftPlatform.instance.getVersion()>=1100)
+                register(MinecraftPlatform.instance.getVersion()<1300 ? "evocation_fangs" : "evoker_fangs", 79);
+            register("fishing_bobber", 90);
+            if(MinecraftPlatform.instance.getVersion()>=900)
+                register("spectral_arrow", 91);
+            if(MinecraftPlatform.instance.getVersion()>=900)
+                register("dragon_fireball", 93);
+            if(MinecraftPlatform.instance.getVersion()>=1300)
+                register("trident", 94);
         }
         
         public static int toId(EntityType type)

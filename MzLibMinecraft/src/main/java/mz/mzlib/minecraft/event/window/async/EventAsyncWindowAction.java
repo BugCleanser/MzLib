@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.event.window;
+package mz.mzlib.minecraft.event.window.async;
 
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
@@ -7,11 +7,11 @@ import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.module.MzModule;
 
-public class EventWindowAction extends EventWindow<PacketC2sWindowAction>
+public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowAction>
 {
-    public EventWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent, Window window)
+    public EventAsyncWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent, int syncId)
     {
-        super(packetEvent, window);
+        super(packetEvent, syncId);
     }
     
     public WindowActionType getActionType()
@@ -54,18 +54,9 @@ public class EventWindowAction extends EventWindow<PacketC2sWindowAction>
         @Override
         public void onLoad()
         {
-            this.register(EventWindowAction.class);
+            this.register(EventAsyncWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction::create, packetEvent->packetEvent.sync(()->
-            {
-                Window window = packetEvent.getPlayer().getCurrentWindow();
-                if(window.getSyncId()!=packetEvent.getPacket().getSyncId())
-                {
-                    packetEvent.setCancelled(true);
-                    return;
-                }
-                new EventWindowAction(packetEvent, window).call();
-            })));
+            this.register(new PacketListener<>(PacketC2sWindowAction::create, packetEvent->new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()));
         }
     }
 }

@@ -26,7 +26,7 @@ public class AsmUtil
     public static HashSet<Integer> opcodesVarLoad = CollectionUtil.addAll(new HashSet<>(), Opcodes.ALOAD, Opcodes.LLOAD, Opcodes.DLOAD, Opcodes.FLOAD, Opcodes.ILOAD);
     public static HashSet<Integer> opcodesVarStore = CollectionUtil.addAll(new HashSet<>(), Opcodes.ASTORE, Opcodes.LSTORE, Opcodes.DSTORE, Opcodes.FSTORE, Opcodes.ISTORE);
 
-    public static Class<?> getClass(String desc, ClassLoader cl)
+    public static Class<?> getClass(String desc, ClassLoader cl) throws ClassNotFoundException
     {
         switch (desc.charAt(0))
         {
@@ -49,9 +49,9 @@ public class AsmUtil
             case 'C':
                 return char.class;
             case 'L':
-                return ClassUtil.forName(desc.substring(1, desc.length() - 1).replace('/', '.'), cl);
+                return ClassUtil.classForName(desc.substring(1, desc.length() - 1).replace('/', '.'), cl);
             case '[':
-                return ClassUtil.forName(desc.replace('/', '.'), cl);
+                return ClassUtil.classForName(desc.replace('/', '.'), cl);
             default:
                 throw RuntimeUtil.sneakilyThrow(new ClassNotFoundException(desc));
         }

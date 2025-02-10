@@ -3,11 +3,11 @@ package mz.mzlib.minecraft.entity;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.entity.projectile.EntityFishingBobber;
 import mz.mzlib.minecraft.registry.EntityTypesV_1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -38,11 +38,21 @@ public interface EntityType extends WrapperObject
     @VersionRange(end=1100)
     default EntityType staticFromIdV_1100(Identifier id)
     {
+        if(id.equals(Identifier.ofMinecraft("fishing_bobber")))
+            return create(EntityFishingBobber.create(null).staticGetWrappedClass());
         return EntityTypesV_1300.getByNameV_1100(V_1100.id2Name.get(id));
     }
     @SpecificImpl("staticFromId")
-    @VersionRange(begin=1100)
-    default EntityType staticFromIdV1100(Identifier id)
+    @VersionRange(begin=1100, end=1300)
+    default EntityType staticFromIdV1100_1300(Identifier id)
+    {
+        if(id.equals(Identifier.ofMinecraft("fishing_bobber")))
+            return create(EntityFishingBobber.create(null).staticGetWrappedClass());
+        return getRegistry1100().get(id).castTo(EntityType::create);
+    }
+    @SpecificImpl("staticFromId")
+    @VersionRange(begin=1300)
+    default EntityType staticFromIdV1300(Identifier id)
     {
         return getRegistry1100().get(id).castTo(EntityType::create);
     }
@@ -73,6 +83,9 @@ public interface EntityType extends WrapperObject
         return RegistriesV1300.entityType();
     }
     
+    /**
+     * @see <a href="https://zh.minecraft.wiki/w/16w32a">16w32a</a>
+     */
     class V_1100
     {
         public static Map<Identifier, String> id2Name = new HashMap<>();
@@ -90,37 +103,50 @@ public interface EntityType extends WrapperObject
         
         static
         {
-            register("item", "Item");
-            register("xp_orb", "XPOrb");
             register("area_effect_cloud", "AreaEffectCloud");
+            register("armor_stand", "ArmorStand");
+            register("cave_spider", "CaveSpider");
+            register("chest_minecart", "MinecartChest");
+            register("commandblock_minecart", "MinecartCommandBlock");
+            register("dragon_fireball", "DragonFireball");
             register("egg", "ThrownEgg");
+            register("ender_crystal", "EnderCrystal");
+            register("ender_dragon", "EnderDragon");
+            register("ender_pearl", "ThrownEnderpearl");
+            register("eye_of_ender_signal", "EyeOfEnderSignal");
+            register("falling_block", "FallingSand");
+            register("fireworks_rocket", "FireworksRocketEntity");
+            register("furnace_minecart", "MinecartFurnace");
+            register("hopper_minecart", "MinecartHopper");
+            register("horse", "EntityHorse");
+            register("item_frame", "ItemFrame");
             register("leash_knot", "LeashKnot");
+            register("lightning_bolt", "LightningBolt");
+            register("magma_cube", "LavaSlime");
+            register("minecart", "MinecartRideable");
+            register("mooshroom", "MushroomCow");
+            register("ocelot", "Ozelot");
+            register("polar_bear", "PolarBear");
+            register("shulker_bullet", "ShulkerBullet");
+            register("small_fireball", "SmallFireball");
+            register("spectral_arrow", "SpectralArrow");
+            register("potion", "ThrownPotion");
+            register("spawner_minecart", "MinecartSpawner");
+            register("tnt", "PrimedTnt");
+            register("tnt_minecart", "MinecartTNT");
+            register("villager_golem", "VillagerGolem");
+            register("wither", "WitherBoss");
+            register("wither_skull", "WitherSkull");
+            register("xp_bottle", "ThrownExpBottle");
+            register("xp_orb", "XPOrb");
+            register("zombie_pigman", "PigZombie");
+            
+            register("item", "Item");
             register("painting", "Painting");
             register("arrow", "Arrow");
             register("snowball", "Snowball");
             register("fireball", "Fireball");
-            register("small_fireball", "SmallFireball");
-            register("ender_pearl", "ThrownEnderpearl");
-            register("eye_of_ender_signal", "EyeOfEnderSignal");
-            register("potion", "ThrownPotion");
-            register("xp_bottle", "ThrownExpBottle");
-            register("item_frame", "ItemFrame");
-            register("wither_skull", "WitherSkull");
-            register("tnt", "PrimedTnt");
-            register("falling_block", "FallingSand");
-            register("fireworks_rocket", "FireworksRocketEntity");
-            register("spectral_arrow", "SpectralArrow");
-            register("shulker_bullet", "ShulkerBullet");
-            register("dragon_fireball", "DragonFireball");
-            register("armor_stand", "ArmorStand");
             register("boat", "Boat");
-            register("minecart", "MinecartRideable");
-            register("chest_minecart", "MinecartChest");
-            register("furnace_minecart", "MinecartFurnace");
-            register("tnt_minecart", "MinecartTNT");
-            register("hopper_minecart", "MinecartHopper");
-            register("spawner_minecart", "MinecartSpawner");
-            register("commandblock_minecart", "MinecartCommandBlock");
             register("creeper", "Creeper");
             register("skeleton", "Skeleton");
             register("spider", "Spider");
@@ -128,14 +154,9 @@ public interface EntityType extends WrapperObject
             register("zombie", "Zombie");
             register("slime", "Slime");
             register("ghast", "Ghast");
-            register("zombie_pigman", "PigZombie");
             register("enderman", "Enderman");
-            register("cave_spider", "CaveSpider");
             register("silverfish", "Silverfish");
             register("blaze", "Blaze");
-            register("magma_cube", "LavaSlime");
-            register("ender_dragon", "EnderDragon");
-            register("wither", "WitherBoss");
             register("bat", "Bat");
             register("witch", "Witch");
             register("endermite", "Endermite");
@@ -147,15 +168,9 @@ public interface EntityType extends WrapperObject
             register("chicken", "Chicken");
             register("squid", "Squid");
             register("wolf", "Wolf");
-            register("mooshroom", "MushroomCow");
             register("snowman", "SnowMan");
-            register("ocelot", "Ozelot");
-            register("villager_golem", "VillagerGolem");
-            register("horse", "EntityHorse");
             register("rabbit", "Rabbit");
-            register("polar_bear", "PolarBear");
             register("villager", "Villager");
-            register("ender_crystal", "EnderCrystal");
         }
     }
 }

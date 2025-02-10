@@ -9,13 +9,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+@VersionRange(begin=900)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket"))
-public interface PacketC2sVehicleMove extends Packet
+public interface PacketC2sVehicleMoveV900 extends Packet
 {
     @WrapperCreator
-    static PacketC2sVehicleMove create(Object wrapped)
+    static PacketC2sVehicleMoveV900 create(Object wrapped)
     {
-        return WrapperObject.create(PacketC2sVehicleMove.class, wrapped);
+        return WrapperObject.create(PacketC2sVehicleMoveV900.class, wrapped);
     }
     
     @VersionRange(end=2104)

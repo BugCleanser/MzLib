@@ -29,9 +29,9 @@ public class MinecraftMappingsFetcherMojang implements MinecraftMappingsFetcher
      * @author MZ
      */
     @Override
-    public Mappings fetch(String version, File cacheFolder)
+    public MappingsByMap fetch(String version, File cacheFolder)
     {
-        return Mappings.parseMojang(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it,"Mojang"),version+".txt")).orElse(null), ()->MappingsUtil.request(new Gson().fromJson(MappingsUtil.request(
+        return MappingsByMap.parseMojang(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it,"Mojang"),version+".txt")).orElse(null), ()->MappingsUtil.request(new Gson().fromJson(MappingsUtil.request(
                 StreamSupport.stream(new Gson().fromJson(MappingsUtil.request("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"), JsonObject.class).getAsJsonArray("versions").spliterator(), false)
                         .map(it -> ((JsonObject) it))
                         .filter(it->it.get("id").getAsString().equals(version)).findFirst().orElseThrow(() -> new RuntimeException("mojang not found version" + version))

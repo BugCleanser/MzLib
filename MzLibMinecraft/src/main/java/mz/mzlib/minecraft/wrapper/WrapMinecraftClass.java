@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
@@ -45,7 +46,7 @@ public @interface WrapMinecraftClass
                 {
                     try
                     {
-                        return Class.forName(MinecraftPlatform.instance.getMappingsY2P().mapClass(name.name()), false, wrapperClass.getClassLoader());
+                        return ClassUtil.classForName(name.remap()?MinecraftPlatform.instance.getMappings().inverse().mapClass(name.name()):name.name(), wrapperClass.getClassLoader());
                     }
                     catch(ClassNotFoundException e)
                     {

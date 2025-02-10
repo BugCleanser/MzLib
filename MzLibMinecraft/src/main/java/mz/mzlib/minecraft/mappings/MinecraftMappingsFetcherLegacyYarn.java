@@ -11,11 +11,11 @@ import java.nio.charset.StandardCharsets;
 public class MinecraftMappingsFetcherLegacyYarn implements MinecraftMappingsFetcher
 {
     @Override
-    public Mappings fetch(String version, File cacheFolder) throws IOException
+    public MappingsByMap fetch(String version, File cacheFolder) throws IOException
     {
         try(InputStream is = IOUtil.openFileInZip(MinecraftPlatform.instance.getMzLibJar(), "mappings/yarn/"+version+".tiny"))
         {
-            return Mappings.parseYarnLegacy(new String(IOUtil.readAll(is), StandardCharsets.UTF_8));
+            return MappingsByMap.parseYarnLegacy(new String(IOUtil.readAll(is), StandardCharsets.UTF_8));
         }
     }
 }

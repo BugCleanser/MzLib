@@ -41,8 +41,8 @@ public @interface WrapMinecraftFieldAccessor
         @Override
         public Member find(Class<?> wrappedClass, WrapMinecraftFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
-            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).map(name-> //
-                    MinecraftPlatform.instance.getMappingsY2P().mapField(MinecraftPlatform.instance.getMappingsP2Y().mapClass(wrappedClass.getName()), name)).toArray(String[]::new);
+            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(name-> //
+                    name.remap()?MinecraftPlatform.instance.getMappings().inverse().mapField(MinecraftPlatform.instance.getMappings().mapClass(wrappedClass.getName()), name.name()):name.name()).toArray(String[]::new);
             if(names.length==0)
                 return null;
             try

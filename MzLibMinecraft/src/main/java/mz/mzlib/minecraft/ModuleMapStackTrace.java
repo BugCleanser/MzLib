@@ -87,7 +87,7 @@ public class ModuleMapStackTrace extends MzModule
             StackTraceElement[] result = new StackTraceElement[returnValue.length];
             for(int i = 0; i<result.length; i++)
             {
-                String name = MinecraftPlatform.instance.getMappingsP2Y().mapClass0(returnValue[i].getClassName());
+                String name = MinecraftPlatform.instance.getMappings().mapClass0(returnValue[i].getClassName());
                 if(name!=null)
                 {
                     String methodName = returnValue[i].getMethodName();
@@ -100,7 +100,7 @@ public class ModuleMapStackTrace extends MzModule
                             if(methods.size()!=1)
                                 throw new NoSuchMethodException();
                             Method method = methods.iterator().next();
-                            methodName = MinecraftPlatform.instance.getMappingsP2Y().mapMethod(returnValue[i].getClassName(), new MappingMethod(method.getName(), Arrays.stream(method.getParameterTypes()).map(AsmUtil::getType).toArray(String[]::new)));
+                            methodName = MinecraftPlatform.instance.getMappings().mapMethod(returnValue[i].getClassName(), new MappingMethod(method.getName(), Arrays.stream(method.getParameterTypes()).map(AsmUtil::getType).toArray(String[]::new)));
                         }
                         catch(ClassNotFoundException|NoSuchMethodException e)
                         {

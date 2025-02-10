@@ -86,7 +86,7 @@ public interface Window extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="canUse"))
     boolean checkReachable(AbstractEntityPlayer player);
     
-    @WrapMinecraftMethod({@VersionName(name="method_3252", end=1400), @VersionName(name="onSlotClick", begin=1400, end=1700)})
+    @WrapMinecraftMethod({@VersionName(name="onSlotClick", end=900), @VersionName(name="method_3252", begin=900, end=1400), @VersionName(name="onSlotClick", begin=1400, end=1700)})
     ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
     @WrapMinecraftMethod(@VersionName(name="onSlotClick", begin=1700))
     void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);

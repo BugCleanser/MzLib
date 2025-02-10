@@ -5,5 +5,5 @@ import java.io.IOException;
 
 public interface MinecraftMappingsFetcher
 {
-    Mappings fetch(String version, File cacheFolder) throws IOException;
+    Mappings<?> fetch(String version, File cacheFolder) throws IOException;
 }

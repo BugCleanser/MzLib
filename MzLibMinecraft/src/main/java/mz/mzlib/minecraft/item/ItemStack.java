@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.item;
 
 import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
-import mz.mzlib.minecraft.datafixer.DataUpdateTypesV_1300;
+import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
 import mz.mzlib.minecraft.item.component.ComponentCustomDataV2005;
 import mz.mzlib.minecraft.item.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.item.component.ComponentMapV2005;
@@ -133,6 +133,7 @@ public interface ItemStack extends WrapperObject
     {
         return is.encode();
     }
+    
     /**
      * @see #encode(ItemStack)
      */
@@ -256,17 +257,19 @@ public interface ItemStack extends WrapperObject
     }
     
     /**
-     * @deprecated This method is deprecated because it may cause a null pointer exception before Minecraft 1.11.
      * @see #isEmpty(ItemStack)
+     * @deprecated This method is deprecated because it may cause a null pointer exception before Minecraft 1.11.
      */
     @Deprecated
     boolean isEmpty();
+    
     @SpecificImpl("isEmpty")
     @VersionRange(end=1100)
     default boolean isEmptyV_1100()
     {
         return !this.getItem().isPresent() || this.getCount()==0 || this.getItem().equals(Item.AIR);
     }
+    
     @SpecificImpl("isEmpty")
     @VersionRange(begin=1100)
     @WrapMinecraftMethod(@VersionName(name="isEmpty"))
@@ -301,6 +304,7 @@ public interface ItemStack extends WrapperObject
             return empty();
         return is.copy();
     }
+    
     /**
      * @see #copy(ItemStack)
      */
@@ -477,10 +481,17 @@ public interface ItemStack extends WrapperObject
     NbtCompound staticUpgrade(NbtCompound nbt, int from);
     
     @SpecificImpl("staticUpgrade")
-    @VersionRange(end=1300)
-    default NbtCompound staticUpgradeV_1300(NbtCompound nbt, int from)
+    @VersionRange(end=900)
+    default NbtCompound staticUpgradeV_900(NbtCompound nbt, int from)
     {
-        return MinecraftServer.instance.getDataUpdaterV_1300().update(DataUpdateTypesV_1300.itemStack(), nbt, from);
+        return nbt;
+    }
+    
+    @SpecificImpl("staticUpgrade")
+    @VersionRange(begin=900, end=1300)
+    default NbtCompound staticUpgradeV900_1300(NbtCompound nbt, int from)
+    {
+        return MinecraftServer.instance.getDataUpdaterV900_1300().update(DataUpdateTypesV900_1300.itemStack(), nbt, from);
     }
     
     @SpecificImpl("staticUpgrade")

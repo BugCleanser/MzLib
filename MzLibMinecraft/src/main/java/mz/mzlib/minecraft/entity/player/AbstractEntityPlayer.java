@@ -63,10 +63,12 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     }
     
     void sendMessage(Text message);
+    
     @VersionRange(begin=1100, end=1300)
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
     void sendMessageV1100_1300__1600(Text message, boolean actionBar);
+    
     @VersionRange(begin=1100, end=1300)
     @VersionRange(begin=1600)
     @SpecificImpl("sendMessage")
@@ -76,13 +78,16 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     }
     
     void openWindow(WindowFactory windowFactory);
+    
     @SpecificImpl("openWindow")
     @VersionRange(end=1400)
     @WrapMinecraftMethod(@VersionName(name="openHandledScreen"))
     void openWindowV_1400(WindowFactory windowFactory);
+    
     @VersionRange(begin=1400)
     @WrapMinecraftMethod({@VersionName(name="openContainer", end=1600), @VersionName(name="openHandledScreen", begin=1600)})
     OptionalInt openWindowV1400(WindowFactory windowFactory);
+    
     @SpecificImpl("openWindow")
     @VersionRange(begin=1400)
     default void openWindowSpecificImplV1400(WindowFactory windowFactory)
@@ -100,18 +105,18 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     @SpecificImpl("openBook0")
     @VersionRange(end=900)
-    @WrapMinecraftMethod(@VersionName(name="openEditBookScreen"))
+    @WrapMinecraftMethod(@VersionName(name="openBookEditScreen"))
     void openBook0V_900(ItemStack book);
     
     @VersionRange(begin=900)
     @WrapMinecraftMethod({@VersionName(name="method_3201", end=1400), @VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
-    void openBook0V900(ItemStack book, EnumHand hand);
+    void openBook0V900(ItemStack book, EnumHandV900 hand);
     
     @SpecificImpl("openBook0")
     @VersionRange(begin=900)
     default void openBook0V900(ItemStack book)
     {
-        this.openBook0V900(book, EnumHand.mainHand());
+        this.openBook0V900(book, EnumHandV900.mainHand());
     }
     
     default ItemStack getHandItemStack()

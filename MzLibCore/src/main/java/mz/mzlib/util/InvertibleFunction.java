@@ -2,28 +2,20 @@ package mz.mzlib.util;
 
 import java.util.function.Function;
 
-public class InvertibleFunction<T, U> implements Function<T, U>
+public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T>> implements Function<T, U>
 {
-    Function<T, U> forward;
-    Function<U, T> backward;
-    InvertibleFunction<U, T> inverse;
-
-    InvertibleFunction(Function<T, U> forward, Function<U, T> backward, InvertibleFunction<U, T> inverse)
+    protected Function<T, U> forward;
+    protected Function<U, T> backward;
+    public InvertibleFunction(Function<T, U> forward, Function<U, T> backward)
     {
         this.forward = forward;
         this.backward = backward;
-        this.inverse = inverse;
-    }
-    public InvertibleFunction(Function<T, U> forward, Function<U, T> backward)
-    {
-        this(forward, backward, null);
     }
     
-    public InvertibleFunction<U, T> inverse()
+    @Override
+    public InvertibleFunction<U, T> invert()
     {
-        if(this.inverse == null)
-            this.inverse = new InvertibleFunction<>(backward, forward, this);
-        return this.inverse;
+        return new InvertibleFunction<>(backward, forward);
     }
 
     @Override
