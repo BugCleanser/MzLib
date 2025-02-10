@@ -37,7 +37,7 @@ public abstract class UIWindowAnvil extends UIWindow
             {
                 if(event.isCancelled())
                     return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
+                Window window = event.getPlayer().getCurrentWindow();
                 if(!window.isInstanceOf(WindowUIWindow::create))
                     return;
                 UI ui = window.castTo(WindowUIWindow::create).getUIWindow();

@@ -8,7 +8,7 @@ import mz.mzlib.module.MzModule;
 
 public abstract class EventAsyncWindow<P extends Packet> extends EventAsyncByPacket<P>
 {
-    public int syncId;
+    protected int syncId;
     public EventAsyncWindow(PacketEvent.Specialized<P> packetEvent, int syncId)
     {
         super(packetEvent);

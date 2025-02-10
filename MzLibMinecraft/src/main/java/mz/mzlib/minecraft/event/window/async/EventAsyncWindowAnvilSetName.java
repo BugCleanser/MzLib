@@ -15,6 +15,12 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
         super(packetEvent, 0);
     }
     
+    @Override
+    public int getSyncId()
+    {
+        throw new UnsupportedOperationException();
+    }
+    
     public abstract String getName();
     
     public abstract void setName(String value);
