@@ -7,7 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(boolean.class)
 public interface Wrapper_boolean extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Wrapper_boolean create(Boolean wrapped)
     {

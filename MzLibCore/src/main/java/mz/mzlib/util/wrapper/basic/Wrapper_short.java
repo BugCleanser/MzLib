@@ -7,7 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(short.class)
 public interface Wrapper_short extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Wrapper_short create(Short wrapped)
     {

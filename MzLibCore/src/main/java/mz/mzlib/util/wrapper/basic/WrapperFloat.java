@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapFieldAccessor;
 @WrapClass(Float.class)
 public interface WrapperFloat extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperFloat create(Float wrapped)
     {

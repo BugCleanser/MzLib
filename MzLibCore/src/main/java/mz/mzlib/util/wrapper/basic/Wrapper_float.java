@@ -7,7 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(float.class)
 public interface Wrapper_float extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Wrapper_float create(Float wrapped)
     {

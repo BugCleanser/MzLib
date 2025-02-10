@@ -7,7 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(String.class)
 public interface WrapperString extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperString create(String wrapped)
     {

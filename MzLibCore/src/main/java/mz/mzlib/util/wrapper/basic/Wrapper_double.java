@@ -7,8 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(double.class)
 public interface Wrapper_double extends WrapperObject
 {
-
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Wrapper_double create(Double wrapped)
     {

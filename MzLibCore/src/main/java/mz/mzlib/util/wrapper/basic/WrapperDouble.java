@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapFieldAccessor;
 @WrapClass(Double.class)
 public interface WrapperDouble extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperDouble create(Double wrapped)
     {

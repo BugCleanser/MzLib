@@ -8,7 +8,6 @@ import mz.mzlib.util.wrapper.WrapFieldAccessor;
 @WrapClass(Short.class)
 public interface WrapperShort extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static WrapperShort create(Short wrapped)
     {

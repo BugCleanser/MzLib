@@ -7,7 +7,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 @WrapClass(byte.class)
 public interface Wrapper_byte extends WrapperObject
 {
-    @SuppressWarnings("deprecation")
     @WrapperCreator
     static Wrapper_byte create(Byte wrapped)
     {
