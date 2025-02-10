@@ -1,6 +1,5 @@
 package mz.mzlib.util.placeholder.primitive;
 
-import top.vrilhyc.plugins.customforge.placeholders.ForgePlaceholder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class PlaceholderSerializer<T> {
 
     public static <T>String placeholderred(String origin,PlaceholderParser<T> parser,T t) throws InvocationTargetException, IllegalAccessException {
         String ss = origin.substring(0,origin.length()-1).replace("%","");
-        String[] sss = ForgePlaceholder.getParameters(ss);
+        String[] sss = ss.split(":");
         return parser.parse(sss,t);
     }
 
