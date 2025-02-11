@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
-import mz.mzlib.minecraft.item.component.CustomDataV2005;
+import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.*;
@@ -233,14 +233,14 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()
     {
-        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), CustomDataV2005::create).getData();
+        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005::create).getData();
     }
     
     @SpecificImpl("setCustomData")
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        WrapperObject ignored = this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), CustomDataV2005.newInstance(value));
+        WrapperObject ignored = this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005.newInstance(value));
     }
     
     @VersionRange(begin=2005)

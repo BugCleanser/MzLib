@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
-import mz.mzlib.minecraft.item.component.WrittenBookContentV2005;
+import mz.mzlib.minecraft.component.ComponentWrittenBookContentV2005;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -61,9 +61,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default String staticGetTitleV2005(ItemStack book)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         return component.getTitle();
     }
     
@@ -85,9 +85,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default void staticSetTitleV2005(ItemStack book, String title)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         book.setComponentV2005(componentKeyWrittenBookContentV2005, component.withTitle(title));
     }
     
@@ -109,9 +109,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default String staticGetAuthorV2005(ItemStack book)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         return component.getAuthor();
     }
     
@@ -133,9 +133,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default void staticSetAuthorV2005(ItemStack book, String author)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         book.setComponentV2005(componentKeyWrittenBookContentV2005, component.withAuthor(author));
     }
     
@@ -157,9 +157,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default int staticGetGenerationV2005(ItemStack book)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         return component.getGeneration();
     }
     
@@ -181,9 +181,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default void staticSetGenerationV2005(ItemStack book, int generation)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         book.setComponentV2005(componentKeyWrittenBookContentV2005, component.withGeneration(generation));
     }
     
@@ -205,9 +205,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default List<Text> staticGetPagesV2005(ItemStack book)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         return component.getPages();
     }
     
@@ -229,9 +229,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default void staticSetPagesV2005(ItemStack book, List<Text> pages)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         book.setComponentV2005(componentKeyWrittenBookContentV2005, component.withPages(pages));
     }
     
@@ -253,9 +253,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default boolean staticIsResolvedV2005(ItemStack book)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         return component.isResolved();
     }
     
@@ -277,9 +277,9 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default void staticSetResolvedV2005(ItemStack book, boolean resolved)
     {
-        WrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, WrittenBookContentV2005::create);
+        ComponentWrittenBookContentV2005 component = book.getComponentsV2005().get(componentKeyWrittenBookContentV2005, ComponentWrittenBookContentV2005::create);
         if(!component.isPresent())
-            component = WrittenBookContentV2005.def();
+            component = ComponentWrittenBookContentV2005.def();
         book.setComponentV2005(componentKeyWrittenBookContentV2005, component.withResolved(resolved));
     }
 }

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.item.component;
+package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.text.RawFilteredPairV2005;
@@ -14,20 +14,20 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.WrittenBookContentComponent", begin=2005))
-public interface WrittenBookContentV2005 extends WrapperObject
+public interface ComponentWrittenBookContentV2005 extends WrapperObject
 {
     @WrapperCreator
-    static WrittenBookContentV2005 create(Object wrapped)
+    static ComponentWrittenBookContentV2005 create(Object wrapped)
     {
-        return WrapperObject.create(WrittenBookContentV2005.class, wrapped);
+        return WrapperObject.create(ComponentWrittenBookContentV2005.class, wrapped);
     }
     
-    static WrittenBookContentV2005 def()
+    static ComponentWrittenBookContentV2005 def()
     {
         return create(null).staticDef();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="DEFAULT"))
-    WrittenBookContentV2005 staticDef();
+    ComponentWrittenBookContentV2005 staticDef();
     
     default String getTitle()
     {
@@ -52,38 +52,38 @@ public interface WrittenBookContentV2005 extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="comp_2423"))
     boolean isResolved();
     
-    static WrittenBookContentV2005 newInstance(String title, String author, int generation, List<Text> pages, boolean resolved)
+    static ComponentWrittenBookContentV2005 newInstance(String title, String author, int generation, List<Text> pages, boolean resolved)
     {
         return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), author, generation, pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()), resolved);
     }
-    static WrittenBookContentV2005 newInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved)
+    static ComponentWrittenBookContentV2005 newInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved)
     {
         return create(null).staticNewInstance0(title, author, generation, pages, resolved);
     }
     @WrapConstructor
-    WrittenBookContentV2005 staticNewInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
+    ComponentWrittenBookContentV2005 staticNewInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
     
-    default WrittenBookContentV2005 withTitle(String title)
+    default ComponentWrittenBookContentV2005 withTitle(String title)
     {
         return newInstance0(RawFilteredPairV2005.newInstance0(title, Optional.empty()), this.getAuthor(), this.getGeneration(), this.getPages0(), this.isResolved());
     }
     
-    default WrittenBookContentV2005 withAuthor(String author)
+    default ComponentWrittenBookContentV2005 withAuthor(String author)
     {
         return newInstance0(this.getTitle0(), author, this.getGeneration(), this.getPages0(), this.isResolved());
     }
     
-    default WrittenBookContentV2005 withGeneration(int generation)
+    default ComponentWrittenBookContentV2005 withGeneration(int generation)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), generation, this.getPages0(), this.isResolved());
     }
     
-    default WrittenBookContentV2005 withPages(List<Text> pages)
+    default ComponentWrittenBookContentV2005 withPages(List<Text> pages)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), pages.stream().map(p->RawFilteredPairV2005.newInstance(p, null).getWrapped()).collect(Collectors.toList()), this.isResolved());
     }
     
-    default WrittenBookContentV2005 withResolved(boolean resolved)
+    default ComponentWrittenBookContentV2005 withResolved(boolean resolved)
     {
         return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), this.getPages0(), resolved);
     }

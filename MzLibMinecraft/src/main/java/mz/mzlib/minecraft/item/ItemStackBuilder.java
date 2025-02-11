@@ -1,16 +1,13 @@
 package mz.mzlib.minecraft.item;
 
-import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.util.JsonUtil;
 import mz.mzlib.util.Option;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.UUID;
 
 public class ItemStackBuilder
@@ -47,23 +44,25 @@ public class ItemStackBuilder
             return new ItemStackBuilder(color+"_"+baseIdV1300);
     }
     
-    public static ItemStackBuilder playerSkull(UUID uuid, String url)
+    public static ItemStackBuilder playerSkull0(UUID uuid, String textures)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
         GameProfile owner = GameProfile.newInstance(Option.some(uuid), Option.none());
-        for(JsonObject value: Option.some(new JsonObject()))
-        {
-            for(JsonObject textures: JsonUtil.addChild(value, "textures"))
-                for(JsonObject skin: JsonUtil.addChild(textures, "SKIN"))
-                    skin.addProperty("url", url);
-            owner.getProperties().put("textures", Base64.getEncoder().encodeToString(value.toString().getBytes(StandardCharsets.UTF_8)));
-        }
+        owner.getProperties().put("textures", textures);
         ItemSkull.setOwner(result.result, owner);
         return result;
     }
+    public static ItemStackBuilder playerSkull0(String textures)
+    {
+        return playerSkull0(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8)), textures);
+    }
+    public static ItemStackBuilder playerSkull(UUID uuid, String url)
+    {
+        return playerSkull0(uuid, ItemSkull.texturesFromUrl(url));
+    }
     public static ItemStackBuilder playerSkull(String url)
     {
-        return playerSkull(UUID.nameUUIDFromBytes(url.getBytes(StandardCharsets.UTF_8)), url);
+        return playerSkull0(ItemSkull.texturesFromUrl(url));
     }
     
     public ItemStack result;
@@ -125,6 +124,11 @@ public class ItemStackBuilder
     public ItemStack get()
     {
         return this.result;
+    }
+    
+    public ItemStackBuilder copy()
+    {
+        return new ItemStackBuilder(ItemStack.copy(this.result));
     }
     
     public static class Colored

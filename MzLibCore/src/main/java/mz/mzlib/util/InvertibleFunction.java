@@ -3,13 +3,14 @@ package mz.mzlib.util;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T>> implements ThrowableFunction<T, U, RuntimeException>
+public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T>> implements Function<T, U>
 {
-    protected ThrowableFunction<T, U, RuntimeException> forward;
-    protected ThrowableFunction<U, T, RuntimeException> backward;
-    public InvertibleFunction(ThrowableFunction<T, U, RuntimeException> forward, ThrowableFunction<U, T, RuntimeException> backward)
+    protected Function<? super T, ? extends U> forward;
+    protected Function<? super U, ? extends T> backward;
+    public InvertibleFunction(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
     {
         this.forward = forward;
         this.backward = backward;
@@ -22,14 +23,28 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
     }
 
     @Override
-    public U applyOrThrow(T t)
+    public U apply(T t)
     {
         return this.forward.apply(t);
+    }
+    
+    public <V> Function<T, V> thenApply(Function<? super U, ? extends V> action)
+    {
+        return this.andThen(action);
+    }
+    
+    public Consumer<T> thenAccept(Consumer<? super U> action)
+    {
+        return ThrowableFunction.of(this).thenAccept(action);
     }
     
     public <V> InvertibleFunction<T, V> thenApply(InvertibleFunction<U, V> after)
     {
         return new InvertibleFunction<>(this.andThen(after), after.inverse().andThen(this.inverse()));
+    }
+    public <V> InvertibleFunction<T, V> thenApply(Function<? super U, ? extends V> after, Function<? super V, ? extends U> afterInverse)
+    {
+        return this.thenApply(new InvertibleFunction<>(after, afterInverse));
     }
     
     public static <T, U> InvertibleFunction<T, U> cast()

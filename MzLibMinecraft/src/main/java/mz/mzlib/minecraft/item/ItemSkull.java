@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.item;
 
+import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
@@ -7,9 +8,13 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtUtil;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.Editor;
+import mz.mzlib.util.JsonUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.BlockItem", begin=2002)})
 public interface ItemSkull extends Item
@@ -96,5 +101,14 @@ public interface ItemSkull extends Item
     static Editor<GameProfile> editOwner(ItemStack itemStack)
     {
         return Editor.of(itemStack, ItemSkull::copyOwner, ItemSkull::setOwner);
+    }
+    
+    static String texturesFromUrl(String url)
+    {
+        JsonObject textures=new JsonObject();
+        for(JsonObject value: JsonUtil.addChild(textures, "textures"))
+            for(JsonObject skin: JsonUtil.addChild(value, "SKIN"))
+                skin.addProperty("url", url);
+        return Base64.getEncoder().encodeToString(textures.toString().getBytes(StandardCharsets.UTF_8));
     }
 }
