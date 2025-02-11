@@ -5,9 +5,9 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentLoreV2005;
+import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtList;
@@ -47,8 +47,8 @@ public interface Item extends WrapperObject
     
     Item AIR = fromId(Identifier.ofMinecraft("air"));
     
-    ComponentKeyV2005 componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name");
-    ComponentKeyV2005 componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore");
+    ComponentKeyV2005.Specialized<Text> componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name", Text::create);
+    ComponentKeyV2005.Specialized<ComponentLoreV2005> componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore", ComponentLoreV2005::create);
     
     static Text getCustomName(ItemStack itemStack)
     {
@@ -134,7 +134,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default Text staticGetCustomNameV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(componentKeyCustomNameV2005).castTo(Text::create);
+        return itemStack.getComponentsV2005().get(componentKeyCustomNameV2005);
     }
     
     
@@ -163,7 +163,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetCustomNameV2005(ItemStack itemStack, Text customName)
     {
-        itemStack.setComponentV2005(componentKeyCustomNameV2005, customName);
+        itemStack.getComponentsV2005().set(componentKeyCustomNameV2005, customName);
     }
     
     static void setLore(ItemStack itemStack, List<Text> lore)
@@ -191,7 +191,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.setComponentV2005(componentKeyLoreV2005, ComponentLoreV2005.newInstance(lore));
+        itemStack.getComponentsV2005().set(componentKeyLoreV2005, ComponentLoreV2005.newInstance(lore));
     }
     
     

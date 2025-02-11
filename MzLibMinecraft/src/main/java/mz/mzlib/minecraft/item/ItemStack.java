@@ -1,11 +1,14 @@
 package mz.mzlib.minecraft.item;
 
-import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.component.ComponentKeyV2005;
+import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
+import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
-import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
-import mz.mzlib.minecraft.component.ComponentKeyV2005;
-import mz.mzlib.minecraft.component.ComponentMapV2005;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
@@ -245,8 +248,12 @@ public interface ItemStack extends WrapperObject
     
     @VersionRange(begin=2005)
     @WrapMinecraftFieldAccessor(@VersionName(name="components"))
-    ComponentMapV2005 getComponentsV2005();
+    ComponentMapDefaultedV2005 getComponentsV2005();
     
+    /**
+     * @see #getComponentsV2005()
+     */
+    @Deprecated
     @VersionRange(begin=2005)
     @WrapMinecraftMethod(@VersionName(name="set"))
     WrapperObject setComponentV2005(ComponentKeyV2005 key, WrapperObject value);

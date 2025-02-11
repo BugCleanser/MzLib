@@ -29,6 +29,10 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     {
         return this.get(key).castTo(wrapperCreator);
     }
+    default <T extends WrapperObject> T get(ComponentKeyV2005.Specialized<T> key)
+    {
+        return key.get(this);
+    }
 
     @SuppressWarnings("NullableProblems")
     @Override

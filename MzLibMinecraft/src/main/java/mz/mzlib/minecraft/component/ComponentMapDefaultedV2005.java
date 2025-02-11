@@ -4,6 +4,7 @@ package mz.mzlib.minecraft.component;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -24,5 +25,12 @@ public interface ComponentMapDefaultedV2005 extends ComponentMapV2005
     static ComponentMapDefaultedV2005 newInstance(ComponentMapV2005 base)
     {
         return create(null).staticNewInstance(base);
+    }
+    
+    @WrapMinecraftMethod(@VersionName(name="set"))
+    WrapperObject set(ComponentKeyV2005 key, WrapperObject value);
+    default <T extends WrapperObject> T set(ComponentKeyV2005.Specialized<T> key, T value)
+    {
+        return key.set(this, value);
     }
 }
