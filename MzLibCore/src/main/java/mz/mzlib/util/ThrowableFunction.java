@@ -27,14 +27,24 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
         return this.thenApply(after);
     }
     
+    static <T, U, R, E2 extends Throwable, E extends E2, E1 extends E2> ThrowableFunction<T, R, E2> thenApply(ThrowableFunction<T, U, E> f1, ThrowableFunction<? super U, ? extends R, E1> f2)
+    {
+        return t->f2.applyOrThrow(f1.applyOrThrow(t));
+    }
+    
+    static <T, R, E2 extends Throwable, E extends E2, E1 extends E2> ThrowableConsumer<T, E2> thenAccept(ThrowableFunction<T, R, E> f, ThrowableConsumer<? super R, E1> f1)
+    {
+        return t->f1.acceptOrThrow(f.applyOrThrow(t));
+    }
+    
     default <V> ThrowableFunction<T, V, E> thenApply(Function<? super R, ? extends V> after)
     {
-        return of(Function.super.andThen(after));
+        return thenApply(this, of(after));
     }
     
     default ThrowableConsumer<T, E> thenAccept(Consumer<? super R> after)
     {
-        return t->after.accept(this.apply(t));
+        return thenAccept(this, ThrowableConsumer.of(after));
     }
     
     static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(ThrowableFunction<T, R, E> function)
@@ -45,5 +55,10 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(Function<T, R> function)
     {
         return of(function::apply);
+    }
+    
+    static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()
+    {
+        return of(Function.identity());
     }
 }

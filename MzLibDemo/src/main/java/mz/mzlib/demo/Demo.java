@@ -45,6 +45,7 @@ public class Demo extends MzModule
             this.register(Inventory10Slots.instance);
             this.register(DemoUIInput.instance);
             this.register(ExampleAsyncFunction.instance);
+            this.register(DemoTest.instance);
         }
         catch(Throwable e)
         {

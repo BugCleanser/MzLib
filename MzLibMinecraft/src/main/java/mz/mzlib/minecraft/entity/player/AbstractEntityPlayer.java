@@ -101,6 +101,15 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     @WrapMinecraftMethod(@VersionName(name="dropItem"))
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
     
+    default void give(ItemStack is)
+    {
+        this.getInventory().addItemStack(is);
+        if(!ItemStack.isEmpty(is))
+        {
+            EntityItem ignored = this.drop(is, true);
+        }
+    }
+    
     void openBook0(ItemStack book);
     
     @SpecificImpl("openBook0")

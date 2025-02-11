@@ -14,13 +14,11 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
 public interface Entity extends WrapperObject
@@ -55,8 +53,8 @@ public interface Entity extends WrapperObject
     EntityDataKey staticDataKeyCustomNameV900();
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
-            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, ((Function<Object, String>)RuntimeUtil::cast).andThen(Text::fromLiteral)) : //
-                    new InvertibleFunction<>(((Function<Text, Object>)Text::getWrapped).andThen(Optional::ofNullable), ((Function<Object, Optional<?>>)RuntimeUtil::cast).andThen(RuntimeUtil::orNull).andThen(Text::create)));
+            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, Text::fromLiteral).thenCast() : //
+                    InvertibleFunction.wrap(Text::create).invert().thenApply(InvertibleFunction.optional()).thenCast());
     
     /**
      * type0: {@link Boolean}
@@ -81,8 +79,8 @@ public interface Entity extends WrapperObject
     EntityDataKey staticDataKeyCustomNameVisibleV900();
     
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
-            MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, ThrowableFunction.<Object, Byte, Error>of(RuntimeUtil::cast).andThen(RuntimeUtil::castByteToBoolean)) : //
-                    InvertibleFunction.cast());
+            MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() : //
+                    InvertibleFunction.<Boolean, Object, RuntimeException>cast());
     
     Vec3d getPosition();
     

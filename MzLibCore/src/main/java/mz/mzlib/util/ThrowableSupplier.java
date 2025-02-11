@@ -21,13 +21,24 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
         }
     }
     
-    default <U> ThrowableSupplier<U, E> thenApply(Function<T, U> after)
+    static <T, U, E2 extends Throwable, E extends E2, E1 extends E2> ThrowableSupplier<U, E2> thenApply(ThrowableSupplier<T, E> supplier, ThrowableFunction<T, U, E1> action)
     {
-        return () -> after.apply(getOrThrow());
+        return ()->action.applyOrThrow(supplier.getOrThrow());
     }
-    default ThrowableRunnable<E> thenAccept(Consumer<T> after)
+    
+    static <T, E2 extends Throwable, E extends E2, E1 extends E2> ThrowableRunnable<E2> thenAccept(ThrowableSupplier<T, E> supplier, ThrowableConsumer<T, E1> action)
     {
-        return () -> after.accept(getOrThrow());
+        return ()->action.acceptOrThrow(supplier.getOrThrow());
+    }
+    
+    default <U> ThrowableSupplier<U, E> thenApply(Function<T, U> action)
+    {
+        return thenApply(this, ThrowableFunction.of(action));
+    }
+    
+    default ThrowableRunnable<E> thenAccept(Consumer<T> action)
+    {
+        return thenAccept(this, ThrowableConsumer.of(action));
     }
     
     static <T, E extends Throwable> ThrowableSupplier<T, E> of(ThrowableSupplier<T, E> value)
@@ -42,6 +53,6 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
     
     static <T> ThrowableSupplier<T, RuntimeException> constant(T value)
     {
-        return () -> value;
+        return ()->value;
     }
 }

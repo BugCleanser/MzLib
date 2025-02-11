@@ -1,10 +1,16 @@
 package mz.mzlib.minecraft.item;
 
+import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.authlib.GameProfile;
+import mz.mzlib.minecraft.authlib.properties.Property;
 import mz.mzlib.minecraft.text.Text;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Base64;
+import java.util.UUID;
 
 public class ItemStackBuilder
 {
@@ -38,6 +44,25 @@ public class ItemStackBuilder
             return new ItemStackBuilder(idV_1300).setDamageV_1300(Item.damageForColorV_1300(color));
         else
             return new ItemStackBuilder(color+"_"+baseIdV1300);
+    }
+    
+    public static ItemStackBuilder playerSkull(UUID uuid, String url)
+    {
+        ItemStackBuilder result = forFlattening("skull", 3, "player_head");
+        GameProfile owner = GameProfile.newInstance(uuid, null);
+        JsonObject value = new JsonObject();
+        JsonObject textures = new JsonObject();
+        JsonObject skin = new JsonObject();
+        skin.addProperty("url", url);
+        textures.add("SKIN", skin);
+        value.add("textures", textures);
+        owner.getProperties().put("textures", Property.newInstance("textures", Base64.getEncoder().encodeToString(value.toString().getBytes(StandardCharsets.UTF_8))));
+        ItemSkull.setOwner(result.result, owner);
+        return result;
+    }
+    public static ItemStackBuilder playerSkull(String url)
+    {
+        return playerSkull(UUID.nameUUIDFromBytes(url.getBytes(StandardCharsets.UTF_8)), url);
     }
     
     public ItemStack result;

@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParserNbtCompound;
 import mz.mzlib.minecraft.command.argument.ArgumentParserPlayer;
-import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
 import mz.mzlib.minecraft.item.ItemStack;
@@ -55,12 +54,7 @@ public class CommandGiveNbt extends MzModule
                 return;
             try
             {
-                ItemStack is = ItemStack.decode(nbt);
-                player.getInventory().addItemStack(is);
-                if(!ItemStack.isEmpty(is))
-                {
-                    EntityItem ignored = player.drop(is, true);
-                }
+                player.give(ItemStack.decode(nbt));
             }
             catch(Throwable e)
             {
