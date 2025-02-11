@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -21,18 +21,29 @@ public interface GameProfile extends WrapperObject
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="id"))
-    UUID getId();
+    UUID getId0();
+    default Option<UUID> getId()
+    {
+        return Option.fromNullable(getId0());
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="name"))
-    String getName();
+    String getName0();
+    default Option<String> getName()
+    {
+        return Option.fromNullable(getName0());
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="properties"))
     PropertyMap getProperties();
     
-    static GameProfile newInstance(UUID id, String name)
+    /**
+     * id and name cannot be null at the same time.
+     */
+    static GameProfile newInstance(Option<UUID> id, Option<String> name)
     {
-        return create(null).staticNewInstance(id, name);
+        return create(null).staticNewInstance0(id.toNullable(), name.toNullable());
     }
     @WrapConstructor
-    GameProfile staticNewInstance(UUID id, String name);
+    GameProfile staticNewInstance0(UUID id, String name);
 }

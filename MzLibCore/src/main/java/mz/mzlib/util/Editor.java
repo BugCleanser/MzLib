@@ -28,7 +28,7 @@ public abstract class Editor<T> implements AutoCompletable<T>
         return of(ThrowableSupplier.of(this::get).thenApply(function), function.inverse().thenAccept(this::set));
     }
     
-    public static <T> Editor<T> of(Supplier<T> getter, Consumer<T> setter)
+    public static <T> Editor<T> of(Supplier<? extends T> getter, Consumer<? super T> setter)
     {
         return new Editor<T>()
         {
@@ -44,17 +44,17 @@ public abstract class Editor<T> implements AutoCompletable<T>
             }
         };
     }
-    public static <T, H> Editor<T> of(H holder, Function<H, T> getter, BiConsumer<H, T> setter)
+    public static <T, H> Editor<T> of(H holder, Function<? super H, ? extends T> getter, BiConsumer<? super H, ? super T> setter)
     {
         return of(ThrowableSupplier.constant(holder).thenApply(getter), ThrowableBiConsumer.of(setter).bindFirst(ThrowableSupplier.constant(holder)));
     }
     
-    public static <T> Editor<Ref<T>> ofRef(Supplier<T> getter, Consumer<T> setter)
+    public static <T> Editor<Ref<T>> ofRef(Supplier<? extends T> getter, Consumer<? super T> setter)
     {
-        return of(ThrowableSupplier.of(getter).thenApply(StrongRef::new), ThrowableFunction.<Ref<T>, T, RuntimeException>of(Ref::get).thenAccept(setter));
+        return Editor.<T>of(getter, setter).map(InvertibleFunction.ref());
     }
     public static <T, H> Editor<Ref<T>> ofRef(H holder, Function<H, T> getter, BiConsumer<H, T> setter)
     {
-        return ofRef(ThrowableSupplier.constant(holder).thenApply(getter), ThrowableBiConsumer.of(setter).bindFirst(ThrowableSupplier.constant(holder)));
+        return Editor.of(holder, getter, setter).map(InvertibleFunction.ref());
     }
 }

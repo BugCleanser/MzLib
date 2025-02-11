@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.authlib.properties;
 import com.google.common.collect.Multimap;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -26,5 +27,13 @@ public interface PropertyMap extends WrapperObject
     default void put(String key, Property value)
     {
         this.getWrapped().put(key, value.getWrapped());
+    }
+    default void put(String key, String value, Option<String> signature)
+    {
+        this.put(key, Property.newInstance(key, value, signature));
+    }
+    default void put(String key, String value)
+    {
+        this.put(key, value, Option.none());
     }
 }

@@ -33,7 +33,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     default String getName()
     {
-        return this.getGameProfile().getName();
+        return this.getGameProfile().getName().unwrap();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))

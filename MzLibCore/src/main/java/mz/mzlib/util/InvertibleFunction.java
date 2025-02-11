@@ -32,7 +32,7 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         return new InvertibleFunction<>(this.andThen(after), after.inverse().andThen(this.inverse()));
     }
     
-    public static <T, U, E extends Throwable> InvertibleFunction<T, U> cast()
+    public static <T, U> InvertibleFunction<T, U> cast()
     {
         return new InvertibleFunction<>(RuntimeUtil::cast, RuntimeUtil::cast);
     }
@@ -42,17 +42,27 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         return this.thenApply(InvertibleFunction.cast());
     }
     
-    public static <T, E extends Throwable> InvertibleFunction<T, Optional<T>> optional()
+    public static <T> InvertibleFunction<T, Ref<T>> ref()
+    {
+        return new InvertibleFunction<>(StrongRef::new, Ref::get);
+    }
+    
+    public static <T> InvertibleFunction<T, Option<T>> option()
+    {
+        return new InvertibleFunction<>(Option::fromNullable, Option::toNullable);
+    }
+    
+    public static <T> InvertibleFunction<T, Optional<T>> optional()
     {
         return new InvertibleFunction<>(Optional::ofNullable, RuntimeUtil::orNull);
     }
     
-    public static <T extends WrapperObject, E extends Throwable> InvertibleFunction<Object, T> wrap(Function<Object, T> creator)
+    public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(Function<Object, T> creator)
     {
         return new InvertibleFunction<>(ThrowableFunction.of(creator), WrapperObject::getWrapped);
     }
     
-    public static <T, E extends Throwable> InvertibleFunction<T, T> identity()
+    public static <T> InvertibleFunction<T, T> identity()
     {
         return new InvertibleFunction<>(ThrowableFunction.identity(), ThrowableFunction.identity());
     }

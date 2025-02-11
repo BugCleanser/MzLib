@@ -4,8 +4,9 @@ import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
-import mz.mzlib.minecraft.authlib.properties.Property;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.util.JsonUtil;
+import mz.mzlib.util.Option;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -49,14 +50,14 @@ public class ItemStackBuilder
     public static ItemStackBuilder playerSkull(UUID uuid, String url)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
-        GameProfile owner = GameProfile.newInstance(uuid, null);
-        JsonObject value = new JsonObject();
-        JsonObject textures = new JsonObject();
-        JsonObject skin = new JsonObject();
-        skin.addProperty("url", url);
-        textures.add("SKIN", skin);
-        value.add("textures", textures);
-        owner.getProperties().put("textures", Property.newInstance("textures", Base64.getEncoder().encodeToString(value.toString().getBytes(StandardCharsets.UTF_8))));
+        GameProfile owner = GameProfile.newInstance(Option.some(uuid), Option.none());
+        for(JsonObject value: Option.some(new JsonObject()))
+        {
+            for(JsonObject textures: JsonUtil.addChild(value, "textures"))
+                for(JsonObject skin: JsonUtil.addChild(textures, "SKIN"))
+                    skin.addProperty("url", url);
+            owner.getProperties().put("textures", Base64.getEncoder().encodeToString(value.toString().getBytes(StandardCharsets.UTF_8)));
+        }
         ItemSkull.setOwner(result.result, owner);
         return result;
     }

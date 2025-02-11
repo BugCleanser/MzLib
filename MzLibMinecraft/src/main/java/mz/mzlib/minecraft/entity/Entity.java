@@ -54,7 +54,7 @@ public interface Entity extends WrapperObject
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
             MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, Text::fromLiteral).thenCast() : //
-                    InvertibleFunction.wrap(Text::create).invert().thenApply(InvertibleFunction.optional()).thenCast());
+                    InvertibleFunction.wrapper(Text::create).invert().thenApply(InvertibleFunction.optional()).thenCast());
     
     /**
      * type0: {@link Boolean}
@@ -80,7 +80,7 @@ public interface Entity extends WrapperObject
     
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
             MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() : //
-                    InvertibleFunction.<Boolean, Object, RuntimeException>cast());
+                    InvertibleFunction.cast());
     
     Vec3d getPosition();
     
