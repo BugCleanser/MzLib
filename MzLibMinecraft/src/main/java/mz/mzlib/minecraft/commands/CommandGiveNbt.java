@@ -26,41 +26,46 @@ public class CommandGiveNbt extends MzModule
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(this.command = new Command("givenbt").setNamespace("mzlib").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(context->
+        this.register(this.command = new Command("givenbt") //
+                .setNamespace("mzlib") //
+                .setPermissionChecker(Command.permissionChecker(this.permission)) //
+                .setHandler(this::handle));
+    }
+    
+    public void handle(CommandContext context)
+    {
+        EntityPlayer player;
+        NbtCompound nbt;
+        
+        CommandContext fork = context.fork();
+        player = new ArgumentParserPlayer().handle(fork);
+        nbt = new ArgumentParserNbtCompound().handle(fork);
+        if(fork.argsReader.hasNext())
+            fork.successful = false;
+        if(fork.successful)
+            context = fork;
+        else
         {
-            EntityPlayer player;
-            NbtCompound nbt;
-            
-            CommandContext fork = context.fork();
-            player = new ArgumentParserPlayer().handle(fork);
-            nbt = new ArgumentParserNbtCompound().handle(fork);
-            if(fork.argsReader.hasNext())
-                fork.successful = false;
-            if(fork.successful)
-                context = fork;
-            else
-            {
-                nbt = new ArgumentParserNbtCompound().handle(context);
-                if(context.argsReader.hasNext())
-                    context.successful = false;
-                if(!context.getSource().getPlayer().isPresent())
-                {
-                    context.successful = false;
-                    return;
-                }
-                player = context.getSource().getPlayer();
-            }
-            if(!context.successful || !context.doExecute)
-                return;
-            try
-            {
-                player.give(ItemStack.decode(nbt));
-            }
-            catch(Throwable e)
+            nbt = new ArgumentParserNbtCompound().handle(context);
+            if(context.argsReader.hasNext())
+                context.successful = false;
+            if(!context.getSource().getPlayer().isPresent())
             {
                 context.successful = false;
-                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", e.getMessage()))));
+                return;
             }
-        }));
+            player = context.getSource().getPlayer();
+        }
+        if(!context.successful || !context.doExecute)
+            return;
+        try
+        {
+            player.give(ItemStack.decode(nbt));
+        }
+        catch(Throwable e)
+        {
+            context.successful = false;
+            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", e.getMessage()))));
+        }
     }
 }

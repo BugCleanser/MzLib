@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.component;
+package mz.mzlib.minecraft.item.component;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.text.Text;
@@ -11,21 +11,21 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.List;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.LoreComponent", begin=2005))
-public interface ComponentLoreV2005 extends WrapperObject
+public interface LoreV2005 extends WrapperObject
 {
     @WrapperCreator
-    static ComponentLoreV2005 create(Object wrapped)
+    static LoreV2005 create(Object wrapped)
     {
-        return WrapperObject.create(ComponentLoreV2005.class, wrapped);
+        return WrapperObject.create(LoreV2005.class, wrapped);
     }
     
-    static ComponentLoreV2005 newInstance(List<Text> lines)
+    static LoreV2005 newInstance(List<Text> lines)
     {
         return create(null).staticNewInstance(lines);
     }
     @WrapConstructor
-    ComponentLoreV2005 staticNewInstance0(List<?> lines);
-    default ComponentLoreV2005 staticNewInstance(List<Text> lines)
+    LoreV2005 staticNewInstance0(List<?> lines);
+    default LoreV2005 staticNewInstance(List<Text> lines)
     {
         return staticNewInstance0(new ListWrapped<>(lines, Text::create));
     }

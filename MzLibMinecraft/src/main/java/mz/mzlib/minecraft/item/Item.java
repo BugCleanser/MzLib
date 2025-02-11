@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
-import mz.mzlib.minecraft.component.ComponentLoreV2005;
+import mz.mzlib.minecraft.item.component.LoreV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtList;
@@ -191,7 +191,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.setComponentV2005(componentKeyLoreV2005, ComponentLoreV2005.newInstance(lore));
+        itemStack.setComponentV2005(componentKeyLoreV2005, LoreV2005.newInstance(lore));
     }
     
     

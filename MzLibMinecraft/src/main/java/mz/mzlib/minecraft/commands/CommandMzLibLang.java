@@ -28,95 +28,102 @@ public class CommandMzLibLang extends MzModule
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("lang").setPermissionChecker(Command.permissionChecker(this.permission)).addChild(new Command("loadmc").setHandler(context->
+        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, //
+                this.command = new Command("lang").setPermissionChecker(Command.permissionChecker(this.permission)) //
+                        .addChild(new Command("loadmc").setHandler(this::lang)) //
+                        .addChild(new Command("custom").setHandler(this::custom))));
+    }
+    
+    public void lang(CommandContext context)
+    {
+        if(context.argsReader.hasNext())
+            context.successful = false;
+        if(!context.successful)
+            return;
+        if(context.doExecute)
         {
-            if(context.argsReader.hasNext())
-                context.successful = false;
-            if(!context.successful)
-                return;
-            if(context.doExecute)
+            if(I18nMinecraft.instance.taskLoading!=null)
             {
-                if(I18nMinecraft.instance.taskLoading!=null)
+                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.loading")));
+                return;
+            }
+            I18nMinecraft.instance.loadMinecraftLanguages();
+            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.begin")));
+        }
+    }
+    
+    public void custom(CommandContext context)
+    {
+        String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
+        CommandContext fork = context.fork();
+        if(fork.argsReader.hasNext())
+            fork.successful = false;
+        if(fork.successful)
+        {
+            if(fork.doExecute)
+            {
+                Text check = Command.checkPermissionSenderPlayer(context.getSource());
+                if(check!=null)
                 {
-                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.loading")));
+                    fork.getSource().sendMessage(check);
                     return;
                 }
-                I18nMinecraft.instance.loadMinecraftLanguages();
-                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.begin")));
+                UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang));
             }
-        })).addChild(new Command("custom").setHandler(context->
+            return;
+        }
+        String key = new ArgumentParserTranslationKey(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.key")).handle(context);
+        fork = context.fork();
+        if(fork.argsReader.hasNext())
+            fork.successful = false;
+        if(fork.successful)
         {
-            String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
-            CommandContext fork = context.fork();
-            if(fork.argsReader.hasNext())
-                fork.successful = false;
-            if(fork.successful)
+            if(fork.doExecute)
             {
-                if(fork.doExecute)
+                Text check = Command.checkPermissionSenderPlayer(context.getSource());
+                if(check!=null)
                 {
-                    Text check = Command.checkPermissionSenderPlayer(context.getSource());
-                    if(check!=null)
-                    {
-                        fork.getSource().sendMessage(check);
-                        return;
-                    }
-                    UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang));
+                    fork.getSource().sendMessage(check);
+                    return;
                 }
-                return;
+                UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang, key));
             }
-            String key = new ArgumentParserTranslationKey(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.key")).handle(context);
-            fork = context.fork();
-            if(fork.argsReader.hasNext())
-                fork.successful = false;
-            if(fork.successful)
-            {
-                if(fork.doExecute)
-                {
-                    Text check = Command.checkPermissionSenderPlayer(context.getSource());
-                    if(check!=null)
-                    {
-                        fork.getSource().sendMessage(check);
-                        return;
-                    }
-                    UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang, key));
-                }
-                return;
-            }
-            String operate = new ArgumentParserString(context.getSource(), false, "set", "remove").handle(context);
-            if(!context.successful)
-                return;
-            switch(operate)
-            {
-                case "set":
-                    String value = new ArgumentParserTranslationValue(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.value"), lang, key).handle(context);
-                    if(context.argsReader.hasNext())
-                        context.successful = false;
-                    if(!context.successful)
-                        break;
-                    if(context.doExecute)
-                    {
-                        I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).put(key, value);
-                        I18nMinecraft.saveCustomLanguage(lang);
-                        context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
-                    }
-                    break;
-                case "remove":
-                    if(context.argsReader.hasNext())
-                        context.successful = false;
-                    if(!context.successful)
-                        break;
-                    if(context.doExecute)
-                    {
-                        I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).remove(key);
-                        I18nMinecraft.saveCustomLanguage(lang);
-                        context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
-                    }
-                    break;
-                default:
+            return;
+        }
+        String operate = new ArgumentParserString(context.getSource(), false, "set", "remove").handle(context);
+        if(!context.successful)
+            return;
+        switch(operate)
+        {
+            case "set":
+                String value = new ArgumentParserTranslationValue(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.value"), lang, key).handle(context);
+                if(context.argsReader.hasNext())
                     context.successful = false;
+                if(!context.successful)
                     break;
-            }
-        }))));
+                if(context.doExecute)
+                {
+                    I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).put(key, value);
+                    I18nMinecraft.saveCustomLanguage(lang);
+                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
+                }
+                break;
+            case "remove":
+                if(context.argsReader.hasNext())
+                    context.successful = false;
+                if(!context.successful)
+                    break;
+                if(context.doExecute)
+                {
+                    I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).remove(key);
+                    I18nMinecraft.saveCustomLanguage(lang);
+                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
+                }
+                break;
+            default:
+                context.successful = false;
+                break;
+        }
     }
     
     public static class ArgumentParserLanguage extends ArgumentParserString
