@@ -30,13 +30,34 @@ public interface ItemSkull extends Item
     default GameProfile staticGetOwnerV_2002(ItemStack itemStack)
     {
         NbtCompound tag = itemStack.getTagV_2005();
-        if(tag==null || !tag.containsKey("SkullOwner"))
-            return GameProfile.create(null);
-        return NbtUtil.decodeGameProfileV_2005(tag.getNBTCompound("SkullOwner"));
+        if(tag!=null)
+        {
+            NbtCompound blockEntityTag = tag.getNBTCompound("BlockEntityTag");
+            if(blockEntityTag.isPresent())
+            {
+                NbtCompound skullOwner = blockEntityTag.getNBTCompound("SkullOwner");
+                if(skullOwner.isPresent())
+                    return NbtUtil.decodeGameProfileV_2005(skullOwner);
+            }
+        }
+        return GameProfile.create(null);
     }
     @SpecificImpl("staticGetOwner")
-    @VersionRange(begin=2002)
-    default GameProfile staticGetOwnerV2002(ItemStack itemStack)
+    @VersionRange(begin=2002, end=2005)
+    default GameProfile staticGetOwnerV2002_2005(ItemStack itemStack)
+    {
+        NbtCompound tag = itemStack.getTagV_2005();
+        if(tag!=null)
+        {
+            NbtCompound skullOwner = tag.getNBTCompound("SkullOwner");
+            if(skullOwner.isPresent())
+                return NbtUtil.decodeGameProfileV_2005(skullOwner);
+        }
+        return GameProfile.create(null);
+    }
+    @SpecificImpl("staticGetOwner")
+    @VersionRange(begin=2005)
+    default GameProfile staticGetOwnerV2005(ItemStack itemStack)
     {
         // TODO
         throw new UnsupportedOperationException();
@@ -54,8 +75,14 @@ public interface ItemSkull extends Item
         itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
     }
     @SpecificImpl("staticSetOwner")
-    @VersionRange(begin=2002)
-    default void staticSetOwnerV2002(ItemStack itemStack, GameProfile profile)
+    @VersionRange(begin=2002, end=2005)
+    default void staticSetOwnerV2002_2005(ItemStack itemStack, GameProfile profile)
+    {
+        itemStack.tagV_2005().getOrPutNewCompound("BlockEntityTag").put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
+    }
+    @SpecificImpl("staticSetOwner")
+    @VersionRange(begin=2005)
+    default void staticSetOwnerV2005(ItemStack itemStack, GameProfile profile)
     {
         // TODO
         throw new UnsupportedOperationException();
@@ -63,7 +90,7 @@ public interface ItemSkull extends Item
     
     static GameProfile copyOwner(ItemStack itemStack)
     {
-        return getOwner(itemStack); // FIXME V2002
+        return getOwner(itemStack); // FIXME V2005
     }
     
     static Editor<GameProfile> editOwner(ItemStack itemStack)

@@ -87,6 +87,10 @@ public interface NbtCompound extends NbtElement
         }
         return result;
     }
+    default NbtCompound getOrPutNewCompound(String key)
+    {
+        return this.getOrPut(key, NbtCompound::create, NbtCompound::newInstance);
+    }
     
     default NbtCompound getNBTCompound(String key)
     {
