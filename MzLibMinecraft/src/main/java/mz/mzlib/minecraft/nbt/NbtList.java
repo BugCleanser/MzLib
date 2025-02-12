@@ -138,4 +138,10 @@ public interface NbtList extends NbtElement
     {
         return this.get(index).castTo(NbtLongArrayV1200::create);
     }
+    
+    @Override
+    default NbtList copy()
+    {
+        return ((NbtList)NbtElement.super.copy());
+    }
 }

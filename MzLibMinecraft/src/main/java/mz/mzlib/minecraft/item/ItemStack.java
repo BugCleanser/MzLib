@@ -236,14 +236,14 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()
     {
-        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005::create).getData();
+        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005::create).getNbtCompound();
     }
     
     @SpecificImpl("setCustomData")
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        WrapperObject ignored = this.setComponentV2005(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005.newInstance(value));
+        WrapperObject ignored = this.getComponentsV2005().set(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005.newInstance(value));
     }
     
     @VersionRange(begin=2005)

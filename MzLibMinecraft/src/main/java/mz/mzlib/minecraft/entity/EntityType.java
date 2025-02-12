@@ -8,12 +8,10 @@ import mz.mzlib.minecraft.registry.EntityTypesV_1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.util.InvertibleMap;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
@@ -40,7 +38,7 @@ public interface EntityType extends WrapperObject
     {
         if(id.equals(Identifier.ofMinecraft("fishing_bobber")))
             return create(EntityFishingBobber.create(null).staticGetWrappedClass());
-        return EntityTypesV_1300.getByNameV_1100(V_1100.id2Name.get(id));
+        return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
     @SpecificImpl("staticFromId")
     @VersionRange(begin=1100, end=1300)
@@ -88,17 +86,11 @@ public interface EntityType extends WrapperObject
      */
     class V_1100
     {
-        public static Map<Identifier, String> id2Name = new HashMap<>();
-        public static Map<String, Identifier> name2Id = new HashMap<>();
+        public static InvertibleMap<Identifier, String> names = new InvertibleMap<>();
         
-        public static void register(Identifier id, String name)
-        {
-            id2Name.put(id, name);
-            name2Id.put(name, id);
-        }
         public static void register(String id, String name)
         {
-            register(Identifier.newInstance(id), name);
+            names.put(Identifier.newInstance(id), name);
         }
         
         static

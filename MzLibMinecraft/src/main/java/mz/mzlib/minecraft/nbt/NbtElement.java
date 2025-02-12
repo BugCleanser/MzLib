@@ -30,7 +30,11 @@ public interface NbtElement extends WrapperObject
     NbtElementTypeV1500 getTypeV1500();
     
     @WrapMinecraftMethod(@VersionName(name="copy"))
-    NbtElement copy();
+    NbtElement copy0();
+    default NbtElement copy()
+    {
+        return this.copy0().castTo(this::staticCreate);
+    }
     
     @WrapMinecraftMethod(@VersionName(name="read", end=1500))
     void loadV_1500(DataInput input, int depth, NbtReadingCounter counter);

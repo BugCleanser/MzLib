@@ -18,12 +18,12 @@ public interface ComponentNbtCompoundV2005 extends WrapperObject
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="nbt"))
-    NbtCompound getData();
+    NbtCompound getNbtCompound();
     
     @WrapConstructor
-    ComponentNbtCompoundV2005 staticNewInstance(NbtCompound data);
-    static ComponentNbtCompoundV2005 newInstance(NbtCompound data)
+    ComponentNbtCompoundV2005 staticNewInstance(NbtCompound nbtCompound);
+    static ComponentNbtCompoundV2005 newInstance(NbtCompound nbtCompound)
     {
-        return create(null).staticNewInstance(data);
+        return create(null).staticNewInstance(nbtCompound);
     }
 }

@@ -77,6 +77,11 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         return new InvertibleFunction<>(ThrowableFunction.of(creator), WrapperObject::getWrapped);
     }
     
+    public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(Function<Object, T> creator, Function<Object, U> creator1)
+    {
+        return wrapper(creator).inverse().thenApply(wrapper(creator1));
+    }
+    
     public static <T> InvertibleFunction<T, T> identity()
     {
         return new InvertibleFunction<>(ThrowableFunction.identity(), ThrowableFunction.identity());

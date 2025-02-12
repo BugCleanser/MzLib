@@ -23,23 +23,26 @@ public interface NbtCompound extends NbtElement
         return WrapperObject.create(NbtCompound.class, wrapped);
     }
     
-    int typeId=newInstance().getTypeId();
-    NbtElementTypeV1500 typeV1500= MinecraftPlatform.instance.getVersion()<1500?null:newInstance().getTypeV1500();
+    int typeId = newInstance().getTypeId();
+    NbtElementTypeV1500 typeV1500 = MinecraftPlatform.instance.getVersion()<1500 ? null : newInstance().getTypeV1500();
     
     @Deprecated
     static NbtCompound load(DataInput input)
     {
         return create(null).staticLoad(input);
     }
+    
     NbtCompound staticLoad(DataInput input);
+    
     @SpecificImpl("staticLoad")
     @VersionRange(end=1500)
     default NbtCompound staticLoadV_1500(DataInput input)
     {
-        NbtCompound result=newInstance();
+        NbtCompound result = newInstance();
         result.loadV_1500(input, 0, NbtReadingCounter.newInstance());
         return result;
     }
+    
     @SpecificImpl("staticLoad")
     @VersionRange(begin=1500)
     default NbtCompound staticLoadV1500(DataInput input)
@@ -87,6 +90,7 @@ public interface NbtCompound extends NbtElement
         }
         return result;
     }
+    
     default NbtCompound getOrPutNewCompound(String key)
     {
         return this.getOrPut(key, NbtCompound::create, NbtCompound::newInstance);
@@ -151,5 +155,11 @@ public interface NbtCompound extends NbtElement
     default NbtLongArrayV1200 getLongArrayV1200(String key)
     {
         return this.get(key, NbtLongArrayV1200::create);
+    }
+    
+    @Override
+    default NbtCompound copy()
+    {
+        return (NbtCompound)NbtElement.super.copy();
     }
 }

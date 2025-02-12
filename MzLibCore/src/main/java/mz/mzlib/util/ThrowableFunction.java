@@ -1,5 +1,7 @@
 package mz.mzlib.util;
 
+import mz.mzlib.util.wrapper.WrapperObject;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -55,6 +57,11 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(Function<T, R> function)
     {
         return of(function::apply);
+    }
+    
+    static <T extends WrapperObject, E extends Throwable> ThrowableFunction<? extends WrapperObject, T, E> wrapperCast(Function<Object, T> creator)
+    {
+        return of(InvertibleFunction.wrapperCast(WrapperObject::create, creator));
     }
     
     static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()

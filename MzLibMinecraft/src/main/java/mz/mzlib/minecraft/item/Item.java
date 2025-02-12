@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentLoreV2005;
+import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
 import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
@@ -19,7 +20,9 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Editor;
 import mz.mzlib.util.StrongRef;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -47,53 +50,28 @@ public interface Item extends WrapperObject
     
     Item AIR = fromId(Identifier.ofMinecraft("air"));
     
+    ComponentKeyV2005.Specialized<ComponentNbtCompoundV2005> componentKeyCustomDataV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data", ComponentNbtCompoundV2005::create);
     ComponentKeyV2005.Specialized<Text> componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name", Text::create);
     ComponentKeyV2005.Specialized<ComponentLoreV2005> componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore", ComponentLoreV2005::create);
+    
+    static NbtCompound getCustomData(ItemStack itemStack)
+    {
+        return itemStack.getComponentsV2005().get(componentKeyCustomDataV2005).getNbtCompound();
+    }
+    
+    static void setCustomData(ItemStack itemStack, NbtCompound customData)
+    {
+        itemStack.getComponentsV2005().set(componentKeyCustomDataV2005, ComponentNbtCompoundV2005.newInstance(customData));
+    }
+    
+    static Editor<NbtCompound> editCustomData(ItemStack itemStack)
+    {
+        return Editor.of(itemStack, ThrowableFunction.of(Item::getCustomData).thenApply(NbtCompound::copy), Item::setCustomData);
+    }
     
     static Text getCustomName(ItemStack itemStack)
     {
         return create(null).staticGetCustomName(itemStack);
-    }
-    
-    static int damageForColorV_1300(String color)
-    {
-        switch(color)
-        {
-            case "white":
-                return 0;
-            case "orange":
-                return 1;
-            case "magenta":
-                return 2;
-            case "light_blue":
-                return 3;
-            case "yellow":
-                return 4;
-            case "lime":
-                return 5;
-            case "pink":
-                return 6;
-            case "gray":
-                return 7;
-            case "light_gray":
-                return 8;
-            case "cyan":
-                return 9;
-            case "purple":
-                return 10;
-            case "blue":
-                return 11;
-            case "brown":
-                return 12;
-            case "green":
-                return 13;
-            case "red":
-                return 14;
-            case "black":
-                return 15;
-            default:
-                throw new IllegalArgumentException();
-        }
     }
     
     Text staticGetCustomName(ItemStack itemStack);

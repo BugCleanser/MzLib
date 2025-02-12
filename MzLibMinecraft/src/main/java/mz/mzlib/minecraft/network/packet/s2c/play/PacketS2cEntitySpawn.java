@@ -8,12 +8,11 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleMap;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket"))
@@ -42,7 +41,7 @@ public interface PacketS2cEntitySpawn extends Packet
     @VersionRange(end=1400)
     default EntityType getEntityTypeV_1400()
     {
-        return TypeIdMapV_1400.fromId(this.getEntityTypeIdV_1400());
+        return V_1400.fromId(this.getEntityTypeIdV_1400());
     }
     
     @SpecificImpl("getEntityType")
@@ -74,18 +73,12 @@ public interface PacketS2cEntitySpawn extends Packet
         return Vec3d.newInstance(this.getX(), this.getY(), this.getZ());
     }
     
-    class TypeIdMapV_1400
+    class V_1400
     {
-        public static Map<EntityType, Integer> typeIdsV_1400 = new HashMap<>();
-        public static Map<Integer, EntityType> typesV_1400 = new HashMap<>();
-        public static void register(EntityType type, int id)
-        {
-            typeIdsV_1400.put(type, id);
-            typesV_1400.put(id, type);
-        }
+        public static InvertibleMap<EntityType, Integer> typeIds = new InvertibleMap<>();
         public static void register(String type, int id)
         {
-            register(EntityType.fromId(type), id);
+            typeIds.put(EntityType.fromId(type), id);
         }
         static
         {
@@ -128,11 +121,11 @@ public interface PacketS2cEntitySpawn extends Packet
         
         public static int toId(EntityType type)
         {
-            return typeIdsV_1400.get(type);
+            return typeIds.get(type);
         }
         public static EntityType fromId(int id)
         {
-            return typesV_1400.get(id);
+            return typeIds.inverse().get(id);
         }
     }
 }
