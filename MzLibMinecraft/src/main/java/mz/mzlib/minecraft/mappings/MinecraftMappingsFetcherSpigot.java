@@ -36,9 +36,15 @@ public class MinecraftMappingsFetcherSpigot
         CachedValue<JsonObject> infoGetter = new CachedValue<>(()->new Gson().fromJson(MappingsUtil.request(MappingsUtil.url(baseUrl+"info.json"+"?at="+refsGetter.get())), JsonObject.class));
         
         MappingsByMap raw = MappingsByMap.parseCsrg(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+".csrg")).orElse(null), ()->MappingsUtil.request(MappingsUtil.url(baseUrl+"mappings/"+infoGetter.get().get("classMappings").getAsString()+"?at="+refsGetter.get()))), MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+"-members.csrg")).orElse(null), ()->Optional.ofNullable(infoGetter.get().get("memberMappings")).map(it->MappingsUtil.request(baseUrl+"mappings/"+infoGetter.get().get("memberMappings").getAsString()+"?at="+refsGetter.get())).orElse("")));
+        raw.classes.put("net.minecraft.server.MinecraftServer", "net.minecraft.server.MinecraftServer");
         List<Mappings<?>> result = new ArrayList<>();
         if(MinecraftPlatform.parseVersion(version)<1700)
+        {
             result.add(new MappingsPackage("net.minecraft.server."+protocolVersion, null));
+            MappingsByMap mcs = new MappingsByMap();
+            mcs.classes.put("MinecraftServer", "net.minecraft.server.MinecraftServer");
+            result.add(mcs);
+        }
         if(version.equals("1.16.5"))
         {
             MappingsByMap mappingsPackage = new MappingsByMap();
@@ -50,9 +56,6 @@ public class MinecraftMappingsFetcherSpigot
             }
             result.add(mappingsPackage);
         }
-        MappingsByMap mcs = new MappingsByMap();
-        mcs.classes.put("MinecraftServer", "net.minecraft.server.MinecraftServer");
-        result.add(mcs);
         result.add(raw);
         return new MappingsPipe(result);
     }

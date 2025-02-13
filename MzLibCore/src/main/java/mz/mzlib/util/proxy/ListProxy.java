@@ -4,14 +4,12 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.ListIterator;
 
 public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
 {
-    protected List<U> delegate;
-    protected InvertibleFunction<U, T> function;
-    protected ModifyMonitor modifyMonitor;
-    
     public ListProxy(List<U> delegate, InvertibleFunction<U, T> function, ModifyMonitor modifyMonitor)
     {
         super(delegate, function, modifyMonitor);
@@ -23,20 +21,20 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
     
     public List<U> getDelegate()
     {
-        return this.delegate;
+        return (List<U>)super.getDelegate();
     }
     
     @Override
     public T get(int index)
     {
-        return this.function.apply(this.delegate.get(index));
+        return this.function.apply(this.getDelegate().get(index));
     }
     
     @Override
     public T set(int index, T element)
     {
         this.modifyMonitor.onModify();
-        T result = this.function.apply(this.delegate.set(index, this.function.inverse().apply(element)));
+        T result = this.function.apply(this.getDelegate().set(index, this.function.inverse().apply(element)));
         this.modifyMonitor.markDirty();
         return result;
     }
@@ -53,7 +51,7 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
     public T remove(int index)
     {
         this.modifyMonitor.onModify();
-        T result = this.function.apply(this.delegate.remove(index));
+        T result = this.function.apply(this.getDelegate().remove(index));
         this.modifyMonitor.markDirty();
         return result;
     }

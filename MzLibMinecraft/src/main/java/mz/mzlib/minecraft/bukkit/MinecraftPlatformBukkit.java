@@ -95,6 +95,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
             if(this.getVersion()<1400)
             {
                 // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(getVersionString(), folder);
+                // TODO
                 result.add(new MinecraftMappingsFetcherLegacyYarn().fetch(getVersionString(), folder));
             }
             else

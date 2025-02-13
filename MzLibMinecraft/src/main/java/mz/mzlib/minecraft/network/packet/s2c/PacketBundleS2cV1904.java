@@ -22,7 +22,7 @@ public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
     
     static PacketBundleS2cV1904 newInstance(Iterable<Packet> packets)
     {
-        return newInstance0(IteratorProxy.iterable(packets, Packet::create));
+        return newInstance0(IteratorProxy.iterable(packets, Packet::getWrapped));
     }
     static PacketBundleS2cV1904 newInstance0(Iterable<?> packets0)
     {
