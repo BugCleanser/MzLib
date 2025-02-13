@@ -34,25 +34,25 @@ public class ItemStackBuilder
             return new ItemStackBuilder(idV1300);
     }
     
-    public static ItemStackBuilder playerSkull0(UUID uuid, String textures)
+    public static ItemStackBuilder playerHead0(UUID uuid, String textures)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
         GameProfile owner = GameProfile.newInstance(Option.some(uuid), Option.none());
         owner.getProperties().put("textures", textures);
-        ItemSkull.setOwner(result.result, owner);
+        ItemPlayerHead.setOwner(result.result, owner);
         return result;
     }
-    public static ItemStackBuilder playerSkull0(String textures)
+    public static ItemStackBuilder playerHead0(String textures)
     {
-        return playerSkull0(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8)), textures);
+        return playerHead0(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8)), textures);
     }
-    public static ItemStackBuilder playerSkull(UUID uuid, String url)
+    public static ItemStackBuilder playerHead(UUID uuid, String url)
     {
-        return playerSkull0(uuid, ItemSkull.texturesFromUrl(url));
+        return playerHead0(uuid, ItemPlayerHead.texturesFromUrl(url));
     }
-    public static ItemStackBuilder playerSkull(String url)
+    public static ItemStackBuilder playerHead(String url)
     {
-        return playerSkull0(ItemSkull.texturesFromUrl(url));
+        return playerHead0(ItemPlayerHead.texturesFromUrl(url));
     }
     
     public ItemStack result;

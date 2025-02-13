@@ -16,13 +16,13 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.BlockItem", begin=2002)})
-public interface ItemSkull extends Item
+@WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.PlayerHeadItem", begin=2002)})
+public interface ItemPlayerHead extends Item
 {
     @WrapperCreator
-    static ItemSkull create(Object wrapped)
+    static ItemPlayerHead create(Object wrapped)
     {
-        return WrapperObject.create(ItemSkull.class, wrapped);
+        return WrapperObject.create(ItemPlayerHead.class, wrapped);
     }
     
     static GameProfile getOwner(ItemStack itemStack)
@@ -31,8 +31,8 @@ public interface ItemSkull extends Item
     }
     GameProfile staticGetOwner(ItemStack itemStack);
     @SpecificImpl("staticGetOwner")
-    @VersionRange(end=2002)
-    default GameProfile staticGetOwnerV_2002(ItemStack itemStack)
+    @VersionRange(end=2005)
+    default GameProfile staticGetOwnerV_2005(ItemStack itemStack)
     {
         NbtCompound tag = itemStack.getTagV_2005();
         if(tag!=null)
@@ -44,19 +44,6 @@ public interface ItemSkull extends Item
                 if(skullOwner.isPresent())
                     return NbtUtil.decodeGameProfileV_2005(skullOwner);
             }
-        }
-        return GameProfile.create(null);
-    }
-    @SpecificImpl("staticGetOwner")
-    @VersionRange(begin=2002, end=2005)
-    default GameProfile staticGetOwnerV2002_2005(ItemStack itemStack)
-    {
-        NbtCompound tag = itemStack.getTagV_2005();
-        if(tag!=null)
-        {
-            NbtCompound skullOwner = tag.getNBTCompound("SkullOwner");
-            if(skullOwner.isPresent())
-                return NbtUtil.decodeGameProfileV_2005(skullOwner);
         }
         return GameProfile.create(null);
     }
@@ -74,16 +61,10 @@ public interface ItemSkull extends Item
     }
     void staticSetOwner(ItemStack itemStack, GameProfile profile);
     @SpecificImpl("staticSetOwner")
-    @VersionRange(end=2002)
-    default void staticSetOwnerV_2002(ItemStack itemStack, GameProfile profile)
+    @VersionRange(end=2005)
+    default void staticSetOwnerV_2005(ItemStack itemStack, GameProfile profile)
     {
         itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
-    }
-    @SpecificImpl("staticSetOwner")
-    @VersionRange(begin=2002, end=2005)
-    default void staticSetOwnerV2002_2005(ItemStack itemStack, GameProfile profile)
-    {
-        itemStack.tagV_2005().getOrPutNewCompound("BlockEntityTag").put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
     }
     @SpecificImpl("staticSetOwner")
     @VersionRange(begin=2005)
@@ -100,7 +81,7 @@ public interface ItemSkull extends Item
     
     static Editor<GameProfile> editOwner(ItemStack itemStack)
     {
-        return Editor.of(itemStack, ItemSkull::copyOwner, ItemSkull::setOwner);
+        return Editor.of(itemStack, ItemPlayerHead::copyOwner, ItemPlayerHead::setOwner);
     }
     
     static String texturesFromUrl(String url)

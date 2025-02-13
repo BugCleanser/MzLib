@@ -4,6 +4,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T, R>
 {
@@ -62,6 +63,15 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     static <T extends WrapperObject, E extends Throwable> ThrowableFunction<? extends WrapperObject, T, E> wrapperCast(Function<Object, T> creator)
     {
         return of(InvertibleFunction.wrapperCast(WrapperObject::create, creator));
+    }
+    
+    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> switcher(Predicate<T> predicate, ThrowableFunction<? super T,? extends R, ? extends E> f1, ThrowableFunction<? super T,? extends R, ? extends E> f2)
+    {
+        return t->predicate.test(t)? f1.applyOrThrow(t) : f2.applyOrThrow(t);
+    }
+    static <T, E extends Throwable> ThrowableFunction<T, T, E> switcher(Predicate<T> predicate, ThrowableFunction<? super T,? extends T, E> action)
+    {
+        return switcher(predicate, action, identity());
     }
     
     static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()

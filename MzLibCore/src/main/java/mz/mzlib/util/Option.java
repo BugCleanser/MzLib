@@ -104,7 +104,7 @@ public abstract class Option<T> implements Iterable<T>
         @Override
         public <U, E extends Throwable> Option<U> map(ThrowableFunction<T, U, E> mapper) throws E
         {
-            return some(mapper.applyOrThrow(this.value));
+            return fromNullable(mapper.applyOrThrow(this.value));
         }
         
         @Override

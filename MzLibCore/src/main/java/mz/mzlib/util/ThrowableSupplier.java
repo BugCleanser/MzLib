@@ -41,6 +41,11 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
         return thenAccept(this, ThrowableConsumer.of(action));
     }
     
+    default <U> ThrowableFunction<U, T, E> ignore()
+    {
+        return u->get();
+    }
+    
     static <T, E extends Throwable> ThrowableSupplier<T, E> of(ThrowableSupplier<T, E> value)
     {
         return value;
@@ -54,5 +59,9 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
     static <T> ThrowableSupplier<T, RuntimeException> constant(T value)
     {
         return ()->value;
+    }
+    static <T> ThrowableSupplier<T, RuntimeException> nul()
+    {
+        return constant(null);
     }
 }
