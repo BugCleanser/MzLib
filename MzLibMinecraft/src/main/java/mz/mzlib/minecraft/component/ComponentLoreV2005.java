@@ -3,7 +3,8 @@ package mz.mzlib.minecraft.component;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.ListWrapped;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -24,9 +25,9 @@ public interface ComponentLoreV2005 extends WrapperObject
         return create(null).staticNewInstance(lines);
     }
     @WrapConstructor
-    ComponentLoreV2005 staticNewInstance0(List<?> lines);
+    ComponentLoreV2005 staticNewInstance0(List<Object> lines);
     default ComponentLoreV2005 staticNewInstance(List<Text> lines)
     {
-        return staticNewInstance0(new ListWrapped<>(lines, Text::create));
+        return staticNewInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text::create).inverse()));
     }
 }

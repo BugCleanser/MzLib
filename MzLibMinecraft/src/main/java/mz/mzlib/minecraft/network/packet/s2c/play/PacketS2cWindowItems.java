@@ -7,6 +7,8 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
@@ -29,11 +31,11 @@ public interface PacketS2cWindowItems extends Packet
     @WrapMinecraftFieldAccessor({@VersionName(name="screenId", end=1400), @VersionName(name="field_12146", begin=1400)})
     int getSyncId();
     
-    List<?> getContents0();
+    List<Object> getContents0();
     
     default List<ItemStack> getContents()
     {
-        return new ListWrapper<>(this.getContents0(), ItemStack::create);
+        return new ListProxy<>(this.getContents0(), InvertibleFunction.wrapper(ItemStack::create));
     }
     
     @VersionRange(end=1100)
@@ -72,7 +74,7 @@ public interface PacketS2cWindowItems extends Packet
     
     default void setContents(List<ItemStack> value)
     {
-        this.setContents0(new ListWrapped<>(value, ItemStack::create));
+        this.setContents0(new ListProxy<>(value, InvertibleFunction.wrapper(ItemStack::create).inverse()));
     }
     
     

@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketBundleV1904;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.IteratorWrapped;
+import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -22,7 +22,7 @@ public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
     
     static PacketBundleS2cV1904 newInstance(Iterable<Packet> packets)
     {
-        return newInstance0(IteratorWrapped.iterable(packets, Packet::create));
+        return newInstance0(IteratorProxy.iterable(packets, Packet::create));
     }
     static PacketBundleS2cV1904 newInstance0(Iterable<?> packets0)
     {

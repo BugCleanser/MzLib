@@ -5,6 +5,8 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
@@ -19,14 +21,14 @@ public interface TextMutableV1600 extends Text
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="siblings", begin=1900))
-    void setExtra0V1900(List<?> value);
+    void setExtra0V1900(List<Object> value);
     
     @SpecificImpl("setExtra")
     @VersionRange(begin=1900)
     @Override
     default Text setExtraV1900(List<Text> value)
     {
-        this.setExtra0V1900(new ListWrapped<>(value, Text::create));
+        this.setExtra0V1900(new ListProxy<>(value, InvertibleFunction.wrapper(Text::create).inverse()));
         return this;
     }
     

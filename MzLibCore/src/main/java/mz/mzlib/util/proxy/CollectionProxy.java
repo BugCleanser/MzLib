@@ -10,27 +10,41 @@ import java.util.Iterator;
 
 public class CollectionProxy<T, U> extends AbstractCollection<T>
 {
-    Collection<U> delegate;
-    InvertibleFunction<T, U> function;
-    ModifyMonitor modifyMonitor;
+    protected Collection<U> delegate;
+    protected InvertibleFunction<U, T> function;
+    protected ModifyMonitor modifyMonitor;
     
-    public CollectionProxy(Collection<U> delegate, InvertibleFunction<T, U> function, ModifyMonitor modifyMonitor)
+    public CollectionProxy(Collection<U> delegate, InvertibleFunction<U, T> function, ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
         this.function = function;
         this.modifyMonitor = modifyMonitor;
     }
+    public CollectionProxy(Collection<U> delegate, InvertibleFunction<U, T> function)
+    {
+        this(delegate, function, ModifyMonitor.Empty.instance);
+    }
+    
+    public Collection<U> getDelegate()
+    {
+        return this.delegate;
+    }
+    
+    public InvertibleFunction<U, T> getFunction()
+    {
+        return this.function;
+    }
     
     @Override
     public int size()
     {
-        return this.delegate.size();
+        return this.getDelegate().size();
     }
     
     @Override
     public boolean isEmpty()
     {
-        return this.delegate.isEmpty();
+        return this.getDelegate().isEmpty();
     }
     
     @Override
@@ -39,20 +53,20 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         U k1;
         try
         {
-            k1 = this.function.apply(RuntimeUtil.cast(o));
+            k1 = this.getFunction().inverse().apply(RuntimeUtil.cast(o));
         }
         catch(ClassCastException ignored)
         {
             return false;
         }
-        return this.delegate.contains(k1);
+        return this.getDelegate().contains(k1);
     }
     
     @Override
     public boolean add(T t)
     {
         this.modifyMonitor.onModify();
-        boolean result = this.delegate.add(this.function.apply(t));
+        boolean result = this.getDelegate().add(this.getFunction().inverse().apply(t));
         this.modifyMonitor.markDirty();
         return result;
     }
@@ -63,14 +77,28 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         U k1;
         try
         {
-            k1 = this.function.apply(RuntimeUtil.cast(o));
+            k1 = this.getFunction().inverse().apply(RuntimeUtil.cast(o));
         }
         catch(ClassCastException ignored)
         {
             return false;
         }
         this.modifyMonitor.onModify();
-        boolean result = this.delegate.remove(k1);
+        boolean result = this.getDelegate().remove(k1);
+        this.modifyMonitor.markDirty();
+        return result;
+    }
+    
+    @Override
+    public boolean addAll(Collection<? extends T> c)
+    {
+        this.modifyMonitor.onModify();
+        boolean result = false;
+        for(T t : c)
+        {
+            this.getDelegate().add(this.getFunction().inverse().apply(t));
+            result = true;
+        }
         this.modifyMonitor.markDirty();
         return result;
     }
@@ -79,7 +107,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
     public void clear()
     {
         this.modifyMonitor.onModify();
-        this.delegate.clear();
+        this.getDelegate().clear();
         this.modifyMonitor.markDirty();
     }
     
@@ -87,6 +115,19 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new IteratorProxy<>(this.delegate.iterator(), this.function.inverse(), this.modifyMonitor);
+        return new IteratorProxy<>(this.getDelegate().iterator(), this.getFunction(), this.modifyMonitor);
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return this.getDelegate().hashCode();
+    }
+    
+    @SuppressWarnings("EqualsDoesntCheckParameterClass")
+    @Override
+    public boolean equals(Object obj)
+    {
+        return this.getDelegate().equals(obj);
     }
 }

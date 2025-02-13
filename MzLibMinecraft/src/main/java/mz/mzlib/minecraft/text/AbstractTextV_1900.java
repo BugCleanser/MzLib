@@ -5,6 +5,8 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
     @Override
     default Text setExtraV_1900(List<Text> value)
     {
-        this.setExtra0(new ListWrapped<>(value, Text::create));
+        this.setExtra0(new ListProxy<>(value, InvertibleFunction.wrapper(Text::create).inverse()));
         return this;
     }
     

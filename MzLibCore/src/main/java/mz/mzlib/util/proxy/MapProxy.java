@@ -12,18 +12,18 @@ import java.util.Set;
 public class MapProxy<K, V, K1, V1> implements Map<K, V>
 {
     Map<K1, V1> delegate;
-    InvertibleFunction<K, K1> functionKey;
-    InvertibleFunction<V, V1> functionValue;
+    InvertibleFunction<K1, K> functionKey;
+    InvertibleFunction<V1, V> functionValue;
     ModifyMonitor modifyMonitor;
     
-    public MapProxy(Map<K1, V1> delegate, InvertibleFunction<K, K1> functionKey, InvertibleFunction<V, V1> functionValue, ModifyMonitor modifyMonitor)
+    public MapProxy(Map<K1, V1> delegate, InvertibleFunction<K1, K> functionKey, InvertibleFunction<V1, V> functionValue, ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
         this.functionKey = functionKey;
         this.functionValue = functionValue;
         this.modifyMonitor = modifyMonitor;
     }
-    public MapProxy(Map<K1, V1> delegate, InvertibleFunction<K, K1> functionKey, InvertibleFunction<V, V1> functionValue)
+    public MapProxy(Map<K1, V1> delegate, InvertibleFunction<K1, K> functionKey, InvertibleFunction<V1, V> functionValue)
     {
         this(delegate, functionKey, functionValue, ModifyMonitor.Empty.instance);
     }
@@ -50,7 +50,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         K1 k1;
         try
         {
-            k1 = functionKey.apply(RuntimeUtil.cast(key));
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
         }
         catch(ClassCastException e)
         {
@@ -65,7 +65,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         V1 v1;
         try
         {
-            v1 = functionValue.apply(RuntimeUtil.cast(value));
+            v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
         }
         catch(ClassCastException e)
         {
@@ -80,7 +80,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         K1 k1;
         try
         {
-            k1 = functionKey.apply(RuntimeUtil.cast(key));
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
         }
         catch(ClassCastException e)
         {
@@ -89,18 +89,18 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         V1 v1 = this.delegate.get(k1);
         if(v1==null)
             return null;
-        return functionValue.inverse().apply(v1);
+        return functionValue.apply(v1);
     }
     
     @Override
     public V put(K key, V value)
     {
         this.modifyMonitor.onModify();
-        V1 result = this.delegate.put(functionKey.apply(key), functionValue.apply(value));
+        V1 result = this.delegate.put(functionKey.inverse().apply(key), functionValue.inverse().apply(value));
         this.modifyMonitor.markDirty();
         if(result==null)
             return null;
-        return functionValue.inverse().apply(result);
+        return functionValue.apply(result);
     }
     
     @Override
@@ -109,7 +109,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         K1 k1;
         try
         {
-            k1 = functionKey.apply(RuntimeUtil.cast(key));
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
         }
         catch(ClassCastException e)
         {
@@ -120,7 +120,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
         this.modifyMonitor.markDirty();
         if(result==null)
             return null;
-        return functionValue.inverse().apply(result);
+        return functionValue.apply(result);
     }
     
     @SuppressWarnings("NullableProblems")

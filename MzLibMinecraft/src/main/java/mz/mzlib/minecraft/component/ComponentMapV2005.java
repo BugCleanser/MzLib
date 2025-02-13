@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.IteratorWrapper;
+import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -38,7 +38,7 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     @Override
     default Iterator<Entry> iterator()
     {
-        return new IteratorWrapper<>(this.getWrapped().iterator(), Entry::create);
+        return new IteratorProxy<>(this.getWrapped().iterator(), Entry::create);
     }
     
     @WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component", begin=2005))

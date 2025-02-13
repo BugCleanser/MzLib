@@ -12,6 +12,8 @@ import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
@@ -39,21 +41,21 @@ public interface Window extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="syncState"))
     void updateV1700();
     
-    List<?> getSlots0();
+    List<Object> getSlots0();
     @SpecificImpl("getSlots0")
     @WrapMinecraftFieldAccessor(@VersionName(name="slots", end=1700))
-    List<?> getSlots0V_1700();
+    List<Object> getSlots0V_1700();
     @WrapMinecraftFieldAccessor(@VersionName(name="slots", begin=1700))
     DefaultedListV1100 getSlots00V1700();
     @SpecificImpl("getSlots0")
     @VersionRange(begin=1700)
-    default List<?> getSlots0V1700()
+    default List<Object> getSlots0V1700()
     {
         return getSlots00V1700().getWrapped();
     }
     default List<WindowSlot> getSlots()
     {
-        return new ListWrapper<>(getSlots0(), WindowSlot::create);
+        return new ListProxy<>(getSlots0(), InvertibleFunction.wrapper(WindowSlot::create));
     }
     default WindowSlot getSlot(int index)
     {

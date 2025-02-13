@@ -10,7 +10,8 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.ListWrapper;
+import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -302,14 +303,14 @@ public interface Text extends WrapperObject
     }
     
     @WrapMinecraftMethod(@VersionName(name="getSiblings"))
-    List<?> getExtra0();
+    List<Object> getExtra0();
     
     default List<Text> getExtra()
     {
-        List<?> result = this.getExtra0();
+        List<Object> result = this.getExtra0();
         if(result==null)
             return null;
-        return new ListWrapper<>(result, Text::create);
+        return new ListProxy<>(result, InvertibleFunction.wrapper(Text::create));
     }
     
     Text setExtra(List<Text> value);

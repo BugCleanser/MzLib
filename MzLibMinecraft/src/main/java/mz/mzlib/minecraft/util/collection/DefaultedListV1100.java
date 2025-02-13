@@ -19,5 +19,5 @@ public interface DefaultedListV1100 extends WrapperObject
     }
     
     @Override
-    List<?> getWrapped();
+    List<Object> getWrapped();
 }

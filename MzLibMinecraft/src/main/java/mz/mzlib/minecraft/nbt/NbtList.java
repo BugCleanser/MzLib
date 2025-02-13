@@ -4,8 +4,9 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.ListWrapper;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -41,19 +42,19 @@ public interface NbtList extends NbtElement
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))
-    List<?> getValue();
+    List<Object> getValue();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))
     void setValue(List<?> value);
     
     default List<NbtElement> asList()
     {
-        return new ListWrapper<>(this.getValue(), NbtElement::create);
+        return this.asList(NbtElement::create);
     }
     
     default <T extends NbtElement> List<T> asList(Function<Object, T> wrapperCreator)
     {
-        return new ListWrapper<>(this.getValue(), wrapperCreator);
+        return new ListProxy<>(this.getValue(), InvertibleFunction.wrapper(wrapperCreator));
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="type"))

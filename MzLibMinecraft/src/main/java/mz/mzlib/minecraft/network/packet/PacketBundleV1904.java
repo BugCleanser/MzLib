@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.IteratorWrapper;
+import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -23,6 +23,6 @@ public interface PacketBundleV1904 extends Packet
     
     default Iterable<Packet> getPackets()
     {
-        return IteratorWrapper.iterable(this.getPackets0(), Packet::create);
+        return IteratorProxy.iterable(this.getPackets0(), Packet::create);
     }
 }

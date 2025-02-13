@@ -225,18 +225,20 @@ public class ItemStackBuilder
             return this.build("black");
         }
     }
+    
     public static class ColoredReversed extends Colored
     {
         public ColoredReversed(String idV_1300, String baseIdV1300)
         {
             super(idV_1300, baseIdV1300);
-            this.colorDamages.replaceAll((k, v) -> 15-v);
+            this.colorDamages.replaceAll((k, v)->15-v);
         }
         public ColoredReversed(String baseId)
         {
             this(baseId, baseId);
         }
     }
+    
     public static class ColoredShulkerBox extends Colored
     {
         public ColoredShulkerBox()

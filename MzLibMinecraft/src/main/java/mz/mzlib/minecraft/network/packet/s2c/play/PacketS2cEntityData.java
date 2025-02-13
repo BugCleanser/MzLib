@@ -10,7 +10,9 @@ import mz.mzlib.minecraft.entity.data.EntityDataTracker;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.StrongRef;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import javax.annotation.Nullable;
@@ -31,7 +33,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     int getEntityId();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="trackedValues"))
-    List<?> getDataList0();
+    List<Object> getDataList0();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="trackedValues"))
     void setDataList0(List<?> value);
@@ -108,14 +110,14 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @VersionRange(end=1903)
     default List<EntityDataTracker.Entry> getDataListV_1903()
     {
-        return new ListWrapper<>(getDataList0(), EntityDataTracker.Entry::create);
+        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.Entry::create));
     }
     
     @SpecificImpl("getDataList")
     @VersionRange(begin=1903)
     default List<EntityDataTracker.EntityDataV1903> getDataListV1903()
     {
-        return new ListWrapper<>(getDataList0(), EntityDataTracker.EntityDataV1903::create);
+        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.EntityDataV1903::create));
     }
     
     @Override

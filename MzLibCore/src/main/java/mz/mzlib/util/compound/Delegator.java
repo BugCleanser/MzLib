@@ -17,23 +17,24 @@ public interface Delegator extends WrapperObject
     {
         return WrapperObject.create(Delegator.class, wrapped);
     }
-
-    static <T extends Delegator> T newInstance(Function<Object,T> creator,Object delegate)
+    
+    static <T extends Delegator> T newInstance(Function<Object, T> creator, Object delegate)
     {
         try
         {
-            T result=creator.apply(Root.getUnsafe().allocateInstance(creator.apply(null).staticGetWrappedClass()));
+            T result = creator.apply(Root.getUnsafe().allocateInstance(creator.apply(null).staticGetWrappedClass()));
             result.setDelegate(delegate);
             return result;
         }
-        catch (InstantiationException e)
+        catch(InstantiationException e)
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-
+    
     @WrapMethod("getDelegate")
     Object getDelegate();
+    
     @WrapMethod("setDelegate")
     void setDelegate(Object delegate);
 }

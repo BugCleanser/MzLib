@@ -5,6 +5,7 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
@@ -205,7 +206,7 @@ public @interface Compound
                     mn.instructions.add(AsmUtil.insnReturn(void.class));
                     mn.visitEnd();
                     cn.methods.add(mn);
-                    for(Method method: superclasses.stream().map(Class::getMethods).flatMap(Arrays::stream).collect(Collectors.toSet()))
+                    for(Method method: CollectionUtil.addAll(new HashSet<>(superclasses), interfaces.toArray(new Class[0])).stream().map(Class::getMethods).flatMap(Arrays::stream).collect(Collectors.toSet()))
                     {
                         String desc = AsmUtil.getDesc(method);
                         if(Modifier.isStatic(method.getModifiers()) || Modifier.isPrivate(method.getModifiers()) || Modifier.isFinal(method.getModifiers()) || cn.methods.stream().anyMatch(it->Objects.equals(desc, it.desc) && Objects.equals(method.getName(), it.name)))
@@ -220,7 +221,7 @@ public @interface Compound
                             mn.instructions.add(AsmUtil.insnVarLoad(param, i));
                             i += AsmUtil.getCategory(param);
                         }
-                        mn.visitMethodInsn(Modifier.isInterface(method.getModifiers()) ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL, AsmUtil.getType(method.getDeclaringClass()), method.getName(), AsmUtil.getDesc(method), Modifier.isInterface(method.getModifiers()));
+                        mn.visitMethodInsn(Modifier.isInterface(method.getDeclaringClass().getModifiers()) ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL, AsmUtil.getType(method.getDeclaringClass()), method.getName(), AsmUtil.getDesc(method), Modifier.isInterface(method.getDeclaringClass().getModifiers()));
                         mn.instructions.add(AsmUtil.insnReturn(method.getReturnType()));
                         mn.visitEnd();
                         cn.methods.add(mn);
