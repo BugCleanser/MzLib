@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.component;
+package mz.mzlib.minecraft.component.type;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.nbt.NbtCompound;
@@ -9,20 +9,20 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.NbtComponent", begin=2005))
-public interface ComponentNbtCompoundV2005 extends WrapperObject
+public interface NbtCompoundComponentV2005 extends WrapperObject
 {
     @WrapperCreator
-    static ComponentNbtCompoundV2005 create(Object wrapped)
+    static NbtCompoundComponentV2005 create(Object wrapped)
     {
-        return WrapperObject.create(ComponentNbtCompoundV2005.class, wrapped);
+        return WrapperObject.create(NbtCompoundComponentV2005.class, wrapped);
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="nbt"))
     NbtCompound getNbtCompound();
     
     @WrapConstructor
-    ComponentNbtCompoundV2005 staticNewInstance(NbtCompound nbtCompound);
-    static ComponentNbtCompoundV2005 newInstance(NbtCompound nbtCompound)
+    NbtCompoundComponentV2005 staticNewInstance(NbtCompound nbtCompound);
+    static NbtCompoundComponentV2005 newInstance(NbtCompound nbtCompound)
     {
         return create(null).staticNewInstance(nbtCompound);
     }

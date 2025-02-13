@@ -11,6 +11,8 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
 
 import java.util.Collections;
 
@@ -58,14 +60,13 @@ public class CommandGiveNbt extends MzModule
         }
         if(!context.successful || !context.doExecute)
             return;
-        try
-        {
-            player.give(ItemStack.decode(nbt));
-        }
-        catch(Throwable e)
+        Result<Option<ItemStack>, String> decode = ItemStack.decode(nbt);
+        for(ItemStack itemStack: decode.getValue())
+            player.give(itemStack);
+        for(String err: decode.getError())
         {
             context.successful = false;
-            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", e.getMessage()))));
+            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", err))));
         }
     }
 }

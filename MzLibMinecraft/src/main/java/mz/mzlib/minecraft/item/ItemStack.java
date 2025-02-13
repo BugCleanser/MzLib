@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
-import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
+import mz.mzlib.minecraft.component.type.NbtCompoundComponentV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
 import mz.mzlib.minecraft.nbt.*;
@@ -16,7 +16,10 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -98,26 +101,42 @@ public interface ItemStack extends WrapperObject
         return create(null).staticCodecV1600();
     }
     
-    ItemStack staticDecode0(NbtCompound nbt);
+    Result<Option<ItemStack>, String> staticDecode0(NbtCompound nbt);
     
-    @SpecificImpl("staticDecode0")
+    ItemStack staticNewInstanceV_2005(NbtCompound nbt);
+    
+    @SpecificImpl("staticNewInstanceV_2005")
     @VersionRange(end=1100)
     @WrapMinecraftMethod(@VersionName(name="fromNbt"))
     ItemStack staticNewInstanceV_1100(NbtCompound nbt);
     
-    @SpecificImpl("staticDecode0")
+    @SpecificImpl("staticNewInstanceV_2005")
     @VersionRange(begin=1100, end=2005)
     @WrapConstructor
     ItemStack staticNewInstanceV1100_2005(NbtCompound nbt);
     
     @SpecificImpl("staticDecode0")
-    @VersionRange(begin=2005)
-    default ItemStack staticDecode0V2005(NbtCompound nbt)
+    @VersionRange(end=2005)
+    default Result<Option<ItemStack>, String> staticDecode0V_2005(NbtCompound nbt)
     {
-        return create(codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).resultOrPartial(e->System.err.println("Invalid data when decode item stack: "+e)).orElseThrow(()->new IllegalArgumentException(nbt.toString())));
+        try
+        {
+            return Result.success(Option.some(this.staticNewInstanceV_2005(nbt)));
+        }
+        catch(Throwable e)
+        {
+            return Result.failure(Option.none(), e.getMessage());
+        }
     }
     
-    static ItemStack decode0(NbtCompound nbt)
+    @SpecificImpl("staticDecode0")
+    @VersionRange(begin=2005)
+    default Result<Option<ItemStack>, String> staticDecode0V2005(NbtCompound nbt)
+    {
+        return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, ItemStack, RuntimeException>optionMap(ItemStack::create));
+    }
+    
+    static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
     {
         return create(null).staticDecode0(nbt);
     }
@@ -125,14 +144,14 @@ public interface ItemStack extends WrapperObject
     /**
      * Decode and convert version
      */
-    static ItemStack decode(NbtCompound nbt)
+    static Result<Option<ItemStack>, String> decode(NbtCompound nbt)
     {
         if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
-            return empty();
+            return Result.success(Option.some(ItemStack.empty()));
         return decode0(upgrade(nbt));
     }
     
-    static NbtCompound encode(ItemStack is)
+    static Result<Option<NbtCompound>, String> encode(ItemStack is)
     {
         return is.encode();
     }
@@ -141,36 +160,44 @@ public interface ItemStack extends WrapperObject
      * @see #encode(ItemStack)
      */
     @Deprecated
-    default NbtCompound encode()
+    default Result<Option<NbtCompound>, String> encode()
     {
         if(ItemStack.isEmpty(this))
         {
             NbtCompound result = NbtCompound.newInstance();
             result.put("id", NbtString.newInstance("minecraft:air"));
-            return result;
+            return Result.success(Option.some(result));
         }
-        NbtCompound result = encode0();
-        result.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
+        Result<Option<NbtCompound>, String> result = encode0();
+        for(NbtCompound nbt: result.getValue())
+            nbt.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
         return result;
     }
     
-    NbtCompound encode0();
+    Result<Option<NbtCompound>, String> encode0();
     
     @WrapMinecraftMethod({@VersionName(name="toNbt", end=1400), @VersionName(name="toTag", begin=1400, end=1605), @VersionName(name="writeNbt", begin=1605, end=2005)})
     NbtCompound encode0V_2005(NbtCompound nbt);
     
     @SpecificImpl("encode0")
     @VersionRange(end=2005)
-    default NbtCompound encode0V_2005()
+    default Result<Option<NbtCompound>, String> encode0V_2005()
     {
-        return encode0V_2005(NbtCompound.newInstance());
+        try
+        {
+            return Result.success(Option.some(this.encode0V_2005(NbtCompound.newInstance())));
+        }
+        catch(Throwable e)
+        {
+            return Result.failure(Option.none(), e.getMessage());
+        }
     }
     
     @SpecificImpl("encode0")
     @VersionRange(begin=2005)
-    default NbtCompound encode0V2005()
+    default Result<Option<NbtCompound>, String> encode0V2005()
     {
-        return NbtCompound.create(codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).getOrThrow(RuntimeException::new));
+        return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
     }
     
     
@@ -236,14 +263,14 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default NbtCompound getCustomDataV2005()
     {
-        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005::create).getNbtCompound();
+        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), NbtCompoundComponentV2005::create).getNbtCompound();
     }
     
     @SpecificImpl("setCustomData")
     @VersionRange(begin=2005)
     default void setCustomDataV2005(NbtCompound value)
     {
-        WrapperObject ignored = this.getComponentsV2005().set(ComponentKeyV2005.fromId("custom_data"), ComponentNbtCompoundV2005.newInstance(value));
+        WrapperObject ignored = this.getComponentsV2005().set(ComponentKeyV2005.fromId("custom_data"), NbtCompoundComponentV2005.newInstance(value));
     }
     
     @VersionRange(begin=2005)

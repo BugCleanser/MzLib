@@ -46,165 +46,165 @@ public abstract class Option<T> implements Iterable<T>
     
     public abstract Option<T> or(Option<T> other);
     
-    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<T, U, E> mapper) throws E;
-    
-    static class Some<T> extends Option<T>
+    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E;
+}
+
+class Some<T> extends Option<T>
+{
+    T value;
+    public Some(T value)
     {
-        T value;
-        public Some(T value)
-        {
-            this.value = Objects.requireNonNull(value);
-        }
-        
-        @Override
-        public boolean isSome()
-        {
-            return true;
-        }
-        @Override
-        public boolean isNone()
-        {
-            return false;
-        }
-        @Override
-        public T toNullable()
-        {
-            return this.unwrap();
-        }
-        
-        @Override
-        public Optional<T> toOptional()
-        {
-            return Optional.of(this.unwrap());
-        }
-        
-        
-        @Override
-        public T unwrap()
-        {
-            return this.value;
-        }
-        public T unwrapOr(T defaultValue)
-        {
-            return this.unwrap();
-        }
-        
-        @Override
-        public <U> Option<U> and(Option<U> other)
-        {
-            return other;
-        }
-        
-        @Override
-        public Option<T> or(Option<T> other)
-        {
-            return this;
-        }
-        
-        @Override
-        public <U, E extends Throwable> Option<U> map(ThrowableFunction<T, U, E> mapper) throws E
-        {
-            return fromNullable(mapper.applyOrThrow(this.value));
-        }
-        
-        @Override
-        public Iterator<T> iterator()
-        {
-            return new Itr();
-        }
-        
-        class Itr implements Iterator<T>
-        {
-            boolean hasNext = true;
-            @Override
-            public boolean hasNext()
-            {
-                return this.hasNext;
-            }
-            @Override
-            public T next()
-            {
-                if(!this.hasNext())
-                    throw new NoSuchElementException();
-                this.hasNext = false;
-                return Some.this.value;
-            }
-        }
+        this.value = Objects.requireNonNull(value);
     }
     
-    static class None<T> extends Option<T>
+    @Override
+    public boolean isSome()
     {
-        static None<?> instance = new None<>();
-        
+        return true;
+    }
+    @Override
+    public boolean isNone()
+    {
+        return false;
+    }
+    @Override
+    public T toNullable()
+    {
+        return this.unwrap();
+    }
+    
+    @Override
+    public Optional<T> toOptional()
+    {
+        return Optional.of(this.unwrap());
+    }
+    
+    
+    @Override
+    public T unwrap()
+    {
+        return this.value;
+    }
+    public T unwrapOr(T defaultValue)
+    {
+        return this.unwrap();
+    }
+    
+    @Override
+    public <U> Option<U> and(Option<U> other)
+    {
+        return other;
+    }
+    
+    @Override
+    public Option<T> or(Option<T> other)
+    {
+        return this;
+    }
+    
+    @Override
+    public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
+    {
+        return fromNullable(mapper.applyOrThrow(this.value));
+    }
+    
+    @Override
+    public Iterator<T> iterator()
+    {
+        return new Itr();
+    }
+    
+    class Itr implements Iterator<T>
+    {
+        boolean hasNext = true;
         @Override
-        public boolean isSome()
+        public boolean hasNext()
+        {
+            return this.hasNext;
+        }
+        @Override
+        public T next()
+        {
+            if(!this.hasNext())
+                throw new NoSuchElementException();
+            this.hasNext = false;
+            return Some.this.value;
+        }
+    }
+}
+
+class None<T> extends Option<T>
+{
+    static None<?> instance = new None<>();
+    
+    @Override
+    public boolean isSome()
+    {
+        return false;
+    }
+    @Override
+    public boolean isNone()
+    {
+        return true;
+    }
+    @Override
+    public T toNullable()
+    {
+        return null;
+    }
+    @Override
+    public Optional<T> toOptional()
+    {
+        return Optional.empty();
+    }
+    
+    @Override
+    public T unwrap()
+    {
+        throw new NoSuchElementException();
+    }
+    
+    @Override
+    public T unwrapOr(T defaultValue)
+    {
+        return defaultValue;
+    }
+    
+    @Override
+    public <U> Option<U> and(Option<U> other)
+    {
+        return none();
+    }
+    
+    @Override
+    public Option<T> or(Option<T> other)
+    {
+        return other;
+    }
+    
+    @Override
+    public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
+    {
+        return none();
+    }
+    
+    @Override
+    public Iterator<T> iterator()
+    {
+        return new Itr();
+    }
+    
+    class Itr implements Iterator<T>
+    {
+        @Override
+        public boolean hasNext()
         {
             return false;
         }
         @Override
-        public boolean isNone()
-        {
-            return true;
-        }
-        @Override
-        public T toNullable()
-        {
-            return null;
-        }
-        @Override
-        public Optional<T> toOptional()
-        {
-            return Optional.empty();
-        }
-        
-        @Override
-        public T unwrap()
+        public T next()
         {
             throw new NoSuchElementException();
-        }
-        
-        @Override
-        public T unwrapOr(T defaultValue)
-        {
-            return defaultValue;
-        }
-        
-        @Override
-        public <U> Option<U> and(Option<U> other)
-        {
-            return none();
-        }
-        
-        @Override
-        public Option<T> or(Option<T> other)
-        {
-            return other;
-        }
-        
-        @Override
-        public <U, E extends Throwable> Option<U> map(ThrowableFunction<T, U, E> mapper) throws E
-        {
-            return none();
-        }
-        
-        @Override
-        public Iterator<T> iterator()
-        {
-            return new Itr();
-        }
-        
-        class Itr implements Iterator<T>
-        {
-            @Override
-            public boolean hasNext()
-            {
-                return false;
-            }
-            @Override
-            public T next()
-            {
-                throw new NoSuchElementException();
-            }
         }
     }
 }

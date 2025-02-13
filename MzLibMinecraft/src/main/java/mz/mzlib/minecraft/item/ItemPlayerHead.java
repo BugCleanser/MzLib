@@ -1,9 +1,12 @@
 package mz.mzlib.minecraft.item;
 
 import com.google.gson.JsonObject;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
+import mz.mzlib.minecraft.component.type.GameProfileComponentV2005;
+import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtUtil;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -24,6 +27,8 @@ public interface ItemPlayerHead extends Item
     {
         return WrapperObject.create(ItemPlayerHead.class, wrapped);
     }
+    
+    ComponentKeyV2005.Specialized<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile").specialized(GameProfileComponentV2005::create);
     
     static GameProfile getOwner(ItemStack itemStack)
     {
@@ -51,8 +56,7 @@ public interface ItemPlayerHead extends Item
     @VersionRange(begin=2005)
     default GameProfile staticGetOwnerV2005(ItemStack itemStack)
     {
-        // TODO
-        throw new UnsupportedOperationException();
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005).getGameProfile();
     }
     
     static void setOwner(ItemStack itemStack, GameProfile profile)
@@ -70,8 +74,7 @@ public interface ItemPlayerHead extends Item
     @VersionRange(begin=2005)
     default void staticSetOwnerV2005(ItemStack itemStack, GameProfile profile)
     {
-        // TODO
-        throw new UnsupportedOperationException();
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_PROFILE_V2005, GameProfileComponentV2005.newInstance(profile));
     }
     
     static GameProfile copyOwner(ItemStack itemStack)

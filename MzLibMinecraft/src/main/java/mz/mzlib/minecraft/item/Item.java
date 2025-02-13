@@ -6,8 +6,8 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
-import mz.mzlib.minecraft.component.ComponentLoreV2005;
-import mz.mzlib.minecraft.component.ComponentNbtCompoundV2005;
+import mz.mzlib.minecraft.component.type.LoreComponentV2005;
+import mz.mzlib.minecraft.component.type.NbtCompoundComponentV2005;
 import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
@@ -50,18 +50,18 @@ public interface Item extends WrapperObject
     
     Item AIR = fromId(Identifier.ofMinecraft("air"));
     
-    ComponentKeyV2005.Specialized<ComponentNbtCompoundV2005> componentKeyCustomDataV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data", ComponentNbtCompoundV2005::create);
-    ComponentKeyV2005.Specialized<Text> componentKeyCustomNameV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name", Text::create);
-    ComponentKeyV2005.Specialized<ComponentLoreV2005> componentKeyLoreV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore", ComponentLoreV2005::create);
+    ComponentKeyV2005.Specialized<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data").specialized(NbtCompoundComponentV2005::create);
+    ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialized(Text::create);
+    ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialized(LoreComponentV2005::create);
     
     static NbtCompound getCustomData(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(componentKeyCustomDataV2005).getNbtCompound();
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005).getNbtCompound();
     }
     
     static void setCustomData(ItemStack itemStack, NbtCompound customData)
     {
-        itemStack.getComponentsV2005().set(componentKeyCustomDataV2005, ComponentNbtCompoundV2005.newInstance(customData));
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, NbtCompoundComponentV2005.newInstance(customData));
     }
     
     static Editor<NbtCompound> editCustomData(ItemStack itemStack)
@@ -112,7 +112,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default Text staticGetCustomNameV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(componentKeyCustomNameV2005);
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005);
     }
     
     
@@ -141,7 +141,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetCustomNameV2005(ItemStack itemStack, Text customName)
     {
-        itemStack.getComponentsV2005().set(componentKeyCustomNameV2005, customName);
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, customName);
     }
     
     static void setLore(ItemStack itemStack, List<Text> lore)
@@ -169,7 +169,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin=2005)
     default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.getComponentsV2005().set(componentKeyLoreV2005, ComponentLoreV2005.newInstance(lore));
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, LoreComponentV2005.newInstance(lore));
     }
     
     

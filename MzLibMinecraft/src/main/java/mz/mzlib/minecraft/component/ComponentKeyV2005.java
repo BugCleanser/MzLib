@@ -2,8 +2,15 @@ package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtOpsV1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
+import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -23,20 +30,18 @@ public interface ComponentKeyV2005 extends WrapperObject
         return RegistriesV1300.componentKeyV2005().get(id).castTo(ComponentKeyV2005::create);
     }
     
-    static <T extends WrapperObject> Specialized<T> fromId(Identifier id, Function<Object, T> wrapperCreator)
-    {
-        return new Specialized<>(fromId(id), wrapperCreator);
-    }
-    
     static ComponentKeyV2005 fromId(String id)
     {
         return fromId(Identifier.newInstance(id));
     }
     
-    static <T extends WrapperObject> Specialized<T> fromId(String id, Function<Object, T> wrapperCreator)
+    default <T extends WrapperObject> Specialized<T> specialized(Function<Object, T> wrapperCreator)
     {
-        return fromId(Identifier.newInstance(id), wrapperCreator);
+        return new Specialized<>(this, wrapperCreator);
     }
+    
+    @WrapMinecraftMethod(@VersionName(name="getCodec"))
+    CodecV1600 getCodec();
     
     class Specialized<T extends WrapperObject>
     {
@@ -57,6 +62,25 @@ public interface ComponentKeyV2005 extends WrapperObject
         public T set(ComponentMapDefaultedV2005 map, T value)
         {
             return map.set(this.key, value).castTo(this.wrapperCreator);
+        }
+        
+        public Result<Option<T>, String> decode(NbtCompound nbt)
+        {
+            return this.key.getCodec().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, T, RuntimeException>optionMap(this.wrapperCreator::apply));
+        }
+        public Result<Option<NbtCompound>, String> encode(T value)
+        {
+            return this.key.getCodec().encodeStart(NbtOpsV1300.withRegistriesV1903(), value.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
+        }
+        public T copy(T value)
+        {
+            Result<Option<NbtCompound>, String> encode = this.encode(value);
+            for(String err: encode.getError())
+                throw new RuntimeException(err);
+            Result<Option<T>, String> decode = this.decode(encode.getValue().unwrap());
+            for(String err: decode.getError())
+                throw new RuntimeException(err);
+            return decode.getValue().unwrap();
         }
     }
 }

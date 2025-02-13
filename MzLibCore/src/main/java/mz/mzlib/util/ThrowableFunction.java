@@ -24,7 +24,6 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     }
     
     @Override
-    @SuppressWarnings("NullableProblems")
     default <V> ThrowableFunction<T, V, E> andThen(Function<? super R, ? extends V> after)
     {
         return this.thenApply(after);
@@ -72,6 +71,11 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     static <T, E extends Throwable> ThrowableFunction<T, T, E> switcher(Predicate<T> predicate, ThrowableFunction<? super T,? extends T, E> action)
     {
         return switcher(predicate, action, identity());
+    }
+    
+    static <T, U, E extends Throwable> ThrowableFunction<Option<T>, Option<U>, E> optionMap(ThrowableFunction<? super T, ? extends U, E> action)
+    {
+        return o->o.map(action);
     }
     
     static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()
