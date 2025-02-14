@@ -1,12 +1,14 @@
 package mz.mzlib.util;
 
+import java.util.Objects;
+
 public abstract class Result<V, E>
 {
     protected V value;
     
     protected Result(V value)
     {
-        this.value = value;
+        this.value = Objects.requireNonNull(value, "value");
     }
     
     public V getValue()
@@ -84,7 +86,7 @@ class Failure<V, E> extends Result<V, E>
     protected Failure(V value, E error)
     {
         super(value);
-        this.error = error;
+        this.error = Objects.requireNonNull(error, "error");
     }
     @Override
     public boolean isSuccess()

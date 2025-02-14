@@ -125,7 +125,7 @@ public interface ItemStack extends WrapperObject
         }
         catch(Throwable e)
         {
-            return Result.failure(Option.none(), e.getMessage());
+            return Result.failure(Option.none(), e.toString());
         }
     }
     
@@ -146,8 +146,15 @@ public interface ItemStack extends WrapperObject
      */
     static Result<Option<ItemStack>, String> decode(NbtCompound nbt)
     {
-        if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
-            return Result.success(Option.some(ItemStack.empty()));
+        try
+        {
+            if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
+                return Result.success(Option.some(ItemStack.empty()));
+        }
+        catch(Throwable e)
+        {
+            return Result.failure(Option.none(), e.toString());
+        }
         return decode0(upgrade(nbt));
     }
     
@@ -189,7 +196,7 @@ public interface ItemStack extends WrapperObject
         }
         catch(Throwable e)
         {
-            return Result.failure(Option.none(), e.getMessage());
+            return Result.failure(Option.none(), e.toString());
         }
     }
     
@@ -197,6 +204,8 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default Result<Option<NbtCompound>, String> encode0V2005()
     {
+        // FIXME
+        //noinspection RedundantTypeArguments
         return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
     }
     

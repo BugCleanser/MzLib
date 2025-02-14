@@ -11,8 +11,6 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 @VersionRange(begin=1600)
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.DataResult"))
@@ -31,6 +29,7 @@ public interface DataResultV1600 extends WrapperObject
         return Option.fromOptional(this.resultOrPartial0());
     }
     
+    @WrapMinecraftMethod(@VersionName(name="error"))
     Optional<Object> toError0();
     default Option<Error> toError()
     {

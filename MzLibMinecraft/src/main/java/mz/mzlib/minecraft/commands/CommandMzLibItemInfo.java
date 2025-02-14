@@ -5,9 +5,13 @@ import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
 
 public class CommandMzLibItemInfo extends MzModule
 {
@@ -31,7 +35,11 @@ public class CommandMzLibItemInfo extends MzModule
             return;
         if(context.doExecute)
         {
-            context.getSource().sendMessage(Text.literal(ItemStack.encode(context.getSource().getPlayer().getHandItemStack()).toString()));
+            Result<Option<NbtCompound>, String> encode = ItemStack.encode(context.getSource().getPlayer().getHandItemStack());
+            for(NbtCompound nbt: encode.getValue())
+                context.getSource().sendMessage(Text.literal(nbt.toString()));
+            for(String err: encode.getError())
+                context.getSource().sendMessage(Text.literal(err).setColor(TextColor.RED));
         }
     }
 }

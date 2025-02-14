@@ -88,7 +88,7 @@ public class I18n
         }
         catch(ParseException e)
         {
-            return "[Error]"+key+"="+e.getMessage()+":"+e.getErrorOffset()+(e.getCause()!=null ? e.getCause().getMessage() : "")+args;
+            return "[Error]"+key+"="+e+":"+e.getErrorOffset()+(e.getCause()!=null ? e.getCause() : "")+args;
         }
     }
     
