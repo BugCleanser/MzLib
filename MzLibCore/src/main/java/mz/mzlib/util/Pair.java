@@ -5,59 +5,59 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;
 
-public class Pair<First, Second> implements Comparable<Pair<First, Second>>
+public class Pair<F, S> implements Comparable<Pair<F, S>>
 {
-    public First first;
-    public Second second;
-
-    public Pair(First first, Second second)
+    public F first;
+    public S second;
+    
+    public Pair(F first, S second)
     {
         this.first = first;
         this.second = second;
     }
-
+    
     @Override
-    public int compareTo(Pair<First, Second> o)
+    public int compareTo(Pair<F, S> o)
     {
-        int resultFirst = RuntimeUtil.<Comparable<First>>cast(first).compareTo(o.first);
-        if (resultFirst != 0)
+        int resultFirst = RuntimeUtil.<Comparable<F>>cast(first).compareTo(o.first);
+        if(resultFirst!=0)
         {
             return resultFirst;
         }
-        return RuntimeUtil.<Comparable<Second>>cast(second).compareTo(o.second);
+        return RuntimeUtil.<Comparable<S>>cast(second).compareTo(o.second);
     }
-
-    public Map.Entry<First, Second> toMapEntry()
+    
+    public Map.Entry<F, S> toMapEntry()
     {
         return new AbstractMap.SimpleEntry<>(first, second);
     }
-
+    
     @Override
     public boolean equals(Object o)
     {
-        return o instanceof Pair && Objects.equals(first, ((Pair<?, ?>) o).first) && Objects.equals(second, ((Pair<?, ?>) o).second);
+        return o instanceof Pair && Objects.equals(first, ((Pair<?, ?>)o).first) && Objects.equals(second, ((Pair<?, ?>)o).second);
     }
-
+    
     @Override
     public int hashCode()
     {
-        return Objects.hashCode(first) ^ Objects.hashCode(second);
+        return Objects.hash(this.first, this.second);
     }
-
+    
     public static <F, S> Comparator<Pair<F, S>> comparingByFirst(Comparator<F> comparator)
     {
-        return (a, b) -> comparator.compare(a.first, b.first);
+        return (a, b)->comparator.compare(a.first, b.first);
     }
     public static <F, S> Comparator<Pair<F, S>> comparingBySecond(Comparator<S> comparator)
     {
-        return (a, b) -> comparator.compare(a.second, b.second);
+        return (a, b)->comparator.compare(a.second, b.second);
     }
     public static <F extends Comparable<? super F>, S> Comparator<Pair<F, S>> comparingByFirst()
     {
-        return Comparator.comparing(pair -> pair.first);
+        return Comparator.comparing(pair->pair.first);
     }
     public static <F, S extends Comparable<? super S>> Comparator<Pair<F, S>> comparingBySecond()
     {
-        return Comparator.comparing(pair -> pair.second);
+        return Comparator.comparing(pair->pair.second);
     }
 }

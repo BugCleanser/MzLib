@@ -18,7 +18,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
-import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -133,6 +132,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default Result<Option<ItemStack>, String> staticDecode0V2005(NbtCompound nbt)
     {
+        //noinspection RedundantTypeArguments
         return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, ItemStack, RuntimeException>optionMap(ItemStack::create));
     }
     
@@ -204,9 +204,9 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default Result<Option<NbtCompound>, String> encode0V2005()
     {
-        // FIXME
         //noinspection RedundantTypeArguments
-        return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
+        return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult()
+                .mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
     }
     
     
@@ -483,41 +483,44 @@ public interface ItemStack extends WrapperObject
     static NbtCompound upgrade(NbtCompound nbt)
     {
         int dataVersion;
-        NbtInt nbtVersion = nbt.get("DataVersion", NbtInt::create);
-        if(nbtVersion.isPresent())
-            dataVersion = nbtVersion.getValue();
-        else
+        l1:
+        do
         {
-            if(nbt.get("Damage").isPresent())
+            for(NbtInt nbtVersion: Option.fromWrapper(nbt.get("DataVersion", NbtInt::create)))
+            {
+                dataVersion = nbtVersion.getValue();
+                break l1;
+            }
+            if(nbt.containsKey("Damage"))
                 dataVersion = 1343; // 1.12.2
+            else if(nbt.containsKey("count")) // if(nbt.containsKey("components"))
+                dataVersion = 3837; // 1.20.5
             else
             {
-                if(nbt.get("count").isPresent()) // if(nbt.get("components").isPresent())
-                    dataVersion = 3837; // 1.20.5
-                else
+                dataVersion = 1952; // 1.14
+                for(NbtCompound tag: Option.fromWrapper(nbt.get("tag", NbtCompound::create)))
                 {
-                    dataVersion = 1952; // 1.14
-                    NbtCompound tag = nbt.get("tag", NbtCompound::create);
-                    if(tag.isPresent())
+                    for(NbtCompound display: Option.fromWrapper(tag.get("display", NbtCompound::create)))
                     {
-                        NbtCompound display = tag.get("display", NbtCompound::create);
-                        if(display.isPresent())
+                        for(NbtList lore: Option.fromWrapper(display.get("Lore", NbtList::create)))
                         {
-                            NbtList lore = display.get("Lore", NbtList::create);
-                            if(lore.isPresent())
-                                for(NbtString l: lore.asList(NbtString::create))
+                            for(NbtString l: lore.asList(NbtString::create))
+                            {
+                                try
                                 {
-                                    if(RuntimeUtil.runAndCatch(()->Text.decode(l.getValue()))!=null)
-                                    {
-                                        dataVersion = 1631; // 1.13.2
-                                        break;
-                                    }
+                                    Text.decode(l.getValue());
                                 }
+                                catch(Throwable ignored)
+                                {
+                                    dataVersion = 1631; // 1.13.2
+                                    break l1;
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
+        }while(false);
         return upgrade(nbt, dataVersion);
     }
     

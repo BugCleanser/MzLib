@@ -23,6 +23,8 @@ public abstract class Result<V, E>
     
     public abstract Either<V, E> toEither();
     
+    public abstract Pair<V, Option<E>> toPair();
+    
     public abstract <V1, T extends Throwable> Result<V1, E> mapValue(ThrowableFunction<? super V,? extends V1, T> action) throws T;
     public abstract <E1, T extends Throwable> Result<V, E1> mapError(ThrowableFunction<? super E,? extends E1, T> action) throws T;
     
@@ -69,6 +71,11 @@ class Success<V, E> extends Result<V, E>
         return Either.first(this.value);
     }
     @Override
+    public Pair<V, Option<E>> toPair()
+    {
+        return new Pair<>(this.value, Option.none());
+    }
+    @Override
     public <V1, T extends Throwable> Result<V1, E> mapValue(ThrowableFunction<? super V,? extends V1, T> action) throws T
     {
         return success(action.applyOrThrow(this.value));
@@ -101,21 +108,26 @@ class Failure<V, E> extends Result<V, E>
     @Override
     public Option<E> getError()
     {
-        return Option.some(error);
+        return Option.some(this.error);
     }
     @Override
     public Either<V, E> toEither()
     {
-        return Either.second(error);
+        return Either.second(this.error);
+    }
+    @Override
+    public Pair<V, Option<E>> toPair()
+    {
+        return new Pair<>(this.value, Option.some(this.error));
     }
     @Override
     public <V1, T extends Throwable> Result<V1, E> mapValue(ThrowableFunction<? super V,? extends V1, T> action) throws T
     {
-        return failure(action.apply(value), error);
+        return failure(action.apply(this.value), this.error);
     }
     @Override
     public <E1, T extends Throwable> Result<V, E1> mapError(ThrowableFunction<? super E, ? extends E1, T> action)
     {
-        return failure(value, action.apply(error));
+        return failure(this.value, action.apply(this.error));
     }
 }

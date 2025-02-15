@@ -79,7 +79,20 @@ public interface ItemPlayerHead extends Item
     
     static GameProfile copyOwner(ItemStack itemStack)
     {
-        return getOwner(itemStack); // FIXME V2005
+        return create(null).staticCopyOwner(itemStack);
+    }
+    GameProfile staticCopyOwner(ItemStack itemStack);
+    @SpecificImpl("staticCopyOwner")
+    @VersionRange(end=2005)
+    default GameProfile staticCopyOwnerV_2005(ItemStack itemStack)
+    {
+        return getOwner(itemStack);
+    }
+    @SpecificImpl("staticCopyOwner")
+    @VersionRange(begin=2005)
+    default GameProfile staticCopyOwnerV2005(ItemStack itemStack)
+    {
+        return itemStack.getComponentsV2005().copy(COMPONENT_KEY_PROFILE_V2005).getGameProfile();
     }
     
     static Editor<GameProfile> editOwner(ItemStack itemStack)

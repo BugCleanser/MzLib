@@ -33,6 +33,11 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     {
         return key.get(this);
     }
+    
+    default <T extends WrapperObject> T copy(ComponentKeyV2005.Specialized<T> key)
+    {
+        return key.copy(this.get(key));
+    }
 
     @SuppressWarnings("NullableProblems")
     @Override
