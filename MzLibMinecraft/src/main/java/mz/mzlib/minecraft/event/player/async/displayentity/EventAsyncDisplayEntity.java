@@ -21,6 +21,14 @@ public class EventAsyncDisplayEntity<P extends Packet> extends EventAsyncByPacke
     }
     
     @Override
+    public void runLater(Runnable runnable) throws UnsupportedOperationException
+    {
+        if(this.isFinished())
+            throw new IllegalStateException("Event finished");
+        this.futureTasks.schedule(runnable);
+    }
+    
+    @Override
     public void call()
     {
     }

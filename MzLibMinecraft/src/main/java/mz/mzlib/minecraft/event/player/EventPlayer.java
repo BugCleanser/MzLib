@@ -26,6 +26,7 @@ public abstract class EventPlayer extends EventEntity
     @Override
     public void call()
     {
+        super.call();
     }
     
     public static class Module extends MzModule

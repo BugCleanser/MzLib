@@ -46,6 +46,7 @@ public class EventPlayerJoin extends EventPlayer
                 wrapperEvent.setWrapped(event);
                 return Nothing.notReturn();
             }
+            
             @VersionRange(begin=2002)
             @NothingInject(wrapperMethodName="addPlayerV2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class, ClientConnectionDataV2002.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_void addPlayerBeginV2002(@CustomVar("eventJoin") WrapperObject wrapperEvent, @LocalVar(1) ClientConnection connection, @LocalVar(2) EntityPlayer player)
@@ -66,6 +67,7 @@ public class EventPlayerJoin extends EventPlayer
                 ((EventPlayerJoin)wrapperEvent.getWrapped()).finish();
                 return Nothing.notReturn();
             }
+            
             @VersionRange(begin=2002)
             @NothingInject(wrapperMethodName="addPlayerV2002", wrapperMethodParams={ClientConnection.class, EntityPlayer.class, ClientConnectionDataV2002.class}, locateMethod="addPlayerEndLocate", type=NothingInjectType.INSERT_BEFORE)
             default Wrapper_void addPlayerEndV2002(@CustomVar("eventJoin") WrapperObject wrapperEvent)

@@ -51,36 +51,43 @@ public class DisplayEntityTracker
             
             this.register(new PacketListener<>(PacketS2cEntitySpawn::create, Priority.LOW, packetEvent->
             {
-                DisplayEntity displayEntity = new DisplayEntity(packetEvent.getPlayer(), packetEvent.getPacket());
-                //noinspection SynchronizationOnLocalVariableOrMethodParameter
-                synchronized(displayEntity)
+                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer());
+                synchronized(displayEntityTracker)
                 {
-                    get(packetEvent.getPlayer()).entities.put(packetEvent.getPacket().getEntityId(), displayEntity);
-                    new EventAsyncDisplayEntitySpawn(displayEntity, packetEvent).call();
-                    if(packetEvent.isCancelled())
-                        get(packetEvent.getPlayer()).entities.remove(packetEvent.getPacket().getEntityId(), displayEntity);
+                    DisplayEntity displayEntity = new DisplayEntity(packetEvent.getPlayer(), packetEvent.getPacket());
+                    EventAsyncDisplayEntitySpawn event = new EventAsyncDisplayEntitySpawn(displayEntity, packetEvent);
+                    event.call();
+                    if(!event.isCancelled())
+                        displayEntityTracker.entities.put(packetEvent.getPacket().getEntityId(), displayEntity);
+                    event.finish();
                 }
             }));
             this.register(new PacketListener<>(PacketS2cEntityDestroy::create, Priority.LOW, packetEvent->
             {
                 DisplayEntityTracker tracker = get(packetEvent.getPlayer());
-                if(tracker==null)
-                    return;
-                for(int entityId: packetEvent.getPacket().getEntityIds())
+                synchronized(tracker)
                 {
-                    DisplayEntity displayEntity = tracker.entities.remove(entityId);
-                    if(displayEntity==null)
-                        continue;
-                    new EventAsyncDisplayEntityDestroy(displayEntity, packetEvent).call();
+                    for(int entityId: packetEvent.getPacket().getEntityIds())
+                    {
+                        DisplayEntity displayEntity = tracker.entities.get(entityId);
+                        if(displayEntity==null)
+                            continue;
+                        EventAsyncDisplayEntityDestroy event = new EventAsyncDisplayEntityDestroy(displayEntity, packetEvent);
+                        event.call();
+                        if(!event.isCancelled())
+                            tracker.entities.remove(entityId);
+                        event.finish();
+                    }
                 }
             }));
             this.register(new PacketListener<>(PacketS2cEntityData::create, Priority.LOW, packetEvent->
             {
-                DisplayEntity displayEntity = get(packetEvent.getPlayer()).entities.get(packetEvent.getPacket().getEntityId());
-                if(displayEntity==null)
-                    return;
-                synchronized(displayEntity)
+                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer());
+                synchronized(displayEntityTracker)
                 {
+                    DisplayEntity displayEntity = displayEntityTracker.entities.get(packetEvent.getPacket().getEntityId());
+                    if(displayEntity==null)
+                        return;
                     EventAsyncDisplayEntityData event = new EventAsyncDisplayEntityData(displayEntity, packetEvent);
                     event.call();
                     if(!packetEvent.isCancelled())
