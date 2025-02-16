@@ -27,4 +27,9 @@ public interface ThrowableConsumer<T, E extends Throwable> extends Consumer<T>
     {
         return value::accept;
     }
+    
+    static <T, E extends Throwable> ThrowableConsumer<T, E> nothing()
+    {
+        return value -> {};
+    }
 }

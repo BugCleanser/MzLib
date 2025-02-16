@@ -5,6 +5,8 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -23,8 +25,8 @@ public interface NbtCompound extends NbtElement
         return WrapperObject.create(NbtCompound.class, wrapped);
     }
     
-    int typeId = newInstance().getTypeId();
-    NbtElementTypeV1500 typeV1500 = MinecraftPlatform.instance.getVersion()<1500 ? null : newInstance().getTypeV1500();
+    int TYPE_ID = newInstance().getTypeId();
+    NbtElementTypeV1500 TYPE_V1500 = MinecraftPlatform.instance.getVersion()<1500 ? null : newInstance().getTypeV1500();
     
     @Deprecated
     static NbtCompound load(DataInput input)
@@ -47,13 +49,12 @@ public interface NbtCompound extends NbtElement
     @VersionRange(begin=1500)
     default NbtCompound staticLoadV1500(DataInput input)
     {
-        return typeV1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound::create);
+        return TYPE_V1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound::create);
     }
     
     static NbtCompound parse(String str)
     {
         return NbtScanner.parseCompound(str);
-//        throw new UnsupportedOperationException();
     }
     
     @WrapConstructor
@@ -72,9 +73,13 @@ public interface NbtCompound extends NbtElement
         return this.get(key).isPresent();
     }
     
-    default <T extends NbtElement> T get(String key, Function<Object, T> wrapperCreator)
+    default <T extends NbtElement> Option<T> get(String key, Function<Object, T> wrapperCreator)
     {
-        return this.get(key).castTo(wrapperCreator);
+        NbtElement result = this.get(key);
+        if(result.isInstanceOf(wrapperCreator))
+            return Option.some(result.castTo(wrapperCreator));
+        else
+            return Option.none();
     }
     
     @WrapMinecraftMethod(@VersionName(name="put"))
@@ -82,12 +87,10 @@ public interface NbtCompound extends NbtElement
     
     default <T extends NbtElement> T getOrPut(String key, Function<Object, T> wrapperCreator, Supplier<T> newer)
     {
-        T result = this.get(key, wrapperCreator);
-        if(!result.isPresent())
-        {
-            result = newer.get();
-            this.put(key, result);
-        }
+        for(T result: this.get(key, wrapperCreator))
+            return result;
+        T result = newer.get();
+        this.put(key, result);
         return result;
     }
     
@@ -96,63 +99,63 @@ public interface NbtCompound extends NbtElement
         return this.getOrPut(key, NbtCompound::create, NbtCompound::newInstance);
     }
     
-    default NbtCompound getNBTCompound(String key)
+    default Option<NbtCompound> getNBTCompound(String key)
     {
         return this.get(key, NbtCompound::create);
     }
     
-    default byte getByte(String key)
+    default Option<Byte> getByte(String key)
     {
-        return this.get(key, NbtByte::create).getValue();
+        return this.get(key, NbtByte::create).map(NbtByte::getValue);
     }
     
-    default boolean getBoolean(String key)
+    default Option<Boolean> getBoolean(String key)
     {
-        return this.getByte(key)!=0;
+        return this.getByte(key).map(RuntimeUtil::castByteToBoolean);
     }
     
-    default int getInt(String key)
+    default Option<Integer> getInt(String key)
     {
-        return this.get(key, NbtInt::create).getValue();
+        return this.get(key, NbtInt::create).map(NbtInt::getValue);
     }
     
-    default long getLong(String key)
+    default Option<Long> getLong(String key)
     {
-        return this.get(key, NbtLong::create).getValue();
+        return this.get(key, NbtLong::create).map(NbtLong::getValue);
     }
     
-    default float getFloat(String key)
+    default Option<Float> getFloat(String key)
     {
-        return this.get(key, NbtFloat::create).getValue();
+        return this.get(key, NbtFloat::create).map(NbtFloat::getValue);
     }
     
-    default double getDouble(String key)
+    default Option<Double> getDouble(String key)
     {
-        return this.get(key, NbtDouble::create).getValue();
+        return this.get(key, NbtDouble::create).map(NbtDouble::getValue);
     }
     
-    default String getString(String key)
+    default Option<String> getString(String key)
     {
-        return this.get(key, NbtString::create).getValue();
+        return this.get(key, NbtString::create).map(NbtString::getValue);
     }
     
-    default NbtList getNBTList(String key)
+    default Option<NbtList> getNBTList(String key)
     {
         return this.get(key, NbtList::create);
     }
     
-    default NbtByteArray getByteArray(String key)
+    default Option<NbtByteArray> getByteArray(String key)
     {
         return this.get(key, NbtByteArray::create);
     }
     
-    default NbtIntArray getIntArray(String key)
+    default Option<NbtIntArray> getIntArray(String key)
     {
         return this.get(key, NbtIntArray::create);
     }
     
     @VersionRange(begin=1200)
-    default NbtLongArrayV1200 getLongArrayV1200(String key)
+    default Option<NbtLongArrayV1200> getLongArrayV1200(String key)
     {
         return this.get(key, NbtLongArrayV1200::create);
     }

@@ -15,6 +15,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Optional;
@@ -68,25 +71,26 @@ public interface TextHoverEvent extends WrapperObject
         return newInstanceV1600(Action.showText(), text);
     }
     
-    TextHoverEvent staticShowItem(ItemStack is);
-    
-    static TextHoverEvent showItem(ItemStack is)
+    static Result<Option<TextHoverEvent>, String> showItem(ItemStack is)
     {
         return create(null).staticShowItem(is);
     }
     
+    Result<Option<TextHoverEvent>, String> staticShowItem(ItemStack is);
+    
     @SpecificImpl("staticShowItem")
     @VersionRange(end=1600)
-    default TextHoverEvent staticShowItemV_1600(ItemStack is)
+    default Result<Option<TextHoverEvent>, String> staticShowItemV_1600(ItemStack is)
     {
-        return newInstanceV_1600(Action.showItem(), Text.literal(is.encode().toString()));
+        //noinspection RedundantTypeArguments
+        return ItemStack.encode(is).mapValue(ThrowableFunction.<NbtCompound, TextHoverEvent, RuntimeException>optionMap(nbt->newInstanceV_1600(Action.showItem(), Text.literal(nbt.toString()))));
     }
     
     @SpecificImpl("staticShowItem")
     @VersionRange(begin=1600)
-    default TextHoverEvent staticShowItemV1600(ItemStack is)
+    default Result<Option<TextHoverEvent>, String> staticShowItemV1600(ItemStack is)
     {
-        return newInstanceV1600(Action.showItem(), ContentsItemStackV1600.newInstance(is));
+        return Result.success(Option.some(newInstanceV1600(Action.showItem(), ContentsItemStackV1600.newInstance(is))));
     }
     
     static TextHoverEvent showEntity(Identifier type, UUID uuid, Text name)
@@ -213,7 +217,11 @@ public interface TextHoverEvent extends WrapperObject
         int getCount();
         
         @WrapMinecraftFieldAccessor({@VersionName(name="tag", end=1700), @VersionName(name="nbt", begin=1700, end=2003)})
-        NbtCompound getTagV_2003();
+        NbtCompound getTag0V_2003();
+        default Option<NbtCompound> getTagV_2003()
+        {
+            return Option.fromNullable(this.getTag0V_2003());
+        }
         
         @WrapConstructor
         ContentsItemStackV1600 staticNewInstance(ItemStack is);

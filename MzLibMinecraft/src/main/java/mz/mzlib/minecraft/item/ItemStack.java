@@ -148,8 +148,9 @@ public interface ItemStack extends WrapperObject
     {
         try
         {
-            if(Identifier.newInstance(nbt.getString("id")).equals(Identifier.ofMinecraft("air")))
-                return Result.success(Option.some(ItemStack.empty()));
+            for(String id: nbt.getString("id"))
+                if(Identifier.newInstance(id).equals(Identifier.ofMinecraft("air")))
+                    return Result.success(Option.some(ItemStack.empty()));
         }
         catch(Throwable e)
         {
@@ -253,18 +254,27 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end=2005)
     @SpecificImpl("getCustomData")
     @WrapMinecraftMethod({@VersionName(end=1400, name="getNbt"), @VersionName(begin=1400, end=1701, name="getTag"), @VersionName(begin=1701, name="getNbt")})
-    NbtCompound getTagV_2005();
+    NbtCompound getTag0V_2005();
+    default Option<NbtCompound> getTagV_2005()
+    {
+        return Option.fromWrapper(this.getTag0V_2005());
+    }
     
     @VersionRange(end=2005)
     @SpecificImpl("setCustomData")
     @WrapMinecraftMethod({@VersionName(end=1400, name="setNbt"), @VersionName(begin=1400, end=1701, name="setTag"), @VersionName(begin=1701, name="setNbt")})
-    void setTagV_2005(NbtCompound value);
+    void setTag0V_2005(NbtCompound value);
+    default void setTagV_2005(Option<NbtCompound> value)
+    {
+        this.setTag0V_2005(value.toNullable());
+    }
     
     default NbtCompound tagV_2005()
     {
-        NbtCompound result = this.getTagV_2005();
-        if(!result.isPresent())
-            this.setTagV_2005(result = NbtCompound.newInstance());
+        for(NbtCompound result: this.getTagV_2005())
+            return result;
+        NbtCompound result = NbtCompound.newInstance();
+        this.setTagV_2005(Option.some(result));
         return result;
     }
     
@@ -486,7 +496,7 @@ public interface ItemStack extends WrapperObject
         l1:
         do
         {
-            for(NbtInt nbtVersion: Option.fromWrapper(nbt.get("DataVersion", NbtInt::create)))
+            for(NbtInt nbtVersion: nbt.get("DataVersion", NbtInt::create))
             {
                 dataVersion = nbtVersion.getValue();
                 break l1;
@@ -498,11 +508,11 @@ public interface ItemStack extends WrapperObject
             else
             {
                 dataVersion = 1952; // 1.14
-                for(NbtCompound tag: Option.fromWrapper(nbt.get("tag", NbtCompound::create)))
+                for(NbtCompound tag: nbt.get("tag", NbtCompound::create))
                 {
-                    for(NbtCompound display: Option.fromWrapper(tag.get("display", NbtCompound::create)))
+                    for(NbtCompound display: tag.get("display", NbtCompound::create))
                     {
-                        for(NbtList lore: Option.fromWrapper(display.get("Lore", NbtList::create)))
+                        for(NbtList lore: display.get("Lore", NbtList::create))
                         {
                             for(NbtString l: lore.asList(NbtString::create))
                             {

@@ -11,11 +11,11 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.StrongRef;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -121,15 +121,15 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     }
     
     @Override
-    default Object removeData(EntityDataKey type)
+    default Option<Object> removeData(EntityDataKey type)
     {
         List<Entry> list = getDataList();
         for(int i = 0; i<list.size(); i++)
         {
             if(type.equals(list.get(i).getKey()))
-                return list.remove(i).getValue();
+                return Option.fromNullable(list.remove(i).getValue());
         }
-        return null;
+        return Option.none();
     }
     
     default void addData(EntityDataKey type, Object value)
@@ -142,9 +142,9 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     }
     
     @Override
-    default Object putData(EntityDataKey type, Object value)
+    default Option<Object> putData(EntityDataKey type, Object value)
     {
-        Object result = this.removeData(type);
+        Option<Object> result = this.removeData(type);
         this.addData(type, value);
         return result;
     }
@@ -159,7 +159,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     }
     
     @Override
-    default @Nullable Object getData(EntityDataKey type)
+    default Option<Object> getData(EntityDataKey type)
     {
         StrongRef<Object> result = new StrongRef<>(null);
         this.forEachData((t, value)->
@@ -167,6 +167,6 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
             if(t.equals(type))
                 result.set(value);
         });
-        return result.get();
+        return Option.fromNullable(result.get());
     }
 }

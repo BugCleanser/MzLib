@@ -28,6 +28,12 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
     }
     
     @Override
+    public void runLater(Runnable runnable)
+    {
+        this.getEventDisplayEntityData().runLater(runnable);
+    }
+    
+    @Override
     public void call()
     {
         super.call();
@@ -35,14 +41,14 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
     
     public static class InEntityItem extends EventAsyncPlayerDisplayItemInEntity
     {
-        public InEntityItem(EventAsyncDisplayEntityData eventDisplayEntityData)
+        public InEntityItem(EventAsyncDisplayEntityData eventDisplayEntityData, ItemStack original)
         {
-            super(eventDisplayEntityData.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM), eventDisplayEntityData);
+            super(original, eventDisplayEntityData);
         }
         @Override
         public ItemStack getItemStack()
         {
-            return this.eventDisplayEntityData.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM);
+            return this.eventDisplayEntityData.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM).unwrap();
         }
         @Override
         public void setItemStack(ItemStack value)
@@ -70,12 +76,11 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
             {
                 if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
                     return;
-                if(!event.getPacket().hasData(EntityItem.DATA_ADAPTER_ITEM))
-                    return;
-                synchronized(event.getDisplayEntity())
-                {
-                    new InEntityItem(event).call();
-                }
+                for(ItemStack original: event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
+                    synchronized(event.getDisplayEntity())
+                    {
+                        new InEntityItem(event, original).call();
+                    }
             }));
         }
     }

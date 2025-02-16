@@ -59,7 +59,7 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
         return of(function::apply);
     }
     
-    static <T extends WrapperObject, E extends Throwable> ThrowableFunction<? extends WrapperObject, T, E> wrapperCast(Function<Object, T> creator)
+    static <T extends WrapperObject> ThrowableFunction<? extends WrapperObject, T, RuntimeException> wrapperCast(Function<Object, T> creator)
     {
         return of(InvertibleFunction.wrapperCast(WrapperObject::create, creator));
     }

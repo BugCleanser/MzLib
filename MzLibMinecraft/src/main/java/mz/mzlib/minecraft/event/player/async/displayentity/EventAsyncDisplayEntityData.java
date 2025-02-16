@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.entity.display.DisplayEntity;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
+import mz.mzlib.util.Option;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,27 +19,20 @@ public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS
     }
     
     @Override
-    public void runLater(Runnable runnable)
+    public Option<Object> getData(EntityDataKey key)
     {
-        this.futureTasks.schedule(runnable);
-    }
-    
-    @Override
-    public Object getData(EntityDataKey key)
-    {
-        Object result = EventAsyncDisplayEntityData.this.getPacket().getData(key);
-        if(result!=null)
-            return result;
+        for(Object result : EventAsyncDisplayEntityData.this.getPacket().getData(key))
+            return Option.some(result);
         return EventAsyncDisplayEntityData.this.getDisplayEntity().getData(key);
     }
     @Override
-    public Object putData(EntityDataKey key, Object value)
+    public Option<Object> putData(EntityDataKey key, Object value)
     {
         this.getPacketEvent().ensureCopied();
         return EventAsyncDisplayEntityData.this.getPacket().putData(key, value);
     }
     @Override
-    public Object removeData(EntityDataKey key)
+    public Option<Object> removeData(EntityDataKey key)
     {
         this.getPacketEvent().ensureCopied();
         return EventAsyncDisplayEntityData.this.getPacket().removeData(key);

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.entity.display;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.entity.data.EntityDataHolder;
@@ -7,10 +8,12 @@ import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntitySpawn;
 import mz.mzlib.minecraft.util.math.Vec3d;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
@@ -36,18 +39,18 @@ public class DisplayEntity implements EntityDataHolder
     public EntityDataHolder unsynced = EntityDataHolder.of(new HashMap<>());
     
     @Override
-    public Object getData(EntityDataKey key)
+    public Option<Object> getData(EntityDataKey key)
     {
         return this.dataHolder.getData(key);
     }
     @Override
-    public Object putData(EntityDataKey key, Object value)
+    public Option<Object> putData(EntityDataKey key, Object value)
     {
         this.unsynced.putData(key, value);
         return this.dataHolder.putData(key, value);
     }
     @Override
-    public Object removeData(EntityDataKey key)
+    public Option<Object> removeData(EntityDataKey key)
     {
         this.unsynced.removeData(key);
         return this.dataHolder.removeData(key);
@@ -58,21 +61,22 @@ public class DisplayEntity implements EntityDataHolder
         this.dataHolder.forEachData(action);
     }
     
-    public void removeTag(Class<?> type)
+    public Map<Identifier, ?> tags = new HashMap<>();
+    public <T> Option<T> removeTag(Identifier key)
     {
-        this.tags.remove(type);
+        return Option.fromNullable(RuntimeUtil.cast(this.tags.remove(key)));
     }
-    public Map<Class<?>, ?> tags = new HashMap<>();
-    public <T> void putTag(Class<T> type, T value)
+    public <T> Option<T> putTag(Identifier key, T value)
     {
-        this.tags.put(type, RuntimeUtil.cast(value));
+        Objects.requireNonNull(value, "value");
+        return Option.fromNullable((RuntimeUtil.cast(this.tags.put(key, RuntimeUtil.cast(value)))));
     }
-    public boolean hasTag(Class<?> type)
+    public boolean hasTag(Identifier key)
     {
-        return this.tags.containsKey(type);
+        return this.tags.containsKey(key);
     }
-    public <T> T getTag(Class<T> type)
+    public <T> Option<T> getTag(Identifier key)
     {
-        return RuntimeUtil.cast(this.tags.get(type));
+        return Option.fromNullable(RuntimeUtil.cast(this.tags.get(key)));
     }
 }

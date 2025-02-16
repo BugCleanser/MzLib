@@ -5,6 +5,9 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Editor;
+import mz.mzlib.util.Ref;
+import mz.mzlib.util.ThrowableBiFunction;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -32,5 +35,10 @@ public interface ComponentMapDefaultedV2005 extends ComponentMapV2005
     default <T extends WrapperObject> T set(ComponentKeyV2005.Specialized<T> key, T value)
     {
         return key.set(this, value);
+    }
+    
+    default <T extends WrapperObject> Editor<Ref<T>> edit(ComponentKeyV2005.Specialized<T> key)
+    {
+        return Editor.ofRef(key, this::get, ThrowableBiFunction.<ComponentKeyV2005.Specialized<T>, T, T, RuntimeException>of(this::set).thenNothing());
     }
 }

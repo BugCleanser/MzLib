@@ -10,7 +10,6 @@ import mz.mzlib.minecraft.component.type.LoreComponentV2005;
 import mz.mzlib.minecraft.component.type.NbtCompoundComponentV2005;
 import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
@@ -80,32 +79,22 @@ public interface Item extends WrapperObject
     @VersionRange(end=1300)
     default Text staticGetCustomNameV_1300(ItemStack itemStack)
     {
-        NbtCompound nbt = itemStack.getTagV_2005();
-        if(!nbt.isPresent())
-            return Text.create(null);
-        nbt = nbt.getNBTCompound("display");
-        if(!nbt.isPresent())
-            return Text.create(null);
-        NbtElement name = nbt.get("Name");
-        if(!name.isPresent())
-            return Text.create(null);
-        return Text.fromLiteral(name.castTo(NbtString::create).getValue());
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.getNBTCompound("display"))
+                for(String name: display.getString("Name"))
+                    return Text.fromLiteral(name);
+        return Text.create(null);
     }
     
     @SpecificImpl("staticGetCustomName")
     @VersionRange(begin=1300, end=2005)
     default Text staticGetCustomNameV1300_2005(ItemStack itemStack)
     {
-        NbtCompound nbt = itemStack.getTagV_2005();
-        if(!nbt.isPresent())
-            return Text.create(null);
-        nbt = nbt.getNBTCompound("display");
-        if(!nbt.isPresent())
-            return Text.create(null);
-        NbtElement name = nbt.get("Name");
-        if(!name.isPresent())
-            return Text.create(null);
-        return Text.decode(name.castTo(NbtString::create).getValue());
+        for(NbtCompound nbt: itemStack.getTagV_2005())
+            for(NbtCompound display: nbt.getNBTCompound("display"))
+                for(String name: display.getString("Name"))
+                    return Text.decode(name);
+        return Text.create(null);
     }
     
     @SpecificImpl("staticGetCustomName")

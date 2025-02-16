@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.entity.data;
 
 import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.Option;
 
 public class EntityDataAdapter<T>
 {
@@ -18,22 +19,16 @@ public class EntityDataAdapter<T>
         return this.key;
     }
     
-    public T get(EntityDataHolder holder)
+    public Option<T> get(EntityDataHolder holder)
     {
-        return this.function.inverse().apply(holder.getData(this.key));
+        return holder.getData(this.key).map(this.function.inverse());
     }
-    public T put(EntityDataHolder holder, T value)
+    public Option<T> put(EntityDataHolder holder, T value)
     {
-        Object result = holder.putData(this.key, this.function.apply(value));
-        if(result == null)
-            return null;
-        return this.function.inverse().apply(result);
+        return holder.putData(this.key, this.function.apply(value)).map(this.function.inverse());
     }
-    public T remove(EntityDataHolder holder)
+    public Option<T> remove(EntityDataHolder holder)
     {
-        Object result = holder.removeData(this.key);
-        if(result == null)
-            return null;
-        return this.function.inverse().apply(result);
+        return holder.removeData(this.key).map(this.function.inverse());
     }
 }

@@ -34,24 +34,19 @@ public interface ItemPlayerHead extends Item
     {
         return create(null).staticGetOwner(itemStack);
     }
+    
     GameProfile staticGetOwner(ItemStack itemStack);
+    
     @SpecificImpl("staticGetOwner")
     @VersionRange(end=2005)
     default GameProfile staticGetOwnerV_2005(ItemStack itemStack)
     {
-        NbtCompound tag = itemStack.getTagV_2005();
-        if(tag!=null)
-        {
-            NbtCompound blockEntityTag = tag.getNBTCompound("BlockEntityTag");
-            if(blockEntityTag.isPresent())
-            {
-                NbtCompound skullOwner = blockEntityTag.getNBTCompound("SkullOwner");
-                if(skullOwner.isPresent())
-                    return NbtUtil.decodeGameProfileV_2005(skullOwner);
-            }
-        }
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound skullOwner: tag.getNBTCompound("SkullOwner"))
+                return NbtUtil.decodeGameProfileV_2005(skullOwner);
         return GameProfile.create(null);
     }
+    
     @SpecificImpl("staticGetOwner")
     @VersionRange(begin=2005)
     default GameProfile staticGetOwnerV2005(ItemStack itemStack)
@@ -63,13 +58,16 @@ public interface ItemPlayerHead extends Item
     {
         create(null).staticSetOwner(itemStack, profile);
     }
+    
     void staticSetOwner(ItemStack itemStack, GameProfile profile);
+    
     @SpecificImpl("staticSetOwner")
     @VersionRange(end=2005)
     default void staticSetOwnerV_2005(ItemStack itemStack, GameProfile profile)
     {
         itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
     }
+    
     @SpecificImpl("staticSetOwner")
     @VersionRange(begin=2005)
     default void staticSetOwnerV2005(ItemStack itemStack, GameProfile profile)
@@ -81,13 +79,16 @@ public interface ItemPlayerHead extends Item
     {
         return create(null).staticCopyOwner(itemStack);
     }
+    
     GameProfile staticCopyOwner(ItemStack itemStack);
+    
     @SpecificImpl("staticCopyOwner")
     @VersionRange(end=2005)
     default GameProfile staticCopyOwnerV_2005(ItemStack itemStack)
     {
         return getOwner(itemStack);
     }
+    
     @SpecificImpl("staticCopyOwner")
     @VersionRange(begin=2005)
     default GameProfile staticCopyOwnerV2005(ItemStack itemStack)
@@ -102,7 +103,7 @@ public interface ItemPlayerHead extends Item
     
     static String texturesFromUrl(String url)
     {
-        JsonObject textures=new JsonObject();
+        JsonObject textures = new JsonObject();
         for(JsonObject value: JsonUtil.addChild(textures, "textures"))
             for(JsonObject skin: JsonUtil.addChild(value, "SKIN"))
                 skin.addProperty("url", url);

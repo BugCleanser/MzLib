@@ -61,4 +61,9 @@ public interface ThrowableBiFunction<F, S, R, E extends Throwable> extends BiFun
     {
         return (f, s)->after.accept(this.apply(f, s));
     }
+    
+    default ThrowableBiConsumer<F, S, E> thenNothing()
+    {
+        return this.thenAccept(ThrowableConsumer.nothing());
+    }
 }

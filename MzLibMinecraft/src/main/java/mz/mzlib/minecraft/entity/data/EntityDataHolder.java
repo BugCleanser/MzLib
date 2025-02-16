@@ -1,15 +1,17 @@
 package mz.mzlib.minecraft.entity.data;
 
+import mz.mzlib.util.Option;
+
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 public interface EntityDataHolder
 {
-    Object getData(EntityDataKey key);
+    Option<Object> getData(EntityDataKey key);
     
-    Object putData(EntityDataKey key, Object value);
+    Option<Object> putData(EntityDataKey key, Object value);
     
-    Object removeData(EntityDataKey key);
+    Option<Object> removeData(EntityDataKey key);
     
     void forEachData(BiConsumer<EntityDataKey, Object> action);
     
@@ -18,15 +20,16 @@ public interface EntityDataHolder
         return getData(key)!=null;
     }
     
-    default <T> T getData(EntityDataAdapter<T> adapter)
+    default <T> Option<T> getData(EntityDataAdapter<T> adapter)
     {
         return adapter.get(this);
     }
-    default <T> T putData(EntityDataAdapter<T> adapter, T value)
+    @SuppressWarnings("UnusedReturnValue")
+    default <T> Option<T> putData(EntityDataAdapter<T> adapter, T value)
     {
         return adapter.put(this, value);
     }
-    default <T> T removeData(EntityDataAdapter<T> adapter)
+    default <T> Option<T> removeData(EntityDataAdapter<T> adapter)
     {
         return adapter.remove(this);
     }
@@ -48,19 +51,19 @@ public interface EntityDataHolder
             this.map = map;
         }
         @Override
-        public Object getData(EntityDataKey key)
+        public Option<Object> getData(EntityDataKey key)
         {
-            return this.map.get(key);
+            return Option.fromNullable(this.map.get(key));
         }
         @Override
-        public Object putData(EntityDataKey key, Object value)
+        public Option<Object> putData(EntityDataKey key, Object value)
         {
-            return this.map.put(key, value);
+            return Option.fromNullable(this.map.put(key, value));
         }
         @Override
-        public Object removeData(EntityDataKey key)
+        public Option<Object> removeData(EntityDataKey key)
         {
-            return this.map.remove(key);
+            return Option.fromNullable(this.map.remove(key));
         }
         @Override
         public boolean hasData(EntityDataKey key)
