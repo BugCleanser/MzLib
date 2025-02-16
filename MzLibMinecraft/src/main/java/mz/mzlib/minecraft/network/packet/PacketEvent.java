@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.network.packet;
 
 import io.netty.channel.Channel;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.TaskList;
 
 import java.util.function.Function;
@@ -9,17 +10,17 @@ import java.util.function.Function;
 public class PacketEvent
 {
     public Channel channel;
-    public EntityPlayer player;
+    public Option<EntityPlayer> player;
     public Packet packet;
     public boolean isCancelled = false;
-    public PacketEvent(Channel channel, EntityPlayer player, Packet packet)
+    public PacketEvent(Channel channel, Option<EntityPlayer> player, Packet packet)
     {
         this.channel = channel;
         this.player = player;
         this.packet = packet;
     }
     
-    public EntityPlayer getPlayer()
+    public Option<EntityPlayer> getPlayer()
     {
         return this.player;
     }
@@ -70,7 +71,7 @@ public class PacketEvent
             this.packetCreator = packetCreator;
         }
         
-        public EntityPlayer getPlayer()
+        public Option<EntityPlayer> getPlayer()
         {
             return this.common.getPlayer();
         }

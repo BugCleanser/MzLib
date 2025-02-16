@@ -2,6 +2,7 @@ package mz.mzlib.util.wrapper;
 
 import mz.mzlib.asm.tree.FieldInsnNode;
 import mz.mzlib.asm.tree.MethodInsnNode;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 
@@ -79,6 +80,13 @@ public interface WrapperObject
         if(this.isPresent() && !this.isInstanceOf(wrapperCreator))
             throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+wrapperCreator.apply(null).staticGetWrappedClass());
         return wrapperCreator.apply(this.getWrapped());
+    }
+    default <T extends WrapperObject> Option<T> tryCast(Function<Object, T> wrapperCreator)
+    {
+        if(this.isInstanceOf(wrapperCreator))
+            return Option.some(this.castTo(wrapperCreator));
+        else
+            return Option.none();
     }
     
     /**

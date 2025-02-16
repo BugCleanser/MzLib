@@ -10,6 +10,7 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.packet.s2c.PacketBundleS2cV1904;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.TaskList;
 import mz.mzlib.util.asm.AsmUtil;
@@ -26,11 +27,11 @@ public class ModulePacketListener extends MzModule
 {
     public static ModulePacketListener instance = new ModulePacketListener();
     
-    public boolean handle(Channel channel, EntityPlayer player, Packet packet, Consumer<Packet> rehandler)
+    public boolean handle(Channel channel, Option<EntityPlayer> player, Packet packet, Consumer<Packet> rehandler)
     {
         return handle(channel, player, packet, rehandler, MinecraftServer.instance::schedule);
     }
-    public boolean handle(Channel channel, EntityPlayer player, final Packet packet, Consumer<Packet> rehandler, Consumer<Runnable> syncer)
+    public boolean handle(Channel channel, Option<EntityPlayer> player, final Packet packet, Consumer<Packet> rehandler, Consumer<Runnable> syncer)
     {
         try
         {

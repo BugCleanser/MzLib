@@ -51,10 +51,10 @@ public class DisplayEntityTracker
             
             this.register(new PacketListener<>(PacketS2cEntitySpawn::create, Priority.LOW, packetEvent->
             {
-                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer());
+                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap());
                 synchronized(displayEntityTracker)
                 {
-                    DisplayEntity displayEntity = new DisplayEntity(packetEvent.getPlayer(), packetEvent.getPacket());
+                    DisplayEntity displayEntity = new DisplayEntity(packetEvent.getPlayer().unwrap(), packetEvent.getPacket());
                     EventAsyncDisplayEntitySpawn event = new EventAsyncDisplayEntitySpawn(displayEntity, packetEvent);
                     event.call();
                     if(!event.isCancelled())
@@ -64,7 +64,7 @@ public class DisplayEntityTracker
             }));
             this.register(new PacketListener<>(PacketS2cEntityDestroy::create, Priority.LOW, packetEvent->
             {
-                DisplayEntityTracker tracker = get(packetEvent.getPlayer());
+                DisplayEntityTracker tracker = get(packetEvent.getPlayer().unwrap());
                 synchronized(tracker)
                 {
                     for(int entityId: packetEvent.getPacket().getEntityIds())
@@ -82,7 +82,7 @@ public class DisplayEntityTracker
             }));
             this.register(new PacketListener<>(PacketS2cEntityData::create, Priority.LOW, packetEvent->
             {
-                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer());
+                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap());
                 synchronized(displayEntityTracker)
                 {
                     DisplayEntity displayEntity = displayEntityTracker.entities.get(packetEvent.getPacket().getEntityId());

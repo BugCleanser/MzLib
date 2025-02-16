@@ -47,10 +47,11 @@ public class EventPlayerQuit extends EventPlayer
             {
                 if(this.getChannel()==null || this.getChannel().isOpen())
                     return Nothing.notReturn();
-                if(!this.getPlayer().isPresent())
-                    return Nothing.notReturn();
-                EventPlayerQuit event = new EventPlayerQuit(this.getPlayer());
-                event.call();
+                for(EntityPlayer player: this.getPlayer())
+                {
+                    EventPlayerQuit event = new EventPlayerQuit(player);
+                    event.call();
+                }
                 return Nothing.notReturn();
             }
         }

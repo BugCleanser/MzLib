@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;

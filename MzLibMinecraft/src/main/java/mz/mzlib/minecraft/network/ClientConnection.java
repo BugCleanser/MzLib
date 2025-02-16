@@ -13,6 +13,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.minecraft.network.listener.MinecraftPacketListener;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -32,12 +33,9 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="channel"))
     Channel getChannel();
     
-    default EntityPlayer getPlayer()
+    default Option<EntityPlayer> getPlayer()
     {
-        MinecraftPacketListener listener = this.getPacketListener();
-        if(listener.isInstanceOf(ServerPlayNetworkHandler::create))
-            return ServerPlayNetworkHandler.create(listener.getWrapped()).getPlayer();
-        return EntityPlayer.create(null);
+        return this.getPacketListener().tryCast(ServerPlayNetworkHandler::create).map(ServerPlayNetworkHandler::getPlayer);
     }
     
     @WrapMinecraftMethod(@VersionName(name="send"))

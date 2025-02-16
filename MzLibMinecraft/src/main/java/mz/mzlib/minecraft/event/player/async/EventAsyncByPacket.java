@@ -9,7 +9,7 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
     public PacketEvent.Specialized<P> packetEvent;
     public EventAsyncByPacket(PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent.getPlayer());
+        super(packetEvent.getPlayer().unwrap());
         this.packetEvent = packetEvent;
     }
     

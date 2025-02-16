@@ -119,6 +119,22 @@ class Some<T> extends Option<T>
     }
     
     @Override
+    public int hashCode()
+    {
+        return Objects.hash(0, this.value);
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj==this)
+            return true;
+        if(!(obj instanceof Some))
+            return false;
+        return this.value.equals(((Some<?>)obj).value);
+    }
+    
+    @Override
     public Iterator<T> iterator()
     {
         return new Itr();
@@ -196,6 +212,17 @@ class None<T> extends Option<T>
     public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
     {
         return none();
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return 0;
+    }
+    
+    public boolean equals(Object obj)
+    {
+        return obj instanceof None;
     }
     
     @Override
