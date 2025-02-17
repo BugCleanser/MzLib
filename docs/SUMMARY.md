@@ -8,10 +8,3 @@
   - [配置文件](./tutorial/chapter_5.md)
 
 - [进阶教程](./advanced.md)
-  - [配合BukkitAPI使用](./advanced/bukkit.md)
-  - [自定义事件](./advanced/event.md)
-  - [网络数据包](./advanced/packet.md)
-  - [使用和创建包装类](./advanced/wrapper.md)
-  - [Compound类](./advanced/compound.md)
-  - [窗口](./advanced/window.md)
-  - [异步函数](./advanced/async_function.md)

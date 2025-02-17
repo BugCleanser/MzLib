@@ -1,3 +1,4 @@
+- [Option](./advanced/option.md)
 - [配合BukkitAPI使用](./advanced/bukkit.md)
 - [自定义事件](./advanced/event.md)
 - [网络数据包](./advanced/packet.md)
