@@ -1,11 +1,11 @@
 package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.util.Option;
 
 import java.util.Objects;
 import java.util.UUID;
 
-// TODO from EntityPlayer
 /**
  * A persistent representation of a player.
  * unlike EntityPlayer which can vary when the player is offline or dies on some servers.
@@ -13,19 +13,29 @@ import java.util.UUID;
 public class Player
 {
     public UUID uuid;
-    public Player(UUID uuid)
+    protected Player(UUID uuid)
     {
         this.uuid = uuid;
     }
     
-    public boolean isOnline()
+    public static Player of(UUID uuid)
     {
-        return this.getEntity().isPresent();
+        return new Player(uuid);
     }
     
-    public EntityPlayer getEntity()
+    public UUID getUuid()
     {
-        return null; // TODO
+        return this.uuid;
+    }
+    
+    public Option<EntityPlayer> getEntity()
+    {
+        return MinecraftServer.instance.getPlayerManager().getPlayer(this.uuid);
+    }
+    
+    public boolean isOnline()
+    {
+        return this.getEntity().isSome();
     }
     
     @Override

@@ -23,7 +23,7 @@ public class DemoUIInput extends MzModule
                         return;
                     if(!context.doExecute)
                         return;
-                    UIWindowAnvilInput.invoke(context.getSource().getPlayer(), "", Text.literal("Title")).thenAccept(text->context.getSource().sendMessage(Text.literal(text)));
+                    UIWindowAnvilInput.invoke(context.getSource().getPlayer().unwrap(), "", Text.literal("Title")).thenAccept(text->context.getSource().sendMessage(Text.literal(text)));
                 })));
     }
 }

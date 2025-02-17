@@ -35,7 +35,7 @@ public class CommandMzLibItemInfo extends MzModule
             return;
         if(context.doExecute)
         {
-            Result<Option<NbtCompound>, String> encode = ItemStack.encode(context.getSource().getPlayer().getHandItemStack());
+            Result<Option<NbtCompound>, String> encode = ItemStack.encode(context.getSource().getPlayer().unwrap().getHandItemStack());
             for(NbtCompound nbt: encode.getValue())
                 context.getSource().sendMessage(Text.literal(nbt.toString()));
             for(String err: encode.getError())

@@ -79,7 +79,7 @@ public class Command
     
     public static Text checkPermissionSenderPlayer(CommandSource source)
     {
-        if(!source.getPlayer().isPresent())
+        if(!source.getPlayer().isSome())
             return Text.literal(I18nMinecraft.getTranslation(source, "mzlib.command.permission.not_player"));
         return null;
     }

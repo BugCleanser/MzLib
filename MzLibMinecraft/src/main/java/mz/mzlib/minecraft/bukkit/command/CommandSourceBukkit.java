@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.bukkit.MinecraftServerBukkit;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.command.RconConsole;
+import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -27,16 +28,15 @@ public interface CommandSourceBukkit extends CommandSource
     @VersionRange(end=1200)
     default CommandSender getBukkitSenderV_1200()
     {
-        if(this.getEntity().isPresent())
-            return BukkitEntityUtil.toBukkit(this.getEntity());
-        else if(this.isInstanceOf(MinecraftServer::create))
+        for(Entity entity: this.getEntity())
+            return BukkitEntityUtil.toBukkit(entity);
+        if(this.isInstanceOf(MinecraftServer::create))
             return Bukkit.getConsoleSender();
-        else if(this.isInstanceOf(CommandBlockExecutorBukkit::create))
+        if(this.isInstanceOf(CommandBlockExecutorBukkit::create))
             return this.castTo(CommandBlockExecutorBukkit::create).getBukkitSenderV_1300();
-        else if(this.isInstanceOf(RconConsole::create))
+        if(this.isInstanceOf(RconConsole::create))
             return MinecraftServer.instance.castTo(MinecraftServerBukkit::create).getRemoteConsoleV_2002();
-        else
-            throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
     
     @SpecificImpl("getBukkitSender")

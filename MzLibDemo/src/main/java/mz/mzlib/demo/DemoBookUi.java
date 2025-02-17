@@ -27,7 +27,7 @@ public class DemoBookUi extends MzModule
                 return;
             if(!context.successful || !context.doExecute)
                 return;
-            UIStack.get(context.getSource().getPlayer()).start(new UIDemoBook());
+            UIStack.get(context.getSource().getPlayer().unwrap()).start(new UIDemoBook());
         }));
     }
     

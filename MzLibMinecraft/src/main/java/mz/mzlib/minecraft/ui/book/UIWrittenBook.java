@@ -66,14 +66,14 @@ public abstract class UIWrittenBook implements UI
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, source->UIStack.get(source.getPlayer()).top() instanceof UIWrittenBook ? null : Text.literal(I18nMinecraft.getTranslation(source, "mzlib.commands.mzlib.book_click.error.not_opening"))).setHandler(context->
+            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, source->UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ? null : Text.literal(I18nMinecraft.getTranslation(source, "mzlib.commands.mzlib.book_click.error.not_opening"))).setHandler(context->
             {
                 Integer button = new ArgumentParserInt("button").handle(context);
                 if(context.argsReader.hasNext())
                     context.successful = false;
                 if(!context.successful || !context.doExecute)
                     return;
-                EntityPlayer sender = context.getSource().getPlayer();
+                EntityPlayer sender = context.getSource().getPlayer().unwrap();
                 List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook)UIStack.get(sender).top()).buttons;
                 if(button<0 || button>=buttons.size())
                 {

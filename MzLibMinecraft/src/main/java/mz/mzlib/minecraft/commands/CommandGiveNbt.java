@@ -51,12 +51,12 @@ public class CommandGiveNbt extends MzModule
             nbt = new ArgumentParserNbtCompound().handle(context);
             if(context.argsReader.hasNext())
                 context.successful = false;
-            if(!context.getSource().getPlayer().isPresent())
+            if(!context.getSource().getPlayer().isSome())
             {
                 context.successful = false;
                 return;
             }
-            player = context.getSource().getPlayer();
+            player = context.getSource().getPlayer().unwrap();
         }
         if(!context.successful || !context.doExecute)
             return;

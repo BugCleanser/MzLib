@@ -19,6 +19,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
 public interface Entity extends WrapperObject
@@ -81,6 +82,9 @@ public interface Entity extends WrapperObject
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
             MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() : //
                     InvertibleFunction.cast());
+    
+    @WrapMinecraftFieldAccessor({@VersionName(name="playerUuid", end=1400), @VersionName(name="uuid", begin=1400)})
+    UUID getUuid();
     
     Vec3d getPosition();
     

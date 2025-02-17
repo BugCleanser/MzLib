@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -65,27 +66,17 @@ public interface CommandSource extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="sendMessage"))
     void sendMessageV1901(Text message);
     
-    Entity getEntity();
-    
-    @SpecificImpl("getEntity")
-    @VersionRange(end=1300)
-    default Entity getEntityV_1300()
+    @WrapMinecraftMethod({@VersionName(name="getEntity", end=1300), @VersionName(name="method_17469", begin=1300, end=1400), @VersionName(name="getEntity", begin=1400)})
+    Entity getEntity0();
+    default Option<Entity> getEntity()
     {
-        if(this.isInstanceOf(Entity::create))
-            return this.castTo(Entity::create);
-        else
-            return Entity.create(null);
+        return Option.fromWrapper(this.getEntity0());
     }
     
-    @SpecificImpl("getEntity")
-    @VersionRange(begin=1300)
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_19284", end=1400), @VersionName(name="entity", begin=1400)})
-    Entity getEntityV1300();
-    
-    default EntityPlayer getPlayer()
+    default Option<EntityPlayer> getPlayer()
     {
-        if(this.getEntity().isInstanceOf(EntityPlayer::create))
-            return this.getEntity().castTo(EntityPlayer::create);
-        return EntityPlayer.create(null);
+        for(Entity entity: this.getEntity())
+            return entity.tryCast(EntityPlayer::create);
+        return Option.none();
     }
 }

@@ -53,9 +53,9 @@ public class CommandMzLibTest extends MzModule
                 return;
         }
         TesterContext testerContext;
-        if(context.getSource().getPlayer().isPresent())
+        if(context.getSource().getPlayer().isSome())
         {
-            testerContext = new TesterContextPlayer(level, context.getSource().getPlayer());
+            testerContext = new TesterContextPlayer(level, context.getSource().getPlayer().unwrap());
             context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.test.begin.player")));
         }
         else

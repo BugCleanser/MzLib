@@ -73,8 +73,7 @@ public class I18nMinecraft extends MzModule
     
     public static String getTranslation(CommandSource commandSource, String key)
     {
-        EntityPlayer player = commandSource.getPlayer();
-        if(player.isPresent())
+        for(EntityPlayer player: commandSource.getPlayer())
             return getTranslation(player, key);
         return I18n.getTranslation(I18n.getDefaultLanguage(), key);
     }
@@ -85,8 +84,7 @@ public class I18nMinecraft extends MzModule
     
     public static String getTranslationWithArgs(CommandSource commandSource, String key, Map<String, Object> args)
     {
-        EntityPlayer player = commandSource.getPlayer();
-        if(player.isPresent())
+        for(EntityPlayer player: commandSource.getPlayer())
             return getTranslationWithArgs(player, key, args);
         return I18n.getTranslationWithArgs(I18n.getDefaultLanguage(), key, args);
     }

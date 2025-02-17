@@ -11,10 +11,9 @@ public interface PermissionHelp extends Instance, IRegistrar<Permission>
     PermissionHelp instance = RuntimeUtil.nul();
     default boolean check(CommandSource commandSource, String permission)
     {
-        if(commandSource.getPlayer().isPresent())
-            return this.check(commandSource.getPlayer(), permission);
-        else
-            return true;
+        for(EntityPlayer player: commandSource.getPlayer())
+            return this.check(player, permission);
+        return true;
     }
     default boolean check(CommandSource commandSource, Permission permission)
     {

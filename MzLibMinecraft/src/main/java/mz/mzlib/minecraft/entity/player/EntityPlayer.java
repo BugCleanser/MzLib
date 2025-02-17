@@ -1,9 +1,6 @@
 package mz.mzlib.minecraft.entity.player;
 
-import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.bukkit.BukkitDisabled;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
@@ -28,6 +25,11 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     static EntityPlayer create(Object wrapped)
     {
         return WrapperObject.create(EntityPlayer.class, wrapped);
+    }
+    
+    default Player toPlayer()
+    {
+        return Player.of(this.getUuid());
     }
     
     boolean isOp();

@@ -30,7 +30,7 @@ public class Inventory10Slots extends MzModule
                 return;
             if(context.doExecute)
             {
-                ui.open(context.getSource().getPlayer());
+                ui.open(context.getSource().getPlayer().unwrap());
             }
         }));
     }

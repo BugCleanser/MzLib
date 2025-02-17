@@ -68,7 +68,7 @@ public class CommandMzLibLang extends MzModule
                     fork.getSource().sendMessage(check);
                     return;
                 }
-                UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang));
+                UIStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang));
             }
             return;
         }
@@ -86,7 +86,7 @@ public class CommandMzLibLang extends MzModule
                     fork.getSource().sendMessage(check);
                     return;
                 }
-                UIStack.get(fork.getSource().getPlayer()).start(new LangEditor(lang, key));
+                UIStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang, key));
             }
             return;
         }
