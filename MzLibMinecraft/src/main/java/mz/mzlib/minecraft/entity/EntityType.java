@@ -1,17 +1,31 @@
 package mz.mzlib.minecraft.entity;
 
 import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.projectile.EntityFishingBobber;
 import mz.mzlib.minecraft.registry.EntityTypesV_1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
+import mz.mzlib.minecraft.world.AbstractWorld;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.InvertibleMap;
+import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodType;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 @WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
@@ -31,7 +45,9 @@ public interface EntityType extends WrapperObject
     {
         return create(null).staticFromId(id);
     }
+    
     EntityType staticFromId(Identifier id);
+    
     @SpecificImpl("staticFromId")
     @VersionRange(end=1100)
     default EntityType staticFromIdV_1100(Identifier id)
@@ -40,6 +56,7 @@ public interface EntityType extends WrapperObject
             return create(EntityFishingBobber.create(null).staticGetWrappedClass());
         return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
+    
     @SpecificImpl("staticFromId")
     @VersionRange(begin=1100, end=1300)
     default EntityType staticFromIdV1100_1300(Identifier id)
@@ -48,6 +65,7 @@ public interface EntityType extends WrapperObject
             return create(EntityFishingBobber.create(null).staticGetWrappedClass());
         return getRegistry1100().get(id).castTo(EntityType::create);
     }
+    
     @SpecificImpl("staticFromId")
     @VersionRange(begin=1300)
     default EntityType staticFromIdV1300(Identifier id)
@@ -79,6 +97,61 @@ public interface EntityType extends WrapperObject
     default Registry staticRegistryV1300()
     {
         return RegistriesV1300.entityType();
+    }
+    
+    Entity newEntity(AbstractWorld world);
+    
+    Map<Class<?>, MethodHandle> cacheV_1300 = MinecraftPlatform.instance.getVersion()<1300 ? new HashMap<>() : null;
+    @SpecificImpl("newEntity")
+    @VersionRange(end=1300)
+    default Entity newEntityV_1300(AbstractWorld world)
+    {
+        try
+        {
+            return Entity.create((Object)cacheV_1300.computeIfAbsent((Class<?>)this.getWrapped(), ThrowableFunction.of(c-> //
+                            ClassUtil.findConstructor(c, AbstractWorld.create(null).staticGetWrappedClass()).asType(MethodType.methodType(Object.class, Object.class)))) //
+                    .invokeExact((Object)world.getWrapped()));
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+    
+    @VersionRange(begin=1300, end=1400)
+    @WrapMinecraftFieldAccessor(@VersionName(name="entityFactory"))
+    Function<Object, ?> getFactoryV1300_1400();
+    
+    @SpecificImpl("newEntity")
+    @VersionRange(begin=1300, end=1400)
+    default Entity newEntityV1300_1400(AbstractWorld world)
+    {
+        return Entity.create(this.getFactoryV1300_1400().apply(world.getWrapped()));
+    }
+    
+    @VersionRange(begin=1400)
+    @WrapMinecraftFieldAccessor(@VersionName(name="factory"))
+    EntityFactoryV1400 getFactoryV1400();
+    
+    @SpecificImpl("newEntity")
+    @VersionRange(begin=1400)
+    default Entity newEntityV1400(AbstractWorld world)
+    {
+        return getFactoryV1400().create(this, world);
+    }
+    
+    @VersionRange(begin=1400)
+    @WrapMinecraftInnerClass(outer=EntityType.class, name=@VersionName(name="EntityFactory"))
+    interface EntityFactoryV1400 extends WrapperObject
+    {
+        @WrapperCreator
+        static EntityFactoryV1400 create(Object wrapped)
+        {
+            return WrapperObject.create(EntityFactoryV1400.class, wrapped);
+        }
+        
+        @WrapMinecraftMethod(@VersionName(name="create"))
+        Entity create(EntityType type, AbstractWorld world);
     }
     
     /**
