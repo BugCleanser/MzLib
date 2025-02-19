@@ -52,6 +52,8 @@ public abstract class Option<T> implements Iterable<T>
     
     public abstract T unwrapOr(T defaultValue);
     
+    public abstract <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T,? extends E> supplier) throws E;
+    
     public abstract <U> Option<U> and(Option<U> other);
     
     public abstract Option<T> or(Option<T> other);
@@ -96,6 +98,11 @@ class Some<T> extends Option<T>
         return this.value;
     }
     public T unwrapOr(T defaultValue)
+    {
+        return this.unwrap();
+    }
+    @Override
+    public <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, ? extends E> supplier)
     {
         return this.unwrap();
     }
@@ -189,11 +196,15 @@ class None<T> extends Option<T>
     {
         throw new NoSuchElementException();
     }
-    
     @Override
     public T unwrapOr(T defaultValue)
     {
         return defaultValue;
+    }
+    @Override
+    public <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, ? extends E> supplier) throws E
+    {
+        return supplier.get();
     }
     
     @Override

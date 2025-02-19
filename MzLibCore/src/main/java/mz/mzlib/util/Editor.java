@@ -15,17 +15,40 @@ public abstract class Editor<T> implements AutoCompletable<T>
     @Override
     public T start()
     {
+        if(this.value!=null)
+            throw new IllegalStateException("Editor is already started");
         return this.value = this.get();
     }
     @Override
     public void complete()
     {
+        if(this.value==null)
+            throw new IllegalStateException("Editor is not started");
         this.set(this.value);
     }
     
     public <U> Editor<U> map(InvertibleFunction<T, U> function)
     {
         return of(ThrowableSupplier.of(this::get).thenApply(function), function.inverse().thenAccept(this::set));
+    }
+    
+    public <U> Editor<U> then(Function<T, U> getter, BiConsumer<T, U> setter)
+    {
+        return new Editor<U>()
+        {
+            @Override
+            public U get()
+            {
+                return getter.apply(Editor.this.start());
+            }
+            
+            @Override
+            public void set(U value)
+            {
+                setter.accept(Editor.this.value, value);
+                Editor.this.complete();
+            }
+        };
     }
     
     public static <T> Editor<T> of(Supplier<? extends T> getter, Consumer<? super T> setter)

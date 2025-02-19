@@ -236,23 +236,7 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="damage"))
     void setDamageV_1300(int damage);
     
-    default NbtCompound customData()
-    {
-        NbtCompound result = this.getCustomData();
-        if(!result.isPresent())
-        {
-            result = NbtCompound.newInstance();
-            this.setCustomData(result);
-        }
-        return result;
-    }
-    
-    NbtCompound getCustomData();
-    
-    void setCustomData(NbtCompound value);
-    
     @VersionRange(end=2005)
-    @SpecificImpl("getCustomData")
     @WrapMinecraftMethod({@VersionName(end=1400, name="getNbt"), @VersionName(begin=1400, end=1701, name="getTag"), @VersionName(begin=1701, name="getNbt")})
     NbtCompound getTag0V_2005();
     default Option<NbtCompound> getTagV_2005()
@@ -261,7 +245,6 @@ public interface ItemStack extends WrapperObject
     }
     
     @VersionRange(end=2005)
-    @SpecificImpl("setCustomData")
     @WrapMinecraftMethod({@VersionName(end=1400, name="setNbt"), @VersionName(begin=1400, end=1701, name="setTag"), @VersionName(begin=1701, name="setNbt")})
     void setTag0V_2005(NbtCompound value);
     default void setTagV_2005(Option<NbtCompound> value)
@@ -276,20 +259,6 @@ public interface ItemStack extends WrapperObject
         NbtCompound result = NbtCompound.newInstance();
         this.setTagV_2005(Option.some(result));
         return result;
-    }
-    
-    @SpecificImpl("getCustomData")
-    @VersionRange(begin=2005)
-    default NbtCompound getCustomDataV2005()
-    {
-        return this.getComponentsV2005().get(ComponentKeyV2005.fromId("custom_data"), NbtCompoundComponentV2005::create).getNbtCompound();
-    }
-    
-    @SpecificImpl("setCustomData")
-    @VersionRange(begin=2005)
-    default void setCustomDataV2005(NbtCompound value)
-    {
-        WrapperObject ignored = this.getComponentsV2005().set(ComponentKeyV2005.fromId("custom_data"), NbtCompoundComponentV2005.newInstance(value));
     }
     
     @VersionRange(begin=2005)

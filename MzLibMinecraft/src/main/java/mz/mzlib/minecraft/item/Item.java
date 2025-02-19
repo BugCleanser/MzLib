@@ -20,13 +20,16 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Editor;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Ref;
 import mz.mzlib.util.StrongRef;
-import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.Item"))
 public interface Item extends WrapperObject
@@ -55,17 +58,67 @@ public interface Item extends WrapperObject
     
     static NbtCompound getCustomData(ItemStack itemStack)
     {
+        return create(null).staticGetCustomData(itemStack);
+    }
+    
+    NbtCompound staticGetCustomData(ItemStack itemStack);
+    
+    @SpecificImpl("staticGetCustomData")
+    @VersionRange(end=2005)
+    default NbtCompound staticGetCustomDataV_2005(ItemStack itemStack)
+    {
+        return itemStack.getTagV_2005().unwrapOrGet(NbtCompound::newInstance);
+    }
+    
+    @SpecificImpl("staticGetCustomData")
+    @VersionRange(begin=2005)
+    default NbtCompound staticGetCustomDataV2005(ItemStack itemStack)
+    {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005).getNbtCompound();
     }
     
     static void setCustomData(ItemStack itemStack, NbtCompound customData)
     {
+        create(null).staticSetCustomData(itemStack, customData);
+    }
+    
+    void staticSetCustomData(ItemStack itemStack, NbtCompound customData);
+    
+    @SpecificImpl("staticSetCustomData")
+    @VersionRange(end=2005)
+    default void staticSetCustomDataV_2005(ItemStack itemStack, NbtCompound customData)
+    {
+        itemStack.setTagV_2005(Option.some(customData));
+    }
+    
+    @SpecificImpl("staticSetCustomData")
+    @VersionRange(begin=2005)
+    default void staticSetCustomDataV2005(ItemStack itemStack, NbtCompound customData)
+    {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, NbtCompoundComponentV2005.newInstance(customData));
     }
     
-    static Editor<NbtCompound> editCustomData(ItemStack itemStack)
+    static NbtCompound editCustomData(ItemStack itemStack)
     {
-        return Editor.of(itemStack, ThrowableFunction.of(Item::getCustomData).thenApply(NbtCompound::copy), Item::setCustomData);
+        return create(null).staticEditCustomData(itemStack);
+    }
+    
+    NbtCompound staticEditCustomData(ItemStack itemStack);
+    
+    @SpecificImpl("staticEditCustomData")
+    @VersionRange(end=2005)
+    default NbtCompound staticEditCustomDataV_2005(ItemStack itemStack)
+    {
+        return getCustomData(itemStack);
+    }
+    
+    @SpecificImpl("staticEditCustomData")
+    @VersionRange(begin=2005)
+    default NbtCompound staticEditCustomDataV2005(ItemStack itemStack)
+    {
+        NbtCompound result = getCustomData(itemStack).copy();
+        setCustomData(itemStack, result);
+        return result;
     }
     
     static Text getCustomName(ItemStack itemStack)
@@ -116,14 +169,14 @@ public interface Item extends WrapperObject
     @VersionRange(end=1300)
     default void staticSetCustomNameV_1300(ItemStack itemStack, Text customName)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
+        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
     }
     
     @SpecificImpl("staticSetCustomName")
     @VersionRange(begin=1300, end=2005)
     default void staticSetCustomNameV1300_2005(ItemStack itemStack, Text customName)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
+        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
     }
     
     @SpecificImpl("staticSetCustomName")
@@ -131,6 +184,68 @@ public interface Item extends WrapperObject
     default void staticSetCustomNameV2005(ItemStack itemStack, Text customName)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, customName);
+    }
+    
+    static Editor<Ref<Text>> editCustomName(ItemStack itemStack)
+    {
+        return Editor.ofRef(itemStack, Item::getCustomName, Item::setCustomName);
+    }
+    
+    static List<Text> getLore(ItemStack itemStack)
+    {
+        return create(null).staticGetLore(itemStack);
+    }
+    
+    List<Text> staticGetLore(ItemStack itemStack);
+    
+    @SpecificImpl("staticGetLore")
+    @VersionRange(end=1400)
+    default List<Text> staticGetLoreV_1400(ItemStack itemStack)
+    {
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.getNBTCompound("display"))
+                for(NbtList lore: display.getNBTList("Lore"))
+                    return lore.asList(NbtString::create).stream().map(NbtString::getValue).map(Text::fromLiteral).collect(Collectors.toList());
+        return new ArrayList<>();
+    }
+    
+    @SpecificImpl("staticGetLore")
+    @VersionRange(begin=1400, end=2005)
+    default List<Text> staticGetLoreV1400_2005(ItemStack itemStack)
+    {
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.getNBTCompound("display"))
+                for(NbtList lore: display.getNBTList("Lore"))
+                    return lore.asList(NbtString::create).stream().map(NbtString::getValue).map(Text::decode).collect(Collectors.toList());
+        return new ArrayList<>();
+    }
+    
+    @SpecificImpl("staticGetLore")
+    @VersionRange(begin=2005)
+    default List<Text> staticGetLoreV2005(ItemStack itemStack)
+    {
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_LORE_V2005).getLines();
+    }
+    
+    static List<Text> copyLore(ItemStack itemStack)
+    {
+        return create(null).staticCopyLore(itemStack);
+    }
+    
+    List<Text> staticCopyLore(ItemStack itemStack);
+    
+    @SpecificImpl("staticCopyLore")
+    @VersionRange(end=2005)
+    default List<Text> staticCopyLoreV_2005(ItemStack itemStack)
+    {
+        return getLore(itemStack);
+    }
+    
+    @SpecificImpl("staticCopyLore")
+    @VersionRange(begin=2005)
+    default List<Text> staticCopyLoreV2005(ItemStack itemStack)
+    {
+        return new ArrayList<>(getLore(itemStack));
     }
     
     static void setLore(ItemStack itemStack, List<Text> lore)
@@ -144,14 +259,14 @@ public interface Item extends WrapperObject
     @VersionRange(end=1400)
     default void staticSetLoreV_1400(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
     
     @SpecificImpl("staticSetLore")
     @VersionRange(begin=1400, end=2005)
     default void staticSetLoreV1400_2005(ItemStack itemStack, List<Text> lore)
     {
-        itemStack.customData().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
     }
     
     @SpecificImpl("staticSetLore")
@@ -159,6 +274,11 @@ public interface Item extends WrapperObject
     default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, LoreComponentV2005.newInstance(lore));
+    }
+    
+    static Editor<List<Text>> editLore(ItemStack itemStack)
+    {
+        return Editor.of(itemStack, Item::copyLore, Item::setLore);
     }
     
     

@@ -18,24 +18,24 @@ public class IndexAllocator<T>
 
     public synchronized int alloc()
     {
-        if (!bin.isEmpty())
-            return bin.poll();
-        list.add(null);
-        return list.size() - 1;
+        if (!this.bin.isEmpty())
+            return this.bin.poll();
+        this.list.add(null);
+        return this.list.size() - 1;
     }
 
     public synchronized void free(int index)
     {
-        bin.add(index);
+        this.bin.add(index);
     }
 
     public T get(int index)
     {
-        return list.get(index);
+        return this.list.get(index);
     }
 
     public void set(int index, T value)
     {
-        list.set(index, value);
+        this.list.set(index, value);
     }
 }
