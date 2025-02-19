@@ -65,7 +65,7 @@ public class ModulePacketListener extends MzModule
                 return true;
             }
             
-            List<PacketListener<?>> sortedListeners = PacketListenerRegistrar.instance.sortedListeners.get(packet.getWrapped().getClass());
+            List<PacketListener<?>> sortedListeners = RegistrarPacketListener.instance.sortedListeners.get(packet.getWrapped().getClass());
             if(sortedListeners==null)
                 return true;
             PacketEvent event = new PacketEvent(channel, player, packet);
@@ -110,7 +110,7 @@ public class ModulePacketListener extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(PacketListenerRegistrar.instance);
+        this.register(RegistrarPacketListener.instance);
         this.register(NothingClientConnection.class);
     }
     

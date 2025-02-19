@@ -33,15 +33,15 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
     }
     
     @Override
-    public boolean equals(Object o)
-    {
-        return o instanceof Pair && Objects.equals(first, ((Pair<?, ?>)o).first) && Objects.equals(second, ((Pair<?, ?>)o).second);
-    }
-    
-    @Override
     public int hashCode()
     {
         return Objects.hash(this.first, this.second);
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        return o instanceof Pair && Objects.equals(first, ((Pair<?, ?>)o).first) && Objects.equals(second, ((Pair<?, ?>)o).second);
     }
     
     public static <F, S> Comparator<Pair<F, S>> comparingByFirst(Comparator<F> comparator)

@@ -33,7 +33,7 @@ public interface NbtElement extends WrapperObject
     NbtElement copy0();
     default NbtElement copy()
     {
-        return this.copy0().castTo(this::staticCreate);
+        return (NbtElement)this.copy0().castTo(this::staticCreate);
     }
     
     @WrapMinecraftMethod(@VersionName(name="read", end=1500))

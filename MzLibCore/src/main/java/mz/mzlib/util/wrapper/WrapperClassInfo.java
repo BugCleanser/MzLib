@@ -13,10 +13,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WrapperClassInfo
@@ -96,7 +93,7 @@ public class WrapperClassInfo
     public static Class<?>[] toUnwrappedClasses(Class<?>[] classes)
     {
         Class<?>[] result = new Class[classes.length];
-        for(int i=0; i<classes.length; i++)
+        for(int i = 0; i<classes.length; i++)
         {
             if(WrapperObject.class.isAssignableFrom(classes[i]))
             {
@@ -200,7 +197,7 @@ public class WrapperClassInfo
         if(RuntimeUtil.jvmVersion>=9 && this.getWrapperClass()!=WrapperClass.class && this.getWrapperClass()!=WrapperModuleJ9.class)
         {
             //noinspection RedundantIfStatement
-            if(WrapperClass.create(Object.class).getModuleJ9().getWrapped()!=WrapperClass.create(klazz).getModuleJ9().getWrapped() && !WrapperClass.create(klazz).getModuleJ9().isOpen(klazz.getPackage()==null?"":klazz.getPackage().getName(), WrapperClass.create(this.getWrapperClass()).getModuleJ9()))
+            if(WrapperClass.create(Object.class).getModuleJ9().getWrapped()!=WrapperClass.create(klazz).getModuleJ9().getWrapped() && !WrapperClass.create(klazz).getModuleJ9().isOpen(klazz.getPackage()==null ? "" : klazz.getPackage().getName(), WrapperClass.create(this.getWrapperClass()).getModuleJ9()))
                 return false;
         }
         return true;
@@ -361,9 +358,7 @@ public class WrapperClassInfo
                                 ptsTar[j] = Object.class;
                             }
                             else
-                            {
                                 ptsTar[j] = pts[j];
-                            }
                         }
                         if(!Modifier.isStatic(i.getValue().getModifiers()))
                             ptsTar = CollectionUtil.addAll(CollectionUtil.newArrayList(Object.class), ptsTar).toArray(new Class[0]);
@@ -468,10 +463,46 @@ public class WrapperClassInfo
                     }
                 }
                 else
-                {
                     throw new UnsupportedOperationException(Objects.toString(i.getValue()));
-                }
                 mn.visitEnd();
+                cn.methods.add(mn);
+            }
+            Set<Pair<String, MethodType>> callOnceMethods = new HashSet<>();
+            ClassUtil.forEachSuperUnique(this.getWrapperClass(), c->
+            {
+                for(Method m: c.getDeclaredMethods())
+                {
+                    if(!m.isAnnotationPresent(CallOnce.class))
+                        continue;
+                    if(Modifier.isStatic(m.getModifiers()) || m.getReturnType()!=void.class)
+                        throw new IllegalStateException("@CallOnce method must be non-static and return void: "+m);
+                    callOnceMethods.add(new Pair<>(m.getName(), MethodType.methodType(m.getReturnType(), m.getParameterTypes())));
+                }
+            });
+            for(Pair<String, MethodType> i: callOnceMethods)
+            {
+                mn = new MethodNode(Opcodes.ACC_PUBLIC, i.first, AsmUtil.getDesc(i.second), null, new String[0]);
+                final MethodNode finalMn = mn;
+                ClassUtil.forEachSuperTopology(this.getWrapperClass(), c->
+                {
+                    try
+                    {
+                        if(Modifier.isAbstract(c.getDeclaredMethod(i.first, i.second.parameterArray()).getModifiers()))
+                            return;
+                    }
+                    catch(NoSuchMethodException ignored)
+                    {
+                        return;
+                    }
+                    finalMn.instructions.add(AsmUtil.insnVarLoad(c, 0));
+                    for(int j = 0, k = 1; j<i.second.parameterCount(); j++)
+                    {
+                        finalMn.instructions.add(AsmUtil.insnVarLoad(i.second.parameterType(j), k));
+                        k += AsmUtil.getCategory(i.second.parameterType(j));
+                    }
+                    finalMn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, AsmUtil.getType(c), i.first, AsmUtil.getDesc(i.second)));
+                });
+                mn.instructions.add(AsmUtil.insnReturn(void.class));
                 cn.methods.add(mn);
             }
             this.wrapperClassAnnotation.annotationType().getDeclaredAnnotation(WrappedClassFinderClass.class).value().newInstance().extra(RuntimeUtil.cast(this.wrapperClassAnnotation), cn);

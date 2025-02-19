@@ -289,9 +289,7 @@ public class ClassUtil
         forEachSuper(clazz, c->
         {
             if(history.add(c))
-            {
                 proc.accept(c);
-            }
         });
     }
     

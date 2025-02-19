@@ -56,6 +56,22 @@ public interface Item extends WrapperObject
     ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialized(Text::create);
     ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialized(LoreComponentV2005::create);
     
+    Identifier getId();
+    
+    @SpecificImpl("getId")
+    @VersionRange(end=1300)
+    default Identifier getIdV_1300()
+    {
+        return getRegistryV_1300().getId(this);
+    }
+    
+    @SpecificImpl("getId")
+    @VersionRange(begin=1300)
+    default Identifier getIdV1300()
+    {
+        return getRegistryV1300().getIdV1300(this);
+    }
+    
     static NbtCompound getCustomData(ItemStack itemStack)
     {
         return create(null).staticGetCustomData(itemStack);
@@ -279,23 +295,6 @@ public interface Item extends WrapperObject
     static Editor<List<Text>> editLore(ItemStack itemStack)
     {
         return Editor.of(itemStack, Item::copyLore, Item::setLore);
-    }
-    
-    
-    Identifier getId();
-    
-    @SpecificImpl("getId")
-    @VersionRange(end=1300)
-    default Identifier getIdV_1300()
-    {
-        return getRegistryV_1300().getId(this);
-    }
-    
-    @SpecificImpl("getId")
-    @VersionRange(begin=1300)
-    default Identifier getIdV1300()
-    {
-        return getRegistryV1300().getIdV1300(this);
     }
     
     static Registry getRegistry()

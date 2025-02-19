@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.incomprehensible.network.*;
 import mz.mzlib.minecraft.incomprehensible.registry.ByteBufWithRegistriesV2005;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -52,7 +53,7 @@ public interface Packet extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="write"))
     void writeV_2005(ByteBufPacket byteBuf);
     
-    <T extends Packet> T copy(ByteBufAllocator byteBufAllocator);
+    Packet copy(ByteBufAllocator byteBufAllocator);
     
     List<NetworkPhasePacketManagerV_2005> networkPhasePacketManagersV_2005 = MinecraftPlatform.instance.getVersion()<2005 ? Arrays.asList //
             ( //
@@ -64,7 +65,7 @@ public interface Packet extends WrapperObject
     
     @VersionRange(end=1700)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV_1700(ByteBufAllocator byteBufAllocator)
+    default Packet copyV_1700(ByteBufAllocator byteBufAllocator)
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
@@ -94,7 +95,7 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                T result = i.createPacketV_1700(direction, id).castTo(this::staticCreate);
+                Packet result = (Packet)i.createPacketV_1700(direction, id).castTo(this::staticCreate);
                 result.readV_1700(byteBufPacket);
                 return result;
             }
@@ -108,7 +109,7 @@ public interface Packet extends WrapperObject
     
     @VersionRange(begin=1700, end=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV1700_2005(ByteBufAllocator byteBufAllocator)
+    default Packet copyV1700_2005(ByteBufAllocator byteBufAllocator)
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
@@ -138,7 +139,7 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                return i.decodePacketV1700(direction, id, byteBufPacket).castTo(this::staticCreate);
+                return (Packet)i.decodePacketV1700(direction, id, byteBufPacket).castTo(this::staticCreate);
             }
             throw new UnsupportedOperationException();
         }
@@ -163,7 +164,7 @@ public interface Packet extends WrapperObject
     
     @VersionRange(begin=2005)
     @SpecificImpl("copy")
-    default <T extends Packet> T copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
+    default Packet copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
         try
@@ -174,7 +175,7 @@ public interface Packet extends WrapperObject
                 try
                 {
                     i.getCodec().encode(byteBuf, this.getWrapped());
-                    return this.staticCreate(i.getCodec().decode(byteBuf));
+                    return (Packet)this.staticCreate(i.getCodec().decode(byteBuf));
                 }
                 catch(Throwable e)
                 {
@@ -194,7 +195,7 @@ public interface Packet extends WrapperObject
     
     static <T extends Packet> T copy(T packet, ByteBufAllocator byteBufAllocator)
     {
-        return packet.copy(byteBufAllocator);
+        return RuntimeUtil.cast(packet.copy(byteBufAllocator));
     }
     
     static <T extends Packet> T copy(T packet)

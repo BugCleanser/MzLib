@@ -10,6 +10,7 @@ import mz.mzlib.minecraft.commands.CommandMzLibTest;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
@@ -74,6 +75,8 @@ public class MzLibMinecraft extends MzModule
             this.register(CommandMzLibLang.instance);
             this.register(CommandMzLibItemInfo.instance);
             this.register(CommandGiveNbt.instance);
+            
+            this.register(RegistrarMzItem.instance);
         }
         catch(Throwable e)
         {

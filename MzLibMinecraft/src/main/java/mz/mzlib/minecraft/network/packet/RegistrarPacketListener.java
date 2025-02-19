@@ -8,9 +8,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class PacketListenerRegistrar implements IRegistrar<PacketListener<?>>
+public class RegistrarPacketListener implements IRegistrar<PacketListener<?>>
 {
-    public static PacketListenerRegistrar instance = new PacketListenerRegistrar();
+    public static RegistrarPacketListener instance = new RegistrarPacketListener();
     
     public Class<PacketListener<?>> getType()
     {

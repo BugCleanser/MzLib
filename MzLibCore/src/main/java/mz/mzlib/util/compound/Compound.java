@@ -37,7 +37,7 @@ public @interface Compound
         {
             synchronized(wrapperClass)
             {
-                String className = wrapperClass.getName()+"$0mzCompoundFianl";
+                String className = wrapperClass.getName()+"$0mzCompoundFinal";
                 try
                 {
                     return Class.forName(className, true, wrapperClass.getClassLoader());
