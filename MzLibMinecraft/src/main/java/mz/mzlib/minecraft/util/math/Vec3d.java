@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.util.math;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.Quaternion;
+import mz.mzlib.util.math.Quaternion;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperObject;

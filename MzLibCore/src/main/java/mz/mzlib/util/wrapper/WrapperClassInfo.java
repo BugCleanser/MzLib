@@ -500,7 +500,7 @@ public class WrapperClassInfo
                         finalMn.instructions.add(AsmUtil.insnVarLoad(i.second.parameterType(j), k));
                         k += AsmUtil.getCategory(i.second.parameterType(j));
                     }
-                    finalMn.instructions.add(new MethodInsnNode(Opcodes.INVOKESPECIAL, AsmUtil.getType(c), i.first, AsmUtil.getDesc(i.second)));
+                    finalMn.visitInvokeDynamicInsn(i.first, AsmUtil.getDesc(i.second.insertParameterTypes(0, c)), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodSpecialCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), c.getName(), Type.getMethodType(AsmUtil.getDesc(i.second)));
                 });
                 mn.instructions.add(AsmUtil.insnReturn(void.class));
                 cn.methods.add(mn);

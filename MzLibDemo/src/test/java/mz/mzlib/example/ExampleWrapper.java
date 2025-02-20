@@ -1,7 +1,11 @@
 package mz.mzlib.example;
 
+import mz.mzlib.util.math.Ring;
 import mz.mzlib.util.wrapper.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class ExampleWrapper
@@ -26,6 +30,38 @@ public class ExampleWrapper
             System.out.println("HelloWorld");
         }
     }
+    
+    @WrapClass(TestClass.class)
+    public interface WrapperTest extends WrapperObject
+    {
+        @WrapperCreator
+        static WrapperTest create(Object wrapped)
+        {
+            return WrapperObject.create(WrapperTest.class, wrapped);
+        }
+        
+        @WrapMethod("m")
+        void m();
+        
+        @WrapMethod("m1")
+        void staticM1();
+        static void m1()
+        {
+            create(null).staticM1();
+        }
+        
+        @WrapConstructor
+        WrapperTest staticNewInstance();
+        static WrapperTest newInstance()
+        {
+            return create(null).staticNewInstance();
+        }
+        
+        @WrapFieldAccessor("var")
+        double getVar();
+        @WrapFieldAccessor("var")
+        void setVar(double var);
+    }
 
     @Test
     public void test()
@@ -37,36 +73,56 @@ public class ExampleWrapper
         test.setVar(1919810);
         test.m();
     }
-
-    @WrapClass(TestClass.class)
-    public interface WrapperTest extends WrapperObject
+    
+    @WrapSameClass(WrapperObject.class)
+    public interface A extends WrapperObject
     {
-        @WrapperCreator
-        static WrapperTest create(Object wrapped)
+        @CallOnce
+        default void f(List<Class<?>> l)
         {
-            return WrapperObject.create(WrapperTest.class, wrapped);
+            l.add(A.class);
         }
-
-        @WrapMethod("m")
-        void m();
-
-        @WrapMethod("m1")
-        void staticM1();
-        static void m1()
+    }
+    
+    @WrapSameClass(A.class)
+    public interface B extends A
+    {
+        @Override
+        default void f(List<Class<?>> l)
         {
-            create(null).staticM1();
+            l.add(B.class);
         }
-
-        @WrapConstructor
-        WrapperTest staticNewInstance();
-        static WrapperTest newInstance()
+    }
+    
+    @WrapSameClass(A.class)
+    public interface C extends A
+    {
+        @Override
+        default void f(List<Class<?>> l)
         {
-            return create(null).staticNewInstance();
+            l.add(C.class);
         }
-
-        @WrapFieldAccessor("var")
-        double getVar();
-        @WrapFieldAccessor("var")
-        void setVar(double var);
+    }
+    
+    @WrapSameClass(A.class)
+    public interface D extends B, C
+    {
+        @Override
+        default void f(List<Class<?>> l)
+        {
+            l.add(D.class);
+        }
+    }
+    
+    @Test
+    public void test2()
+    {
+        List<Class<?>> l=new ArrayList<>();
+        WrapperObject.create(D.class, null).f(l);
+        assert l.size()==4;
+        assert l.contains(A.class);
+        assert l.contains(B.class);
+        assert l.contains(C.class);
+        assert l.contains(D.class);
     }
 }

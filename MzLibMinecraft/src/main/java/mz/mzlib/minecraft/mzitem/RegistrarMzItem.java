@@ -20,6 +20,14 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     
     Map<Identifier, Function<Object, ? extends MzItem>> creators = new ConcurrentHashMap<>();
     
+    public MzItem newMzItem(Identifier id)
+    {
+        Function<Object, ? extends MzItem> creator = this.creators.get(id);
+        MzItem result = creator.apply(creator.apply(null).staticVanilla());
+        result.init();
+        return result;
+    }
+    
     public Option<MzItem> toMzItem(ItemStack itemStack)
     {
         for(NbtCompound mz: Item.getCustomData(itemStack).getNBTCompound("mz"))

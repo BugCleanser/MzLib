@@ -15,11 +15,13 @@ import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.invoke.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class ClassUtil
@@ -69,7 +71,7 @@ public class ClassUtil
             try
             {
                 if(clazz!=Object.class)
-                    return getField(clazz.getSuperclass(), name);
+                    return getField(getSuperclass(clazz), name);
             }
             catch(Throwable ignored)
             {
@@ -99,7 +101,7 @@ public class ClassUtil
             try
             {
                 if(clazz!=Object.class)
-                    return getMethod(clazz.isInterface() ? Object.class : clazz.getSuperclass(), name, parameterTypes);
+                    return getMethod(getSuperclass(clazz), name, parameterTypes);
             }
             catch(Throwable ignored)
             {
@@ -270,26 +272,31 @@ public class ClassUtil
         }
     }
     
-    public static void forEachSuper(Class<?> clazz, Consumer<Class<?>> proc)
+    public static Class<?> getSuperclass(Class<?> clazz)
+    {
+        if(clazz.isInterface())
+            return Object.class;
+        return clazz.getSuperclass();
+    }
+    
+    public static <E extends Throwable> void forEachSuper(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
     {
         proc.accept(clazz);
-        if(clazz!=Object.class && !clazz.isInterface())
-        {
-            forEachSuper(clazz.getSuperclass(), proc);
-        }
+        if(clazz!=Object.class)
+            forEachSuper(getSuperclass(clazz), proc);
         for(Class<?> i: clazz.getInterfaces())
         {
             forEachSuper(i, proc);
         }
     }
     
-    public static void forEachSuperUnique(Class<?> clazz, Consumer<Class<?>> proc)
+    public static <E extends Throwable> void forEachSuperUnique(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
     {
         Set<Class<?>> history = new HashSet<>();
         forEachSuper(clazz, c->
         {
             if(history.add(c))
-                proc.accept(c);
+                proc.acceptOrThrow(c);
         });
     }
     
@@ -297,7 +304,7 @@ public class ClassUtil
      * Iterate through all super classes in topological order
      * From super to children
      */
-    public static void forEachSuperTopology(Class<?> clazz, Consumer<Class<?>> proc)
+    public static <E extends Throwable> void forEachSuperTopology(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
     {
         Map<Class<?>, Integer> degreeIn = new HashMap<>();
         Map<Class<?>, Set<Class<?>>> edgeOut = new HashMap<>();
@@ -305,32 +312,33 @@ public class ClassUtil
         {
             if(c!=Object.class)
             {
-                edgeOut.computeIfAbsent(c.getSuperclass(), k->new HashSet<>()).add(c);
-                degreeIn.compute(c, (k, v)->(v!=null ? v : 0)+1);
+                edgeOut.computeIfAbsent(getSuperclass(c), ThrowableSupplier.of(HashSet<Class<?>>::new).ignore()).add(c);
+                degreeIn.compute(c, (k, v)->Option.fromNullable(v).unwrapOr(0)+1);
             }
-            for(Class<?> i: clazz.getInterfaces())
+            for(Class<?> i: c.getInterfaces())
             {
-                edgeOut.computeIfAbsent(i, k->new HashSet<>()).add(c);
+                edgeOut.computeIfAbsent(i, ThrowableSupplier.of(HashSet<Class<?>>::new).ignore()).add(c);
             }
-            degreeIn.compute(c, (k, v)->(v!=null ? v : 0)+clazz.getInterfaces().length);
+            degreeIn.compute(c, (k, v)->Option.fromNullable(v).unwrapOr(0)+c.getInterfaces().length);
         });
         Queue<Class<?>> q = new ArrayDeque<>();
         q.add(Object.class);
         while(!q.isEmpty())
         {
             Class<?> now = q.poll();
-            proc.accept(now);
-            Set<Class<?>> es = edgeOut.get(now);
-            if(es!=null)
+            proc.acceptOrThrow(now);
+            for(Set<Class<?>> es: Option.fromNullable(edgeOut.get(now)))
             {
                 for(Class<?> c: es)
                 {
                     if(degreeIn.compute(c, (k, v)->Objects.requireNonNull(v)-1)==0)
-                    {
                         q.add(c);
-                    }
                 }
             }
+        }
+        for(Integer value: degreeIn.values())
+        {
+            assert value==0;
         }
     }
     
@@ -580,6 +588,11 @@ public class ClassUtil
     public static CallSite getMethodCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType, int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
         return new ConstantCallSite(findMethod(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), isStatic!=0, invokedName, methodType.returnType(), methodType.parameterArray()).asType(invokedType));
+    }
+    
+    public static CallSite getMethodSpecialCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+    {
+        return new ConstantCallSite(findMethodSpecial(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedName, methodType.returnType(), methodType.parameterArray()).asType(invokedType));
     }
     
     public static CallSite getFieldGetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException

@@ -1,4 +1,4 @@
-package mz.mzlib.util;
+package mz.mzlib.util.math;
 
 import java.util.Objects;
 
