@@ -11,9 +11,9 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtElement;
 import mz.mzlib.minecraft.nbt.NbtString;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
@@ -26,6 +26,8 @@ import java.util.UUID;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.HoverEvent", end=1400), @VersionName(name="net.minecraft.network.chat.HoverEvent", begin=1400, end=1403), @VersionName(name="net.minecraft.text.HoverEvent", begin=1403)})
 public interface TextHoverEvent extends WrapperObject
 {
+    WrapperFactory<TextHoverEvent> FACTORY = WrapperFactory.find(TextHoverEvent.class);
+    @Deprecated
     @WrapperCreator
     static TextHoverEvent create(Object wrapped)
     {
@@ -170,6 +172,8 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
+        WrapperFactory<Action> FACTORY = WrapperFactory.find(Action.class);
+        @Deprecated
         @WrapperCreator
         static Action create(Object wrapped)
         {
@@ -204,6 +208,8 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
     interface ContentsItemStackV1600 extends WrapperObject
     {
+        WrapperFactory<ContentsItemStackV1600> FACTORY = WrapperFactory.find(ContentsItemStackV1600.class);
+        @Deprecated
         @WrapperCreator
         static ContentsItemStackV1600 create(Object wrapped)
         {
@@ -292,6 +298,8 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
     interface ContentsEntityV1600 extends WrapperObject, TextHoverEvent.Entity
     {
+        WrapperFactory<TextHoverEvent.ContentsEntityV1600> FACTORY = WrapperFactory.find(TextHoverEvent.ContentsEntityV1600.class);
+        @Deprecated
         @WrapperCreator
         static TextHoverEvent.ContentsEntityV1600 create(Object wrapped)
         {

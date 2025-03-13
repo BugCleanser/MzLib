@@ -13,7 +13,6 @@ import mz.mzlib.util.asm.AsmUtil;
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.Modifier;
 
 public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
 {

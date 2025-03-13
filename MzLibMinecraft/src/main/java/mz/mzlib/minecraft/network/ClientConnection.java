@@ -6,25 +6,28 @@ import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.network.listener.MinecraftPacketListener;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
 import mz.mzlib.minecraft.network.packet.PacketHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.minecraft.network.listener.MinecraftPacketListener;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.ClientConnection"))
 public interface ClientConnection extends WrapperObject
 {
+    WrapperFactory<ClientConnection> FACTORY = WrapperFactory.find(ClientConnection.class);
+    @Deprecated
     @WrapperCreator
-    static ClientConnection create(Object object)
+    static ClientConnection create(Object wrapped)
     {
-        return WrapperObject.create(ClientConnection.class, object);
+        return WrapperObject.create(ClientConnection.class, wrapped);
     }
     
     @WrapMinecraftMethod(@VersionName(name="getPacketListener"))
@@ -35,7 +38,7 @@ public interface ClientConnection extends WrapperObject
     
     default Option<EntityPlayer> getPlayer()
     {
-        return this.getPacketListener().tryCast(ServerPlayNetworkHandler::create).map(ServerPlayNetworkHandler::getPlayer);
+        return this.getPacketListener().tryCast(ServerPlayNetworkHandler.FACTORY).map(ServerPlayNetworkHandler::getPlayer);
     }
     
     @WrapMinecraftMethod(@VersionName(name="send"))

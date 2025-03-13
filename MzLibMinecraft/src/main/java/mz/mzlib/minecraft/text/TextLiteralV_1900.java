@@ -3,10 +3,7 @@ package mz.mzlib.minecraft.text;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(
         {
@@ -16,6 +13,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface TextLiteralV_1900 extends WrapperObject, AbstractTextV_1900
 {
+    WrapperFactory<TextLiteralV_1900> FACTORY = WrapperFactory.find(TextLiteralV_1900.class);
+    @Deprecated
     @WrapperCreator
     static TextLiteralV_1900 create(Object wrapped)
     {

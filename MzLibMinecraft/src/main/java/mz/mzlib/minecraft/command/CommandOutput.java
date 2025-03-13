@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.UUID;
@@ -14,6 +15,8 @@ import java.util.UUID;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3893", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
 public interface CommandOutput extends WrapperObject
 {
+    WrapperFactory<CommandOutput> FACTORY = WrapperFactory.find(CommandOutput.class);
+    @Deprecated
     @WrapperCreator
     static CommandOutput create(Object wrapped)
     {

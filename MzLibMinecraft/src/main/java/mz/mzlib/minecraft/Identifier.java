@@ -2,14 +2,13 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Identifier"))
 public interface Identifier extends WrapperObject
 {
+    WrapperFactory<Identifier> FACTORY = WrapperFactory.find(Identifier.class);
+    @Deprecated
     @WrapperCreator
     static Identifier create(Object wrapped)
     {

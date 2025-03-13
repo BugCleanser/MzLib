@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1300)
 @WrapMinecraftClass({@VersionName(name="com.mojang.datafixers.Dynamic", end=1600), @VersionName(name="com.mojang.serialization.Dynamic", begin = 1600)})
 public interface DynamicV1300 extends WrapperObject
 {
+    WrapperFactory<DynamicV1300> FACTORY = WrapperFactory.find(DynamicV1300.class);
+    @Deprecated
     @WrapperCreator
     static DynamicV1300 create(Object wrapped)
     {

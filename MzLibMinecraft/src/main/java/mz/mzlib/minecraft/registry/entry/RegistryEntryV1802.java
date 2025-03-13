@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.registry.RegistryKeyV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
@@ -13,6 +14,8 @@ import java.util.Optional;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.RegistryEntry", begin=1802, end=1903),@VersionName(name = "net.minecraft.registry.entry.RegistryEntry", begin = 1903)})
 public interface RegistryEntryV1802 extends WrapperObject
 {
+    WrapperFactory<RegistryEntryV1802> FACTORY = WrapperFactory.find(RegistryEntryV1802.class);
+    @Deprecated
     @WrapperCreator
     static RegistryEntryV1802 create(Object wrapped)
     {

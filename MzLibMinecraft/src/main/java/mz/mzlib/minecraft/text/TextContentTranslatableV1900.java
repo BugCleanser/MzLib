@@ -4,16 +4,15 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.TranslatableTextContent", begin = 1900))
 public interface TextContentTranslatableV1900 extends WrapperObject, TextContentV1900, TextTranslatableCommon
 {
+    WrapperFactory<TextContentTranslatableV1900> FACTORY = WrapperFactory.find(TextContentTranslatableV1900.class);
+    @Deprecated
     @WrapperCreator
     static TextContentTranslatableV1900 create(Object wrapped)
     {

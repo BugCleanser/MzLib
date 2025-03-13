@@ -7,12 +7,15 @@ import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1300)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.BlockEntityType"))
 public interface BlockEntityTypeV1300 extends WrapperObject
 {
+    WrapperFactory<BlockEntityTypeV1300> FACTORY = WrapperFactory.find(BlockEntityTypeV1300.class);
+    @Deprecated
     @WrapperCreator
     static BlockEntityTypeV1300 create(Object wrapped)
     {

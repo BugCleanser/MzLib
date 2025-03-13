@@ -8,11 +8,14 @@ import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
 public interface AbstractWindowSlot extends WindowSlot
 {
+    WrapperFactory<AbstractWindowSlot> FACTORY = WrapperFactory.find(AbstractWindowSlot.class);
+    @Deprecated
     @WrapperCreator
     static AbstractWindowSlot create(Object wrapped)
     {

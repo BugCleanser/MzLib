@@ -3,13 +3,14 @@ package mz.mzlib.minecraft.bukkit.network.packet;
 import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.network.ClientConnectionBukkit;
-import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketCallbacksV1901;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.nothing.*;
+import mz.mzlib.util.nothing.LocalVar;
+import mz.mzlib.util.nothing.Nothing;
+import mz.mzlib.util.nothing.NothingInject;
+import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
 

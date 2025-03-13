@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 // TODO: test v_1400
 @WrapMinecraftClass({@VersionName(name="int", remap=false, end=900), @VersionName(name="net.minecraft.util.ItemAction", begin=900, end=1400), @VersionName(name="net.minecraft.container.SlotActionType", begin=1400, end=1600), @VersionName(name="net.minecraft.screen.slot.SlotActionType", begin=1600)})
 public interface WindowActionType extends WrapperObject
 {
+    WrapperFactory<WindowActionType> FACTORY = WrapperFactory.find(WindowActionType.class);
+    @Deprecated
     @WrapperCreator
     static WindowActionType create(Object wrapped)
     {

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class UnionClassLoader extends ClassLoader
@@ -49,7 +50,7 @@ public class UnionClassLoader extends ClassLoader
     public Map<Float, Set<ClassLoader>> members = new ConcurrentHashMap<>();
     public Map<ClassLoader, Float> memberPriorities = new ConcurrentHashMap<>();
 
-    public <E extends Throwable> ClassLoader addMember(ThrowableFunction<MemberDelegator, ClassLoader, E> memberAllocator, float priority) throws E
+    public ClassLoader addMember(Function<MemberDelegator, ClassLoader> memberAllocator, float priority)
     {
         MemberDelegator memberDelegator = new MemberDelegator(this);
         memberDelegator.member = memberAllocator.apply(memberDelegator);
@@ -66,7 +67,7 @@ public class UnionClassLoader extends ClassLoader
         return memberDelegator.member;
     }
 
-    public <E extends Throwable> ClassLoader addMember(ThrowableFunction<MemberDelegator, ClassLoader, E> memberAllocator) throws E
+    public ClassLoader addMember(Function<MemberDelegator, ClassLoader> memberAllocator)
     {
         return addMember(memberAllocator, 0f);
     }

@@ -11,7 +11,6 @@ import mz.mzlib.util.RuntimeUtil;
 
 import java.io.File;
 import java.io.InputStream;
-import java.net.URL;
 
 public class Demo extends MzModule
 {

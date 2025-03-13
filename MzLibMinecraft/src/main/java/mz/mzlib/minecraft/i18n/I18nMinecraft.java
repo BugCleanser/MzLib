@@ -49,7 +49,7 @@ public class I18nMinecraft extends MzModule
                     if(file.startsWith(folder))
                     {
                         String fileName = file.substring(folder.length());
-                        tasks.put(fileName, CompletableFuture.supplyAsync((ThrowableSupplier<byte[], IOException>)()->AssetsHelp.instance.getAsset(file)));
+                        tasks.put(fileName, CompletableFuture.supplyAsync(ThrowableSupplier.of(()->AssetsHelp.instance.getAsset(file))));
                     }
                 }
                 Map<String, Map<String, String>> map = new HashMap<>();

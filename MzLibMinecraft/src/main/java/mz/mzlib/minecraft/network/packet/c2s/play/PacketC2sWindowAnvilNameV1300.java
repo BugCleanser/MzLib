@@ -6,11 +6,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.class_4388", begin=1300, end=1400), @VersionName(name="net.minecraft.network.packet.c2s.play.RenameItemC2SPacket", begin=1400, end=1500), @VersionName(name="net.minecraft.network.packet.c2s.play.RenameItemC2SPacket", begin=1500)})
 public interface PacketC2sWindowAnvilNameV1300 extends Packet
 {
+    WrapperFactory<PacketC2sWindowAnvilNameV1300> FACTORY = WrapperFactory.find(PacketC2sWindowAnvilNameV1300.class);
+    @Deprecated
     @WrapperCreator
     static PacketC2sWindowAnvilNameV1300 create(Object wrapped)
     {

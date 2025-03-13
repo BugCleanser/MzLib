@@ -11,9 +11,8 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
-
-import java.util.OptionalInt;
 
 @WrapMinecraftClass(
         {
@@ -25,6 +24,8 @@ import java.util.OptionalInt;
         })
 public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
 {
+    WrapperFactory<WindowFactory> FACTORY = WrapperFactory.find(WindowFactory.class);
+    @Deprecated
     @WrapperCreator
     static WindowFactory create(Object wrapped)
     {

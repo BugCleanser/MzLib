@@ -1,10 +1,7 @@
 package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.SimpleCommandMap;
 
 import java.util.Map;
@@ -13,6 +10,8 @@ import java.util.Map;
 @WrapClassForName("org.bukkit.command.SimpleCommandMap")
 public interface CommandMapBukkit extends WrapperObject
 {
+    WrapperFactory<CommandMapBukkit> FACTORY = WrapperFactory.find(CommandMapBukkit.class);
+    @Deprecated
     @WrapperCreator
     static CommandMapBukkit create(Object wrapped)
     {

@@ -7,10 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.io.DataInput;
 import java.util.function.Function;
@@ -19,6 +16,8 @@ import java.util.function.Supplier;
 @WrapMinecraftClass({@VersionName(end=1400, name="net.minecraft.nbt.NbtCompound"), @VersionName(begin=1400, end=1605, name="net.minecraft.nbt.CompoundTag"), @VersionName(begin=1605, name="net.minecraft.nbt.NbtCompound")})
 public interface NbtCompound extends NbtElement
 {
+    WrapperFactory<NbtCompound> FACTORY = WrapperFactory.find(NbtCompound.class);
+    @Deprecated
     @WrapperCreator
     static NbtCompound create(Object wrapped)
     {
@@ -49,7 +48,7 @@ public interface NbtCompound extends NbtElement
     @VersionRange(begin=1500)
     default NbtCompound staticLoadV1500(DataInput input)
     {
-        return TYPE_V1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound::create);
+        return TYPE_V1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound.FACTORY);
     }
     
     static NbtCompound parse(String str)
@@ -65,6 +64,7 @@ public interface NbtCompound extends NbtElement
         return create(null).staticNewInstance();
     }
     
+    @Deprecated
     @WrapMinecraftMethod(@VersionName(name="get"))
     NbtElement get(String key);
     
@@ -73,40 +73,55 @@ public interface NbtCompound extends NbtElement
         return this.get(key).isPresent();
     }
     
-    default <T extends NbtElement> Option<T> get(String key, Function<Object, T> wrapperCreator)
+    default <T extends NbtElement> Option<T> get(String key, WrapperFactory<T> factory)
     {
         NbtElement result = this.get(key);
-        if(result.isInstanceOf(wrapperCreator))
-            return Option.some(result.castTo(wrapperCreator));
+        if(result.isInstanceOf(factory))
+            return Option.some(result.castTo(factory));
         else
             return Option.none();
+    }
+    @Deprecated
+    default <T extends NbtElement> Option<T> get(String key, Function<Object, T> creator)
+    {
+        return this.get(key, new WrapperFactory<>(creator));
     }
     
     @WrapMinecraftMethod(@VersionName(name="put"))
     void put(String key, NbtElement value);
     
-    default <T extends NbtElement> T getOrPut(String key, Function<Object, T> wrapperCreator, Supplier<T> newer)
+    default void remove(String key)
     {
-        for(T result: this.get(key, wrapperCreator))
+        this.put(key, NbtElement.FACTORY.getStatic());
+    }
+    
+    default <T extends NbtElement> T getOrPut(String key, WrapperFactory<T> factory, Supplier<T> newer)
+    {
+        for(T result: this.get(key, factory))
             return result;
         T result = newer.get();
         this.put(key, result);
         return result;
     }
+    @Deprecated
+    default <T extends NbtElement> T getOrPut(String key, Function<Object, T> creator, Supplier<T> newer)
+    {
+        return this.getOrPut(key, new WrapperFactory<>(creator), newer);
+    }
     
     default NbtCompound getOrPutNewCompound(String key)
     {
-        return this.getOrPut(key, NbtCompound::create, NbtCompound::newInstance);
+        return this.getOrPut(key, NbtCompound.FACTORY, NbtCompound::newInstance);
     }
     
     default Option<NbtCompound> getNBTCompound(String key)
     {
-        return this.get(key, NbtCompound::create);
+        return this.get(key, NbtCompound.FACTORY);
     }
     
     default Option<Byte> getByte(String key)
     {
-        return this.get(key, NbtByte::create).map(NbtByte::getValue);
+        return this.get(key, NbtByte.FACTORY).map(NbtByte::getValue);
     }
     
     default Option<Boolean> getBoolean(String key)
@@ -116,48 +131,48 @@ public interface NbtCompound extends NbtElement
     
     default Option<Integer> getInt(String key)
     {
-        return this.get(key, NbtInt::create).map(NbtInt::getValue);
+        return this.get(key, NbtInt.FACTORY).map(NbtInt::getValue);
     }
     
     default Option<Long> getLong(String key)
     {
-        return this.get(key, NbtLong::create).map(NbtLong::getValue);
+        return this.get(key, NbtLong.FACTORY).map(NbtLong::getValue);
     }
     
     default Option<Float> getFloat(String key)
     {
-        return this.get(key, NbtFloat::create).map(NbtFloat::getValue);
+        return this.get(key, NbtFloat.FACTORY).map(NbtFloat::getValue);
     }
     
     default Option<Double> getDouble(String key)
     {
-        return this.get(key, NbtDouble::create).map(NbtDouble::getValue);
+        return this.get(key, NbtDouble.FACTORY).map(NbtDouble::getValue);
     }
     
     default Option<String> getString(String key)
     {
-        return this.get(key, NbtString::create).map(NbtString::getValue);
+        return this.get(key, NbtString.FACTORY).map(NbtString::getValue);
     }
     
     default Option<NbtList> getNBTList(String key)
     {
-        return this.get(key, NbtList::create);
+        return this.get(key, NbtList.FACTORY);
     }
     
     default Option<NbtByteArray> getByteArray(String key)
     {
-        return this.get(key, NbtByteArray::create);
+        return this.get(key, NbtByteArray.FACTORY);
     }
     
     default Option<NbtIntArray> getIntArray(String key)
     {
-        return this.get(key, NbtIntArray::create);
+        return this.get(key, NbtIntArray.FACTORY);
     }
     
     @VersionRange(begin=1200)
     default Option<NbtLongArrayV1200> getLongArrayV1200(String key)
     {
-        return this.get(key, NbtLongArrayV1200::create);
+        return this.get(key, NbtLongArrayV1200.FACTORY);
     }
     
     @Override

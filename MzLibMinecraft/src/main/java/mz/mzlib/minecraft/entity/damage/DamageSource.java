@@ -1,20 +1,19 @@
 package mz.mzlib.minecraft.entity.damage;
 
-import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
+import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.DamageSource"))
 public interface DamageSource extends WrapperObject
 {
+    WrapperFactory<DamageSource> FACTORY = WrapperFactory.find(DamageSource.class);
+    @Deprecated
     @WrapperCreator
     static DamageSource create(Object wrapped)
     {

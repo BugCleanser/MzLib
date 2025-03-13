@@ -1,13 +1,12 @@
 package mz.mzlib.util;
 
-import mz.mzlib.util.wrapper.WrapperObject;
-import mz.mzlib.util.wrapper.WrapClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.*;
 
 @WrapClass(ClassLoader.class)
 public interface WrapperClassLoader extends WrapperObject
 {
+    WrapperFactory<WrapperClassLoader> FACTORY = WrapperFactory.find(WrapperClassLoader.class);
+    @Deprecated
     @WrapperCreator
     static WrapperClassLoader create(ClassLoader wrapped)
     {

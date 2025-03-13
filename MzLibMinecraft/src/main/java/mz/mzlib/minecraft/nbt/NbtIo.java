@@ -3,11 +3,14 @@ package mz.mzlib.minecraft.nbt;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.nbt.NbtIo"))
 public interface NbtIo extends WrapperObject
 {
+    WrapperFactory<NbtIo> FACTORY = WrapperFactory.find(NbtIo.class);
+    @Deprecated
     @WrapperCreator
     static NbtIo create(Object wrapped)
     {

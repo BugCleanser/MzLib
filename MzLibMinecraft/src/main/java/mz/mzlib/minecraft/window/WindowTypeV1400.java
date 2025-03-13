@@ -7,12 +7,15 @@ import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1400)
 @WrapMinecraftClass({@VersionName(name="net.minecraft.container.ContainerType", end=1600), @VersionName(name="net.minecraft.screen.ScreenHandlerType", begin=1600)})
 public interface WindowTypeV1400 extends WrapperObject
 {
+    WrapperFactory<WindowTypeV1400> FACTORY = WrapperFactory.find(WindowTypeV1400.class);
+    @Deprecated
     @WrapperCreator
     static WindowTypeV1400 create(Object wrapped)
     {

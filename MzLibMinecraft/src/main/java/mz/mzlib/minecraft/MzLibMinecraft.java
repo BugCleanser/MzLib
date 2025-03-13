@@ -30,6 +30,8 @@ public class MzLibMinecraft extends MzModule
 {
     public static MzLibMinecraft instance = new MzLibMinecraft();
     
+    public final String modId = "mzlib";
+    
     public Config config;
     
     public Command command;
@@ -56,7 +58,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(MinecraftServer.instance.getCommandManager());
             
-            this.register(this.command = new Command("mzlib", "mz").setNamespace("mzlib"));
+            this.register(this.command = new Command("mzlib", "mz").setNamespace(this.modId));
             
             this.register(RegistrarEventListener.instance);
             this.register(ModulePacketListener.instance);

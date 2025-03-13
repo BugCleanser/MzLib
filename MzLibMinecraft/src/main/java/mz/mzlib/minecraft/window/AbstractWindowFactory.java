@@ -6,10 +6,10 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
@@ -22,6 +22,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface AbstractWindowFactory extends WrapperObject
 {
+    WrapperFactory<AbstractWindowFactory> FACTORY = WrapperFactory.find(AbstractWindowFactory.class);
+    @Deprecated
     @WrapperCreator
     static AbstractWindowFactory create(Object wrapped)
     {

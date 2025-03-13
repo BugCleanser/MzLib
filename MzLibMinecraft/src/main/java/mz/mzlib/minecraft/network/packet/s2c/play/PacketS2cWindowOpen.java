@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
@@ -18,6 +19,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface PacketS2cWindowOpen extends WrapperObject, Packet
 {
+    WrapperFactory<PacketS2cWindowOpen> FACTORY = WrapperFactory.find(PacketS2cWindowOpen.class);
+    @Deprecated
     @WrapperCreator
     static PacketS2cWindowOpen create(Object wrapped)
     {

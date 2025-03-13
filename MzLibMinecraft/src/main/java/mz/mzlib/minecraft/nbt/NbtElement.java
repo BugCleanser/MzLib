@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.io.DataInput;
@@ -17,6 +18,8 @@ import java.io.DataOutput;
         })
 public interface NbtElement extends WrapperObject
 {
+    WrapperFactory<NbtElement> FACTORY = WrapperFactory.find(NbtElement.class);
+    @Deprecated
     @WrapperCreator
     static NbtElement create(Object wrapped)
     {

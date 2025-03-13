@@ -18,6 +18,8 @@ import java.util.function.Function;
 @WrapClass(Object.class)
 public interface WrapperObject
 {
+    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.find(WrapperObject.class);
+    @Deprecated
     @WrapperCreator
     static WrapperObject create(Object wrapped)
     {
@@ -36,6 +38,7 @@ public interface WrapperObject
     /**
      * slow
      */
+    @Deprecated
     static <T extends WrapperObject> T create(Class<T> type, Object wrapped)
     {
         try
@@ -70,23 +73,57 @@ public interface WrapperObject
         return this.staticGetWrappedClass().isInstance(wrapper.getWrapped());
     }
     
-    default <T> boolean isInstanceOf(Function<T, ? extends WrapperObject> wrapperCreator)
+    default <T extends WrapperObject> boolean is(WrapperFactory<T> factory)
     {
-        return wrapperCreator.apply(null).staticIsInstance(this);
+        return factory.isInstance(this);
     }
-    
-    default <T extends WrapperObject> T castTo(Function<Object, T> wrapperCreator)
+    default <T extends WrapperObject> T as(WrapperFactory<T> factory)
     {
-        if(this.isPresent() && !this.isInstanceOf(wrapperCreator))
-            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+wrapperCreator.apply(null).staticGetWrappedClass());
-        return wrapperCreator.apply(this.getWrapped());
+        if(this.isPresent() && !this.is(factory))
+            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().staticGetWrappedClass());
+        return factory.create(this.getWrapped());
     }
-    default <T extends WrapperObject> Option<T> tryCast(Function<Object, T> wrapperCreator)
+    default <T extends WrapperObject> Option<T> asOption(WrapperFactory<T> factory)
     {
-        if(this.isInstanceOf(wrapperCreator))
-            return Option.some(this.castTo(wrapperCreator));
+        if(this.is(factory))
+            return Option.some(this.as(factory));
         else
             return Option.none();
+    }
+    
+    
+    default <T> boolean isInstanceOf(WrapperFactory<?> factory)
+    {
+        return factory.getStatic().staticIsInstance(this);
+    }
+    default <T extends WrapperObject> T castTo(WrapperFactory<T> factory)
+    {
+        if(this.isPresent() && !this.isInstanceOf(factory))
+            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().staticGetWrappedClass());
+        return factory.create(this.getWrapped());
+    }
+    default <T extends WrapperObject> Option<T> tryCast(WrapperFactory<T> factory)
+    {
+        if(this.isInstanceOf(factory))
+            return Option.some(this.castTo(factory));
+        else
+            return Option.none();
+    }
+    
+    @Deprecated
+    default boolean isInstanceOf(Function<Object, ? extends WrapperObject> creator)
+    {
+        return this.isInstanceOf(new WrapperFactory<>(creator));
+    }
+    @Deprecated
+    default <T extends WrapperObject> T castTo(Function<Object, T> creator)
+    {
+        return this.castTo(new WrapperFactory<>(creator));
+    }
+    @Deprecated
+    default <T extends WrapperObject> Option<T> tryCast(Function<Object, T> creator)
+    {
+        return this.tryCast(new WrapperFactory<>(creator));
     }
     
     /**

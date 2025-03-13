@@ -8,6 +8,7 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.LoreComponent", begin=2005))
 public interface LoreComponentV2005 extends WrapperObject
 {
+    WrapperFactory<LoreComponentV2005> FACTORY = WrapperFactory.find(LoreComponentV2005.class);
+    @Deprecated
     @WrapperCreator
     static LoreComponentV2005 create(Object wrapped)
     {

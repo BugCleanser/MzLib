@@ -5,11 +5,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.KeybindTextContent", begin = 1900))
 public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
 {
+    WrapperFactory<TextContentKeybindV1900> FACTORY = WrapperFactory.find(TextContentKeybindV1900.class);
+    @Deprecated
     @WrapperCreator
     static TextContentKeybindV1900 create(Object wrapped)
     {

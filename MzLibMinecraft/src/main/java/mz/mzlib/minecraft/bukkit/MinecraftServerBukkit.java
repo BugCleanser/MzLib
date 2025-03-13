@@ -2,16 +2,15 @@ package mz.mzlib.minecraft.bukkit;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
-import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.RemoteConsoleCommandSender;
 
 @BukkitEnabled
 @WrapSameClass(MinecraftServer.class)
 public interface MinecraftServerBukkit extends MinecraftServer
 {
+    WrapperFactory<MinecraftServerBukkit> FACTORY = WrapperFactory.find(MinecraftServerBukkit.class);
+    @Deprecated
     @WrapperCreator
     static MinecraftServerBukkit create(Object wrapped)
     {

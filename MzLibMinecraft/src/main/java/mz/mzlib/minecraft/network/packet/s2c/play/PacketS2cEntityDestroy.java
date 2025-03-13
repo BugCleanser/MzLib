@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.List;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket", end=1700), @VersionName(name="net.minecraft.network.packet.s2c.play.EntityDestroyS2CPacket", begin=1700, end=1701), @VersionName(name="net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket", begin=1701)})
 public interface PacketS2cEntityDestroy extends Packet
 {
+    WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.find(PacketS2cEntityDestroy.class);
+    @Deprecated
     @WrapperCreator
     static PacketS2cEntityDestroy create(Object wrapped)
     {

@@ -12,11 +12,14 @@ import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
 public interface AbstractWindow extends Window
 {
+    WrapperFactory<AbstractWindow> FACTORY = WrapperFactory.find(AbstractWindow.class);
+    @Deprecated
     @WrapperCreator
     static AbstractWindow create(Object wrapped)
     {

@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.entity.CraftEntity"))
 public interface CraftEntity extends WrapperObject
 {
+    WrapperFactory<CraftEntity> FACTORY = WrapperFactory.find(CraftEntity.class);
+    @Deprecated
     @WrapperCreator
     static CraftEntity create(Object wrapped)
     {

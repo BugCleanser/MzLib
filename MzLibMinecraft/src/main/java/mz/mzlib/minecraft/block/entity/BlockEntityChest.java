@@ -3,17 +3,16 @@ package mz.mzlib.minecraft.block.entity;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.block.BlockState;
-import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.util.math.BlockPos;
+import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.ChestBlockEntity"))
 public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFactory
 {
+    WrapperFactory<BlockEntityChest> FACTORY = WrapperFactory.find(BlockEntityChest.class);
+    @Deprecated
     @WrapperCreator
     static BlockEntityChest create(Object wrapped)
     {

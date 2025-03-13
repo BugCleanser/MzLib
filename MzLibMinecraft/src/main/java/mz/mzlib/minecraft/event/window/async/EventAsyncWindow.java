@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.event.window.async;
 import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
-import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.module.MzModule;
 
 public abstract class EventAsyncWindow<P extends Packet> extends EventAsyncByPacket<P>

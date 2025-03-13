@@ -7,11 +7,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.MutableRegistry", end=1300), @VersionName(name="net.minecraft.util.registry.Registry", begin=1300, end=1903), @VersionName(name="net.minecraft.registry.Registry", begin=1903)})
 public interface Registry extends WrapperObject
 {
+    WrapperFactory<Registry> FACTORY = WrapperFactory.find(Registry.class);
+    @Deprecated
     @WrapperCreator
     static Registry create(Object wrapped)
     {

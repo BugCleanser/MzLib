@@ -13,11 +13,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.ItemEntity"))
 public interface EntityItem extends WrapperObject, Entity
 {
+    WrapperFactory<EntityItem> FACTORY = WrapperFactory.find(EntityItem.class);
+    @Deprecated
     @WrapperCreator
     static EntityItem create(Object wrapped)
     {

@@ -10,6 +10,7 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.PlayerManager"))
 public interface PlayerManager extends WrapperObject
 {
+    WrapperFactory<PlayerManager> FACTORY = WrapperFactory.find(PlayerManager.class);
+    @Deprecated
     @WrapperCreator
     static PlayerManager create(Object wrapped)
     {

@@ -1,13 +1,12 @@
 package mz.mzlib.util.wrapper.basic;
 
-import mz.mzlib.util.wrapper.WrapperObject;
-import mz.mzlib.util.wrapper.WrapClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
+import mz.mzlib.util.wrapper.*;
 
 @WrapClass(Float.class)
 public interface WrapperFloat extends WrapperObject
 {
+    WrapperFactory<WrapperFloat> FACTORY = WrapperFactory.find(WrapperFloat.class);
+    @Deprecated
     @WrapperCreator
     static WrapperFloat create(Float wrapped)
     {

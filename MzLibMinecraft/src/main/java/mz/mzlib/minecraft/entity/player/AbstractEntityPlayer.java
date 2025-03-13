@@ -15,6 +15,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.OptionalInt;
@@ -22,6 +23,8 @@ import java.util.OptionalInt;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.PlayerEntity"))
 public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
 {
+    WrapperFactory<AbstractEntityPlayer> FACTORY = WrapperFactory.find(AbstractEntityPlayer.class);
+    @Deprecated
     @WrapperCreator
     static AbstractEntityPlayer create(Object wrapped)
     {

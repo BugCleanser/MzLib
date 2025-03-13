@@ -1,8 +1,8 @@
 package mz.mzlib.minecraft.event;
 
 import mz.mzlib.minecraft.event.entity.EventEntity;
-import mz.mzlib.minecraft.event.player.async.displayentity.EventAsyncDisplayEntity;
 import mz.mzlib.minecraft.event.player.EventPlayer;
+import mz.mzlib.minecraft.event.player.async.displayentity.EventAsyncDisplayEntity;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindow;
 import mz.mzlib.module.MzModule;
 

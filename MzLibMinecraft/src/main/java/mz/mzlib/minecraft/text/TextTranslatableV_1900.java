@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Arrays;
@@ -17,6 +18,8 @@ import java.util.Arrays;
         })
 public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_1900, TextTranslatableCommon
 {
+    WrapperFactory<TextTranslatableV_1900> FACTORY = WrapperFactory.find(TextTranslatableV_1900.class);
+    @Deprecated
     @WrapperCreator
     static TextTranslatableV_1900 create(Object wrapped)
     {

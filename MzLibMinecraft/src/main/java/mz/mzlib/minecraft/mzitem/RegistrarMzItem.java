@@ -8,30 +8,30 @@ import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
 {
     public static RegistrarMzItem instance = new RegistrarMzItem();
     
-    Map<Identifier, Function<Object, ? extends MzItem>> creators = new ConcurrentHashMap<>();
+    Map<Identifier, WrapperFactory<? extends MzItem>> factories = new ConcurrentHashMap<>();
     
     public MzItem newMzItem(Identifier id)
     {
-        Function<Object, ? extends MzItem> creator = this.creators.get(id);
-        MzItem result = creator.apply(creator.apply(null).staticVanilla());
+        WrapperFactory<? extends MzItem> factory = this.factories.get(id);
+        MzItem result = factory.getStatic().staticVanilla().as(factory);
         result.init();
         return result;
     }
     
     public Option<MzItem> toMzItem(ItemStack itemStack)
     {
-        for(NbtCompound mz: Item.getCustomData(itemStack).getNBTCompound("mz"))
-            return Option.some(itemStack.castTo(this.creators.get(Identifier.newInstance(mz.getString("id").unwrap()))));
+        for(NbtCompound customData: Item.getCustomData(itemStack))
+            for(NbtCompound mz: customData.getNBTCompound("mz"))
+                return Option.some(itemStack.as(Option.<WrapperFactory<? extends MzItem>>fromNullable(this.factories.get(Identifier.newInstance(mz.getString("id").unwrap()))).unwrapOr(MzItemUnknown.FACTORY)));
         return Option.none();
     }
     
@@ -52,12 +52,12 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     {
         if(!object.isAnnotationPresent(MzItemClass.class))
             throw new IllegalStateException("Class "+object.getName()+" is not annotated with @MzItemClass");
-        MzItem staticOne = WrapperObject.create(object, null);
-        this.creators.put(staticOne.staticGetId(), RuntimeUtil.cast((Function<Object, WrapperObject>)staticOne::staticCreate));
+        WrapperFactory<? extends MzItem> factory = WrapperFactory.find(object);
+        this.factories.put(factory.getStatic().staticGetMzId(), factory);
     }
     @Override
     public void unregister(MzModule module, Class<? extends MzItem> object)
     {
-        this.creators.remove(WrapperObject.create(object, null).staticGetId());
+        this.factories.remove(WrapperFactory.find(object).getStatic().staticGetMzId());
     }
 }

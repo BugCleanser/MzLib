@@ -1,7 +1,7 @@
 package mz.mzlib.demo.game.chinesechess.rules;
 
-import mz.mzlib.demo.game.chinesechess.other.Position2D;
 import mz.mzlib.demo.game.chinesechess.chesses.Chess2D;
+import mz.mzlib.demo.game.chinesechess.other.Position2D;
 
 import java.util.List;
 

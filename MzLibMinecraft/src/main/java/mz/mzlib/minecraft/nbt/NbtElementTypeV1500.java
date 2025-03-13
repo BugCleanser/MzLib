@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.io.DataInput;
@@ -13,6 +14,8 @@ import java.io.DataInput;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.TagReader", begin=1500, end=1605), @VersionName(name="net.minecraft.nbt.NbtType", begin=1605)})
 public interface NbtElementTypeV1500 extends WrapperObject
 {
+    WrapperFactory<NbtElementTypeV1500> FACTORY = WrapperFactory.find(NbtElementTypeV1500.class);
+    @Deprecated
     @WrapperCreator
     static NbtElementTypeV1500 create(Object wrapped)
     {

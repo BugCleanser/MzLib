@@ -6,11 +6,14 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.PlayerInventory"))
 public interface InventoryPlayer extends WrapperObject, Inventory
 {
+    WrapperFactory<InventoryPlayer> FACTORY = WrapperFactory.find(InventoryPlayer.class);
+    @Deprecated
     @WrapperCreator
     static InventoryPlayer create(Object wrapped)
     {

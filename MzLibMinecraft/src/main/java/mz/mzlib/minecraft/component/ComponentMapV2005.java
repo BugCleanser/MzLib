@@ -4,8 +4,10 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Iterator;
@@ -14,29 +16,38 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentMap", begin=2005))
 public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2005.Entry>
 {
-    @Override
-    Iterable<Object> getWrapped();
-
+    WrapperFactory<ComponentMapV2005> FACTORY = WrapperFactory.find(ComponentMapV2005.class);
+    @Deprecated
     @WrapperCreator
     static ComponentMapV2005 create(Object wrapped)
     {
         return WrapperObject.create(ComponentMapV2005.class, wrapped);
     }
+    
+    @Override
+    Iterable<Object> getWrapped();
 
+    @Deprecated
     @WrapMinecraftMethod(@VersionName(name="get"))
     WrapperObject get(ComponentKeyV2005 key);
-    default <T extends WrapperObject> T get(ComponentKeyV2005 key, Function<Object, T> wrapperCreator)
+    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005 key, WrapperFactory<T> factory)
     {
-        return this.get(key).castTo(wrapperCreator);
+        return Option.fromWrapper(this.get(key).castTo(factory));
     }
-    default <T extends WrapperObject> T get(ComponentKeyV2005.Specialized<T> key)
+    @Deprecated
+    default <T extends WrapperObject> T get(ComponentKeyV2005 key, Function<Object, T> creator)
+    {
+        return this.get(key).castTo(creator);
+    }
+    
+    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005.Specialized<T> key)
     {
         return key.get(this);
     }
     
-    default <T extends WrapperObject> T copy(ComponentKeyV2005.Specialized<T> key)
+    default <T extends WrapperObject> Option<T> copy(ComponentKeyV2005.Specialized<T> key)
     {
-        return key.copy(this.get(key));
+        return this.get(key).map(key::copy);
     }
 
     @SuppressWarnings("NullableProblems")
@@ -49,6 +60,8 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     @WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component", begin=2005))
     interface Entry extends WrapperObject
     {
+        WrapperFactory<Entry> FACTORY = WrapperFactory.find(Entry.class);
+        @Deprecated
         @WrapperCreator
         static Entry create(Object wrapped)
         {

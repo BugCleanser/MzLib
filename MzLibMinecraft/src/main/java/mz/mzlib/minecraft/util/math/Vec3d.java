@@ -6,11 +6,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.math.Quaternion;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.util.math.Vec3d"))
 public interface Vec3d extends WrapperObject
 {
+    WrapperFactory<Vec3d> FACTORY = WrapperFactory.find(Vec3d.class);
+    @Deprecated
     @WrapperCreator
     static Vec3d create(Object wrapped)
     {

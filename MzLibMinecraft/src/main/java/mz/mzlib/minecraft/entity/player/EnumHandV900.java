@@ -5,12 +5,15 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=900)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Hand"))
 public interface EnumHandV900 extends WrapperObject
 {
+    WrapperFactory<EnumHandV900> FACTORY = WrapperFactory.find(EnumHandV900.class);
+    @Deprecated
     @WrapperCreator
     static EnumHandV900 create(Object wrapped)
     {

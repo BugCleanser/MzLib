@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventory"))
 public interface CraftInventory extends BukkitInventory
 {
+    WrapperFactory<CraftInventory> FACTORY = WrapperFactory.find(CraftInventory.class);
+    @Deprecated
     @WrapperCreator
     static CraftInventory create(Object wrapped)
     {

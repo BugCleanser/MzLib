@@ -7,6 +7,7 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class RuntimeUtil
 {
@@ -141,7 +142,7 @@ public class RuntimeUtil
         return null;
     }
     
-    public static <T, E extends Throwable> T require(T object, ThrowablePredicate<T, E> con) throws E
+    public static <T> T require(T object, Predicate<T> con)
     {
         assert con.test(object);
         return object;

@@ -1,14 +1,13 @@
 package mz.mzlib.util;
 
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @JvmVersion(begin=9)
 @WrapClassForName("java.lang.Module")
 public interface WrapperModuleJ9 extends WrapperObject
 {
+    WrapperFactory<WrapperModuleJ9> FACTORY = WrapperFactory.find(WrapperModuleJ9.class);
+    @Deprecated
     @WrapperCreator
     static WrapperModuleJ9 create(Object wrapped)
     {

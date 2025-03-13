@@ -5,11 +5,14 @@ import mz.mzlib.minecraft.version.MinecraftVersionV1800;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.SharedConstants", end=1400), @VersionName(name="net.minecraft.SharedConstants", begin=1400)})
 public interface GlobalConstants extends WrapperObject
 {
+    WrapperFactory<GlobalConstants> FACTORY = WrapperFactory.find(GlobalConstants.class);
+    @Deprecated
     @WrapperCreator
     static GlobalConstants create(Object wrapped)
     {

@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.mappings;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.bukkit.MinecraftPlatformBukkit;
 import mz.mzlib.util.CachedValue;
 
 import java.io.File;

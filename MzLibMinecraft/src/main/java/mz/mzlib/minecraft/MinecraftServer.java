@@ -17,6 +17,7 @@ import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Collections;
@@ -29,6 +30,8 @@ import java.util.function.BooleanSupplier;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.MinecraftServer"))
 public interface MinecraftServer extends WrapperObject, CommandOutput, Instance, AsyncFunctionRunner
 {
+    WrapperFactory<MinecraftServer> FACTORY = WrapperFactory.find(MinecraftServer.class);
+    @Deprecated
     @WrapperCreator
     static MinecraftServer create(Object wrapped)
     {

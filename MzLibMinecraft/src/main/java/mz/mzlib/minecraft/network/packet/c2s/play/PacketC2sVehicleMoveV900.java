@@ -1,18 +1,21 @@
 package mz.mzlib.minecraft.network.packet.c2s.play;
 
-import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=900)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket"))
 public interface PacketC2sVehicleMoveV900 extends Packet
 {
+    WrapperFactory<PacketC2sVehicleMoveV900> FACTORY = WrapperFactory.find(PacketC2sVehicleMoveV900.class);
+    @Deprecated
     @WrapperCreator
     static PacketC2sVehicleMoveV900 create(Object wrapped)
     {

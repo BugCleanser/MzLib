@@ -4,6 +4,7 @@ import io.netty.channel.Channel;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.TaskList;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.function.Function;
 
@@ -25,9 +26,14 @@ public class PacketEvent
         return this.player;
     }
     
+    public <T extends Packet> T getPacket(WrapperFactory<T> factory)
+    {
+        return this.packet.castTo(factory);
+    }
+    @Deprecated
     public <T extends Packet> T getPacket(Function<Object, T> creator)
     {
-        return this.packet.castTo(creator);
+        return this.getPacket(new WrapperFactory<>(creator));
     }
     
     public boolean isCopied = false;
@@ -56,19 +62,29 @@ public class PacketEvent
         return this.isCancelled;
     }
     
-    public <T extends Packet> Specialized<T> specialized(Function<Object, T> packetCreator)
+    public <T extends Packet> Specialized<T> specialized(WrapperFactory<T> factory)
     {
-        return new Specialized<>(this, packetCreator);
+        return new Specialized<>(this, factory);
+    }
+    @Deprecated
+    public <T extends Packet> Specialized<T> specialized(Function<Object, T> creator)
+    {
+        return new Specialized<>(this, creator);
     }
     
     public static class Specialized<T extends Packet>
     {
         public PacketEvent common;
-        public Function<Object, T> packetCreator;
-        public Specialized(PacketEvent common, Function<Object, T> packetCreator)
+        public WrapperFactory<T> factory;
+        public Specialized(PacketEvent common, WrapperFactory<T> creator)
         {
             this.common = common;
-            this.packetCreator = packetCreator;
+            this.factory = creator;
+        }
+        @Deprecated
+        public Specialized(PacketEvent common, Function<Object, T> creator)
+        {
+            this(common, new WrapperFactory<>(creator));
         }
         
         public Option<EntityPlayer> getPlayer()
@@ -78,7 +94,7 @@ public class PacketEvent
         
         public T getPacket()
         {
-            return this.common.getPacket(this.packetCreator);
+            return this.common.getPacket(this.factory);
         }
         
         public void ensureCopied()

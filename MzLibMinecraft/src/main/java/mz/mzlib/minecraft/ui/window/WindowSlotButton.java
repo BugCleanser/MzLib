@@ -8,6 +8,7 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 /**
@@ -17,6 +18,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @Compound
 public interface WindowSlotButton extends WindowSlot
 {
+    WrapperFactory<WindowSlotButton> FACTORY = WrapperFactory.find(WindowSlotButton.class);
+    @Deprecated
     @WrapperCreator
     static WindowSlotButton create(Object wrapped)
     {

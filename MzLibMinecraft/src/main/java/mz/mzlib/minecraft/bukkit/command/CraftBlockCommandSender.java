@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.BlockCommandSender;
 
@@ -13,6 +14,8 @@ import org.bukkit.command.BlockCommandSender;
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.CraftBlockCommandSender"))
 public interface CraftBlockCommandSender extends WrapperObject
 {
+    WrapperFactory<CraftBlockCommandSender> FACTORY = WrapperFactory.find(CraftBlockCommandSender.class);
+    @Deprecated
     @WrapperCreator
     static CraftBlockCommandSender create(Object wrapped)
     {

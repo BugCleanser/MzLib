@@ -10,12 +10,15 @@ import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventoryView"))
 public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
 {
+    WrapperFactory<CraftInventoryView> FACTORY = WrapperFactory.find(CraftInventoryView.class);
+    @Deprecated
     @WrapperCreator
     static CraftInventoryView create(Object wrapped)
     {

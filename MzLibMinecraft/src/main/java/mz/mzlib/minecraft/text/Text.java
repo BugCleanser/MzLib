@@ -14,6 +14,7 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import java.util.List;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text")})
 public interface Text extends WrapperObject
 {
+    WrapperFactory<Text> FACTORY = WrapperFactory.find(Text.class);
+    @Deprecated
     @WrapperCreator
     static Text create(Object wrapped)
     {
@@ -578,6 +581,8 @@ public interface Text extends WrapperObject
     @WrapMinecraftInnerClass(outer=Text.class, name={@VersionName(name="Serializer", end=2003), @VersionName(name="Serialization", begin=2003)})
     interface Serializer extends WrapperObject
     {
+        WrapperFactory<Serializer> FACTORY = WrapperFactory.find(Serializer.class);
+        @Deprecated
         @WrapperCreator
         static Serializer create(Object wrapped)
         {

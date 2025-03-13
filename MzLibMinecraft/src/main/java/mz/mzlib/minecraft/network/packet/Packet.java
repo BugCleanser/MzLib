@@ -14,6 +14,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Arrays;
@@ -23,6 +24,8 @@ import java.util.Objects;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.Packet", end=1904), @VersionName(name="net.minecraft.network.packet.Packet", begin=1904)})
 public interface Packet extends WrapperObject
 {
+    WrapperFactory<Packet> FACTORY = WrapperFactory.find(Packet.class);
+    @Deprecated
     @WrapperCreator
     static Packet create(Object wrapped)
     {

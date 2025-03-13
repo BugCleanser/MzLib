@@ -4,11 +4,14 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.Encoder", begin=1600))
 public interface EncoderV1600 extends WrapperObject
 {
+    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.find(WrapperObject.class);
+    @Deprecated
     @WrapperCreator
     static WrapperObject create(Object wrapped)
     {

@@ -5,12 +5,15 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1300)
 @WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
 public interface ItemConvertibleV1300 extends WrapperObject
 {
+    WrapperFactory<ItemConvertibleV1300> FACTORY = WrapperFactory.find(ItemConvertibleV1300.class);
+    @Deprecated
     @WrapperCreator
     static ItemConvertibleV1300 create(Object wrapped)
     {

@@ -6,11 +6,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.properties.Property"))
 public interface Property extends WrapperObject
 {
+    WrapperFactory<Property> FACTORY = WrapperFactory.find(Property.class);
+    @Deprecated
     @WrapperCreator
     static Property create(Object wrapped)
     {

@@ -5,10 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Optional;
 
@@ -21,6 +18,8 @@ import java.util.Optional;
         })
 public interface TextSelector extends WrapperObject
 {
+    WrapperFactory<TextSelector> FACTORY = WrapperFactory.find(TextSelector.class);
+    @Deprecated
     @WrapperCreator
     static TextSelector create(Object wrapped)
     {

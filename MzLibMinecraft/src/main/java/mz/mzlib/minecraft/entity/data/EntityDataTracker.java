@@ -8,16 +8,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.data.DataTracker"))
 public interface EntityDataTracker extends WrapperObject
 {
+    WrapperFactory<EntityDataTracker> FACTORY = WrapperFactory.find(EntityDataTracker.class);
+    @Deprecated
     @WrapperCreator
     static EntityDataTracker create(Object wrapped)
     {
@@ -36,6 +35,8 @@ public interface EntityDataTracker extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name={@VersionName(name="DataEntry", end=1400), @VersionName(name="Entry", begin=1400)})
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
     {
+        WrapperFactory<Entry> FACTORY = WrapperFactory.find(Entry.class);
+        @Deprecated
         @WrapperCreator
         static Entry create(Object wrapped)
         {
@@ -116,6 +117,8 @@ public interface EntityDataTracker extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name=@VersionName(name="SerializedEntry"))
     interface EntityDataV1903 extends WrapperObject, PacketS2cEntityData.Entry
     {
+        WrapperFactory<EntityDataV1903> FACTORY = WrapperFactory.find(EntityDataV1903.class);
+        @Deprecated
         @WrapperCreator
         static EntityDataV1903 create(Object wrapped)
         {
@@ -142,9 +145,14 @@ public interface EntityDataTracker extends WrapperObject
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_1117"))
         void setValue(Object value);
         
-        default <T extends WrapperObject> T getValue(Function<Object, T> wrapperCreator)
+        default <T extends WrapperObject> T getValue(WrapperFactory<T> factory)
         {
-            return wrapperCreator.apply(getValue());
+            return factory.create(this.getValue());
+        }
+        @Deprecated
+        default <T extends WrapperObject> T getValue(Function<Object, T> creator)
+        {
+            return creator.apply(this.getValue());
         }
         
         @Override

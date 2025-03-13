@@ -21,6 +21,8 @@ import java.util.List;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.screen.ScreenHandler", end=1400), @VersionName(name="net.minecraft.container.Container",begin=1400, end=1600), @VersionName(name="net.minecraft.screen.ScreenHandler", begin=1600)})
 public interface Window extends WrapperObject
 {
+    WrapperFactory<Window> FACTORY = WrapperFactory.find(Window.class);
+    @Deprecated
     @WrapperCreator
     static Window create(Object wrapped)
     {

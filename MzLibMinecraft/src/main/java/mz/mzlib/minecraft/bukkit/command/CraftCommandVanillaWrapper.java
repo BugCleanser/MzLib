@@ -7,16 +7,15 @@ import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.CommandSender;
 
 @BukkitEnabled
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.VanillaCommandWrapper"))
 public interface CraftCommandVanillaWrapper extends WrapperObject
 {
+    WrapperFactory<CraftCommandVanillaWrapper> FACTORY = WrapperFactory.find(CraftCommandVanillaWrapper.class);
+    @Deprecated
     @WrapperCreator
     static CraftCommandVanillaWrapper create(Object wrapped)
     {

@@ -86,6 +86,8 @@ public interface WindowSlotButton extends WindowSlot // 直接继承即可
 @Compound
 public interface ExampleCompound extends WrapperObject
 {
+    WrapperFactory<ExampleCompound> FACTORY = WrapperFactory.find(ExampleCompound.class);
+    @Deprecated
     @WrapperCreator
     static ExampleCompound create(Object wrapped)
     {

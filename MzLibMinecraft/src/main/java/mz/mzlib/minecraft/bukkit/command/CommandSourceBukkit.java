@@ -16,6 +16,8 @@ import org.bukkit.command.CommandSender;
 @WrapSameClass(CommandSource.class)
 public interface CommandSourceBukkit extends CommandSource
 {
+    WrapperFactory<CommandSourceBukkit> FACTORY = WrapperFactory.find(CommandSourceBukkit.class);
+    @Deprecated
     @WrapperCreator
     static CommandSourceBukkit create(Object wrapped)
     {

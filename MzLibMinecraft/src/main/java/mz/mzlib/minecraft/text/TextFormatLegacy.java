@@ -5,11 +5,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Formatting"))
 public interface TextFormatLegacy extends WrapperObject
 {
+    WrapperFactory<TextFormatLegacy> FACTORY = WrapperFactory.find(TextFormatLegacy.class);
+    @Deprecated
     @WrapperCreator
     static TextFormatLegacy create(Object wrapped)
     {

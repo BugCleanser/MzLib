@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
-import mz.mzlib.minecraft.component.type.NbtCompoundComponentV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
 import mz.mzlib.minecraft.nbt.*;
@@ -19,16 +18,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.ThrowableFunction;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.ItemStack"))
 public interface ItemStack extends WrapperObject
 {
+    WrapperFactory<ItemStack> FACTORY = WrapperFactory.find(ItemStack.class);
+    @Deprecated
     @WrapperCreator
     static ItemStack create(Object wrapped)
     {

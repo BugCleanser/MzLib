@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import mz.mzlib.util.IOUtil;
 import mz.mzlib.util.LazyConstant;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.ThrowableSupplier;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class AssetsHelp implements Iterable<String>
     {
         try
         {
-            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/versionInfo-"+MinecraftPlatform.instance.getVersionString()+".json"), ()->
+            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/versionInfo-"+MinecraftPlatform.instance.getVersionString()+".json"), ThrowableSupplier.of(()->
             {
                 for(JsonElement version: versionManifest.get().get("versions").getAsJsonArray())
                 {
@@ -62,7 +63,7 @@ public class AssetsHelp implements Iterable<String>
                     }
                 }
                 throw new AssertionError();
-            }), StandardCharsets.UTF_8), JsonObject.class);
+            })), StandardCharsets.UTF_8), JsonObject.class);
         }
         catch(Throwable e)
         {
@@ -73,13 +74,13 @@ public class AssetsHelp implements Iterable<String>
     {
         try
         {
-            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/assetIndex-"+MinecraftPlatform.instance.getVersionString()+".json"), ()->
+            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/assetIndex-"+MinecraftPlatform.instance.getVersionString()+".json"), ThrowableSupplier.of(()->
             {
                 try(InputStream is = IOUtil.openConnectionCheckRedirects(replaceHost(new URL(versionInfo.get().get("assetIndex").getAsJsonObject().get("url").getAsString())), retry))
                 {
                     return IOUtil.readAll(is);
                 }
-            }), StandardCharsets.UTF_8), JsonObject.class).get("objects").getAsJsonObject();
+            })), StandardCharsets.UTF_8), JsonObject.class).get("objects").getAsJsonObject();
         }
         catch(Throwable e)
         {
@@ -111,7 +112,7 @@ public class AssetsHelp implements Iterable<String>
     {
         if(file.contains(".."))
             throw new NoSuchFileException("Minecraft assets: "+file);
-        return IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/"+MinecraftPlatform.instance.getVersionString()+"/"+file), ()->
+        return IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/"+MinecraftPlatform.instance.getVersionString()+"/"+file), ThrowableSupplier.of(()->
         {
             try(InputStream is = AssetsHelp.class.getClassLoader().getResourceAsStream("assets/"+file))
             {
@@ -126,6 +127,6 @@ public class AssetsHelp implements Iterable<String>
             {
                 return IOUtil.readAll(is);
             }
-        });
+        }));
     }
 }

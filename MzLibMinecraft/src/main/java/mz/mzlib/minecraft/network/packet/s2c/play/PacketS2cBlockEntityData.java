@@ -7,14 +7,13 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.BlockPos;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket"))
 public interface PacketS2cBlockEntityData extends Packet
 {
+    WrapperFactory<PacketS2cBlockEntityData> FACTORY = WrapperFactory.find(PacketS2cBlockEntityData.class);
+    @Deprecated
     @WrapperCreator
     static PacketS2cBlockEntityData create(Object wrapped)
     {

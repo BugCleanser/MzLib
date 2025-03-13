@@ -5,19 +5,19 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.ThrowableSupplier;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.GameProfile"))
 public interface GameProfile extends WrapperObject
 {
+    WrapperFactory<GameProfile> FACTORY = WrapperFactory.find(GameProfile.class);
+    @Deprecated
     @WrapperCreator
     static GameProfile create(Object wrapped)
     {
@@ -69,7 +69,7 @@ public interface GameProfile extends WrapperObject
     @VersionRange(begin=2002)
     default Option<UUID> getIdV2002()
     {
-        return Option.some(getId0()).map(ThrowableFunction.switcher(NIL_UUID_V2002::equals, ThrowableSupplier.<UUID>nul().ignore()));
+        return Option.some(getId0()).then(ThrowableFunction.switcher(NIL_UUID_V2002::equals, ThrowableSupplier.<UUID>nul().ignore()).thenApply(InvertibleFunction.option()));
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="name"))
@@ -85,7 +85,7 @@ public interface GameProfile extends WrapperObject
     @VersionRange(begin=2002)
     default Option<String> getNameV2002()
     {
-        return Option.some(getName0()).map(ThrowableFunction.switcher(String::isEmpty, ThrowableSupplier.<String>nul().ignore()));
+        return Option.some(getName0()).then(ThrowableFunction.switcher(String::isEmpty, ThrowableSupplier.<String>nul().ignore()).thenApply(InvertibleFunction.option()));
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="properties"))

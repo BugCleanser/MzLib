@@ -5,12 +5,15 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=2005)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.state.PlayStateFactories"))
 public interface NetworkPlaySidedPacketManagerFactoriesV2005 extends WrapperObject
 {
+    WrapperFactory<NetworkPlaySidedPacketManagerFactoriesV2005> FACTORY = WrapperFactory.find(NetworkPlaySidedPacketManagerFactoriesV2005.class);
+    @Deprecated
     @WrapperCreator
     static NetworkPlaySidedPacketManagerFactoriesV2005 create(Object wrapped)
     {

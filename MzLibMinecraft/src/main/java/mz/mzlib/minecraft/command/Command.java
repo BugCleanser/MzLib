@@ -140,40 +140,47 @@ public class Command
     }
     public void execute(CommandSource source, String command, @Nullable String args)
     {
-        Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(source) : null;
-        if(permissionCheckInfo!=null)
+        try
         {
-            source.sendMessage(permissionCheckInfo);
-            return;
-        }
-        if(args!=null)
-        {
-            String[] argv2 = args.split("\\s+", 2);
-            for(Command i: this.children)
+            Text permissionCheckInfo = this.permissionChecker!=null ? this.permissionChecker.apply(source) : null;
+            if(permissionCheckInfo!=null)
             {
-                if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
+                source.sendMessage(permissionCheckInfo);
+                return;
+            }
+            if(args!=null)
+            {
+                String[] argv2 = args.split("\\s+", 2);
+                for(Command i: this.children)
                 {
-                    i.execute(source, command+' '+argv2[0], argv2.length>1 ? argv2[1] : null);
-                    return;
+                    if(CollectionUtil.addAll(CollectionUtil.newArrayList(i.aliases), i.name).contains(argv2[0]))
+                    {
+                        i.execute(source, command+' '+argv2[0], argv2.length>1 ? argv2[1] : null);
+                        return;
+                    }
                 }
             }
-        }
-        CommandContext context = new CommandContext(source, command, args!=null ? " "+args : "", true);
-        if(this.handler!=null)
-        {
-            this.handler.accept(context);
-        }
-        if(this.handler==null || !context.isAnySuccessful())
-        {
-            for(Text e: context.getAllArgErrors())
-                source.sendMessage(e);
-            if(!this.children.isEmpty())
-                source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage.subcommands", MapBuilder.hashMap().put("command", command).put("subcommands", this.children.stream().map(c->c.name).collect(Collectors.toList())).get())));
+            CommandContext context = new CommandContext(source, command, args!=null ? " "+args : "", true);
             if(this.handler!=null)
-                for(List<String> argNames: context.getAllArgNames())
-                {
-                    source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage", MapBuilder.hashMap().put("command", command).put("args", argNames).get())));
-                }
+            {
+                this.handler.accept(context);
+            }
+            if(this.handler==null || !context.isAnySuccessful())
+            {
+                for(Text e: context.getAllArgErrors())
+                    source.sendMessage(e);
+                if(!this.children.isEmpty())
+                    source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage.subcommands", MapBuilder.hashMap().put("command", command).put("subcommands", this.children.stream().map(c->c.name).collect(Collectors.toList())).get())));
+                if(this.handler!=null)
+                    for(List<String> argNames: context.getAllArgNames())
+                    {
+                        source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage", MapBuilder.hashMap().put("command", command).put("args", argNames).get())));
+                    }
+            }
+        }
+        catch(Throwable e)
+        {
+            e.printStackTrace(System.err);
         }
     }
 }

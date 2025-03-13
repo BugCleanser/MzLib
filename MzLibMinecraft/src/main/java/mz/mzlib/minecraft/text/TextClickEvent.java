@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
@@ -17,6 +18,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface TextClickEvent extends WrapperObject
 {
+    WrapperFactory<TextClickEvent> FACTORY = WrapperFactory.find(TextClickEvent.class);
+    @Deprecated
     @WrapperCreator
     static TextClickEvent create(Object wrapped)
     {
@@ -39,6 +42,8 @@ public interface TextClickEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextClickEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
+        WrapperFactory<Action> FACTORY = WrapperFactory.find(Action.class);
+        @Deprecated
         @WrapperCreator
         static Action create(Object wrapped)
         {

@@ -1,9 +1,11 @@
 package mz.mzlib.demo.game.chinesechess.rules;
 
-import mz.mzlib.demo.game.chinesechess.other.Position;
 import mz.mzlib.demo.game.chinesechess.chesses.Chess;
+import mz.mzlib.demo.game.chinesechess.other.Position;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReleativeSlotRule implements ChessRule {

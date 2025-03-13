@@ -11,11 +11,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3915", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.ServerCommandSource", begin=1400)})
 public interface CommandSource extends WrapperObject
 {
+    WrapperFactory<CommandSource> FACTORY = WrapperFactory.find(CommandSource.class);
+    @Deprecated
     @WrapperCreator
     static CommandSource create(Object wrapped)
     {
@@ -76,7 +79,7 @@ public interface CommandSource extends WrapperObject
     default Option<EntityPlayer> getPlayer()
     {
         for(Entity entity: this.getEntity())
-            return entity.tryCast(EntityPlayer::create);
+            return entity.tryCast(EntityPlayer.FACTORY);
         return Option.none();
     }
 }

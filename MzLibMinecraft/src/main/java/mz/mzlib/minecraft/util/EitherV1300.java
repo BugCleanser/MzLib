@@ -1,7 +1,10 @@
 package mz.mzlib.minecraft.util;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.WrapClassForName;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
 import java.util.function.Consumer;

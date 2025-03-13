@@ -12,6 +12,7 @@ import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.Annotation;
@@ -155,7 +156,7 @@ public class NothingRegistration
                         try
                         {
                             if(!ni.locateMethod().isEmpty())
-                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(WrapperObject.create(RuntimeUtil.cast(nothing), null), locating);
+                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(WrapperFactory.find(RuntimeUtil.<Class<? extends WrapperObject>>cast(nothing)).getStatic(), locating);
                         }
                         catch(Throwable e)
                         {

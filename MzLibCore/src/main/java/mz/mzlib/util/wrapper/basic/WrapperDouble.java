@@ -1,13 +1,12 @@
 package mz.mzlib.util.wrapper.basic;
 
-import mz.mzlib.util.wrapper.WrapperObject;
-import mz.mzlib.util.wrapper.WrapClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
+import mz.mzlib.util.wrapper.*;
 
 @WrapClass(Double.class)
 public interface WrapperDouble extends WrapperObject
 {
+    WrapperFactory<WrapperDouble> FACTORY = WrapperFactory.find(WrapperDouble.class);
+    @Deprecated
     @WrapperCreator
     static WrapperDouble create(Double wrapped)
     {

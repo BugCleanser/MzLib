@@ -1,10 +1,7 @@
 package mz.mzlib.minecraft.command.brigadier;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Map;
 
@@ -12,6 +9,8 @@ import java.util.Map;
 @WrapClassForName("com.mojang.brigadier.tree.CommandNode")
 public interface CommandNodeV1300 extends WrapperObject
 {
+    WrapperFactory<CommandNodeV1300> FACTORY = WrapperFactory.find(CommandNodeV1300.class);
+    @Deprecated
     @WrapperCreator
     static CommandNodeV1300 create(Object wrapped)
     {

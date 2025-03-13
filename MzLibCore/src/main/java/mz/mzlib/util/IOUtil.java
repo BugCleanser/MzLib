@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+import java.util.function.Supplier;
 import java.util.zip.ZipFile;
 
 public class IOUtil
@@ -31,7 +32,7 @@ public class IOUtil
         return result.toByteArray();
     }
 
-    public static <E extends Throwable> byte[] cache(File file, ThrowableSupplier<byte[],E> supplier) throws IOException,E
+    public static byte[] cache(File file, Supplier<byte[]> supplier) throws IOException
     {
         if(file.isFile())
         {
@@ -42,7 +43,7 @@ public class IOUtil
         }
         else
         {
-            byte[] result=supplier.getOrThrow();
+            byte[] result=supplier.get();
             boolean ignored=file.getParentFile().mkdirs();
             try(FileOutputStream fos=new FileOutputStream(file))
             {

@@ -1,10 +1,7 @@
 package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 
@@ -12,6 +9,8 @@ import org.bukkit.plugin.Plugin;
 @WrapClassForName("org.bukkit.command.PluginCommand")
 public interface CommandBukkit extends WrapperObject
 {
+    WrapperFactory<CommandBukkit> FACTORY = WrapperFactory.find(CommandBukkit.class);
+    @Deprecated
     @WrapperCreator
     static CommandBukkit create(Object wrapped)
     {

@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
@@ -14,6 +15,8 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.RegistryByteBuf"))
 public interface ByteBufWithRegistriesV2005 extends WrapperObject
 {
+    WrapperFactory<ByteBufWithRegistriesV2005> FACTORY = WrapperFactory.find(ByteBufWithRegistriesV2005.class);
+    @Deprecated
     @WrapperCreator
     static ByteBufWithRegistriesV2005 create(Object wrapped)
     {

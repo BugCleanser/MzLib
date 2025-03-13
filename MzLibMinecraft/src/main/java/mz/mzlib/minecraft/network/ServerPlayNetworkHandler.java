@@ -12,15 +12,18 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.network.ServerPlayNetworkHandler"))
 public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacketListener
 {
+    WrapperFactory<ServerPlayNetworkHandler> FACTORY = WrapperFactory.find(ServerPlayNetworkHandler.class);
+    @Deprecated
     @WrapperCreator
-    static ServerPlayNetworkHandler create(Object object)
+    static ServerPlayNetworkHandler create(Object wrapped)
     {
-        return WrapperObject.create(ServerPlayNetworkHandler.class, object);
+        return WrapperObject.create(ServerPlayNetworkHandler.class, wrapped);
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="player"))

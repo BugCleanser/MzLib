@@ -20,13 +20,13 @@ public class RegistrarPacketListener implements IRegistrar<PacketListener<?>>
     public Map<Class<?>, Set<PacketListener<?>>> listeners = new HashMap<>();
     public synchronized void register(MzModule module, PacketListener<?> object)
     {
-        Class<?> type = object.packetCreator.apply(null).staticGetWrappedClass();
+        Class<?> type = object.factory.getWrappedClass();
         this.listeners.computeIfAbsent(type, k->new HashSet<>()).add(object);
         this.update(type);
     }
     public synchronized void unregister(MzModule module, PacketListener<?> object)
     {
-        Class<?> type = object.packetCreator.apply(null).staticGetWrappedClass();
+        Class<?> type = object.factory.getWrappedClass();
         this.listeners.get(type).remove(object);
         this.update(type);
     }

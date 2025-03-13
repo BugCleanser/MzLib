@@ -8,12 +8,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1904)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BundleS2CPacket"))
 public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
 {
+    WrapperFactory<PacketBundleS2cV1904> FACTORY = WrapperFactory.find(PacketBundleS2cV1904.class);
+    @Deprecated
     @WrapperCreator
     static PacketBundleS2cV1904 create(Object wrapped)
     {

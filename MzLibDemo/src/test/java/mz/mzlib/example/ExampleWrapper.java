@@ -1,6 +1,5 @@
 package mz.mzlib.example;
 
-import mz.mzlib.util.math.Ring;
 import mz.mzlib.util.wrapper.*;
 import org.junit.jupiter.api.Test;
 
@@ -10,11 +9,10 @@ import java.util.List;
 @Deprecated
 public class ExampleWrapper
 {
-    @SuppressWarnings("all")
-    public static class TestClass implements Cloneable
+    public static class TestClass
     {
-        private double var = 114.514;
-        private TestClass thiz = this;
+        private final double var = 114.514;
+        private final TestClass thiz = this;
 
         private TestClass()
         {
@@ -34,11 +32,7 @@ public class ExampleWrapper
     @WrapClass(TestClass.class)
     public interface WrapperTest extends WrapperObject
     {
-        @WrapperCreator
-        static WrapperTest create(Object wrapped)
-        {
-            return WrapperObject.create(WrapperTest.class, wrapped);
-        }
+        WrapperFactory<WrapperTest> FACTORY = WrapperFactory.find(WrapperTest.class);
         
         @WrapMethod("m")
         void m();
@@ -47,14 +41,14 @@ public class ExampleWrapper
         void staticM1();
         static void m1()
         {
-            create(null).staticM1();
+            FACTORY.getStatic().staticM1();
         }
         
         @WrapConstructor
         WrapperTest staticNewInstance();
         static WrapperTest newInstance()
         {
-            return create(null).staticNewInstance();
+            return FACTORY.getStatic().staticNewInstance();
         }
         
         @WrapFieldAccessor("var")
@@ -118,7 +112,7 @@ public class ExampleWrapper
     public void test2()
     {
         List<Class<?>> l=new ArrayList<>();
-        WrapperObject.create(D.class, null).f(l);
+        WrapperFactory.find(D.class).getStatic().f(l);
         assert l.size()==4;
         assert l.contains(A.class);
         assert l.contains(B.class);

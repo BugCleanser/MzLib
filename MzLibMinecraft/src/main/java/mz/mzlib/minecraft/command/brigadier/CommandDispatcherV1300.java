@@ -2,15 +2,14 @@ package mz.mzlib.minecraft.command.brigadier;
 
 import com.mojang.brigadier.CommandDispatcher;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @VersionRange(begin=1300)
 @WrapClassForName("com.mojang.brigadier.CommandDispatcher")
 public interface CommandDispatcherV1300 extends WrapperObject
 {
+    WrapperFactory<CommandDispatcherV1300> FACTORY = WrapperFactory.find(CommandDispatcherV1300.class);
+    @Deprecated
     @WrapperCreator
     static CommandDispatcherV1300 create(Object wrapped)
     {

@@ -3,14 +3,13 @@ package mz.mzlib.minecraft.nbt;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.PositionTracker", end=1605), @VersionName(name="net.minecraft.nbt.NbtTagSizeTracker", begin=1605, end=2004), @VersionName(name="net.minecraft.nbt.NbtSizeTracker", begin=2004)})
 public interface NbtReadingCounter extends WrapperObject
 {
+    WrapperFactory<NbtReadingCounter> FACTORY = WrapperFactory.find(NbtReadingCounter.class);
+    @Deprecated
     @WrapperCreator
     static NbtReadingCounter create(Object wrapped)
     {

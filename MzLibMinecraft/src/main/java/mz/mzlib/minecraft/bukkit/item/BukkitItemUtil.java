@@ -7,8 +7,8 @@ public class BukkitItemUtil
 {
     public static ItemStack fromBukkit(org.bukkit.inventory.ItemStack is)
     {
-        if(WrapperObject.create(is).isInstanceOf(CraftItemStack::create))
-            return CraftItemStack.create(is).getHandle();
+        if(WrapperObject.FACTORY.create(is).isInstanceOf(CraftItemStack.FACTORY))
+            return CraftItemStack.FACTORY.create(is).getHandle();
         else
             return CraftItemStack.newInstance(is).getHandle();
     }

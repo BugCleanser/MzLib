@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1300)
 @WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.DataFixer"))
 public interface DataFixerV1300 extends WrapperObject
 {
+    WrapperFactory<DataFixerV1300> FACTORY = WrapperFactory.find(DataFixerV1300.class);
+    @Deprecated
     @WrapperCreator
     static DataFixerV1300 create(Object wrapped)
     {

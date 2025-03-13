@@ -19,12 +19,10 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Editor;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.Ref;
-import mz.mzlib.util.StrongRef;
+import mz.mzlib.util.*;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
@@ -34,6 +32,8 @@ import java.util.stream.Collectors;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.Item"))
 public interface Item extends WrapperObject
 {
+    WrapperFactory<Item> FACTORY = WrapperFactory.find(Item.class);
+    @Deprecated
     @WrapperCreator
     static Item create(Object wrapped)
     {
@@ -42,7 +42,7 @@ public interface Item extends WrapperObject
     
     static Item fromId(Identifier id)
     {
-        return getRegistry().get(id).castTo(Item::create);
+        return getRegistry().get(id).castTo(Item.FACTORY);
     }
     
     static Item fromId(String id)
@@ -52,9 +52,9 @@ public interface Item extends WrapperObject
     
     Item AIR = fromId(Identifier.ofMinecraft("air"));
     
-    ComponentKeyV2005.Specialized<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data").specialized(NbtCompoundComponentV2005::create);
-    ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialized(Text::create);
-    ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialized(LoreComponentV2005::create);
+    ComponentKeyV2005.Specialized<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data").specialized(NbtCompoundComponentV2005.FACTORY);
+    ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialized(Text.FACTORY);
+    ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialized(LoreComponentV2005.FACTORY);
     
     Identifier getId();
     
@@ -72,229 +72,273 @@ public interface Item extends WrapperObject
         return getRegistryV1300().getIdV1300(this);
     }
     
-    static NbtCompound getCustomData(ItemStack itemStack)
+    static Option<NbtCompound> getCustomData(ItemStack itemStack)
     {
         return create(null).staticGetCustomData(itemStack);
     }
     
-    NbtCompound staticGetCustomData(ItemStack itemStack);
+    Option<NbtCompound> staticGetCustomData(ItemStack itemStack);
     
     @SpecificImpl("staticGetCustomData")
     @VersionRange(end=2005)
-    default NbtCompound staticGetCustomDataV_2005(ItemStack itemStack)
+    default Option<NbtCompound> staticGetCustomDataV_2005(ItemStack itemStack)
     {
-        return itemStack.getTagV_2005().unwrapOrGet(NbtCompound::newInstance);
+        return itemStack.getTagV_2005();
     }
     
     @SpecificImpl("staticGetCustomData")
     @VersionRange(begin=2005)
-    default NbtCompound staticGetCustomDataV2005(ItemStack itemStack)
+    default Option<NbtCompound> staticGetCustomDataV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005).getNbtCompound();
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005).map(NbtCompoundComponentV2005::getNbtCompound);
     }
     
-    static void setCustomData(ItemStack itemStack, NbtCompound customData)
+    static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
     {
-        create(null).staticSetCustomData(itemStack, customData);
+        FACTORY.getStatic().staticSetCustomData(itemStack, value);
     }
     
-    void staticSetCustomData(ItemStack itemStack, NbtCompound customData);
+    void staticSetCustomData(ItemStack itemStack, Option<NbtCompound> value);
     
     @SpecificImpl("staticSetCustomData")
     @VersionRange(end=2005)
-    default void staticSetCustomDataV_2005(ItemStack itemStack, NbtCompound customData)
+    default void staticSetCustomDataV_2005(ItemStack itemStack, Option<NbtCompound> value)
     {
-        itemStack.setTagV_2005(Option.some(customData));
+        itemStack.setTagV_2005(value);
     }
     
     @SpecificImpl("staticSetCustomData")
     @VersionRange(begin=2005)
-    default void staticSetCustomDataV2005(ItemStack itemStack, NbtCompound customData)
+    default void staticSetCustomDataV2005(ItemStack itemStack, Option<NbtCompound> value)
     {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, NbtCompoundComponentV2005.newInstance(customData));
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance));
     }
     
-    static NbtCompound editCustomData(ItemStack itemStack)
+    static Editor<Ref<Option<NbtCompound>>> editCustomData(ItemStack itemStack)
     {
-        return create(null).staticEditCustomData(itemStack);
+        return FACTORY.getStatic().staticEditCustomData(itemStack);
     }
-    
-    NbtCompound staticEditCustomData(ItemStack itemStack);
-    
+    Editor<Ref<Option<NbtCompound>>> staticEditCustomData(ItemStack itemStack);
     @SpecificImpl("staticEditCustomData")
     @VersionRange(end=2005)
-    default NbtCompound staticEditCustomDataV_2005(ItemStack itemStack)
+    default Editor<Ref<Option<NbtCompound>>> staticEditCustomDataV_2005(ItemStack itemStack)
     {
-        return getCustomData(itemStack);
+        return Editor.ofRef(itemStack, Item::getCustomData, Item::setCustomData);
     }
-    
     @SpecificImpl("staticEditCustomData")
     @VersionRange(begin=2005)
-    default NbtCompound staticEditCustomDataV2005(ItemStack itemStack)
+    default Editor<Ref<Option<NbtCompound>>> staticEditCustomDataV2005(ItemStack itemStack)
     {
-        NbtCompound result = getCustomData(itemStack).copy();
-        setCustomData(itemStack, result);
-        return result;
+        return Editor.ofRef(itemStack, ThrowableFunction.of(Item::getCustomData).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)), Item::setCustomData);
     }
     
-    static Text getCustomName(ItemStack itemStack)
+    static Option<Text> getCustomName(ItemStack itemStack)
     {
         return create(null).staticGetCustomName(itemStack);
     }
     
-    Text staticGetCustomName(ItemStack itemStack);
+    Option<Text> staticGetCustomName(ItemStack itemStack);
     
     @SpecificImpl("staticGetCustomName")
     @VersionRange(end=1300)
-    default Text staticGetCustomNameV_1300(ItemStack itemStack)
+    default Option<Text> staticGetCustomNameV_1300(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNBTCompound("display"))
                 for(String name: display.getString("Name"))
-                    return Text.fromLiteral(name);
-        return Text.create(null);
+                    return Option.some(Text.fromLiteral(name));
+        return Option.none();
     }
     
     @SpecificImpl("staticGetCustomName")
     @VersionRange(begin=1300, end=2005)
-    default Text staticGetCustomNameV1300_2005(ItemStack itemStack)
+    default Option<Text> staticGetCustomNameV1300_2005(ItemStack itemStack)
     {
         for(NbtCompound nbt: itemStack.getTagV_2005())
             for(NbtCompound display: nbt.getNBTCompound("display"))
                 for(String name: display.getString("Name"))
-                    return Text.decode(name);
-        return Text.create(null);
+                    return Option.some(Text.decode(name));
+        return Option.none();
     }
     
     @SpecificImpl("staticGetCustomName")
     @VersionRange(begin=2005)
-    default Text staticGetCustomNameV2005(ItemStack itemStack)
+    default Option<Text> staticGetCustomNameV2005(ItemStack itemStack)
     {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005);
     }
     
-    
-    static void setCustomName(ItemStack itemStack, Text customName)
+    static void setCustomName(ItemStack itemStack, Option<Text> value)
     {
-        create(null).staticSetCustomName(itemStack, customName);
+        create(null).staticSetCustomName(itemStack, value);
     }
     
-    void staticSetCustomName(ItemStack itemStack, Text customName);
+    void staticSetCustomName(ItemStack itemStack, Option<Text> value);
     
     @SpecificImpl("staticSetCustomName")
     @VersionRange(end=1300)
-    default void staticSetCustomNameV_1300(ItemStack itemStack, Text customName)
+    default void staticSetCustomNameV_1300(ItemStack itemStack, Option<Text> value)
     {
-        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
+        for(Text customName: value)
+        {
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
+            return;
+        }
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
+                display.remove("Name");
     }
     
     @SpecificImpl("staticSetCustomName")
     @VersionRange(begin=1300, end=2005)
-    default void staticSetCustomNameV1300_2005(ItemStack itemStack, Text customName)
+    default void staticSetCustomNameV1300_2005(ItemStack itemStack, Option<Text> value)
     {
-        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
+        for(Text customName: value)
+        {
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
+            return;
+        }
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
+                display.remove("Name");
     }
     
     @SpecificImpl("staticSetCustomName")
     @VersionRange(begin=2005)
-    default void staticSetCustomNameV2005(ItemStack itemStack, Text customName)
+    default void staticSetCustomNameV2005(ItemStack itemStack, Option<Text> value)
     {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, customName);
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, value);
     }
     
-    static Editor<Ref<Text>> editCustomName(ItemStack itemStack)
+    static void removeCustomName(ItemStack itemStack)
+    {
+        create(null).staticRemoveCustomName(itemStack);
+    }
+    void staticRemoveCustomName(ItemStack itemStack);
+    
+    @SpecificImpl("staticRemoveCustomName")
+    @VersionRange(end=2005)
+    default void staticRemoveCustomNameV_1300(ItemStack itemStack)
+    {
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
+                display.remove("Name");
+    }
+    
+    @SpecificImpl("staticRemoveCustomName")
+    @VersionRange(begin=2005)
+    default void staticRemoveCustomNameV2005(ItemStack itemStack)
+    {
+        itemStack.getComponentsV2005().remove(COMPONENT_KEY_CUSTOM_NAME_V2005);
+    }
+    
+    static Editor<Ref<Option<Text>>> editCustomName(ItemStack itemStack)
     {
         return Editor.ofRef(itemStack, Item::getCustomName, Item::setCustomName);
     }
     
-    static List<Text> getLore(ItemStack itemStack)
+    static Option<List<Text>> getLore(ItemStack itemStack)
     {
         return create(null).staticGetLore(itemStack);
     }
     
-    List<Text> staticGetLore(ItemStack itemStack);
+    Option<List<Text>> staticGetLore(ItemStack itemStack);
     
     @SpecificImpl("staticGetLore")
     @VersionRange(end=1400)
-    default List<Text> staticGetLoreV_1400(ItemStack itemStack)
+    default Option<List<Text>> staticGetLoreV_1400(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNBTCompound("display"))
                 for(NbtList lore: display.getNBTList("Lore"))
-                    return lore.asList(NbtString::create).stream().map(NbtString::getValue).map(Text::fromLiteral).collect(Collectors.toList());
-        return new ArrayList<>();
+                    return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::fromLiteral).collect(Collectors.toList()));
+        return Option.none();
     }
     
     @SpecificImpl("staticGetLore")
     @VersionRange(begin=1400, end=2005)
-    default List<Text> staticGetLoreV1400_2005(ItemStack itemStack)
+    default Option<List<Text>> staticGetLoreV1400_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNBTCompound("display"))
                 for(NbtList lore: display.getNBTList("Lore"))
-                    return lore.asList(NbtString::create).stream().map(NbtString::getValue).map(Text::decode).collect(Collectors.toList());
-        return new ArrayList<>();
+                    return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::decode).collect(Collectors.toList()));
+        return Option.none();
     }
     
     @SpecificImpl("staticGetLore")
     @VersionRange(begin=2005)
-    default List<Text> staticGetLoreV2005(ItemStack itemStack)
+    default Option<List<Text>> staticGetLoreV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_LORE_V2005).getLines();
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines);
     }
     
-    static List<Text> copyLore(ItemStack itemStack)
+    static Option<List<Text>> copyLore(ItemStack itemStack)
     {
         return create(null).staticCopyLore(itemStack);
     }
     
-    List<Text> staticCopyLore(ItemStack itemStack);
+    Option<List<Text>> staticCopyLore(ItemStack itemStack);
     
     @SpecificImpl("staticCopyLore")
     @VersionRange(end=2005)
-    default List<Text> staticCopyLoreV_2005(ItemStack itemStack)
+    default Option<List<Text>> staticCopyLoreV_2005(ItemStack itemStack)
     {
         return getLore(itemStack);
     }
     
     @SpecificImpl("staticCopyLore")
     @VersionRange(begin=2005)
-    default List<Text> staticCopyLoreV2005(ItemStack itemStack)
+    default Option<List<Text>> staticCopyLoreV2005(ItemStack itemStack)
     {
-        return new ArrayList<>(getLore(itemStack));
+        return getLore(itemStack).map(ArrayList::new);
     }
     
-    static void setLore(ItemStack itemStack, List<Text> lore)
+    static void setLore(ItemStack itemStack, Option<List<Text>> value)
     {
-        create(null).staticSetLore(itemStack, lore);
+        create(null).staticSetLore(itemStack, value);
     }
     
-    void staticSetLore(ItemStack itemStack, List<Text> lore);
+    void staticSetLore(ItemStack itemStack, Option<List<Text>> value);
     
     @SpecificImpl("staticSetLore")
     @VersionRange(end=1400)
-    default void staticSetLoreV_1400(ItemStack itemStack, List<Text> lore)
+    default void staticSetLoreV_1400(ItemStack itemStack, Option<List<Text>> value)
     {
-        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        for(List<Text> lore: value)
+        {
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
+            return;
+        }
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
+                display.remove("Lore");
     }
     
     @SpecificImpl("staticSetLore")
     @VersionRange(begin=1400, end=2005)
-    default void staticSetLoreV1400_2005(ItemStack itemStack, List<Text> lore)
+    default void staticSetLoreV1400_2005(ItemStack itemStack, Option<List<Text>> value)
     {
-        itemStack.tagV_2005().getOrPut("display", NbtCompound::create, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
+        for(List<Text> lore: value)
+        {
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
+            return;
+        }
+        for(NbtCompound tag: itemStack.getTagV_2005())
+            for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
+                display.remove("Lore");
     }
     
     @SpecificImpl("staticSetLore")
     @VersionRange(begin=2005)
-    default void staticSetLoreV2005(ItemStack itemStack, List<Text> lore)
+    default void staticSetLoreV2005(ItemStack itemStack, Option<List<Text>> value)
     {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, LoreComponentV2005.newInstance(lore));
+        itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance));
     }
     
-    static Editor<List<Text>> editLore(ItemStack itemStack)
+    static Editor<Ref<Option<List<Text>>>> editLore(ItemStack itemStack)
     {
-        return Editor.of(itemStack, Item::copyLore, Item::setLore);
+        return Editor.ofRef(itemStack, Item::copyLore, Item::setLore);
     }
     
     static Registry getRegistry()

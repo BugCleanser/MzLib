@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
@@ -16,6 +17,8 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.NetworkState"))
 public interface NetworkPhaseSidedPacketManagerV2005 extends WrapperObject
 {
+    WrapperFactory<NetworkPhaseSidedPacketManagerV2005> FACTORY = WrapperFactory.find(NetworkPhaseSidedPacketManagerV2005.class);
+    @Deprecated
     @WrapperCreator
     static NetworkPhaseSidedPacketManagerV2005 create(Object wrapped)
     {
@@ -28,6 +31,8 @@ public interface NetworkPhaseSidedPacketManagerV2005 extends WrapperObject
     @WrapMinecraftInnerClass(outer=NetworkPhaseSidedPacketManagerV2005.class, name=@VersionName(name="Factory"))
     interface Factory extends WrapperObject
     {
+        WrapperFactory<Factory> FACTORY = WrapperFactory.find(Factory.class);
+        @Deprecated
         @WrapperCreator
         static Factory create(Object wrapped)
         {

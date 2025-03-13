@@ -14,6 +14,8 @@ import java.util.List;
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.MutableText", begin=1600))
 public interface TextMutableV1600 extends Text
 {
+    WrapperFactory<TextMutableV1600> FACTORY = WrapperFactory.find(TextMutableV1600.class);
+    @Deprecated
     @WrapperCreator
     static TextMutableV1600 create(Object wrapped)
     {

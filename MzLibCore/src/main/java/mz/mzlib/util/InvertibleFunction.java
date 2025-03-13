@@ -1,5 +1,6 @@
 package mz.mzlib.util;
 
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
@@ -61,11 +62,21 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         return new InvertibleFunction<>(Optional::ofNullable, RuntimeUtil::orNull);
     }
     
+    public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(WrapperFactory<T> factory)
+    {
+        return new InvertibleFunction<>(factory::create, WrapperObject::getWrapped);
+    }
+    @Deprecated
     public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(Function<Object, T> creator)
     {
-        return new InvertibleFunction<>(ThrowableFunction.of(creator), WrapperObject::getWrapped);
+        return new InvertibleFunction<>(creator, WrapperObject::getWrapped);
     }
     
+    public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(WrapperFactory<T> factory, WrapperFactory<U> factory1)
+    {
+        return wrapper(factory).inverse().thenApply(wrapper(factory1));
+    }
+    @Deprecated
     public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(Function<Object, T> creator, Function<Object, U> creator1)
     {
         return wrapper(creator).inverse().thenApply(wrapper(creator1));

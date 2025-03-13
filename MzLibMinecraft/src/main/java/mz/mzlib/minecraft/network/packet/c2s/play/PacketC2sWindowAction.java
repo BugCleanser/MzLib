@@ -1,18 +1,19 @@
 package mz.mzlib.minecraft.network.packet.c2s.play;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)})
 public interface PacketC2sWindowAction extends Packet
 {
+    WrapperFactory<PacketC2sWindowAction> FACTORY = WrapperFactory.find(PacketC2sWindowAction.class);
+    @Deprecated
     @WrapperCreator
     static PacketC2sWindowAction create(Object wrapped)
     {

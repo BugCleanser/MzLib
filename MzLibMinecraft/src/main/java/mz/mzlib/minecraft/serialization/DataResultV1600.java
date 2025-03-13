@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
@@ -16,6 +17,8 @@ import java.util.Optional;
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.DataResult"))
 public interface DataResultV1600 extends WrapperObject
 {
+    WrapperFactory<DataResultV1600> FACTORY = WrapperFactory.find(DataResultV1600.class);
+    @Deprecated
     @WrapperCreator
     static DataResultV1600 create(Object wrapped)
     {
@@ -50,6 +53,8 @@ public interface DataResultV1600 extends WrapperObject
     @WrapMinecraftInnerClass(outer=DataResultV1600.class, name=@VersionName(name="Error"))
     interface Error extends DataResultV1600
     {
+        WrapperFactory<Error> FACTORY = WrapperFactory.find(Error.class);
+        @Deprecated
         @WrapperCreator
         static Error create(Object wrapped)
         {

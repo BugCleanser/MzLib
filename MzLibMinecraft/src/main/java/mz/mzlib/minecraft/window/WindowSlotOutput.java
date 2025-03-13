@@ -6,11 +6,14 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
 public interface WindowSlotOutput extends WindowSlot
 {
+    WrapperFactory<WindowSlotOutput> FACTORY = WrapperFactory.find(WindowSlotOutput.class);
+    @Deprecated
     @WrapperCreator
     static WindowSlotOutput create(Object wrapped)
     {

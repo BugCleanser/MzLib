@@ -1,8 +1,6 @@
 package mz.mzlib.util.nothing;
 
-import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.AbstractInsnNode;
-import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.asm.tree.VarInsnNode;
 import mz.mzlib.util.asm.AsmUtil;
 

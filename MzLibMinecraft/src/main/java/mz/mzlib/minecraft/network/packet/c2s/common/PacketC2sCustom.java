@@ -8,11 +8,14 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket", end=1400), @VersionName(name="net.minecraft.class_2817", begin=1400)})
 public interface PacketC2sCustom extends WrapperObject, Packet
 {
+    WrapperFactory<PacketC2sCustom> FACTORY = WrapperFactory.find(PacketC2sCustom.class);
+    @Deprecated
     @WrapperCreator
     static PacketC2sCustom create(Object wrapped)
     {

@@ -6,11 +6,14 @@ import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.nbt.NbtHelper"))
 public interface NbtUtil extends WrapperObject
 {
+    WrapperFactory<NbtUtil> FACTORY = WrapperFactory.find(NbtUtil.class);
+    @Deprecated
     @WrapperCreator
     static NbtUtil create(Object wrapped)
     {

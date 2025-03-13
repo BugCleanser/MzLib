@@ -4,16 +4,15 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
 
 @WrapMinecraftClass({@VersionName(name="mz.mzlib.minecraft.entity.data.EntityDataKey$WrappedV_900", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedData", begin=900)})
 public interface EntityDataKey extends WrapperObject
 {
+    WrapperFactory<EntityDataKey> FACTORY = WrapperFactory.find(EntityDataKey.class);
+    @Deprecated
     @WrapperCreator
     static EntityDataKey create(Object wrapped)
     {

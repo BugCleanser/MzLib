@@ -17,6 +17,8 @@ import java.util.List;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket"))
 public interface PacketS2cWindowItems extends Packet
 {
+    WrapperFactory<PacketS2cWindowItems> FACTORY = WrapperFactory.find(PacketS2cWindowItems.class);
+    @Deprecated
     @WrapperCreator
     static PacketS2cWindowItems create(Object wrapped)
     {

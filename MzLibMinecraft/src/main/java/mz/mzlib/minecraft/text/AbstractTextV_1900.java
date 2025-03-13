@@ -4,10 +4,12 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 
@@ -20,6 +22,8 @@ import java.util.List;
         })
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {
+    WrapperFactory<AbstractTextV_1900> FACTORY = WrapperFactory.find(AbstractTextV_1900.class);
+    @Deprecated
     @WrapperCreator
     static AbstractTextV_1900 create(Object wrapped)
     {

@@ -55,7 +55,7 @@ public class EventServer extends Event
                 {
                     event.successful = false;
                     event.finish();
-                    return Wrapper_void.create(null);
+                    return Wrapper_void.FACTORY.create(null);
                 }
                 eventStart.setWrapped(event);
                 return Nothing.notReturn();
@@ -98,6 +98,7 @@ public class EventServer extends Event
             {
                 EventServerStop event = new EventServerStop(this);
                 event.call();
+                eventStop.setWrapped(event);
             }
             
             @NothingInject(wrapperMethodName="onStop", wrapperMethodParams={}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)

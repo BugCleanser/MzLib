@@ -10,14 +10,13 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.compound.PropAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @Compound
 public interface WindowUIWindow extends AbstractWindow
 {
+    WrapperFactory<WindowUIWindow> FACTORY = WrapperFactory.find(WindowUIWindow.class);
+    @Deprecated
     @WrapperCreator
     static WindowUIWindow create(Object wrapped)
     {

@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
@@ -17,6 +18,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface TextScore extends WrapperObject
 {
+    WrapperFactory<TextScore> FACTORY = WrapperFactory.find(TextScore.class);
+    @Deprecated
     @WrapperCreator
     static TextScore create(Object wrapped)
     {

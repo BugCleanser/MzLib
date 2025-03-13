@@ -3,16 +3,19 @@ package mz.mzlib.minecraft.incomprehensible.registry;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.serialization.DynamicOpsV1300;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.registry.RegistryOps", begin=1903))
 public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOpsV1300
 {
+    WrapperFactory<DynamicOpsWithRegistriesV1903> FACTORY = WrapperFactory.find(DynamicOpsWithRegistriesV1903.class);
+    @Deprecated
     @WrapperCreator
     static DynamicOpsWithRegistriesV1903 create(Object wrapped)
     {
@@ -33,6 +36,8 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
     @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
     interface class_7863 extends WrapperObject
     {
+        WrapperFactory<class_7863> FACTORY = WrapperFactory.find(class_7863.class);
+        @Deprecated
         @WrapperCreator
         static class_7863 create(Object wrapped)
         {
@@ -42,6 +47,8 @@ public interface DynamicOpsWithRegistriesV1903 extends WrapperObject, DynamicOps
     @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter", begin=2005))
     interface class_9683V2005 extends WrapperObject, class_7863
     {
+        WrapperFactory<class_9683V2005> FACTORY = WrapperFactory.find(class_9683V2005.class);
+        @Deprecated
         @WrapperCreator
         static class_9683V2005 create(Object wrapped)
         {

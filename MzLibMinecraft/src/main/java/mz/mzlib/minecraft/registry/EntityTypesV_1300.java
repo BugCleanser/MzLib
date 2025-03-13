@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Map;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType"))
 public interface EntityTypesV_1300 extends WrapperObject
 {
+    WrapperFactory<EntityTypesV_1300> FACTORY = WrapperFactory.find(EntityTypesV_1300.class);
+    @Deprecated
     @WrapperCreator
     static EntityTypesV_1300 create(Object wrapped)
     {

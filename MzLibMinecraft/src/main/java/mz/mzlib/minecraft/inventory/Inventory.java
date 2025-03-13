@@ -5,11 +5,14 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.inventory.Inventory"))
 public interface Inventory extends WrapperObject
 {
+    WrapperFactory<Inventory> FACTORY = WrapperFactory.find(Inventory.class);
+    @Deprecated
     @WrapperCreator
     static Inventory create(Object wrapped)
     {

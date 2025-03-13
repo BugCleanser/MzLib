@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
@@ -18,6 +19,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface PacketS2cWindowSlotUpdate extends Packet
 {
+    WrapperFactory<PacketS2cWindowSlotUpdate> FACTORY = WrapperFactory.find(PacketS2cWindowSlotUpdate.class);
+    @Deprecated
     @WrapperCreator
     static PacketS2cWindowSlotUpdate create(Object wrapped)
     {

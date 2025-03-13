@@ -39,7 +39,7 @@ public class ItemStackBuilder
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
         GameProfile owner = GameProfile.newInstance(Option.some(uuid), Option.none());
         owner.getProperties().put("textures", textures);
-        ItemPlayerHead.setOwner(result.result, owner);
+        ItemPlayerHead.setOwner(result.result, Option.some(owner));
         return result;
     }
     public static ItemStackBuilder playerHead0(String textures)
@@ -101,13 +101,13 @@ public class ItemStackBuilder
     
     public ItemStackBuilder setCustomName(Text value)
     {
-        Item.setCustomName(this.result, value);
+        Item.setCustomName(this.result, Option.some(value));
         return this;
     }
     
     public ItemStackBuilder setLore(Text... value)
     {
-        Item.setLore(this.result, Arrays.asList(value));
+        Item.setLore(this.result, Option.some(Arrays.asList(value)));
         return this;
     }
     

@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 @WrapSameClass(CommandBlockExecutor.class)
 public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockExecutor
 {
+    WrapperFactory<CommandBlockExecutorBukkit> FACTORY = WrapperFactory.find(CommandBlockExecutorBukkit.class);
+    @Deprecated
     @WrapperCreator
     static CommandBlockExecutorBukkit create(Object wrapped)
     {

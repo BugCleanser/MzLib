@@ -1,15 +1,14 @@
 package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
-import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @BukkitEnabled
 @WrapClassForName("org.bukkit.plugin.SimplePluginManager")
 public interface PluginManagerBukkit extends WrapperObject
 {
+    WrapperFactory<PluginManagerBukkit> FACTORY = WrapperFactory.find(PluginManagerBukkit.class);
+    @Deprecated
     @WrapperCreator
     static PluginManagerBukkit create(Object wrapped)
     {

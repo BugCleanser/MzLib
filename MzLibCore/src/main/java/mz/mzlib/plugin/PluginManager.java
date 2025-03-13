@@ -1,6 +1,7 @@
 package mz.mzlib.plugin;
 
 import mz.mzlib.MzLib;
+import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.UnionClassLoader;
 
 import java.io.File;
@@ -157,7 +158,7 @@ public class PluginManager
         {
             try
             {
-                ClassLoader cl = unionClassLoader.addMember(p -> new URLClassLoader(new URL[]{i.toURI().toURL()}, p));
+                ClassLoader cl = unionClassLoader.addMember(ThrowableFunction.of(p -> new URLClassLoader(new URL[]{i.toURI().toURL()}, p)));
                 try (JarFile jar = new JarFile(i))
                 {
                     Class.forName(jar.getManifest().getMainAttributes().getValue("Main-Class"), false, cl).getMethod("main", String[].class).invoke(null, (Object) args);

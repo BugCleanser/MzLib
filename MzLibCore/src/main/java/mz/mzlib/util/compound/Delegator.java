@@ -2,27 +2,26 @@ package mz.mzlib.util.compound;
 
 import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapClass;
-import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.function.Function;
 
 @WrapClass(IDelegator.class)
 public interface Delegator extends WrapperObject
 {
+    WrapperFactory<Delegator> FACTORY = WrapperFactory.find(Delegator.class);
+    @Deprecated
     @WrapperCreator
     static Delegator create(Object wrapped)
     {
         return WrapperObject.create(Delegator.class, wrapped);
     }
     
-    static <T extends Delegator> T newInstance(Function<Object, T> creator, Object delegate)
+    static <T extends Delegator> T newInstance(WrapperFactory<T> factory, Object delegate)
     {
         try
         {
-            T result = creator.apply(Root.getUnsafe().allocateInstance(creator.apply(null).staticGetWrappedClass()));
+            T result = factory.create(Root.getUnsafe().allocateInstance(factory.getStatic().staticGetWrappedClass()));
             result.setDelegate(delegate);
             return result;
         }
@@ -30,6 +29,11 @@ public interface Delegator extends WrapperObject
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
+    }
+    @Deprecated
+    static <T extends Delegator> T newInstance(Function<Object, T> creator, Object delegate)
+    {
+        return newInstance(new WrapperFactory<>(creator), delegate);
     }
     
     @WrapMethod("getDelegate")

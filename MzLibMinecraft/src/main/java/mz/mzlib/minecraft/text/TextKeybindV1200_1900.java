@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1200, end=1900)
@@ -16,6 +17,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface TextKeybindV1200_1900 extends WrapperObject, AbstractTextV_1900
 {
+    WrapperFactory<TextKeybindV1200_1900> FACTORY = WrapperFactory.find(TextKeybindV1200_1900.class);
+    @Deprecated
     @WrapperCreator
     static TextKeybindV1200_1900 create(Object wrapped)
     {

@@ -19,6 +19,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.MethodHandle;
@@ -30,6 +31,8 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
 {
+    WrapperFactory<EntityType> FACTORY = WrapperFactory.find(EntityType.class);
+    @Deprecated
     @WrapperCreator
     static EntityType create(Object wrapped)
     {
@@ -144,6 +147,8 @@ public interface EntityType extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityType.class, name=@VersionName(name="EntityFactory"))
     interface EntityFactoryV1400 extends WrapperObject
     {
+        WrapperFactory<EntityFactoryV1400> FACTORY = WrapperFactory.find(EntityFactoryV1400.class);
+        @Deprecated
         @WrapperCreator
         static EntityFactoryV1400 create(Object wrapped)
         {

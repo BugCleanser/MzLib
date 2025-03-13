@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1600)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextColor"))
 public interface TextColorV1600 extends WrapperObject
 {
+    WrapperFactory<TextColorV1600> FACTORY = WrapperFactory.find(TextColorV1600.class);
+    @Deprecated
     @WrapperCreator
     static TextColorV1600 create(Object wrapped)
     {

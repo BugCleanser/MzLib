@@ -2,17 +2,16 @@ package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.LiteralTextContent", begin=1900, end=2003), @VersionName(name="net.minecraft.text.PlainTextContent", begin=2003)})
 public interface TextContentLiteralV1900 extends TextContentV1900
 {
+    WrapperFactory<TextContentLiteralV1900> FACTORY = WrapperFactory.find(TextContentLiteralV1900.class);
+    @Deprecated
     @WrapperCreator
     static TextContentLiteralV1900 create(Object wrapped)
     {
@@ -42,6 +41,8 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal", begin=2003))
     interface ImplV2003 extends TextContentLiteralV1900
     {
+        WrapperFactory<ImplV2003> FACTORY = WrapperFactory.find(ImplV2003.class);
+        @Deprecated
         @WrapperCreator
         static ImplV2003 create(Object wrapped)
         {

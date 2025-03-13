@@ -6,9 +6,9 @@ import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
@@ -18,6 +18,8 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.ProfileComponent"))
 public interface GameProfileComponentV2005 extends WrapperObject
 {
+    WrapperFactory<GameProfileComponentV2005> FACTORY = WrapperFactory.find(GameProfileComponentV2005.class);
+    @Deprecated
     @WrapperCreator
     static GameProfileComponentV2005 create(Object wrapped)
     {

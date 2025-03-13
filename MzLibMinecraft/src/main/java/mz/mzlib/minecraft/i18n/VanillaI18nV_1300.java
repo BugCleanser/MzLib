@@ -10,12 +10,15 @@ import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(end=1300)
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.CommonI18n"))
 public interface VanillaI18nV_1300 extends WrapperObject, Nothing
 {
+    WrapperFactory<VanillaI18nV_1300> FACTORY = WrapperFactory.find(VanillaI18nV_1300.class);
+    @Deprecated
     @WrapperCreator
     static VanillaI18nV_1300 create(Object wrapped)
     {

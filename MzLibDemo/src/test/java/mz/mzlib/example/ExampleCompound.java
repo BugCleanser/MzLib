@@ -5,7 +5,7 @@ import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.Delegator;
 import mz.mzlib.util.wrapper.WrapClass;
 import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 import org.junit.jupiter.api.Test;
 
@@ -35,11 +35,7 @@ public class ExampleCompound
     @WrapClass(Foo.class)
     public interface WrapperFoo extends WrapperObject
     {
-        @WrapperCreator
-        static WrapperFoo create(Object wrapped)
-        {
-            return WrapperObject.create(WrapperFoo.class, wrapped);
-        }
+        WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.find(WrapperFoo.class);
         
         @WrapMethod("f")
         void f();
@@ -51,15 +47,11 @@ public class ExampleCompound
     @Compound
     public interface CompoundFoo extends WrapperFoo, Delegator
     {
-        @WrapperCreator
-        static CompoundFoo create(Object wrapped)
-        {
-            return WrapperObject.create(CompoundFoo.class, wrapped);
-        }
+        WrapperFactory<CompoundFoo> FACTORY = WrapperFactory.find(CompoundFoo.class);
         
         static CompoundFoo newInstance(Foo delegate)
         {
-            return Delegator.newInstance(CompoundFoo::create, delegate);
+            return Delegator.newInstance(FACTORY, delegate);
         }
         
         @CompoundOverride(parent=WrapperFoo.class, method="f")

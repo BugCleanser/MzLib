@@ -6,12 +6,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1200)
 @WrapMinecraftClass({@VersionName(end=1400, name="net.minecraft.nbt.NbtLongArray"), @VersionName(begin=1400, end=1605, name="net.minecraft.nbt.LongArrayTag"), @VersionName(begin=1605, name="net.minecraft.nbt.NbtLongArray")})
 public interface NbtLongArrayV1200 extends NbtElement
 {
+    WrapperFactory<NbtLongArrayV1200> FACTORY = WrapperFactory.find(NbtLongArrayV1200.class);
+    @Deprecated
     @WrapperCreator
     static NbtLongArrayV1200 create(Object wrapped)
     {
