@@ -45,7 +45,7 @@ public interface Packet extends WrapperObject
     @SpecificImpl("isBundle")
     default boolean isBundleV1904()
     {
-        return this.isInstanceOf(PacketBundleV1904::create);
+        return this.isInstanceOf(PacketBundleV1904.FACTORY);
     }
     
     @VersionRange(end=1700)
@@ -98,7 +98,7 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                Packet result = (Packet)i.createPacketV_1700(direction, id).castTo(this::staticCreate);
+                Packet result = i.createPacketV_1700(direction, id).castTo(new WrapperFactory<>(this));
                 result.readV_1700(byteBufPacket);
                 return result;
             }
@@ -142,7 +142,7 @@ public interface Packet extends WrapperObject
                 if(id==null)
                     continue;
                 this.writeV_2005(byteBufPacket);
-                return (Packet)i.decodePacketV1700(direction, id, byteBufPacket).castTo(this::staticCreate);
+                return i.decodePacketV1700(direction, id, byteBufPacket).castTo(new WrapperFactory<>(this));
             }
             throw new UnsupportedOperationException();
         }

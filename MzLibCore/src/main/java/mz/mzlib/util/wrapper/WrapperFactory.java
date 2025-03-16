@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public class WrapperFactory<T extends WrapperObject>
 {
-    protected T wrapperStatic;
+    protected final T wrapperStatic;
     
     public WrapperFactory(T wrapperStatic)
     {

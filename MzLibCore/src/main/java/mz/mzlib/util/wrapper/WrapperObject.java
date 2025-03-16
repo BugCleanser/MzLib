@@ -92,7 +92,7 @@ public interface WrapperObject
     }
     
     
-    default <T> boolean isInstanceOf(WrapperFactory<?> factory)
+    default boolean isInstanceOf(WrapperFactory<?> factory)
     {
         return factory.getStatic().staticIsInstance(this);
     }
