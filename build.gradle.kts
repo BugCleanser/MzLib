@@ -49,6 +49,7 @@ subprojects {
         }
         register<Copy>("copyBinaryResources") {
             from("src/main/resources") {
+                include("**/*.js")
                 include("**/*.png")
                 include("lang/**/*")
                 include("mappings/**/*")
@@ -57,6 +58,7 @@ subprojects {
         }
         processResources {
             dependsOn("copyBinaryResources")
+            exclude("**/*.js")
             exclude("**/*.png")
             exclude("lang/**/*")
             exclude("mappings/**/*")

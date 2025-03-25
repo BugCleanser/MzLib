@@ -47,7 +47,7 @@ public class CommandMzLibJs extends MzModule
                 result = result.getClass().getSimpleName()+": "+((NativeJavaObject)result).unwrap();
             else if(result instanceof NativeArray)
                 result = "NativeArray: "+new ArrayList<Object>((NativeArray)result);
-            else
+            else if(result!=null)
                 result = result.getClass().getSimpleName()+": "+result;
             context.getSource().sendMessage(Text.literal(Objects.toString(result)).setColor(TextColor.GREEN));
         }

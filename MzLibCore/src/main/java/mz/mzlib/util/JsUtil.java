@@ -1,6 +1,7 @@
 package mz.mzlib.util;
 
 import org.mozilla.javascript.*;
+import org.mozilla.javascript.json.JsonParser;
 
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,20 @@ public class JsUtil
         return result;
     }
     
+    public static Object parseJson(Object scope, String json) throws Exception
+    {
+        try(Context context = Context.enter())
+        {
+            return new JsonParser(context, (Scriptable)scope).parseValue(json);
+        }
+    }
+    
     public static Object toJvm(Object obj)
     {
+        if(obj instanceof ConsString)
+            return ((ConsString)obj).toString();
+        else if(obj instanceof Undefined)
+            return null;
         if(!(obj instanceof Scriptable))
             return obj;
         if(obj instanceof Wrapper)
@@ -59,9 +72,15 @@ public class JsUtil
             return RuntimeUtil.<List<Object>>cast(obj).stream().map(JsUtil::toJvm).collect(Collectors.toList());
         else if(obj instanceof NativeObject)
             return RuntimeUtil.<Map<String, Object>>cast(obj).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> toJvm(e.getValue())));
-        else if(obj instanceof NativeCall)
-            return null;
         else
             throw new IllegalArgumentException(obj.toString());
+    }
+    
+    public static String toJson(Object scope, Object obj)
+    {
+        try(Context context = Context.enter())
+        {
+            return (String)toJvm(NativeJSON.stringify(context, (Scriptable)scope, obj, null, null));
+        }
     }
 }

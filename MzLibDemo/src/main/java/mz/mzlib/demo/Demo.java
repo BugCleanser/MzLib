@@ -29,10 +29,11 @@ public class Demo extends MzModule
     {
         try
         {
-            try(InputStream is = IOUtil.openFileInZip(this.jar, "config.json"))
+            try(InputStream is = IOUtil.openFileInZip(this.jar, "config.js"))
             {
-                this.config = Config.load(is, new File(this.dataFolder, "config.json"));
+                this.config = Config.loadJs(is, new File(this.dataFolder, "config.js"));
             }
+            System.out.println(this.config.getString("test"));
             
             this.register(this.permission);
             this.register(I18n.load(this.jar, "lang", 0));

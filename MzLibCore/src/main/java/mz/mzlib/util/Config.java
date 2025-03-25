@@ -1,55 +1,80 @@
 package mz.mzlib.util;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 public class Config
 {
-    public JsonObject json;
-    public Config(JsonObject json)
+    public Object data;
+    public Config(Object data)
     {
-        this.json = json;
+        this.data = data;
     }
     
-    public JsonElement get(String path, JsonElement def)
+    public Object get(String path, Object def)
     {
-        JsonElement result = this.json;
+        Object result = this.data;
         for(String key: path.split("\\."))
         {
-            result = result.getAsJsonObject().get(key);
+            result = RuntimeUtil.<Map<String, Object>>cast(result).get(key);
             if(result==null)
                 return def;
         }
         return result;
     }
-    public JsonElement get(String path)
+    public Object get(String path)
     {
         return this.get(path, null);
     }
     public String getString(String path, String def)
     {
-        return this.get(path, new JsonPrimitive(def)).getAsString();
+        return (String)this.get(path, def);
     }
     public String getString(String path)
     {
-        JsonElement result = this.get(path, null);
-        if(result==null)
-            return null;
-        return result.getAsString();
+        return this.getString(path, null);
+    }
+    public Number getNumber(String path, Number def)
+    {
+        return (Number)this.get(path, def);
+    }
+    public Number getNumber(String path)
+    {
+        return this.getNumber(path, null);
+    }
+    public boolean getBoolean(String path, boolean def)
+    {
+        return (boolean)this.get(path, def);
+    }
+    public boolean getBoolean(String path)
+    {
+        return (boolean)this.get(path, null);
+    }
+    public List<Object> getList(String path)
+    {
+        return RuntimeUtil.cast(this.get(path, null));
+    }
+    public List<String> getStringList(String path)
+    {
+        return RuntimeUtil.cast(this.getList(path));
     }
     
-    public static Config loadJson(InputStream def, File file) throws IOException
+    public static Config loadJson(InputStream def, File file) throws Exception
     {
-        JsonObject json = new Gson().fromJson(new String(IOUtil.readAll(def), StandardCharsets.UTF_8), JsonObject.class);
+        Object scope = JsUtil.initStandardObjects();
+        Object json = JsUtil.toJvm(JsUtil.parseJson(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8)));
         if(file.isFile())
         {
-            JsonObject cnt;
+            Object cnt;
             try(FileInputStream fis = new FileInputStream(file))
             {
-                cnt = new Gson().fromJson(new String(IOUtil.readAll(fis), StandardCharsets.UTF_8), JsonObject.class);
+                cnt = JsUtil.toJvm(JsUtil.parseJson(scope, new String(IOUtil.readAll(fis), StandardCharsets.UTF_8)));
             }
             merge(cnt, json);
             json = cnt;
@@ -60,24 +85,46 @@ public class Config
         }
         try(FileOutputStream fos = new FileOutputStream(file))
         {
-            fos.write(new GsonBuilder().setPrettyPrinting().create().toJson(json).getBytes(StandardCharsets.UTF_8));
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            fos.write(gson.toJson(gson.fromJson(JsUtil.toJson(scope, json), JsonElement.class)).getBytes(StandardCharsets.UTF_8));
         }
         return new Config(json);
     }
+    public static Config loadJs(InputStream def, File file) throws Exception
+    {
+        Object scope = JsUtil.initStandardObjects();
+        JsUtil.eval(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8));
+        if(file.isFile())
+        {
+            try(FileInputStream fis = new FileInputStream(file))
+            {
+                JsUtil.eval(scope, new String(IOUtil.readAll(fis), StandardCharsets.UTF_8));
+            }
+        }
+        else
+        {
+            boolean ignored = file.getParentFile().mkdirs();
+            ignored = file.createNewFile();
+        }
+        return new Config(JsUtil.toJvm(scope));
+    }
     @Deprecated
-    public static Config load(InputStream def, File file) throws IOException
+    public static Config load(InputStream def, File file) throws Exception
     {
         return loadJson(def, file);
     }
     
-    public static void merge(JsonObject json, JsonObject def)
+    private static void merge(Object data, Object def)
     {
-        for(Map.Entry<String, JsonElement> i: def.entrySet())
+        if(!(def instanceof Map))
+            return;
+        for(Map.Entry<String, Object> i: RuntimeUtil.<Map<String, Object>>cast(def).entrySet())
         {
-            if(!json.has(i.getKey()))
-                json.add(i.getKey(), i.getValue());
-            else if(i.getValue() instanceof JsonObject && json.get(i.getKey()) instanceof JsonObject)
-                merge(json.getAsJsonObject(i.getKey()), i.getValue().getAsJsonObject());
+            Map<String, Object> d = RuntimeUtil.cast(data);
+            if(!d.containsKey(i.getKey()))
+                d.put(i.getKey(), i.getValue());
+            else if(i.getValue() instanceof Map && d.get(i.getKey()) instanceof Map)
+                merge(d.get(i.getKey()), i.getValue());
         }
     }
 }
