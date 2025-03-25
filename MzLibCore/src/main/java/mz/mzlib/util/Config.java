@@ -41,7 +41,7 @@ public class Config
         return result.getAsString();
     }
     
-    public static Config load(InputStream def, File file) throws IOException
+    public static Config loadJson(InputStream def, File file) throws IOException
     {
         JsonObject json = new Gson().fromJson(new String(IOUtil.readAll(def), StandardCharsets.UTF_8), JsonObject.class);
         if(file.isFile())
@@ -63,6 +63,11 @@ public class Config
             fos.write(new GsonBuilder().setPrettyPrinting().create().toJson(json).getBytes(StandardCharsets.UTF_8));
         }
         return new Config(json);
+    }
+    @Deprecated
+    public static Config load(InputStream def, File file) throws IOException
+    {
+        return loadJson(def, file);
     }
     
     public static void merge(JsonObject json, JsonObject def)

@@ -3,10 +3,7 @@ package mz.mzlib.minecraft;
 import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.command.Command;
-import mz.mzlib.minecraft.commands.CommandGiveNbt;
-import mz.mzlib.minecraft.commands.CommandMzLibItemInfo;
-import mz.mzlib.minecraft.commands.CommandMzLibLang;
-import mz.mzlib.minecraft.commands.CommandMzLibTest;
+import mz.mzlib.minecraft.commands.*;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.I18nMinecraft;
@@ -76,6 +73,7 @@ public class MzLibMinecraft extends MzModule
             this.register(CommandMzLibTest.instance);
             this.register(CommandMzLibLang.instance);
             this.register(CommandMzLibItemInfo.instance);
+            this.register(CommandMzLibJs.instance);
             this.register(CommandGiveNbt.instance);
             
             this.register(RegistrarMzItem.instance);

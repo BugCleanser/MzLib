@@ -3,6 +3,7 @@ package mz.mzlib.i18n;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import mz.mzlib.util.IOUtil;
+import mz.mzlib.util.JsUtil;
 import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.RuntimeUtil;
 
@@ -77,7 +78,24 @@ public class I18n
         return getTranslation(language, key, key);
     }
     
+    public static Object scope = JsUtil.initSafeStandardObjects();
     public static String getTranslationWithArgs(String language, String key, Map<String, Object> args)
+    {
+        String translation = getTranslation(language, key, null);
+        if(translation==null)
+            return key+args;
+        try
+        {
+            return JsUtil.eval(JsUtil.mapToObject(scope, args), "`"+translation+"`").toString();
+        }
+        catch(Exception e)
+        {
+            return "[Error]"+key+":"+e.getMessage();
+        }
+    }
+    
+    @Deprecated
+    public static String legacy_getTranslationWithArgs(String language, String key, Map<String, Object> args)
     {
         String result = getTranslation(language, key, null);
         if(result==null)

@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class Formatting
 {
     public StringParser parser;

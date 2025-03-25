@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Command
 {
@@ -170,7 +169,7 @@ public class Command
                 for(Text e: context.getAllArgErrors())
                     source.sendMessage(e);
                 if(!this.children.isEmpty())
-                    source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage.subcommands", MapBuilder.hashMap().put("command", command).put("subcommands", this.children.stream().map(c->c.name).collect(Collectors.toList())).get())));
+                    source.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.usage.subcommands", MapBuilder.hashMap().put("command", command).put("subcommands", this.children.stream().map(c->c.name).toArray()).get())));
                 if(this.handler!=null)
                     for(List<String> argNames: context.getAllArgNames())
                     {

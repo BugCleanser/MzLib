@@ -68,7 +68,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default String staticGetTitleV2005(ItemStack book)
     {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrap().getTitle();
+        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrapOrGet(WrittenBookContentComponentV2005::def).getTitle();
     }
     
     static void setTitle(ItemStack book, String title)
@@ -90,7 +90,7 @@ public interface ItemWrittenBook extends Item
     default void staticSetTitleV2005(ItemStack book, String title)
     {
         for(Ref<Option<WrittenBookContentComponentV2005>> ref: book.getComponentsV2005().edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-            ref.set(Option.some(ref.get().unwrap().withTitle(title)));
+            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withTitle(title)));
     }
     
     static String getAuthor(ItemStack book)
@@ -113,7 +113,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default String staticGetAuthorV2005(ItemStack book)
     {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrap().getAuthor();
+        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrapOrGet(WrittenBookContentComponentV2005::def).getAuthor();
     }
     
     static void setAuthor(ItemStack book, String author)
@@ -135,7 +135,7 @@ public interface ItemWrittenBook extends Item
     default void staticSetAuthorV2005(ItemStack book, String author)
     {
         for(Ref<Option<WrittenBookContentComponentV2005>> ref: book.getComponentsV2005().edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-            ref.set(Option.some(ref.get().unwrap().withAuthor(author)));
+            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withAuthor(author)));
     }
     
     static int getGeneration(ItemStack book)
@@ -158,7 +158,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default int staticGetGenerationV2005(ItemStack book)
     {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrap().getGeneration();
+        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrapOrGet(WrittenBookContentComponentV2005::def).getGeneration();
     }
     
     static void setGeneration(ItemStack book, int generation)
@@ -180,7 +180,7 @@ public interface ItemWrittenBook extends Item
     default void staticSetGenerationV2005(ItemStack book, int generation)
     {
         for(Ref<Option<WrittenBookContentComponentV2005>> ref: book.getComponentsV2005().edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-            ref.set(Option.some(ref.get().unwrap().withGeneration(generation)));
+            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withGeneration(generation)));
     }
     
     static List<Text> getPages(ItemStack book)
@@ -201,7 +201,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default List<Text> staticGetPagesV2005(ItemStack book)
     {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrap().getPages();
+        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrapOrGet(WrittenBookContentComponentV2005::def).getPages();
     }
     
     static void setPages(ItemStack book, List<Text> pages)
@@ -223,7 +223,7 @@ public interface ItemWrittenBook extends Item
     default void staticSetPagesV2005(ItemStack book, List<Text> pages)
     {
         for(Ref<Option<WrittenBookContentComponentV2005>> ref: book.getComponentsV2005().edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-            ref.set(Option.some(ref.get().unwrap().withPages(pages)));
+            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withPages(pages)));
     }
     
     static boolean isResolved(ItemStack book)
@@ -246,7 +246,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(begin=2005)
     default boolean staticIsResolvedV2005(ItemStack book)
     {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrap().isResolved();
+        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005).unwrapOrGet(WrittenBookContentComponentV2005::def).isResolved();
     }
     
     static void setResolved(ItemStack book, boolean resolved)
@@ -268,6 +268,6 @@ public interface ItemWrittenBook extends Item
     default void staticSetResolvedV2005(ItemStack book, boolean resolved)
     {
         for(Ref<Option<WrittenBookContentComponentV2005>> ref: book.getComponentsV2005().edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-            ref.set(Option.some(ref.get().unwrap().withResolved(resolved)));
+            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withResolved(resolved)));
     }
 }

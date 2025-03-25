@@ -1,6 +1,8 @@
 dependencies {
     implementation(project(":MzLibCore"))
     implementation("io.github.karlatemp:unsafe-accessor:1.6.0")
+    implementation("org.mozilla:rhino:1.7.15")
+    implementation("com.google.code.gson:gson:2.8.9")
 
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     compileOnly("com.rylinaux:PlugMan:2.2.9")

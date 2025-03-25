@@ -30,7 +30,7 @@
   "mzlib.lang.editor.homepage.custom.remove.lore": "移除自定义值",
   "mzlib.lang.editor.homepage.tips": "\n§7§o子节点在下一页",
   "mzlib.lang.editor.list.node": "§0${node}",
-  "mzlib.lang.editor.list.node.lore": "${key}\n${translation}\n\n${children.map('c','.$${c.node} $${c.translation}').join('\n')}",
+  "mzlib.lang.editor.list.node.lore": "${key}\n${translation}\n\n${children.map(c=>`.${c.node} ${c.translation}`).join('\\n')}",
 
   "mzlib.ui.anvil_input.reset.lore": "§a点此重置输入框",
   "mzlib.ui.anvil_input.back": "§5返回",
@@ -43,7 +43,7 @@
   "mzlib.command.arg.enum": "${enum.map('s','§b$${s}').join(' §e| ')}",
   "mzlib.command.arg.player.not_found": "§c找不到玩家${name}",
   "mzlib.command.usage": "§a/${command} ${args.map('a','§e<§b$${a}§e>').join(' ')}",
-  "mzlib.command.usage.subcommands": "§a/${command} §e<${subcommands.map('s','§b$${s}').join(' §e| ')}§e>",
+  "mzlib.command.usage.subcommands": "§a/${command} §e<${subcommands.map(s=>`§b${s}`).join(' §e| ')}§e>",
 
   "mzlib.commands.givenbt.error.illegal_item": "§c非法物品：${error}",
 

@@ -14,6 +14,7 @@ import mz.mzlib.minecraft.text.TextHoverEvent;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.minecraft.ui.window.UIWindowAnvilInput;
+import mz.mzlib.util.JsUtil;
 import mz.mzlib.util.MapBuilder;
 import mz.mzlib.util.RuntimeUtil;
 
@@ -104,7 +105,7 @@ public class LangEditor extends UIWrittenBook
                         I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.list.node.lore", MapBuilder.hashMap() //
                                 .put("key", this.node!=null ? this.node+"."+n : n) //
                                 .put("translation", escape(I18n.getTranslation(this.lang, this.node!=null ? this.node+"."+n : n, ""))) //
-                                .put("children", getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->MapBuilder.hashMap().put("node", m).put("translation", escape(I18n.getTranslation(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, ""))).get()).collect(Collectors.toList())) //
+                                .put("children", getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->JsUtil.mapToObject(I18n.scope, MapBuilder.hashMap().put("node", m).put("translation", escape(I18n.getTranslation(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, ""))).get())).toArray()) //
                                 .get()) //
                 ))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n))).collect(Collectors.toList())));
         return pages;
