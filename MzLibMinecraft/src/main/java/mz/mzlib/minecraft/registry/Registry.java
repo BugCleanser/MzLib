@@ -35,7 +35,7 @@ public interface Registry extends WrapperObject
     @VersionRange(end=1300)
     default WrapperObject getV_1300(Identifier id)
     {
-        return WrapperObject.create(this.get0V_1300(id.getWrapped()));
+        return WrapperObject.FACTORY.create(this.get0V_1300(id.getWrapped()));
     }
     
     @SpecificImpl("get")
@@ -45,6 +45,6 @@ public interface Registry extends WrapperObject
     
     default WrapperObject get(int rawId)
     {
-        return this.castTo(SimpleRegistry::create).get(rawId);
+        return this.castTo(SimpleRegistry.FACTORY).get(rawId);
     }
 }

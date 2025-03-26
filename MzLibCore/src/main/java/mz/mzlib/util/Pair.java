@@ -16,6 +16,16 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
         this.second = second;
     }
     
+    public F getFirst()
+    {
+        return first;
+    }
+    
+    public S getSecond()
+    {
+        return second;
+    }
+    
     @Override
     public int compareTo(Pair<F, S> o)
     {

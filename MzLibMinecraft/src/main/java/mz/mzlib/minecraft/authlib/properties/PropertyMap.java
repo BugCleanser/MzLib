@@ -24,7 +24,7 @@ public interface PropertyMap extends WrapperObject
     
 //    default Map<String, Property> asMap()
 //    {
-//        return new MapProxy<>(this.getWrapped(), InvertibleFunction.empty(), InvertibleFunction.wrap(Property::create).invert());
+//        return new MapProxy<>(this.getWrapped(), InvertibleFunction.empty(), InvertibleFunction.wrap(Property.FACTORY).invert());
 //    }
     
     default void put(String key, Property value)

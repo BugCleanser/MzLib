@@ -39,8 +39,8 @@ public class ModulePacketListener extends MzModule
             {
                 List<Packet> newPackets = new ArrayList<>();
                 TaskList synced = new TaskList();
-                Iterable<Packet> packets = packet.castTo(PacketBundleV1904::create).getPackets();
-                packet.setWrappedFrom(packet.isInstanceOf(PacketBundleS2cV1904::create) ? PacketBundleS2cV1904.newInstance(newPackets) : RuntimeUtil.valueThrow(new UnsupportedOperationException()));
+                Iterable<Packet> packets = packet.castTo(PacketBundleV1904.FACTORY).getPackets();
+                packet.setWrappedFrom(packet.isInstanceOf(PacketBundleS2cV1904.FACTORY) ? PacketBundleS2cV1904.newInstance(newPackets) : RuntimeUtil.valueThrow(new UnsupportedOperationException()));
                 for(Iterator<Packet> i = packets.iterator(); i.hasNext(); )
                 {
                     Packet p = i.next();

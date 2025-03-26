@@ -32,12 +32,12 @@ public interface CommandSourceBukkit extends CommandSource
     {
         for(Entity entity: this.getEntity())
             return BukkitEntityUtil.toBukkit(entity);
-        if(this.isInstanceOf(MinecraftServer::create))
+        if(this.isInstanceOf(MinecraftServer.FACTORY))
             return Bukkit.getConsoleSender();
-        if(this.isInstanceOf(CommandBlockExecutorBukkit::create))
-            return this.castTo(CommandBlockExecutorBukkit::create).getBukkitSenderV_1300();
-        if(this.isInstanceOf(RconConsole::create))
-            return MinecraftServer.instance.castTo(MinecraftServerBukkit::create).getRemoteConsoleV_2002();
+        if(this.isInstanceOf(CommandBlockExecutorBukkit.FACTORY))
+            return this.castTo(CommandBlockExecutorBukkit.FACTORY).getBukkitSenderV_1300();
+        if(this.isInstanceOf(RconConsole.FACTORY))
+            return MinecraftServer.instance.castTo(MinecraftServerBukkit.FACTORY).getRemoteConsoleV_2002();
         throw new UnsupportedOperationException();
     }
     

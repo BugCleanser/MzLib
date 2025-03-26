@@ -93,8 +93,8 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
         public void onLoad()
         {
             this.register(EventAsyncPlayerDisplayItemInWindow.class);
-            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEvent->new ByPacketS2cWindowSlotUpdate(packetEvent, packetEvent.getPacket().getItemStack(), packetEvent.getPacket().getSyncId()).call()));
-            this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->
+            this.register(new PacketListener<>(PacketS2cWindowSlotUpdate.FACTORY, packetEvent->new ByPacketS2cWindowSlotUpdate(packetEvent, packetEvent.getPacket().getItemStack(), packetEvent.getPacket().getSyncId()).call()));
+            this.register(new PacketListener<>(PacketS2cWindowItems.FACTORY, packetEvent->
             {
                 for(int i = 0; i<packetEvent.getPacket().getContents().size(); i++)
                 {
@@ -102,7 +102,7 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
                 }
             }));
             if(MinecraftPlatform.instance.getVersion()>=1701)
-                this.register(new PacketListener<>(PacketS2cWindowItems::create, packetEvent->new ByPacketS2cWindowItems(packetEvent, packetEvent.getPacket().getCursorV1701(), packetEvent.getPacket().getSyncId(), -1).call()));
+                this.register(new PacketListener<>(PacketS2cWindowItems.FACTORY, packetEvent->new ByPacketS2cWindowItems(packetEvent, packetEvent.getPacket().getCursorV1701(), packetEvent.getPacket().getSyncId(), -1).call()));
         }
     }
 }

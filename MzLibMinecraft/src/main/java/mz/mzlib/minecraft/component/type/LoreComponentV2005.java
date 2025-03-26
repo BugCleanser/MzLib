@@ -32,7 +32,7 @@ public interface LoreComponentV2005 extends WrapperObject
     LoreComponentV2005 staticNewInstance0(List<Object> lines);
     default LoreComponentV2005 staticNewInstance(List<Text> lines)
     {
-        return staticNewInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text::create).inverse()));
+        return staticNewInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="comp_2400"))
@@ -40,6 +40,6 @@ public interface LoreComponentV2005 extends WrapperObject
     
     default List<Text> getLines()
     {
-        return new ListProxy<>(this.getLines0(), InvertibleFunction.wrapper(Text::create));
+        return new ListProxy<>(this.getLines0(), InvertibleFunction.wrapper(Text.FACTORY));
     }
 }

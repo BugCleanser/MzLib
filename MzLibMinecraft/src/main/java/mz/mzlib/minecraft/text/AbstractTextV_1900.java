@@ -37,7 +37,7 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
     @Override
     default Text setExtraV_1900(List<Text> value)
     {
-        this.setExtra0(new ListProxy<>(value, InvertibleFunction.wrapper(Text::create).inverse()));
+        this.setExtra0(new ListProxy<>(value, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
         return this;
     }
     

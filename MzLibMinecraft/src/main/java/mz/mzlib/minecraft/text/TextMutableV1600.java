@@ -30,7 +30,7 @@ public interface TextMutableV1600 extends Text
     @Override
     default Text setExtraV1900(List<Text> value)
     {
-        this.setExtra0V1900(new ListProxy<>(value, InvertibleFunction.wrapper(Text::create).inverse()));
+        this.setExtra0V1900(new ListProxy<>(value, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
         return this;
     }
     

@@ -54,7 +54,7 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     @Override
     default Iterator<Entry> iterator()
     {
-        return new IteratorProxy<>(this.getWrapped().iterator(), Entry::create);
+        return new IteratorProxy<>(this.getWrapped().iterator(), Entry.FACTORY::create);
     }
     
     @WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component", begin=2005))

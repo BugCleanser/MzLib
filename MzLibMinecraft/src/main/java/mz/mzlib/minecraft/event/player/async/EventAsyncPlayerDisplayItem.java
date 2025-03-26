@@ -8,7 +8,7 @@ public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends Even
 {
     public ItemStack original;
     
-    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<P> packetEvent, ItemStack original)
+    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<? extends P> packetEvent, ItemStack original)
     {
         super(packetEvent);
         this.original=original;

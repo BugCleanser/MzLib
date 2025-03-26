@@ -5,7 +5,6 @@ import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.Player;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.event.player.EventPlayerJoin;
 import mz.mzlib.minecraft.event.player.EventPlayerQuit;
 import mz.mzlib.minecraft.event.player.async.displayentity.EventAsyncDisplayEntityData;
 import mz.mzlib.minecraft.event.player.async.displayentity.EventAsyncDisplayEntityDestroy;
@@ -25,7 +24,7 @@ public class DisplayEntityTracker
     
     public static DisplayEntityTracker get(Player player)
     {
-        return instances.get(player);
+        return instances.computeIfAbsent(player, k->new DisplayEntityTracker());
     }
     
     public Map<Integer, DisplayEntity> entities = new ConcurrentHashMap<>();
@@ -37,20 +36,11 @@ public class DisplayEntityTracker
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event->
-            {
-                instances.put(event.getPlayer().toPlayer(), new DisplayEntityTracker());
-                event.runLater(()->
-                {
-                    if(event.isCancelled())
-                        instances.remove(event.getPlayer().toPlayer());
-                });
-            }));
             for(EntityPlayer player: MinecraftServer.instance.getPlayers())
                 instances.put(player.toPlayer(), new DisplayEntityTracker());
             this.register(new EventListener<>(EventPlayerQuit.class, Priority.VERY_VERY_LOW, event->instances.remove(event.getPlayer().toPlayer())));
             
-            this.register(new PacketListener<>(PacketS2cEntitySpawn::create, Priority.LOW, packetEvent->
+            this.register(new PacketListener<>(PacketS2cEntitySpawn.FACTORY, Priority.LOW, packetEvent->
             {
                 DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap().toPlayer());
                 synchronized(displayEntityTracker)
@@ -63,7 +53,7 @@ public class DisplayEntityTracker
                     event.finish();
                 }
             }));
-            this.register(new PacketListener<>(PacketS2cEntityDestroy::create, Priority.LOW, packetEvent->
+            this.register(new PacketListener<>(PacketS2cEntityDestroy.FACTORY, Priority.LOW, packetEvent->
             {
                 DisplayEntityTracker tracker = get(packetEvent.getPlayer().unwrap().toPlayer());
                 synchronized(tracker)
@@ -81,7 +71,7 @@ public class DisplayEntityTracker
                     }
                 }
             }));
-            this.register(new PacketListener<>(PacketS2cEntityData::create, Priority.LOW, packetEvent->
+            this.register(new PacketListener<>(PacketS2cEntityData.FACTORY, Priority.LOW, packetEvent->
             {
                 DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap().toPlayer());
                 synchronized(displayEntityTracker)

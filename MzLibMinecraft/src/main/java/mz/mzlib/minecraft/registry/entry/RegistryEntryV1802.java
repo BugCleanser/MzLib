@@ -26,6 +26,6 @@ public interface RegistryEntryV1802 extends WrapperObject
     Optional<Object> getKey0();
     default Optional<RegistryKeyV1600> getKey()
     {
-        return getKey0().map(RegistryKeyV1600::create);
+        return getKey0().map(RegistryKeyV1600.FACTORY::create);
     }
 }

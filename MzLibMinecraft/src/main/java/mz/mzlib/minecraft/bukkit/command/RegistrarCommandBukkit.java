@@ -21,10 +21,10 @@ public class RegistrarCommandBukkit implements IRegistrar<Command>
     
     public CommandMapBukkit commandMap;
     {
-        if(MinecraftPlatformBukkit.instance.isPaper() && MinecraftPlatformBukkit.instance.getVersion()>=2102 && WrapperObject.create(Bukkit.getPluginManager()).isInstanceOf(PluginManagerPaperV2102::create))
-            commandMap = CommandMapBukkit.create(PluginManagerPaperV2102.create(Bukkit.getPluginManager()).getInstanceManager().getCommandMap());
+        if(MinecraftPlatformBukkit.instance.isPaper() && MinecraftPlatformBukkit.instance.getVersion()>=2102 && WrapperObject.FACTORY.create(Bukkit.getPluginManager()).isInstanceOf(PluginManagerPaperV2102.FACTORY))
+            commandMap = CommandMapBukkit.FACTORY.create(PluginManagerPaperV2102.FACTORY.create(Bukkit.getPluginManager()).getInstanceManager().getCommandMap());
         else
-            commandMap = PluginManagerBukkit.create(Bukkit.getPluginManager()).getCommandMap();
+            commandMap = PluginManagerBukkit.FACTORY.create(Bukkit.getPluginManager()).getCommandMap();
     }
     
     @Override

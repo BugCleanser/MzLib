@@ -34,6 +34,6 @@ public interface BlockEntityTypeV1300 extends WrapperObject
     
     static BlockEntityTypeV1300 fromId(Identifier id)
     {
-        return getRegistry().get(id).castTo(BlockEntityTypeV1300::create);
+        return getRegistry().get(id).castTo(BlockEntityTypeV1300.FACTORY);
     }
 }

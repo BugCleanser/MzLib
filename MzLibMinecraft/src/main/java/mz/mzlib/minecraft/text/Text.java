@@ -126,14 +126,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticScoreV_1900(TextScore value)
     {
-        return value.castTo(TextScoreV_1900::create);
+        return value.castTo(TextScoreV_1900.FACTORY);
     }
     
     @SpecificImpl("staticScore")
     @VersionRange(begin=1900)
     default Text staticScoreV1900(TextScore value)
     {
-        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.empty());
+        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900.FACTORY), new ArrayList<>(), TextStyle.empty());
     }
     
     Text staticSelector(TextSelector selector);
@@ -147,14 +147,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text staticSelectorV_1900(TextSelector selector)
     {
-        return selector.castTo(TextScoreV_1900::create);
+        return selector.castTo(TextScoreV_1900.FACTORY);
     }
     
     @SpecificImpl("staticSelector")
     @VersionRange(begin=1900)
     default Text staticSelectorV1900(TextSelector selector)
     {
-        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900::create), new ArrayList<>(), TextStyle.empty());
+        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900.FACTORY), new ArrayList<>(), TextStyle.empty());
     }
     
     String getLiteral();
@@ -163,18 +163,18 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default String getLiteralV_1900()
     {
-        if(!this.isInstanceOf(TextLiteralV_1900::create))
+        if(!this.isInstanceOf(TextLiteralV_1900.FACTORY))
             return null;
-        return this.castTo(TextLiteralV_1900::create).getLiteralV_1900();
+        return this.castTo(TextLiteralV_1900.FACTORY).getLiteralV_1900();
     }
     
     @SpecificImpl("getLiteral")
     @VersionRange(begin=1900)
     default String getLiteralV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentLiteralV1900::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentLiteralV1900.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextContentLiteralV1900::create).getLiteral();
+        return this.getContentV1900().castTo(TextContentLiteralV1900.FACTORY).getLiteral();
     }
     
     String getTranslatableKey();
@@ -183,18 +183,18 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default String getTranslatableKeyV_1900()
     {
-        if(!this.isInstanceOf(TextTranslatableV_1900::create))
+        if(!this.isInstanceOf(TextTranslatableV_1900.FACTORY))
             return null;
-        return this.castTo(TextTranslatableV_1900::create).getKey();
+        return this.castTo(TextTranslatableV_1900.FACTORY).getKey();
     }
     
     @SpecificImpl("getTranslatableKey")
     @VersionRange(begin=1900)
     default String getTranslatableKeyV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextContentTranslatableV1900::create).getKey();
+        return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getKey();
     }
     
     Text[] getTranslatableArgs();
@@ -203,18 +203,18 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text[] getTranslatableArgsV_1900()
     {
-        if(!this.isInstanceOf(TextTranslatableV_1900::create))
+        if(!this.isInstanceOf(TextTranslatableV_1900.FACTORY))
             return null;
-        return this.castTo(TextTranslatableV_1900::create).getArgs();
+        return this.castTo(TextTranslatableV_1900.FACTORY).getArgs();
     }
     
     @SpecificImpl("getTranslatableArgs")
     @VersionRange(begin=1900)
     default Text[] getTranslatableArgsV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextContentTranslatableV1900::create).getArgs();
+        return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getArgs();
     }
     
     @VersionRange(begin=1200)
@@ -224,18 +224,18 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1200, end=1900)
     default String getKeybindV1200_1900()
     {
-        if(!this.isInstanceOf(TextKeybindV1200_1900::create))
+        if(!this.isInstanceOf(TextKeybindV1200_1900.FACTORY))
             return null;
-        return this.castTo(TextKeybindV1200_1900::create).getKey();
+        return this.castTo(TextKeybindV1200_1900.FACTORY).getKey();
     }
     
     @SpecificImpl("getKeybindV1200")
     @VersionRange(begin=1900)
     default String getKeybindV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentKeybindV1900::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentKeybindV1900.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextContentKeybindV1900::create).getKeybind();
+        return this.getContentV1900().castTo(TextContentKeybindV1900.FACTORY).getKeybind();
     }
     
     TextScore getScore();
@@ -244,18 +244,18 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default TextScore getScoreV_1900()
     {
-        if(!this.isInstanceOf(TextScore::create))
+        if(!this.isInstanceOf(TextScore.FACTORY))
             return null;
-        return this.castTo(TextScore::create);
+        return this.castTo(TextScore.FACTORY);
     }
     
     @SpecificImpl("getScore")
     @VersionRange(begin=1900)
     default TextScore getScoreV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextScore::create))
+        if(!this.getContentV1900().isInstanceOf(TextScore.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextScore::create);
+        return this.getContentV1900().castTo(TextScore.FACTORY);
     }
     
     TextSelector getSelector();
@@ -264,18 +264,18 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default TextSelectorV_1900 getSelectorV_1900()
     {
-        if(!this.isInstanceOf(TextSelectorV_1900::create))
+        if(!this.isInstanceOf(TextSelectorV_1900.FACTORY))
             return null;
-        return this.castTo(TextSelectorV_1900::create);
+        return this.castTo(TextSelectorV_1900.FACTORY);
     }
     
     @SpecificImpl("getSelector")
     @VersionRange(begin=1900)
     default TextContentSelectorV1900 getSelectorV1900()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentSelectorV1900::create))
+        if(!this.getContentV1900().isInstanceOf(TextContentSelectorV1900.FACTORY))
             return null;
-        return this.getContentV1900().castTo(TextContentSelectorV1900::create);
+        return this.getContentV1900().castTo(TextContentSelectorV1900.FACTORY);
     }
     
     @WrapMinecraftMethod(@VersionName(name="getStyle"))
@@ -287,14 +287,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default void setStyleV_1900(TextStyle style)
     {
-        this.castTo(AbstractTextV_1900::create).setStyleV_1900(style);
+        this.castTo(AbstractTextV_1900.FACTORY).setStyleV_1900(style);
     }
     
     @SpecificImpl("setStyle")
     @VersionRange(begin=1900)
     default void setStyleV1900(TextStyle style)
     {
-        this.castTo(TextMutableV1600::create).setStyleV1900(style);
+        this.castTo(TextMutableV1600.FACTORY).setStyleV1900(style);
     }
     
     default TextStyle style()
@@ -313,7 +313,7 @@ public interface Text extends WrapperObject
         List<Object> result = this.getExtra0();
         if(result==null)
             return null;
-        return new ListProxy<>(result, InvertibleFunction.wrapper(Text::create));
+        return new ListProxy<>(result, InvertibleFunction.wrapper(Text.FACTORY));
     }
     
     Text setExtra(List<Text> value);
@@ -322,14 +322,14 @@ public interface Text extends WrapperObject
     @VersionRange(end=1900)
     default Text setExtraV_1900(List<Text> value)
     {
-        return this.castTo(AbstractTextV_1900::create).setExtraV_1900(value);
+        return this.castTo(AbstractTextV_1900.FACTORY).setExtraV_1900(value);
     }
     
     @SpecificImpl("setExtra")
     @VersionRange(begin=1900)
     default Text setExtraV1900(List<Text> value)
     {
-        return this.castTo(TextMutableV1600::create).setExtraV1900(value);
+        return this.castTo(TextMutableV1600.FACTORY).setExtraV1900(value);
     }
     
     default Text addExtra(Text... value)
@@ -371,7 +371,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setColorV_1600(TextColor value)
     {
-        this.style().setColorV_1600(value!=null ? value.legacy : TextFormatLegacy.create(null));
+        this.style().setColorV_1600(value!=null ? value.legacy : TextFormatLegacy.FACTORY.create(null));
         return this;
     }
     
@@ -379,7 +379,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1600)
     default Text setColorV1600(TextColor value)
     {
-        this.setStyle(this.style().withColorV1600(value!=null ? value.v1600 : TextColorV1600.create(null)));
+        this.setStyle(this.style().withColorV1600(value!=null ? value.v1600 : TextColorV1600.FACTORY.create(null)));
         return this;
     }
     

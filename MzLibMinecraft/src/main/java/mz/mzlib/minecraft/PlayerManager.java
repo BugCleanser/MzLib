@@ -32,7 +32,7 @@ public interface PlayerManager extends WrapperObject
     
     default List<EntityPlayer> getPlayers()
     {
-        return new ListProxy<>(this.getPlayers0(), InvertibleFunction.wrapper(EntityPlayer::create));
+        return new ListProxy<>(this.getPlayers0(), InvertibleFunction.wrapper(EntityPlayer.FACTORY));
     }
     
     @WrapMinecraftMethod(@VersionName(name="getPlayer"))

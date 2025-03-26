@@ -36,7 +36,7 @@ public class ModuleBukkitWindow extends MzModule
         @NothingInject(wrapperMethodName="placeInOrCheckV1701", wrapperMethodParams={ItemStack.class, int.class, int.class, boolean.class, boolean.class}, type=NothingInjectType.INSERT_BEFORE, locateMethod="")
         default WrapperBoolean placeInOrCheckOverwriteV1701(@LocalVar(1) ItemStack itemStack, @LocalVar(2) int begin, @LocalVar(3) int end, @LocalVar(4) boolean inverted, @LocalVar(5) boolean doCheck)
         {
-            return WrapperBoolean.create(this.castTo(ModuleWindow.NothingWindow::create).placeInOrCheck(itemStack, begin, end, inverted, doCheck));
+            return WrapperBoolean.FACTORY.create(this.castTo(ModuleWindow.NothingWindow.FACTORY).placeInOrCheck(itemStack, begin, end, inverted, doCheck));
         }
     }
 }

@@ -57,7 +57,7 @@ public interface Window extends WrapperObject
     }
     default List<WindowSlot> getSlots()
     {
-        return new ListProxy<>(getSlots0(), InvertibleFunction.wrapper(WindowSlot::create));
+        return new ListProxy<>(getSlots0(), InvertibleFunction.wrapper(WindowSlot.FACTORY));
     }
     default WindowSlot getSlot(int index)
     {

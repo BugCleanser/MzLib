@@ -157,18 +157,18 @@ public abstract class UIWindow implements UI
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow::create))
+                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
                     return;
-                window.castTo(WindowUIWindow::create).getUIWindow().onPlayerClose(event.getPlayer());
+                window.castTo(WindowUIWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
             })));
             this.register(new EventListener<>(EventAsyncWindowAction.class, event->event.sync(()->
             {
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow::create))
+                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
                     return;
-                UIWindow ui = window.castTo(WindowUIWindow::create).getUIWindow();
+                UIWindow ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
                 ButtonHandler button = ui.buttons.get(event.getSlotIndex());
                 if(button!=null)
                     button.onClick(event.getPlayer(), event.getActionType(), event.getData());
@@ -178,9 +178,9 @@ public abstract class UIWindow implements UI
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow::create))
+                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
                     return;
-                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUIWindow::create).getUIWindow().icons.get(event.getSlotIndex());
+                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUIWindow.FACTORY).getUIWindow().icons.get(event.getSlotIndex());
                 if(icon!=null)
                     icon.accept(event);
             })));

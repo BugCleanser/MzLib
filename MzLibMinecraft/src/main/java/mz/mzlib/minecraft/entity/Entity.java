@@ -58,7 +58,7 @@ public interface Entity extends WrapperObject
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
             MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, Text::fromLiteral).thenCast() : //
-                    InvertibleFunction.wrapper(Text::create).invert().thenApply(InvertibleFunction.optional()).thenCast());
+                    InvertibleFunction.wrapper(Text.FACTORY).invert().thenApply(InvertibleFunction.optional()).thenCast());
     
     /**
      * type0: {@link Boolean}

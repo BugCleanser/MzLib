@@ -34,7 +34,7 @@ public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessag
         public void onLoad()
         {
             this.register(EventAsyncPlayerChat.class);
-            this.register(new PacketListener<>(PacketC2sChatMessage::create, packetEvent->new EventAsyncPlayerChat(packetEvent).call()));
+            this.register(new PacketListener<>(PacketC2sChatMessage.FACTORY, packetEvent->new EventAsyncPlayerChat(packetEvent).call()));
         }
     }
 }

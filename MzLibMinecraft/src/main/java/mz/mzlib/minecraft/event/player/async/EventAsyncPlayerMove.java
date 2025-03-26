@@ -11,7 +11,7 @@ import mz.mzlib.module.MzModule;
 
 public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncByPacket<P>
 {
-    public EventAsyncPlayerMove(PacketEvent.Specialized<P> packetEvent)
+    public EventAsyncPlayerMove(PacketEvent.Specialized<? extends P> packetEvent)
     {
         super(packetEvent);
     }
@@ -55,7 +55,7 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
     
     public static class ByPacketC2sPlayerMove extends EventAsyncPlayerMove<PacketC2sPlayerMove>
     {
-        public ByPacketC2sPlayerMove(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
+        public ByPacketC2sPlayerMove(PacketEvent.Specialized<? extends PacketC2sPlayerMove> packetEvent)
         {
             super(packetEvent);
         }
@@ -159,7 +159,7 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
     
     public static class ByPacketC2sVehicleMoveV900 extends EventAsyncPlayerMove<PacketC2sVehicleMoveV900>
     {
-        public ByPacketC2sVehicleMoveV900(PacketEvent.Specialized<PacketC2sVehicleMoveV900> packetEvent)
+        public ByPacketC2sVehicleMoveV900(PacketEvent.Specialized<? extends PacketC2sVehicleMoveV900> packetEvent)
         {
             super(packetEvent);
         }
@@ -266,12 +266,12 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
     {
         public static Module instance = new Module();
         
-        public void handlePlayer(PacketEvent.Specialized<PacketC2sPlayerMove> packetEvent)
+        public void handlePlayer(PacketEvent.Specialized<? extends PacketC2sPlayerMove> packetEvent)
         {
             new ByPacketC2sPlayerMove(packetEvent).call();
         }
         
-        public void handleVehicleV900(PacketEvent.Specialized<PacketC2sVehicleMoveV900> packetEvent)
+        public void handleVehicleV900(PacketEvent.Specialized<? extends PacketC2sVehicleMoveV900> packetEvent)
         {
             new ByPacketC2sVehicleMoveV900(packetEvent).call();
         }
@@ -280,13 +280,13 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncB
         public void onLoad()
         {
             this.register(EventAsyncPlayerMove.class);
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround::create, this::handlePlayer));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround::create, this::handlePlayer));
-            this.register(new PacketListener<>(PacketC2sPlayerMove.Full::create, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LocationAndOnGround.FACTORY, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.LookAndOnGround.FACTORY, this::handlePlayer));
+            this.register(new PacketListener<>(PacketC2sPlayerMove.Full.FACTORY, this::handlePlayer));
             if(MinecraftPlatform.instance.getVersion()>=1700)
-                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700::create, this::handlePlayer));
+                this.register(new PacketListener<>(PacketC2sPlayerMove.OnGroundOnlyV1700.FACTORY, this::handlePlayer));
             if(MinecraftPlatform.instance.getVersion()>=900)
-                this.register(new PacketListener<>(PacketC2sVehicleMoveV900::create, this::handleVehicleV900));
+                this.register(new PacketListener<>(PacketC2sVehicleMoveV900.FACTORY, this::handleVehicleV900));
         }
     }
 }

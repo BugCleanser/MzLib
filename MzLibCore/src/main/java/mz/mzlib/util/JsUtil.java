@@ -3,9 +3,12 @@ package mz.mzlib.util;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.json.JsonParser;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JsUtil
 {
@@ -16,46 +19,106 @@ public class JsUtil
         return result;
     }
     
-    public static Object initSafeStandardObjects()
+    public static Object initSafeScope(Settings settings)
     {
-        try(Context context = Context.enter())
+        try(Context context = settings.enterContext())
         {
             return context.initSafeStandardObjects();
         }
     }
-    
-    public static Object initStandardObjects()
+    public static Object initSafeScope()
     {
-        try(Context context = Context.enter())
+        return initSafeScope(Settings.def);
+    }
+    
+    public static Object initScope(Settings settings)
+    {
+        try(Context context = settings.enterContext())
         {
             return context.initStandardObjects();
         }
     }
-    
-    public static Object eval(Object scope, String script)
+    public static Object initScope()
     {
-        try(Context context = Context.enter())
+        return initScope(Settings.def);
+    }
+    
+    public static Object function(Function function)
+    {
+        return new NativeJavaFunction(function);
+    }
+    
+    public static Object eval(Settings settings, Object scope, String script)
+    {
+        try(Context context = settings.enterContext())
         {
             return context.evaluateString((Scriptable)scope, script, "js", 1, null);
         }
     }
+    public static Object eval(Object scope, String script)
+    {
+        return eval(Settings.def, scope, script);
+    }
+    
+    public static Object get(Object obj, String key)
+    {
+        return ((Scriptable)obj).get(key, (Scriptable)obj);
+    }
+    
+    public static void put(Object obj, String key, Object value)
+    {
+        ((Scriptable)obj).put(key, (Scriptable)obj, value);
+    }
+    
+    public static void put(Settings settings, Object obj, String key, Object value)
+    {
+        put(obj, key, wrap(settings, obj, value));
+    }
     
     public static Object mapToObject(Object scope, Map<String, Object> map)
     {
-        Scriptable result = (Scriptable)newObject(scope);
+        Object result = newObject(scope);
         for(Map.Entry<String, Object> e: map.entrySet())
         {
-            result.put(e.getKey(), result, e.getValue());
+            put(result, e.getKey(), e.getValue());
         }
         return result;
     }
     
-    public static Object parseJson(Object scope, String json) throws Exception
+    public static Object wrap(Settings settings, Object scope, Object obj)
     {
-        try(Context context = Context.enter())
+        try(Context context = settings.enterContext())
+        {
+            return context.getWrapFactory().wrap(context, (Scriptable)scope, obj, null);
+        }
+    }
+    public static Object wrap(Object scope, Object obj)
+    {
+        return wrap(Settings.def, scope, obj);
+    }
+    
+    public static Object parseJson(Settings settings, Object scope, String json) throws Exception
+    {
+        try(Context context = settings.enterContext())
         {
             return new JsonParser(context, (Scriptable)scope).parseValue(json);
         }
+    }
+    public static Object parseJson(Object scope, String json) throws Exception
+    {
+        return parseJson(Settings.def, scope, json);
+    }
+    
+    public static String toJson(Settings settings, Object scope, Object obj)
+    {
+        try(Context context = settings.enterContext())
+        {
+            return (String)toJvm(NativeJSON.stringify(context, (Scriptable)scope, obj, null, null));
+        }
+    }
+    public static String toJson(Object scope, Object obj)
+    {
+        return toJson(Settings.def, scope, obj);
     }
     
     public static Object toJvm(Object obj)
@@ -71,16 +134,158 @@ public class JsUtil
         else if(obj instanceof NativeArray)
             return RuntimeUtil.<List<Object>>cast(obj).stream().map(JsUtil::toJvm).collect(Collectors.toList());
         else if(obj instanceof NativeObject)
-            return RuntimeUtil.<Map<String, Object>>cast(obj).entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> toJvm(e.getValue())));
+            return RuntimeUtil.<Map<String, Object>>cast(obj).entrySet().stream().map(e->new Pair<>(e.getKey(), toJvm(e.getValue()))).filter(p->p.getFirst()!=null&&p.getSecond()!=null).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
         else
             throw new IllegalArgumentException(obj.toString());
     }
     
-    public static String toJson(Object scope, Object obj)
+    @FunctionalInterface
+    public interface Function
     {
-        try(Context context = Context.enter())
+        Object call(Settings settings, Object scope, Object thisObj, Object[] args);
+    }
+    
+    static class NativeJavaFunction extends BaseFunction implements Wrapper
+    {
+        Function function;
+        public NativeJavaFunction(Function function)
         {
-            return (String)toJvm(NativeJSON.stringify(context, (Scriptable)scope, obj, null, null));
+            this.function = function;
+        }
+        
+        @Override
+        public Object unwrap()
+        {
+            return this.function;
+        }
+        
+        @Override
+        public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args)
+        {
+            return this.function.call(Settings.of(cx), scope, thisObj, args);
+        }
+    }
+    
+    public static class Settings
+    {
+        public static Settings def = new Settings();
+        
+        public Map<Class<?>, Object> proxies = new HashMap<>();
+        
+        WrapFactory wrapFactory = new WF(this);
+        
+        Context enterContext()
+        {
+            Context context = new ContextFactory()
+            {
+                @Override
+                protected boolean hasFeature(Context cx, int featureIndex)
+                {
+                    //noinspection SwitchStatementWithTooFewBranches
+                    switch(featureIndex)
+                    {
+                        case 21:
+                            return true;
+                        default:
+                            return super.hasFeature(cx, featureIndex);
+                    }
+                }
+            }.enterContext();
+            context.setWrapFactory(this.wrapFactory);
+            return context;
+        }
+        
+        static Settings of(WrapFactory factory)
+        {
+            if(factory instanceof WF)
+                return ((WF)factory).settings;
+            else
+                return def;
+        }
+        static Settings of(Context context)
+        {
+            return of(context.getWrapFactory());
+        }
+    }
+    
+    static class WF extends WrapFactory
+    {
+        Settings settings;
+        public WF(Settings settings)
+        {
+            this.settings = settings;
+        }
+        
+        @Override
+        public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class<?> staticType)
+        {
+            for(Map.Entry<Class<?>, Object> e: this.settings.proxies.entrySet())
+            {
+                if(e.getKey().isInstance(javaObject))
+                    return new NativeJavaObjectProxy(javaObject, (Scriptable)JsUtil.wrap(scope, e.getValue()));
+            }
+            if(javaObject instanceof Function)
+                return (Scriptable)function((Function)javaObject);
+            else
+                return super.wrapAsJavaObject(cx, scope, javaObject, staticType);
+        }
+    }
+    
+    static class NativeJavaObjectProxy extends NativeJavaObject
+    {
+        Scriptable proxy;
+        
+        public NativeJavaObjectProxy(Object javaObject, Scriptable proxy)
+        {
+            super(proxy.getParentScope(), javaObject, null);
+            this.proxy = proxy;
+        }
+        
+        @Override
+        public Scriptable getPrototype()
+        {
+            return this.proxy.getPrototype();
+        }
+        @Override
+        public Object[] getIds()
+        {
+            return Stream.concat(Arrays.stream(this.proxy.getIds()), Arrays.stream(super.getIds())).distinct().toArray();
+        }
+        
+        @Override
+        public boolean has(int index, Scriptable start)
+        {
+            return this.proxy.has(index, start) || super.has(index, start);
+        }
+        
+        @Override
+        public boolean has(String name, Scriptable start)
+        {
+            return this.proxy.has(name, start) || super.has(name, start);
+        }
+        
+        @Override
+        public Object get(int index, Scriptable start)
+        {
+            Object result = this.proxy.get(index, start);
+            if(result == Scriptable.NOT_FOUND)
+                result = super.get(index, start);
+            return result;
+        }
+        
+        @Override
+        public Object get(String name, Scriptable start)
+        {
+            Object result = this.proxy.get(name, start);
+            if(result == Scriptable.NOT_FOUND)
+                result = super.get(name, start);
+            return result;
+        }
+        
+        @Override
+        public Object getDefaultValue(Class<?> hint)
+        {
+            return this.proxy.getDefaultValue(hint);
         }
     }
 }

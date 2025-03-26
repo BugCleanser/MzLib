@@ -88,14 +88,14 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
             this.register(EventAsyncWindowAnvilSetName.class);
             if(MinecraftPlatform.instance.getVersion()<1300)
             {
-                this.register(new PacketListener<>(PacketC2sCustom::create, packetEvent->
+                this.register(new PacketListener<>(PacketC2sCustom.FACTORY, packetEvent->
                 {
                     if(packetEvent.getPacket().getChannelV_1300().equals("MC|ItemName"))
                         new V_1300(packetEvent).call();
                 }));
             }
             else
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300::create, packetEvent->new V1300(packetEvent).call()));
+                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300.FACTORY, packetEvent->new V1300(packetEvent).call()));
         }
     }
 }

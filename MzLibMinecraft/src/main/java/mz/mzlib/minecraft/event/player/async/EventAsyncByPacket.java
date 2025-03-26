@@ -6,8 +6,8 @@ import mz.mzlib.minecraft.network.packet.PacketEvent;
 
 public class EventAsyncByPacket<P extends Packet> extends EventPlayer
 {
-    public PacketEvent.Specialized<P> packetEvent;
-    public EventAsyncByPacket(PacketEvent.Specialized<P> packetEvent)
+    public PacketEvent.Specialized<? extends P> packetEvent;
+    public EventAsyncByPacket(PacketEvent.Specialized<? extends P> packetEvent)
     {
         super(packetEvent.getPlayer().unwrap());
         this.packetEvent = packetEvent;
@@ -24,7 +24,7 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
         this.packetEvent.setCancelled(cancelled);
     }
     
-    public PacketEvent.Specialized<P> getPacketEvent()
+    public PacketEvent.Specialized<? extends P> getPacketEvent()
     {
         return this.packetEvent;
     }

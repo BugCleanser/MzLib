@@ -7,7 +7,7 @@ public class BukkitCommandSourceUtil
 {
     public static CommandSender toBukkit(CommandSource object)
     {
-        return object.castTo(CommandSourceBukkit::create).getBukkitSender();
+        return object.castTo(CommandSourceBukkit.FACTORY).getBukkitSender();
     }
     
     public static CommandSource fromBukkit(CommandSender object)

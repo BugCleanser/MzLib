@@ -89,7 +89,7 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     @VersionRange(begin=2002)
     default void sendPacketV2002(Packet packet)
     {
-        this.getNetworkHandler().castTo(ServerCommonNetworkHandlerV2002::create).sendPacket(packet);
+        this.getNetworkHandler().castTo(ServerCommonNetworkHandlerV2002.FACTORY).sendPacket(packet);
     }
     
     default void receivePacket(Packet packet)

@@ -37,7 +37,7 @@ public interface PacketS2cWindowItems extends Packet
     
     default List<ItemStack> getContents()
     {
-        return new ListProxy<>(this.getContents0(), InvertibleFunction.wrapper(ItemStack::create));
+        return new ListProxy<>(this.getContents0(), InvertibleFunction.wrapper(ItemStack.FACTORY));
     }
     
     @VersionRange(end=1100)
@@ -76,7 +76,7 @@ public interface PacketS2cWindowItems extends Packet
     
     default void setContents(List<ItemStack> value)
     {
-        this.setContents0(new ListProxy<>(value, InvertibleFunction.wrapper(ItemStack::create).inverse()));
+        this.setContents0(new ListProxy<>(value, InvertibleFunction.wrapper(ItemStack.FACTORY).inverse()));
     }
     
     

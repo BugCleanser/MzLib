@@ -25,7 +25,7 @@ public interface DamageSource extends WrapperObject
     DamageSource staticNewInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location);
     static DamageSource newInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location)
     {
-        return create(null).staticNewInstanceV1904(type, source, attacker, location);
+        return FACTORY.getStatic().staticNewInstanceV1904(type, source, attacker, location);
     }
 
     Entity getSource();
@@ -33,10 +33,10 @@ public interface DamageSource extends WrapperObject
     @VersionRange(end=1904)
     default Entity getSourceV_1904()
     {
-        if(this.isInstanceOf(DamageSourceEntityV_1904::create))
-            return this.castTo(DamageSourceEntityV_1904::create).getSource();
+        if(this.isInstanceOf(DamageSourceEntityV_1904.FACTORY))
+            return this.castTo(DamageSourceEntityV_1904.FACTORY).getSource();
         else
-            return Entity.create(null);
+            return Entity.FACTORY.create(null); // TODO Option
     }
     @SpecificImpl("getSource")
     @WrapMinecraftFieldAccessor(@VersionName(name = "source", begin = 1904))
@@ -47,10 +47,10 @@ public interface DamageSource extends WrapperObject
     @VersionRange(end=1904)
     default Entity getAttackerV_1904()
     {
-        if(this.isInstanceOf(DamageSourceProjectileV_1904::create))
-            return this.castTo(DamageSourceProjectileV_1904::create).getAttacker();
+        if(this.isInstanceOf(DamageSourceProjectileV_1904.FACTORY))
+            return this.castTo(DamageSourceProjectileV_1904.FACTORY).getAttacker();
         else
-            return Entity.create(null);
+            return Entity.FACTORY.create(null);
     }
     @SpecificImpl("getAttacker")
     @WrapMinecraftFieldAccessor(@VersionName(name = "attacker", begin = 1904))

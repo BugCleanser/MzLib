@@ -26,6 +26,6 @@ public interface PacketBundleV1904 extends Packet
     
     default Iterable<Packet> getPackets()
     {
-        return IteratorProxy.iterable(this.getPackets0(), Packet::create);
+        return IteratorProxy.iterable(this.getPackets0(), Packet.FACTORY::create);
     }
 }

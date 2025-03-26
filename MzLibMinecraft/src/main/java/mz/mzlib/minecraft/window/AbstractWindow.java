@@ -83,8 +83,8 @@ public interface AbstractWindow extends Window
     default ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         this.onAction(index, data, actionType, player);
-        if(player.isInstanceOf(EntityPlayer::create))
-            player.castTo(EntityPlayer::create).updateWindowV_1700(this);
+        if(player.isInstanceOf(EntityPlayer.FACTORY))
+            player.castTo(EntityPlayer.FACTORY).updateWindowV_1700(this);
         return ItemStack.empty();
     }
     

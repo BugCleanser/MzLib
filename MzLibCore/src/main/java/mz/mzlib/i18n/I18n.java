@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -78,36 +77,24 @@ public class I18n
         return getTranslation(language, key, key);
     }
     
-    public static Object scope = JsUtil.initSafeStandardObjects();
-    public static String getTranslationWithArgs(String language, String key, Map<String, Object> args)
+    public static Object scope = JsUtil.initSafeScope();
+    public static String getTranslationWithArgs(JsUtil.Settings settings, String language, String key, Object args)
     {
         String translation = getTranslation(language, key, null);
         if(translation==null)
             return key+args;
         try
         {
-            return JsUtil.eval(JsUtil.mapToObject(scope, args), "`"+translation+"`").toString();
+            return JsUtil.eval(settings, JsUtil.wrap(scope, args), "`"+translation+"`").toString();
         }
         catch(Exception e)
         {
             return "[Error]"+key+":"+e.getMessage();
         }
     }
-    
-    @Deprecated
-    public static String legacy_getTranslationWithArgs(String language, String key, Map<String, Object> args)
+    public static String getTranslationWithArgs(String language, String key, Object args)
     {
-        String result = getTranslation(language, key, null);
-        if(result==null)
-            return key+args;
-        try
-        {
-            return new Formatting(result, args).parse();
-        }
-        catch(ParseException e)
-        {
-            return "[Error]"+key+"="+e+":"+e.getErrorOffset()+(e.getCause()!=null ? e.getCause() : "")+args;
-        }
+        return getTranslationWithArgs(JsUtil.Settings.def, language, key, args);
     }
     
     public static Map<String, String> load(Properties properties)

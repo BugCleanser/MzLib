@@ -82,13 +82,13 @@ public class I18nMinecraft extends MzModule
         return I18n.getTranslation(player.getLanguage(), key);
     }
     
-    public static String getTranslationWithArgs(CommandSource commandSource, String key, Map<String, Object> args)
+    public static String getTranslationWithArgs(CommandSource commandSource, String key, Object args)
     {
         for(EntityPlayer player: commandSource.getPlayer())
             return getTranslationWithArgs(player, key, args);
         return I18n.getTranslationWithArgs(I18n.getDefaultLanguage(), key, args);
     }
-    public static String getTranslationWithArgs(EntityPlayer player, String key, Map<String, Object> args)
+    public static String getTranslationWithArgs(EntityPlayer player, String key, Object args)
     {
         return I18n.getTranslationWithArgs(player.getLanguage(), key, args);
     }

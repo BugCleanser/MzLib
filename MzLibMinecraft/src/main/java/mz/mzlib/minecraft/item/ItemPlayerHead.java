@@ -32,7 +32,7 @@ public interface ItemPlayerHead extends Item
         return WrapperObject.create(ItemPlayerHead.class, wrapped);
     }
     
-    ComponentKeyV2005.Specialized<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile").specialized(GameProfileComponentV2005::create);
+    ComponentKeyV2005.Specialized<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile").specialized(GameProfileComponentV2005.FACTORY);
     
     static Option<GameProfile> getOwner(ItemStack itemStack)
     {

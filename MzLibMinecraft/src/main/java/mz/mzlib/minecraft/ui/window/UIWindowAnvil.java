@@ -38,16 +38,16 @@ public abstract class UIWindowAnvil extends UIWindow
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getCurrentWindow();
-                if(!window.isInstanceOf(WindowUIWindow::create))
+                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
                     return;
-                UI ui = window.castTo(WindowUIWindow::create).getUIWindow();
+                UI ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
                 if(ui instanceof UIWindowAnvil)
                 {
                     event.sync(()->
                     {
-                        if(window.isInstanceOf(WindowUIWindow::create))
+                        if(window.isInstanceOf(WindowUIWindow.FACTORY))
                         {
-                            UI ui1 = window.castTo(WindowUIWindow::create).getUIWindow();
+                            UI ui1 = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
                             if(ui1 instanceof UIWindowAnvil)
                                 ((UIWindowAnvil)ui1).onNameChanged(event.getPlayer(), event.getName());
                         }

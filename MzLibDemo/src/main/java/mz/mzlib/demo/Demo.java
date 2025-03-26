@@ -33,7 +33,6 @@ public class Demo extends MzModule
             {
                 this.config = Config.loadJs(is, new File(this.dataFolder, "config.js"));
             }
-            System.out.println(this.config.getString("test"));
             
             this.register(this.permission);
             this.register(I18n.load(this.jar, "lang", 0));

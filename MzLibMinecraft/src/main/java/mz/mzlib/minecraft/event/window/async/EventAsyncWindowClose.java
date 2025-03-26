@@ -27,7 +27,7 @@ public class EventAsyncWindowClose extends EventAsyncWindow<PacketC2sWindowClose
         {
             this.register(EventAsyncWindowClose.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowClose::create, packetEvent->new EventAsyncWindowClose(packetEvent, packetEvent.getPacket().getSyncId()).call()));
+            this.register(new PacketListener<>(PacketC2sWindowClose.FACTORY, packetEvent->new EventAsyncWindowClose(packetEvent, packetEvent.getPacket().getSyncId()).call()));
         }
     }
 }

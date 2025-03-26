@@ -17,6 +17,6 @@ public interface TextTranslatableCommon
         Object[] args0 = this.getArgs0();
         if(args0==null)
             return null;
-        return Arrays.stream(args0).map(a -> WrapperObject.create(a).isInstanceOf(Text::create) ? Text.create(a) : Text.literal(Objects.toString(a)) ).toArray(Text[]::new);
+        return Arrays.stream(args0).map(a -> WrapperObject.FACTORY.create(a).isInstanceOf(Text.FACTORY) ? Text.FACTORY.create(a) : Text.literal(Objects.toString(a)) ).toArray(Text[]::new);
     }
 }

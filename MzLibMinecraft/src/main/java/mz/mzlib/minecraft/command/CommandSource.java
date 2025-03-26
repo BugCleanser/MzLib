@@ -45,7 +45,7 @@ public interface CommandSource extends WrapperObject
     @VersionRange(end=1300)
     default CommandOutput getOutputV_1300()
     {
-        return this.castTo(CommandOutput::create);
+        return this.castTo(CommandOutput.FACTORY);
     }
     
     @SpecificImpl("getOutput")

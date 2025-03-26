@@ -69,7 +69,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=1300)
     default ItemStack staticNewInstanceV1300(Item item)
     {
-        return staticNewInstanceV1300((ItemConvertibleV1300)item.castTo(ItemV1300::create));
+        return staticNewInstanceV1300((ItemConvertibleV1300)item.castTo(ItemV1300.FACTORY));
     }
     
     static ItemStack newInstance(Item item)
@@ -131,7 +131,7 @@ public interface ItemStack extends WrapperObject
     default Result<Option<ItemStack>, String> staticDecode0V2005(NbtCompound nbt)
     {
         //noinspection RedundantTypeArguments
-        return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, ItemStack, RuntimeException>optionMap(ItemStack::create));
+        return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, ItemStack, RuntimeException>optionMap(ItemStack.FACTORY::create));
     }
     
     static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
@@ -205,7 +205,7 @@ public interface ItemStack extends WrapperObject
     {
         //noinspection RedundantTypeArguments
         return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult()
-                .mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound::create));
+                .mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound.FACTORY::create));
     }
     
     
@@ -463,7 +463,7 @@ public interface ItemStack extends WrapperObject
         l1:
         do
         {
-            for(NbtInt nbtVersion: nbt.get("DataVersion", NbtInt::create))
+            for(NbtInt nbtVersion: nbt.get("DataVersion", NbtInt.FACTORY))
             {
                 dataVersion = nbtVersion.getValue();
                 break l1;
@@ -475,13 +475,13 @@ public interface ItemStack extends WrapperObject
             else
             {
                 dataVersion = 1952; // 1.14
-                for(NbtCompound tag: nbt.get("tag", NbtCompound::create))
+                for(NbtCompound tag: nbt.get("tag", NbtCompound.FACTORY))
                 {
-                    for(NbtCompound display: tag.get("display", NbtCompound::create))
+                    for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
                     {
-                        for(NbtList lore: display.get("Lore", NbtList::create))
+                        for(NbtList lore: display.get("Lore", NbtList.FACTORY))
                         {
-                            for(NbtString l: lore.asList(NbtString::create))
+                            for(NbtString l: lore.asList(NbtString.FACTORY))
                             {
                                 try
                                 {
@@ -521,7 +521,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=1300)
     default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
     {
-        return NbtCompound.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
+        return NbtCompound.FACTORY.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
     }
     
     static NbtCompound upgrade(NbtCompound nbt, int from)

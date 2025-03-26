@@ -55,7 +55,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
         {
             this.register(EventAsyncWindowAction.class);
             
-            this.register(new PacketListener<>(PacketC2sWindowAction::create, packetEvent->new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()));
+            this.register(new PacketListener<>(PacketC2sWindowAction.FACTORY, packetEvent->new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()));
         }
     }
 }

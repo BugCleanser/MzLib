@@ -56,7 +56,7 @@ public interface EntityType extends WrapperObject
     default EntityType staticFromIdV_1100(Identifier id)
     {
         if(id.equals(Identifier.ofMinecraft("fishing_bobber")))
-            return create(EntityFishingBobber.create(null).staticGetWrappedClass());
+            return create(EntityFishingBobber.FACTORY.getWrappedClass());
         return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
     
@@ -65,15 +65,15 @@ public interface EntityType extends WrapperObject
     default EntityType staticFromIdV1100_1300(Identifier id)
     {
         if(id.equals(Identifier.ofMinecraft("fishing_bobber")))
-            return create(EntityFishingBobber.create(null).staticGetWrappedClass());
-        return getRegistry1100().get(id).castTo(EntityType::create);
+            return create(EntityFishingBobber.FACTORY.getWrappedClass());
+        return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
     
     @SpecificImpl("staticFromId")
     @VersionRange(begin=1300)
     default EntityType staticFromIdV1300(Identifier id)
     {
-        return getRegistry1100().get(id).castTo(EntityType::create);
+        return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
     
     default Identifier getIdV1300()

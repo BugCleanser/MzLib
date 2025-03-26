@@ -36,7 +36,7 @@ public interface DataResultV1600 extends WrapperObject
     Optional<Object> toError0();
     default Option<Error> toError()
     {
-        return Option.fromOptional(this.toError0()).map(Error::create);
+        return Option.fromOptional(this.toError0()).map(Error.FACTORY::create);
     }
     default Option<String> getErrorMessage()
     {

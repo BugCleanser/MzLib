@@ -40,7 +40,7 @@ public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacket
     @VersionRange(begin=2002)
     default ClientConnection getConnectionV2002()
     {
-        return this.castTo(ServerCommonNetworkHandlerV2002::create).getConnection();
+        return this.castTo(ServerCommonNetworkHandlerV2002.FACTORY).getConnection();
     }
     
     void sendPacketV_2002(Packet packet);

@@ -69,7 +69,7 @@ public interface WindowUIWindow extends AbstractWindow
         WindowUIWindow result = newInstance0(uiWindow.windowType, syncId);
         result.setUIWindow(uiWindow);
         result.setPlayer(player);
-        uiWindow.initWindow(result, player.castTo(EntityPlayer::create));
+        uiWindow.initWindow(result, player.castTo(EntityPlayer.FACTORY));
         return result;
     }
     
@@ -82,7 +82,7 @@ public interface WindowUIWindow extends AbstractWindow
     @CompoundOverride(parent=Window.class, method="quickMove")
     default ItemStack quickMove(AbstractEntityPlayer player, int index)
     {
-        return this.getUIWindow().quickMove(this, player.castTo(EntityPlayer::create), index);
+        return this.getUIWindow().quickMove(this, player.castTo(EntityPlayer.FACTORY), index);
     }
     
     @Override
@@ -94,7 +94,7 @@ public interface WindowUIWindow extends AbstractWindow
     @Override
     default void onAction(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
-        this.getUIWindow().onAction(this, index, data, actionType, player.castTo(EntityPlayer::create));
+        this.getUIWindow().onAction(this, index, data, actionType, player.castTo(EntityPlayer.FACTORY));
     }
     
     @CompoundSuper(parent=Window.class, method="onClosed")
@@ -104,6 +104,6 @@ public interface WindowUIWindow extends AbstractWindow
     @CompoundOverride(parent=Window.class, method="onClosed")
     default void onClosed(AbstractEntityPlayer player)
     {
-        this.getUIWindow().onClosed(this, player.castTo(EntityPlayer::create));
+        this.getUIWindow().onClosed(this, player.castTo(EntityPlayer.FACTORY));
     }
 }

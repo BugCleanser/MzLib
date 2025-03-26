@@ -112,14 +112,14 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @VersionRange(end=1903)
     default List<EntityDataTracker.Entry> getDataListV_1903()
     {
-        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.Entry::create));
+        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.Entry.FACTORY));
     }
     
     @SpecificImpl("getDataList")
     @VersionRange(begin=1903)
     default List<EntityDataTracker.EntityDataV1903> getDataListV1903()
     {
-        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.EntityDataV1903::create));
+        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.EntityDataV1903.FACTORY));
     }
     
     @Override

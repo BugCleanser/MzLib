@@ -29,7 +29,8 @@ public interface Vec3d extends WrapperObject
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))
     double getX();
-
+    
+    @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))
     void setX(double value);
 
@@ -40,7 +41,6 @@ public interface Vec3d extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "y"))
     void setY(double value);
     
-    @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name = "z"))
     double getZ();
     

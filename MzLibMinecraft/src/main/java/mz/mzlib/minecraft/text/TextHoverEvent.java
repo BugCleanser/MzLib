@@ -129,9 +129,9 @@ public interface TextHoverEvent extends WrapperObject
     default Text getShowedTextV1600()
     {
         WrapperObject result = this.getContentsV1600();
-        if(!result.isInstanceOf(Text::create))
+        if(!result.isInstanceOf(Text.FACTORY))
             return null;
-        return result.castTo(Text::create);
+        return result.castTo(Text.FACTORY);
     }
     
     ItemStack getShowedItem();
@@ -148,9 +148,9 @@ public interface TextHoverEvent extends WrapperObject
     default ItemStack getShowedItemV1600()
     {
         WrapperObject result = this.getContentsV1600();
-        if(!result.isInstanceOf(ContentsItemStackV1600::create))
+        if(!result.isInstanceOf(ContentsItemStackV1600.FACTORY))
             return null;
-        return result.castTo(ContentsItemStackV1600::create).getItemStack();
+        return result.castTo(ContentsItemStackV1600.FACTORY).getItemStack();
     }
     
     TextHoverEvent.Entity getEntity();
@@ -166,7 +166,7 @@ public interface TextHoverEvent extends WrapperObject
     @VersionRange(begin=1600)
     default TextHoverEvent.Entity getEntityV1600()
     {
-        return this.getContentsV1600().castTo(TextHoverEvent.ContentsEntityV1600::create);
+        return this.getContentsV1600().castTo(TextHoverEvent.ContentsEntityV1600.FACTORY);
     }
     
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="Action"))
@@ -275,7 +275,7 @@ public interface TextHoverEvent extends WrapperObject
             NbtElement result = this.nbt.get("type");
             if(!result.isPresent())
                 return null;
-            return Identifier.newInstance(result.castTo(NbtString::create).getValue());
+            return Identifier.newInstance(result.castTo(NbtString.FACTORY).getValue());
         }
         @Override
         public UUID getId()
@@ -283,7 +283,7 @@ public interface TextHoverEvent extends WrapperObject
             NbtElement result = this.nbt.get("id");
             if(!result.isPresent())
                 return null;
-            return UUID.fromString(result.castTo(NbtString::create).getValue());
+            return UUID.fromString(result.castTo(NbtString.FACTORY).getValue());
         }
         @Override
         public Text getName()
@@ -291,7 +291,7 @@ public interface TextHoverEvent extends WrapperObject
             NbtElement result = this.nbt.get("name");
             if(!result.isPresent())
                 return null;
-            return Text.decode(new Gson().fromJson(result.castTo(NbtString::create).getValue(), JsonObject.class));
+            return Text.decode(new Gson().fromJson(result.castTo(NbtString.FACTORY).getValue(), JsonObject.class));
         }
     }
     
@@ -332,7 +332,7 @@ public interface TextHoverEvent extends WrapperObject
         @Override
         default Text getName()
         {
-            return this.getName0().map(Text::create).orElse(null);
+            return this.getName0().map(Text.FACTORY::create).orElse(null);
         }
     }
 }

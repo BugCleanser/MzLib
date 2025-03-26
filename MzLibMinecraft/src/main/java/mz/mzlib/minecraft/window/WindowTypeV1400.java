@@ -29,7 +29,7 @@ public interface WindowTypeV1400 extends WrapperObject
     
     static WindowTypeV1400 fromId(Identifier id)
     {
-        return getRegistry().get(id).castTo(WindowTypeV1400::create);
+        return getRegistry().get(id).castTo(WindowTypeV1400.FACTORY);
     }
     
     static WindowTypeV1400 fromId(String id)

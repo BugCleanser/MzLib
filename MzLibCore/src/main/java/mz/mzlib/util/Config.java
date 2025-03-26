@@ -67,7 +67,7 @@ public class Config
     
     public static Config loadJson(InputStream def, File file) throws Exception
     {
-        Object scope = JsUtil.initStandardObjects();
+        Object scope = JsUtil.initScope();
         Object json = JsUtil.toJvm(JsUtil.parseJson(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8)));
         if(file.isFile())
         {
@@ -92,8 +92,8 @@ public class Config
     }
     public static Config loadJs(InputStream def, File file) throws Exception
     {
-        Object scope = JsUtil.initStandardObjects();
-        JsUtil.eval(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8));
+        Object scope = JsUtil.initScope();
+        Object ignored = JsUtil.eval(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8));
         if(file.isFile())
         {
             try(FileInputStream fis = new FileInputStream(file))
@@ -103,8 +103,8 @@ public class Config
         }
         else
         {
-            boolean ignored = file.getParentFile().mkdirs();
-            ignored = file.createNewFile();
+            boolean ignored1 = file.getParentFile().mkdirs();
+            boolean ignored2 = file.createNewFile();
         }
         return new Config(JsUtil.toJvm(scope));
     }
