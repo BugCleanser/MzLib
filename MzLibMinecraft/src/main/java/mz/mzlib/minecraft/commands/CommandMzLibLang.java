@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParser;
 import mz.mzlib.minecraft.command.argument.ArgumentParserString;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.i18n.LangEditor;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
@@ -42,19 +42,19 @@ public class CommandMzLibLang extends MzModule
             return;
         if(context.doExecute)
         {
-            if(I18nMinecraft.instance.taskLoading!=null)
+            if(MinecraftI18n.instance.taskLoading!=null)
             {
-                context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.loading")));
+                context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.loading"));
                 return;
             }
-            I18nMinecraft.instance.loadMinecraftLanguages();
-            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.begin")));
+            MinecraftI18n.instance.loadMinecraftLanguages();
+            context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.lang.loadmc.begin"));
         }
     }
     
     public void custom(CommandContext context)
     {
-        String lang = new ArgumentParserLanguage(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
+        String lang = new ArgumentParserLanguage(MinecraftI18n.resolve(context.getSource(), "mzlib.commands.mzlib.lang.custom.arg.language")).handle(context);
         CommandContext fork = context.fork();
         if(fork.argsReader.hasNext())
             fork.successful = false;
@@ -72,7 +72,7 @@ public class CommandMzLibLang extends MzModule
             }
             return;
         }
-        String key = new ArgumentParserTranslationKey(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.key")).handle(context);
+        String key = new ArgumentParserTranslationKey(MinecraftI18n.resolve(context.getSource(), "mzlib.generic.key")).handle(context);
         fork = context.fork();
         if(fork.argsReader.hasNext())
             fork.successful = false;
@@ -96,7 +96,7 @@ public class CommandMzLibLang extends MzModule
         switch(operate)
         {
             case "set":
-                String value = new ArgumentParserTranslationValue(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.value"), lang, key).handle(context);
+                String value = new ArgumentParserTranslationValue(MinecraftI18n.resolve(context.getSource(), "mzlib.generic.value"), lang, key).handle(context);
                 if(context.argsReader.hasNext())
                     context.successful = false;
                 if(!context.successful)
@@ -104,8 +104,8 @@ public class CommandMzLibLang extends MzModule
                 if(context.doExecute)
                 {
                     I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).put(key, value);
-                    I18nMinecraft.saveCustomLanguage(lang);
-                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
+                    MinecraftI18n.saveCustomLanguage(lang);
+                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.generic.successful"));
                 }
                 break;
             case "remove":
@@ -116,8 +116,8 @@ public class CommandMzLibLang extends MzModule
                 if(context.doExecute)
                 {
                     I18n.custom.map.computeIfAbsent(lang, k->new ConcurrentHashMap<>()).remove(key);
-                    I18nMinecraft.saveCustomLanguage(lang);
-                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.generic.successful")));
+                    MinecraftI18n.saveCustomLanguage(lang);
+                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.generic.successful"));
                 }
                 break;
             default:

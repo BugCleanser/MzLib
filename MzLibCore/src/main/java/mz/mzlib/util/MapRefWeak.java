@@ -6,29 +6,29 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class WeakRefMap<K, V> extends AbstractMap<K, V>
+public class MapRefWeak<K, V> extends AbstractMap<K, V>
 {
-    public Map<WeakRef<K>, V> delegate;
+    public Map<RefWeak<K>, V> delegate;
     public GcListener gcListener;
-    public WeakRefMap(Map<WeakRef<K>, V> delegate)
+    public MapRefWeak(Map<RefWeak<K>, V> delegate)
     {
         this.delegate = delegate;
         RuntimeUtil.addGcListener(this.gcListener = new GcListener(this));
     }
-    public WeakRefMap()
+    public MapRefWeak()
     {
         this(new HashMap<>());
     }
     
     public void gc()
     {
-        List<WeakRef<K>> garbage = new ArrayList<>();
-        for(Map.Entry<WeakRef<K>, V> entry: this.delegate.entrySet())
+        List<RefWeak<K>> garbage = new ArrayList<>();
+        for(Map.Entry<RefWeak<K>, V> entry: this.delegate.entrySet())
         {
             if(entry.getKey().get()==null)
                 garbage.add(entry.getKey());
         }
-        for(WeakRef<K> ref: garbage)
+        for(RefWeak<K> ref: garbage)
             this.delegate.remove(ref);
     }
     
@@ -41,25 +41,25 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
     @Override
     public V get(Object key)
     {
-        return this.delegate.get(new WeakRef<>(key));
+        return this.delegate.get(new RefWeak<>(key));
     }
     
     @Override
     public V put(K key, V value)
     {
-        return this.delegate.put(new WeakRef<>(key), value);
+        return this.delegate.put(new RefWeak<>(key), value);
     }
     
     @Override
     public V remove(Object key)
     {
-        return this.delegate.remove(new WeakRef<>(key));
+        return this.delegate.remove(new RefWeak<>(key));
     }
     
     @Override
     public boolean containsKey(Object key)
     {
-        return this.delegate.containsKey(new WeakRef<>(key));
+        return this.delegate.containsKey(new RefWeak<>(key));
     }
     
     @Override
@@ -77,33 +77,33 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
     @Override
     public V compute(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction)
     {
-        return this.delegate.compute(new WeakRef<>(key), (k, v)->remappingFunction.apply(k.get(), v));
+        return this.delegate.compute(new RefWeak<>(key), (k, v)->remappingFunction.apply(k.get(), v));
     }
     
     @Override
     public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction)
     {
-        return this.delegate.computeIfAbsent(new WeakRef<>(key), k->mappingFunction.apply(k.get()));
+        return this.delegate.computeIfAbsent(new RefWeak<>(key), k->mappingFunction.apply(k.get()));
     }
     
     @Override
     public V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends V> remappingFunction)
     {
-        return this.delegate.computeIfPresent(new WeakRef<>(key), (k, v)->remappingFunction.apply(k.get(), v));
+        return this.delegate.computeIfPresent(new RefWeak<>(key), (k, v)->remappingFunction.apply(k.get(), v));
     }
     
     public static class GcListener implements NotificationListener
     {
-        public WeakRef<WeakRefMap<?, ?>> refMap;
-        public GcListener(WeakRefMap<?, ?> map)
+        public RefWeak<MapRefWeak<?, ?>> refMap;
+        public GcListener(MapRefWeak<?, ?> map)
         {
-            this.refMap = new WeakRef<>(map);
+            this.refMap = new RefWeak<>(map);
         }
         
         @Override
         public void handleNotification(Notification notification, Object handback)
         {
-            WeakRefMap<?, ?> map = refMap.get();
+            MapRefWeak<?, ?> map = refMap.get();
             if(map!=null)
                 map.gc();
             else
@@ -113,9 +113,9 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
     
     public static class Entry<K, V> implements Map.Entry<K, V>
     {
-        public Map.Entry<WeakRef<K>, V> delegate;
+        public Map.Entry<RefWeak<K>, V> delegate;
         
-        public Entry(Map.Entry<WeakRef<K>, V> delegate)
+        public Entry(Map.Entry<RefWeak<K>, V> delegate)
         {
             this.delegate = delegate;
         }
@@ -139,9 +139,9 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
     
     public static class EntryIterator<K, V> implements java.util.Iterator<Map.Entry<K, V>>
     {
-        public Iterator<Map.Entry<WeakRef<K>, V>> delegate;
+        public Iterator<Map.Entry<RefWeak<K>, V>> delegate;
         
-        public EntryIterator(Iterator<Map.Entry<WeakRef<K>, V>> delegate)
+        public EntryIterator(Iterator<Map.Entry<RefWeak<K>, V>> delegate)
         {
             this.delegate = delegate;
         }
@@ -160,9 +160,9 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
     
     public static class EntrySet<K, V> extends AbstractSet<Map.Entry<K, V>>
     {
-        public Set<Map.Entry<WeakRef<K>, V>> delegate;
+        public Set<Map.Entry<RefWeak<K>, V>> delegate;
         
-        public EntrySet(Set<Map.Entry<WeakRef<K>, V>> delegate)
+        public EntrySet(Set<Map.Entry<RefWeak<K>, V>> delegate)
         {
         }
         
@@ -182,13 +182,13 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
         {
             if(!(o instanceof Map.Entry))
                 return false;
-            return this.delegate.contains(new MapEntry<>(new WeakRef<>(((Map.Entry<?, ?>)o).getKey()), ((Map.Entry<?, ?>)o).getValue()));
+            return this.delegate.contains(new MapEntry<>(new RefWeak<>(((Map.Entry<?, ?>)o).getKey()), ((Map.Entry<?, ?>)o).getValue()));
         }
         
         @Override
         public boolean add(Map.Entry<K, V> kvEntry)
         {
-            return this.delegate.add(new MapEntry<>(new WeakRef<>(kvEntry.getKey()), kvEntry.getValue()));
+            return this.delegate.add(new MapEntry<>(new RefWeak<>(kvEntry.getKey()), kvEntry.getValue()));
         }
         
         @Override
@@ -196,7 +196,7 @@ public class WeakRefMap<K, V> extends AbstractMap<K, V>
         {
             if(!(o instanceof Map.Entry))
                 return false;
-            return this.delegate.remove(new MapEntry<>(new WeakRef<>(((Map.Entry<?, ?>)o).getKey()), ((Map.Entry<?, ?>)o).getValue()));
+            return this.delegate.remove(new MapEntry<>(new RefWeak<>(((Map.Entry<?, ?>)o).getKey()), ((Map.Entry<?, ?>)o).getValue()));
         }
     }
 }

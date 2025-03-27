@@ -70,6 +70,55 @@ public class CollectionUtil
         return collection;
     }
     
+    public static <T> Iterable<Ref<T>> each(List<T> list)
+    {
+        return ()->new Iterator<Ref<T>>()
+        {
+            final ListIterator<T> i = list.listIterator();
+            @Override
+            public boolean hasNext()
+            {
+                return this.i.hasNext();
+            }
+            @Override
+            public void remove()
+            {
+                this.i.remove();
+            }
+            @Override
+            public Ref<T> next()
+            {
+                int index = this.i.nextIndex();
+                return new RefStrong<T>(this.i.next())
+                {
+                    @Override
+                    public void set(T value)
+                    {
+                        if(i.previousIndex()!=index)
+                            throw new IllegalStateException();
+                        super.set(value);
+                        i.set(value);
+                    }
+                };
+            }
+        };
+    }
+    
+    public static List<Object> replace(String str, String src, Object tar)
+    {
+        List<Object> result = new ArrayList<>();
+        int i = 0, last = 0;
+        while((i=str.indexOf(src, i))!=-1)
+        {
+            result.add(str.substring(last, i));
+            result.add(tar);
+            i += src.length();
+            last = i;
+        }
+        result.add(str.substring(last));
+        return result;
+    }
+    
     public static <T> List<List<T>> split(List<T> list, T separator)
     {
         List<List<T>> result = new ArrayList<>();

@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ThreadLocalGrowingHashMap<K, V> extends ConcurrentHashMap<K, V>
 {
-    public ThreadLocal<Map<K, Optional<V>>> threadLocal = ThreadLocal.withInitial(WeakRefMap::new);
+    public ThreadLocal<Map<K, Optional<V>>> threadLocal = ThreadLocal.withInitial(MapRefWeak::new);
     
     @Override
     public V get(Object key)

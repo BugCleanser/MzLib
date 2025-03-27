@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.Pair;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.StrongRef;
+import mz.mzlib.util.RefStrong;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -70,7 +70,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
         tasks.add(task);
     }
     
-    StrongRef<Long> tickNumber = new StrongRef<>(0L);
+    RefStrong<Long> tickNumber = new RefStrong<>(0L);
     Queue<Pair<Long, Runnable>> waitingTasks = new PriorityBlockingQueue<>(11, Collections.reverseOrder(Pair.comparingByFirst()));
     
     @Override

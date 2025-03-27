@@ -49,7 +49,7 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
     
     public static <T> InvertibleFunction<T, Ref<T>> ref()
     {
-        return new InvertibleFunction<>(StrongRef::new, Ref::get);
+        return new InvertibleFunction<>(RefStrong::new, Ref::get);
     }
     
     public static <T> InvertibleFunction<T, Option<T>> option()

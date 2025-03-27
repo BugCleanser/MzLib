@@ -39,7 +39,7 @@ public class WrapperClassInfo
         return this.wrappedClass;
     }
     
-    public static Map<Class<? extends WrapperObject>, WeakRef<WrapperClassInfo>> cache = new WeakHashMap<>();
+    public static Map<Class<? extends WrapperObject>, RefWeak<WrapperClassInfo>> cache = new WeakHashMap<>();
     
     public void analyseWrappedClass()
     {
@@ -73,7 +73,7 @@ public class WrapperClassInfo
         return cache.computeIfAbsent(clazz, k->
         {
             WrapperClassInfo re = new WrapperClassInfo(clazz);
-            cache.put(clazz, new WeakRef<>(re));
+            cache.put(clazz, new RefWeak<>(re));
             if(ElementSwitcher.isEnabled(clazz))
             {
                 try
@@ -86,7 +86,7 @@ public class WrapperClassInfo
                 }
             }
             ClassUtil.makeReference(clazz.getClassLoader(), re);
-            return new WeakRef<>(re);
+            return new RefWeak<>(re);
         }).get();
     }
     

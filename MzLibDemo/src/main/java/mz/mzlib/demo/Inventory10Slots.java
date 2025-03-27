@@ -2,7 +2,7 @@ package mz.mzlib.demo;
 
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UIWindow;
@@ -90,7 +90,7 @@ public class Inventory10Slots extends MzModule
         @Override
         public Text getTitle(EntityPlayer player)
         {
-            return Text.literal(I18nMinecraft.getTranslation(player, "mzlibdemo.inventory10slots.title"));
+            return MinecraftI18n.resolveText(player, "mzlibdemo.inventory10slots.title");
         }
     }
 }

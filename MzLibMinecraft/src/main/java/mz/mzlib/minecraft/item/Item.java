@@ -380,7 +380,7 @@ public interface Item extends WrapperObject
     @VersionRange(end=1300)
     default String getTranslationKeyV_1300(ItemStack itemStack)
     {
-        VanillaI18nV_1300.lastKey.set(new StrongRef<>(null));
+        VanillaI18nV_1300.lastKey.set(new RefStrong<>(null));
         try
         {
             String ignored = this.getNameV_1400(itemStack);

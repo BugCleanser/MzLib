@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.*;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.ui.UIStack;
@@ -47,7 +47,7 @@ public class MzLibMinecraft extends MzModule
             
             this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
             
-            this.register(I18nMinecraft.instance);
+            this.register(MinecraftI18n.instance);
             
             this.register(new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));
             

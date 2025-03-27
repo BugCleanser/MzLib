@@ -371,7 +371,7 @@ public class ClassUtil
     {
         try
         {
-            StrongRef<byte[]> result = new StrongRef<>(null);
+            RefStrong<byte[]> result = new RefStrong<>(null);
             while(result.get()==null)
             {
                 ClassFileTransformer tr = new ClassFileTransformer()

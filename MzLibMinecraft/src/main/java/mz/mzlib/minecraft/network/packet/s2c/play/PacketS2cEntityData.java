@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.StrongRef;
+import mz.mzlib.util.RefStrong;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -163,7 +163,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @Override
     default Option<Object> getData(EntityDataKey type)
     {
-        StrongRef<Object> result = new StrongRef<>(null);
+        RefStrong<Object> result = new RefStrong<>(null);
         this.forEachData((t, value)->
         {
             if(t.equals(type))

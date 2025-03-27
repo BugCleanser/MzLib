@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.commands;
 
+import mz.mzlib.minecraft.MinecraftJsUtil;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
@@ -31,7 +32,7 @@ public class CommandMzLibJs extends MzModule
         this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("js").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(this::handle)));
     }
     
-    public Object scope = JsUtil.initScope();
+    public Object scope = MinecraftJsUtil.initScope();
     
     public void handle(CommandContext context)
     {

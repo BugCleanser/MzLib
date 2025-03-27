@@ -48,7 +48,7 @@ public class I18n
     {
         return defaultLanguage;
     }
-    public static String getTranslationDefault(String language, String key)
+    public static String getDefaultSource(String language, String key)
     {
         language = language.toLowerCase();
         for(I18n i: RegistrarI18n.instance.sortedI18ns)
@@ -59,26 +59,37 @@ public class I18n
         }
         return null;
     }
-    public static String getTranslation(String language, String key, String def)
+    @Deprecated
+    public static String getTranslationDefault(String language, String key)
+    {
+        return getDefaultSource(language, key);
+    }
+    public static String getSource(String language, String key, String def)
     {
         language = language.toLowerCase();
         String result = custom.get(language, key);
         if(result!=null)
             return result;
-        result = getTranslationDefault(language, key);
+        result = getDefaultSource(language, key);
         if(result!=null)
             return result;
         if(!Objects.equals(language, defaultLanguage.toLowerCase()))
             return getTranslation(defaultLanguage, key, def);
         return def;
     }
+    @Deprecated
+    public static String getTranslation(String language, String key, String def)
+    {
+        return getSource(language, key, def);
+    }
+    @Deprecated
     public static String getTranslation(String language, String key)
     {
         return getTranslation(language, key, key);
     }
     
-    public static Object scope = JsUtil.initSafeScope();
-    public static String getTranslationWithArgs(JsUtil.Settings settings, String language, String key, Object args)
+    public static Object scopeDefault = JsUtil.initSafeScope();
+    public static String resolve(JsUtil.Settings settings, Object scope, String language, String key, Object args)
     {
         String translation = getTranslation(language, key, null);
         if(translation==null)
@@ -92,9 +103,18 @@ public class I18n
             return "[Error]"+key+":"+e.getMessage();
         }
     }
-    public static String getTranslationWithArgs(String language, String key, Object args)
+    public static String resolve(String language, String key, Object args)
     {
-        return getTranslationWithArgs(JsUtil.Settings.def, language, key, args);
+        return resolve(JsUtil.Settings.def, scopeDefault, language, key, args);
+    }
+    public static String resolve(String language, String key)
+    {
+        return resolve(language, key, Collections.emptyMap());
+    }
+    @Deprecated
+    public static String getTranslationWithArgs(String language, String key, Map<String, Object> args)
+    {
+        return resolve(language, key, args);
     }
     
     public static Map<String, String> load(Properties properties)

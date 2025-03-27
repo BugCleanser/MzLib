@@ -5,11 +5,10 @@ import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.argument.ArgumentParserNbtCompound;
 import mz.mzlib.minecraft.command.argument.ArgumentParserPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
-import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
@@ -66,7 +65,7 @@ public class CommandGiveNbt extends MzModule
         for(String err: decode.getError())
         {
             context.successful = false;
-            context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", err))));
+            context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", err)));
         }
     }
 }

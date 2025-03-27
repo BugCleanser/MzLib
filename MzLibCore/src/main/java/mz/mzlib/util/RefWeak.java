@@ -3,12 +3,12 @@ package mz.mzlib.util;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
-public class WeakRef<T> implements Ref<T>
+public class RefWeak<T> implements Ref<T>
 {
     public WeakReference<T> ref;
     public int hashCode;
 
-    public WeakRef(T value)
+    public RefWeak(T value)
     {
         this.set(value);
     }

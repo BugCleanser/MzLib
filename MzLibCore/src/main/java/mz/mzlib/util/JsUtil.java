@@ -12,11 +12,16 @@ import java.util.stream.Stream;
 
 public class JsUtil
 {
+    public static Object newObject(Settings settings, Object scope)
+    {
+        try(Context context = settings.enterContext())
+        {
+            return context.newObject((Scriptable)scope);
+        }
+    }
     public static Object newObject(Object scope)
     {
-        NativeObject result = new NativeObject();
-        ScriptRuntime.setBuiltinProtoAndParent(result, (Scriptable)scope, TopLevel.Builtins.Object);
-        return result;
+        return newObject(Settings.def, scope);
     }
     
     public static Object initSafeScope(Settings settings)
@@ -75,14 +80,18 @@ public class JsUtil
         put(obj, key, wrap(settings, obj, value));
     }
     
-    public static Object mapToObject(Object scope, Map<String, Object> map)
+    public static Object mapToObject(Settings settings, Object scope, Map<String, ?> map)
     {
-        Object result = newObject(scope);
-        for(Map.Entry<String, Object> e: map.entrySet())
+        Object result = newObject(settings, scope);
+        for(Map.Entry<String, ?> e: map.entrySet())
         {
-            put(result, e.getKey(), e.getValue());
+            put(settings, result, e.getKey(), e.getValue());
         }
         return result;
+    }
+    public static Object mapToObject(Object scope, Map<String, Object> map)
+    {
+        return mapToObject(Settings.def, scope, map);
     }
     
     public static Object wrap(Settings settings, Object scope, Object obj)
@@ -95,6 +104,17 @@ public class JsUtil
     public static Object wrap(Object scope, Object obj)
     {
         return wrap(Settings.def, scope, obj);
+    }
+    public static Object wrapClass(Settings settings, Object scope, Class<?> obj)
+    {
+        try(Context context = settings.enterContext())
+        {
+            return context.getWrapFactory().wrapJavaClass(context, (Scriptable)scope, obj);
+        }
+    }
+    public static Object wrapClass(Object scope, Class<?> obj)
+    {
+        return wrapClass(Settings.def, scope, obj);
     }
     
     public static Object parseJson(Settings settings, Object scope, String json) throws Exception
@@ -222,7 +242,7 @@ public class JsUtil
             for(Map.Entry<Class<?>, Object> e: this.settings.proxies.entrySet())
             {
                 if(e.getKey().isInstance(javaObject))
-                    return new NativeJavaObjectProxy(javaObject, (Scriptable)JsUtil.wrap(scope, e.getValue()));
+                    return new NativeJavaObjectProxy(javaObject, (Scriptable)JsUtil.wrap(this.settings, scope, e.getValue()));
             }
             if(javaObject instanceof Function)
                 return (Scriptable)function((Function)javaObject);
@@ -285,7 +305,10 @@ public class JsUtil
         @Override
         public Object getDefaultValue(Class<?> hint)
         {
-            return this.proxy.getDefaultValue(hint);
+            if(this.proxy instanceof ScriptableObject)
+                return ScriptableObject.getDefaultValue(this, hint);
+            else
+                return this.proxy.getDefaultValue(hint);
         }
     }
 }

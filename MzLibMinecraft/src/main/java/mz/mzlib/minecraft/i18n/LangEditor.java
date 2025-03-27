@@ -39,7 +39,7 @@ public class LangEditor extends UIWrittenBook
         this.node = node;
         if(this.node!=null)
         {
-            this.buttonSet = this.newButton(player->UIWindowAnvilInput.invoke(player, escape(I18n.getTranslation(this.lang, this.node, "")), Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.custom.set.title", Collections.singletonMap("node", this.node)))).whenComplete((r, e)->
+            this.buttonSet = this.newButton(player->UIWindowAnvilInput.invoke(player, escape(I18n.getSource(this.lang, this.node, "")), MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom.set.title", Collections.singletonMap("node", this.node))).whenComplete((r, e)->
             {
                 if(e!=null)
                     throw RuntimeUtil.sneakilyThrow(e);
@@ -50,17 +50,17 @@ public class LangEditor extends UIWrittenBook
                 }
                 catch(Throwable e1)
                 {
-                    player.sendMessage(Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.custom.set.failure.unescape", Collections.singletonMap("escaped", escape(r)))));
+                    player.sendMessage(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom.set.failure.unescape", Collections.singletonMap("escaped", escape(r))));
                     return;
                 }
                 I18n.custom.map.computeIfAbsent(this.lang, k->new ConcurrentHashMap<>()).put(this.node, u);
-                I18nMinecraft.saveCustomLanguage(this.lang);
+                MinecraftI18n.saveCustomLanguage(this.lang);
                 UIStack.get(player).back();
             }));
             this.buttonRemove = this.newButton(player->
             {
                 I18n.custom.map.computeIfAbsent(this.lang, k->new ConcurrentHashMap<>()).remove(this.node);
-                I18nMinecraft.saveCustomLanguage(this.lang);
+                MinecraftI18n.saveCustomLanguage(this.lang);
                 this.open(player);
             });
         }
@@ -74,39 +74,39 @@ public class LangEditor extends UIWrittenBook
         List<Text> homepage = new ArrayList<>();
         if(this.node==null)
         {
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.title")));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.title"));
             homepage.add(Text.literal("\n"));
-            homepage.add(Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.lang", Collections.singletonMap("lang", this.lang))));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.lang", Collections.singletonMap("lang", this.lang)));
             homepage.add(Text.literal("\n"));
         }
         else
         {
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back")).setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.back.lore.node", Collections.singletonMap("parent", this.node.substring(0, this.node.lastIndexOf('.')))) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".") ? " "+this.node.substring(0, this.node.lastIndexOf('.')) : ""))));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.back").setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.node", Collections.singletonMap("parent", this.node.substring(0, this.node.lastIndexOf('.')))) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".") ? " "+this.node.substring(0, this.node.lastIndexOf('.')) : ""))));
             homepage.add(Text.literal("\n"));
-            homepage.add(Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.node", Collections.singletonMap("node", this.node))));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.node", Collections.singletonMap("node", this.node)));
             homepage.add(Text.literal("\n"));
             homepage.add(Text.literal("\n"));
-            String def = I18n.getTranslationDefault(this.lang, this.node);
-            homepage.add(Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.default", Collections.singletonMap("value", def!=null ? escape(def) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default.null")))).setHoverEvent(TextHoverEvent.showText(Text.literal(def!=null ? I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.default.lore", Collections.singletonMap("value", def)) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.default.lore.null")))));
+            String def = I18n.getDefaultSource(this.lang, this.node);
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.default", Collections.singletonMap("value", def!=null ? escape(def) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.default.null"))).setHoverEvent(TextHoverEvent.showText(Text.literal(def!=null ? MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.default.lore", Collections.singletonMap("value", def)) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.default.lore.null")))));
             homepage.add(Text.literal("\n"));
             String custom = I18n.custom.get(this.lang, this.node);
-            homepage.add(Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.custom", Collections.singletonMap("value", (custom!=null ? escape(custom) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.null"))))).setHoverEvent(TextHoverEvent.showText(Text.literal(custom!=null ? I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.homepage.custom.lore", Collections.singletonMap("value", custom)) : I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.lore.null")))));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom", Collections.singletonMap("value", (custom!=null ? escape(custom) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.custom.null")))).setHoverEvent(TextHoverEvent.showText(Text.literal(custom!=null ? MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.custom.lore", Collections.singletonMap("value", custom)) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.custom.lore.null")))));
             homepage.add(Text.literal("\n"));
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.set")).setHoverEvent(TextHoverEvent.showText(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.set.lore")))).setClickEvent(buttonClickEvent(this.buttonSet)));
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.gap")));
-            homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.remove")).setHoverEvent(TextHoverEvent.showText(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.custom.remove.lore")))).setClickEvent(buttonClickEvent(this.buttonRemove)));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom.set").setHoverEvent(TextHoverEvent.showText(Text.literal(MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.custom.set.lore")))).setClickEvent(buttonClickEvent(this.buttonSet)));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom.gap"));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.custom.remove").setHoverEvent(TextHoverEvent.showText(Text.literal(MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.custom.remove.lore")))).setClickEvent(buttonClickEvent(this.buttonRemove)));
             homepage.add(Text.literal("\n"));
         }
-        homepage.add(Text.literal(I18nMinecraft.getTranslation(player, "mzlib.lang.editor.homepage.tips")));
+        homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.tips"));
         pages.add(Text.literal("").setExtra(homepage));
-        pages.addAll(ItemWrittenBook.makePages(childNodes.stream().map(n->Text.literal(I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.list.node", Collections.singletonMap("node", n))+'\n').setHoverEvent(TextHoverEvent.showText(Text.literal //
+        pages.addAll(ItemWrittenBook.makePages(childNodes.stream().map(n->Text.literal("").addExtra(MinecraftI18n.resolveText(player, "mzlib.lang.editor.list.node", Collections.singletonMap("node", n)).setHoverEvent(TextHoverEvent.showText(Text.literal //
                 ( //
-                        I18nMinecraft.getTranslationWithArgs(player, "mzlib.lang.editor.list.node.lore", MapBuilder.hashMap() //
+                        MinecraftI18n.resolve(player, "mzlib.lang.editor.list.node.lore", MapBuilder.hashMap() //
                                 .put("key", this.node!=null ? this.node+"."+n : n) //
-                                .put("translation", escape(I18n.getTranslation(this.lang, this.node!=null ? this.node+"."+n : n, ""))) //
-                                .put("children", getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->MapBuilder.hashMap().put("node", m).put("translation", escape(I18n.getTranslation(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, ""))).get()).toArray()) //
+                                .put("translation", escape(I18n.getSource(this.lang, this.node!=null ? this.node+"."+n : n, ""))) //
+                                .put("children", getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->MapBuilder.hashMap().put("node", m).put("translation", escape(I18n.getSource(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, ""))).get()).toArray()) //
                                 .get()) //
-                ))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n))).collect(Collectors.toList())));
+                ))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n)), Text.literal("\n"))).collect(Collectors.toList())));
         return pages;
     }
     

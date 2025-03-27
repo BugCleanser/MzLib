@@ -1,10 +1,10 @@
 package mz.mzlib.demo.game.tictactoe;
 
 import mz.mzlib.demo.Demo;
-import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.nbt.NbtCompound;
@@ -59,8 +59,8 @@ public class Tictactoe extends MzModule
         {
             super(WindowType.CRAFTING, 10);
             
-            PLAYER = new ItemStackBuilder(MinecraftPlatform.instance.getVersion()<1000 ? "ender_eye" : "structure_void").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))).get();
-            AI = new ItemStackBuilder("barrier").setCustomName(Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))).get();
+            PLAYER = new ItemStackBuilder(MinecraftPlatform.instance.getVersion()<1000 ? "ender_eye" : "structure_void").setCustomName(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player")).get();
+            AI = new ItemStackBuilder("barrier").setCustomName(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai")).get();
             
             this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i<9; i++)
@@ -192,7 +192,7 @@ public class Tictactoe extends MzModule
         @Override
         public Text getTitle(EntityPlayer player)
         {
-            return Text.literal(I18n.getTranslation(player.getLanguage(), "mzlibdemo.game.tictactoe.title"));
+            return MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.title");
         }
     }
 }

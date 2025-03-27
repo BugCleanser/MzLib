@@ -20,6 +20,6 @@ public interface Ref<T>
     
     default <U> Ref<U> map(Function<? super T, ? extends U> action)
     {
-        return new StrongRef<>(action.apply(get()));
+        return new RefStrong<>(action.apply(get()));
     }
 }

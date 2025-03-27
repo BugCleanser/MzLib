@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.command.argument;
 
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.CommandSource;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.util.MapBuilder;
 
 public class ArgumentParserString extends ArgumentParser<String>
@@ -18,7 +18,7 @@ public class ArgumentParserString extends ArgumentParser<String>
     }
     public ArgumentParserString(CommandSource source, boolean allowSpace, String... presets)
     {
-        this(I18nMinecraft.getTranslationWithArgs(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("enum", presets).get()), allowSpace, presets);
+        this(MinecraftI18n.resolve(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("enum", presets).get()), allowSpace, presets);
     }
     
     @Override

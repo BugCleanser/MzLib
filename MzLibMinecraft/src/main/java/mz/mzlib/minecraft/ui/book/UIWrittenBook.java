@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.i18n.I18nMinecraft;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
@@ -66,7 +66,7 @@ public abstract class UIWrittenBook implements UI
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, source->UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ? null : Text.literal(I18nMinecraft.getTranslation(source, "mzlib.commands.mzlib.book_click.error.not_opening"))).setHandler(context->
+            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, source->UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ? null : MinecraftI18n.resolveText(source, "mzlib.commands.mzlib.book_click.error.not_opening")).setHandler(context->
             {
                 Integer button = new ArgumentParserInt("button").handle(context);
                 if(context.argsReader.hasNext())
@@ -78,7 +78,7 @@ public abstract class UIWrittenBook implements UI
                 if(button<0 || button>=buttons.size())
                 {
                     context.successful = false;
-                    context.getSource().sendMessage(Text.literal(I18nMinecraft.getTranslation(context.getSource(), "mzlib.commands.mzlib.book_click.error.invalid_button_index")));
+                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.book_click.error.invalid_button_index"));
                     UIStack.get(sender).top().open(sender);
                     return;
                 }

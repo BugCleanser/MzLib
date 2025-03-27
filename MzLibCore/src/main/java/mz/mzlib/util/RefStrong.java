@@ -2,11 +2,11 @@ package mz.mzlib.util;
 
 import java.util.Objects;
 
-public class StrongRef<T> implements Ref<T>
+public class RefStrong<T> implements Ref<T>
 {
     public T target;
     
-    public StrongRef(T value)
+    public RefStrong(T value)
     {
         set(value);
     }
