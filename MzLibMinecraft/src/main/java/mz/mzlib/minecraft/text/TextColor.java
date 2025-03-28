@@ -38,6 +38,11 @@ public class TextColor
         this(null, v1600);
     }
     
+    public static TextColor fromRgbV1600(int rgb)
+    {
+        return new TextColor(TextColorV1600.fromRgb(rgb));
+    }
+    
     public TextFormatLegacy getLegacy()
     {
         return this.legacy;

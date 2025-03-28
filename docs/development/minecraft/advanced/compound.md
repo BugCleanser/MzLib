@@ -1,6 +1,6 @@
 # Compound类
 
-Compound类是基于包装类的，请确保你已经学习了[使用和创建包装类](./wrapper.md)
+Compound类是基于包装类的，请确保你已经学习了[使用和创建包装类](wrapper.md)
 
 Compound类的主要作用是继承包装类和多继承
 

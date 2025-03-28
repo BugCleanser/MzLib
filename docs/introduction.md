@@ -1,8 +1,8 @@
 # MzLib
 
-MzLib 是一个充满魔法的 Minecraft 插件，主要包含以下三个模块：
-
 ## 模块介绍
+
+MzLib 是一个充满魔法的 Minecraft 插件，主要包含以下三个模块：
 
 ### MzLibCore
 

@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Optional;
@@ -37,14 +38,14 @@ public interface TextSelector extends WrapperObject
     TextSelector staticNewInstanceV_1700(String pattern);
     @VersionRange(begin=1700, end=2102)
     @WrapConstructor
-    TextSelector staticNewInstance0V1700_2102(String pattern, Optional<?> separator0);
-    static TextSelector newInstance0V1700_2102(String pattern, Optional<?> separator0)
+    TextSelector staticNewInstance0V1700_2102(String pattern, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
+    static TextSelector newInstance0V1700_2102(String pattern, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0)
     {
         return create(null).staticNewInstance0V1700_2102(pattern, separator0);
     }
-    static TextSelector newInstanceV1700_2102(String pattern, Text separator)
+    static TextSelector newInstanceV1700_2102(String pattern, Option<Text> separator)
     {
-        return newInstance0V1700_2102(pattern, Optional.ofNullable(separator).map(Text::getWrapped));
+        return newInstance0V1700_2102(pattern, separator.map(Text::getWrapped).toOptional());
     }
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1700, end=2102)
@@ -64,8 +65,8 @@ public interface TextSelector extends WrapperObject
     String getPatternV_2102();
     @WrapMinecraftFieldAccessor(@VersionName(name="separator", begin=1700))
     Optional<?> getSeparator0V1700();
-    default Text getSeparatorV1700()
+    default Option<Text> getSeparatorV1700()
     {
-        return Text.create(this.getSeparator0V1700().orElse(null));
+        return Option.fromOptional(this.getSeparator0V1700()).map(Text.FACTORY::create);
     }
 }
