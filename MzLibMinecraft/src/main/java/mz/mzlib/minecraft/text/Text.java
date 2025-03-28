@@ -11,6 +11,8 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.JsUtil;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -20,6 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text")})
 public interface Text extends WrapperObject
@@ -54,7 +57,7 @@ public interface Text extends WrapperObject
         return create(null).staticLiteral(str);
     }
     
-    static Text fromLiteral(String literal)
+    static Text fromLegacy(String literal)
     {
         return literal(literal); // FIXME
     }
@@ -570,7 +573,7 @@ public interface Text extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getContent", begin=1900))
     TextContentV1900 getContentV1900();
     
-    default String toLiteral()
+    default String toLegacy()
     {
         String result = this.getLiteral();
         if(result!=null)
@@ -661,5 +664,101 @@ public interface Text extends WrapperObject
         {
             return this.staticDecodeV2005(json, MinecraftServer.instance.getRegistriesV1602());
         }
+    }
+    
+    /**
+     * Use in js
+     */
+    @Deprecated
+    default Text set(Map<String, Object> prop)
+    {
+        for(Map.Entry<String, Object> e: prop.entrySet())
+        {
+            switch(e.getKey())
+            {
+                case "color":
+                    this.setColor((TextColor)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "bold":
+                    this.setBold((Boolean)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "italic":
+                    this.setItalic((Boolean)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "underlined":
+                    this.setUnderlined((Boolean)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "strikethrough":
+                    this.setStrikethrough((Boolean)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "obfuscated":
+                    this.setObfuscated((Boolean)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "clickEvent":
+                    this.setClickEvent((TextClickEvent)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "hoverEvent":
+                    this.setHoverEvent((TextHoverEvent)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "insertion":
+                    this.setInsertion((String)JsUtil.toJvm(e.getValue()));
+                    break;
+                case "extra":
+                    this.setExtra(RuntimeUtil.cast(JsUtil.toJvm(e.getValue())));
+                    break;
+                default:
+                    throw new IllegalArgumentException(prop.toString());
+            }
+        }
+        return this;
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text literal(String value, Map<String, Object> prop)
+    {
+        return literal(value).set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text translatable(String key, Map<String, Object> prop)
+    {
+        return translatable(key).set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text translatable(String key, Text[] args, Map<String, Object> prop)
+    {
+        return translatable(key, args).set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text score(Void todo, Map<String, Object> prop)
+    {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text selector(String pattern, Map<String, Object> prop)
+    {
+        return selector(TextSelector.newInstance(pattern)).set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    static Text keybindV1200(String key, Map<String, Object> prop)
+    {
+        return keybindV1200(key).set(prop);
     }
 }

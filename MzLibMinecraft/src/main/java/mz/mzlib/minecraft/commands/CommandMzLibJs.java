@@ -43,6 +43,7 @@ public class CommandMzLibJs extends MzModule
             return;
         try
         {
+            JsUtil.put(this.scope, "context", context);
             Object result = JsUtil.eval(this.scope, code);
             if(result instanceof NativeJavaObject)
                 result = result.getClass().getSimpleName()+": "+((NativeJavaObject)result).unwrap();

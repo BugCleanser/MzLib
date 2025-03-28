@@ -1,5 +1,5 @@
 var game = {
     tictactoe: {
-        reward: '{id:"apple", Count:1b}'
+        reward: new ItemStackBuilder('apple'){count: 1}.get()
     }
 }

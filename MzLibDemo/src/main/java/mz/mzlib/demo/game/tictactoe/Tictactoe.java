@@ -7,9 +7,7 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemStackBuilder;
-import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.window.UIWindow;
 import mz.mzlib.minecraft.ui.window.WindowSlotButton;
@@ -18,8 +16,6 @@ import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.Result;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -172,13 +168,9 @@ public class Tictactoe extends MzModule
                 if(checkWin())
                 {
                     this.finished = true;
-                    Result<Option<ItemStack>, String> decode = ItemStack.decode(NbtCompound.parse(Demo.instance.config.getString("game.tictactoe.reward")));
-                    for(String msg: decode.getError())
-                        player.sendMessage(Text.literal(msg).setColor(TextColor.RED));
-                    for(ItemStack itemStack: decode.getValue())
-                        this.inventory.setItemStack(0, itemStack);
+                    this.inventory.setItemStack(0, (ItemStack)Demo.instance.config.get("game.tictactoe.reward"));
                     player.closeInterface();
-                    this.open(player); // FIXME
+                    this.open(player);
                 }
                 else
                 {

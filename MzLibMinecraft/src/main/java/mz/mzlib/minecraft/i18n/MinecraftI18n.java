@@ -97,6 +97,8 @@ public class MinecraftI18n extends MzModule
     static
     {
         MinecraftJsUtil.initText(scope);
+        MinecraftJsUtil.initItem(scope);
+        MinecraftJsUtil.initNbt(scope);
     }
     public static Text resolveText(String language, String key, Object args)
     {

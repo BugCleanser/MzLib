@@ -5,11 +5,12 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.InvertibleMap;
+import mz.mzlib.util.JsUtil;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
 
 public class ItemStackBuilder
 {
@@ -258,5 +259,71 @@ public class ItemStackBuilder
             else
                 return super.lightGray();
         }
+    }
+    
+    /**
+     * Use in js
+     */
+    @Deprecated
+    public ItemStackBuilder(Item item, Map<String, Object> prop)
+    {
+        this(item);
+        this.set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    public ItemStackBuilder(Identifier id, Map<String, Object> prop)
+    {
+        this(id);
+        this.set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    public ItemStackBuilder(String id, Map<String, Object> prop)
+    {
+        this(id);
+        this.set(prop);
+    }
+    /**
+     * Use in js
+     */
+    @Deprecated
+    public ItemStackBuilder set(Map<String, Object> prop)
+    {
+        for(Map.Entry<String, Object> e: prop.entrySet())
+        {
+            Object value = Objects.requireNonNull(JsUtil.toJvm(e.getValue()));
+            switch(e.getKey())
+            {
+                case "count":
+                    this.setCount(((Number)value).intValue());
+                    break;
+                case "damage":
+                    if(MinecraftPlatform.instance.getVersion()<1300)
+                        this.setDamageV_1300(((Number)value).intValue());
+                    break;
+                case "customName":
+                    if(value instanceof Text)
+                        this.setCustomName((Text)value);
+                    else
+                        this.setCustomName(Text.literal(value.toString()));
+                    break;
+                case "lore":
+                    this.setLore(RuntimeUtil.<List<Object>>cast(value).stream().map(o->
+                    {
+                        if(o instanceof Text)
+                            return (Text)o;
+                        return Text.literal(o.toString());
+                    }).toArray(Text[]::new));
+                    break;
+                default:
+                    throw new IllegalArgumentException(prop.toString());
+            }
+        }
+        return this;
     }
 }

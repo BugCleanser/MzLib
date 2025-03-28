@@ -146,7 +146,7 @@ public interface Item extends WrapperObject
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNBTCompound("display"))
                 for(String name: display.getString("Name"))
-                    return Option.some(Text.fromLiteral(name));
+                    return Option.some(Text.fromLegacy(name));
         return Option.none();
     }
     
@@ -181,7 +181,7 @@ public interface Item extends WrapperObject
     {
         for(Text customName: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLiteral()));
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLegacy()));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())
@@ -251,7 +251,7 @@ public interface Item extends WrapperObject
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNBTCompound("display"))
                 for(NbtList lore: display.getNBTList("Lore"))
-                    return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::fromLiteral).collect(Collectors.toList()));
+                    return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::fromLegacy).collect(Collectors.toList()));
         return Option.none();
     }
     
@@ -307,7 +307,7 @@ public interface Item extends WrapperObject
     {
         for(List<Text> lore: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLiteral).map(NbtString::newInstance).toArray(NbtString[]::new)));
+            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLegacy).map(NbtString::newInstance).toArray(NbtString[]::new)));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())

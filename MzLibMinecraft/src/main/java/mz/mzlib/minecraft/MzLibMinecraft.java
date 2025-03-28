@@ -40,7 +40,7 @@ public class MzLibMinecraft extends MzModule
         {
             try(InputStream is = IOUtil.openFileInZip(MinecraftPlatform.instance.getMzLibJar(), "config.js"))
             {
-                this.config = Config.loadJs(is, new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.js"));
+                this.config = Config.loadJs(MinecraftJsUtil.initScope(), is, new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.js"));
             }
             
             this.register(ModuleMapStackTrace.instance);

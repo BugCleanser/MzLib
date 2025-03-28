@@ -57,7 +57,7 @@ public interface Entity extends WrapperObject
     EntityDataKey staticDataKeyCustomNameV900();
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
-            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLiteral, Text::fromLiteral).thenCast() : //
+            MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLegacy, Text::fromLegacy).thenCast() : //
                     InvertibleFunction.wrapper(Text.FACTORY).invert().thenApply(InvertibleFunction.optional()).thenCast());
     
     /**

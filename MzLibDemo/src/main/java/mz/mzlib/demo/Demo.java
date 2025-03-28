@@ -2,6 +2,7 @@ package mz.mzlib.demo;
 
 import mz.mzlib.demo.game.tictactoe.Tictactoe;
 import mz.mzlib.i18n.I18n;
+import mz.mzlib.minecraft.MinecraftJsUtil;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
@@ -31,7 +32,7 @@ public class Demo extends MzModule
         {
             try(InputStream is = IOUtil.openFileInZip(this.jar, "config.js"))
             {
-                this.config = Config.loadJs(is, new File(this.dataFolder, "config.js"));
+                this.config = Config.loadJs(MinecraftJsUtil.initScope(), is, new File(this.dataFolder, "config.js"));
             }
             
             this.register(this.permission);

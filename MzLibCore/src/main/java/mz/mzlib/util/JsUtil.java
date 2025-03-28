@@ -155,6 +155,14 @@ public class JsUtil
             return RuntimeUtil.<List<Object>>cast(obj).stream().map(JsUtil::toJvm).collect(Collectors.toList());
         else if(obj instanceof NativeObject)
             return RuntimeUtil.<Map<String, Object>>cast(obj).entrySet().stream().map(e->new Pair<>(e.getKey(), toJvm(e.getValue()))).filter(p->p.getFirst()!=null&&p.getSecond()!=null).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+        else if(obj instanceof Callable)
+            return (Function)(settings, scope, thisObj, args)->
+            {
+                try(Context context = settings.enterContext())
+                {
+                    return ((Callable)obj).call(context, (Scriptable)scope, (Scriptable)thisObj, args);
+                }
+            };
         else
             throw new IllegalArgumentException(obj.toString());
     }
@@ -211,6 +219,7 @@ public class JsUtil
                     }
                 }
             }.enterContext();
+            context.setLanguageVersion(Context.VERSION_ES6);
             context.setWrapFactory(this.wrapFactory);
             return context;
         }

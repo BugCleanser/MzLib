@@ -92,7 +92,10 @@ public class Config
     }
     public static Config loadJs(InputStream def, File file) throws Exception
     {
-        Object scope = JsUtil.initScope();
+        return loadJs(JsUtil.initScope(), def, file);
+    }
+    public static Config loadJs(Object scope, InputStream def, File file) throws Exception
+    {
         Object ignored = JsUtil.eval(scope, new String(IOUtil.readAll(def), StandardCharsets.UTF_8));
         if(file.isFile())
         {
