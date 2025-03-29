@@ -138,4 +138,4 @@ command.setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.perm
 
 ## 进阶
 
-命令系统的进阶用法参见[进阶教程](../advanced/command.md)
+命令系统的进阶用法参见[进阶教程](../command.md)

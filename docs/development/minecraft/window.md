@@ -1,6 +1,6 @@
 # 窗口
 
-在此之前，请确保你已经学习了[Compound类](compound.md)
+在此之前，请确保你已经学习了[Compound类](../core/compound.md)
 
 在Bukkit中，一个物品栏可以被玩家直接打开，但在原版中并非如此
 
