@@ -26,6 +26,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NothingRegistration
@@ -151,7 +152,8 @@ public class NothingRegistration
                     operations.add(new MapEntry<>(ni.priority(), ()->
                     {
                         MethodNode mn = AsmUtil.getMethodNode(cn, AsmUtil.getName(m), AsmUtil.getDesc(m));
-                        assert mn!=null;
+                        if(mn==null)
+                            throw new AssertionError("Can not find "+AsmUtil.getName(m)+AsmUtil.getDesc(m)+" in "+cn.methods.stream().map(n->n.name+n.desc).collect(Collectors.toList()));
                         NothingInjectLocating locating = new NothingInjectLocating(raws.get(mn));
                         try
                         {

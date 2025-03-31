@@ -13,8 +13,6 @@ public class MzLibFabricInitializer extends MzModule implements ModInitializer
         instance = this;
     }
     
-    public String MOD_ID = "mzlib";
-    
     @Override
     public void onInitialize()
     {
@@ -25,7 +23,7 @@ public class MzLibFabricInitializer extends MzModule implements ModInitializer
     public void onLoad()
     {
         this.register(MzLib.instance);
-        this.register(MinecraftPlatformFabric.instance);
+        this.register(new MinecraftPlatformFabric());
         this.register(MzLibMinecraftInitializer.instance);
     }
 }

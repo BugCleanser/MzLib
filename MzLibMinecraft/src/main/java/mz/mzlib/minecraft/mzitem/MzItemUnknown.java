@@ -14,7 +14,7 @@ public interface MzItemUnknown extends MzItem
     @Override
     default Identifier staticGetMzId()
     {
-        return Identifier.newInstance(MzLibMinecraft.instance.modId, "unknown");
+        return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "unknown");
     }
     
     @Override

@@ -8,6 +8,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapFieldAccessor;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +16,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
-import java.util.Arrays;
+import java.lang.reflect.Method;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -39,33 +40,77 @@ public @interface WrapMinecraftFieldAccessor
         }
         
         @Override
-        public Member find(Class<?> wrappedClass, WrapMinecraftFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapMinecraftFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
-            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(name-> //
-                    name.remap()?MinecraftPlatform.instance.getMappings().inverse().mapField(MinecraftPlatform.instance.getMappings().mapClass(wrappedClass.getName()), name.name()):name.name()).toArray(String[]::new);
-            if(names.length==0)
-                return null;
-            try
+            NoSuchFieldException lastException = null;
+            l1:
+            for(VersionName name: annotation.value())
             {
-                return WrapFieldAccessor.Handler.class.newInstance().find(wrappedClass, new WrapFieldAccessor()
+                if(name.remap())
                 {
-                    @Override
-                    public Class<WrapFieldAccessor> annotationType()
+                    for(String className: WrapMinecraftClass.Handler.getName(wrapperClass))
                     {
-                        return WrapFieldAccessor.class;
+                        try
+                        {
+                            return WrapFieldAccessor.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
+                            {
+                                @Override
+                                public Class<WrapFieldAccessor> annotationType()
+                                {
+                                    return WrapFieldAccessor.class;
+                                }
+                                
+                                @Override
+                                public String[] value()
+                                {
+                                    return new String[]{MinecraftPlatform.instance.getMappings().inverse().mapField(className, name.name())};
+                                }
+                            }, returnType, argTypes);
+                        }
+                        catch(NoSuchFieldException e)
+                        {
+                            lastException = e;
+                            continue l1;
+                        }
+                        catch(InstantiationException|IllegalAccessException e)
+                        {
+                            throw RuntimeUtil.sneakilyThrow(e);
+                        }
                     }
-                    
-                    @Override
-                    public String[] value()
+                    assert false;
+                }
+                else
+                {
+                    try
                     {
-                        return names;
+                        return WrapFieldAccessor.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
+                        {
+                            @Override
+                            public Class<WrapFieldAccessor> annotationType()
+                            {
+                                return WrapFieldAccessor.class;
+                            }
+                            
+                            @Override
+                            public String[] value()
+                            {
+                                return new String[]{name.name()};
+                            }
+                        }, returnType, argTypes);
                     }
-                }, returnType, argTypes);
+                    catch(NoSuchFieldException e)
+                    {
+                        lastException = e;
+                    }
+                    catch(InstantiationException|IllegalAccessException e)
+                    {
+                        throw RuntimeUtil.sneakilyThrow(e);
+                    }
+                }
             }
-            catch(InstantiationException|IllegalAccessException e)
-            {
-                throw RuntimeUtil.sneakilyThrow(e);
-            }
+            if(lastException != null)
+                throw lastException;
+            return null;
         }
     }
 }

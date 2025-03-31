@@ -3,12 +3,14 @@ package mz.mzlib.util.compound;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -21,7 +23,7 @@ public @interface PropAccessor
     class Handler implements WrappedMemberFinder<PropAccessor>
     {
         @Override
-        public Member find(Class<?> wrappedClass, PropAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, PropAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
             switch (argTypes.length)

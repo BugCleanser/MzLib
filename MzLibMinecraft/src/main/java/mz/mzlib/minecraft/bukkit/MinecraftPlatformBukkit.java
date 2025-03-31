@@ -3,7 +3,9 @@ package mz.mzlib.minecraft.bukkit;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.fabric.MinecraftPlatformFabric;
 import mz.mzlib.minecraft.mappings.*;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,6 +17,8 @@ import java.util.List;
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
     public static MinecraftPlatformBukkit instance = new MinecraftPlatformBukkit();
+    
+    public Option<MinecraftPlatformFabric> fabric;
     
     @Override
     public String getLanguage(EntityPlayer player)
@@ -37,6 +41,32 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     public String protocolVersion;
     
     {
+        if(RuntimeUtil.runAndCatch(()->Class.forName("net.fabricmc.api.ModInitializer"))==null)
+            this.fabric = Option.some(new MinecraftPlatformFabric()
+            {
+                @Override
+                public String getVersionString()
+                {
+                    return MinecraftPlatformBukkit.this.getVersionString();
+                }
+                @Override
+                public String getLanguage(EntityPlayer player)
+                {
+                    return MinecraftPlatformBukkit.this.getLanguage(player);
+                }
+                @Override
+                public File getMzLibJar()
+                {
+                    return MinecraftPlatformBukkit.this.getMzLibJar();
+                }
+                @Override
+                public File getMzLibDataFolder()
+                {
+                    return MinecraftPlatformBukkit.this.getMzLibDataFolder();
+                }
+            });
+        else
+            this.fabric = Option.none();
         String packageName = Bukkit.getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit".length());
         protocolVersion = packageName.isEmpty() ? null : packageName.substring(".".length());
     }
@@ -82,6 +112,10 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     @Override
     public Mappings<?> getMappings()
     {
+        for(MinecraftPlatformFabric minecraftPlatformFabric: this.fabric)
+        {
+            return minecraftPlatformFabric.getMappings();
+        }
         if(this.mappings!=null)
             return this.mappings;
         try

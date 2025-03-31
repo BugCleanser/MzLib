@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
@@ -25,7 +26,7 @@ public @interface WrapFieldAccessor
     class Handler implements WrappedMemberFinder<WrapFieldAccessor>
     {
         @Override
-        public Member find(Class<?> wrappedClass, WrapFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
             switch (argTypes.length)

@@ -42,24 +42,39 @@ public @interface WrapMinecraftInnerClass
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftInnerClass annotation) throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            Class<?> superClass = WrapperObject.getWrappedClass(annotation.outer());
-            if(superClass==null)
-                return null;
-            String superName = MinecraftPlatform.instance.getMappings().mapClass(superClass.getName());
+            
             ClassNotFoundException lastException = null;
-            for(VersionName i: annotation.name())
+            for(VersionName inner: annotation.name())
             {
-                if(!MinecraftPlatform.instance.inVersion(i))
+                if(!MinecraftPlatform.instance.inVersion(inner))
                     continue;
-                try
+                if(inner.remap())
                 {
-                    return Class.forName(i.remap() ? MinecraftPlatform.instance.getMappings().inverse().mapClass(superName+"$"+i.name()) : (superName+"$"+i.name()), false, classLoader);
+                    for(String outer: WrapMinecraftClass.Handler.getName(annotation.outer()))
+                    {
+                        try
+                        {
+                            return Class.forName(MinecraftPlatform.instance.getMappings().inverse().mapClass(outer+"$"+inner.name()), false, classLoader);
+                        }
+                        catch(ClassNotFoundException e)
+                        {
+                            lastException = e;
+                        }
+                    }
                 }
-                catch(ClassNotFoundException e)
+                else
                 {
-                    lastException = e;
+                    try
+                    {
+                        return Class.forName(MinecraftPlatform.instance.getMappings().inverse().mapClass(WrapperObject.getWrappedClass(annotation.outer()).getName()+"$"+inner.name()), false, classLoader);
+                    }
+                    catch(ClassNotFoundException e)
+                    {
+                        lastException = e;
+                    }
                 }
             }
+            
             if(lastException!=null)
                 throw lastException;
             return null;

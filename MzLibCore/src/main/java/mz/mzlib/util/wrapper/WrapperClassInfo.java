@@ -144,7 +144,7 @@ public class WrapperClassInfo
                     {
                         try
                         {
-                            Member m = finder.value().newInstance().find(wrappedClass, RuntimeUtil.cast(j), returnType, argTypes);
+                            Member m = finder.value().newInstance().find(this.getWrapperClass(), this.wrappedClass, i, RuntimeUtil.cast(j), returnType, argTypes);
                             if(m!=null)
                             {
                                 this.wrappedMembers.put(i, m);
@@ -190,14 +190,14 @@ public class WrapperClassInfo
         return this.constructorCache;
     }
     
-    public boolean hasAccessTo(Class<?> klazz)
+    public boolean hasAccessTo(Class<?> klass)
     {
-        if(!Modifier.isPublic(klazz.getModifiers()))
+        if(!Modifier.isPublic(klass.getModifiers()))
             return false;
         if(RuntimeUtil.jvmVersion>=9 && this.getWrapperClass()!=WrapperClass.class && this.getWrapperClass()!=WrapperModuleJ9.class)
         {
             //noinspection RedundantIfStatement
-            if(WrapperClass.create(Object.class).getModuleJ9().getWrapped()!=WrapperClass.create(klazz).getModuleJ9().getWrapped() && !WrapperClass.create(klazz).getModuleJ9().isOpen(klazz.getPackage()==null ? "" : klazz.getPackage().getName(), WrapperClass.create(this.getWrapperClass()).getModuleJ9()))
+            if(WrapperClass.FACTORY.create(Object.class).getModuleJ9().getWrapped()!=WrapperClass.FACTORY.create(klass).getModuleJ9().getWrapped() && !WrapperClass.FACTORY.create(klass).getModuleJ9().isOpen(klass.getPackage()==null ? "" : klass.getPackage().getName(), WrapperClass.FACTORY.create(this.getWrapperClass()).getModuleJ9()))
                 return false;
         }
         return true;
@@ -531,6 +531,7 @@ public class WrapperClassInfo
             new ClassReader(ClassUtil.getByteCode(wrapperClass)).accept(cn, 0);
             for(Method m: wrapperClass.getDeclaredMethods())
             {
+                //noinspection deprecation
                 if(!m.isAnnotationPresent(WrapperCreator.class))
                     continue;
                 mn = AsmUtil.getMethodNode(cn, m.getName(), AsmUtil.getDesc(m));

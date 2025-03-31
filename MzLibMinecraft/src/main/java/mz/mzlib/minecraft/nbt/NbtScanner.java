@@ -4,11 +4,13 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.StringNbtReader")})
 public interface NbtScanner extends WrapperObject {
-
+    WrapperFactory<NbtScanner> FACTORY = WrapperFactory.find(NbtScanner.class);
+    @Deprecated
     @WrapperCreator
     static NbtScanner create(Object wrapped)
     {
@@ -16,7 +18,7 @@ public interface NbtScanner extends WrapperObject {
     }
 
     static NbtCompound parseCompound(String context){
-        return create(null).staticParseCompound(context);
+        return FACTORY.getStatic().staticParseCompound(context);
     }
 
     @WrapMinecraftMethod(@VersionName(name="parse"))

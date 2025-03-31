@@ -23,7 +23,7 @@ public @interface WrapMethod
     class Handler implements WrappedMemberFinder<WrapMethod>
     {
         @Override
-        public Member find(Class<?> wrappedClass, WrapMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
             NoSuchMethodException lastException = null;
             for (String i : annotation.value())

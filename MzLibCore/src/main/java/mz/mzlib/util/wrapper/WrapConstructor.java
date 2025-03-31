@@ -5,6 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -15,7 +16,7 @@ public @interface WrapConstructor
     class Handler implements WrappedMemberFinder<WrapConstructor>
     {
         @Override
-        public Constructor<?> find(Class<?> wrappedClass, WrapConstructor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Constructor<?> find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapConstructor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
             return wrappedClass.getDeclaredConstructor(argTypes);
         }

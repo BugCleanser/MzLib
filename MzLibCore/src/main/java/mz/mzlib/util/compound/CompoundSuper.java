@@ -44,7 +44,7 @@ public @interface CompoundSuper
         }
         
         @Override
-        public Member find(Class<?> wrappedClass, CompoundSuper annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, CompoundSuper annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
             return wrappedClass.getDeclaredMethod(getInnerMethodName(annotation), argTypes);
         }

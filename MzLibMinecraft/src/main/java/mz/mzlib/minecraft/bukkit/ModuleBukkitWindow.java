@@ -2,11 +2,13 @@ package mz.mzlib.minecraft.bukkit;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.fabric.FabricDisabled;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.nothing.LocalVar;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
@@ -21,10 +23,12 @@ public class ModuleBukkitWindow extends MzModule
     @Override
     public void onLoad()
     {
-        this.register(NothingWindow.class);
+        if(ElementSwitcher.isEnabled(NothingWindow.class))
+            this.register(NothingWindow.class);
     }
     
     @BukkitEnabled
+    @FabricDisabled
     @WrapSameClass(Window.class)
     public interface NothingWindow extends Window, Nothing
     {

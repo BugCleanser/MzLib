@@ -5,11 +5,13 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.mappings.MappingMethod;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,6 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -41,33 +44,85 @@ public @interface WrapMinecraftMethod
         }
         
         @Override
-        public Member find(Class<?> wrappedClass, WrapMinecraftMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapMinecraftMethod annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
         {
-            String[] names = Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(name-> //
-                    name.remap() ? MinecraftPlatform.instance.getMappings().inverse().mapMethod(MinecraftPlatform.instance.getMappings().mapClass(wrappedClass.getName()), new MappingMethod(name.name(), Arrays.stream(argTypes).map(AsmUtil::getDesc).map(MinecraftPlatform.instance.getMappings()::mapType).toArray(String[]::new))) : name.name()).toArray(String[]::new);
-            if(names.length==0)
-                return null;
-            try
+            NoSuchMethodException lastException = null;
+            l1:
+            for(VersionName name: annotation.value())
             {
-                return WrapMethod.Handler.class.newInstance().find(wrappedClass, new WrapMethod()
+                if(name.remap())
                 {
-                    @Override
-                    public Class<WrapMethod> annotationType()
+                    for(String className: WrapMinecraftClass.Handler.getName(wrapperClass))
                     {
-                        return WrapMethod.class;
+                        try
+                        {
+                            return WrapMethod.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapMethod()
+                            {
+                                @Override
+                                public Class<WrapMethod> annotationType()
+                                {
+                                    return WrapMethod.class;
+                                }
+                                
+                                @Override
+                                public String[] value()
+                                {
+                                    return new String[]{MinecraftPlatform.instance.getMappings().inverse().mapMethod(className, new MappingMethod(name.name(), Arrays.stream(wrapperMethod.getParameterTypes()).map(c->
+                                    {
+                                        if(!WrapperObject.class.isAssignableFrom(c))
+                                            return AsmUtil.getDesc(c);
+                                        Option<String> name = WrapMinecraftClass.Handler.getName(RuntimeUtil.cast(c));
+                                        if(name.isNone())
+                                            return AsmUtil.getDesc(WrapperObject.getWrappedClass(RuntimeUtil.cast(c)));
+                                        return "L"+name.unwrap().replace(".", "/")+";";
+                                    }).toArray(String[]::new)))};
+                                }
+                            }, returnType, argTypes);
+                        }
+                        catch(NoSuchMethodException e)
+                        {
+                            lastException = e;
+                            continue l1;
+                        }
+                        catch(InstantiationException|IllegalAccessException e)
+                        {
+                            throw RuntimeUtil.sneakilyThrow(e);
+                        }
                     }
-                    
-                    @Override
-                    public String[] value()
+                    lastException = new NoSuchMethodException("Of wrapper "+wrapperMethod);
+                }
+                else
+                {
+                    try
                     {
-                        return names;
+                        return WrapMethod.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapMethod()
+                        {
+                            @Override
+                            public Class<WrapMethod> annotationType()
+                            {
+                                return WrapMethod.class;
+                            }
+                            
+                            @Override
+                            public String[] value()
+                            {
+                                return new String[]{name.name()};
+                            }
+                        }, returnType, argTypes);
                     }
-                }, returnType, argTypes);
+                    catch(NoSuchMethodException e)
+                    {
+                        lastException = e;
+                    }
+                    catch(InstantiationException|IllegalAccessException e)
+                    {
+                        throw RuntimeUtil.sneakilyThrow(e);
+                    }
+                }
             }
-            catch(InstantiationException|IllegalAccessException e)
-            {
-                throw RuntimeUtil.sneakilyThrow(e);
-            }
+            if(lastException != null)
+                throw lastException;
+            return null;
         }
     }
 }
