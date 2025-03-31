@@ -4,6 +4,7 @@
 - [开发文档]()
   - [Core]()
     - [快速开始](development/core/tutorial/begin.md)
+      - [Hello World](development/core/tutorial/chapter_1.md)
     - [Option](development/core/option.md)
     - [I18n](development/core/i18n.md)
     - [事件](development/core/event.md)
