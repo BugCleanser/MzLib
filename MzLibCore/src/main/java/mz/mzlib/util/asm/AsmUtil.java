@@ -796,6 +796,32 @@ public class AsmUtil
         }
     }
     
+    public static String getDesc(String type)
+    {
+        switch(type)
+        {
+            case "void":
+                return "V";
+            case "byte":
+                return "B";
+            case "short":
+                return "S";
+            case "int":
+                return "I";
+            case "long":
+                return "J";
+            case "float":
+                return "F";
+            case "double":
+                return "D";
+            case "char":
+                return "C";
+            case "boolean":
+                return "Z";
+            default:
+                return "L"+type+";";
+        }
+    }
     public static String getDesc(Class<?> clazz)
     {
         if(clazz.isArray())

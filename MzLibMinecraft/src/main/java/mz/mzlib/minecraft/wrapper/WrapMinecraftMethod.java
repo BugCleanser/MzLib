@@ -74,7 +74,7 @@ public @interface WrapMinecraftMethod
                                         Option<String> name = WrapMinecraftClass.Handler.getName(RuntimeUtil.cast(c));
                                         if(name.isNone())
                                             return AsmUtil.getDesc(WrapperObject.getWrappedClass(RuntimeUtil.cast(c)));
-                                        return "L"+name.unwrap().replace(".", "/")+";";
+                                        return AsmUtil.getDesc(AsmUtil.getType(name.unwrap()));
                                     }).toArray(String[]::new)))};
                                 }
                             }, returnType, argTypes);

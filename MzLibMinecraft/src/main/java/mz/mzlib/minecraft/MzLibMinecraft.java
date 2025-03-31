@@ -43,8 +43,6 @@ public class MzLibMinecraft extends MzModule
                 this.config = Config.loadJs(MinecraftJsUtil.initScope(), is, new File(MinecraftPlatform.instance.getMzLibDataFolder(), "config.js"));
             }
             
-            this.register(ModuleMapStackTrace.instance);
-            
             this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
             
             this.register(MinecraftI18n.instance);
