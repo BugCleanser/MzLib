@@ -64,6 +64,10 @@ public class Config
     {
         return RuntimeUtil.cast(this.getList(path));
     }
+    public Map<String, Object> getMap(String path)
+    {
+        return RuntimeUtil.cast(this.get(path, null));
+    }
     
     public static Config loadJson(InputStream def, File file) throws Exception
     {

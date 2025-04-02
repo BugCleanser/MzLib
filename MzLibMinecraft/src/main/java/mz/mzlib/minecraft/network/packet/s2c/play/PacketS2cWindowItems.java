@@ -30,7 +30,7 @@ public interface PacketS2cWindowItems extends Packet
      * nameV1400_1600: guiId
      * nameV1600: syncId
      */
-    @WrapMinecraftFieldAccessor({@VersionName(name="screenId", end=1400), @VersionName(name="field_12146", begin=1400)})
+    @WrapMinecraftFieldAccessor({@VersionName(name="screenId", end=1400), @VersionName(name="field_12146", begin=1400, end=2105), @VersionName(name="syncId", begin=2105)})
     int getSyncId();
     
     List<Object> getContents0();
@@ -97,7 +97,11 @@ public interface PacketS2cWindowItems extends Packet
     @WrapConstructor
     PacketS2cWindowItems staticNewInstanceV1100_1701(int syncId, DefaultedListV1100 contents);
     
-    @VersionRange(begin=1701)
+    @VersionRange(begin=1701, end=2105)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstanceV1701(int syncId, int revision, DefaultedListV1100 contents, ItemStack cursor);
+    PacketS2cWindowItems staticNewInstanceV1701_2105(int syncId, int revision, DefaultedListV1100 contents, ItemStack cursor);
+    
+    @VersionRange(begin=2105)
+    @WrapConstructor
+    PacketS2cWindowItems staticNewInstanceV2105(int syncId, int revision, List<Object> contents, ItemStack cursor);
 }

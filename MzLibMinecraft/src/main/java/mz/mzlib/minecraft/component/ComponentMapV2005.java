@@ -1,11 +1,13 @@
 package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.IteratorProxy;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -26,10 +28,18 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     
     @Override
     Iterable<Object> getWrapped();
-
-    @Deprecated
-    @WrapMinecraftMethod(@VersionName(name="get"))
+    
     WrapperObject get(ComponentKeyV2005 key);
+    @VersionRange(end=2105)
+    @SpecificImpl("get")
+    @WrapMinecraftMethod(@VersionName(name="get"))
+    WrapperObject getV_2105(ComponentKeyV2005 key);
+    @VersionRange(begin=2105)
+    @SpecificImpl("get")
+    default WrapperObject getV2105(ComponentKeyV2005 key)
+    {
+        return this.castTo(ComponentsAccessV2105.FACTORY).get(key);
+    }
     default <T extends WrapperObject> Option<T> get(ComponentKeyV2005 key, WrapperFactory<T> factory)
     {
         return Option.fromWrapper(this.get(key).castTo(factory));

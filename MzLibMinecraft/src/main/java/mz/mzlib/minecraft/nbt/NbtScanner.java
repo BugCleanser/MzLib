@@ -21,7 +21,7 @@ public interface NbtScanner extends WrapperObject {
         return FACTORY.getStatic().staticParseCompound(context);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="parse"))
+    @WrapMinecraftMethod({@VersionName(name="parse", end=2105), @VersionName(name="readCompound", begin=2105)})
     NbtCompound staticParseCompound(String context);
 }
 

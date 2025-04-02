@@ -30,9 +30,10 @@ public interface NbtByte extends NbtElement
     @WrapConstructor
     NbtByte staticNewInstance(byte value);
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3817", begin=2105)})
     byte getValue();
-
-    @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
+    
+    @Deprecated
+    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3817", begin=2105)})
     void setValue(byte value);
 }

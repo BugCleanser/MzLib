@@ -20,12 +20,20 @@ public interface NetworkPlaySidedPacketManagerFactoriesV2005 extends WrapperObje
         return WrapperObject.create(NetworkPlaySidedPacketManagerFactoriesV2005.class, wrapped);
     }
     
-    static NetworkPhaseSidedPacketManagerV2005.Factory c2s()
+    static NetworkPhaseSidedPacketManagerV2005.Factory c2sV_2105()
     {
-        return create(null).staticC2s();
+        return create(null).staticC2sV_2105();
     }
+    @VersionRange(end=2105)
     @WrapMinecraftFieldAccessor(@VersionName(name="C2S"))
-    NetworkPhaseSidedPacketManagerV2005.Factory staticC2s();
+    NetworkPhaseSidedPacketManagerV2005.Factory staticC2sV_2105();
+    static NetworkPhaseSidedPacketManagerV2005.FactoryWithContextV2105 c2sV2105()
+    {
+        return create(null).staticC2sV2105();
+    }
+    @VersionRange(begin=2105)
+    @WrapMinecraftFieldAccessor(@VersionName(name="C2S"))
+    NetworkPhaseSidedPacketManagerV2005.FactoryWithContextV2105 staticC2sV2105();
     
     static NetworkPhaseSidedPacketManagerV2005.Factory s2c()
     {

@@ -26,8 +26,10 @@ public interface NbtString extends NbtElement
         return create(null).staticNewInstance(value);
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})
     String getValue();
-    @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
+    
+    @Deprecated
+    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})
     void setValue(String value);
 }

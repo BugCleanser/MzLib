@@ -783,12 +783,12 @@ public class AsmUtil
         return className.replace('.', '/');
     }
     
-    public static final MethodHandle mhGetName = RuntimeUtil.sneakilyRun(()->Root.getTrusted(Class.class).findVirtual(Class.class, "getName", MethodType.methodType(String.class)));
+    private static final MethodHandle mhClass_getName = RuntimeUtil.sneakilyRun(()->Root.getTrusted(Class.class).findVirtual(Class.class, "getName", MethodType.methodType(String.class)));
     public static String getType(Class<?> clazz)
     {
         try
         {
-            return getType((String)mhGetName.invokeExact(clazz));
+            return getType((String)mhClass_getName.invokeExact(clazz));
         }
         catch(Throwable e)
         {

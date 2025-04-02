@@ -25,6 +25,7 @@ import java.util.Objects;
 public interface Packet extends WrapperObject
 {
     WrapperFactory<Packet> FACTORY = WrapperFactory.find(Packet.class);
+    
     @Deprecated
     @WrapperCreator
     static Packet create(Object wrapped)
@@ -56,6 +57,7 @@ public interface Packet extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="write"))
     void writeV_2005(ByteBufPacket byteBuf);
     
+    @Deprecated
     Packet copy(ByteBufAllocator byteBufAllocator);
     
     List<NetworkPhasePacketManagerV_2005> networkPhasePacketManagersV_2005 = MinecraftPlatform.instance.getVersion()<2005 ? Arrays.asList //
@@ -66,8 +68,8 @@ public interface Packet extends WrapperObject
                     NetworkPhasePacketManagerV_2005.query() //
             ) : null;
     
-    @VersionRange(end=1700)
     @SpecificImpl("copy")
+    @VersionRange(end=1700)
     default Packet copyV_1700(ByteBufAllocator byteBufAllocator)
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
@@ -110,8 +112,8 @@ public interface Packet extends WrapperObject
         }
     }
     
-    @VersionRange(begin=1700, end=2005)
     @SpecificImpl("copy")
+    @VersionRange(begin=1700, end=2005)
     default Packet copyV1700_2005(ByteBufAllocator byteBufAllocator)
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
@@ -155,7 +157,8 @@ public interface Packet extends WrapperObject
     List<NetworkPhaseSidedPacketManagerV2005> networkPhaseSidedPacketManagersV2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : Arrays.asList //
             ( //
                     NetworkPlaySidedPacketManagerFactoriesV2005.s2c().make(ByteBufWithRegistriesV2005.method_56350(MinecraftServer.instance.getRegistriesV1602())), //
-                    NetworkPlaySidedPacketManagerFactoriesV2005.c2s().make(ByteBufWithRegistriesV2005.method_56350(MinecraftServer.instance.getRegistriesV1602())), //
+                    MinecraftPlatform.instance.getVersion()<2105 ? NetworkPlaySidedPacketManagerFactoriesV2005.c2sV_2105().make(ByteBufWithRegistriesV2005.method_56350(MinecraftServer.instance.getRegistriesV1602())) : //
+                            NetworkPlaySidedPacketManagerFactoriesV2005.c2sV2105().make(ByteBufWithRegistriesV2005.method_56350(MinecraftServer.instance.getRegistriesV1602()), null), //
                     NetworkHandshakeSidedPacketManagersV2005.c2s(), //
                     NetworkConfigurationSidedPacketManagersV2005.s2c(), //
                     NetworkConfigurationSidedPacketManagersV2005.c2s(), //
@@ -165,8 +168,8 @@ public interface Packet extends WrapperObject
                     NetworkLoginSidedPacketManagersV2005.c2s() //
             );
     
-    @VersionRange(begin=2005)
     @SpecificImpl("copy")
+    @VersionRange(begin=2005)
     default Packet copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {
         ByteBuf byteBuf = byteBufAllocator.buffer(4096);
@@ -196,11 +199,13 @@ public interface Packet extends WrapperObject
         }
     }
     
+    @Deprecated
     static <T extends Packet> T copy(T packet, ByteBufAllocator byteBufAllocator)
     {
         return RuntimeUtil.cast(packet.copy(byteBufAllocator));
     }
     
+    @Deprecated
     static <T extends Packet> T copy(T packet)
     {
         return copy(packet, UnpooledByteBufAllocator.DEFAULT);

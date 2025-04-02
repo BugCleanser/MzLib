@@ -81,7 +81,7 @@ public class LangEditor extends UIWrittenBook
         }
         else
         {
-            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.back").setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.node", Collections.singletonMap("parent", this.node.substring(0, this.node.lastIndexOf('.')))) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+(this.node.contains(".") ? " "+this.node.substring(0, this.node.lastIndexOf('.')) : ""))));
+            homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.back").setHoverEvent(TextHoverEvent.showText(Text.literal(this.node.contains(".") ? MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.node", Collections.singletonMap("parent", this.node.substring(0, this.node.lastIndexOf('.')))) : MinecraftI18n.resolve(player, "mzlib.lang.editor.homepage.back.lore.root")))).setClickEvent(TextClickEvent.runCommand("/mzlib lang custom "+this.lang+(this.node.contains(".") ? " "+this.node.substring(0, this.node.lastIndexOf('.')) : ""))));
             homepage.add(Text.literal("\n"));
             homepage.add(MinecraftI18n.resolveText(player, "mzlib.lang.editor.homepage.node", Collections.singletonMap("node", this.node)));
             homepage.add(Text.literal("\n"));
@@ -106,7 +106,7 @@ public class LangEditor extends UIWrittenBook
                                 .put("translation", escape(I18n.getSource(this.lang, this.node!=null ? this.node+"."+n : n, ""))) //
                                 .put("children", getTranslationKeyChildNodes(this.node!=null ? this.node+"."+n : n).stream().map(m->MapBuilder.hashMap().put("node", m).put("translation", escape(I18n.getSource(this.lang, (this.node!=null ? this.node+"."+n : n)+"."+m, ""))).get()).toArray()) //
                                 .get()) //
-                ))).setClickEvent(TextClickEvent.newInstance(TextClickEvent.Action.runCommand(), "/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n)), Text.literal("\n"))).collect(Collectors.toList())));
+                ))).setClickEvent(TextClickEvent.runCommand("/mzlib lang custom "+this.lang+" "+(this.node!=null ? this.node+"." : "")+n)), Text.literal("\n"))).collect(Collectors.toList())));
         return pages;
     }
     

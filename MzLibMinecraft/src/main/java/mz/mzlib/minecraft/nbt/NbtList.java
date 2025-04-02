@@ -7,10 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
 import java.util.function.Function;
@@ -65,11 +62,13 @@ public interface NbtList extends NbtElement
         return this.asList(new WrapperFactory<>(creator));
     }
     
+    @VersionRange(end=2105)
     @WrapMinecraftFieldAccessor(@VersionName(name="type"))
-    byte getElementTypeId();
+    byte getElementTypeIdV_2105();
     
+    @VersionRange(end=2105)
     @WrapMinecraftFieldAccessor(@VersionName(name="type"))
-    void setElementTypeId(byte value);
+    void setElementTypeIdV_2105(byte value);
     
     default NbtElement get(int index)
     {
@@ -91,9 +90,18 @@ public interface NbtList extends NbtElement
         this.getValue().set(index, RuntimeUtil.cast(value.getWrapped()));
     }
     
-    default void add(NbtElement value)
+    void add(NbtElement value);
+    @VersionRange(end=2105)
+    @SpecificImpl("add")
+    default void addV_2105(NbtElement value)
     {
-        this.setElementTypeId(value.getTypeId());
+        this.setElementTypeIdV_2105(value.getTypeId());
+        this.addV2105(value);
+    }
+    @VersionRange(begin=2105)
+    @SpecificImpl("add")
+    default void addV2105(NbtElement value)
+    {
         this.getValue().add(RuntimeUtil.cast(value.getWrapped()));
     }
     

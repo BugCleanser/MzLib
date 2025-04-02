@@ -1,7 +1,5 @@
 package mz.mzlib.minecraft.text;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -9,15 +7,11 @@ import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.nbt.NbtElement;
-import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.Result;
-import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Optional;
@@ -44,55 +38,60 @@ public interface TextHoverEvent extends WrapperObject
     }
     
     @WrapConstructor
-    @VersionRange(begin=1600)
-    TextHoverEvent staticNewInstanceV1600(Action action, WrapperObject content);
+    @VersionRange(begin=1600, end=2105)
+    TextHoverEvent staticNewInstanceV1600_2105(Action action, WrapperObject content);
     
-    static TextHoverEvent newInstanceV1600(Action action, WrapperObject content)
+    static TextHoverEvent newInstanceV1600_2105(Action action, WrapperObject content)
     {
-        return create(null).staticNewInstanceV1600(action, content);
+        return create(null).staticNewInstanceV1600_2105(action, content);
     }
-    
-    TextHoverEvent staticShowText(Text text);
     
     static TextHoverEvent showText(Text text)
     {
         return create(null).staticShowText(text);
     }
-    
+    TextHoverEvent staticShowText(Text text);
     @SpecificImpl("staticShowText")
     @VersionRange(end=1600)
     default TextHoverEvent staticShowTextV_1600(Text text)
     {
         return newInstanceV_1600(Action.showText(), text);
     }
-    
     @SpecificImpl("staticShowText")
-    @VersionRange(begin=1600)
-    default TextHoverEvent staticShowTextV1600(Text text)
+    @VersionRange(begin=1600, end=2105)
+    default TextHoverEvent staticShowTextV1600_2105(Text text)
     {
-        return newInstanceV1600(Action.showText(), text);
+        return newInstanceV1600_2105(Action.showText(), text);
+    }
+    @SpecificImpl("staticShowText")
+    @VersionRange(begin=2105)
+    default TextHoverEvent staticShowTextV2105(Text text)
+    {
+        return ShowText2105.newInstance(text);
     }
     
-    static Result<Option<TextHoverEvent>, String> showItem(ItemStack is)
+    static TextHoverEvent showItem(ItemStack is)
     {
         return create(null).staticShowItem(is);
     }
-    
-    Result<Option<TextHoverEvent>, String> staticShowItem(ItemStack is);
-    
+    TextHoverEvent staticShowItem(ItemStack is);
     @SpecificImpl("staticShowItem")
     @VersionRange(end=1600)
-    default Result<Option<TextHoverEvent>, String> staticShowItemV_1600(ItemStack is)
+    default TextHoverEvent staticShowItemV_1600(ItemStack is)
     {
-        //noinspection RedundantTypeArguments
-        return ItemStack.encode(is).mapValue(ThrowableFunction.<NbtCompound, TextHoverEvent, RuntimeException>optionMap(nbt->newInstanceV_1600(Action.showItem(), Text.literal(nbt.toString()))));
+        return newInstanceV_1600(Action.showItem(), Text.literal(ItemStack.encode(is).getValue().unwrap().toString()));
     }
-    
     @SpecificImpl("staticShowItem")
-    @VersionRange(begin=1600)
-    default Result<Option<TextHoverEvent>, String> staticShowItemV1600(ItemStack is)
+    @VersionRange(begin=1600, end=2105)
+    default TextHoverEvent staticShowItemV1600_2105(ItemStack is)
     {
-        return Result.success(Option.some(newInstanceV1600(Action.showItem(), ContentsItemStackV1600.newInstance(is))));
+        return newInstanceV1600_2105(Action.showItem(), ContentItemStackV1600_2105.newInstance(is));
+    }
+    @SpecificImpl("staticShowItem")
+    @VersionRange(begin=2105)
+    default TextHoverEvent staticShowItemV2105(ItemStack is)
+    {
+        return ShowItem2105.newInstance(is);
     }
     
     static TextHoverEvent showEntity(Identifier type, UUID uuid, Text name)
@@ -104,69 +103,77 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="getAction"))
     Action getAction();
     
-    @WrapMinecraftMethod(@VersionName(name="getValue", end=1600))
+    @VersionRange(end=1600)
+    @WrapMinecraftMethod(@VersionName(name="getValue"))
     Text getValueV_1600();
     
-    @WrapMinecraftMethod(@VersionName(name="getValue", begin=1600))
-    WrapperObject getContents0V1600(Action action);
+    @VersionRange(begin=1600, end=2105)
+    @WrapMinecraftMethod(@VersionName(name="getValue"))
+    WrapperObject getContent0V1600_2105(Action action);
     
-    default WrapperObject getContentsV1600()
+    default WrapperObject getContentV1600_2105()
     {
-        return this.getContents0V1600(this.getAction());
+        return this.getContent0V1600_2105(this.getAction());
     }
     
-    Text getShowedText();
-    
-    @SpecificImpl("getShowedText")
+    TextHoverEvent.Entity getShowEntity();
+    @SpecificImpl("getShowEntity")
     @VersionRange(end=1600)
-    default Text getShowedTextV_1600()
-    {
-        return this.getValueV_1600();
-    }
-    
-    @SpecificImpl("getShowedText")
-    @VersionRange(begin=1600)
-    default Text getShowedTextV1600()
-    {
-        WrapperObject result = this.getContentsV1600();
-        if(!result.isInstanceOf(Text.FACTORY))
-            return null;
-        return result.castTo(Text.FACTORY);
-    }
-    
-    ItemStack getShowedItem();
-    
-    @SpecificImpl("getShowedItem")
-    @VersionRange(end=1600)
-    default ItemStack getShowedItemV_1600()
-    {
-        return null; // TODO
-    }
-    
-    @SpecificImpl("getShowedItem")
-    @VersionRange(begin=1600)
-    default ItemStack getShowedItemV1600()
-    {
-        WrapperObject result = this.getContentsV1600();
-        if(!result.isInstanceOf(ContentsItemStackV1600.FACTORY))
-            return null;
-        return result.castTo(ContentsItemStackV1600.FACTORY).getItemStack();
-    }
-    
-    TextHoverEvent.Entity getEntity();
-    
-    @SpecificImpl("getEntity")
-    @VersionRange(end=1600)
-    default TextHoverEvent.Entity getEntityV_1600()
+    default TextHoverEvent.Entity getShowEntityV_1600()
     {
         return new TextHoverEvent.EntityV_1600(NbtCompound.parse(this.getValueV_1600().getLiteral()));
     }
-    
-    @SpecificImpl("getEntity")
-    @VersionRange(begin=1600)
-    default TextHoverEvent.Entity getEntityV1600()
+    @SpecificImpl("getShowEntity")
+    @VersionRange(begin=1600, end=2105)
+    default TextHoverEvent.Entity getShowEntityV1600_2105()
     {
-        return this.getContentsV1600().castTo(TextHoverEvent.ContentsEntityV1600.FACTORY);
+        return this.getContentV1600_2105().castTo(ContentEntityV1600.FACTORY);
+    }
+    @SpecificImpl("getShowEntity")
+    @VersionRange(begin=2105)
+    default TextHoverEvent.Entity getShowEntityV2105()
+    {
+        return this.castTo(ShowEntity2105.FACTORY).getValue();
+    }
+    
+    ItemStack getShowItem();
+    @SpecificImpl("getShowItem")
+    @VersionRange(end=1600)
+    default ItemStack getShowItemV_1600()
+    {
+        throw new UnsupportedOperationException(); // TODO
+    }
+    @SpecificImpl("getShowItem")
+    @VersionRange(begin=1600, end=2105)
+    default ItemStack getShowItemV1600_2105()
+    {
+        return this.getContentV1600_2105().castTo(ContentItemStackV1600_2105.FACTORY).getItemStack();
+    }
+    @SpecificImpl("getShowItem")
+    @VersionRange(begin=2105)
+    default ItemStack getShowItemV2105()
+    {
+        return this.castTo(ShowItem2105.FACTORY).getValue();
+    }
+    
+    Text getShowText();
+    @SpecificImpl("getShowText")
+    @VersionRange(end=1600)
+    default Text getShowTextV_1600()
+    {
+        return this.getValueV_1600();
+    }
+    @SpecificImpl("getShowText")
+    @VersionRange(begin=1600, end=2105)
+    default Text getShowTextV1600_2105()
+    {
+        return this.getContentV1600_2105().castTo(Text.FACTORY);
+    }
+    @SpecificImpl("getShowText")
+    @VersionRange(begin=2105)
+    default Text getShowTextV2105()
+    {
+        return this.castTo(ShowText2105.FACTORY).getValue();
     }
     
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="Action"))
@@ -205,15 +212,16 @@ public interface TextHoverEvent extends WrapperObject
         }
     }
     
-    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ItemStackContent", begin=1600))
-    interface ContentsItemStackV1600 extends WrapperObject
+    @VersionRange(begin=1600, end=2105)
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ItemStackContent"))
+    interface ContentItemStackV1600_2105 extends WrapperObject
     {
-        WrapperFactory<ContentsItemStackV1600> FACTORY = WrapperFactory.find(ContentsItemStackV1600.class);
+        WrapperFactory<ContentItemStackV1600_2105> FACTORY = WrapperFactory.find(ContentItemStackV1600_2105.class);
         @Deprecated
         @WrapperCreator
-        static ContentsItemStackV1600 create(Object wrapped)
+        static ContentItemStackV1600_2105 create(Object wrapped)
         {
-            return WrapperObject.create(ContentsItemStackV1600.class, wrapped);
+            return WrapperObject.create(ContentItemStackV1600_2105.class, wrapped);
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="item"))
@@ -230,11 +238,11 @@ public interface TextHoverEvent extends WrapperObject
         }
         
         @WrapConstructor
-        ContentsItemStackV1600 staticNewInstance(ItemStack is);
+        ContentItemStackV1600_2105 staticNewInstance(ItemStack is);
         
-        static ContentsItemStackV1600 newInstance(ItemStack is)
+        static ContentItemStackV1600_2105 newInstance(ItemStack is)
         {
-            return ContentsItemStackV1600.create(null).staticNewInstance(is);
+            return ContentItemStackV1600_2105.create(null).staticNewInstance(is);
         }
         
         ItemStack getItemStack();
@@ -255,11 +263,11 @@ public interface TextHoverEvent extends WrapperObject
     
     interface Entity
     {
-        Identifier getType();
+        Option<Identifier> getType();
         
-        UUID getId();
+        Option<UUID> getId();
         
-        Text getName();
+        Option<Text> getName();
     }
     
     class EntityV_1600 implements TextHoverEvent.Entity
@@ -270,69 +278,114 @@ public interface TextHoverEvent extends WrapperObject
             this.nbt = nbt;
         }
         @Override
-        public Identifier getType()
+        public Option<Identifier> getType()
         {
-            NbtElement result = this.nbt.get("type");
-            if(!result.isPresent())
-                return null;
-            return Identifier.newInstance(result.castTo(NbtString.FACTORY).getValue());
+            return this.nbt.getString("type").map(Identifier::newInstance);
         }
         @Override
-        public UUID getId()
+        public Option<UUID> getId()
         {
-            NbtElement result = this.nbt.get("id");
-            if(!result.isPresent())
-                return null;
-            return UUID.fromString(result.castTo(NbtString.FACTORY).getValue());
+            return this.nbt.getString("id").map(UUID::fromString);
         }
         @Override
-        public Text getName()
+        public Option<Text> getName()
         {
-            NbtElement result = this.nbt.get("name");
-            if(!result.isPresent())
-                return null;
-            return Text.decode(new Gson().fromJson(result.castTo(NbtString.FACTORY).getValue(), JsonObject.class));
+            return this.nbt.getString("name").map(Text::decode);
         }
     }
     
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
-    interface ContentsEntityV1600 extends WrapperObject, TextHoverEvent.Entity
+    interface ContentEntityV1600 extends WrapperObject, TextHoverEvent.Entity
     {
-        WrapperFactory<TextHoverEvent.ContentsEntityV1600> FACTORY = WrapperFactory.find(TextHoverEvent.ContentsEntityV1600.class);
+        WrapperFactory<ContentEntityV1600> FACTORY = WrapperFactory.find(ContentEntityV1600.class);
         @Deprecated
         @WrapperCreator
-        static TextHoverEvent.ContentsEntityV1600 create(Object wrapped)
+        static ContentEntityV1600 create(Object wrapped)
         {
-            return WrapperObject.create(TextHoverEvent.ContentsEntityV1600.class, wrapped);
+            return WrapperObject.create(ContentEntityV1600.class, wrapped);
         }
         
         @WrapConstructor
-        ContentsEntityV1600 staticNewInstance(EntityType type, UUID id, Text name);
+        ContentEntityV1600 staticNewInstance(EntityType type, UUID id, Text name);
         
-        static TextHoverEvent.ContentsEntityV1600 newInstance(EntityType type, UUID id, Text name)
+        static ContentEntityV1600 newInstance(EntityType type, UUID id, Text name)
         {
-            return ContentsEntityV1600.create(null).staticNewInstance(type, id, name);
+            return FACTORY.getStatic().staticNewInstance(type, id, name);
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="entityType"))
         EntityType getType0();
         
-        default Identifier getType()
+        default Option<Identifier> getType()
         {
-            return this.getType0().getIdV1300();
+            return Option.some(this.getType0().getIdV1300());
         }
         
-        @Override
         @WrapMinecraftFieldAccessor(@VersionName(name="uuid"))
-        UUID getId();
+        UUID getId0();
+        @Override
+        default Option<UUID> getId()
+        {
+            return Option.some(this.getId0());
+        }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="name"))
         Optional<?> getName0();
-        
         @Override
-        default Text getName()
+        default Option<Text> getName()
         {
-            return this.getName0().map(Text.FACTORY::create).orElse(null);
+            return Option.fromOptional(this.getName0().map(Text.FACTORY::create));
         }
+    }
+    
+    @VersionRange(begin=2105)
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowEntity"))
+    interface ShowEntity2105 extends WrapperObject, TextHoverEvent
+    {
+        WrapperFactory<ShowEntity2105> FACTORY = WrapperFactory.find(ShowEntity2105.class);
+        
+        static ShowEntity2105 newInstance(ContentEntityV1600 value)
+        {
+            return FACTORY.getStatic().staticNewInstance(value);
+        }
+        @WrapConstructor
+        ShowEntity2105 staticNewInstance(ContentEntityV1600 value);
+        
+        @WrapMinecraftFieldAccessor(@VersionName(name="comp_3508"))
+        ContentEntityV1600 getValue();
+    }
+    
+    @VersionRange(begin=2105)
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowItem"))
+    interface ShowItem2105 extends WrapperObject, TextHoverEvent
+    {
+        WrapperFactory<ShowItem2105> FACTORY = WrapperFactory.find(ShowItem2105.class);
+        
+        static ShowItem2105 newInstance(ItemStack value)
+        {
+            return FACTORY.getStatic().staticNewInstance(value);
+        }
+        @WrapConstructor
+        ShowItem2105 staticNewInstance(ItemStack value);
+        
+        @WrapMinecraftFieldAccessor(@VersionName(name="comp_3509"))
+        ItemStack getValue();
+    }
+    
+    @VersionRange(begin=2105)
+    @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowText"))
+    interface ShowText2105 extends WrapperObject, TextHoverEvent
+    {
+        WrapperFactory<ShowText2105> FACTORY = WrapperFactory.find(ShowText2105.class);
+        
+        static ShowText2105 newInstance(Text value)
+        {
+            return FACTORY.getStatic().staticNewInstance(value);
+        }
+        @WrapConstructor
+        ShowText2105 staticNewInstance(Text value);
+        
+        @WrapMinecraftFieldAccessor(@VersionName(name="comp_3510"))
+        Text getValue();
     }
 }
