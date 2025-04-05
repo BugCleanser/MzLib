@@ -7,5 +7,6 @@ authors:
  - "awa"
  - "Core2002"
  - "hpwriterkyle"
+ - "SharkGod"
 main: mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin
 api-version: 1.13
