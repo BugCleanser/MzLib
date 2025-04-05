@@ -27,6 +27,7 @@ public interface NetworkPhaseSidedPacketManagerV2005 extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="comp_2236"))
     BinaryCodecV2005 getCodec();
     
+    @VersionRange(begin=2005)
     @WrapMinecraftClass({@VersionName(name="net.minecraft.network.state.NetworkState$Factory", end=2105), @VersionName(name="net.minecraft.network.state.NetworkStateFactory", begin=2105)})
     interface Factory extends WrapperObject
     {

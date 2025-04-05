@@ -168,7 +168,7 @@ public class Tictactoe extends MzModule
                 if(checkWin())
                 {
                     this.finished = true;
-                    this.inventory.setItemStack(0, (ItemStack)Demo.instance.config.get("game.tictactoe.reward"));
+                    this.inventory.setItemStack(0, ItemStack.copy((ItemStack)Demo.instance.config.get("game.tictactoe.reward")));
                     player.closeInterface();
                     this.open(player);
                 }

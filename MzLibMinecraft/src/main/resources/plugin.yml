@@ -8,5 +8,4 @@ authors:
  - "Core2002"
  - "hpwriterkyle"
 main: mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin
-softdepend: [ PlugMan ]
 api-version: 1.13

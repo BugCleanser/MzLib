@@ -57,9 +57,9 @@ public interface Text extends WrapperObject
         return create(null).staticLiteral(str);
     }
     
-    static Text fromLegacy(String literal)
+    static Text fromLegacy(String legacy)
     {
-        return literal(literal); // FIXME
+        return literal(legacy); // FIXME
     }
     
     @SpecificImpl("staticLiteral")
