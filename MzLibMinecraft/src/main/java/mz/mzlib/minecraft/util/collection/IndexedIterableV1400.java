@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.IndexedIterable", end=1600), @VersionName(name="net.minecraft.util.collection.IndexedIterable", begin=1600)})
 public interface IndexedIterableV1400 extends WrapperObject
 {
-    WrapperFactory<IndexedIterableV1400> FACTORY = WrapperFactory.find(IndexedIterableV1400.class);
+    WrapperFactory<IndexedIterableV1400> FACTORY = WrapperFactory.of(IndexedIterableV1400.class);
     @Deprecated
     @WrapperCreator
     static IndexedIterableV1400 create(Object wrapped)

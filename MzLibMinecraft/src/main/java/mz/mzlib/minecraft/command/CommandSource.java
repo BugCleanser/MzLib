@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3915", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.ServerCommandSource", begin=1400)})
 public interface CommandSource extends WrapperObject
 {
-    WrapperFactory<CommandSource> FACTORY = WrapperFactory.find(CommandSource.class);
+    WrapperFactory<CommandSource> FACTORY = WrapperFactory.of(CommandSource.class);
     @Deprecated
     @WrapperCreator
     static CommandSource create(Object wrapped)

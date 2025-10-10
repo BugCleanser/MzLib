@@ -15,7 +15,7 @@ import java.util.UUID;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.command.CommandSource", end=1300), @VersionName(name="net.minecraft.class_3893", begin=1300, end=1400), @VersionName(name="net.minecraft.server.command.CommandOutput", begin=1400)})
 public interface CommandOutput extends WrapperObject
 {
-    WrapperFactory<CommandOutput> FACTORY = WrapperFactory.find(CommandOutput.class);
+    WrapperFactory<CommandOutput> FACTORY = WrapperFactory.of(CommandOutput.class);
     @Deprecated
     @WrapperCreator
     static CommandOutput create(Object wrapped)

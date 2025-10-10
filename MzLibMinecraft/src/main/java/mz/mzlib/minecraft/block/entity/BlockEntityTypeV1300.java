@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.BlockEntityType"))
 public interface BlockEntityTypeV1300 extends WrapperObject
 {
-    WrapperFactory<BlockEntityTypeV1300> FACTORY = WrapperFactory.find(BlockEntityTypeV1300.class);
+    WrapperFactory<BlockEntityTypeV1300> FACTORY = WrapperFactory.of(BlockEntityTypeV1300.class);
     @Deprecated
     @WrapperCreator
     static BlockEntityTypeV1300 create(Object wrapped)

@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.CommonI18n"))
 public interface VanillaI18nV_1300 extends WrapperObject, Nothing
 {
-    WrapperFactory<VanillaI18nV_1300> FACTORY = WrapperFactory.find(VanillaI18nV_1300.class);
+    WrapperFactory<VanillaI18nV_1300> FACTORY = WrapperFactory.of(VanillaI18nV_1300.class);
     @Deprecated
     @WrapperCreator
     static VanillaI18nV_1300 create(Object wrapped)

@@ -18,7 +18,7 @@ import java.util.Arrays;
         })
 public interface TextTranslatableV_1900 extends WrapperObject, AbstractTextV_1900, TextTranslatableCommon
 {
-    WrapperFactory<TextTranslatableV_1900> FACTORY = WrapperFactory.find(TextTranslatableV_1900.class);
+    WrapperFactory<TextTranslatableV_1900> FACTORY = WrapperFactory.of(TextTranslatableV_1900.class);
     @Deprecated
     @WrapperCreator
     static TextTranslatableV_1900 create(Object wrapped)

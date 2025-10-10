@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.BlockState"))
 public interface BlockState extends WrapperObject
 {
-    WrapperFactory<BlockState> FACTORY = WrapperFactory.find(BlockState.class);
+    WrapperFactory<BlockState> FACTORY = WrapperFactory.of(BlockState.class);
     @Deprecated
     @WrapperCreator
     static BlockState create(Object wrapped)

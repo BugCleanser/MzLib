@@ -19,7 +19,7 @@ import java.util.Optional;
         })
 public interface TextSelector extends WrapperObject
 {
-    WrapperFactory<TextSelector> FACTORY = WrapperFactory.find(TextSelector.class);
+    WrapperFactory<TextSelector> FACTORY = WrapperFactory.of(TextSelector.class);
     @Deprecated
     @WrapperCreator
     static TextSelector create(Object wrapped)

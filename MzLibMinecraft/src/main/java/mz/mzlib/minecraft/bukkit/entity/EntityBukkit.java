@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapSameClass(Entity.class)
 public interface EntityBukkit extends Entity
 {
-    WrapperFactory<EntityBukkit> FACTORY = WrapperFactory.find(EntityBukkit.class);
+    WrapperFactory<EntityBukkit> FACTORY = WrapperFactory.of(EntityBukkit.class);
     @Deprecated
     @WrapperCreator
     static EntityBukkit create(Object wrapped)

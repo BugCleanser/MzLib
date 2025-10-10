@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Identifier"))
 public interface Identifier extends WrapperObject
 {
-    WrapperFactory<Identifier> FACTORY = WrapperFactory.find(Identifier.class);
+    WrapperFactory<Identifier> FACTORY = WrapperFactory.of(Identifier.class);
     @Deprecated
     @WrapperCreator
     static Identifier create(Object wrapped)

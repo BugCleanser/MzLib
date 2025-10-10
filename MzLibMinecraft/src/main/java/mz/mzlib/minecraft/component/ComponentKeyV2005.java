@@ -20,7 +20,7 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.component.DataComponentType", begin=2005, end=2100), @VersionName(name="net.minecraft.component.ComponentType", begin=2100)})
 public interface ComponentKeyV2005 extends WrapperObject
 {
-    WrapperFactory<ComponentKeyV2005> FACTORY = WrapperFactory.find(ComponentKeyV2005.class);
+    WrapperFactory<ComponentKeyV2005> FACTORY = WrapperFactory.of(ComponentKeyV2005.class);
     @Deprecated
     @WrapperCreator
     static ComponentKeyV2005 create(Object wrapped)
@@ -38,12 +38,12 @@ public interface ComponentKeyV2005 extends WrapperObject
         return fromId(Identifier.newInstance(id));
     }
     
-    default <T extends WrapperObject> Specialized<T> specialized(WrapperFactory<T> factory)
+    default <T extends WrapperObject> Specialized<T> specialize(WrapperFactory<T> factory)
     {
         return new Specialized<>(this, factory);
     }
     @Deprecated
-    default <T extends WrapperObject> Specialized<T> specialized(Function<Object, T> creator)
+    default <T extends WrapperObject> Specialized<T> specialize(Function<Object, T> creator)
     {
         return new Specialized<>(this, creator);
     }

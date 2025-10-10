@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.network;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.VersionName;
@@ -22,7 +23,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.ClientConnection"))
 public interface ClientConnection extends WrapperObject
 {
-    WrapperFactory<ClientConnection> FACTORY = WrapperFactory.find(ClientConnection.class);
+    WrapperFactory<ClientConnection> FACTORY = WrapperFactory.of(ClientConnection.class);
     @Deprecated
     @WrapperCreator
     static ClientConnection create(Object wrapped)
@@ -56,16 +57,20 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
     void sendPacketImmediatelyV1901_2002(Packet packet, PacketCallbacksV1901 callbacks);
     
-    @VersionRange(begin=2002)
+    @VersionRange(begin=2002, end=2106)
     @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
-    void sendPacketImmediatelyV2002(Packet packet, PacketCallbacksV1901 callbacks, boolean flush);
+    void sendPacketImmediatelyV2002_2106(Packet packet, PacketCallbacksV1901 callbacks, boolean flush);
+    
+    @VersionRange(begin=2106)
+    @WrapMinecraftMethod(@VersionName(name="sendImmediately"))
+    void sendPacketImmediatelyV2106(Packet packet, ChannelFutureListener callbacks, boolean flush);
     
     @WrapMethod("@0")
     void channelRead0(ChannelHandlerContext ctx, Packet packet);
     
     static void handlePacketV1300(Packet packet, PacketHandler handler)
     {
-        create(null).staticHandlePacketV1300(packet, handler);
+        FACTORY.getStatic().staticHandlePacketV1300(packet, handler);
     }
     @VersionRange(begin=1300)
     @WrapMinecraftMethod({@VersionName(name="method_20159", end=1400), @VersionName(name="handlePacket", begin=1400)})

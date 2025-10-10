@@ -5,7 +5,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClass(Boolean.class)
 public interface WrapperBoolean extends WrapperObject
 {
-    WrapperFactory<WrapperBoolean> FACTORY = WrapperFactory.find(WrapperBoolean.class);
+    WrapperFactory<WrapperBoolean> FACTORY = WrapperFactory.of(WrapperBoolean.class);
     @Deprecated
     @WrapperCreator
     static WrapperBoolean create(Boolean wrapped)

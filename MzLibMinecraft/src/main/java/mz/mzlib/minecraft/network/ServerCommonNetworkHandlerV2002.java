@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.network.ServerCommonNetworkHandler", begin=2002))
 public interface ServerCommonNetworkHandlerV2002 extends WrapperObject, MinecraftPacketListener
 {
-    WrapperFactory<ServerCommonNetworkHandlerV2002> FACTORY = WrapperFactory.find(ServerCommonNetworkHandlerV2002.class);
+    WrapperFactory<ServerCommonNetworkHandlerV2002> FACTORY = WrapperFactory.of(ServerCommonNetworkHandlerV2002.class);
     @Deprecated
     @WrapperCreator
     static ServerCommonNetworkHandlerV2002 create(Object wrapped)

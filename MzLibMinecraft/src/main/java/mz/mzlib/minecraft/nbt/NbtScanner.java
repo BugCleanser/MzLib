@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.StringNbtReader")})
 public interface NbtScanner extends WrapperObject {
-    WrapperFactory<NbtScanner> FACTORY = WrapperFactory.find(NbtScanner.class);
+    WrapperFactory<NbtScanner> FACTORY = WrapperFactory.of(NbtScanner.class);
     @Deprecated
     @WrapperCreator
     static NbtScanner create(Object wrapped)

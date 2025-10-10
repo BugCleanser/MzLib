@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextColor"))
 public interface TextColorV1600 extends WrapperObject
 {
-    WrapperFactory<TextColorV1600> FACTORY = WrapperFactory.find(TextColorV1600.class);
+    WrapperFactory<TextColorV1600> FACTORY = WrapperFactory.of(TextColorV1600.class);
     @Deprecated
     @WrapperCreator
     static TextColorV1600 create(Object wrapped)

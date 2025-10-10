@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.NetworkSide"))
 public interface PacketDirection extends WrapperObject
 {
-    WrapperFactory<PacketDirection> FACTORY = WrapperFactory.find(PacketDirection.class);
+    WrapperFactory<PacketDirection> FACTORY = WrapperFactory.of(PacketDirection.class);
     @Deprecated
     @WrapperCreator
     static PacketDirection create(Object wrapped)

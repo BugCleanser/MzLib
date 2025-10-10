@@ -34,6 +34,6 @@ public class PacketListener<T extends Packet>
     
     public void call(PacketEvent event)
     {
-        this.handler.accept(event.specialized(this.factory));
+        this.handler.accept(event.specialize(this.factory));
     }
 }

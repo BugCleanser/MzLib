@@ -16,7 +16,7 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.SimpleRegistry", end=1903), @VersionName(name="net.minecraft.registry.SimpleRegistry", begin=1903)})
 public interface SimpleRegistry extends Registry
 {
-    WrapperFactory<SimpleRegistry> FACTORY = WrapperFactory.find(SimpleRegistry.class);
+    WrapperFactory<SimpleRegistry> FACTORY = WrapperFactory.of(SimpleRegistry.class);
     @Deprecated
     @WrapperCreator
     static SimpleRegistry create(Object wrapped)

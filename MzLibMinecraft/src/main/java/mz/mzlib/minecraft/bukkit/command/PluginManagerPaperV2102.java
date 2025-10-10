@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginManagerImpl")
 public interface PluginManagerPaperV2102 extends WrapperObject
 {
-    WrapperFactory<PluginManagerPaperV2102> FACTORY = WrapperFactory.find(PluginManagerPaperV2102.class);
+    WrapperFactory<PluginManagerPaperV2102> FACTORY = WrapperFactory.of(PluginManagerPaperV2102.class);
     @Deprecated
     @WrapperCreator
     static PluginManagerPaperV2102 create(Object wrapped)

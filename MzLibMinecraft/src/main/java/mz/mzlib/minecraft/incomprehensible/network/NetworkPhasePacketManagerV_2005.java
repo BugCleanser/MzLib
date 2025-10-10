@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.NetworkState"))
 public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
 {
-    WrapperFactory<NetworkPhasePacketManagerV_2005> FACTORY = WrapperFactory.find(NetworkPhasePacketManagerV_2005.class);
+    WrapperFactory<NetworkPhasePacketManagerV_2005> FACTORY = WrapperFactory.of(NetworkPhasePacketManagerV_2005.class);
     @Deprecated
     @WrapperCreator
     static NetworkPhasePacketManagerV_2005 create(Object wrapped)
@@ -100,7 +100,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     @WrapMinecraftInnerClass(outer=NetworkPhasePacketManagerV_2005.class, name=@VersionName(name="PacketHandler"))
     interface PacketHandlerV1500 extends WrapperObject
     {
-        WrapperFactory<PacketHandlerV1500> FACTORY = WrapperFactory.find(PacketHandlerV1500.class);
+        WrapperFactory<PacketHandlerV1500> FACTORY = WrapperFactory.of(PacketHandlerV1500.class);
         @Deprecated
         @WrapperCreator
         static PacketHandlerV1500 create(Object wrapped)

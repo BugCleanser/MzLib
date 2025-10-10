@@ -35,7 +35,7 @@ public class ExampleCompound
     @WrapClass(Foo.class)
     public interface WrapperFoo extends WrapperObject
     {
-        WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.find(WrapperFoo.class);
+        WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.of(WrapperFoo.class);
         
         @WrapMethod("f")
         void f();
@@ -47,7 +47,7 @@ public class ExampleCompound
     @Compound
     public interface CompoundFoo extends WrapperFoo, Delegator
     {
-        WrapperFactory<CompoundFoo> FACTORY = WrapperFactory.find(CompoundFoo.class);
+        WrapperFactory<CompoundFoo> FACTORY = WrapperFactory.of(CompoundFoo.class);
         
         static CompoundFoo newInstance(Foo delegate)
         {

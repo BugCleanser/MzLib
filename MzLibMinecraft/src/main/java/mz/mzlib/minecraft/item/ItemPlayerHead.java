@@ -24,7 +24,7 @@ import java.util.Base64;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.PlayerHeadItem", begin=2002)})
 public interface ItemPlayerHead extends Item
 {
-    WrapperFactory<ItemPlayerHead> FACTORY = WrapperFactory.find(ItemPlayerHead.class);
+    WrapperFactory<ItemPlayerHead> FACTORY = WrapperFactory.of(ItemPlayerHead.class);
     @Deprecated
     @WrapperCreator
     static ItemPlayerHead create(Object wrapped)
@@ -32,7 +32,7 @@ public interface ItemPlayerHead extends Item
         return WrapperObject.create(ItemPlayerHead.class, wrapped);
     }
     
-    ComponentKeyV2005.Specialized<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile").specialized(GameProfileComponentV2005.FACTORY);
+    ComponentKeyV2005.Specialized<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile").specialize(GameProfileComponentV2005.FACTORY);
     
     static Option<GameProfile> getOwner(ItemStack itemStack)
     {

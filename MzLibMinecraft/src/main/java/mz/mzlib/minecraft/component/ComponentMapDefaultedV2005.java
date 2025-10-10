@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.component.ComponentMapImpl", end=2102), @VersionName(name="net.minecraft.component.MergedComponentMap", begin=2102)})
 public interface ComponentMapDefaultedV2005 extends ComponentMapV2005
 {
-    WrapperFactory<ComponentMapDefaultedV2005> FACTORY = WrapperFactory.find(ComponentMapDefaultedV2005.class);
+    WrapperFactory<ComponentMapDefaultedV2005> FACTORY = WrapperFactory.of(ComponentMapDefaultedV2005.class);
     @Deprecated
     @WrapperCreator
     static ComponentMapDefaultedV2005 create(Object wrapped)

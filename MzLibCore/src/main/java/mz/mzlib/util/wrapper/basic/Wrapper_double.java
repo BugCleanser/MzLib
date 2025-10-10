@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(double.class)
 public interface Wrapper_double extends WrapperObject
 {
-    WrapperFactory<Wrapper_double> FACTORY = WrapperFactory.find(Wrapper_double.class);
+    WrapperFactory<Wrapper_double> FACTORY = WrapperFactory.of(Wrapper_double.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_double create(Double wrapped)

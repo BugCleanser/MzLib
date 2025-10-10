@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapCraftbukkitClass(@VersionName(name="OBC.entity.CraftEntity"))
 public interface CraftEntity extends WrapperObject
 {
-    WrapperFactory<CraftEntity> FACTORY = WrapperFactory.find(CraftEntity.class);
+    WrapperFactory<CraftEntity> FACTORY = WrapperFactory.of(CraftEntity.class);
     @Deprecated
     @WrapperCreator
     static CraftEntity create(Object wrapped)

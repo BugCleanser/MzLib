@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @Compound
 public interface WindowFactorySimple extends WindowFactory
 {
-    WrapperFactory<WindowFactorySimple> FACTORY = WrapperFactory.find(WindowFactorySimple.class);
+    WrapperFactory<WindowFactorySimple> FACTORY = WrapperFactory.of(WindowFactorySimple.class);
     @Deprecated
     @WrapperCreator
     static WindowFactorySimple create(Object wrapped)

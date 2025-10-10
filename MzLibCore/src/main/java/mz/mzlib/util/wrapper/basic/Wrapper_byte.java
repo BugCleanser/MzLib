@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(byte.class)
 public interface Wrapper_byte extends WrapperObject
 {
-    WrapperFactory<Wrapper_byte> FACTORY = WrapperFactory.find(Wrapper_byte.class);
+    WrapperFactory<Wrapper_byte> FACTORY = WrapperFactory.of(Wrapper_byte.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_byte create(Byte wrapped)

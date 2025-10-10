@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.state.LoginStates"))
 public interface NetworkLoginSidedPacketManagersV2005 extends WrapperObject
 {
-    WrapperFactory<NetworkLoginSidedPacketManagersV2005> FACTORY = WrapperFactory.find(NetworkLoginSidedPacketManagersV2005.class);
+    WrapperFactory<NetworkLoginSidedPacketManagersV2005> FACTORY = WrapperFactory.of(NetworkLoginSidedPacketManagersV2005.class);
     @Deprecated
     @WrapperCreator
     static NetworkLoginSidedPacketManagersV2005 create(Object wrapped)

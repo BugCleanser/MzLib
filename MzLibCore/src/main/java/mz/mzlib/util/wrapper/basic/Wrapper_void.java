@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(void.class)
 public interface Wrapper_void extends WrapperObject
 {
-    WrapperFactory<Wrapper_void> FACTORY = WrapperFactory.find(Wrapper_void.class);
+    WrapperFactory<Wrapper_void> FACTORY = WrapperFactory.of(Wrapper_void.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_void create(Void wrapped)

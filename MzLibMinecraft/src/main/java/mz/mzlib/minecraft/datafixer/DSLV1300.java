@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.DSL"))
 public interface DSLV1300 extends WrapperObject
 {
-    WrapperFactory<DSLV1300> FACTORY = WrapperFactory.find(DSLV1300.class);
+    WrapperFactory<DSLV1300> FACTORY = WrapperFactory.of(DSLV1300.class);
     @Deprecated
     @WrapperCreator
     static DSLV1300 create(Object wrapped)
@@ -23,7 +23,7 @@ public interface DSLV1300 extends WrapperObject
     @WrapMinecraftInnerClass(outer=DSLV1300.class, name=@VersionName(name="TypeReference"))
     interface TypeReference extends WrapperObject
     {
-        WrapperFactory<TypeReference> FACTORY = WrapperFactory.find(TypeReference.class);
+        WrapperFactory<TypeReference> FACTORY = WrapperFactory.of(TypeReference.class);
         @Deprecated
         @WrapperCreator
         static TypeReference create(Object wrapped)

@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket", end=1400), @VersionName(name="net.minecraft.class_2817", begin=1400)})
 public interface PacketC2sCustom extends WrapperObject, Packet
 {
-    WrapperFactory<PacketC2sCustom> FACTORY = WrapperFactory.find(PacketC2sCustom.class);
+    WrapperFactory<PacketC2sCustom> FACTORY = WrapperFactory.of(PacketC2sCustom.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sCustom create(Object wrapped)

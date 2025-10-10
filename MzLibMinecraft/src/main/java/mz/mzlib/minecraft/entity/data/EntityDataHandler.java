@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="byte", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedDataHandler", begin=900)})
 public interface EntityDataHandler extends WrapperObject
 {
-    WrapperFactory<EntityDataHandler> FACTORY = WrapperFactory.find(EntityDataHandler.class);
+    WrapperFactory<EntityDataHandler> FACTORY = WrapperFactory.of(EntityDataHandler.class);
     @Deprecated
     @WrapperCreator
     static EntityDataHandler create(Object wrapped)

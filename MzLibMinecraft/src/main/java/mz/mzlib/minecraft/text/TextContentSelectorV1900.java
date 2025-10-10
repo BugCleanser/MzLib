@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @VersionRange(begin=1900)
 public interface TextContentSelectorV1900 extends WrapperObject, TextSelector, TextContentV1900
 {
-    WrapperFactory<TextContentSelectorV1900> FACTORY = WrapperFactory.find(TextContentSelectorV1900.class);
+    WrapperFactory<TextContentSelectorV1900> FACTORY = WrapperFactory.of(TextContentSelectorV1900.class);
     @Deprecated
     @WrapperCreator
     static TextContentSelectorV1900 create(Object wrapped)

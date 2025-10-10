@@ -15,7 +15,7 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.RawFilteredPair", begin=2005))
 public interface RawFilteredPairV2005 extends WrapperObject
 {
-    WrapperFactory<RawFilteredPairV2005> FACTORY = WrapperFactory.find(RawFilteredPairV2005.class);
+    WrapperFactory<RawFilteredPairV2005> FACTORY = WrapperFactory.of(RawFilteredPairV2005.class);
     @Deprecated
     @WrapperCreator
     static RawFilteredPairV2005 create(Object wrapped)

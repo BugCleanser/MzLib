@@ -158,7 +158,7 @@ public class NothingRegistration
                         try
                         {
                             if(!ni.locateMethod().isEmpty())
-                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(WrapperFactory.find(RuntimeUtil.<Class<? extends WrapperObject>>cast(nothing)).getStatic(), locating);
+                                nothing.getMethod(ni.locateMethod(), NothingInjectLocating.class).invoke(WrapperFactory.of(RuntimeUtil.<Class<? extends WrapperObject>>cast(nothing)).getStatic(), locating);
                         }
                         catch(Throwable e)
                         {

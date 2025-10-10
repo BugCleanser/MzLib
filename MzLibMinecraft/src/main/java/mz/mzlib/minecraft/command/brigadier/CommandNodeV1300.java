@@ -9,7 +9,7 @@ import java.util.Map;
 @WrapClassForName("com.mojang.brigadier.tree.CommandNode")
 public interface CommandNodeV1300 extends WrapperObject
 {
-    WrapperFactory<CommandNodeV1300> FACTORY = WrapperFactory.find(CommandNodeV1300.class);
+    WrapperFactory<CommandNodeV1300> FACTORY = WrapperFactory.of(CommandNodeV1300.class);
     @Deprecated
     @WrapperCreator
     static CommandNodeV1300 create(Object wrapped)

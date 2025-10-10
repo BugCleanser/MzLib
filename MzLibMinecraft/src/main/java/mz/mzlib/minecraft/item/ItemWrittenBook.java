@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.WrittenBookItem"))
 public interface ItemWrittenBook extends Item
 {
-    WrapperFactory<ItemWrittenBook> FACTORY = WrapperFactory.find(ItemWrittenBook.class);
+    WrapperFactory<ItemWrittenBook> FACTORY = WrapperFactory.of(ItemWrittenBook.class);
     @Deprecated
     @WrapperCreator
     static ItemWrittenBook create(Object wrapped)
@@ -34,7 +34,7 @@ public interface ItemWrittenBook extends Item
     
     int MAX_PAGE_LINES = 14;
     
-    ComponentKeyV2005.Specialized<WrittenBookContentComponentV2005> COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("written_book_content").specialized(WrittenBookContentComponentV2005.FACTORY);
+    ComponentKeyV2005.Specialized<WrittenBookContentComponentV2005> COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("written_book_content").specialize(WrittenBookContentComponentV2005.FACTORY);
     
     static List<Text> makePages(List<Text> lines)
     {

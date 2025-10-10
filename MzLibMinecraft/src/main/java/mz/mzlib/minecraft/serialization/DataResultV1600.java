@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.DataResult"))
 public interface DataResultV1600 extends WrapperObject
 {
-    WrapperFactory<DataResultV1600> FACTORY = WrapperFactory.find(DataResultV1600.class);
+    WrapperFactory<DataResultV1600> FACTORY = WrapperFactory.of(DataResultV1600.class);
     @Deprecated
     @WrapperCreator
     static DataResultV1600 create(Object wrapped)
@@ -31,17 +31,40 @@ public interface DataResultV1600 extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="resultOrPartial"))
     Optional<Object> resultOrPartial0(Consumer<String> onError);
     
-    default Option<String> getErrorMessage()
+    default Option<String> getErrorMessage() // FIXME
     {
         Ref<String> error = new RefStrong<>(null);
         Option<Object> ignored = this.resultOrPartial(error::set);
         return Option.fromNullable(error.get());
     }
     
-    default Result<Option<Object>, String> toResult()
+    default Result<Option<Object>, String> toResult() // FIXME
     {
         for(String msg: this.getErrorMessage())
             return Result.failure(Option.none(), msg);
         return Result.success(this.resultOrPartial(ThrowableConsumer.nothing()));
+    }
+    
+    default <T extends WrapperObject> Wrapper<T> wrapper(WrapperFactory<T> type)
+    {
+        return new Wrapper<>(this, type);
+    }
+    
+    class Wrapper<T extends WrapperObject>
+    {
+        DataResultV1600 base;
+        WrapperFactory<T> type;
+        public Wrapper(DataResultV1600 base, WrapperFactory<T> type)
+        {
+            this.base = base;
+            this.type = type;
+        }
+        
+        public Result<Option<T>, String> toResult() // FIXME
+        {
+            for(String msg: this.base.getErrorMessage())
+                return Result.failure(Option.none(), msg);
+            return Result.success(this.base.resultOrPartial(ThrowableConsumer.nothing()).map(type::create));
+        }
     }
 }

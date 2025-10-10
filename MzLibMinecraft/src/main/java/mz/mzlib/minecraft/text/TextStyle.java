@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.Style", end=1400), @VersionName(name="net.minecraft.network.chat.Style", begin=1400, end=1403), @VersionName(name="net.minecraft.text.Style", begin=1403)})
 public interface TextStyle extends WrapperObject
 {
-    WrapperFactory<TextStyle> FACTORY = WrapperFactory.find(TextStyle.class);
+    WrapperFactory<TextStyle> FACTORY = WrapperFactory.of(TextStyle.class);
     @Deprecated
     @WrapperCreator
     static TextStyle create(Object wrapped)

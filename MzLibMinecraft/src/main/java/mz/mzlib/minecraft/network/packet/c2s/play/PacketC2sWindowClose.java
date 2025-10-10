@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket", begin=1604)})
 public interface PacketC2sWindowClose extends Packet
 {
-    WrapperFactory<PacketC2sWindowClose> FACTORY = WrapperFactory.find(PacketC2sWindowClose.class);
+    WrapperFactory<PacketC2sWindowClose> FACTORY = WrapperFactory.of(PacketC2sWindowClose.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sWindowClose create(Object wrapped)

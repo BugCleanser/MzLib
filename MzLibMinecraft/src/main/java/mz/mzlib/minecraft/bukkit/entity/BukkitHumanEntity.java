@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClassForName("org.bukkit.entity.HumanEntity")
 public interface BukkitHumanEntity extends WrapperObject
 {
-    WrapperFactory<BukkitHumanEntity> FACTORY = WrapperFactory.find(BukkitHumanEntity.class);
+    WrapperFactory<BukkitHumanEntity> FACTORY = WrapperFactory.of(BukkitHumanEntity.class);
     @Deprecated
     @WrapperCreator
     static BukkitHumanEntity create(Object wrapped)

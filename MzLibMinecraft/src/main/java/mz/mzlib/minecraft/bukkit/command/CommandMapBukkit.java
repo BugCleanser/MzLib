@@ -10,7 +10,7 @@ import java.util.Map;
 @WrapClassForName("org.bukkit.command.SimpleCommandMap")
 public interface CommandMapBukkit extends WrapperObject
 {
-    WrapperFactory<CommandMapBukkit> FACTORY = WrapperFactory.find(CommandMapBukkit.class);
+    WrapperFactory<CommandMapBukkit> FACTORY = WrapperFactory.of(CommandMapBukkit.class);
     @Deprecated
     @WrapperCreator
     static CommandMapBukkit create(Object wrapped)

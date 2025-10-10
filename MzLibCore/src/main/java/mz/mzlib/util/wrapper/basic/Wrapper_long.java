@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(long.class)
 public interface Wrapper_long extends WrapperObject
 {
-    WrapperFactory<Wrapper_long> FACTORY = WrapperFactory.find(Wrapper_long.class);
+    WrapperFactory<Wrapper_long> FACTORY = WrapperFactory.of(Wrapper_long.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_long create(Long wrapped)

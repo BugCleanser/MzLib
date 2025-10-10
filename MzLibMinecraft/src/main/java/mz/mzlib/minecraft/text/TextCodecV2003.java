@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextCodecs", begin=2003))
 public interface TextCodecV2003 extends WrapperObject
 {
-    WrapperFactory<TextCodecV2003> FACTORY = WrapperFactory.find(TextCodecV2003.class);
+    WrapperFactory<TextCodecV2003> FACTORY = WrapperFactory.of(TextCodecV2003.class);
     @Deprecated
     @WrapperCreator
     static TextCodecV2003 create(Object wrapped)

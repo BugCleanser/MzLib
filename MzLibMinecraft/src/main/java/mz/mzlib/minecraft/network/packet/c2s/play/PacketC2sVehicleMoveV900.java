@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket"))
 public interface PacketC2sVehicleMoveV900 extends Packet
 {
-    WrapperFactory<PacketC2sVehicleMoveV900> FACTORY = WrapperFactory.find(PacketC2sVehicleMoveV900.class);
+    WrapperFactory<PacketC2sVehicleMoveV900> FACTORY = WrapperFactory.of(PacketC2sVehicleMoveV900.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sVehicleMoveV900 create(Object wrapped)

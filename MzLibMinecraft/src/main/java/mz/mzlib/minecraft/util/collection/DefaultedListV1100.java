@@ -13,7 +13,7 @@ import java.util.List;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.collection.DefaultedList", end=1400), @VersionName(name="net.minecraft.util.DefaultedList", begin=1400, end=1600), @VersionName(name="net.minecraft.util.collection.DefaultedList", begin=1600)})
 public interface DefaultedListV1100 extends WrapperObject
 {
-    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.find(WrapperObject.class);
+    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.of(WrapperObject.class);
     @Deprecated
     @WrapperCreator
     static WrapperObject create(Object wrapped)

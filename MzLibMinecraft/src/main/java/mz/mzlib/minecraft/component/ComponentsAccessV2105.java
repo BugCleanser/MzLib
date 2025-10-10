@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentsAccess"))
 public interface ComponentsAccessV2105 extends WrapperObject
 {
-    WrapperFactory<ComponentsAccessV2105> FACTORY = WrapperFactory.find(ComponentsAccessV2105.class);
+    WrapperFactory<ComponentsAccessV2105> FACTORY = WrapperFactory.of(ComponentsAccessV2105.class);
     
     @WrapMinecraftMethod(@VersionName(name="get"))
     WrapperObject get(ComponentKeyV2005 key);

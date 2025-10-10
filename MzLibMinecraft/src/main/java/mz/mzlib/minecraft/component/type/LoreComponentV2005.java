@@ -16,7 +16,7 @@ import java.util.List;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.LoreComponent", begin=2005))
 public interface LoreComponentV2005 extends WrapperObject
 {
-    WrapperFactory<LoreComponentV2005> FACTORY = WrapperFactory.find(LoreComponentV2005.class);
+    WrapperFactory<LoreComponentV2005> FACTORY = WrapperFactory.of(LoreComponentV2005.class);
     @Deprecated
     @WrapperCreator
     static LoreComponentV2005 create(Object wrapped)

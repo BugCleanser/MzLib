@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClassForName("java.lang.Module")
 public interface WrapperModuleJ9 extends WrapperObject
 {
-    WrapperFactory<WrapperModuleJ9> FACTORY = WrapperFactory.find(WrapperModuleJ9.class);
+    WrapperFactory<WrapperModuleJ9> FACTORY = WrapperFactory.of(WrapperModuleJ9.class);
     @Deprecated
     @WrapperCreator
     static WrapperModuleJ9 create(Object wrapped)

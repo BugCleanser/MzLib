@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket"))
 public interface PacketC2sChatMessage extends Packet
 {
-    WrapperFactory<PacketC2sChatMessage> FACTORY = WrapperFactory.find(PacketC2sChatMessage.class);
+    WrapperFactory<PacketC2sChatMessage> FACTORY = WrapperFactory.of(PacketC2sChatMessage.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sChatMessage create(Object wrapped)

@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.inventory.slot.Slot", end=1400), @VersionName(name="net.minecraft.container.Slot", begin=1400, end=1600), @VersionName(name="net.minecraft.screen.slot.Slot", begin=1600)})
 public interface WindowSlot extends WrapperObject
 {
-    WrapperFactory<WindowSlot> FACTORY = WrapperFactory.find(WindowSlot.class);
+    WrapperFactory<WindowSlot> FACTORY = WrapperFactory.of(WindowSlot.class);
     @Deprecated
     @WrapperCreator
     static WindowSlot create(Object wrapped)

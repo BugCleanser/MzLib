@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapCraftbukkitClass(@VersionName(name = "OBC.CraftServer"))
 public interface CraftServer extends WrapperObject
 {
-    WrapperFactory<CraftServer> FACTORY = WrapperFactory.find(CraftServer.class);
+    WrapperFactory<CraftServer> FACTORY = WrapperFactory.of(CraftServer.class);
     @Deprecated
     @WrapperCreator
     static CraftServer create(Object wrapped)

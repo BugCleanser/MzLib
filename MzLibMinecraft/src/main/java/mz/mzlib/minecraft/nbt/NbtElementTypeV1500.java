@@ -14,7 +14,7 @@ import java.io.DataInput;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.TagReader", begin=1500, end=1605), @VersionName(name="net.minecraft.nbt.NbtType", begin=1605)})
 public interface NbtElementTypeV1500 extends WrapperObject
 {
-    WrapperFactory<NbtElementTypeV1500> FACTORY = WrapperFactory.find(NbtElementTypeV1500.class);
+    WrapperFactory<NbtElementTypeV1500> FACTORY = WrapperFactory.of(NbtElementTypeV1500.class);
     @Deprecated
     @WrapperCreator
     static NbtElementTypeV1500 create(Object wrapped)

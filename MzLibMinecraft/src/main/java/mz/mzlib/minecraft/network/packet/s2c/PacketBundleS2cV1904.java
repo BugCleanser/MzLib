@@ -15,7 +15,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BundleS2CPacket"))
 public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
 {
-    WrapperFactory<PacketBundleS2cV1904> FACTORY = WrapperFactory.find(PacketBundleS2cV1904.class);
+    WrapperFactory<PacketBundleS2cV1904> FACTORY = WrapperFactory.of(PacketBundleS2cV1904.class);
     @Deprecated
     @WrapperCreator
     static PacketBundleS2cV1904 create(Object wrapped)

@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.DataFixerUpper")})
 public interface DataUpdaterV900_1300 extends WrapperObject
 {
-    WrapperFactory<DataUpdaterV900_1300> FACTORY = WrapperFactory.find(DataUpdaterV900_1300.class);
+    WrapperFactory<DataUpdaterV900_1300> FACTORY = WrapperFactory.of(DataUpdaterV900_1300.class);
     @Deprecated
     @WrapperCreator
     static DataUpdaterV900_1300 create(Object wrapped)

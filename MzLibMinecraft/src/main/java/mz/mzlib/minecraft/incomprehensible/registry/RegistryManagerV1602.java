@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.DynamicRegistryManager", begin=1602, end=1903), @VersionName(name="net.minecraft.registry.DynamicRegistryManager", begin=1903)})
 public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
 {
-    WrapperFactory<RegistryManagerV1602> FACTORY = WrapperFactory.find(RegistryManagerV1602.class);
+    WrapperFactory<RegistryManagerV1602> FACTORY = WrapperFactory.of(RegistryManagerV1602.class);
     @Deprecated
     @WrapperCreator
     static RegistryManagerV1602 create(Object wrapped)
@@ -23,7 +23,7 @@ public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookup
     @WrapMinecraftInnerClass(outer=RegistryManagerV1602.class, name=@VersionName(name="Immutable", begin=1802))
     interface Immutable extends RegistryManagerV1602
     {
-        WrapperFactory<Immutable> FACTORY = WrapperFactory.find(Immutable.class);
+        WrapperFactory<Immutable> FACTORY = WrapperFactory.of(Immutable.class);
         @Deprecated
         @WrapperCreator
         static Immutable create(Object wrapped)

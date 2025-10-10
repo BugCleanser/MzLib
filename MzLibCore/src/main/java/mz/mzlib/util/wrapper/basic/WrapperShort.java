@@ -5,7 +5,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClass(Short.class)
 public interface WrapperShort extends WrapperObject
 {
-    WrapperFactory<WrapperShort> FACTORY = WrapperFactory.find(WrapperShort.class);
+    WrapperFactory<WrapperShort> FACTORY = WrapperFactory.of(WrapperShort.class);
     @Deprecated
     @WrapperCreator
     static WrapperShort create(Short wrapped)

@@ -9,7 +9,7 @@ import java.util.function.Function;
 @WrapClass(IDelegator.class)
 public interface Delegator extends WrapperObject
 {
-    WrapperFactory<Delegator> FACTORY = WrapperFactory.find(Delegator.class);
+    WrapperFactory<Delegator> FACTORY = WrapperFactory.of(Delegator.class);
     @Deprecated
     @WrapperCreator
     static Delegator create(Object wrapped)

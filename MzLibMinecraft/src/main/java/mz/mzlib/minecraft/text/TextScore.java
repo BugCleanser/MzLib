@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface TextScore extends WrapperObject
 {
-    WrapperFactory<TextScore> FACTORY = WrapperFactory.find(TextScore.class);
+    WrapperFactory<TextScore> FACTORY = WrapperFactory.of(TextScore.class);
     @Deprecated
     @WrapperCreator
     static TextScore create(Object wrapped)

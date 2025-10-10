@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.screen.ChestScreenHandler", end=1400), @VersionName(name="net.minecraft.container.GenericContainer",begin=1400, end=1600), @VersionName(name="net.minecraft.screen.GenericContainerScreenHandler", begin=1600)})
 public interface WindowChest extends WrapperObject, Window
 {
-    WrapperFactory<WindowChest> FACTORY = WrapperFactory.find(WindowChest.class);
+    WrapperFactory<WindowChest> FACTORY = WrapperFactory.of(WindowChest.class);
     @Deprecated
     @WrapperCreator
     static WindowChest create(Object wrapped)

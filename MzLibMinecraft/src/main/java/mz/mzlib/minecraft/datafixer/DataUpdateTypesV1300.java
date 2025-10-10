@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.class_3402", end=1400), @VersionName(name="net.minecraft.datafixer.TypeReferences", begin=1400, end=1500), @VersionName(name="net.minecraft.datafixers.TypeReferences", begin=1500, end=1501), @VersionName(name="net.minecraft.datafixer.TypeReferences", begin=1501)})
 public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeReference
 {
-    WrapperFactory<DataUpdateTypesV1300> FACTORY = WrapperFactory.find(DataUpdateTypesV1300.class);
+    WrapperFactory<DataUpdateTypesV1300> FACTORY = WrapperFactory.of(DataUpdateTypesV1300.class);
     @Deprecated
     @WrapperCreator
     static DataUpdateTypesV1300 create(Object wrapped)

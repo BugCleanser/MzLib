@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.world.level.storage.LevelDataType"))
 public interface DataUpdateTypesV900_1300 extends WrapperObject, DataUpdateTypeV900_1300
 {
-    WrapperFactory<DataUpdateTypesV900_1300> FACTORY = WrapperFactory.find(DataUpdateTypesV900_1300.class);
+    WrapperFactory<DataUpdateTypesV900_1300> FACTORY = WrapperFactory.of(DataUpdateTypesV900_1300.class);
     @Deprecated
     @WrapperCreator
     static DataUpdateTypesV900_1300 create(Object wrapped)

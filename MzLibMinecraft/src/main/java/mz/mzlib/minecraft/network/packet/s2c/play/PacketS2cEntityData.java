@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket"))
 public interface PacketS2cEntityData extends Packet, EntityDataHolder
 {
-    WrapperFactory<PacketS2cEntityData> FACTORY = WrapperFactory.find(PacketS2cEntityData.class);
+    WrapperFactory<PacketS2cEntityData> FACTORY = WrapperFactory.of(PacketS2cEntityData.class);
     @Deprecated
     @WrapperCreator
     static PacketS2cEntityData create(Object wrapped)

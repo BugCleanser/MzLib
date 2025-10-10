@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.Decoder", begin = 1600))
 public interface DecoderV1600 extends WrapperObject
 {
-    WrapperFactory<DecoderV1600> FACTORY = WrapperFactory.find(DecoderV1600.class);
+    WrapperFactory<DecoderV1600> FACTORY = WrapperFactory.of(DecoderV1600.class);
     @Deprecated
     @WrapperCreator
     static DecoderV1600 create(Object wrapped)
@@ -20,4 +20,20 @@ public interface DecoderV1600 extends WrapperObject
     
     @WrapMinecraftMethod(@VersionName(name="parse"))
     DataResultV1600 parse(DynamicOpsV1300 ops, Object data);
+    
+    class Wrapper<T extends WrapperObject>
+    {
+        DecoderV1600 base;
+        WrapperFactory<T> type;
+        public Wrapper(DecoderV1600 base, WrapperFactory<T> type)
+        {
+            this.base = base;
+            this.type = type;
+        }
+        
+        DataResultV1600.Wrapper<T> parse(DynamicOpsV1300 ops, Object data)
+        {
+            return this.base.parse(ops, data).wrapper(this.type);
+        }
+    }
 }

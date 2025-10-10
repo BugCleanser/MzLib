@@ -25,7 +25,7 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.Entity"))
 public interface Entity extends WrapperObject
 {
-    WrapperFactory<Entity> FACTORY = WrapperFactory.find(Entity.class);
+    WrapperFactory<Entity> FACTORY = WrapperFactory.of(Entity.class);
     @Deprecated
     @WrapperCreator
     static Entity create(Object wrapped)

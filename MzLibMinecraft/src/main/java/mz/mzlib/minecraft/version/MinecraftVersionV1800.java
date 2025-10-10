@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.GameVersion", begin=1800))
 public interface MinecraftVersionV1800 extends WrapperObject
 {
-    WrapperFactory<MinecraftVersionV1800> FACTORY = WrapperFactory.find(MinecraftVersionV1800.class);
+    WrapperFactory<MinecraftVersionV1800> FACTORY = WrapperFactory.of(MinecraftVersionV1800.class);
     @Deprecated
     @WrapperCreator
     static MinecraftVersionV1800 create(Object wrapped)

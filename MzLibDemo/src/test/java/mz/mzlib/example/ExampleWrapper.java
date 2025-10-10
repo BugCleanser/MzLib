@@ -32,7 +32,7 @@ public class ExampleWrapper
     @WrapClass(TestClass.class)
     public interface WrapperTest extends WrapperObject
     {
-        WrapperFactory<WrapperTest> FACTORY = WrapperFactory.find(WrapperTest.class);
+        WrapperFactory<WrapperTest> FACTORY = WrapperFactory.of(WrapperTest.class);
         
         @WrapMethod("m")
         void m();
@@ -112,7 +112,7 @@ public class ExampleWrapper
     public void test2()
     {
         List<Class<?>> l=new ArrayList<>();
-        WrapperFactory.find(D.class).getStatic().f(l);
+        WrapperFactory.of(D.class).getStatic().f(l);
         assert l.size()==4;
         assert l.contains(A.class);
         assert l.contains(B.class);

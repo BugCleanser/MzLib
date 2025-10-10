@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 @WrapSameClass(MzItem.class)
 public interface MzItemUnknown extends MzItem
 {
-    WrapperFactory<MzItemUnknown> FACTORY = WrapperFactory.find(MzItemUnknown.class);
+    WrapperFactory<MzItemUnknown> FACTORY = WrapperFactory.of(MzItemUnknown.class);
     
     @Override
     default Identifier staticGetMzId()

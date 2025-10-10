@@ -18,7 +18,7 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.ProfileComponent"))
 public interface GameProfileComponentV2005 extends WrapperObject
 {
-    WrapperFactory<GameProfileComponentV2005> FACTORY = WrapperFactory.find(GameProfileComponentV2005.class);
+    WrapperFactory<GameProfileComponentV2005> FACTORY = WrapperFactory.of(GameProfileComponentV2005.class);
     @Deprecated
     @WrapperCreator
     static GameProfileComponentV2005 create(Object wrapped)

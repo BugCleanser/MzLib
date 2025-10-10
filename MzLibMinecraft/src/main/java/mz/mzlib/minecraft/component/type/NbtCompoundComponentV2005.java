@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.NbtComponent", begin=2005))
 public interface NbtCompoundComponentV2005 extends WrapperObject
 {
-    WrapperFactory<NbtCompoundComponentV2005> FACTORY = WrapperFactory.find(NbtCompoundComponentV2005.class);
+    WrapperFactory<NbtCompoundComponentV2005> FACTORY = WrapperFactory.of(NbtCompoundComponentV2005.class);
     @Deprecated
     @WrapperCreator
     static NbtCompoundComponentV2005 create(Object wrapped)

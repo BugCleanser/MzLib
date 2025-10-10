@@ -11,7 +11,7 @@ import java.util.Objects;
 @WrapMinecraftClass({@VersionName(name="mz.mzlib.minecraft.entity.data.EntityDataKey$WrappedV_900", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedData", begin=900)})
 public interface EntityDataKey extends WrapperObject
 {
-    WrapperFactory<EntityDataKey> FACTORY = WrapperFactory.find(EntityDataKey.class);
+    WrapperFactory<EntityDataKey> FACTORY = WrapperFactory.of(EntityDataKey.class);
     @Deprecated
     @WrapperCreator
     static EntityDataKey create(Object wrapped)

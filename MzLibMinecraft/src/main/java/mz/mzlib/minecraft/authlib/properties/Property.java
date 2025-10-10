@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.properties.Property"))
 public interface Property extends WrapperObject
 {
-    WrapperFactory<Property> FACTORY = WrapperFactory.find(Property.class);
+    WrapperFactory<Property> FACTORY = WrapperFactory.of(Property.class);
     @Deprecated
     @WrapperCreator
     static Property create(Object wrapped)

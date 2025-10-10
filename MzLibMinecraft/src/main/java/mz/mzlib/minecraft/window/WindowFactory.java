@@ -24,7 +24,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
 {
-    WrapperFactory<WindowFactory> FACTORY = WrapperFactory.find(WindowFactory.class);
+    WrapperFactory<WindowFactory> FACTORY = WrapperFactory.of(WindowFactory.class);
     @Deprecated
     @WrapperCreator
     static WindowFactory create(Object wrapped)

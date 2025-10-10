@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.container.ContainerType", end=1600), @VersionName(name="net.minecraft.screen.ScreenHandlerType", begin=1600)})
 public interface WindowTypeV1400 extends WrapperObject
 {
-    WrapperFactory<WindowTypeV1400> FACTORY = WrapperFactory.find(WindowTypeV1400.class);
+    WrapperFactory<WindowTypeV1400> FACTORY = WrapperFactory.of(WindowTypeV1400.class);
     @Deprecated
     @WrapperCreator
     static WindowTypeV1400 create(Object wrapped)

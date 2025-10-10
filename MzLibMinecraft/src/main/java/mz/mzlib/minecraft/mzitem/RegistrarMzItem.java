@@ -52,12 +52,12 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     {
         if(!object.isAnnotationPresent(MzItemClass.class))
             throw new IllegalStateException("Class "+object.getName()+" is not annotated with @MzItemClass");
-        WrapperFactory<? extends MzItem> factory = WrapperFactory.find(object);
+        WrapperFactory<? extends MzItem> factory = WrapperFactory.of(object);
         this.factories.put(factory.getStatic().staticGetMzId(), factory);
     }
     @Override
     public void unregister(MzModule module, Class<? extends MzItem> object)
     {
-        this.factories.remove(WrapperFactory.find(object).getStatic().staticGetMzId());
+        this.factories.remove(WrapperFactory.of(object).getStatic().staticGetMzId());
     }
 }

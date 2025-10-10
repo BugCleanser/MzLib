@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClassForName("com.mojang.brigadier.CommandDispatcher")
 public interface CommandDispatcherV1300 extends WrapperObject
 {
-    WrapperFactory<CommandDispatcherV1300> FACTORY = WrapperFactory.find(CommandDispatcherV1300.class);
+    WrapperFactory<CommandDispatcherV1300> FACTORY = WrapperFactory.of(CommandDispatcherV1300.class);
     @Deprecated
     @WrapperCreator
     static CommandDispatcherV1300 create(Object wrapped)

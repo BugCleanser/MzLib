@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.properties.PropertyMap"))
 public interface PropertyMap extends WrapperObject
 {
-    WrapperFactory<PropertyMap> FACTORY = WrapperFactory.find(PropertyMap.class);
+    WrapperFactory<PropertyMap> FACTORY = WrapperFactory.of(PropertyMap.class);
     @Deprecated
     @WrapperCreator
     static PropertyMap create(Object wrapped)

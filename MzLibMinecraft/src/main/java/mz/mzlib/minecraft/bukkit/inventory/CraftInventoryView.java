@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventoryView"))
 public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
 {
-    WrapperFactory<CraftInventoryView> FACTORY = WrapperFactory.find(CraftInventoryView.class);
+    WrapperFactory<CraftInventoryView> FACTORY = WrapperFactory.of(CraftInventoryView.class);
     @Deprecated
     @WrapperCreator
     static CraftInventoryView create(Object wrapped)

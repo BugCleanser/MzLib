@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.VanillaCommandWrapper"))
 public interface CraftCommandVanillaWrapper extends WrapperObject
 {
-    WrapperFactory<CraftCommandVanillaWrapper> FACTORY = WrapperFactory.find(CraftCommandVanillaWrapper.class);
+    WrapperFactory<CraftCommandVanillaWrapper> FACTORY = WrapperFactory.of(CraftCommandVanillaWrapper.class);
     @Deprecated
     @WrapperCreator
     static CraftCommandVanillaWrapper create(Object wrapped)

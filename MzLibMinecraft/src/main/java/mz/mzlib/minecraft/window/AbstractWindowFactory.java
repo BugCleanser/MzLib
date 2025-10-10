@@ -22,7 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface AbstractWindowFactory extends WrapperObject
 {
-    WrapperFactory<AbstractWindowFactory> FACTORY = WrapperFactory.find(AbstractWindowFactory.class);
+    WrapperFactory<AbstractWindowFactory> FACTORY = WrapperFactory.of(AbstractWindowFactory.class);
     @Deprecated
     @WrapperCreator
     static AbstractWindowFactory create(Object wrapped)

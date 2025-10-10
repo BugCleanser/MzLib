@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtByteArray"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.ByteArrayTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtByteArray")})
 public interface NbtByteArray extends NbtElement
 {
-    WrapperFactory<NbtByteArray> FACTORY = WrapperFactory.find(NbtByteArray.class);
+    WrapperFactory<NbtByteArray> FACTORY = WrapperFactory.of(NbtByteArray.class);
     @Deprecated
     @WrapperCreator
     static NbtByteArray create(Object wrapped)

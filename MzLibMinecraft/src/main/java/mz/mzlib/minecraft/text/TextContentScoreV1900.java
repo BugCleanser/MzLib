@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @VersionRange(begin=1900)
 public interface TextContentScoreV1900 extends WrapperObject, TextScore, TextContentV1900
 {
-    WrapperFactory<TextContentScoreV1900> FACTORY = WrapperFactory.find(TextContentScoreV1900.class);
+    WrapperFactory<TextContentScoreV1900> FACTORY = WrapperFactory.of(TextContentScoreV1900.class);
     @Deprecated
     @WrapperCreator
     static TextContentScoreV1900 create(Object wrapped)

@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.state.HandshakeStates"))
 public interface NetworkHandshakeSidedPacketManagersV2005 extends WrapperObject
 {
-    WrapperFactory<NetworkHandshakeSidedPacketManagersV2005> FACTORY = WrapperFactory.find(NetworkHandshakeSidedPacketManagersV2005.class);
+    WrapperFactory<NetworkHandshakeSidedPacketManagersV2005> FACTORY = WrapperFactory.of(NetworkHandshakeSidedPacketManagersV2005.class);
     @Deprecated
     @WrapperCreator
     static NetworkHandshakeSidedPacketManagersV2005 create(Object wrapped)

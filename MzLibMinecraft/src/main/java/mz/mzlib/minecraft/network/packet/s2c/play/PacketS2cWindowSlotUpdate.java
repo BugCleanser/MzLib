@@ -19,7 +19,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         })
 public interface PacketS2cWindowSlotUpdate extends Packet
 {
-    WrapperFactory<PacketS2cWindowSlotUpdate> FACTORY = WrapperFactory.find(PacketS2cWindowSlotUpdate.class);
+    WrapperFactory<PacketS2cWindowSlotUpdate> FACTORY = WrapperFactory.of(PacketS2cWindowSlotUpdate.class);
     @Deprecated
     @WrapperCreator
     static PacketS2cWindowSlotUpdate create(Object wrapped)

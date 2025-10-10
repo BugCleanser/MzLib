@@ -15,7 +15,7 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.RegistryByteBuf"))
 public interface ByteBufWithRegistriesV2005 extends WrapperObject
 {
-    WrapperFactory<ByteBufWithRegistriesV2005> FACTORY = WrapperFactory.find(ByteBufWithRegistriesV2005.class);
+    WrapperFactory<ByteBufWithRegistriesV2005> FACTORY = WrapperFactory.of(ByteBufWithRegistriesV2005.class);
     @Deprecated
     @WrapperCreator
     static ByteBufWithRegistriesV2005 create(Object wrapped)

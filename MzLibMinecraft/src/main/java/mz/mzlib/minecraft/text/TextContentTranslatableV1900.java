@@ -11,7 +11,7 @@ import java.util.Arrays;
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.TranslatableTextContent", begin = 1900))
 public interface TextContentTranslatableV1900 extends WrapperObject, TextContentV1900, TextTranslatableCommon
 {
-    WrapperFactory<TextContentTranslatableV1900> FACTORY = WrapperFactory.find(TextContentTranslatableV1900.class);
+    WrapperFactory<TextContentTranslatableV1900> FACTORY = WrapperFactory.of(TextContentTranslatableV1900.class);
     @Deprecated
     @WrapperCreator
     static TextContentTranslatableV1900 create(Object wrapped)

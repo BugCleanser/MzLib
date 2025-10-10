@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 @WrapClassForName("org.bukkit.command.PluginCommand")
 public interface CommandBukkit extends WrapperObject
 {
-    WrapperFactory<CommandBukkit> FACTORY = WrapperFactory.find(CommandBukkit.class);
+    WrapperFactory<CommandBukkit> FACTORY = WrapperFactory.of(CommandBukkit.class);
     @Deprecated
     @WrapperCreator
     static CommandBukkit create(Object wrapped)

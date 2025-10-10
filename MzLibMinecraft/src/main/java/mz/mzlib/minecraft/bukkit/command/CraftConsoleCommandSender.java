@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.CraftConsoleCommandSender"))
 public interface CraftConsoleCommandSender extends WrapperObject
 {
-    WrapperFactory<CraftConsoleCommandSender> FACTORY = WrapperFactory.find(CraftConsoleCommandSender.class);
+    WrapperFactory<CraftConsoleCommandSender> FACTORY = WrapperFactory.of(CraftConsoleCommandSender.class);
     @Deprecated
     @WrapperCreator
     static CraftConsoleCommandSender create(Object wrapped)

@@ -15,7 +15,7 @@ import java.util.Map;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType"))
 public interface EntityTypesV_1300 extends WrapperObject
 {
-    WrapperFactory<EntityTypesV_1300> FACTORY = WrapperFactory.find(EntityTypesV_1300.class);
+    WrapperFactory<EntityTypesV_1300> FACTORY = WrapperFactory.of(EntityTypesV_1300.class);
     @Deprecated
     @WrapperCreator
     static EntityTypesV_1300 create(Object wrapped)

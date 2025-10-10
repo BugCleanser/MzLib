@@ -23,7 +23,7 @@ import java.util.OptionalInt;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.PlayerEntity"))
 public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
 {
-    WrapperFactory<AbstractEntityPlayer> FACTORY = WrapperFactory.find(AbstractEntityPlayer.class);
+    WrapperFactory<AbstractEntityPlayer> FACTORY = WrapperFactory.of(AbstractEntityPlayer.class);
     @Deprecated
     @WrapperCreator
     static AbstractEntityPlayer create(Object wrapped)

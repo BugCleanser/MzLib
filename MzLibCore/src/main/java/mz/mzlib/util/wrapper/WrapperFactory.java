@@ -38,8 +38,14 @@ public class WrapperFactory<T extends WrapperObject>
     }
     
     @SuppressWarnings("deprecation")
-    public static <T extends WrapperObject> WrapperFactory<T> find(Class<T> wrapperClass)
+    public static <T extends WrapperObject> WrapperFactory<T> of(Class<T> wrapperClass)
     {
         return new WrapperFactory<>(WrapperObject.create(wrapperClass, null));
+    }
+    
+    @Deprecated
+    public static <T extends WrapperObject> WrapperFactory<T> find(Class<T> wrapperClass)
+    {
+        return of(wrapperClass);
     }
 }

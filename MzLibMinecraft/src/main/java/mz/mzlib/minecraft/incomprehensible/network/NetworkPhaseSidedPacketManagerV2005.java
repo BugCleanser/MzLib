@@ -16,7 +16,7 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.NetworkState", end=2105), @VersionName(name="net.minecraft.network.state.NetworkState", begin=2105)})
 public interface NetworkPhaseSidedPacketManagerV2005 extends WrapperObject
 {
-    WrapperFactory<NetworkPhaseSidedPacketManagerV2005> FACTORY = WrapperFactory.find(NetworkPhaseSidedPacketManagerV2005.class);
+    WrapperFactory<NetworkPhaseSidedPacketManagerV2005> FACTORY = WrapperFactory.of(NetworkPhaseSidedPacketManagerV2005.class);
     @Deprecated
     @WrapperCreator
     static NetworkPhaseSidedPacketManagerV2005 create(Object wrapped)
@@ -31,7 +31,7 @@ public interface NetworkPhaseSidedPacketManagerV2005 extends WrapperObject
     @WrapMinecraftClass({@VersionName(name="net.minecraft.network.NetworkState$Factory", end=2105), @VersionName(name="net.minecraft.network.state.NetworkStateFactory", begin=2105)})
     interface Factory extends WrapperObject
     {
-        WrapperFactory<Factory> FACTORY = WrapperFactory.find(Factory.class);
+        WrapperFactory<Factory> FACTORY = WrapperFactory.of(Factory.class);
         @Deprecated
         @WrapperCreator
         static Factory create(Object wrapped)

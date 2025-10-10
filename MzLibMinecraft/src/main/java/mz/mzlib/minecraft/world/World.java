@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.world.ServerWorld"))
 public interface World extends WrapperObject, AbstractWorld
 {
-    WrapperFactory<World> FACTORY = WrapperFactory.find(World.class);
+    WrapperFactory<World> FACTORY = WrapperFactory.of(World.class);
     @Deprecated
     @WrapperCreator
     static World create(Object wrapped)

@@ -30,7 +30,7 @@ import java.util.function.BooleanSupplier;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.MinecraftServer"))
 public interface MinecraftServer extends WrapperObject, CommandOutput, Instance, AsyncFunctionRunner
 {
-    WrapperFactory<MinecraftServer> FACTORY = WrapperFactory.find(MinecraftServer.class);
+    WrapperFactory<MinecraftServer> FACTORY = WrapperFactory.of(MinecraftServer.class);
     @Deprecated
     @WrapperCreator
     static MinecraftServer create(Object wrapped)

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.WrittenBookContentComponent", begin=2005))
 public interface WrittenBookContentComponentV2005 extends WrapperObject
 {
-    WrapperFactory<WrittenBookContentComponentV2005> FACTORY = WrapperFactory.find(WrittenBookContentComponentV2005.class);
+    WrapperFactory<WrittenBookContentComponentV2005> FACTORY = WrapperFactory.of(WrittenBookContentComponentV2005.class);
     @Deprecated
     @WrapperCreator
     static WrittenBookContentComponentV2005 create(Object wrapped)

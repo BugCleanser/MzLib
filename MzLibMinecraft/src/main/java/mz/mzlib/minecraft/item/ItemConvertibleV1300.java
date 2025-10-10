@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
 public interface ItemConvertibleV1300 extends WrapperObject
 {
-    WrapperFactory<ItemConvertibleV1300> FACTORY = WrapperFactory.find(ItemConvertibleV1300.class);
+    WrapperFactory<ItemConvertibleV1300> FACTORY = WrapperFactory.of(ItemConvertibleV1300.class);
     @Deprecated
     @WrapperCreator
     static ItemConvertibleV1300 create(Object wrapped)

@@ -25,7 +25,7 @@ import java.util.Objects;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.ItemStack"))
 public interface ItemStack extends WrapperObject
 {
-    WrapperFactory<ItemStack> FACTORY = WrapperFactory.find(ItemStack.class);
+    WrapperFactory<ItemStack> FACTORY = WrapperFactory.of(ItemStack.class);
     @Deprecated
     @WrapperCreator
     static ItemStack create(Object wrapped)

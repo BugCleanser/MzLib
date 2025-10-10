@@ -15,7 +15,7 @@ import java.util.List;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket", end=1700), @VersionName(name="net.minecraft.network.packet.s2c.play.EntityDestroyS2CPacket", begin=1700, end=1701), @VersionName(name="net.minecraft.network.packet.s2c.play.EntitiesDestroyS2CPacket", begin=1701)})
 public interface PacketS2cEntityDestroy extends Packet
 {
-    WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.find(PacketS2cEntityDestroy.class);
+    WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.of(PacketS2cEntityDestroy.class);
     @Deprecated
     @WrapperCreator
     static PacketS2cEntityDestroy create(Object wrapped)

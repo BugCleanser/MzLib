@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftItemStack"))
 public interface CraftItemStack extends WrapperObject
 {
-    WrapperFactory<CraftItemStack> FACTORY = WrapperFactory.find(CraftItemStack.class);
+    WrapperFactory<CraftItemStack> FACTORY = WrapperFactory.of(CraftItemStack.class);
     @Deprecated
     @WrapperCreator
     static CraftItemStack create(Object wrapped)

@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClassForName("org.bukkit.inventory.InventoryView")
 public interface BukkitInventoryView extends WrapperObject
 {
-    WrapperFactory<BukkitInventoryView> FACTORY = WrapperFactory.find(BukkitInventoryView.class);
+    WrapperFactory<BukkitInventoryView> FACTORY = WrapperFactory.of(BukkitInventoryView.class);
     @Deprecated
     @WrapperCreator
     static BukkitInventoryView create(Object wrapped)

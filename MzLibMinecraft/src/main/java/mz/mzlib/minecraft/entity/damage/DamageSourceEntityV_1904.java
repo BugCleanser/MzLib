@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.EntityDamageSource", end=1904))
 public interface DamageSourceEntityV_1904 extends WrapperObject
 {
-    WrapperFactory<DamageSourceEntityV_1904> FACTORY = WrapperFactory.find(DamageSourceEntityV_1904.class);
+    WrapperFactory<DamageSourceEntityV_1904> FACTORY = WrapperFactory.of(DamageSourceEntityV_1904.class);
     @Deprecated
     @WrapperCreator
     static DamageSourceEntityV_1904 create(Object wrapped)

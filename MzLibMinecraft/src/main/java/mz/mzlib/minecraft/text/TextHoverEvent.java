@@ -20,7 +20,7 @@ import java.util.UUID;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.HoverEvent", end=1400), @VersionName(name="net.minecraft.network.chat.HoverEvent", begin=1400, end=1403), @VersionName(name="net.minecraft.text.HoverEvent", begin=1403)})
 public interface TextHoverEvent extends WrapperObject
 {
-    WrapperFactory<TextHoverEvent> FACTORY = WrapperFactory.find(TextHoverEvent.class);
+    WrapperFactory<TextHoverEvent> FACTORY = WrapperFactory.of(TextHoverEvent.class);
     @Deprecated
     @WrapperCreator
     static TextHoverEvent create(Object wrapped)
@@ -179,7 +179,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
-        WrapperFactory<Action> FACTORY = WrapperFactory.find(Action.class);
+        WrapperFactory<Action> FACTORY = WrapperFactory.of(Action.class);
         @Deprecated
         @WrapperCreator
         static Action create(Object wrapped)
@@ -216,7 +216,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ItemStackContent"))
     interface ContentItemStackV1600_2105 extends WrapperObject
     {
-        WrapperFactory<ContentItemStackV1600_2105> FACTORY = WrapperFactory.find(ContentItemStackV1600_2105.class);
+        WrapperFactory<ContentItemStackV1600_2105> FACTORY = WrapperFactory.of(ContentItemStackV1600_2105.class);
         @Deprecated
         @WrapperCreator
         static ContentItemStackV1600_2105 create(Object wrapped)
@@ -297,7 +297,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="EntityContent", begin=1600))
     interface ContentEntityV1600 extends WrapperObject, TextHoverEvent.Entity
     {
-        WrapperFactory<ContentEntityV1600> FACTORY = WrapperFactory.find(ContentEntityV1600.class);
+        WrapperFactory<ContentEntityV1600> FACTORY = WrapperFactory.of(ContentEntityV1600.class);
         @Deprecated
         @WrapperCreator
         static ContentEntityV1600 create(Object wrapped)
@@ -342,7 +342,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowEntity"))
     interface ShowEntity2105 extends WrapperObject, TextHoverEvent
     {
-        WrapperFactory<ShowEntity2105> FACTORY = WrapperFactory.find(ShowEntity2105.class);
+        WrapperFactory<ShowEntity2105> FACTORY = WrapperFactory.of(ShowEntity2105.class);
         
         static ShowEntity2105 newInstance(ContentEntityV1600 value)
         {
@@ -359,7 +359,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowItem"))
     interface ShowItem2105 extends WrapperObject, TextHoverEvent
     {
-        WrapperFactory<ShowItem2105> FACTORY = WrapperFactory.find(ShowItem2105.class);
+        WrapperFactory<ShowItem2105> FACTORY = WrapperFactory.of(ShowItem2105.class);
         
         static ShowItem2105 newInstance(ItemStack value)
         {
@@ -376,7 +376,7 @@ public interface TextHoverEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextHoverEvent.class, name=@VersionName(name="ShowText"))
     interface ShowText2105 extends WrapperObject, TextHoverEvent
     {
-        WrapperFactory<ShowText2105> FACTORY = WrapperFactory.find(ShowText2105.class);
+        WrapperFactory<ShowText2105> FACTORY = WrapperFactory.of(ShowText2105.class);
         
         static ShowText2105 newInstance(Text value)
         {

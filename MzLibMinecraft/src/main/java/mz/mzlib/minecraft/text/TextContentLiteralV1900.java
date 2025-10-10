@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.text.LiteralTextContent", begin=1900, end=2003), @VersionName(name="net.minecraft.text.PlainTextContent", begin=2003)})
 public interface TextContentLiteralV1900 extends TextContentV1900
 {
-    WrapperFactory<TextContentLiteralV1900> FACTORY = WrapperFactory.find(TextContentLiteralV1900.class);
+    WrapperFactory<TextContentLiteralV1900> FACTORY = WrapperFactory.of(TextContentLiteralV1900.class);
     @Deprecated
     @WrapperCreator
     static TextContentLiteralV1900 create(Object wrapped)
@@ -41,7 +41,7 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal", begin=2003))
     interface ImplV2003 extends TextContentLiteralV1900
     {
-        WrapperFactory<ImplV2003> FACTORY = WrapperFactory.find(ImplV2003.class);
+        WrapperFactory<ImplV2003> FACTORY = WrapperFactory.of(ImplV2003.class);
         @Deprecated
         @WrapperCreator
         static ImplV2003 create(Object wrapped)

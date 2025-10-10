@@ -9,7 +9,7 @@ import org.bukkit.command.RemoteConsoleCommandSender;
 @WrapSameClass(MinecraftServer.class)
 public interface MinecraftServerBukkit extends MinecraftServer
 {
-    WrapperFactory<MinecraftServerBukkit> FACTORY = WrapperFactory.find(MinecraftServerBukkit.class);
+    WrapperFactory<MinecraftServerBukkit> FACTORY = WrapperFactory.of(MinecraftServerBukkit.class);
     @Deprecated
     @WrapperCreator
     static MinecraftServerBukkit create(Object wrapped)

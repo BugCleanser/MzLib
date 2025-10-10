@@ -14,7 +14,7 @@ import org.bukkit.command.BlockCommandSender;
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.CraftBlockCommandSender"))
 public interface CraftBlockCommandSender extends WrapperObject
 {
-    WrapperFactory<CraftBlockCommandSender> FACTORY = WrapperFactory.find(CraftBlockCommandSender.class);
+    WrapperFactory<CraftBlockCommandSender> FACTORY = WrapperFactory.of(CraftBlockCommandSender.class);
     @Deprecated
     @WrapperCreator
     static CraftBlockCommandSender create(Object wrapped)

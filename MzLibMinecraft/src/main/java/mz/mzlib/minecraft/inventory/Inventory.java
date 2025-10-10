@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.inventory.Inventory"))
 public interface Inventory extends WrapperObject
 {
-    WrapperFactory<Inventory> FACTORY = WrapperFactory.find(Inventory.class);
+    WrapperFactory<Inventory> FACTORY = WrapperFactory.of(Inventory.class);
     @Deprecated
     @WrapperCreator
     static Inventory create(Object wrapped)

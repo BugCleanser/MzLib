@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtLong"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.LongTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtLong")})
 public interface NbtLong extends NbtElement
 {
-    WrapperFactory<NbtLong> FACTORY = WrapperFactory.find(NbtLong.class);
+    WrapperFactory<NbtLong> FACTORY = WrapperFactory.of(NbtLong.class);
     @Deprecated
     @WrapperCreator
     static NbtLong create(Object wrapped)

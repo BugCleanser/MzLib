@@ -18,7 +18,7 @@ import java.util.function.Function;
 @WrapClass(Object.class)
 public interface WrapperObject
 {
-    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.find(WrapperObject.class);
+    WrapperFactory<WrapperObject> FACTORY = WrapperFactory.of(WrapperObject.class);
     @Deprecated
     @WrapperCreator
     static WrapperObject create(Object wrapped)
@@ -160,5 +160,19 @@ public interface WrapperObject
     {
         Executable target = (Executable)WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(name, methodType.parameterArray()));
         return new MethodInsnNode(opcode, AsmUtil.getType(target.getDeclaringClass()), target instanceof Constructor ? "<init>" : target.getName(), AsmUtil.getDesc(target), isInterface);
+    }
+    
+    @WrapSameClass(WrapperObject.class)
+    interface Generic<T> extends WrapperObject
+    {
+        WrapperFactory<Generic<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(Generic.class));
+        
+        static <T> WrapperFactory<Generic<T>> factory()
+        {
+            return RuntimeUtil.cast(FACTORY);
+        }
+        
+        @Override
+        T getWrapped();
     }
 }

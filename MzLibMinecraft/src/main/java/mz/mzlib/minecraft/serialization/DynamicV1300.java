@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="com.mojang.datafixers.Dynamic", end=1600), @VersionName(name="com.mojang.serialization.Dynamic", begin = 1600)})
 public interface DynamicV1300 extends WrapperObject
 {
-    WrapperFactory<DynamicV1300> FACTORY = WrapperFactory.find(DynamicV1300.class);
+    WrapperFactory<DynamicV1300> FACTORY = WrapperFactory.of(DynamicV1300.class);
     @Deprecated
     @WrapperCreator
     static DynamicV1300 create(Object wrapped)

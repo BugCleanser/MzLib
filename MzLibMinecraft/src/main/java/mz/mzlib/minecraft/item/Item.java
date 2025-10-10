@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.item.Item"))
 public interface Item extends WrapperObject
 {
-    WrapperFactory<Item> FACTORY = WrapperFactory.find(Item.class);
+    WrapperFactory<Item> FACTORY = WrapperFactory.of(Item.class);
     @Deprecated
     @WrapperCreator
     static Item create(Object wrapped)
@@ -52,9 +52,9 @@ public interface Item extends WrapperObject
     
     Item AIR = fromId(Identifier.ofMinecraft("air"));
     
-    ComponentKeyV2005.Specialized<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data").specialized(NbtCompoundComponentV2005.FACTORY);
-    ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialized(Text.FACTORY);
-    ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialized(LoreComponentV2005.FACTORY);
+    ComponentKeyV2005.Specialized<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data").specialize(NbtCompoundComponentV2005.FACTORY);
+    ComponentKeyV2005.Specialized<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name").specialize(Text.FACTORY);
+    ComponentKeyV2005.Specialized<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("lore").specialize(LoreComponentV2005.FACTORY);
     
     Identifier getId();
     

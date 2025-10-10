@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @Compound
 public interface WindowSlotButton extends WindowSlot
 {
-    WrapperFactory<WindowSlotButton> FACTORY = WrapperFactory.find(WindowSlotButton.class);
+    WrapperFactory<WindowSlotButton> FACTORY = WrapperFactory.of(WindowSlotButton.class);
     @Deprecated
     @WrapperCreator
     static WindowSlotButton create(Object wrapped)

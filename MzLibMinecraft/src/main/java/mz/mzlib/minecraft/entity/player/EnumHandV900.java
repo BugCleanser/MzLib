@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Hand"))
 public interface EnumHandV900 extends WrapperObject
 {
-    WrapperFactory<EnumHandV900> FACTORY = WrapperFactory.find(EnumHandV900.class);
+    WrapperFactory<EnumHandV900> FACTORY = WrapperFactory.of(EnumHandV900.class);
     @Deprecated
     @WrapperCreator
     static EnumHandV900 create(Object wrapped)

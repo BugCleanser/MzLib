@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.ServerMetadata"))
 public interface ServerMetadata extends WrapperObject
 {
-    WrapperFactory<ServerMetadata> FACTORY = WrapperFactory.find(ServerMetadata.class);
+    WrapperFactory<ServerMetadata> FACTORY = WrapperFactory.of(ServerMetadata.class);
     @Deprecated
     @WrapperCreator
     static ServerMetadata create(Object wrapped)

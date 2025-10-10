@@ -24,10 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.text.Text")})
+@WrapMinecraftClass(@VersionName(name="net.minecraft.text.Text"))
 public interface Text extends WrapperObject
 {
-    WrapperFactory<Text> FACTORY = WrapperFactory.find(Text.class);
+    WrapperFactory<Text> FACTORY = WrapperFactory.of(Text.class);
     @Deprecated
     @WrapperCreator
     static Text create(Object wrapped)
@@ -35,9 +35,10 @@ public interface Text extends WrapperObject
         return WrapperObject.create(Text.class, wrapped);
     }
     
+    // FIXME
     static Text decode(JsonElement json)
     {
-        return Serializer.decode(json);
+        return SerializerV_2106.decode(json);
     }
     
     static Text decode(String json)
@@ -47,7 +48,7 @@ public interface Text extends WrapperObject
     
     default JsonElement encode()
     {
-        return Serializer.encode(this);
+        return SerializerV_2106.encode(this);
     }
     
     Text staticLiteral(String str);
@@ -581,20 +582,21 @@ public interface Text extends WrapperObject
         return "<unsupported>"; // FIXME
     }
     
+    @VersionRange(end=2106)
     @WrapMinecraftInnerClass(outer=Text.class, name={@VersionName(name="Serializer", end=2003), @VersionName(name="Serialization", begin=2003)})
-    interface Serializer extends WrapperObject
+    interface SerializerV_2106 extends WrapperObject
     {
-        WrapperFactory<Serializer> FACTORY = WrapperFactory.find(Serializer.class);
+        WrapperFactory<SerializerV_2106> FACTORY = WrapperFactory.of(SerializerV_2106.class);
         @Deprecated
         @WrapperCreator
-        static Serializer create(Object wrapped)
+        static SerializerV_2106 create(Object wrapped)
         {
-            return WrapperObject.create(Serializer.class, wrapped);
+            return WrapperObject.create(SerializerV_2106.class, wrapped);
         }
         
         static Gson gson()
         {
-            return Serializer.create(null).staticGson();
+            return SerializerV_2106.create(null).staticGson();
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="GSON"))
@@ -602,7 +604,7 @@ public interface Text extends WrapperObject
         
         static JsonElement encode(Text text)
         {
-            return Serializer.create(null).staticEncode(text);
+            return SerializerV_2106.create(null).staticEncode(text);
         }
         
         JsonElement staticEncode(Text text);
@@ -632,7 +634,7 @@ public interface Text extends WrapperObject
         
         static Text decode(JsonElement json)
         {
-            return Serializer.create(null).staticDecode(json);
+            return SerializerV_2106.create(null).staticDecode(json);
         }
         
         Text staticDecode(JsonElement json);

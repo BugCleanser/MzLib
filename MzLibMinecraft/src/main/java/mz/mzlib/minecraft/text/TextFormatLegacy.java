@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.Formatting"))
 public interface TextFormatLegacy extends WrapperObject
 {
-    WrapperFactory<TextFormatLegacy> FACTORY = WrapperFactory.find(TextFormatLegacy.class);
+    WrapperFactory<TextFormatLegacy> FACTORY = WrapperFactory.of(TextFormatLegacy.class);
     @Deprecated
     @WrapperCreator
     static TextFormatLegacy create(Object wrapped)

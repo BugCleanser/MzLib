@@ -1,6 +1,7 @@
 package mz.mzlib.example;
 
 import mz.mzlib.MzLib;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;

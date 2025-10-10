@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapSameClass(Item.class)
 public interface ItemV1300 extends WrapperObject, Item, ItemConvertibleV1300
 {
-    WrapperFactory<ItemV1300> FACTORY = WrapperFactory.find(ItemV1300.class);
+    WrapperFactory<ItemV1300> FACTORY = WrapperFactory.of(ItemV1300.class);
     @Deprecated
     @WrapperCreator
     static ItemV1300 create(Object wrapped)

@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.*;
         })
 public interface TextLiteralV_1900 extends WrapperObject, AbstractTextV_1900
 {
-    WrapperFactory<TextLiteralV_1900> FACTORY = WrapperFactory.find(TextLiteralV_1900.class);
+    WrapperFactory<TextLiteralV_1900> FACTORY = WrapperFactory.of(TextLiteralV_1900.class);
     @Deprecated
     @WrapperCreator
     static TextLiteralV_1900 create(Object wrapped)

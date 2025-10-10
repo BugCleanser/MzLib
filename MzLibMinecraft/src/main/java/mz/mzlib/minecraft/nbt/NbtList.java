@@ -15,7 +15,7 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(end=1400, name="net.minecraft.nbt.NbtList"), @VersionName(begin=1400, end=1605, name="net.minecraft.nbt.ListTag"), @VersionName(begin=1605, name="net.minecraft.nbt.NbtList")})
 public interface NbtList extends NbtElement
 {
-    WrapperFactory<NbtList> FACTORY = WrapperFactory.find(NbtList.class);
+    WrapperFactory<NbtList> FACTORY = WrapperFactory.of(NbtList.class);
     @Deprecated
     @WrapperCreator
     static NbtList create(Object wrapped)

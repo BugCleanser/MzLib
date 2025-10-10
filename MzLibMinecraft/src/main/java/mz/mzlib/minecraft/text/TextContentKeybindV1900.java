@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.KeybindTextContent", begin = 1900))
 public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
 {
-    WrapperFactory<TextContentKeybindV1900> FACTORY = WrapperFactory.find(TextContentKeybindV1900.class);
+    WrapperFactory<TextContentKeybindV1900> FACTORY = WrapperFactory.of(TextContentKeybindV1900.class);
     @Deprecated
     @WrapperCreator
     static TextContentKeybindV1900 create(Object wrapped)

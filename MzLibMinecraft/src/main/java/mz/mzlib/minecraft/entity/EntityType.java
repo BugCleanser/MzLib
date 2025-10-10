@@ -31,7 +31,7 @@ import java.util.function.Function;
 @WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
 {
-    WrapperFactory<EntityType> FACTORY = WrapperFactory.find(EntityType.class);
+    WrapperFactory<EntityType> FACTORY = WrapperFactory.of(EntityType.class);
     @Deprecated
     @WrapperCreator
     static EntityType create(Object wrapped)
@@ -147,7 +147,7 @@ public interface EntityType extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityType.class, name=@VersionName(name="EntityFactory"))
     interface EntityFactoryV1400 extends WrapperObject
     {
-        WrapperFactory<EntityFactoryV1400> FACTORY = WrapperFactory.find(EntityFactoryV1400.class);
+        WrapperFactory<EntityFactoryV1400> FACTORY = WrapperFactory.of(EntityFactoryV1400.class);
         @Deprecated
         @WrapperCreator
         static EntityFactoryV1400 create(Object wrapped)

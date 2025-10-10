@@ -22,7 +22,7 @@ import java.util.List;
         })
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {
-    WrapperFactory<AbstractTextV_1900> FACTORY = WrapperFactory.find(AbstractTextV_1900.class);
+    WrapperFactory<AbstractTextV_1900> FACTORY = WrapperFactory.of(AbstractTextV_1900.class);
     @Deprecated
     @WrapperCreator
     static AbstractTextV_1900 create(Object wrapped)

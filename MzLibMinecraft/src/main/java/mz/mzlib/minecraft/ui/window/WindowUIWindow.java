@@ -15,7 +15,7 @@ import mz.mzlib.util.wrapper.*;
 @Compound
 public interface WindowUIWindow extends AbstractWindow
 {
-    WrapperFactory<WindowUIWindow> FACTORY = WrapperFactory.find(WindowUIWindow.class);
+    WrapperFactory<WindowUIWindow> FACTORY = WrapperFactory.of(WindowUIWindow.class);
     @Deprecated
     @WrapperCreator
     static WindowUIWindow create(Object wrapped)

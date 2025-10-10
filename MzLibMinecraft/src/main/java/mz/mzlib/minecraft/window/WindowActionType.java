@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="int", remap=false, end=900), @VersionName(name="net.minecraft.util.ItemAction", begin=900, end=1400), @VersionName(name="net.minecraft.container.SlotActionType", begin=1400, end=1600), @VersionName(name="net.minecraft.screen.slot.SlotActionType", begin=1600)})
 public interface WindowActionType extends WrapperObject
 {
-    WrapperFactory<WindowActionType> FACTORY = WrapperFactory.find(WindowActionType.class);
+    WrapperFactory<WindowActionType> FACTORY = WrapperFactory.of(WindowActionType.class);
     @Deprecated
     @WrapperCreator
     static WindowActionType create(Object wrapped)

@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClickWindowC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket", begin=1604)})
 public interface PacketC2sWindowAction extends Packet
 {
-    WrapperFactory<PacketC2sWindowAction> FACTORY = WrapperFactory.find(PacketC2sWindowAction.class);
+    WrapperFactory<PacketC2sWindowAction> FACTORY = WrapperFactory.of(PacketC2sWindowAction.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sWindowAction create(Object wrapped)

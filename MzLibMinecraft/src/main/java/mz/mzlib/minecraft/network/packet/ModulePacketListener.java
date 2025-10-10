@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.network.packet;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
 import mz.mzlib.minecraft.MinecraftPlatform;
@@ -135,7 +136,7 @@ public class ModulePacketListener extends MzModule
                 return Nothing.notReturn();
             }
             if(!this.getChannel().isOpen())
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, msg->
             {
                 rehandling.set(true);
@@ -143,7 +144,7 @@ public class ModulePacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
         
         @VersionRange(end=1300)
@@ -162,7 +163,7 @@ public class ModulePacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
         
         @VersionRange(begin=1300, end=1901)
@@ -181,7 +182,7 @@ public class ModulePacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
         
         @VersionRange(begin=1901, end=2002)
@@ -200,12 +201,12 @@ public class ModulePacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
         
-        @VersionRange(begin=2002)
-        @NothingInject(wrapperMethodName="sendPacketImmediatelyV2002", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default Wrapper_void sendPacketImmediatelyBeginV2002(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
+        @VersionRange(begin=2002, end=2106)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV2002_2106", wrapperMethodParams={Packet.class, PacketCallbacksV1901.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV2002_2106(@LocalVar(1) Packet packet, @LocalVar(2) PacketCallbacksV1901 callbacksV1901, @LocalVar(3) boolean flush)
         {
             if(rehandling.get()==Boolean.TRUE)
             {
@@ -215,11 +216,30 @@ public class ModulePacketListener extends MzModule
             if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
             {
                 rehandling.set(true);
-                this.sendPacketImmediatelyV2002(p, callbacksV1901, flush);
+                this.sendPacketImmediatelyV2002_2106(p, callbacksV1901, flush);
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
+        }
+        
+        @VersionRange(begin=2106)
+        @NothingInject(wrapperMethodName="sendPacketImmediatelyV2106", wrapperMethodParams={Packet.class, ChannelFutureListener.class, boolean.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        default Wrapper_void sendPacketImmediatelyBeginV2106(@LocalVar(1) Packet packet, @LocalVar(2) ChannelFutureListener callbacksV1901, @LocalVar(3) boolean flush)
+        {
+            if(rehandling.get()==Boolean.TRUE)
+            {
+                rehandling.set(false);
+                return Nothing.notReturn();
+            }
+            if(ModulePacketListener.instance.handle(this.getChannel(), this.getPlayer(), packet, p->
+            {
+                rehandling.set(true);
+                this.sendPacketImmediatelyV2106(p, callbacksV1901, flush);
+            }))
+                return Nothing.notReturn();
+            else
+                return Wrapper_void.FACTORY.getStatic();
         }
     }
 }

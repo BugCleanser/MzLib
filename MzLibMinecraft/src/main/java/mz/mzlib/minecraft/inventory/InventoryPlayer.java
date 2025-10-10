@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.PlayerInventory"))
 public interface InventoryPlayer extends WrapperObject, Inventory
 {
-    WrapperFactory<InventoryPlayer> FACTORY = WrapperFactory.find(InventoryPlayer.class);
+    WrapperFactory<InventoryPlayer> FACTORY = WrapperFactory.of(InventoryPlayer.class);
     @Deprecated
     @WrapperCreator
     static InventoryPlayer create(Object wrapped)

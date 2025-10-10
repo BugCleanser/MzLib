@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @Compound
 public interface AbstractWindow extends Window
 {
-    WrapperFactory<AbstractWindow> FACTORY = WrapperFactory.find(AbstractWindow.class);
+    WrapperFactory<AbstractWindow> FACTORY = WrapperFactory.of(AbstractWindow.class);
     @Deprecated
     @WrapperCreator
     static AbstractWindow create(Object wrapped)

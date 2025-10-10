@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.LivingEntity"))
 public interface EntityLiving extends Entity
 {
-    WrapperFactory<EntityLiving> FACTORY = WrapperFactory.find(EntityLiving.class);
+    WrapperFactory<EntityLiving> FACTORY = WrapperFactory.of(EntityLiving.class);
     @Deprecated
     @WrapperCreator
     static EntityLiving create(Object wrapped)

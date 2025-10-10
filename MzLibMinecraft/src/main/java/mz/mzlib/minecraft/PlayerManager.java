@@ -19,7 +19,7 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.PlayerManager"))
 public interface PlayerManager extends WrapperObject
 {
-    WrapperFactory<PlayerManager> FACTORY = WrapperFactory.find(PlayerManager.class);
+    WrapperFactory<PlayerManager> FACTORY = WrapperFactory.of(PlayerManager.class);
     @Deprecated
     @WrapperCreator
     static PlayerManager create(Object wrapped)

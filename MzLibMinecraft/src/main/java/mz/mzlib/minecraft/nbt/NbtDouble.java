@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(end=1400, name="net.minecraft.nbt.NbtDouble"), @VersionName(begin=1400, end=1605, name="net.minecraft.nbt.DoubleTag"), @VersionName(begin=1605, name="net.minecraft.nbt.NbtDouble")})
 public interface NbtDouble extends NbtElement
 {
-    WrapperFactory<NbtDouble> FACTORY = WrapperFactory.find(NbtDouble.class);
+    WrapperFactory<NbtDouble> FACTORY = WrapperFactory.of(NbtDouble.class);
     
     @Deprecated
     @WrapperCreator

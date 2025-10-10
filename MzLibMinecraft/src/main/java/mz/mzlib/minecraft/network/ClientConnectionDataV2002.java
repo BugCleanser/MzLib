@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.network.ConnectedClientData"))
 public interface ClientConnectionDataV2002 extends WrapperObject
 {
-    WrapperFactory<ClientConnectionDataV2002> FACTORY = WrapperFactory.find(ClientConnectionDataV2002.class);
+    WrapperFactory<ClientConnectionDataV2002> FACTORY = WrapperFactory.of(ClientConnectionDataV2002.class);
     @Deprecated
     @WrapperCreator
     static ClientConnectionDataV2002 create(Object wrapped)

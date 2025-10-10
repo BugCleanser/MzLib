@@ -10,7 +10,7 @@ import org.bukkit.command.CommandMap;
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginInstanceManager")
 public interface PluginInstanceManagerPaperV2102 extends WrapperObject
 {
-    WrapperFactory<PluginInstanceManagerPaperV2102> FACTORY = WrapperFactory.find(PluginInstanceManagerPaperV2102.class);
+    WrapperFactory<PluginInstanceManagerPaperV2102> FACTORY = WrapperFactory.of(PluginInstanceManagerPaperV2102.class);
     @Deprecated
     @WrapperCreator
     static PluginInstanceManagerPaperV2102 create(Object wrapped)

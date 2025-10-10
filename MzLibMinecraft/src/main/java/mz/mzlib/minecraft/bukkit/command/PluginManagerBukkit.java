@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClassForName("org.bukkit.plugin.SimplePluginManager")
 public interface PluginManagerBukkit extends WrapperObject
 {
-    WrapperFactory<PluginManagerBukkit> FACTORY = WrapperFactory.find(PluginManagerBukkit.class);
+    WrapperFactory<PluginManagerBukkit> FACTORY = WrapperFactory.of(PluginManagerBukkit.class);
     @Deprecated
     @WrapperCreator
     static PluginManagerBukkit create(Object wrapped)

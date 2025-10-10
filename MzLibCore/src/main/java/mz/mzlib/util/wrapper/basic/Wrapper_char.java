@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(char.class)
 public interface Wrapper_char extends WrapperObject
 {
-    WrapperFactory<Wrapper_char> FACTORY = WrapperFactory.find(Wrapper_char.class);
+    WrapperFactory<Wrapper_char> FACTORY = WrapperFactory.of(Wrapper_char.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_char create(Character wrapped)

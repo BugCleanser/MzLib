@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.ChatMessageType", end=1400), @VersionName(name="net.minecraft.network.MessageType", begin=1400)})
 public interface MessageTypeV1200_1900 extends WrapperObject
 {
-    WrapperFactory<MessageTypeV1200_1900> FACTORY = WrapperFactory.find(MessageTypeV1200_1900.class);
+    WrapperFactory<MessageTypeV1200_1900> FACTORY = WrapperFactory.of(MessageTypeV1200_1900.class);
     @Deprecated
     @WrapperCreator
     static MessageTypeV1200_1900 create(Object wrapped)

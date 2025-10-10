@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapSameClass(ClientConnection.class)
 public interface ClientConnectionBukkit extends ClientConnection
 {
-    WrapperFactory<CraftItemStack> FACTORY = WrapperFactory.find(CraftItemStack.class);
+    WrapperFactory<CraftItemStack> FACTORY = WrapperFactory.of(CraftItemStack.class);
     @Deprecated
     @WrapperCreator
     static ClientConnectionBukkit create(Object object)

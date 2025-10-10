@@ -5,7 +5,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapClass(Float.class)
 public interface WrapperFloat extends WrapperObject
 {
-    WrapperFactory<WrapperFloat> FACTORY = WrapperFactory.find(WrapperFloat.class);
+    WrapperFactory<WrapperFloat> FACTORY = WrapperFactory.of(WrapperFloat.class);
     @Deprecated
     @WrapperCreator
     static WrapperFloat create(Float wrapped)

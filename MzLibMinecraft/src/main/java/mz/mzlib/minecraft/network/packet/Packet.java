@@ -24,7 +24,7 @@ import java.util.Objects;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.Packet", end=1904), @VersionName(name="net.minecraft.network.packet.Packet", begin=1904)})
 public interface Packet extends WrapperObject
 {
-    WrapperFactory<Packet> FACTORY = WrapperFactory.find(Packet.class);
+    WrapperFactory<Packet> FACTORY = WrapperFactory.of(Packet.class);
     
     @Deprecated
     @WrapperCreator

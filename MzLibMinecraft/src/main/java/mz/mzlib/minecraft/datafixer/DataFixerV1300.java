@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="com.mojang.datafixers.DataFixer"))
 public interface DataFixerV1300 extends WrapperObject
 {
-    WrapperFactory<DataFixerV1300> FACTORY = WrapperFactory.find(DataFixerV1300.class);
+    WrapperFactory<DataFixerV1300> FACTORY = WrapperFactory.of(DataFixerV1300.class);
     @Deprecated
     @WrapperCreator
     static DataFixerV1300 create(Object wrapped)

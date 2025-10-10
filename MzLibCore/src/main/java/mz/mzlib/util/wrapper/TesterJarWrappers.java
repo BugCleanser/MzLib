@@ -70,7 +70,7 @@ public class TesterJarWrappers implements Tester<TesterContext>
 				{
 					try
 					{
-						WrapperFactory.find(RuntimeUtil.<Class<? extends WrapperObject>>cast(clazz));
+						WrapperFactory.of(RuntimeUtil.<Class<? extends WrapperObject>>cast(clazz));
 					}
 					catch(Throwable e)
 					{

@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.RegistryKey",begin=1600,end=1903),@VersionName(name = "net.minecraft.registry.RegistryKey", begin = 1903)})
 public interface RegistryKeyV1600 extends WrapperObject
 {
-    WrapperFactory<RegistryKeyV1600> FACTORY = WrapperFactory.find(RegistryKeyV1600.class);
+    WrapperFactory<RegistryKeyV1600> FACTORY = WrapperFactory.of(RegistryKeyV1600.class);
     @Deprecated
     @WrapperCreator
     static RegistryKeyV1600 create(Object wrapped)

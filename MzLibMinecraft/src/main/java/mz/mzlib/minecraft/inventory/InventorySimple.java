@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.inventory.SimpleInventory", end=1400), @VersionName(name="net.minecraft.inventory.BasicInventory", begin=1400, end=1600), @VersionName(name="net.minecraft.inventory.SimpleInventory", begin=1600)})
 public interface InventorySimple extends WrapperObject, Inventory
 {
-    WrapperFactory<InventorySimple> FACTORY = WrapperFactory.find(InventorySimple.class);
+    WrapperFactory<InventorySimple> FACTORY = WrapperFactory.of(InventorySimple.class);
     @Deprecated
     @WrapperCreator
     static InventorySimple create(Object wrapped)

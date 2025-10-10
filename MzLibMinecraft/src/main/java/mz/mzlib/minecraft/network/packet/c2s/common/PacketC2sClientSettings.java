@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.ClientSettingsC2SPacket", end=1400), @VersionName(name="net.minecraft.class_2803", begin=1400)})
 public interface PacketC2sClientSettings extends WrapperObject, Packet
 {
-    WrapperFactory<PacketC2sClientSettings> FACTORY = WrapperFactory.find(PacketC2sClientSettings.class);
+    WrapperFactory<PacketC2sClientSettings> FACTORY = WrapperFactory.of(PacketC2sClientSettings.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sClientSettings create(Object wrapped)
@@ -45,7 +45,7 @@ public interface PacketC2sClientSettings extends WrapperObject, Packet
     @WrapMinecraftClass(@VersionName(name="net.minecraft.class_8791"))
     interface DataV2002 extends WrapperObject
     {
-        WrapperFactory<DataV2002> FACTORY = WrapperFactory.find(DataV2002.class);
+        WrapperFactory<DataV2002> FACTORY = WrapperFactory.of(DataV2002.class);
         @Deprecated
         @WrapperCreator
         static DataV2002 create(Object wrapped)

@@ -22,7 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(end=1400, name="net.minecraft.entity.player.ServerPlayerEntity"), @VersionName(begin=1400, name="net.minecraft.server.network.ServerPlayerEntity")})
 public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
 {
-    WrapperFactory<EntityPlayer> FACTORY = WrapperFactory.find(EntityPlayer.class);
+    WrapperFactory<EntityPlayer> FACTORY = WrapperFactory.of(EntityPlayer.class);
     @Deprecated
     @WrapperCreator
     static EntityPlayer create(Object wrapped)

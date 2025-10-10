@@ -7,7 +7,7 @@ plugins {
 
 allprojects {
     group = "mz.mzlib"
-    version = "10.0.1-beta-dev13"
+    version = "10.0.1-beta-dev14"
 
     repositories {
         mavenCentral()

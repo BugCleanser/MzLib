@@ -19,7 +19,7 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket"))
 public interface PacketS2cEntitySpawn extends Packet
 {
-    WrapperFactory<PacketS2cEntitySpawn> FACTORY = WrapperFactory.find(PacketS2cEntitySpawn.class);
+    WrapperFactory<PacketS2cEntitySpawn> FACTORY = WrapperFactory.of(PacketS2cEntitySpawn.class);
     @Deprecated
     @WrapperCreator
     static PacketS2cEntitySpawn create(Object wrapped)

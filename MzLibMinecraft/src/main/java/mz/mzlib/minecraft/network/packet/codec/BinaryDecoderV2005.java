@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.codec.PacketDecoder"))
 public interface BinaryDecoderV2005 extends WrapperObject
 {
-    WrapperFactory<BinaryDecoderV2005> FACTORY = WrapperFactory.find(BinaryDecoderV2005.class);
+    WrapperFactory<BinaryDecoderV2005> FACTORY = WrapperFactory.of(BinaryDecoderV2005.class);
     @Deprecated
     @WrapperCreator
     static BinaryDecoderV2005 create(Object wrapped)

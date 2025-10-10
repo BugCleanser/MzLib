@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.nbt.NbtIo"))
 public interface NbtIo extends WrapperObject
 {
-    WrapperFactory<NbtIo> FACTORY = WrapperFactory.find(NbtIo.class);
+    WrapperFactory<NbtIo> FACTORY = WrapperFactory.of(NbtIo.class);
     @Deprecated
     @WrapperCreator
     static NbtIo create(Object wrapped)

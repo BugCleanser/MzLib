@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @Compound
 public interface WindowSlotOutput extends WindowSlot
 {
-    WrapperFactory<WindowSlotOutput> FACTORY = WrapperFactory.find(WindowSlotOutput.class);
+    WrapperFactory<WindowSlotOutput> FACTORY = WrapperFactory.of(WindowSlotOutput.class);
     @Deprecated
     @WrapperCreator
     static WindowSlotOutput create(Object wrapped)

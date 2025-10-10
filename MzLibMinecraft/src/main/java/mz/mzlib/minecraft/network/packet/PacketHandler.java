@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.listener.PacketListener"))
 public interface PacketHandler extends WrapperObject
 {
-    WrapperFactory<PacketHandler> FACTORY = WrapperFactory.find(PacketHandler.class);
+    WrapperFactory<PacketHandler> FACTORY = WrapperFactory.of(PacketHandler.class);
     @Deprecated
     @WrapperCreator
     static PacketHandler create(Object wrapped)

@@ -15,7 +15,7 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.entity.data.DataTracker"))
 public interface EntityDataTracker extends WrapperObject
 {
-    WrapperFactory<EntityDataTracker> FACTORY = WrapperFactory.find(EntityDataTracker.class);
+    WrapperFactory<EntityDataTracker> FACTORY = WrapperFactory.of(EntityDataTracker.class);
     @Deprecated
     @WrapperCreator
     static EntityDataTracker create(Object wrapped)
@@ -35,7 +35,7 @@ public interface EntityDataTracker extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name={@VersionName(name="DataEntry", end=1400), @VersionName(name="Entry", begin=1400)})
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
     {
-        WrapperFactory<Entry> FACTORY = WrapperFactory.find(Entry.class);
+        WrapperFactory<Entry> FACTORY = WrapperFactory.of(Entry.class);
         @Deprecated
         @WrapperCreator
         static Entry create(Object wrapped)
@@ -117,7 +117,7 @@ public interface EntityDataTracker extends WrapperObject
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name=@VersionName(name="SerializedEntry"))
     interface EntityDataV1903 extends WrapperObject, PacketS2cEntityData.Entry
     {
-        WrapperFactory<EntityDataV1903> FACTORY = WrapperFactory.find(EntityDataV1903.class);
+        WrapperFactory<EntityDataV1903> FACTORY = WrapperFactory.of(EntityDataV1903.class);
         @Deprecated
         @WrapperCreator
         static EntityDataV1903 create(Object wrapped)

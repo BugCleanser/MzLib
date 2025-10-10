@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.Registry", end=1903), @VersionName(name="net.minecraft.registry.Registries", begin=1903)})
 public interface RegistriesV1300 extends WrapperObject
 {
-    WrapperFactory<RegistriesV1300> FACTORY = WrapperFactory.find(RegistriesV1300.class);
+    WrapperFactory<RegistriesV1300> FACTORY = WrapperFactory.of(RegistriesV1300.class);
     @Deprecated
     @WrapperCreator
     static RegistriesV1300 create(Object wrapped)

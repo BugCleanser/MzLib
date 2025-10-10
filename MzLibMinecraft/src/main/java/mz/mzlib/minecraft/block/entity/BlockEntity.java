@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.BlockEntity"))
 public interface BlockEntity extends WrapperObject
 {
-    WrapperFactory<BlockEntity> FACTORY = WrapperFactory.find(BlockEntity.class);
+    WrapperFactory<BlockEntity> FACTORY = WrapperFactory.of(BlockEntity.class);
     @Deprecated
     @WrapperCreator
     static BlockEntity create(Object wrapped)

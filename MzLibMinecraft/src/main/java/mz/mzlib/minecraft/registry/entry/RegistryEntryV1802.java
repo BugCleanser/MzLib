@@ -14,7 +14,7 @@ import java.util.Optional;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.RegistryEntry", begin=1802, end=1903),@VersionName(name = "net.minecraft.registry.entry.RegistryEntry", begin = 1903)})
 public interface RegistryEntryV1802 extends WrapperObject
 {
-    WrapperFactory<RegistryEntryV1802> FACTORY = WrapperFactory.find(RegistryEntryV1802.class);
+    WrapperFactory<RegistryEntryV1802> FACTORY = WrapperFactory.of(RegistryEntryV1802.class);
     @Deprecated
     @WrapperCreator
     static RegistryEntryV1802 create(Object wrapped)

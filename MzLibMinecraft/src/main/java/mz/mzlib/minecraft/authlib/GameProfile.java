@@ -16,7 +16,7 @@ import java.util.UUID;
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.GameProfile"))
 public interface GameProfile extends WrapperObject
 {
-    WrapperFactory<GameProfile> FACTORY = WrapperFactory.find(GameProfile.class);
+    WrapperFactory<GameProfile> FACTORY = WrapperFactory.of(GameProfile.class);
     @Deprecated
     @WrapperCreator
     static GameProfile create(Object wrapped)

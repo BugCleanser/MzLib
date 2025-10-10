@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.nbt.NbtHelper"))
 public interface NbtUtil extends WrapperObject
 {
-    WrapperFactory<NbtUtil> FACTORY = WrapperFactory.find(NbtUtil.class);
+    WrapperFactory<NbtUtil> FACTORY = WrapperFactory.of(NbtUtil.class);
     @Deprecated
     @WrapperCreator
     static NbtUtil create(Object wrapped)

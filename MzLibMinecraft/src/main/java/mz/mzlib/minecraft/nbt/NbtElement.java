@@ -18,7 +18,7 @@ import java.io.DataOutput;
         })
 public interface NbtElement extends WrapperObject
 {
-    WrapperFactory<NbtElement> FACTORY = WrapperFactory.find(NbtElement.class);
+    WrapperFactory<NbtElement> FACTORY = WrapperFactory.of(NbtElement.class);
     @Deprecated
     @WrapperCreator
     static NbtElement create(Object wrapped)

@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass({@VersionName(name="net.minecraft.util.SharedConstants", end=1400), @VersionName(name="net.minecraft.SharedConstants", begin=1400)})
 public interface GlobalConstants extends WrapperObject
 {
-    WrapperFactory<GlobalConstants> FACTORY = WrapperFactory.find(GlobalConstants.class);
+    WrapperFactory<GlobalConstants> FACTORY = WrapperFactory.of(GlobalConstants.class);
     @Deprecated
     @WrapperCreator
     static GlobalConstants create(Object wrapped)

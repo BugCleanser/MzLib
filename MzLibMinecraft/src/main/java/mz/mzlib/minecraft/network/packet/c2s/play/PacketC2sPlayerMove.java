@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket"))
 public interface PacketC2sPlayerMove extends Packet
 {
-    WrapperFactory<PacketC2sPlayerMove> FACTORY = WrapperFactory.find(PacketC2sPlayerMove.class);
+    WrapperFactory<PacketC2sPlayerMove> FACTORY = WrapperFactory.of(PacketC2sPlayerMove.class);
     @Deprecated
     @WrapperCreator
     static PacketC2sPlayerMove create(Object wrapped)
@@ -24,7 +24,7 @@ public interface PacketC2sPlayerMove extends Packet
     @WrapMinecraftInnerClass(outer=PacketC2sPlayerMove.class, name={@VersionName(name="PositionOnly", end=1700), @VersionName(name="PositionAndOnGround", begin=1700)})
     interface LocationAndOnGround extends PacketC2sPlayerMove
     {
-        WrapperFactory<LocationAndOnGround> FACTORY = WrapperFactory.find(LocationAndOnGround.class);
+        WrapperFactory<LocationAndOnGround> FACTORY = WrapperFactory.of(LocationAndOnGround.class);
         @Deprecated
         @WrapperCreator
         static LocationAndOnGround create(Object wrapped)
@@ -36,7 +36,7 @@ public interface PacketC2sPlayerMove extends Packet
     @WrapMinecraftInnerClass(outer=PacketC2sPlayerMove.class, name={@VersionName(name="LookOnly", end=1700), @VersionName(name="LookAndOnGround", begin=1700)})
     interface LookAndOnGround extends PacketC2sPlayerMove
     {
-        WrapperFactory<LookAndOnGround> FACTORY = WrapperFactory.find(LookAndOnGround.class);
+        WrapperFactory<LookAndOnGround> FACTORY = WrapperFactory.of(LookAndOnGround.class);
         @Deprecated
         @WrapperCreator
         static LookAndOnGround create(Object wrapped)
@@ -48,7 +48,7 @@ public interface PacketC2sPlayerMove extends Packet
     @WrapMinecraftInnerClass(outer=PacketC2sPlayerMove.class, name={@VersionName(name="Both", end=1700), @VersionName(name="Full", begin=1700)})
     interface Full extends PacketC2sPlayerMove
     {
-        WrapperFactory<Full> FACTORY = WrapperFactory.find(Full.class);
+        WrapperFactory<Full> FACTORY = WrapperFactory.of(Full.class);
         @Deprecated
         @WrapperCreator
         static Full create(Object wrapped)
@@ -60,7 +60,7 @@ public interface PacketC2sPlayerMove extends Packet
     @WrapMinecraftInnerClass(outer=PacketC2sPlayerMove.class, name={@VersionName(name="OnGroundOnly", begin=1700)})
     interface OnGroundOnlyV1700 extends PacketC2sPlayerMove
     {
-        WrapperFactory<OnGroundOnlyV1700> FACTORY = WrapperFactory.find(OnGroundOnlyV1700.class);
+        WrapperFactory<OnGroundOnlyV1700> FACTORY = WrapperFactory.of(OnGroundOnlyV1700.class);
         @Deprecated
         @WrapperCreator
         static OnGroundOnlyV1700 create(Object wrapped)

@@ -62,12 +62,12 @@ public class PacketEvent
         return this.isCancelled;
     }
     
-    public <T extends Packet> Specialized<T> specialized(WrapperFactory<T> factory)
+    public <T extends Packet> Specialized<T> specialize(WrapperFactory<T> factory)
     {
         return new Specialized<>(this, factory);
     }
     @Deprecated
-    public <T extends Packet> Specialized<T> specialized(Function<Object, T> creator)
+    public <T extends Packet> Specialized<T> specialize(Function<Object, T> creator)
     {
         return new Specialized<>(this, creator);
     }

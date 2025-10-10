@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.DamageSource"))
 public interface DamageSource extends WrapperObject
 {
-    WrapperFactory<DamageSource> FACTORY = WrapperFactory.find(DamageSource.class);
+    WrapperFactory<DamageSource> FACTORY = WrapperFactory.of(DamageSource.class);
     @Deprecated
     @WrapperCreator
     static DamageSource create(Object wrapped)

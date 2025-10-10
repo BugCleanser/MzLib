@@ -18,7 +18,7 @@ import java.util.function.Function;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentMap", begin=2005))
 public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2005.Entry>
 {
-    WrapperFactory<ComponentMapV2005> FACTORY = WrapperFactory.find(ComponentMapV2005.class);
+    WrapperFactory<ComponentMapV2005> FACTORY = WrapperFactory.of(ComponentMapV2005.class);
     @Deprecated
     @WrapperCreator
     static ComponentMapV2005 create(Object wrapped)
@@ -70,7 +70,7 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     @WrapMinecraftClass(@VersionName(name="net.minecraft.component.Component", begin=2005))
     interface Entry extends WrapperObject
     {
-        WrapperFactory<Entry> FACTORY = WrapperFactory.find(Entry.class);
+        WrapperFactory<Entry> FACTORY = WrapperFactory.of(Entry.class);
         @Deprecated
         @WrapperCreator
         static Entry create(Object wrapped)

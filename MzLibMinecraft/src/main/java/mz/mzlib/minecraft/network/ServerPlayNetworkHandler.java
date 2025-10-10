@@ -18,7 +18,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.server.network.ServerPlayNetworkHandler"))
 public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacketListener
 {
-    WrapperFactory<ServerPlayNetworkHandler> FACTORY = WrapperFactory.find(ServerPlayNetworkHandler.class);
+    WrapperFactory<ServerPlayNetworkHandler> FACTORY = WrapperFactory.of(ServerPlayNetworkHandler.class);
     @Deprecated
     @WrapperCreator
     static ServerPlayNetworkHandler create(Object wrapped)

@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.*;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.ChestBlockEntity"))
 public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFactory
 {
-    WrapperFactory<BlockEntityChest> FACTORY = WrapperFactory.find(BlockEntityChest.class);
+    WrapperFactory<BlockEntityChest> FACTORY = WrapperFactory.of(BlockEntityChest.class);
     @Deprecated
     @WrapperCreator
     static BlockEntityChest create(Object wrapped)

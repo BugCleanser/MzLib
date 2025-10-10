@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.util.math.BlockPos"))
 public interface BlockPos extends WrapperObject, Vec3i
 {
-    WrapperFactory<BlockPos> FACTORY = WrapperFactory.find(BlockPos.class);
+    WrapperFactory<BlockPos> FACTORY = WrapperFactory.of(BlockPos.class);
     @Deprecated
     @WrapperCreator
     static BlockPos create(Object wrapped)

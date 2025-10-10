@@ -47,7 +47,7 @@ public class ModuleWindow extends MzModule
     @WrapSameClass(Window.class)
     public interface NothingWindow extends Window, Nothing
     {
-        WrapperFactory<NothingWindow> FACTORY = WrapperFactory.find(NothingWindow.class);
+        WrapperFactory<NothingWindow> FACTORY = WrapperFactory.of(NothingWindow.class);
         @Deprecated
         @WrapperCreator
         static NothingWindow create(Object wrapped)

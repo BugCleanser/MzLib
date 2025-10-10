@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapMinecraftClass(@VersionName(name="net.minecraft.datafixer.DataFixType"))
 public interface DataUpdateTypeV900_1300 extends WrapperObject
 {
-    WrapperFactory<DataUpdateTypeV900_1300> FACTORY = WrapperFactory.find(DataUpdateTypeV900_1300.class);
+    WrapperFactory<DataUpdateTypeV900_1300> FACTORY = WrapperFactory.of(DataUpdateTypeV900_1300.class);
     @Deprecated
     @WrapperCreator
     static DataUpdateTypeV900_1300 create(Object wrapped)

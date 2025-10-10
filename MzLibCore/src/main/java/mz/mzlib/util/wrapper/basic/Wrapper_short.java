@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 @WrapClass(short.class)
 public interface Wrapper_short extends WrapperObject
 {
-    WrapperFactory<Wrapper_short> FACTORY = WrapperFactory.find(Wrapper_short.class);
+    WrapperFactory<Wrapper_short> FACTORY = WrapperFactory.of(Wrapper_short.class);
     @Deprecated
     @WrapperCreator
     static Wrapper_short create(Short wrapped)

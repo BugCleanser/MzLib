@@ -18,7 +18,7 @@ import java.net.URI;
         })
 public interface TextClickEvent extends WrapperObject
 {
-    WrapperFactory<TextClickEvent> FACTORY = WrapperFactory.find(TextClickEvent.class);
+    WrapperFactory<TextClickEvent> FACTORY = WrapperFactory.of(TextClickEvent.class);
     @Deprecated
     @WrapperCreator
     static TextClickEvent create(Object wrapped)
@@ -83,7 +83,7 @@ public interface TextClickEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextClickEvent.class, name=@VersionName(name="Action"))
     interface Action extends WrapperObject
     {
-        WrapperFactory<Action> FACTORY = WrapperFactory.find(Action.class);
+        WrapperFactory<Action> FACTORY = WrapperFactory.of(Action.class);
         @Deprecated
         @WrapperCreator
         static Action create(Object wrapped)
@@ -138,7 +138,7 @@ public interface TextClickEvent extends WrapperObject
     @WrapMinecraftInnerClass(outer=TextClickEvent.class, name=@VersionName(name="RunCommand"))
     interface RunCommandV2105 extends TextClickEvent
     {
-        WrapperFactory<RunCommandV2105> FACTORY = WrapperFactory.find(RunCommandV2105.class);
+        WrapperFactory<RunCommandV2105> FACTORY = WrapperFactory.of(RunCommandV2105.class);
         
         static RunCommandV2105 newInstance(String command)
         {
