@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin=1300)
 @WrapMinecraftClass({@VersionName(name="net.minecraft.class_4372", end=1400), @VersionName(name="net.minecraft.datafixer.NbtOps", begin=1400, end=1500), @VersionName(name="net.minecraft.datafixers.NbtOps", begin=1500, end=1501), @VersionName(name="net.minecraft.datafixer.NbtOps", begin=1501, end=1602), @VersionName(name="net.minecraft.nbt.NbtOps", begin=1602)})
-public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300
+public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
 {
     WrapperFactory<NbtOpsV1300> FACTORY = WrapperFactory.of(NbtOpsV1300.class);
     @Deprecated
@@ -26,13 +26,21 @@ public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300
     @WrapMinecraftFieldAccessor({@VersionName(name="field_21487", end=1400), @VersionName(name="INSTANCE", begin=1400)})
     NbtOpsV1300 staticInstance();
     
-    static NbtOpsV1300 instance()
+    static NbtOpsV1300 instance0()
     {
         return create(null).staticInstance();
     }
-    
-    static DynamicOpsWithRegistriesV1903 withRegistriesV1903()
+    static DynamicOpsV1300.Wrapper<NbtCompound> instance()
     {
-        return DynamicOpsWithRegistriesV1903.newInstance(instance(), MinecraftServer.instance.getRegistriesV1802());
+        return new DynamicOpsV1300.Wrapper<>(instance0(), NbtCompound.FACTORY);
+    }
+    
+    static DynamicOpsWithRegistriesV1903<?> withRegistries0V1903()
+    {
+        return DynamicOpsWithRegistriesV1903.newInstance(instance0(), MinecraftServer.instance.getRegistriesV1802());
+    }
+    static DynamicOpsWithRegistriesV1903.Wrapper<NbtCompound> withRegistriesV1903()
+    {
+        return new DynamicOpsWithRegistriesV1903.Wrapper<>(withRegistries0V1903(), NbtCompound.FACTORY);
     }
 }

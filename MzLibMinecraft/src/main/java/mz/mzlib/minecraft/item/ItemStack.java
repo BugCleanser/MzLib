@@ -17,7 +17,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
-import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
@@ -91,11 +90,14 @@ public interface ItemStack extends WrapperObject
     
     @VersionRange(begin=1600)
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC"))
-    CodecV1600 staticCodecV1600();
-    
-    static CodecV1600 codecV1600()
+    CodecV1600<?> staticCodec0V1600();
+    static CodecV1600<?> codec0V1600()
     {
-        return create(null).staticCodecV1600();
+        return create(null).staticCodec0V1600();
+    }
+    static CodecV1600.Wrapper<ItemStack> codecV1600()
+    {
+        return new CodecV1600.Wrapper<>(codec0V1600(), FACTORY);
     }
     
     Result<Option<ItemStack>, String> staticDecode0(NbtCompound nbt);
@@ -130,8 +132,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default Result<Option<ItemStack>, String> staticDecode0V2005(NbtCompound nbt)
     {
-        //noinspection RedundantTypeArguments
-        return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt.getWrapped()).toResult().mapValue(ThrowableFunction.<Object, ItemStack, RuntimeException>optionMap(ItemStack.FACTORY::create));
+        return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt).toResult();
     }
     
     static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
@@ -203,9 +204,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2005)
     default Result<Option<NbtCompound>, String> encode0V2005()
     {
-        //noinspection RedundantTypeArguments
-        return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this.getWrapped()).toResult()
-                .mapValue(ThrowableFunction.<Object, NbtCompound, RuntimeException>optionMap(NbtCompound.FACTORY::create));
+        return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this).toResult();
     }
     
     
@@ -269,7 +268,7 @@ public interface ItemStack extends WrapperObject
     @Deprecated
     @VersionRange(begin=2005)
     @WrapMinecraftMethod(@VersionName(name="set"))
-    WrapperObject setComponentV2005(ComponentKeyV2005 key, WrapperObject value);
+    <T> T setComponentV2005(ComponentKeyV2005<T> key, T value);
     
     static boolean isEmpty(ItemStack is)
     {
@@ -521,7 +520,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=1300)
     default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
     {
-        return NbtCompound.FACTORY.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt.getWrapped()), from, MinecraftServer.instance.getDataVersion()).getValue());
+        return NbtCompound.FACTORY.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt), from, MinecraftServer.instance.getDataVersion()).getValue());
     }
     
     static NbtCompound upgrade(NbtCompound nbt, int from)

@@ -35,26 +35,26 @@ public interface ComponentMapDefaultedV2005 extends ComponentMapV2005
     
     @WrapMinecraftMethod(@VersionName(name="set"))
     WrapperObject put(ComponentKeyV2005 key, WrapperObject value);
-    default <T extends WrapperObject> Option<T> put(ComponentKeyV2005.Specialized<T> key, T value)
+    default <T extends WrapperObject> Option<T> put(ComponentKeyV2005.Wrapper<T> key, T value)
     {
         return key.put(this, value);
     }
     
     @WrapMinecraftMethod(@VersionName(name="remove"))
     WrapperObject remove(ComponentKeyV2005 key);
-    default <T extends WrapperObject> Option<T> remove(ComponentKeyV2005.Specialized<T> key)
+    default <T extends WrapperObject> Option<T> remove(ComponentKeyV2005.Wrapper<T> key)
     {
         return key.remove(this);
     }
     
-    default <T extends WrapperObject> Option<T> set(ComponentKeyV2005.Specialized<T> key, Option<T> value)
+    default <T extends WrapperObject> Option<T> set(ComponentKeyV2005.Wrapper<T> key, Option<T> value)
     {
         for(T t: value)
             return this.put(key, t);
         return this.remove(key);
     }
     
-    default <T extends WrapperObject> Editor<Ref<Option<T>>> edit(ComponentKeyV2005.Specialized<T> key)
+    default <T extends WrapperObject> Editor<Ref<Option<T>>> edit(ComponentKeyV2005.Wrapper<T> key)
     {
         return Editor.ofRef(key, this::get, this::set);
     }

@@ -50,12 +50,12 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
         return this.get(key).castTo(creator);
     }
     
-    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005.Specialized<T> key)
+    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005.Wrapper<T> key)
     {
         return key.get(this);
     }
     
-    default <T extends WrapperObject> Option<T> copy(ComponentKeyV2005.Specialized<T> key)
+    default <T extends WrapperObject> Option<T> copy(ComponentKeyV2005.Wrapper<T> key)
     {
         return this.get(key).map(key::copy);
     }

@@ -14,47 +14,42 @@ import java.util.function.Consumer;
 
 @VersionRange(begin=1600)
 @WrapMinecraftClass(@VersionName(name="com.mojang.serialization.DataResult"))
-public interface DataResultV1600 extends WrapperObject
+public interface DataResultV1600<T> extends WrapperObject
 {
-    WrapperFactory<DataResultV1600> FACTORY = WrapperFactory.of(DataResultV1600.class);
+    WrapperFactory<DataResultV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DataResultV1600.class));
     @Deprecated
     @WrapperCreator
-    static DataResultV1600 create(Object wrapped)
+    static DataResultV1600<?> create(Object wrapped)
     {
         return WrapperObject.create(DataResultV1600.class, wrapped);
     }
     
-    default Option<Object> resultOrPartial(Consumer<String> onError)
+    default Option<T> resultOrPartial(Consumer<String> onError)
     {
         return Option.fromOptional(this.resultOrPartial0(onError));
     }
     @WrapMinecraftMethod(@VersionName(name="resultOrPartial"))
-    Optional<Object> resultOrPartial0(Consumer<String> onError);
+    Optional<T> resultOrPartial0(Consumer<String> onError);
     
     default Option<String> getErrorMessage() // FIXME
     {
         Ref<String> error = new RefStrong<>(null);
-        Option<Object> ignored = this.resultOrPartial(error::set);
+        Option<T> ignored = this.resultOrPartial(error::set);
         return Option.fromNullable(error.get());
     }
     
-    default Result<Option<Object>, String> toResult() // FIXME
+    default Result<Option<T>, String> toResult() // FIXME
     {
         for(String msg: this.getErrorMessage())
             return Result.failure(Option.none(), msg);
         return Result.success(this.resultOrPartial(ThrowableConsumer.nothing()));
     }
     
-    default <T extends WrapperObject> Wrapper<T> wrapper(WrapperFactory<T> type)
-    {
-        return new Wrapper<>(this, type);
-    }
-    
     class Wrapper<T extends WrapperObject>
     {
-        DataResultV1600 base;
+        DataResultV1600<?> base;
         WrapperFactory<T> type;
-        public Wrapper(DataResultV1600 base, WrapperFactory<T> type)
+        public Wrapper(DataResultV1600<?> base, WrapperFactory<T> type)
         {
             this.base = base;
             this.type = type;
