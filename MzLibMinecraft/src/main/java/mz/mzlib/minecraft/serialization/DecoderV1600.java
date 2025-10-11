@@ -34,7 +34,7 @@ public interface DecoderV1600<T> extends WrapperObject
         
         default <D> DataResultV1600.Wrapper<T> parse(DynamicOpsV1300<D> ops, D data)
         {
-            return new DataResultV1600.Wrapper<>(this.getBase().parse(ops, data),this.getType());
+            return new DataResultV1600.Wrapper<>(this.getBase().parse(ops, data), this.getType());
         }
         default <U extends WrapperObject> DataResultV1600.Wrapper<T> parse(DynamicOpsV1300.Wrapper<U> ops, U data)
         {

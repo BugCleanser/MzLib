@@ -226,22 +226,16 @@ public abstract class AbstractInsnNode
     {
         if (visibleTypeAnnotations != null)
         {
-            for (int i = 0, n = visibleTypeAnnotations.size(); i < n; ++i)
+            for(TypeAnnotationNode typeAnnotation: visibleTypeAnnotations)
             {
-                TypeAnnotationNode typeAnnotation = visibleTypeAnnotations.get(i);
-                typeAnnotation.accept(
-                        methodVisitor.visitInsnAnnotation(
-                                typeAnnotation.typeRef, typeAnnotation.typePath, typeAnnotation.desc, true));
+                typeAnnotation.accept(methodVisitor.visitInsnAnnotation(typeAnnotation.typeRef, typeAnnotation.typePath, typeAnnotation.desc, true));
             }
         }
         if (invisibleTypeAnnotations != null)
         {
-            for (int i = 0, n = invisibleTypeAnnotations.size(); i < n; ++i)
+            for(TypeAnnotationNode typeAnnotation: invisibleTypeAnnotations)
             {
-                TypeAnnotationNode typeAnnotation = invisibleTypeAnnotations.get(i);
-                typeAnnotation.accept(
-                        methodVisitor.visitInsnAnnotation(
-                                typeAnnotation.typeRef, typeAnnotation.typePath, typeAnnotation.desc, false));
+                typeAnnotation.accept(methodVisitor.visitInsnAnnotation(typeAnnotation.typeRef, typeAnnotation.typePath, typeAnnotation.desc, false));
             }
         }
     }

@@ -64,7 +64,7 @@ subprojects {
             exclude("mappings/**/*")
             expand("version" to project.version)
         }
-        withType<JavaCompile>() {
+        withType<JavaCompile> {
             options.encoding = "UTF-8"
         }
         register<Copy>("moveJarToOutputDir") {

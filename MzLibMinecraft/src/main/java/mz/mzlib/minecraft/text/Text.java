@@ -6,13 +6,12 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
+import mz.mzlib.minecraft.serialization.JsonOpsV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
-import mz.mzlib.util.JsUtil;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -35,10 +34,25 @@ public interface Text extends WrapperObject
         return WrapperObject.create(Text.class, wrapped);
     }
     
-    // FIXME
     static Text decode(JsonElement json)
     {
+        return FACTORY.getStatic().staticDecode(json);
+    }
+    Text staticDecode(JsonElement json);
+    @SpecificImpl("staticDecode")
+    @VersionRange(end=2106)
+    default Text staticDecodeV_2106(JsonElement json)
+    {
         return SerializerV_2106.decode(json);
+    }
+    @SpecificImpl("staticDecode")
+    @VersionRange(begin=2106)
+    default Text staticDecodeV2106(JsonElement json)
+    {
+        Result<Option<Text>, String> result = TextCodecsV2003.codec().parse(JsonOpsV1300.instance(), json).toResult();
+        for(String err: result.getError())
+            throw new IllegalArgumentException(err);
+        return result.getValue().unwrap();
     }
     
     static Text decode(String json)
@@ -46,9 +60,21 @@ public interface Text extends WrapperObject
         return decode(new Gson().fromJson(json, JsonElement.class));
     }
     
-    default JsonElement encode()
+    JsonElement encode();
+    @SpecificImpl("encode")
+    @VersionRange(end=2106)
+    default JsonElement encodeV_2106()
     {
         return SerializerV_2106.encode(this);
+    }
+    @SpecificImpl("encode")
+    @VersionRange(begin=2106)
+    default JsonElement encodeV2106()
+    {
+        Result<Option<JsonElement>, String> result = TextCodecsV2003.codec().encodeStart(JsonOpsV1300.instance(), this).toResult();
+        for(String err: result.getError())
+            throw new IllegalArgumentException(err);
+        return result.getValue().unwrap();
     }
     
     Text staticLiteral(String str);

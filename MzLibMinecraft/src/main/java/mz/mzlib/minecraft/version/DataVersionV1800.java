@@ -18,6 +18,6 @@ public interface DataVersionV1800 extends WrapperObject
         return WrapperObject.create(DataVersionV1800.class, wrapped);
     }
     
-    @WrapMinecraftMethod(@VersionName(name="getId"))
+    @WrapMinecraftMethod({@VersionName(name="getId", end=2106), @VersionName(name="id", begin=2106)})
     int getNumber();
 }

@@ -66,54 +66,53 @@ public class PacketEvent
     {
         return new Specialized<>(this, factory);
     }
-    @Deprecated
-    public <T extends Packet> Specialized<T> specialize(Function<Object, T> creator)
-    {
-        return new Specialized<>(this, creator);
-    }
     
     public static class Specialized<T extends Packet>
     {
-        public PacketEvent common;
-        public WrapperFactory<T> factory;
+        PacketEvent base;
+        WrapperFactory<T> type;
         public Specialized(PacketEvent common, WrapperFactory<T> creator)
         {
-            this.common = common;
-            this.factory = creator;
+            this.base = common;
+            this.type = creator;
         }
-        @Deprecated
-        public Specialized(PacketEvent common, Function<Object, T> creator)
+        
+        public PacketEvent getBase()
         {
-            this(common, new WrapperFactory<>(creator));
+            return this.base;
+        }
+        public WrapperFactory<T> getType()
+        {
+            return this.type;
         }
         
         public Option<EntityPlayer> getPlayer()
         {
-            return this.common.getPlayer();
+            return this.getBase().getPlayer();
         }
         
         public T getPacket()
         {
-            return this.common.getPacket(this.factory);
+            return this.getBase().getPacket(this.getType());
         }
         
         public void ensureCopied()
         {
-            this.common.ensureCopied();
+            this.getBase().ensureCopied();
         }
         
         public void sync(Runnable task)
         {
-            this.common.sync(task);
+            this.getBase().sync(task);
         }
         
         public void setCancelled(boolean cancelled)
         {
-            this.common.setCancelled(cancelled);
+            this.getBase().setCancelled(cancelled);
         }
         public boolean isCancelled()
         {
-            return this.common.isCancelled();
+            return this.getBase().isCancelled();
         }
     }
 }

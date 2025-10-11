@@ -19,10 +19,14 @@ public interface TextCodecV2003 extends WrapperObject
         return WrapperObject.create(TextCodecV2003.class, wrapped);
     }
     
-    static CodecV1600 codec()
+    static CodecV1600.Wrapper<Text> codec()
     {
-        return create(null).staticCodec();
+        return new CodecV1600.Wrapper<>(codec0(), Text.FACTORY);
+    }
+    static CodecV1600<?> codec0()
+    {
+        return create(null).staticCodec0();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC"))
-    CodecV1600 staticCodec();
+    CodecV1600<?> staticCodec0();
 }

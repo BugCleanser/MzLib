@@ -269,9 +269,9 @@ public class AnnotationNode extends AnnotationVisitor
                 if (arrayAnnotationVisitor != null)
                 {
                     List<?> arrayValue = (List<?>) value;
-                    for (int i = 0, n = arrayValue.size(); i < n; ++i)
+                    for(Object o: arrayValue)
                     {
-                        accept(arrayAnnotationVisitor, null, arrayValue.get(i));
+                        accept(arrayAnnotationVisitor, null, o);
                     }
                     arrayAnnotationVisitor.visitEnd();
                 }

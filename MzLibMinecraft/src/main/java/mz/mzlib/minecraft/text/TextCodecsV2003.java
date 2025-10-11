@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.text;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.serialization.CodecV1600;
+import mz.mzlib.minecraft.serialization.DecoderV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -14,10 +15,14 @@ public interface TextCodecsV2003 extends WrapperObject
 {
     WrapperFactory<TextCodecsV2003> FACTORY = WrapperFactory.of(TextCodecsV2003.class);
     
-    static CodecV1600 codec()
+    static CodecV1600.Wrapper<Text> codec()
     {
-        return FACTORY.getStatic().staticCodec();
+        return new CodecV1600.Wrapper<>(codec0(), Text.FACTORY);
+    }
+    static CodecV1600<?> codec0()
+    {
+        return FACTORY.getStatic().staticCodec0();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC"))
-    CodecV1600 staticCodec();
+    CodecV1600<?> staticCodec0();
 }

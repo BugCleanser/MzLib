@@ -14,5 +14,5 @@ public interface ComponentsAccessV2105 extends WrapperObject
     WrapperFactory<ComponentsAccessV2105> FACTORY = WrapperFactory.of(ComponentsAccessV2105.class);
     
     @WrapMinecraftMethod(@VersionName(name="get"))
-    WrapperObject get(ComponentKeyV2005 key);
+    <T> T get0(ComponentKeyV2005<T> key);
 }

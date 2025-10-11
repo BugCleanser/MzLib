@@ -51,24 +51,18 @@ public interface ComponentKeyV2005<T> extends WrapperObject
             this.type = type;
         }
         
+        public ComponentKeyV2005<?> getBase()
+        {
+            return this.base;
+        }
+        public WrapperFactory<T> getType()
+        {
+            return this.type;
+        }
+        
         public CodecV1600.Wrapper<T> getCodec()
         {
             return new CodecV1600.Wrapper<>(this.base.getCodec(), this.type);
-        }
-        
-        public Option<T> get(ComponentMapV2005 map)
-        {
-            return map.get(this.base, this.type);
-        }
-        
-        public Option<T> put(ComponentMapDefaultedV2005 map, T value)
-        {
-            return Option.fromWrapper(map.put(this.base, value)).map(t -> t.castTo(this.type));
-        }
-        
-        public Option<T> remove(ComponentMapDefaultedV2005 map)
-        {
-            return Option.fromWrapper(map.remove(this.base)).map(t -> t.castTo(this.type));
         }
         
         public Result<Option<T>, String> decode(NbtCompound nbt)

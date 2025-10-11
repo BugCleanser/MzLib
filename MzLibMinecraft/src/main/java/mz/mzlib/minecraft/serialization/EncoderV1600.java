@@ -30,13 +30,13 @@ public interface EncoderV1600<T> extends WrapperObject
     {
         EncoderV1600<?> getBase();
         
-        default DataResultV1600<?> encodeStart(DynamicOpsV1300<?> ops, T data)
+        default <D> DataResultV1600<D> encodeStart(DynamicOpsV1300<D> ops, T object)
         {
-            return this.getBase().encodeStart(ops, RuntimeUtil.cast(data.getWrapped()));
+            return this.getBase().encodeStart(ops, RuntimeUtil.cast(object.getWrapped()));
         }
-        default <U extends WrapperObject> DataResultV1600.Wrapper<U> encodeStart(DynamicOpsV1300.Wrapper<U> ops, T data)
+        default <D extends WrapperObject> DataResultV1600.Wrapper<D> encodeStart(DynamicOpsV1300.Wrapper<D> ops, T object)
         {
-            return new DataResultV1600.Wrapper<>(this.encodeStart(ops.getBase(), data), ops.getType());
+            return new DataResultV1600.Wrapper<>(this.encodeStart(ops.getBase(), object), ops.getType());
         }
     }
     

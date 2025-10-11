@@ -13,7 +13,6 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Iterator;
-import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.component.ComponentMap", begin=2005))
 public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2005.Entry>
@@ -29,30 +28,27 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
     @Override
     Iterable<Object> getWrapped();
     
-    WrapperObject get(ComponentKeyV2005 key);
+    <T> T get0(ComponentKeyV2005<T> key);
+    @SpecificImpl("get0")
     @VersionRange(end=2105)
-    @SpecificImpl("get")
     @WrapMinecraftMethod(@VersionName(name="get"))
-    WrapperObject getV_2105(ComponentKeyV2005 key);
+    <T> T get0V_2105(ComponentKeyV2005<T> key);
+    @SpecificImpl("get0")
     @VersionRange(begin=2105)
-    @SpecificImpl("get")
-    default WrapperObject getV2105(ComponentKeyV2005 key)
+    default <T> T get0V2105(ComponentKeyV2005<T> key)
     {
-        return this.castTo(ComponentsAccessV2105.FACTORY).get(key);
-    }
-    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005 key, WrapperFactory<T> factory)
-    {
-        return Option.fromWrapper(this.get(key).castTo(factory));
-    }
-    @Deprecated
-    default <T extends WrapperObject> T get(ComponentKeyV2005 key, Function<Object, T> creator)
-    {
-        return this.get(key).castTo(creator);
+        return this.castTo(ComponentsAccessV2105.FACTORY).get0(key);
     }
     
     default <T extends WrapperObject> Option<T> get(ComponentKeyV2005.Wrapper<T> key)
     {
-        return key.get(this);
+        return Option.fromNullable(this.get0(key.getBase())).map(key.getType()::create);
+    }
+    
+    @Deprecated
+    default <T extends WrapperObject> Option<T> get(ComponentKeyV2005<?> key, WrapperFactory<T> type)
+    {
+        return this.get(new ComponentKeyV2005.Wrapper<>(key, type));
     }
     
     default <T extends WrapperObject> Option<T> copy(ComponentKeyV2005.Wrapper<T> key)
@@ -79,7 +75,7 @@ public interface ComponentMapV2005 extends WrapperObject,Iterable<ComponentMapV2
         }
     
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_2443"))
-        ComponentKeyV2005 getType();
+        ComponentKeyV2005<?> getType();
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_2444"))
         Object getValue();
     }

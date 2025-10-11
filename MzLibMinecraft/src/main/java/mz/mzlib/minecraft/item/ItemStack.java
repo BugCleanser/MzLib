@@ -520,7 +520,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=1300)
     default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
     {
-        return NbtCompound.FACTORY.create(MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt), from, MinecraftServer.instance.getDataVersion()).getValue());
+        return MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt), from, MinecraftServer.instance.getDataVersion()).getValue();
     }
     
     static NbtCompound upgrade(NbtCompound nbt, int from)
