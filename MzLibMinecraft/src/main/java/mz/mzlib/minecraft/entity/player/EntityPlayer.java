@@ -38,9 +38,9 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     boolean isOp();
     @SpecificImpl("isOp")
     @BukkitDisabled
-    default boolean isOpNonBukkit()
+    default boolean isOp0()
     {
-        return MinecraftServer.instance.getPlayerManager().isOp(this.getGameProfile());
+        return MinecraftServer.instance.getPlayerManager().isOp(this);
     }
     @SpecificImpl("isOp")
     @BukkitEnabled

@@ -53,6 +53,14 @@ public interface GameProfile extends WrapperObject
         return this.staticNewInstance0(id.unwrapOr(NIL_UUID_V2002), name.unwrapOr(""));
     }
     
+    static GameProfile newInstanceV2109(UUID id, String name, PropertyMap properties)
+    {
+        return FACTORY.getStatic().staticNewInstanceV2109(id, name, properties);
+    }
+    @WrapConstructor
+    @VersionRange(begin=2109)
+    GameProfile staticNewInstanceV2109(UUID id, String name, PropertyMap properties);
+    
     @WrapMinecraftFieldAccessor(@VersionName(name="id"))
     UUID getId0();
     

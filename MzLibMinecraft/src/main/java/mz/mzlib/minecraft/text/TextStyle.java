@@ -3,9 +3,11 @@ package mz.mzlib.minecraft.text;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.incomprehensible.text.FontDescriptionV2109;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.*;
 
 /**
@@ -58,9 +60,19 @@ public interface TextStyle extends WrapperObject
     {
         return this.staticNewInstanceV1600_2104(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
-    @VersionRange(begin=2104)
+    @SpecificImpl("staticNewInstanceV1600")
+    @VersionRange(begin=2104, end=2109)
     @WrapConstructor
-    TextStyle staticNewInstanceV2104(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    TextStyle staticNewInstanceV2104_2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    @SpecificImpl("staticNewInstanceV1600")
+    @VersionRange(begin=2109)
+    default TextStyle staticNewInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
+    {
+        return this.staticNewInstanceV2109(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, Option.fromWrapper(font).map(FontDescriptionV2109.Resource::newInstance).unwrapOrGet(FontDescriptionV2109.Resource.FACTORY::getStatic));
+    }
+    @VersionRange(begin=2109)
+    @WrapConstructor
+    TextStyle staticNewInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, FontDescriptionV2109 font);
     
     Integer getShadowColor();
     @SpecificImpl("getShadowColor")
@@ -113,8 +125,24 @@ public interface TextStyle extends WrapperObject
     void setObfuscated(Boolean value);
     
     @VersionRange(begin=1600)
-    @WrapMinecraftFieldAccessor(@VersionName(name="font"))
     Identifier getFontV1600();
+    @SpecificImpl("getFontV1600")
+    @VersionRange(begin=1600, end=2109)
+    @WrapMinecraftFieldAccessor(@VersionName(name="font"))
+    Identifier getFontV1600_2109();
+    @SpecificImpl("getFontV1600")
+    @VersionRange(begin=2109)
+    default Identifier getFontV2109()
+    {
+        for(FontDescriptionV2109 fontDescription: Option.fromWrapper(this.getFontDescriptionV2109()))
+        {
+            return fontDescription.castTo(FontDescriptionV2109.Resource.FACTORY).getId();
+        }
+        return Identifier.FACTORY.create(null);
+    }
+    @VersionRange(begin=2109)
+    @WrapMinecraftFieldAccessor(@VersionName(name="font"))
+    FontDescriptionV2109 getFontDescriptionV2109();
     
     // TODO
     @VersionRange(end=1600)

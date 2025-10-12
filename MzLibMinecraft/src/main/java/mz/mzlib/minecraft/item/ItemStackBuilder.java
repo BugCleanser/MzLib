@@ -1,8 +1,11 @@
 package mz.mzlib.minecraft.item;
 
+import com.google.common.collect.LinkedHashMultimap;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
+import mz.mzlib.minecraft.authlib.properties.Property;
+import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.InvertibleMap;
 import mz.mzlib.util.JsUtil;
@@ -38,8 +41,19 @@ public class ItemStackBuilder
     public static ItemStackBuilder playerHead0(UUID uuid, String textures)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
-        GameProfile owner = GameProfile.newInstance(Option.some(uuid), Option.none());
-        owner.getProperties().put("textures", textures);
+        GameProfile owner;
+        String keyTextures = "textures";
+        if(MinecraftPlatform.instance.getVersion()<2109)
+        {
+            owner = GameProfile.newInstance(Option.some(uuid), Option.none());
+            owner.getProperties().putV_2109(keyTextures, textures);
+        }
+        else
+        {
+            LinkedHashMultimap<String, Object> properties = LinkedHashMultimap.create();
+            properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()).getWrapped());
+            owner = GameProfile.newInstanceV2109(GameProfile.NIL_UUID_V2002, "", PropertyMap.newInstanceV2109(properties));
+        }
         ItemPlayerHead.setOwner(result.result, Option.some(owner));
         return result;
     }

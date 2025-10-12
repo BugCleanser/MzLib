@@ -2,6 +2,7 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.incomprehensible.PlayerConfigEntryV2109;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ClientConnectionDataV2002;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -9,6 +10,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
+import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -47,7 +49,25 @@ public interface PlayerManager extends WrapperObject
     void addPlayerV2002(ClientConnection connection, EntityPlayer player, ClientConnectionDataV2002 connectionData);
     
     @WrapMinecraftMethod(@VersionName(name="isOperator"))
-    boolean isOp(GameProfile playerProfile);
+    @VersionRange(end=2109)
+    boolean isOpV_2109(GameProfile playerProfile);
+    @WrapMinecraftMethod(@VersionName(name="isOperator"))
+    @VersionRange(begin=2109)
+    boolean isOpV2109(PlayerConfigEntryV2109 key);
+    
+    boolean isOp(EntityPlayer player);
+    @SpecificImpl("isOp")
+    @VersionRange(end=2109)
+    default boolean isOpV_2109(EntityPlayer player)
+    {
+        return this.isOpV_2109(player.getGameProfile());
+    }
+    @SpecificImpl("isOp")
+    @VersionRange(begin=2109)
+    default boolean isOpV2109(EntityPlayer player)
+    {
+        return this.isOpV2109(player.getPlayerConfigEntryV2109());
+    }
     
     @WrapMinecraftMethod(@VersionName(name="getPlayer"))
     EntityPlayer getPlayer0(UUID uuid);

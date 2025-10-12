@@ -40,7 +40,7 @@ public abstract class Option<T> implements Iterable<T>
     
     public static <T extends WrapperObject> Option<T> fromWrapper(T wrapper)
     {
-        if(wrapper.isPresent())
+        if(wrapper!=null && wrapper.isPresent())
             return some(wrapper);
         else
             return none();

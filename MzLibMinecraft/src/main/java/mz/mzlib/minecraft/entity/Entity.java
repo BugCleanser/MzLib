@@ -100,7 +100,7 @@ public interface Entity extends WrapperObject
     }
     
     @SpecificImpl("getPosition")
-    @WrapMinecraftMethod(@VersionName(name="getPos", begin=1600))
+    @WrapMinecraftFieldAccessor(@VersionName(name="pos", begin=1600))
     Vec3d getPositionV1600();
     
     void setPosition(Vec3d value);

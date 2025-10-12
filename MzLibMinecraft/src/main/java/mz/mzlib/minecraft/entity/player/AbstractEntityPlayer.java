@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.EntityLiving;
+import mz.mzlib.minecraft.incomprehensible.PlayerConfigEntryV2109;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
@@ -33,6 +34,10 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     
     @WrapMinecraftMethod(@VersionName(name="getGameProfile"))
     GameProfile getGameProfile();
+    
+    @WrapMinecraftMethod(@VersionName(name="getPlayerConfigEntry"))
+    @VersionRange(begin=2109)
+    PlayerConfigEntryV2109 getPlayerConfigEntryV2109();
     
     default String getName()
     {
