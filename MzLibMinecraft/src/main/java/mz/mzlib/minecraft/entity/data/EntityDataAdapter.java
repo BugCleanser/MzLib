@@ -2,19 +2,20 @@ package mz.mzlib.minecraft.entity.data;
 
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
 
 public class EntityDataAdapter<T>
 {
-    public EntityDataKey key;
+    public EntityDataKey<?> key;
     public InvertibleFunction<T, Object> function;
     
-    public EntityDataAdapter(EntityDataKey key, InvertibleFunction<T, Object> function)
+    public <U> EntityDataAdapter(EntityDataKey<U> key, InvertibleFunction<T, U> function)
     {
         this.key = key;
-        this.function = function;
+        this.function = RuntimeUtil.cast(function);
     }
     
-    public EntityDataKey getKey()
+    public EntityDataKey<?> getKey()
     {
         return this.key;
     }

@@ -33,16 +33,16 @@ public interface EntityItem extends WrapperObject, Entity
      * typeV_1100: {@link Optional<ItemStack>}
      * typeV1100: {@link ItemStack}
      */
-    static EntityDataKey dataKeyItem()
+    static EntityDataKey<?> dataKeyItem()
     {
         return create(null).staticDataTypeItem();
     }
     
-    EntityDataKey staticDataTypeItem();
+    EntityDataKey<?> staticDataTypeItem();
     
     @SpecificImpl("staticDataTypeItem")
     @VersionRange(end=900)
-    default EntityDataKey staticDataTypeItemV_900()
+    default EntityDataKey<?> staticDataTypeItemV_900()
     {
         return EntityDataKey.newInstanceV_900(10, (byte)5);
     }
@@ -50,10 +50,10 @@ public interface EntityItem extends WrapperObject, Entity
     @SpecificImpl("staticDataTypeItem")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor(@VersionName(name="STACK"))
-    EntityDataKey staticDataTypeItemV900();
+    EntityDataKey<?> staticDataTypeItemV900();
     
     EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(dataKeyItem(), //
             MinecraftPlatform.instance.getVersion()>=900 && MinecraftPlatform.instance.getVersion()<1100 ? //
                     InvertibleFunction.wrapper(ItemStack.FACTORY).inverse().thenApply(Optional::fromNullable, Optional::orNull).thenCast() : //
-                    new InvertibleFunction<>(ItemStack::getWrapped, ItemStack.FACTORY::create));
+                    new InvertibleFunction<>(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast());
 }

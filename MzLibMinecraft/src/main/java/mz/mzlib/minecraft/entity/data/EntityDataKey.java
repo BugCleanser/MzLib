@@ -4,17 +4,18 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
 
 @WrapMinecraftClass({@VersionName(name="mz.mzlib.minecraft.entity.data.EntityDataKey$WrappedV_900", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedData", begin=900)})
-public interface EntityDataKey extends WrapperObject
+public interface EntityDataKey<T> extends WrapperObject
 {
-    WrapperFactory<EntityDataKey> FACTORY = WrapperFactory.of(EntityDataKey.class);
+    WrapperFactory<EntityDataKey<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(EntityDataKey.class));
     @Deprecated
     @WrapperCreator
-    static EntityDataKey create(Object wrapped)
+    static EntityDataKey<?> create(Object wrapped)
     {
         return WrapperObject.create(EntityDataKey.class, wrapped);
     }
@@ -41,18 +42,18 @@ public interface EntityDataKey extends WrapperObject
     /**
      * @param typeId {@link WrappedV_900#typeId}
      */
-    static EntityDataKey newInstanceV_900(int index, byte typeId)
+    static <T> EntityDataKey<T> newInstanceV_900(int index, byte typeId)
     {
-        return newInstance(index, EntityDataHandler.create(typeId));
+        return newInstance(index, RuntimeUtil.cast(EntityDataHandler.FACTORY.create(typeId)));
     }
     
-    static EntityDataKey newInstance(int index, EntityDataHandler handler)
+    static <T> EntityDataKey<T> newInstance(int index, EntityDataHandler<T> handler)
     {
-        return create(null).staticNewInstance(index, handler);
+        return FACTORY.getStatic().staticNewInstance(index, handler);
     }
     
     @WrapConstructor
-    EntityDataKey staticNewInstance(int index, EntityDataHandler handler);
+    <T1> EntityDataKey<T1> staticNewInstance(int index, EntityDataHandler<T1> handler);
     
     class WrappedV_900
     {
