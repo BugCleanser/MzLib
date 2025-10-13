@@ -125,7 +125,7 @@ public abstract class Option<T> implements Iterable<T>
         @Override
         public <U> Option<U> map(Function<? super T, ? extends U> mapper)
         {
-            return some(mapper.apply(this.unwrap()));
+            return fromNullable(mapper.apply(this.unwrap()));
         }
         
         @Override

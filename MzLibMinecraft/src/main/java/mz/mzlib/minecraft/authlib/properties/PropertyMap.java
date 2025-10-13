@@ -1,15 +1,15 @@
 package mz.mzlib.minecraft.authlib.properties;
 
 import com.google.common.collect.Multimap;
+import com.google.common.collect.LinkedHashMultimap;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
+
+import java.util.Map;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.properties.PropertyMap"))
 public interface PropertyMap extends WrapperObject
@@ -25,19 +25,53 @@ public interface PropertyMap extends WrapperObject
     @Override
     Multimap<String, ?> getWrapped();
     
-    @VersionRange(begin=2109)
-    static PropertyMap newInstanceV2109(Multimap<String, ?> properties)
+    static PropertyMap newInstance()
     {
-        return FACTORY.getStatic().staticNewInstanceV2109(properties);
+        return FACTORY.getStatic().staticNewInstance();
     }
+    PropertyMap staticNewInstance();
+    @SpecificImpl("staticNewInstance")
+    @WrapConstructor
+    @VersionRange(end=2109)
+    PropertyMap staticNewInstanceV_2109();
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=2109)
+    default PropertyMap staticNewInstanceV2109()
+    {
+        return this.staticNewInstance0V2109(LinkedHashMultimap.create());
+    }
+    
+    static PropertyMap newInstance(Multimap<String, Property> properties)
+    {
+        // TODO optimise
+        Multimap<String, ?> p0 = LinkedHashMultimap.create();
+        for(Map.Entry<String, Property> entry: properties.entries())
+        {
+            p0.put(entry.getKey(), RuntimeUtil.cast(entry.getValue().getWrapped()));
+        }
+        return newInstance0(p0);
+    }
+    static PropertyMap newInstance0(Multimap<String, ?> properties)
+    {
+        return FACTORY.getStatic().staticNewInstance0(properties);
+    }
+    PropertyMap staticNewInstance0(Multimap<String, ?> properties);
+    @SpecificImpl("staticNewInstance0")
+    @WrapConstructor
+    @VersionRange(end=2109)
+    default PropertyMap staticNewInstance0V_2109(Multimap<String, ?> properties)
+    {
+        PropertyMap result = newInstance();
+        for(Map.Entry<String, ?> entry: properties.entries())
+        {
+            result.getWrapped().put(entry.getKey(), RuntimeUtil.cast(entry.getValue()));
+        }
+        return result;
+    }
+    @SpecificImpl("staticNewInstance0")
     @WrapConstructor
     @VersionRange(begin=2109)
-    PropertyMap staticNewInstanceV2109(Multimap<String, ?> properties);
-    
-//    default Map<String, Property> asMap()
-//    {
-//        return new MapProxy<>(this.getWrapped(), InvertibleFunction.empty(), InvertibleFunction.wrap(Property.FACTORY).invert());
-//    }
+    PropertyMap staticNewInstance0V2109(Multimap<String, ?> properties);
     
     default void putV_2109(String key, Property value)
     {

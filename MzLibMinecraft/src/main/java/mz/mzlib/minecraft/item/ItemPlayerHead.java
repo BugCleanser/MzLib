@@ -10,7 +10,6 @@ import mz.mzlib.minecraft.component.type.GameProfileComponentV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtUtil;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.Editor;
 import mz.mzlib.util.JsonUtil;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -34,44 +33,44 @@ public interface ItemPlayerHead extends Item
     
     ComponentKeyV2005.Wrapper<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile", GameProfileComponentV2005.FACTORY);
     
-    static Option<GameProfile> getOwner(ItemStack itemStack)
+    static Option<GameProfile.Description> getOwner(ItemStack itemStack)
     {
         return create(null).staticGetOwner(itemStack);
     }
     
-    Option<GameProfile> staticGetOwner(ItemStack itemStack);
+    Option<GameProfile.Description> staticGetOwner(ItemStack itemStack);
     
     @SpecificImpl("staticGetOwner")
     @VersionRange(end=2005)
-    default Option<GameProfile> staticGetOwnerV_2005(ItemStack itemStack)
+    default Option<GameProfile.Description> staticGetOwnerV_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound skullOwner: tag.getNBTCompound("SkullOwner"))
-                return Option.some(NbtUtil.decodeGameProfileV_2005(skullOwner));
+                return Option.some(NbtUtil.decodeGameProfileV_2005(skullOwner).toDescription());
         return Option.none();
     }
     
     @SpecificImpl("staticGetOwner")
     @VersionRange(begin=2005)
-    default Option<GameProfile> staticGetOwnerV2005(ItemStack itemStack)
+    default Option<GameProfile.Description> staticGetOwnerV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005).map(GameProfileComponentV2005::getGameProfile);
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005).map(GameProfileComponentV2005::toDescription);
     }
     
-    static void setOwner(ItemStack itemStack, Option<GameProfile> value)
+    static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value) // TODO
     {
         create(null).staticSetOwner(itemStack, value);
     }
     
-    void staticSetOwner(ItemStack itemStack, Option<GameProfile> value);
+    void staticSetOwner(ItemStack itemStack, Option<GameProfile.Description> value);
     
     @SpecificImpl("staticSetOwner")
     @VersionRange(end=2005)
-    default void staticSetOwnerV_2005(ItemStack itemStack, Option<GameProfile> value)
+    default void staticSetOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
-        for(GameProfile profile: value)
+        for(GameProfile.Description profile: value)
         {
-            itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(profile));
+            itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(profile)));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())
@@ -80,35 +79,9 @@ public interface ItemPlayerHead extends Item
     
     @SpecificImpl("staticSetOwner")
     @VersionRange(begin=2005)
-    default void staticSetOwnerV2005(ItemStack itemStack, Option<GameProfile> value)
+    default void staticSetOwnerV2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_PROFILE_V2005, value.map(GameProfileComponentV2005::newInstance));
-    }
-    
-    static Option<GameProfile> copyOwner(ItemStack itemStack)
-    {
-        return create(null).staticCopyOwner(itemStack);
-    }
-    
-    Option<GameProfile> staticCopyOwner(ItemStack itemStack);
-    
-    @SpecificImpl("staticCopyOwner")
-    @VersionRange(end=2005)
-    default Option<GameProfile> staticCopyOwnerV_2005(ItemStack itemStack)
-    {
-        return getOwner(itemStack);
-    }
-    
-    @SpecificImpl("staticCopyOwner")
-    @VersionRange(begin=2005)
-    default Option<GameProfile> staticCopyOwnerV2005(ItemStack itemStack)
-    {
-        return itemStack.getComponentsV2005().copy(COMPONENT_KEY_PROFILE_V2005).map(GameProfileComponentV2005::getGameProfile);
-    }
-    
-    static Editor<Option<GameProfile>> editOwner(ItemStack itemStack)
-    {
-        return Editor.of(itemStack, ItemPlayerHead::copyOwner, ItemPlayerHead::setOwner);
     }
     
     static String texturesFromUrl(String url)

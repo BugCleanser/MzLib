@@ -38,24 +38,18 @@ public class ItemStackBuilder
             return new ItemStackBuilder(idV1300);
     }
     
-    public static ItemStackBuilder playerHead0(UUID uuid, String textures)
+    public static ItemStackBuilder playerHead0(Option<String> name, Option<UUID> uuid, String textures)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
-        GameProfile owner;
         String keyTextures = "textures";
-        if(MinecraftPlatform.instance.getVersion()<2109)
-        {
-            owner = GameProfile.newInstance(Option.some(uuid), Option.none());
-            owner.getProperties().putV_2109(keyTextures, textures);
-        }
-        else
-        {
-            LinkedHashMultimap<String, Object> properties = LinkedHashMultimap.create();
-            properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()).getWrapped());
-            owner = GameProfile.newInstanceV2109(GameProfile.NIL_UUID_V2002, "", PropertyMap.newInstanceV2109(properties));
-        }
-        ItemPlayerHead.setOwner(result.result, Option.some(owner));
+        LinkedHashMultimap<String, Property> properties = LinkedHashMultimap.create();
+        properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()));
+        ItemPlayerHead.setOwner(result.result, Option.some(new GameProfile.Description(name, uuid, PropertyMap.newInstance(properties))));
         return result;
+    }
+    public static ItemStackBuilder playerHead0(UUID uuid, String textures)
+    {
+        return playerHead0(Option.none(), Option.some(uuid), textures);
     }
     public static ItemStackBuilder playerHead0(String textures)
     {

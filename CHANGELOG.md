@@ -1,5 +1,7 @@
 # Changelog
 
+- v10.0.1-beta-dev16
+    - 优化架构
 - v10.0.1-beta-dev15
   - 兼容至1.21.10
 - v10.0.1-beta-dev14

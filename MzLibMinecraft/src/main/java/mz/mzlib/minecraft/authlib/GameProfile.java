@@ -11,6 +11,7 @@ import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.ThrowableSupplier;
 import mz.mzlib.util.wrapper.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.GameProfile"))
@@ -98,4 +99,81 @@ public interface GameProfile extends WrapperObject
     
     @WrapMinecraftFieldAccessor(@VersionName(name="properties"))
     PropertyMap getProperties();
+    @WrapMinecraftFieldAccessor(@VersionName(name="properties"))
+    void setProperties(PropertyMap value);
+    
+    static GameProfile fromDescription(Description description)
+    {
+        GameProfile result = newInstance(description.getId(), description.getName());
+        for(PropertyMap p: description.getProperties())
+        {
+            result.setProperties(p);
+        }
+        return result;
+    }
+    
+    GameProfile.Description toDescription();
+    @SpecificImpl("toDescription")
+    @VersionRange(end=2002)
+    @VersionRange(begin=2005)
+    default GameProfile.Description toDescriptionV_2002__2005()
+    {
+        return new Description(this.getName(), this.getId(), this.getProperties().getWrapped().isEmpty() ? Option.none() : Option.some(this.getProperties()));
+    }
+    @SpecificImpl("toDescription")
+    @VersionRange(begin=2002, end=2005)
+    default GameProfile.Description toDescriptionV2002_2005()
+    {
+        return new Description(this.getName().map(name->name.isEmpty()?null:name), this.getId().map(id->id.equals(NIL_UUID_V2002)?null:id), this.getProperties());
+    }
+    
+    /**
+     * 指定properties，或由id或name得到
+     * id比name优先
+     * 在低版本，至少要有name或id
+     */
+    class Description
+    {
+        Option<String> name;
+        Option<UUID> id;
+        Option<PropertyMap> properties;
+        
+        public Description(Option<String> name, Option<UUID> id, Option<PropertyMap> properties)
+        {
+            if(id.isNone() && name.isNone() && properties.isNone())
+                throw new IllegalArgumentException();
+            this.id = id;
+            this.name = name;
+            this.properties = properties;
+        }
+        public Description(Option<String> name, Option<UUID> id, PropertyMap properties)
+        {
+            this(name, id, Option.some(properties));
+        }
+        public Description(PropertyMap properties)
+        {
+            this(Option.none(), Option.none(), properties);
+        }
+        public Description(UUID id)
+        {
+            this(Option.none(), Option.some(id), Option.none());
+        }
+        public Description(String name)
+        {
+            this(Option.some(name), Option.none(), Option.none());
+        }
+        
+        public Option<String> getName()
+        {
+            return this.name;
+        }
+        public Option<UUID> getId()
+        {
+            return this.id;
+        }
+        public Option<PropertyMap> getProperties()
+        {
+            return this.properties;
+        }
+    }
 }
