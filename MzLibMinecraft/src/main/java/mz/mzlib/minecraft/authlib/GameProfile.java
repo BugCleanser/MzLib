@@ -1,17 +1,18 @@
 package mz.mzlib.minecraft.authlib;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.authlib.properties.Property;
 import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleFunction;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.ThrowableFunction;
-import mz.mzlib.util.ThrowableSupplier;
+import mz.mzlib.util.*;
 import mz.mzlib.util.wrapper.*;
 
-import java.util.Optional;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name="com.mojang.authlib.GameProfile"))
@@ -174,6 +175,36 @@ public interface GameProfile extends WrapperObject
         public Option<PropertyMap> getProperties()
         {
             return this.properties;
+        }
+        
+        public static Description textures(Option<String> name, Option<UUID> uuid, String textures)
+        {
+            String keyTextures = "textures";
+            LinkedHashMultimap<String, Property> properties = LinkedHashMultimap.create();
+            properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()));
+            return new Description(name, uuid, PropertyMap.newInstance(properties));
+        }
+        public static Description textures(String textures)
+        {
+            return textures(Option.none(), Option.some(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8))), textures);
+        }
+        
+        public static Description texturesUrl(Option<String> name, Option<UUID> uuid, String texturesUrl)
+        {
+            return textures(name, uuid, urlToTextures(texturesUrl));
+        }
+        public static Description texturesUrl(String texturesUrl)
+        {
+            return textures(urlToTextures(texturesUrl));
+        }
+        
+        public static String urlToTextures(String url)
+        {
+            JsonObject textures = new JsonObject();
+            for(JsonObject value: JsonUtil.addChild(textures, "textures"))
+                for(JsonObject skin: JsonUtil.addChild(value, "SKIN"))
+                    skin.addProperty("url", url);
+            return Base64.getEncoder().encodeToString(textures.toString().getBytes(StandardCharsets.UTF_8));
         }
     }
 }

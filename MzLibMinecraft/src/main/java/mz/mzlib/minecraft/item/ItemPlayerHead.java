@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft.item;
 
-import com.google.gson.JsonObject;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -10,15 +9,11 @@ import mz.mzlib.minecraft.component.type.GameProfileComponentV2005;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtUtil;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.JsonUtil;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 @WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.PlayerHeadItem", begin=2002)})
 public interface ItemPlayerHead extends Item
@@ -84,12 +79,9 @@ public interface ItemPlayerHead extends Item
         itemStack.getComponentsV2005().set(COMPONENT_KEY_PROFILE_V2005, value.map(GameProfileComponentV2005::newInstance));
     }
     
+    @Deprecated
     static String texturesFromUrl(String url)
     {
-        JsonObject textures = new JsonObject();
-        for(JsonObject value: JsonUtil.addChild(textures, "textures"))
-            for(JsonObject skin: JsonUtil.addChild(value, "SKIN"))
-                skin.addProperty("url", url);
-        return Base64.getEncoder().encodeToString(textures.toString().getBytes(StandardCharsets.UTF_8));
+        return GameProfile.Description.urlToTextures(url);
     }
 }

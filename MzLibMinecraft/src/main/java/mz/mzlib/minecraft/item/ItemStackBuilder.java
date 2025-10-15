@@ -1,21 +1,14 @@
 package mz.mzlib.minecraft.item;
 
-import com.google.common.collect.LinkedHashMultimap;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
-import mz.mzlib.minecraft.authlib.properties.Property;
-import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.util.InvertibleMap;
-import mz.mzlib.util.JsUtil;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class ItemStackBuilder
+public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 {
     public static final Colored DYE = new ColoredReversed("dye");
     public static final Colored WOOL = new Colored("wool");
@@ -38,14 +31,15 @@ public class ItemStackBuilder
             return new ItemStackBuilder(idV1300);
     }
     
-    public static ItemStackBuilder playerHead0(Option<String> name, Option<UUID> uuid, String textures)
+    public static ItemStackBuilder playerHead(GameProfile.Description description)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
-        String keyTextures = "textures";
-        LinkedHashMultimap<String, Property> properties = LinkedHashMultimap.create();
-        properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()));
-        ItemPlayerHead.setOwner(result.result, Option.some(new GameProfile.Description(name, uuid, PropertyMap.newInstance(properties))));
+        ItemPlayerHead.setOwner(result.result, Option.some(description));
         return result;
+    }
+    public static ItemStackBuilder playerHead0(Option<String> name, Option<UUID> uuid, String textures)
+    {
+        return playerHead(GameProfile.Description.textures(name, uuid, textures));
     }
     public static ItemStackBuilder playerHead0(UUID uuid, String textures)
     {
@@ -53,15 +47,15 @@ public class ItemStackBuilder
     }
     public static ItemStackBuilder playerHead0(String textures)
     {
-        return playerHead0(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8)), textures);
+        return playerHead(GameProfile.Description.textures(textures));
     }
-    public static ItemStackBuilder playerHead(UUID uuid, String url)
+    public static ItemStackBuilder playerHead(UUID uuid, String texturesUrl)
     {
-        return playerHead0(uuid, ItemPlayerHead.texturesFromUrl(url));
+        return playerHead(GameProfile.Description.texturesUrl(Option.none(), Option.some(uuid), texturesUrl));
     }
-    public static ItemStackBuilder playerHead(String url)
+    public static ItemStackBuilder playerHead(String texturesUrl)
     {
-        return playerHead0(ItemPlayerHead.texturesFromUrl(url));
+        return playerHead(GameProfile.Description.texturesUrl(texturesUrl));
     }
     
     public ItemStack result;
