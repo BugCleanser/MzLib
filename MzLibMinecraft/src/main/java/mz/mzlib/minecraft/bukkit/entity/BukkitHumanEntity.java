@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.bukkit.entity;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.util.wrapper.WrapClassForName;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapClassForName("org.bukkit.entity.HumanEntity")
 public interface BukkitHumanEntity extends WrapperObject
 {

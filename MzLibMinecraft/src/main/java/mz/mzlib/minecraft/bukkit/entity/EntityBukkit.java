@@ -1,10 +1,11 @@
 package mz.mzlib.minecraft.bukkit.entity;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.util.wrapper.*;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapSameClass(Entity.class)
 public interface EntityBukkit extends Entity
 {

@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.bukkit.command;
 
 import io.github.karlatemp.unsafeaccessor.Root;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
@@ -10,7 +11,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.CommandSender;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.VanillaCommandWrapper"))
 public interface CraftCommandVanillaWrapper extends WrapperObject
 {

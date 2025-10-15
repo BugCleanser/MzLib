@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit.inventory;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
@@ -13,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventoryView"))
 public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
 {

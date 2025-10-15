@@ -1,11 +1,11 @@
 package mz.mzlib.minecraft.bukkit.command;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.PaperEnabled;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.CommandMap;
 
-@PaperEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.PAPER)
 @VersionRange(begin=2102)
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginInstanceManager")
 public interface PluginInstanceManagerPaperV2102 extends WrapperObject

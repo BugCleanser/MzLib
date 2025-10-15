@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.bukkit.command;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -10,7 +10,7 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.BlockCommandSender;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name="OBC.command.CraftBlockCommandSender"))
 public interface CraftBlockCommandSender extends WrapperObject
 {

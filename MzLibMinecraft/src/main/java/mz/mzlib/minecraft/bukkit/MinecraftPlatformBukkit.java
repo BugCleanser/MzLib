@@ -11,8 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
@@ -20,6 +19,12 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     
     public Option<MinecraftPlatformFabric> fabric;
     
+    Set<String> tags = new HashSet<>(Collections.singleton(Tag.BUKKIT));
+    @Override
+    public Set<String> getTags()
+    {
+        return this.tags;
+    }
     @Override
     public String getLanguage(EntityPlayer player)
     {
@@ -42,6 +47,8 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     
     {
         if(RuntimeUtil.runAndCatch(()->Class.forName("net.fabricmc.api.ModInitializer"))==null)
+        {
+            this.tags.add(Tag.FABRIC);
             this.fabric = Option.some(new MinecraftPlatformFabric()
             {
                 @Override
@@ -65,8 +72,12 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
                     return MinecraftPlatformBukkit.this.getMzLibDataFolder();
                 }
             });
+        }
         else
             this.fabric = Option.none();
+        this.isPaper = RuntimeUtil.runAndCatch(()->Class.forName("com.destroystokyo.paper.PaperConfig"))==null || RuntimeUtil.runAndCatch(()->Class.forName("io.papermc.paper.configuration.Configuration"))==null;
+        if(this.isPaper)
+            this.tags.add(Tag.PAPER);
         String packageName = Bukkit.getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit".length());
         protocolVersion = packageName.isEmpty() ? null : packageName.substring(".".length());
     }
@@ -79,7 +90,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         this.version = MinecraftPlatform.parseVersion(this.versionString);
     }
     
-    public boolean isPaper = RuntimeUtil.runAndCatch(()->Class.forName("com.destroystokyo.paper.PaperConfig"))==null || RuntimeUtil.runAndCatch(()->Class.forName("io.papermc.paper.configuration.Configuration"))==null;
+    public boolean isPaper;
     public boolean isPaper()
     {
         return this.isPaper;

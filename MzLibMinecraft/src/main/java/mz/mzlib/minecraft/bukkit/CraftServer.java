@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
@@ -8,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name = "OBC.CraftServer"))
 public interface CraftServer extends WrapperObject
 {

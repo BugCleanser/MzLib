@@ -1,11 +1,16 @@
 package mz.mzlib.minecraft.fabric;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
 
+/**
+ * @see MinecraftPlatform.Disabled
+ */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 @ElementSwitcherClass(FabricDisabled.Handler.class)

@@ -1,9 +1,10 @@
 package mz.mzlib.minecraft.bukkit.command;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.util.wrapper.*;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapClassForName("org.bukkit.plugin.SimplePluginManager")
 public interface PluginManagerBukkit extends WrapperObject
 {

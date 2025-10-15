@@ -1,11 +1,12 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.RemoteConsoleCommandSender;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapSameClass(MinecraftServer.class)
 public interface MinecraftServerBukkit extends MinecraftServer
 {

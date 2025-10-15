@@ -11,6 +11,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.AnnotatedElement;
 
+/**
+ * @see MinecraftPlatform.Enabled
+ */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 @ElementSwitcherClass(FabricEnabled.Handler.class)

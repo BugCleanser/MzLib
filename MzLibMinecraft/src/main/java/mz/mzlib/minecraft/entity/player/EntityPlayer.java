@@ -37,13 +37,13 @@ public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
     
     boolean isOp();
     @SpecificImpl("isOp")
-    @BukkitDisabled
+    @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.BUKKIT)
     default boolean isOp0()
     {
         return MinecraftServer.instance.getPlayerManager().isOp(this);
     }
     @SpecificImpl("isOp")
-    @BukkitEnabled
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
     default boolean isOpBukkit()
     {
         return BukkitEntityUtil.toBukkit(this).isOp();

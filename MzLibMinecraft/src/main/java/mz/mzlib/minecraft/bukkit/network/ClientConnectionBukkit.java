@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.bukkit.network;
 
 import io.netty.util.concurrent.GenericFutureListener;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
@@ -14,7 +15,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapSameClass(ClientConnection.class)
 public interface ClientConnectionBukkit extends ClientConnection
 {

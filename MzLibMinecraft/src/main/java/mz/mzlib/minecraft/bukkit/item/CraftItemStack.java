@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.bukkit.item;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.util.wrapper.*;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftItemStack"))
 public interface CraftItemStack extends WrapperObject
 {

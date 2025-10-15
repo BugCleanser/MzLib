@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.window;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
@@ -77,7 +78,7 @@ public interface Window extends WrapperObject
     @WrapMinecraftMethod({@VersionName(name="close", end=1904), @VersionName(name="onClosed", begin=1904)})
     void onClosed(AbstractEntityPlayer player);
     
-    @BukkitEnabled
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
     @WrapMinecraftMethod(@VersionName(name="getBukkitView"))
     BukkitInventoryView getBukkitView();
     

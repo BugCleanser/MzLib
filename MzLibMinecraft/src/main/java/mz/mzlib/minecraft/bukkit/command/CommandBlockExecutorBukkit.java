@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit.command;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.command.CommandBlockExecutor;
@@ -7,7 +8,7 @@ import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.CommandSender;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapSameClass(CommandBlockExecutor.class)
 public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockExecutor
 {

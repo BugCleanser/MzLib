@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.bukkit;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.fabric.FabricDisabled;
@@ -27,8 +28,8 @@ public class ModuleBukkitWindow extends MzModule
             this.register(NothingWindow.class);
     }
     
-    @BukkitEnabled
-    @FabricDisabled
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
+    @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.FABRIC)
     @WrapSameClass(Window.class)
     public interface NothingWindow extends Window, Nothing
     {

@@ -9,7 +9,9 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class  MinecraftPlatformFabric implements MinecraftPlatform
 {
@@ -19,6 +21,11 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
     public File mzLibDataFolder;
     public Mappings<?> mappings;
     
+    @Override
+    public Set<String> getTags()
+    {
+        return Collections.singleton(Tag.FABRIC);
+    }
     @Override
     public String getVersionString()
     {

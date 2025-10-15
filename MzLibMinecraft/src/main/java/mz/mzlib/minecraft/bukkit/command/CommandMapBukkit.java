@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.bukkit.command;
 
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.SimpleCommandMap;
 
 import java.util.Map;
 
-@BukkitEnabled
+@MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapClassForName("org.bukkit.command.SimpleCommandMap")
 public interface CommandMapBukkit extends WrapperObject
 {
