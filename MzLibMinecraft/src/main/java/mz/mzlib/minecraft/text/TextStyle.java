@@ -98,31 +98,56 @@ public interface TextStyle extends WrapperObject
     Boolean getBold();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="bold"))
-    void setBold(Boolean value);
+    void setBoldV_1600(Boolean value);
+    @Deprecated
+    default void setBold(Boolean value)
+    {
+        this.setBoldV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="italic"))
     Boolean getItalic();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="italic"))
-    void setItalic(Boolean value);
+    void setItalicV_1600(Boolean value);
+    @Deprecated
+    default void setItalic(Boolean value)
+    {
+        this.setItalicV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="underline", end=1400), @VersionName(name="field_11851", begin=1400)})
     Boolean getUnderlined();
     
     @WrapMinecraftFieldAccessor({@VersionName(name="underline", end=1400), @VersionName(name="field_11851", begin=1400)})
-    void setUnderlined(Boolean value);
+    void setUnderlinedV_1600(Boolean value);
+    @Deprecated
+    default void setUnderlined(Boolean value)
+    {
+        this.setUnderlinedV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="strikethrough"))
     Boolean getStrikethrough();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="strikethrough"))
-    void setStrikethrough(Boolean value);
+    void setStrikethroughV_1600(Boolean value);
+    @Deprecated
+    default void setStrikethrough(Boolean value)
+    {
+        this.setStrikethroughV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="obfuscated"))
     Boolean getObfuscated();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="obfuscated"))
-    void setObfuscated(Boolean value);
+    void setObfuscatedV_1600(Boolean value);
+    @Deprecated
+    default void setObfuscated(Boolean value)
+    {
+        this.setObfuscatedV_1600(value);
+    }
     
     @VersionRange(begin=1600)
     Identifier getFontV1600();
@@ -157,6 +182,7 @@ public interface TextStyle extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="color"))
     TextColorV1600 getColorV1600();
     
+    @Deprecated
     @VersionRange(begin=1600)
     @WrapMinecraftFieldAccessor(@VersionName(name="color"))
     void setColorV1600(TextColorV1600 value);
@@ -165,19 +191,34 @@ public interface TextStyle extends WrapperObject
     String getInsertion();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="insertion"))
-    void setInsertion(String value);
+    void setInsertionV_1600(String value);
+    @Deprecated
+    default void setInsertion(String value)
+    {
+        this.setInsertionV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="hoverEvent"))
     TextHoverEvent getHoverEvent();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="hoverEvent"))
-    void setHoverEvent(TextHoverEvent value);
+    void setHoverEventV_1600(TextHoverEvent value);
+    @Deprecated
+    default void setHoverEvent(TextHoverEvent value)
+    {
+        this.setHoverEventV_1600(value);
+    }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="clickEvent"))
     TextClickEvent getClickEvent();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="clickEvent"))
-    void setClickEvent(TextClickEvent value);
+    void setClickEventV_1600(TextClickEvent value);
+    @Deprecated
+    default void setClickEvent(TextClickEvent value)
+    {
+        this.setClickEventV_1600(value);
+    }
     
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="withColor"))

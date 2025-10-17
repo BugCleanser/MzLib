@@ -6,9 +6,7 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.mappings.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class TestMappings
 {
@@ -22,6 +20,11 @@ public class TestMappings
             public String getVersionString()
             {
                 return "1.9.4";
+            }
+            @Override
+            public Set<String> getTags()
+            {
+                return Collections.emptySet();
             }
             @Override
             public int getVersion()
@@ -70,6 +73,7 @@ public class TestMappings
         }
         MappingsPipe mappings = new MappingsPipe(result);
         Scanner scanner = new Scanner(System.in);
+        //noinspection InfiniteLoopStatement
         while(true)
         {
             String input = scanner.nextLine();

@@ -187,6 +187,7 @@ public interface Text extends WrapperObject
         return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900.FACTORY), new ArrayList<>(), TextStyle.empty());
     }
     
+    @Deprecated
     String getLiteral();
     
     @SpecificImpl("getLiteral")
@@ -424,7 +425,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setBoldV_1600(Boolean bold)
     {
-        this.style().setBold(bold);
+        this.style().setBoldV_1600(bold);
         return this;
     }
     
@@ -447,7 +448,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setItalicV_1600(Boolean italic)
     {
-        this.style().setItalic(italic);
+        this.style().setItalicV_1600(italic);
         return this;
     }
     
@@ -470,7 +471,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setUnderlinedV_1600(Boolean underlined)
     {
-        this.style().setUnderlined(underlined);
+        this.style().setUnderlinedV_1600(underlined);
         return this;
     }
     
@@ -493,7 +494,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setStrikethroughV_1600(Boolean strikethrough)
     {
-        this.style().setStrikethrough(strikethrough);
+        this.style().setStrikethroughV_1600(strikethrough);
         return this;
     }
     
@@ -516,7 +517,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setObfuscatedV_1600(Boolean obfuscated)
     {
-        this.style().setObfuscated(obfuscated);
+        this.style().setObfuscatedV_1600(obfuscated);
         return this;
     }
     
@@ -539,7 +540,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setClickEventV_1600(TextClickEvent event)
     {
-        this.style().setClickEvent(event);
+        this.style().setClickEventV_1600(event);
         return this;
     }
     
@@ -562,7 +563,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setHoverEventV_1600(TextHoverEvent event)
     {
-        this.style().setHoverEvent(event);
+        this.style().setHoverEventV_1600(event);
         return this;
     }
     
@@ -585,7 +586,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setInsertionV_1600(String insertion)
     {
-        this.style().setInsertion(insertion);
+        this.style().setInsertionV_1600(insertion);
         return this;
     }
     

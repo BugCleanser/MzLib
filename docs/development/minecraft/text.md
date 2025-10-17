@@ -1,8 +1,27 @@
 # 文本组件
 
-文本组件是MC中富文本的基本单元，包括样式、颜色、`hoverEvent`和`clickEvent`，文本组件是`Text`的实例可以嵌套
+文本组件`Text`是MC富文本的基本单元，包括样式、颜色、`hoverEvent`和`clickEvent`，文本组件的实例可以嵌套
 
-## 基本类型
+通过此教程方式创建出来的`Text`实例均可被修改，高版本中可能存在不可修改的`Text`
+
+## 使用旧接口创建
+
+使用`Text`类的静态方法创建，得到`Text`对象。例如
+
+```java
+Text t1 = Text.literal("Hello, world!");
+```
+
+若要进行更多编辑，可能需要调用`castTo`转为其它类型
+
+## 内部细节
+
+- 1.16前，`TextStyle`内部可变
+- 1.16起，`TextStyle`内部不可变，使用with开头的方法创建新的`TextStyle`对象
+- 1.19前，`Text`使用继承关系，`Text`为基类，内部可变
+- 1.19起，`Text`为接口，默认可变。`Text`包含`style`和`content`，`content`使用继承关系且内部不可变
+
+## 以下为过时的教程
 
 ### literal
 
