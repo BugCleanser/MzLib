@@ -12,6 +12,7 @@ import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextTranslatable;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -377,7 +378,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=2102)
     default String getTranslationKeyV2102()
     {
-        return this.getItem().getDefaultNameV1300(this).getTranslatableKey();
+        return this.getItem().getDefaultNameV1300(this).castTo(TextTranslatable.FACTORY).getKey();
     }
     
     default ItemType getType()

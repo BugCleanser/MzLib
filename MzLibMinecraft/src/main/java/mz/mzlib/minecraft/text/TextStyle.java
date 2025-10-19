@@ -169,18 +169,41 @@ public interface TextStyle extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="font"))
     FontDescriptionV2109 getFontDescriptionV2109();
     
-    // TODO
+    TextColor getColor();
+    @SpecificImpl("getColor")
+    @VersionRange(end=1600)
+    default TextColor getColorV_1600()
+    {
+        TextFormatLegacy result = this.getColor0V_1600();
+        if(!result.isPresent())
+            return null;
+        return new TextColor(result);
+    }
+    
+    @SpecificImpl("getColor")
+    @VersionRange(begin=1600)
+    default TextColor getColorV1600()
+    {
+        TextColorV1600 result = this.getColor0V1600();
+        if(!result.isPresent())
+            return null;
+        return new TextColor(result);
+    }
     @VersionRange(end=1600)
     @WrapMinecraftFieldAccessor({@VersionName(name="formatting", end=1400), @VersionName(name="color", begin=1400)})
-    TextFormatLegacy getColorV_1600();
+    TextFormatLegacy getColor0V_1600();
+    @VersionRange(begin=1600)
+    @WrapMinecraftFieldAccessor(@VersionName(name="color"))
+    TextColorV1600 getColor0V1600();
     
+    @VersionRange(end=1600)
+    default void setColorV_1600(TextColor value)
+    {
+        this.setColorV_1600(value!=null ? value.legacy : TextFormatLegacy.FACTORY.create(null));
+    }
     @VersionRange(end=1600)
     @WrapMinecraftFieldAccessor({@VersionName(name="formatting", end=1400), @VersionName(name="color", begin=1400)})
     void setColorV_1600(TextFormatLegacy value);
-    
-    @VersionRange(begin=1600)
-    @WrapMinecraftFieldAccessor(@VersionName(name="color"))
-    TextColorV1600 getColorV1600();
     
     @Deprecated
     @VersionRange(begin=1600)
@@ -220,6 +243,10 @@ public interface TextStyle extends WrapperObject
         this.setClickEventV_1600(value);
     }
     
+    default TextStyle withColorV1600(TextColor color)
+    {
+        return this.withColorV1600(color!=null ? color.v1600 : TextColorV1600.FACTORY.create(null));
+    }
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="withColor"))
     TextStyle withColorV1600(TextColorV1600 color);
@@ -232,17 +259,17 @@ public interface TextStyle extends WrapperObject
     @VersionRange(begin=1600)
     default TextStyle withUnderlinedV1600(Boolean underlined)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), underlined, this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColor0V1600(), this.getShadowColor(), this.getBold(), this.getItalic(), underlined, this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     @VersionRange(begin=1600)
     default TextStyle withStrikethroughV1600(Boolean strikethrough)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), strikethrough, this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColor0V1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), strikethrough, this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     @VersionRange(begin=1600)
     default TextStyle withObfuscatedV1600(Boolean obfuscated)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), obfuscated, this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColor0V1600(), this.getShadowColor(), this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), obfuscated, this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
     }
     @VersionRange(begin=1600)
     @WrapMinecraftMethod(@VersionName(name="withClickEvent"))
@@ -256,6 +283,50 @@ public interface TextStyle extends WrapperObject
     @VersionRange(begin=2104)
     default TextStyle withShadowColorV2104(Integer shadowColor)
     {
-        return checkEmptyV1600(newInstanceV1600(this.getColorV1600(), shadowColor, this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+        return checkEmptyV1600(newInstanceV1600(this.getColor0V1600(), shadowColor, this.getBold(), this.getItalic(), this.getUnderlined(), this.getStrikethrough(), this.getObfuscated(), this.getClickEvent(), this.getHoverEvent(), this.getInsertion(), this.getFontV1600()));
+    }
+    
+    TextStyle withParent(TextStyle parent);
+    @SpecificImpl("withParent")
+    @VersionRange(end=1600)
+    default TextStyle withParentV_1600(TextStyle parent)
+    {
+        TextStyle result = empty();
+        result.setColorV_1600(this.getColorV_1600()!=null ? this.getColorV_1600() : parent.getColorV_1600());
+        result.setInsertionV_1600(this.getInsertion()!=null ? this.getInsertion() : parent.getInsertion());
+        result.setHoverEventV_1600(this.getHoverEvent().isPresent() ? this.getHoverEvent() : parent.getHoverEvent());
+        result.setClickEventV_1600(this.getClickEvent().isPresent() ? this.getClickEvent() : parent.getClickEvent());
+        result.setObfuscatedV_1600(this.getObfuscated()!=null ? this.getObfuscated() : parent.getObfuscated());
+        result.setBoldV_1600(this.getBold()!=null ? this.getBold() : parent.getBold());
+        result.setStrikethroughV_1600(this.getStrikethrough()!=null ? this.getStrikethrough() : parent.getStrikethrough());
+        result.setObfuscatedV_1600(this.getUnderlined()!=null ? this.getUnderlined() : parent.getUnderlined());
+        result.setItalicV_1600(this.getItalic()!=null ? this.getItalic() : parent.getItalic());
+        return result;
+    }
+    @SpecificImpl("withParent")
+    @VersionRange(begin=1600)
+    @WrapMinecraftMethod(@VersionName(name="withParent"))
+    TextStyle withParentV1600(TextStyle parent);
+    
+    default String toLegacy()
+    {
+        StringBuilder sb = new StringBuilder("§r");
+        for(TextFormatLegacy c: Option.fromNullable(this.getColor()).map(TextColor::getLegacy))
+        {
+            sb = new StringBuilder();
+            sb.append('§');
+            sb.append(c.getCode());
+        }
+        if(this.getObfuscated()==Boolean.TRUE)
+            sb.append("§k");
+        if(this.getBold()==Boolean.TRUE)
+            sb.append("§l");
+        if(this.getStrikethrough()==Boolean.TRUE)
+            sb.append("§m");
+        if(this.getUnderlined()==Boolean.TRUE)
+            sb.append("§n");
+        if(this.getItalic()==Boolean.TRUE)
+            sb.append("§o");
+        return sb.toString();
     }
 }

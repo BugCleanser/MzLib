@@ -9,6 +9,7 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.MutableText", begin=1600))
@@ -34,6 +35,10 @@ public interface TextMutableV1600 extends Text
         return this;
     }
     
+    static TextMutableV1600 newInstanceV1900(TextContentV1900 content)
+    {
+        return newInstanceV1900(content, new ArrayList<>(), TextStyle.empty());
+    }
     static TextMutableV1600 newInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style)
     {
         return create(null).staticNewInstanceV1900(content, extra, style);

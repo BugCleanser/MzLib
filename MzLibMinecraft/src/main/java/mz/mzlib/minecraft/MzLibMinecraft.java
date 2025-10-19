@@ -9,6 +9,7 @@ import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
 import mz.mzlib.minecraft.ui.window.UIWindow;
@@ -67,6 +68,8 @@ public class MzLibMinecraft extends MzModule
             this.register(UIWrittenBook.Module.instance);
             this.register(UIWindow.Module.instance);
             this.register(UIWindowAnvil.Module.instance);
+            
+            this.register(Text.Module.instance);
             
             this.register(CommandMzLibTest.instance);
             this.register(CommandMzLibLang.instance);

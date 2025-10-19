@@ -7,20 +7,15 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.*;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.text.LiteralTextContent", begin=1900, end=2003), @VersionName(name="net.minecraft.text.PlainTextContent", begin=2003)})
+@VersionRange(begin=1900)
+@WrapMinecraftClass({@VersionName(name="net.minecraft.text.LiteralTextContent", end=2003), @VersionName(name="net.minecraft.text.PlainTextContent", begin=2003)})
 public interface TextContentLiteralV1900 extends TextContentV1900
 {
     WrapperFactory<TextContentLiteralV1900> FACTORY = WrapperFactory.of(TextContentLiteralV1900.class);
-    @Deprecated
-    @WrapperCreator
-    static TextContentLiteralV1900 create(Object wrapped)
-    {
-        return WrapperObject.create(TextContentLiteralV1900.class, wrapped);
-    }
     
     static TextContentLiteralV1900 newInstance(String literal)
     {
-        return create(null).staticNewInstance(literal);
+        return FACTORY.getStatic().staticNewInstance(literal);
     }
     TextContentLiteralV1900 staticNewInstance(String literal);
     @SpecificImpl("staticNewInstance")
@@ -37,21 +32,16 @@ public interface TextContentLiteralV1900 extends TextContentV1900
 
     @WrapMinecraftMethod(@VersionName(name="string"))
     String getLiteral();
-
-    @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal", begin=2003))
+    
+    @VersionRange(begin=2003)
+    @WrapMinecraftInnerClass(outer= TextContentLiteralV1900.class, name=@VersionName(name="Literal"))
     interface ImplV2003 extends TextContentLiteralV1900
     {
         WrapperFactory<ImplV2003> FACTORY = WrapperFactory.of(ImplV2003.class);
-        @Deprecated
-        @WrapperCreator
-        static ImplV2003 create(Object wrapped)
-        {
-            return WrapperObject.create(ImplV2003.class, wrapped);
-        }
         
         static ImplV2003 newInstance(String literal)
         {
-            return ImplV2003.create(null).staticNewInstance(literal);
+            return FACTORY.getStatic().staticNewInstance(literal);
         }
         @WrapConstructor
         ImplV2003 staticNewInstance(String literal);

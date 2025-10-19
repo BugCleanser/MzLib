@@ -8,8 +8,9 @@ import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
 
-@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.TranslatableTextContent", begin = 1900))
-public interface TextContentTranslatableV1900 extends WrapperObject, TextContentV1900, TextTranslatableCommon
+@VersionRange(begin=1900)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.TranslatableTextContent"))
+public interface TextContentTranslatableV1900 extends WrapperObject, TextContentV1900
 {
     WrapperFactory<TextContentTranslatableV1900> FACTORY = WrapperFactory.of(TextContentTranslatableV1900.class);
     @Deprecated
@@ -45,7 +46,6 @@ public interface TextContentTranslatableV1900 extends WrapperObject, TextContent
     @WrapMinecraftMethod(@VersionName(name="getKey"))
     String getKey();
 
-    @Override
-    @WrapMinecraftMethod(@VersionName(name = "getArgs", begin = 1900))
+    @WrapMinecraftMethod(@VersionName(name = "getArgs"))
     Object[] getArgs0();
 }

@@ -12,61 +12,89 @@ import java.util.Optional;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name = "net.minecraft.text.SelectorText", end = 1400),
-                @VersionName(name = "net.minecraft.network.chat.SelectorComponent", begin = 1400, end = 1403),
-                @VersionName(name = "net.minecraft.text.SelectorText", begin = 1403, end = 1900),
-                @VersionName(name = "net.minecraft.text.SelectorTextContent", begin=1900)
+                @VersionName(name = "net.minecraft.text.SelectorText", end = 1900),
+                @VersionName(name = "net.minecraft.text.Text", begin=1900)
         })
-public interface TextSelector extends WrapperObject
+public interface TextSelector extends WrapperObject, Text
 {
     WrapperFactory<TextSelector> FACTORY = WrapperFactory.of(TextSelector.class);
-    @Deprecated
-    @WrapperCreator
-    static TextSelector create(Object wrapped)
+    
+    static TextSelector newInstance(String selector)
     {
-        return WrapperObject.create(TextSelector.class, wrapped);
+        return FACTORY.getStatic().staticNewInstance(selector);
     }
-
-    TextSelector staticNewInstance(String pattern);
-    static TextSelector newInstance(String pattern)
-    {
-        return create(null).staticNewInstance(pattern);
-    }
+    TextSelector staticNewInstance(String selector);
     @SpecificImpl("staticNewInstance")
     @VersionRange(end=1700)
     @WrapConstructor
-    TextSelector staticNewInstanceV_1700(String pattern);
-    @VersionRange(begin=1700, end=2102)
+    TextSelector staticNewInstanceV_1700(String selector);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=1700)
+    default TextSelector staticNewInstanceV1700(String selector)
+    {
+        return newInstanceV1700(selector, Option.none());
+    }
+    
+    @VersionRange(begin=1700)
+    static TextSelector newInstanceV1700(String selector, Option<Text> separator)
+    {
+        return FACTORY.getStatic().staticNewInstanceV1700(selector, separator);
+    }
+    @VersionRange(begin=1700)
+    TextSelector staticNewInstanceV1700(String selector, Option<Text> separator);
+    @SpecificImpl("staticNewInstanceV1700")
+    @VersionRange(begin=1700, end=1900)
+    default TextSelector staticNewInstanceV1700_1900(String selector, Option<Text> separator)
+    {
+        return this.staticNewInstance0V1700_1900(selector, separator.map(Text::getWrapped).toOptional());
+    }
+    @VersionRange(begin=1700, end=1900)
     @WrapConstructor
-    TextSelector staticNewInstance0V1700_2102(String pattern, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
-    static TextSelector newInstance0V1700_2102(String pattern, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0)
+    TextSelector staticNewInstance0V1700_1900(String selector, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
+    @SpecificImpl("staticNewInstanceV1700")
+    @VersionRange(begin=1900)
+    default TextSelector staticNewInstanceV1900(String selector, Option<Text> separator)
     {
-        return create(null).staticNewInstance0V1700_2102(pattern, separator0);
+        return TextMutableV1600.newInstanceV1900(TextContentSelectorV1900.newInstance(selector, separator)).as(FACTORY);
     }
-    static TextSelector newInstanceV1700_2102(String pattern, Option<Text> separator)
-    {
-        return newInstance0V1700_2102(pattern, separator.map(Text::getWrapped).toOptional());
-    }
-    @SpecificImpl("staticNewInstance")
-    @VersionRange(begin=1700, end=2102)
-    default TextSelector staticNewInstanceV1700_2102(String pattern)
-    {
-        return this.staticNewInstance0V1700_2102(pattern, Optional.empty());
-    }
-    @SpecificImpl("staticNewInstance")
+    
     @VersionRange(begin=2102)
-    default TextSelector staticNewInstanceV2102(String pattern)
+    default TextSelector staticNewInstanceV2102(ParsedSelectorV2102 selector, Option<Text> separator)
     {
-        throw new UnsupportedOperationException(); // TODO
+        return TextMutableV1600.newInstanceV1900(TextContentSelectorV1900.newInstanceV2102(selector, separator)).as(FACTORY);
     }
-
-    @VersionRange(end=2102)
+    
+    String getSelector();
+    @SpecificImpl("getSelector")
+    @VersionRange(end=1900)
     @WrapMinecraftMethod(@VersionName(name="getPattern"))
-    String getPatternV_2102();
-    @WrapMinecraftFieldAccessor(@VersionName(name="separator", begin=1700))
-    Optional<?> getSeparator0V1700();
-    default Option<Text> getSeparatorV1700()
+    String getSelectorV_1900();
+    @SpecificImpl("getSelector")
+    @VersionRange(begin=1900)
+    default String getSelectorV1900()
     {
-        return Option.fromOptional(this.getSeparator0V1700()).map(Text.FACTORY::create);
+        return this.getContentV1900().as(TextContentSelectorV1900.FACTORY).getSelector();
+    }
+    
+    default ParsedSelectorV2102 getSelectorV2102()
+    {
+        return this.getContentV1900().as(TextContentSelectorV1900.FACTORY).getSelectorV2102();
+    }
+    
+    @VersionRange(begin=1700)
+    Option<Text> getSeparatorV1700();
+    @SpecificImpl("getSeparatorV1700")
+    @VersionRange(begin=1700, end=1900)
+    default Option<Text> getSeparatorV1700_1900()
+    {
+        return Option.fromOptional(this.getSeparator0V1700_1900()).map(Text.FACTORY::create);
+    }
+    @WrapMinecraftFieldAccessor(@VersionName(name="separator", begin=1700))
+    Optional<?> getSeparator0V1700_1900();
+    @SpecificImpl("getSeparatorV1700")
+    @VersionRange(begin=1900)
+    default Option<Text> getSeparatorV1900()
+    {
+        return this.getContentV1900().as(TextContentSelectorV1900.FACTORY).getSeparator();
     }
 }

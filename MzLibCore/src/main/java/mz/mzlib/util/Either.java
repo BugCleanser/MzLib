@@ -11,8 +11,8 @@ public abstract class Either<F, S>
     
     public abstract Either<S, F> invert();
     
-    public abstract Either<F, S> mapFirst(Function<? super F, ? extends F> action);
-    public abstract Either<F, S> mapSecond(Function<? super S, ? extends S> action);
+    public abstract <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action);
+    public abstract <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action);
     public abstract <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond);
     
     public static <F, S> Either<F, S> first(F value)
@@ -62,14 +62,14 @@ public abstract class Either<F, S>
             return second(this.value);
         }
         @Override
-        public Either<F, S> mapFirst(Function<? super F, ? extends F> action)
+        public <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action)
         {
             return first(action.apply(this.value));
         }
         @Override
-        public Either<F, S> mapSecond(Function<? super S, ? extends S> action)
+        public <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action)
         {
-            return this;
+            return first(this.value);
         }
         @Override
         public <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
@@ -107,12 +107,12 @@ public abstract class Either<F, S>
             return new First<>(value);
         }
         @Override
-        public Either<F, S> mapFirst(Function<? super F, ? extends F> action)
+        public <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action)
         {
-            return this;
+            return second(this.value);
         }
         @Override
-        public Either<F, S> mapSecond(Function<? super S, ? extends S> action)
+        public <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action)
         {
             return second(action.apply(this.value));
         }

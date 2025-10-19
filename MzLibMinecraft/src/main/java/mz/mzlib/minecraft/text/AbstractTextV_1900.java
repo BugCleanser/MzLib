@@ -14,12 +14,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.List;
 
 @VersionRange(end=1900)
-@WrapMinecraftClass(
-        {
-                @VersionName(name = "net.minecraft.text.BaseText", end=1400),
-                @VersionName(name = "net.minecraft.network.chat.BaseComponent", begin=1400, end=1403),
-                @VersionName(name = "net.minecraft.text.BaseText", begin=1403)
-        })
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.BaseText"))
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {
     WrapperFactory<AbstractTextV_1900> FACTORY = WrapperFactory.of(AbstractTextV_1900.class);

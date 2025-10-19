@@ -99,7 +99,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
     
     default GameProfile.Description toDescription()
     {
-        return this.getV2109().merge(GameProfile::toDescription, DataV2109::toDescription);
+        return this.getV2109().map(GameProfile::toDescription, DataV2109::toDescription);
     }
     
     @VersionRange(begin=2109)

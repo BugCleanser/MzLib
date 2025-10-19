@@ -2,6 +2,8 @@ package mz.mzlib.minecraft.text;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -11,6 +13,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.module.MzModule;
+import mz.mzlib.tester.SimpleTester;
+import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -18,10 +23,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @WrapMinecraftClass(@VersionName(name="net.minecraft.text.Text"))
 public interface Text extends WrapperObject
@@ -51,7 +57,7 @@ public interface Text extends WrapperObject
     {
         Result<Option<Text>, String> result = TextCodecsV2003.codec().parse(JsonOpsV1300.instance(), json).toResult();
         for(String err: result.getError())
-            throw new IllegalArgumentException(err);
+            throw new JsonParseException(err);
         return result.getValue().unwrap();
     }
     
@@ -73,15 +79,8 @@ public interface Text extends WrapperObject
     {
         Result<Option<JsonElement>, String> result = TextCodecsV2003.codec().encodeStart(JsonOpsV1300.instance(), this).toResult();
         for(String err: result.getError())
-            throw new IllegalArgumentException(err);
+            throw new JsonParseException(err);
         return result.getValue().unwrap();
-    }
-    
-    Text staticLiteral(String str);
-    
-    static Text literal(String str)
-    {
-        return create(null).staticLiteral(str);
     }
     
     static Text fromLegacy(String legacy)
@@ -89,95 +88,42 @@ public interface Text extends WrapperObject
         return literal(legacy); // FIXME
     }
     
-    @SpecificImpl("staticLiteral")
-    @VersionRange(end=1900)
-    default Text staticLiteralV_1900(String str)
+    static Text literal(String str)
     {
-        return TextLiteralV_1900.newInstance(str);
+        return TextLiteral.newInstance(str);
     }
     
-    @SpecificImpl("staticLiteral")
-    @VersionRange(begin=1900)
-    default Text staticLiteralV1900(String str)
+    static Text translatable(String key, Object... args)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentLiteralV1900.newInstance(str), new ArrayList<>(), TextStyle.empty());
+        return TextTranslatable.newInstance(key, Arrays.asList(args));
     }
     
-    Text staticTranslatable(String key, Text... args);
-    
-    static Text translatable(String key, Text... args)
+    @Deprecated
+    static Text translatable(String key, Text[] args)
     {
-        return create(null).staticTranslatable(key, args);
+        return translatable(key, (Object[]) args);
     }
     
-    @SpecificImpl("staticTranslatable")
-    @VersionRange(end=1900)
-    default Text staticTranslatableV_1900(String key, Text... args)
+    static Text keybindV1200(String key)
     {
-        return TextTranslatableV_1900.newInstance(key, args);
+        return TextKeybindV1200.newInstance(key);
     }
     
-    @SpecificImpl("staticTranslatable")
-    @VersionRange(begin=1900)
-    default Text staticTranslatableV1900(String key, Text... args)
+    static Text score(String name, String objective)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance(key, args), new ArrayList<>(), TextStyle.empty());
+        return TextScore.newInstance(name, objective);
     }
     
-    Text staticKeybindV1200(String keybind);
-    
-    static Text keybindV1200(String keybind)
+    static Text selector(String selector)
     {
-        return create(null).staticKeybindV1200(keybind);
-    }
-    
-    @SpecificImpl("staticKeybindV1200")
-    @VersionRange(begin=1200, end=1900)
-    default Text staticKeybindV1200_1900(String keybind)
-    {
-        return TextKeybindV1200_1900.newInstance(keybind);
-    }
-    
-    @SpecificImpl("staticKeybindV1200")
-    @VersionRange(begin=1900)
-    default Text staticKeybindV1900(String keybind)
-    {
-        return TextMutableV1600.newInstanceV1900(TextContentKeybindV1900.newInstance(keybind), new ArrayList<>(), TextStyle.empty());
-    }
-    
-    Text staticScore(TextScore value);
-    
-    static Text score(TextScore value)
-    {
-        return create(null).staticScore(value);
-    }
-    
-    @SpecificImpl("staticScore")
-    @VersionRange(end=1900)
-    default Text staticScoreV_1900(TextScore value)
-    {
-        return value.castTo(TextScoreV_1900.FACTORY);
-    }
-    
-    @SpecificImpl("staticScore")
-    @VersionRange(begin=1900)
-    default Text staticScoreV1900(TextScore value)
-    {
-        return TextMutableV1600.newInstanceV1900(value.castTo(TextContentScoreV1900.FACTORY), new ArrayList<>(), TextStyle.empty());
-    }
-    
-    Text staticSelector(TextSelector selector);
-    
-    static Text selector(TextSelector selector)
-    {
-        return create(null).staticSelector(selector);
+        return TextSelector.newInstance(selector);
     }
     
     @SpecificImpl("staticSelector")
     @VersionRange(end=1900)
     default Text staticSelectorV_1900(TextSelector selector)
     {
-        return selector.castTo(TextScoreV_1900.FACTORY);
+        return selector.castTo(TextSelectorV_1900.FACTORY);
     }
     
     @SpecificImpl("staticSelector")
@@ -188,125 +134,41 @@ public interface Text extends WrapperObject
     }
     
     @Deprecated
-    String getLiteral();
-    
-    @SpecificImpl("getLiteral")
-    @VersionRange(end=1900)
-    default String getLiteralV_1900()
+    default String getLiteral()
     {
-        if(!this.isInstanceOf(TextLiteralV_1900.FACTORY))
+        if(this.getType()!=Type.LITERAL)
             return null;
-        return this.castTo(TextLiteralV_1900.FACTORY).getLiteralV_1900();
+        return this.castTo(TextLiteral.FACTORY).getLiteral();
     }
     
-    @SpecificImpl("getLiteral")
-    @VersionRange(begin=1900)
-    default String getLiteralV1900()
+    @Deprecated
+    default String getTranslatableKey()
     {
-        if(!this.getContentV1900().isInstanceOf(TextContentLiteralV1900.FACTORY))
+        if(this.getType()!=Type.TRANSLATABLE)
             return null;
-        return this.getContentV1900().castTo(TextContentLiteralV1900.FACTORY).getLiteral();
+        return this.castTo(TextTranslatable.FACTORY).getKey();
     }
     
-    String getTranslatableKey();
-    
-    @SpecificImpl("getTranslatableKey")
-    @VersionRange(end=1900)
-    default String getTranslatableKeyV_1900()
+    @Deprecated
+    default Text[] getTranslatableArgs()
     {
-        if(!this.isInstanceOf(TextTranslatableV_1900.FACTORY))
+        if(this.getType()!=Type.TRANSLATABLE)
             return null;
-        return this.castTo(TextTranslatableV_1900.FACTORY).getKey();
+        return this.castTo(TextTranslatable.FACTORY).getArgs().stream().map(a->
+        {
+            if(a instanceof Text)
+                return (Text) a;
+            return TextLiteral.newInstance(Objects.toString(a));
+        }).toArray(Text[]::new);
     }
     
-    @SpecificImpl("getTranslatableKey")
-    @VersionRange(begin=1900)
-    default String getTranslatableKeyV1900()
-    {
-        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900.FACTORY))
-            return null;
-        return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getKey();
-    }
-    
-    Text[] getTranslatableArgs();
-    
-    @SpecificImpl("getTranslatableArgs")
-    @VersionRange(end=1900)
-    default Text[] getTranslatableArgsV_1900()
-    {
-        if(!this.isInstanceOf(TextTranslatableV_1900.FACTORY))
-            return null;
-        return this.castTo(TextTranslatableV_1900.FACTORY).getArgs();
-    }
-    
-    @SpecificImpl("getTranslatableArgs")
-    @VersionRange(begin=1900)
-    default Text[] getTranslatableArgsV1900()
-    {
-        if(!this.getContentV1900().isInstanceOf(TextContentTranslatableV1900.FACTORY))
-            return null;
-        return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getArgs();
-    }
-    
+    @Deprecated
     @VersionRange(begin=1200)
-    String getKeybindV1200();
-    
-    @SpecificImpl("getKeybindV1200")
-    @VersionRange(begin=1200, end=1900)
-    default String getKeybindV1200_1900()
+    default String getKeybindV1200()
     {
-        if(!this.isInstanceOf(TextKeybindV1200_1900.FACTORY))
+        if(this.getType()!=Type.KEYBIND_V1200)
             return null;
-        return this.castTo(TextKeybindV1200_1900.FACTORY).getKey();
-    }
-    
-    @SpecificImpl("getKeybindV1200")
-    @VersionRange(begin=1900)
-    default String getKeybindV1900()
-    {
-        if(!this.getContentV1900().isInstanceOf(TextContentKeybindV1900.FACTORY))
-            return null;
-        return this.getContentV1900().castTo(TextContentKeybindV1900.FACTORY).getKeybind();
-    }
-    
-    TextScore getScore();
-    
-    @SpecificImpl("getScore")
-    @VersionRange(end=1900)
-    default TextScore getScoreV_1900()
-    {
-        if(!this.isInstanceOf(TextScore.FACTORY))
-            return null;
-        return this.castTo(TextScore.FACTORY);
-    }
-    
-    @SpecificImpl("getScore")
-    @VersionRange(begin=1900)
-    default TextScore getScoreV1900()
-    {
-        if(!this.getContentV1900().isInstanceOf(TextScore.FACTORY))
-            return null;
-        return this.getContentV1900().castTo(TextScore.FACTORY);
-    }
-    
-    TextSelector getSelector();
-    
-    @SpecificImpl("getSelector")
-    @VersionRange(end=1900)
-    default TextSelectorV_1900 getSelectorV_1900()
-    {
-        if(!this.isInstanceOf(TextSelectorV_1900.FACTORY))
-            return null;
-        return this.castTo(TextSelectorV_1900.FACTORY);
-    }
-    
-    @SpecificImpl("getSelector")
-    @VersionRange(begin=1900)
-    default TextContentSelectorV1900 getSelectorV1900()
-    {
-        if(!this.getContentV1900().isInstanceOf(TextContentSelectorV1900.FACTORY))
-            return null;
-        return this.getContentV1900().castTo(TextContentSelectorV1900.FACTORY);
+        return this.castTo(TextKeybindV1200.FACTORY).getKey();
     }
     
     @WrapMinecraftMethod(@VersionName(name="getStyle"))
@@ -375,25 +237,9 @@ public interface Text extends WrapperObject
         return this;
     }
     
-    TextColor getColor();
-    
-    @SpecificImpl("getColor")
-    @VersionRange(end=1600)
-    default TextColor getColorV_1600()
+    default TextColor getColor()
     {
-        TextFormatLegacy result = this.style().getColorV_1600();
-        if(!result.isPresent())
-            return null;
-        return new TextColor(result);
-    }
-    
-    @VersionRange(begin=1600)
-    default TextColor getColorV1600()
-    {
-        TextColorV1600 result = this.style().getColorV1600();
-        if(!result.isPresent())
-            return null;
-        return new TextColor(result);
+        return this.getStyle().getColor();
     }
     
     Text setColor(TextColor value);
@@ -402,7 +248,7 @@ public interface Text extends WrapperObject
     @VersionRange(end=1600)
     default Text setColorV_1600(TextColor value)
     {
-        this.style().setColorV_1600(value!=null ? value.legacy : TextFormatLegacy.FACTORY.create(null));
+        this.style().setColorV_1600(value);
         return this;
     }
     
@@ -410,7 +256,7 @@ public interface Text extends WrapperObject
     @VersionRange(begin=1600)
     default Text setColorV1600(TextColor value)
     {
-        this.setStyle(this.style().withColorV1600(value!=null ? value.v1600 : TextColorV1600.FACTORY.create(null)));
+        this.setStyle(this.style().withColorV1600(value));
         return this;
     }
     
@@ -603,10 +449,196 @@ public interface Text extends WrapperObject
     
     default String toLegacy()
     {
-        String result = this.getLiteral();
-        if(result!=null)
-            return result;
-        return "<unsupported>"; // FIXME
+        return this.toLegacy(TextStyle.empty());
+    }
+    default String toLegacy(TextStyle parentStyle)
+    {
+        TextStyle withParent = this.getStyle().withParent(parentStyle);
+        String literal;
+        switch(this.getType())
+        {
+            case LITERAL:
+                literal = this.as(TextLiteral.FACTORY).getLiteral();
+                break;
+            case TRANSLATABLE:
+                TextTranslatable textTranslatable = this.as(TextTranslatable.FACTORY);
+                literal = textTranslatable.getKey()+'['+textTranslatable.getArgs().stream().map(a->a instanceof Text?((Text)a).toLegacy(withParent):a.toString()).collect(Collectors.joining(","))+']';
+                break;
+            case SCORE:
+                TextScore textScore = this.as(TextScore.FACTORY);
+                literal = textScore.getName()+'['+textScore.getObjective()+']';
+                break;
+            case SELECTOR:
+                TextSelector textSelector = this.as(TextSelector.FACTORY);
+                literal = textSelector.getSelector();
+                if(MinecraftPlatform.instance.getVersion()>=1700)
+                    for(Text separator: textSelector.getSeparatorV1700())
+                    {
+                        //noinspection StringConcatenationInLoop
+                        literal += '[' + separator.toLegacy(parentStyle) + ']';
+                    }
+                break;
+            case NBT_V1400:
+                literal = "<nbt>"; // TODO
+                break;
+            case KEYBIND_V1200:
+                literal = this.as(TextKeybindV1200.FACTORY).getKey();
+                break;
+            case OBJECT_V2109:
+                literal = "<2109>"; // TODO
+                break;
+            default:
+                literal = "<unknown>";
+                break;
+        }
+        return withParent.toLegacy()+literal;
+    }
+    
+    enum Type
+    {
+        UNKNOWN,
+        LITERAL,
+        TRANSLATABLE,
+        SCORE,
+        SELECTOR,
+        KEYBIND_V1200,
+        NBT_V1400,
+        OBJECT_V2109
+    }
+    
+    Type getType();
+    @SpecificImpl("getType")
+    @VersionRange(end=1200)
+    default Type getTypeV_1200()
+    {
+        if(this.is(TextLiteral.FACTORY))
+            return Type.LITERAL;
+        if(this.is(TextTranslatable.FACTORY))
+            return Type.TRANSLATABLE;
+        if(this.is(TextScore.FACTORY))
+            return Type.SCORE;
+        if(this.is(TextSelector.FACTORY))
+            return Type.SELECTOR;
+        return Type.UNKNOWN;
+    }
+    @SpecificImpl("getType")
+    @VersionRange(begin=1200, end=1400)
+    default Type getTypeV1200_1400()
+    {
+        if(this.is(TextKeybindV1200.FACTORY))
+            return Type.KEYBIND_V1200;
+        return this.getTypeV_1200();
+    }
+    @SpecificImpl("getType")
+    @VersionRange(begin=1400, end=1900)
+    default Type getTypeV1400_1900()
+    {
+        if(this.is(TextNbtV1400.FACTORY))
+            return Type.NBT_V1400;
+        return this.getTypeV1200_1400();
+    }
+    @SpecificImpl("getType")
+    @VersionRange(begin=1900, end=2109)
+    default Type getTypeV1900_2109()
+    {
+        TextContentV1900 content = this.getContentV1900();
+        if(content.is(TextContentLiteralV1900.FACTORY))
+            return Type.LITERAL;
+        if(content.is(TextContentTranslatableV1900.FACTORY))
+            return Type.TRANSLATABLE;
+        if(content.is(TextContentScoreV1900.FACTORY))
+            return Type.SCORE;
+        if(content.is(TextContentSelectorV1900.FACTORY))
+            return Type.SELECTOR;
+        if(content.is(TextContentKeybindV1900.FACTORY))
+            return Type.KEYBIND_V1200;
+        if(content.is(TextContentNbtV1900.FACTORY))
+            return Type.NBT_V1400;
+        return Type.UNKNOWN;
+    }
+    @SpecificImpl("getType")
+    @VersionRange(begin=2109)
+    default Type getTypeV2109()
+    {
+        TextContentV1900 content = this.getContentV1900();
+        if(content.is(TextContentObjectV2109.FACTORY))
+            return Type.OBJECT_V2109;
+        return this.getTypeV1900_2109();
+    }
+    
+    class Module extends MzModule
+    {
+        public static Module instance = new Module();
+        
+        @Override
+        public void onLoad()
+        {
+            SimpleTester.Builder<TesterContext> testBuilder = SimpleTester.Builder.common().setName(Text.class.getName()).setMinLevel(1);
+            Function<Text, Text> codec = t->Text.decode(t.encode());
+            Supplier<String> randomString = ()->Objects.toString(ThreadLocalRandom.current().nextLong());
+            this.register(testBuilder.setFunction(context->
+            {
+                String literal = randomString.get();
+                TextLiteral text = codec.apply(TextLiteral.newInstance(literal)).as(TextLiteral.FACTORY);
+                if(text.getType()!=Type.LITERAL)
+                    throw new AssertionError("literal type");
+                if(!text.getLiteral().equals(literal))
+                    throw new AssertionError("literal content");
+            }).build());
+            this.register(testBuilder.setFunction(context->
+            {
+                String key = randomString.get();
+                int arg0 = ThreadLocalRandom.current().nextInt();
+                TextLiteral arg1 = TextLiteral.newInstance(randomString.get());
+                TextTranslatable text = codec.apply(TextTranslatable.newInstance(key, arg0, arg1)).as(TextTranslatable.FACTORY);
+                if(text.getType()!=Type.TRANSLATABLE)
+                    throw new AssertionError("translatable type");
+                if(!text.getKey().equals(key))
+                    throw new AssertionError("translatable key");
+                if((int)text.getArgs().get(0) != arg0)
+                    throw new AssertionError("translatable arg0");
+                if(!((Text)text.getArgs().get(1)).as(TextLiteral.FACTORY).getLiteral().equals(arg1.getLiteral()))
+                    throw new AssertionError("translatable arg1");
+            }).build());
+            this.register(testBuilder.setFunction(context->
+            {
+                String name = randomString.get();
+                String objective = randomString.get();
+                TextScore text = codec.apply(TextScore.newInstance(name, objective)).as(TextScore.FACTORY);
+                if(text.getType()!=Type.SCORE)
+                    throw new AssertionError("score type");
+                if(!text.getName().equals(name))
+                    throw new AssertionError("score name");
+                if(!text.getObjective().equals(objective))
+                    throw new AssertionError("score objective");
+            }).build());
+            this.register(testBuilder.setFunction(context->
+            {
+                String selector = randomString.get();
+                TextLiteral separator = TextLiteral.newInstance(randomString.get());
+                TextSelector text = codec.apply(MinecraftPlatform.instance.getVersion()<1700 ? TextSelector.newInstance(selector) : TextSelector.newInstanceV1700(selector, Option.some(separator))).as(TextSelector.FACTORY);
+                if(text.getType()!=Type.SELECTOR)
+                    throw new AssertionError("selector type");
+                if(!text.getSelector().equals(selector))
+                    throw new AssertionError("selector selector");
+                if(MinecraftPlatform.instance.getVersion()>=1700)
+                {
+                    if(!text.getSeparatorV1700().unwrap().as(TextLiteral.FACTORY).getLiteral().equals(separator.getLiteral()))
+                        throw new AssertionError("selector separator");
+                }
+            }).build());
+            // TODO
+            if(MinecraftPlatform.instance.getVersion()>=1200)
+                this.register(testBuilder.setFunction(context->
+                {
+                    String key = randomString.get();
+                    TextKeybindV1200 text = codec.apply(TextKeybindV1200.newInstance(key)).as(TextKeybindV1200.FACTORY);
+                    if(text.getType() != Type.KEYBIND_V1200)
+                        throw new AssertionError("keybind type");
+                    if(!text.getKey().equals(key))
+                        throw new AssertionError("keybind key");
+                }).build());
+        }
     }
     
     @VersionRange(end=2106)
@@ -724,10 +756,10 @@ public interface Text extends WrapperObject
                     this.setObfuscated((Boolean)JsUtil.toJvm(e.getValue()));
                     break;
                 case "clickEvent":
-                    this.setClickEvent((TextClickEvent)JsUtil.toJvm(e.getValue()));
+                    this.setClickEvent((TextClickEvent)JsUtil.toJvm(e.getValue())); // FIXME
                     break;
                 case "hoverEvent":
-                    this.setHoverEvent((TextHoverEvent)JsUtil.toJvm(e.getValue()));
+                    this.setHoverEvent((TextHoverEvent)JsUtil.toJvm(e.getValue())); // FIXME
                     break;
                 case "insertion":
                     this.setInsertion((String)JsUtil.toJvm(e.getValue()));
@@ -780,7 +812,7 @@ public interface Text extends WrapperObject
     @Deprecated
     static Text selector(String pattern, Map<String, Object> prop)
     {
-        return selector(TextSelector.newInstance(pattern)).set(prop);
+        return selector(pattern).set(prop);
     }
     /**
      * Use in js

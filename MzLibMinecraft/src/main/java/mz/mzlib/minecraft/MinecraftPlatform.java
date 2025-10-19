@@ -1,7 +1,5 @@
 package mz.mzlib.minecraft;
 
-import mz.mzlib.minecraft.bukkit.BukkitEnabled;
-import mz.mzlib.minecraft.bukkit.MinecraftPlatformBukkit;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.mappings.Mappings;
 import mz.mzlib.util.*;
@@ -10,7 +8,6 @@ import java.io.File;
 import java.lang.annotation.*;
 import java.lang.reflect.AnnotatedElement;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 public interface MinecraftPlatform extends Instance

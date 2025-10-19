@@ -4,64 +4,72 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.Either;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass(
         {
-                @VersionName(name = "net.minecraft.text.ScoreText", end=1400),
-                @VersionName(name = "net.minecraft.network.chat.ScoreComponent", begin=1400, end=1403),
-                @VersionName(name = "net.minecraft.text.ScoreText", begin=1403, end=1900),
-                @VersionName(name = "net.minecraft.text.ScoreTextContent", begin=1900)
+                @VersionName(name = "net.minecraft.text.ScoreText", end=1900),
+                @VersionName(name = "net.minecraft.text.Text", begin=1900)
         })
-public interface TextScore extends WrapperObject
+public interface TextScore extends WrapperObject, Text
 {
     WrapperFactory<TextScore> FACTORY = WrapperFactory.of(TextScore.class);
-    @Deprecated
-    @WrapperCreator
-    static TextScore create(Object wrapped)
+    
+    static TextScore newInstance(String name, String objective)
     {
-        return WrapperObject.create(TextScore.class, wrapped);
+        return FACTORY.getStatic().staticNewInstance(name, objective);
+    }
+    TextScore staticNewInstance(String name, String objective);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(end=1900)
+    @WrapConstructor
+    TextScore staticNewInstanceV_1900(String name, String objective);
+    @SpecificImpl("staticNewInstance")
+    @VersionRange(begin=1900)
+    default TextScore staticNewInstanceV1900(String name, String objective)
+    {
+        return TextMutableV1600.newInstanceV1900(TextContentScoreV1900.newInstance(name, objective)).as(FACTORY);
     }
     
-    @VersionRange(end=2102)
-    @WrapConstructor
-    TextScore staticNewInstanceV_2102(String name, String objective);
-    static TextScore newInstanceV_2102(String name, String objective)
+    static TextScore newInstanceV2102(Either<ParsedSelectorV2102, String> name, String objective)
     {
-        return create(null).staticNewInstanceV_2102(name, objective);
+        return TextMutableV1600.newInstanceV1900(TextContentScoreV1900.newInstanceV2102(name, objective)).as(FACTORY);
     }
-    static TextScore newInstanceV_1600(String name, String objective, String value)
-    {
-        TextScore result = newInstanceV_2102(name, objective);
-        result.setValueV_1600(value);
-        return result;
-    }
-
-    @WrapMinecraftFieldAccessor(@VersionName(name="name"))
+    
     String getName();
+    @SpecificImpl("getName")
+    @VersionRange(end=1900)
     @WrapMinecraftFieldAccessor(@VersionName(name="name"))
-    void setName(String value);
-
-    @WrapMinecraftFieldAccessor(@VersionName(name = "objective"))
+    String getNameV_1900();
+    @SpecificImpl("getName")
+    @VersionRange(begin=1900)
+    default String getNameV1900()
+    {
+        return this.getContentV1900().as(TextContentScoreV1900.FACTORY).getName();
+    }
+    
+    default Either<ParsedSelectorV2102, String> getNameV2102()
+    {
+        return this.getContentV1900().as(TextContentScoreV1900.FACTORY).getNameV2102();
+    }
+    
     String getObjective();
+    @SpecificImpl("getObjective")
+    @VersionRange(end=1900)
     @WrapMinecraftFieldAccessor(@VersionName(name="objective"))
-    void setObjective(String value);
+    String getObjectiveV_1900();
+    @SpecificImpl("getObjective")
+    @VersionRange(begin=1900)
+    default String getObjectiveV1900()
+    {
+        return this.getContentV1900().as(TextContentScoreV1900.FACTORY).getObjective();
+    }
 
-    @WrapMinecraftFieldAccessor(
-            {
-                    @VersionName(name = "score", end = 1400),
-                    @VersionName(name = "text", begin = 1400, end = 1403),
-                    @VersionName(name = "score", begin = 1403, end=1600)
-            })
+    @VersionRange(end=1600)
+    @WrapMinecraftFieldAccessor(@VersionName(name="score"))
     String getValueV_1600();
-    @WrapMinecraftFieldAccessor(
-            {
-                    @VersionName(name = "score", end = 1400),
-                    @VersionName(name = "text", begin = 1400, end = 1403),
-                    @VersionName(name = "score", begin = 1403, end=1600)
-            })
+    @VersionRange(end=1600)
+    @WrapMinecraftFieldAccessor(@VersionName(name="score"))
     void setValueV_1600(String value);
 }

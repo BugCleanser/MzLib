@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.util;
 
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.util.Either;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.*;
@@ -14,12 +15,6 @@ import java.util.function.Function;
 public interface EitherV1300<F, S> extends WrapperObject
 {
     WrapperFactory<EitherV1300<?, ?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(EitherV1300.class));
-    @Deprecated
-    @WrapperCreator
-    static EitherV1300<?, ?> create(Object wrapped)
-    {
-        return WrapperObject.create(EitherV1300.class, wrapped);
-    }
     
     static <F, S> EitherV1300<F, S> first(F value)
     {
@@ -49,6 +44,15 @@ public interface EitherV1300<F, S> extends WrapperObject
         return Option.fromOptional(this.getSecond0());
     }
     
+    static <F, S> EitherV1300<F, S> fromEither(Either<F, S> either)
+    {
+        return either.map(EitherV1300::first, EitherV1300::second);
+    }
+    default Either<F, S> toEither()
+    {
+        return this.map(Either::first, Either::second);
+    }
+    
     default boolean isFirst()
     {
         return this.getFirst().isSome();
@@ -71,15 +75,23 @@ public interface EitherV1300<F, S> extends WrapperObject
         return this;
     }
     
-    default <F1, S1> EitherV1300<F1, S1> map(Function<F, F1> first, Function<S, S1> second)
+    default <F1> EitherV1300<F1, S> mapFirst(Function<? super F, ? extends F1> action)
     {
         if(this.isFirst())
-            return first(first.apply(this.getFirst().unwrapOr(null)));
+            return first(action.apply(this.getFirst().unwrap()));
         else
-            return second(second.apply(this.getSecond().unwrapOr(null)));
+            return second(this.getSecond().unwrap());
     }
     
-    default <T> T merge(Function<F, T> first, Function<S, T> second)
+    default <S1> EitherV1300<F, S1> mapSecond(Function<S, S1> action)
+    {
+        if(this.isFirst())
+            return first(this.getFirst().unwrap());
+        else
+            return second(action.apply(this.getSecond().unwrap()));
+    }
+    
+    default <T> T map(Function<F, T> first, Function<S, T> second)
     {
         if(this.isFirst())
             return first.apply(this.getFirst().unwrapOr(null));

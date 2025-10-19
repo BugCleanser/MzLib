@@ -121,7 +121,7 @@ public interface TextHoverEvent extends WrapperObject
     @VersionRange(end=1600)
     default TextHoverEvent.Entity getShowEntityV_1600()
     {
-        return new TextHoverEvent.EntityV_1600(NbtCompound.parse(this.getValueV_1600().getLiteral()));
+        return new TextHoverEvent.EntityV_1600(NbtCompound.parse(this.getValueV_1600().castTo(TextLiteral.FACTORY).getLiteral()));
     }
     @SpecificImpl("getShowEntity")
     @VersionRange(begin=1600, end=2105)
