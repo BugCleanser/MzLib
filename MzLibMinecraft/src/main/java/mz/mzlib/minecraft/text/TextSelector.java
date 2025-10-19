@@ -89,7 +89,8 @@ public interface TextSelector extends WrapperObject, Text
     {
         return Option.fromOptional(this.getSeparator0V1700_1900()).map(Text.FACTORY::create);
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="separator", begin=1700))
+    @VersionRange(begin=1700, end=1900)
+    @WrapMinecraftFieldAccessor(@VersionName(name="separator"))
     Optional<?> getSeparator0V1700_1900();
     @SpecificImpl("getSeparatorV1700")
     @VersionRange(begin=1900)

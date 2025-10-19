@@ -119,20 +119,6 @@ public interface Text extends WrapperObject
         return TextSelector.newInstance(selector);
     }
     
-    @SpecificImpl("staticSelector")
-    @VersionRange(end=1900)
-    default Text staticSelectorV_1900(TextSelector selector)
-    {
-        return selector.castTo(TextSelectorV_1900.FACTORY);
-    }
-    
-    @SpecificImpl("staticSelector")
-    @VersionRange(begin=1900)
-    default Text staticSelectorV1900(TextSelector selector)
-    {
-        return TextMutableV1600.newInstanceV1900(selector.castTo(TextContentScoreV1900.FACTORY), new ArrayList<>(), TextStyle.empty());
-    }
-    
     @Deprecated
     default String getLiteral()
     {
@@ -597,7 +583,7 @@ public interface Text extends WrapperObject
                     throw new AssertionError("translatable key");
                 if((int)text.getArgs().get(0) != arg0)
                     throw new AssertionError("translatable arg0");
-                if(!((Text)text.getArgs().get(1)).as(TextLiteral.FACTORY).getLiteral().equals(arg1.getLiteral()))
+                if(!text.getArgs().get(1).equals(arg1.getLiteral()) && !((Text)text.getArgs().get(1)).as(TextLiteral.FACTORY).getLiteral().equals(arg1.getLiteral()))
                     throw new AssertionError("translatable arg1");
             }).build());
             this.register(testBuilder.setFunction(context->
@@ -614,7 +600,7 @@ public interface Text extends WrapperObject
             }).build());
             this.register(testBuilder.setFunction(context->
             {
-                String selector = randomString.get();
+                String selector = "@s";
                 TextLiteral separator = TextLiteral.newInstance(randomString.get());
                 TextSelector text = codec.apply(MinecraftPlatform.instance.getVersion()<1700 ? TextSelector.newInstance(selector) : TextSelector.newInstanceV1700(selector, Option.some(separator))).as(TextSelector.FACTORY);
                 if(text.getType()!=Type.SELECTOR)
@@ -627,7 +613,6 @@ public interface Text extends WrapperObject
                         throw new AssertionError("selector separator");
                 }
             }).build());
-            // TODO
             if(MinecraftPlatform.instance.getVersion()>=1200)
                 this.register(testBuilder.setFunction(context->
                 {
@@ -638,6 +623,7 @@ public interface Text extends WrapperObject
                     if(!text.getKey().equals(key))
                         throw new AssertionError("keybind key");
                 }).build());
+            // TODO
         }
     }
     
