@@ -10,12 +10,7 @@ import mz.mzlib.util.wrapper.*;
 
 import java.net.URI;
 
-@WrapMinecraftClass(
-        {
-                @VersionName(name="net.minecraft.text.ClickEvent", end=1400),
-                @VersionName(name="net.minecraft.network.chat.ClickEvent", begin=1400, end=1403),
-                @VersionName(name="net.minecraft.text.ClickEvent", begin=1403)
-        })
+@WrapMinecraftClass(@VersionName(name="net.minecraft.text.ClickEvent"))
 public interface TextClickEvent extends WrapperObject
 {
     WrapperFactory<TextClickEvent> FACTORY = WrapperFactory.of(TextClickEvent.class);

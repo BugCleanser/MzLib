@@ -1,7 +1,8 @@
 # Changelog
 
 - v10.0.1-beta-dev16
-    - 优化架构
+  - 改进文本组件API
+  - 修复已知问题
 - v10.0.1-beta-dev15
   - 兼容至1.21.10
 - v10.0.1-beta-dev14

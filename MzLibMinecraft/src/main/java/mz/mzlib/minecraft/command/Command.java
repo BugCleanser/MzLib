@@ -173,7 +173,7 @@ public class Command
                 if(this.handler!=null)
                     for(List<String> argNames: context.getAllArgNames())
                     {
-                        source.sendMessage(MinecraftI18n.resolveText(source, "mzlib.command.usage", MapBuilder.hashMap().put("command", command).put("args", argNames).get()));
+                        source.sendMessage(MinecraftI18n.resolveText(source, "mzlib.command.usage", MapBuilder.hashMap().put("command", command).put("args", argNames.toArray()).get()));
                     }
             }
         }

@@ -18,7 +18,7 @@ public class ArgumentParserString extends ArgumentParser<String>
     }
     public ArgumentParserString(CommandSource source, boolean allowSpace, String... presets)
     {
-        this(MinecraftI18n.resolve(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("enum", presets).get()), allowSpace, presets);
+        this(MinecraftI18n.resolve(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("presets", presets).get()), allowSpace, presets);
     }
     
     @Override

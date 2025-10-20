@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.text;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
@@ -582,7 +583,7 @@ public interface Text extends WrapperObject
                     throw new AssertionError("translatable type");
                 if(!text.getKey().equals(key))
                     throw new AssertionError("translatable key");
-                if((int)text.getArgs().get(0) != arg0)
+                if(!text.getArgs().get(0).toString().equals(Integer.toString(arg0)))
                     throw new AssertionError("translatable arg0");
                 if(!text.getArgs().get(1).equals(arg1.getLiteral()) && !((Text)text.getArgs().get(1)).as(TextLiteral.FACTORY).getLiteral().equals(arg1.getLiteral()))
                     throw new AssertionError("translatable arg1");
@@ -628,6 +629,18 @@ public interface Text extends WrapperObject
                         throw new AssertionError("keybind type");
                     if(!text.getKey().equals(key))
                         throw new AssertionError("keybind key");
+                }).build());
+            if(MinecraftPlatform.instance.getVersion()>=1400)
+                this.register(testBuilder.setFunction(context->
+                {
+                    JsonObject json = new JsonObject();
+                    json.addProperty("type", "nbt");
+                    json.addProperty("nbt", randomString.get());
+                    json.addProperty("entity", randomString.get());
+                    TextNbtV1400 text = codec.apply(Text.decode(json)).as(TextNbtV1400.FACTORY);
+                    if(text.getType() != Type.NBT_V1400)
+                        throw new AssertionError("nbt type");
+                    // TODO
                 }).build());
             // TODO
         }
@@ -730,7 +743,10 @@ public interface Text extends WrapperObject
             switch(e.getKey())
             {
                 case "color":
-                    this.setColor((TextColor)JsUtil.toJvm(e.getValue()));
+                    if(e.getValue() instanceof String)
+                        this.setColor(new TextColor(TextFormatLegacy.fromName((String)e.getValue()))); // TODO hex
+                    else
+                        this.setColor((TextColor)JsUtil.toJvm(e.getValue()));
                     break;
                 case "bold":
                     this.setBold((Boolean)JsUtil.toJvm(e.getValue()));

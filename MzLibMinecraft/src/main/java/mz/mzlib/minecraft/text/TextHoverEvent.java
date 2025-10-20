@@ -17,7 +17,7 @@ import mz.mzlib.util.wrapper.*;
 import java.util.Optional;
 import java.util.UUID;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.text.HoverEvent", end=1400), @VersionName(name="net.minecraft.network.chat.HoverEvent", begin=1400, end=1403), @VersionName(name="net.minecraft.text.HoverEvent", begin=1403)})
+@WrapMinecraftClass(@VersionName(name="net.minecraft.text.HoverEvent"))
 public interface TextHoverEvent extends WrapperObject
 {
     WrapperFactory<TextHoverEvent> FACTORY = WrapperFactory.of(TextHoverEvent.class);

@@ -14,6 +14,8 @@ import mz.mzlib.tester.Tester;
 import mz.mzlib.tester.TesterContext;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class CommandMzLibTest extends MzModule
 {
@@ -69,9 +71,13 @@ public class CommandMzLibTest extends MzModule
                 e.printStackTrace(System.err);
                 return;
             }
-            for(Throwable t: r)
+            for(Map.Entry<Tester<?>, List<Throwable>> entry: r.entrySet())
             {
-                t.printStackTrace(System.err);
+                System.err.println(entry.getKey().getName());
+                for(Throwable t: entry.getValue())
+                {
+                    t.printStackTrace(System.err);
+                }
             }
             MinecraftServer.instance.schedule(()->
             {

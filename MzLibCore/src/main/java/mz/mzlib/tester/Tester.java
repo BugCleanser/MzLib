@@ -6,7 +6,9 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.async.AsyncFunction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ForkJoinPool;
@@ -52,20 +54,21 @@ public interface Tester<C extends TesterContext>
         }
     }
     
-    static CompletableFuture<List<Throwable>> testAll(TesterContext testContext)
+    static CompletableFuture<Map<Tester<?>, List<Throwable>>> testAll(TesterContext testContext)
     {
-        return new AsyncFunction<List<Throwable>>()
+        return new AsyncFunction<Map<Tester<?>, List<Throwable>>>()
         {
-            protected List<Throwable> template() throws Throwable
+            protected Map<Tester<?>, List<Throwable>> template() throws Throwable
             {
-                List<Throwable> result = new ArrayList<>();
+                Map<Tester<?>, List<Throwable>> result = new HashMap<>();
                 for(Tester<?> tester: Registrar.instance.testers)
                 {
                     if(tester.shouldTest(testContext))
                     {
                         CompletableFuture<List<Throwable>> test = tester.test(RuntimeUtil.cast(testContext));
                         await0(test);
-                        result.addAll(test.get());
+                        if(!test.get().isEmpty())
+                            result.put(tester, test.get());
                     }
                 }
                 return result;

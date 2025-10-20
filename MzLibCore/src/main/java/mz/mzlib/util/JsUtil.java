@@ -212,7 +212,7 @@ public class JsUtil
                     //noinspection SwitchStatementWithTooFewBranches
                     switch(featureIndex)
                     {
-                        case 21:
+                        case Context.FEATURE_ENABLE_JAVA_MAP_ACCESS:
                             return true;
                         default:
                             return super.hasFeature(cx, featureIndex);
