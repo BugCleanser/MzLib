@@ -574,9 +574,10 @@ public interface Text extends WrapperObject
             this.register(testBuilder.setFunction(context->
             {
                 String key = randomString.get();
+                String fallbackV1904 = randomString.get();
                 int arg0 = ThreadLocalRandom.current().nextInt();
                 TextLiteral arg1 = TextLiteral.newInstance(randomString.get());
-                TextTranslatable text = codec.apply(TextTranslatable.newInstance(key, arg0, arg1)).as(TextTranslatable.FACTORY);
+                TextTranslatable text = codec.apply(MinecraftPlatform.instance.getVersion()<1904 ? TextTranslatable.newInstance(key, arg0, arg1) : TextTranslatable.newInstanceV1904(key, fallbackV1904, arg0, arg1)).as(TextTranslatable.FACTORY);
                 if(text.getType()!=Type.TRANSLATABLE)
                     throw new AssertionError("translatable type");
                 if(!text.getKey().equals(key))
@@ -585,6 +586,11 @@ public interface Text extends WrapperObject
                     throw new AssertionError("translatable arg0");
                 if(!text.getArgs().get(1).equals(arg1.getLiteral()) && !((Text)text.getArgs().get(1)).as(TextLiteral.FACTORY).getLiteral().equals(arg1.getLiteral()))
                     throw new AssertionError("translatable arg1");
+                if(MinecraftPlatform.instance.getVersion()>=1904)
+                {
+                    if(!text.getFallbackV1904().equals(fallbackV1904))
+                        throw new AssertionError("translatable fallback");
+                }
             }).build());
             this.register(testBuilder.setFunction(context->
             {

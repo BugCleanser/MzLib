@@ -40,7 +40,20 @@ public interface TextTranslatable extends WrapperObject, Text
     @VersionRange(begin=1900)
     default TextTranslatable staticNewInstance0V1900(String key, Object[] args)
     {
-        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance0(key, args)).castTo(FACTORY);
+        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance0(key, args)).as(FACTORY);
+    }
+    
+    static TextTranslatable newInstanceV1904(String key, String fallback, Object ...args)
+    {
+        return newInstanceV1904(key, fallback, Arrays.asList(args));
+    }
+    static TextTranslatable newInstanceV1904(String key, String fallback, List<Object> args)
+    {
+        return newInstance0V1904(key, fallback, args.stream().map(FUNCTION_ARGS0.invert()).toArray());
+    }
+    static TextTranslatable newInstance0V1904(String key, String fallback, Object[] args)
+    {
+        return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance0V1904(key, fallback, args)).as(FACTORY);
     }
     
     String getKey();
@@ -80,5 +93,11 @@ public interface TextTranslatable extends WrapperObject, Text
     default Object[] getArgs0V1900()
     {
         return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getArgs0();
+    }
+    
+    @VersionRange(begin=1904)
+    default String getFallbackV1904()
+    {
+        return this.getContentV1900().as(TextContentTranslatableV1900.FACTORY).getFallbackV1904();
     }
 }
