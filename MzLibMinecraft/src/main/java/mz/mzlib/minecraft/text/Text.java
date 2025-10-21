@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.serialization.JsonOpsV1300;
+import mz.mzlib.minecraft.text.object.TextObjectContentsAtlasV2109;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
@@ -116,6 +117,10 @@ public interface Text extends WrapperObject
     static Text selector(String selector)
     {
         return TextSelector.newInstance(selector);
+    }
+    static Text selectorV1700(String selector, Option<Text> separator)
+    {
+        return TextSelector.newInstanceV1700(selector, separator);
     }
     
     static Text objectAtlasV2109(Identifier atlas, Identifier sprite)
@@ -473,13 +478,13 @@ public interface Text extends WrapperObject
                     }
                 break;
             case NBT_V1400:
-                literal = "<nbt>"; // TODO
+                literal = "<nbt>";
                 break;
             case KEYBIND_V1200:
                 literal = this.as(TextKeybindV1200.FACTORY).getKey();
                 break;
             case OBJECT_V2109:
-                literal = "<2109>"; // TODO
+                literal = "<object>";
                 break;
             default:
                 literal = "<unknown>";
