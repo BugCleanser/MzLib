@@ -50,7 +50,7 @@ public interface Item extends WrapperObject
         return fromId(Identifier.newInstance(id));
     }
     
-    Item AIR = fromId(Identifier.ofMinecraft("air"));
+    Item AIR = fromId(Identifier.minecraft("air"));
     
     ComponentKeyV2005.Wrapper<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_data", NbtCompoundComponentV2005.FACTORY);
     ComponentKeyV2005.Wrapper<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("custom_name", Text.FACTORY);

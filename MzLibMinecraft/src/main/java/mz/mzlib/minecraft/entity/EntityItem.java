@@ -27,7 +27,7 @@ public interface EntityItem extends WrapperObject, Entity
         return WrapperObject.create(EntityItem.class, wrapped);
     }
     
-    EntityType ENTITY_TYPE = EntityType.fromId(Identifier.ofMinecraft("item"));
+    EntityType ENTITY_TYPE = EntityType.fromId(Identifier.minecraft("item"));
     
     /**
      * typeV_1100: {@link Optional<ItemStack>}

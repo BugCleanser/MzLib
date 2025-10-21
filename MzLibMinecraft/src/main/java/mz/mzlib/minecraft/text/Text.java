@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.serialization.JsonOpsV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -118,6 +116,15 @@ public interface Text extends WrapperObject
     static Text selector(String selector)
     {
         return TextSelector.newInstance(selector);
+    }
+    
+    static Text objectAtlasV2109(Identifier atlas, Identifier sprite)
+    {
+        return TextObjectV2109.atlas(atlas, sprite);
+    }
+    static Text objectPlayerV2109(GameProfile.Description gameProfile, boolean hat)
+    {
+        return TextObjectV2109.player(gameProfile, hat);
     }
     
     @Deprecated
@@ -642,7 +649,21 @@ public interface Text extends WrapperObject
                         throw new AssertionError("nbt type");
                     // TODO
                 }).build());
-            // TODO
+            if(MinecraftPlatform.instance.getVersion()>=2109)
+                this.register(testBuilder.setFunction(context->
+                {
+                    TextObjectV2109 text = codec.apply(TextObjectV2109.atlas(Identifier.minecraft(randomString.get()), Identifier.minecraft(randomString.get()))).as(TextObjectV2109.FACTORY);
+                    if(text.getType() != Type.OBJECT_V2109)
+                        throw new AssertionError("object type");
+                    if(text.getObjectType() != TextObjectV2109.Type.ATLAS)
+                        throw new AssertionError("object atlas type");
+                    text = codec.apply(TextObjectV2109.player(GameProfile.Description.texturesUrl("http://textures.minecraft.net/texture/dddacc418df7e30db188be7f3865495b2c8f7c9963bd9e1b9ed8d28d45cf3460"), true)).as(TextObjectV2109.FACTORY);
+                    if(text.getType() != Type.OBJECT_V2109)
+                        throw new AssertionError("object type");
+                    if(text.getObjectType() != TextObjectV2109.Type.PLAYER)
+                        throw new AssertionError("object player type");
+                    // TODO
+                }).build());
         }
     }
     

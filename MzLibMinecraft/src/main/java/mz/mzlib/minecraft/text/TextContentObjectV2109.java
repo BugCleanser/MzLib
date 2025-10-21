@@ -2,7 +2,10 @@ package mz.mzlib.minecraft.text;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.text.object.TextObjectContentsV2109;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -12,5 +15,13 @@ public interface TextContentObjectV2109 extends WrapperObject, TextContentV1900
 {
     WrapperFactory<TextContentObjectV2109> FACTORY = WrapperFactory.of(TextContentObjectV2109.class);
     
-    // TODO
+    static TextContentObjectV2109 newInstance(TextObjectContentsV2109 contents)
+    {
+        return FACTORY.getStatic().staticNewInstance(contents);
+    }
+    @WrapConstructor
+    TextContentObjectV2109 staticNewInstance(TextObjectContentsV2109 contents);
+    
+    @WrapMinecraftMethod(@VersionName(name="contents"))
+    TextObjectContentsV2109 getContents();
 }

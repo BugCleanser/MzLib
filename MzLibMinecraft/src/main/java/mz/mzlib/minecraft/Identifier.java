@@ -53,9 +53,13 @@ public interface Identifier extends WrapperObject
     @WrapConstructor
     Identifier staticNewInstanceV900(String namespace, String name);
     
-    static Identifier ofMinecraft(String name)
+    static Identifier minecraft(String name)
     {
         return newInstance("minecraft", name);
+    }
+    static Identifier ofMinecraft(String name)
+    {
+        return minecraft(name);
     }
     
     static Identifier newInstance(String str)
@@ -64,6 +68,6 @@ public interface Identifier extends WrapperObject
         if(result.length==2)
             return newInstance(result[0], result[1]);
         else
-            return ofMinecraft(str);
+            return minecraft(str);
     }
 }

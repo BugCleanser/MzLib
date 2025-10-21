@@ -149,7 +149,7 @@ public interface ItemStack extends WrapperObject
         try
         {
             for(String id: nbt.getString("id"))
-                if(Identifier.newInstance(id).equals(Identifier.ofMinecraft("air")))
+                if(Identifier.newInstance(id).equals(Identifier.minecraft("air")))
                     return Result.success(Option.some(ItemStack.empty()));
         }
         catch(Throwable e)
