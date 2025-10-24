@@ -8,5 +8,7 @@
             box(r, stroke: color.aqua, inset: 8pt))
     ]
     #sidebar
-    #content
+    #html_elem("main")[
+        #content
+    ]
 ]

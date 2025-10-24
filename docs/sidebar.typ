@@ -1,15 +1,22 @@
 #import "meta.typ": *
 
 #html_elem("style", ```
-    .sidebar {
-                width: 200px;
-                height: 100vh;
-                background: #f0f0f0;
-                padding: 20px;
-                position: fixed;
-                left: 0;
-                top: 0;
-            }
+    body {
+        display: flex;
+        margin: 0;
+        height: 100vh;
+    }
+
+    aside {
+        width: 200px;
+        background: #f0f0f0;
+        padding: 20px;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+    }
 ```.text)
 
 #let stem(name) = {
@@ -27,7 +34,7 @@
 
 #let gen(content, path) = list(..content.pairs().map(((name, children)) => {
     if children == none {
-        return link(path+name, stem(name))
+        return link(path+stem(name), stem(name))
     }
     return [
         #name
@@ -35,6 +42,6 @@
     ];
 }))
 
-#html_elem("div", attrs: (class: "sidebar"))[
+#html_elem("aside")[
     #gen(meta.fileTree, "")
 ]
