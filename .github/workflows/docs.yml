@@ -91,7 +91,7 @@ jobs:
             base_name="${file%.*}"
             echo "Compiling: $file to $base_name.html"
             # 编译为 HTML
-            typst compile --features html --format html "$file" "$base_name.html" || echo "Failed to compile $file"
+            typst compile --features html --format html --root docs "$file" "$base_name.html" || echo "Failed to compile $file"
           done
 
       - name: Prepare deployment directory
