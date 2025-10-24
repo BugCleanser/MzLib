@@ -10,7 +10,7 @@
                 left: 0;
                 top: 0;
             }
-```)
+```.text)
 
 #let stem(name) = {
     let index = none;

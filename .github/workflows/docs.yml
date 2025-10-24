@@ -27,7 +27,7 @@ jobs:
           echo "#let html_elem = html.elem" >> ./docs/meta.typ
           echo "#let html_frame = html.frame" >> ./docs/meta.typ
           echo "#let meta = (" >> ./docs/meta.typ
-          echo -n "    fileTree :" >> ./docs/meta.typ
+          echo -n "    fileTree: " >> ./docs/meta.typ
           generate_tree() {
               local dir="$1"
               local indent="$2"
