@@ -66,6 +66,7 @@
         html.elem("div", attrs: ("style": strStyle(style)), c.body)
     };
     #show grid: c=>c.children.sum();// TODO
+    #show grid.cell: c=>c.body;// TODO
     #show raw.where(block: true): r=>[
         #grid(
             box(r.lang, stroke: color.aqua, inset: 6pt),
