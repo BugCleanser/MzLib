@@ -1,13 +1,17 @@
-# 异步函数
+#import "../../template.typ": *
+
+#show: template
+
+= 异步函数
 
 也许你常有这样的烦恼（实则不然）：你需要在主线程上处理一些事物，但是其中你想进行一些延迟，显然你不能睡在主线程上
 
-## 设置定时任务
+== 设置定时任务
 
 最常见的方式就是创建一个计划任务了，服务端实例可以代表主线程的调度器
 
 ```java
-MinecraftServer.instance.schedule(() -> 
+MinecraftServer.instance.schedule(() ->
 {
     System.out.println("Hello World");
 }, new SleepTicks(20));
@@ -15,13 +19,13 @@ MinecraftServer.instance.schedule(() ->
 
 这将会在主线程的20个ticks后打印Hello World
 
-其中<code>SleepTicks</code>的实例是被<code>MinecraftServer#schedule</code>处理的，实现了任务的创建
+其中`SleepTicks`的实例是被```java MinecraftServer#schedule```处理的，实现了任务的创建
 
-## 创建异步函数
+== 创建异步函数
 
 你显然不太满意计划任务，因为它容易是你陷入回调地狱，因此我们使用嵌入控制流的延迟方法
 
-首先你需要创建一个类并继承<code>AsyncFunction\<R\></code>，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回Void
+首先你需要创建一个类并继承`AsyncFunction\<R\>`，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回Void
 
 ```java
 public class MyAsyncFunction extends AsyncFunction<Void>
@@ -40,7 +44,7 @@ public class MyAsyncFunction extends AsyncFunction<Void>
         }
         return null;
     }
-    
+
     // 实现run方法，方法体留空
     @Override
     public void run()
@@ -51,7 +55,7 @@ public class MyAsyncFunction extends AsyncFunction<Void>
 
 这里的await是异步函数让步的一个标记，并不是真正调用了这个方法
 
-## 启动异步函数
+== 启动异步函数
 
 调用异步函数后，你可以认为它启动了一个协程，因此我们先构造它，然后调用start方法来启动
 
@@ -59,13 +63,13 @@ public class MyAsyncFunction extends AsyncFunction<Void>
 new MyAsyncFunction().start(MinecraftServer.instance);
 ```
 
-<code>start</code>方法的参数就是这个异步函数的runner，<code>MinecraftServer.instance</code>则让它在主线程中运行
+`start`方法的参数就是这个异步函数的runner，`MinecraftServer.instance`则让它在主线程中运行
 
-异步函数<code>await</code>的<code>SleepTicks</code>实例也由<code>MinecraftServer.instance</code>处理
+异步函数`await`的`SleepTicks`实例也由`MinecraftServer.instance`处理
 
-异步函数启动后<code>start</code>方法会返回一个<code>CompletableFuture\<R\></code>实例，当异步函数返回时它被完成
+异步函数启动后`start`方法会返回一个`CompletableFuture\<R\>`实例，当异步函数返回时它被完成
 
-## 等待CompletableFuture
+== 等待CompletableFuture
 
 在异步函数中，你可以等待一个CompletableFuture的完成
 
@@ -86,7 +90,7 @@ public class MyAsyncFunction2 extends AsyncFunction<Void>
         System.out.println("Hello CompletableFuture");
         return null;
     }
-    
+
     // 实现run方法，方法体留空
     @Override
     public void run()
@@ -95,9 +99,9 @@ public class MyAsyncFunction2 extends AsyncFunction<Void>
 }
 ```
 
-## 在匿名内部类中使用
+== 在匿名内部类中使用
 
-你也许想到：作为函数，异步函数应当可以有参数，但这样你需要创建构造器传入参数到字段，然后在<code>template</code>中使用
+你也许想到：作为函数，异步函数应当可以有参数，但这样你需要创建构造器传入参数到字段，然后在`template`中使用
 
 将异步函数写成匿名内部类并封装成方法可能会简化许多
 
@@ -117,7 +121,7 @@ public static AsyncFunction<Void> newMyAsyncFunction(int i)
 }
 ```
 
-通常情况下，如果你需要一个固定的runner，那你可以直接调用<code>start</code>再返回<code>CompletableFuture</code>
+通常情况下，如果你需要一个固定的runner，那你可以直接调用`start`再返回`CompletableFuture`
 
 ```java
 public static CompletableFuture<Void> startMyAsyncFunction(int i)

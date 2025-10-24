@@ -42,6 +42,4 @@
     ];
 }))
 
-#html_elem("aside")[
-    #gen(meta.fileTree, "")
-]
+#gen(meta.fileTree, "")

@@ -1,4 +1,4 @@
-#let html_elem = (tag, attrs: (:), body)=>[(html element)]
+#let html_elem = (tag, attrs: (:), body)=>body
 #let html_frame = body=>body
 #let meta = (
     fileTree: (
