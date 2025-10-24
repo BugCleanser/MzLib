@@ -20,6 +20,7 @@
 ```.text)
 
 #let stem(name) = {
+    let name = name.clusters()
     let index = none;
     for i in range(0, name.len()) {
         if name.at(i) == "." {
@@ -27,9 +28,9 @@
         }
     }
     if index == none {
-        return name;
+        return name.sum();
     }
-    return name.slice(0, index);
+    return name.slice(0, index).sum();
 }
 
 #let gen(content, path) = list(..content.pairs().map(((name, children)) => {
