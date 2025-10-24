@@ -21,6 +21,63 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Gen Meta
+        run: |
+          > ./docs/meta.typ
+          echo "#let html_elem = html.elem" >> ./docs/meta.typ
+          echo "#let html_frame = html.frame" >> ./docs/meta.typ
+          echo "#let meta = (" >> ./docs/meta.typ
+          echo -n "    fileTree :" >> ./docs/meta.typ
+          generate_tree() {
+              local dir="$1"
+              local indent="$2"
+              local is_root="$3"
+              local dir_name=$(basename "$dir")
+              if [ "$is_root" = "true" ]; then
+                  echo -n "(" >> ./docs/meta.typ
+              else
+                  echo -n "${indent}\"$dir_name\": (" >> ./docs/meta.typ
+              fi
+              local items=()
+              while IFS= read -r item; do
+                  items+=("$item")
+              done < <(find "$dir" -mindepth 1 -maxdepth 1 -not -path '*/\.*' | sort)
+              
+              local first=true
+              
+              for item in "${items[@]}"; do
+                  [[ $(basename "$item") =~ ^\. ]] && continue
+                  
+                  if [ -d "$item" ]; then
+                      if [ "$first" = true ]; then
+                          echo "" >> ./docs/meta.typ
+                          first=false
+                      else
+                          echo "," >> ./docs/meta.typ
+                      fi
+                      generate_tree "$item" "$indent    " "false"
+                  else
+                      if [ "$first" = true ]; then
+                          echo "" >> ./docs/meta.typ
+                          first=false
+                      else
+                          echo "," >> ./docs/meta.typ
+                      fi
+                      local file_name=$(basename "$item")
+                      echo -n "${indent}    \"$file_name\": none" >> ./docs/meta.typ
+                  fi
+              done
+              if [ "$first" = true ]; then
+                  echo -n ":)" >> ./docs/meta.typ
+              else
+                  echo "" >> ./docs/meta.typ
+                  echo -n "${indent})" >> ./docs/meta.typ
+              fi
+          }
+          generate_tree "./docs" "    " "true"
+          echo "" >> ./docs/meta.typ
+          echo ")" >> ./docs/meta.typ
+
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
