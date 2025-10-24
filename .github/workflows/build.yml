@@ -29,6 +29,13 @@ jobs:
       - name: Package with Gradle
         run: ./gradlew build --no-daemon
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: out/*.jar
+          retention-days: 90
+
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
