@@ -25,7 +25,7 @@ MinecraftServer.instance.schedule(() ->
 
 你显然不太满意计划任务，因为它容易是你陷入回调地狱，因此我们使用嵌入控制流的延迟方法
 
-首先你需要创建一个类并继承`AsyncFunction\<R\>`，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回Void
+首先你需要创建一个类并继承`AsyncFunction<R>`，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回Void
 
 ```java
 public class MyAsyncFunction extends AsyncFunction<Void>
@@ -67,7 +67,7 @@ new MyAsyncFunction().start(MinecraftServer.instance);
 
 异步函数`await`的`SleepTicks`实例也由`MinecraftServer.instance`处理
 
-异步函数启动后`start`方法会返回一个`CompletableFuture\<R\>`实例，当异步函数返回时它被完成
+异步函数启动后`start`方法会返回一个`CompletableFuture<R>`实例，当异步函数返回时它被完成
 
 == 等待CompletableFuture
 
