@@ -1,4 +1,4 @@
-#import "../../template.typ": *
+#import "../../lib/template.typ": *
 
 #show: template
 
@@ -63,15 +63,15 @@ public class MyAsyncFunction extends AsyncFunction<Void>
 new MyAsyncFunction().start(MinecraftServer.instance);
 ```
 
-`start`方法的参数就是这个异步函数的runner，`MinecraftServer.instance`则让它在主线程中运行
+`start`方法的参数就是这个异步函数的runner，```java MinecraftServer.instance```则让它在主线程中运行
 
-异步函数`await`的`SleepTicks`实例也由`MinecraftServer.instance`处理
+异步函数`await`的```java SleepTicks```实例也由```java MinecraftServer.instance```处理
 
-异步函数启动后`start`方法会返回一个`CompletableFuture<R>`实例，当异步函数返回时它被完成
+异步函数启动后`start`方法会返回一个```java CompletableFuture<R>```实例，当异步函数返回时它被完成
 
 == 等待CompletableFuture
 
-在异步函数中，你可以等待一个CompletableFuture的完成
+在异步函数中，你可以等待一个```java CompletableFuture```的完成
 
 例如，你可以启动另一个异步函数并等待
 
@@ -121,7 +121,7 @@ public static AsyncFunction<Void> newMyAsyncFunction(int i)
 }
 ```
 
-通常情况下，如果你需要一个固定的runner，那你可以直接调用`start`再返回`CompletableFuture`
+通常情况下，如果你需要一个固定的`runner`，那你可以直接调用`start`再返回```java CompletableFuture```
 
 ```java
 public static CompletableFuture<Void> startMyAsyncFunction(int i)
