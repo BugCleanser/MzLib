@@ -142,7 +142,7 @@
 ];
 #html_elem("script", ```js
     document.addEventListener('DOMContentLoaded', function() {
-        let currentPath = window.location.pathname;
+        let currentPath = decodeURIComponent(window.location.pathname);
         if(currentPath.endsWith("/"))
             currentPath = currentPath.substr(0, currentPath.length-1);
         document.querySelectorAll('aside a').forEach(link => {
@@ -159,10 +159,7 @@
         document.querySelectorAll('aside li:has(ul) > *:first-child').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
-                const parent = this.parentElement;
-
-                // 切换打开状态
-                parent.classList.toggle('open');
+                this.parentElement.classList.toggle('open');
             });
         });
     });
