@@ -143,7 +143,7 @@ ExtendedWrapperClassLoader.create(this.getClass().getClassLoader()) // 包装Cla
 
 == 包装构造器
 
-包装构造器使用`@WrapConstructor注解`，返回值必须是当前包装类，构造的实例会自动包装
+包装构造器使用`@WrapConstructor`注解，返回值必须是当前包装类，构造的实例会自动包装
 
 ```java
 // 简单包装个Object类
