@@ -1,8 +1,12 @@
-# 配置文件
+#import "../../../lib/template.typ": *
 
-## 创建和加载
+#show: template
 
-类似Bukkit的saveDefaultConfig，我们也可以自动保存和加载配置
+= 配置文件
+
+== 创建和加载
+
+类似Bukkit的`saveDefaultConfig`，我们也可以自动保存和加载配置
 
 首先在项目的资源文件中添加配置，我们使用json
 
@@ -18,9 +22,9 @@ resources
 public class Demo extends MzModule
 {
     public static Demo instance = new Demo();
-    
+
     public File dataFolder;
-    
+
     @Override
     public void onLoad()
     {
@@ -38,13 +42,13 @@ public class Demo extends MzModule
 
 记得提前给dataFolder赋值
 
-方法Config.load的第一个参数是你默认配置的InputStream，直接从jar的ClassLoader中获得
+方法`Config#load`的第一个参数是你默认配置的`InputStream`，直接从jar的`ClassLoader`中获得
 
 第二个参数就是配置保存的位置，没有会自动生成，用户可以修改它
 
-你可以为插件添加一个reload命令来重新执行这行Config.load
+你可以为插件添加一个reload命令来重新执行`Config#load`
 
-## 读取配置
+== 读取配置
 
 假设你的配置文件结构如下
 

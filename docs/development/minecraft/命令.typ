@@ -1,18 +1,22 @@
-TODO
+#import "./../../lib/template.typ": *
 
-## 处理命令参数
+#show: template
 
-参数处理使用ArgumentParser的实例，构造器中name表示参数名，仅用于提示帮助信息
+= 命令
 
-例如，处理字符串参数可以使用ArgumentParserString，第二个参数表示字符串中是否可以包含空格，后面的参数表示预设值
+== 处理命令参数
+
+参数处理使用`ArgumentParser`的实例，构造器中`name`表示参数名，仅用于提示帮助信息
+
+例如，处理字符串参数可以使用`ArgumentParserString`，第二个参数表示字符串中是否可以包含空格，后面的参数表示预设值
 
 ```java
 public class Demo extends MzModule
 {
     public static Demo instance = new Demo();
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {

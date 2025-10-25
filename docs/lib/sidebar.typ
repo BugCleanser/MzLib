@@ -1,6 +1,6 @@
 #import "meta.typ": *
 
-#html.elem("style", ```
+#html_elem("style", ```
     body {
         display: flex;
         margin: 0;

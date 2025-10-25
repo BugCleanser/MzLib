@@ -1,4 +1,8 @@
-#  创建插件和模块
+#import "../../../lib/template.typ": *
+
+#show: template
+
+= 创建插件和模块
 
 让我们创建一个Bukkit插件
 
@@ -15,15 +19,15 @@ api-version: 1.13
 
 现在开始对接MzLib
 
-## 创建主模块
+== 创建主模块
 
 ```java
 public class Demo extends MzModule
 {
     public static String MOD_ID = "mzlibdemo";
-    
+
     public static Demo instance = new Demo();
-    
+
     @Override
     public void onLoad()
     {
@@ -33,7 +37,7 @@ public class Demo extends MzModule
 }
 ```
 
-## 从Bukkit加载主模块
+== 从Bukkit加载主模块
 
 主模块需要被手动加载和卸载，你有两种方法来实现
 
@@ -47,7 +51,7 @@ public class DemoPlugin extends JavaPlugin
     {
         Demo.instance.load();
     }
-    
+
     @Override
     public void onDisable()
     {
@@ -68,7 +72,7 @@ public class DemoPlugin extends JavaPlugin
     {
         MzLib.instance.register(Demo.instance);
     }
-    
+
     @Override
     public void onDisable()
     {

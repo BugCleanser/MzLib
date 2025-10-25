@@ -8,10 +8,10 @@
 #let template(content) = [
     #show: style.template
     #show: code_block.template
-    #html.elem("aside")[
+    #html_elem("aside")[
         #sidebar
     ];
-    #html.elem("main")[
+    #html_elem("main")[
         #content
     ];
 ]

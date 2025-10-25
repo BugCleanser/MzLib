@@ -1,6 +1,10 @@
-# Inventory10Slots
+#import "../../../lib/template.typ": *
 
-## 需求分析
+#show: template
+
+= Inventory10Slots
+
+== 需求分析
 
 众所周知，MC中的物品栏界面的格子数量总是9的倍数
 
@@ -8,11 +12,11 @@
 
 如果这个槽位也能存放物品，你将得到一个十个格子的物品栏
 
-## 代码
+== 代码
 
 该示例位于MzLibDemo的Inventory10Slots模块中
 
-## 结构
+== 结构
 
 首先我们需要一个类继承了UIWindow
 
@@ -23,7 +27,7 @@ public static class UIInventory10Slots extends UIWindow
     {
         super(UnionWindowType.CRAFTING, 10);
     }
-    
+
     @Override
     public Text getTitle(EntityPlayer player)
     {
@@ -36,7 +40,7 @@ public static class UIInventory10Slots extends UIWindow
 
 然后我们简单注册一个命令让玩家打开这个窗口，比较简单，这里不做说明
 
-## 覆写quickMove
+== 覆写quickMove
 
 其实到这一步玩家已经可以往这个物品栏里存放东西了，但是在quickMove(按住shift点击物品)时会有点小问题
 
@@ -121,6 +125,6 @@ public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index
 
 完成
 
-## 总结
+== 总结
 
 通过这个demo，你知道如何覆写UIWindow的quickMove，并应该将效果尽量做得与客户端同步

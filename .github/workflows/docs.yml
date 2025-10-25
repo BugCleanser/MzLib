@@ -24,6 +24,8 @@ jobs:
       - name: Gen Meta
         run: |
           > ./docs/lib/meta.typ
+          echo "#let html_elem = html.elem" >> ./docs/lib/meta.typ
+          echo "#let html_frame = html.frame" >> ./docs/lib/meta.typ
           echo "#let meta = (" >> ./docs/lib/meta.typ
           echo -n "    fileTree: " >> ./docs/lib/meta.typ
           generate_tree() {

@@ -1,8 +1,10 @@
+#import "meta.typ": *
+
 #let template(content) = [
-    #html.elem("link", attrs: (href: "https://cdn.jsdelivr.net/gh/PrismJS/prism-themes@master/themes/prism-ghcolors.min.css", rel: "stylesheet"))
-    #html.elem("script", attrs: (src: "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"))
-    #html.elem("script", attrs: (src: "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"))
-    #html.elem("style", ```css
+    #html_elem("link", attrs: (href: "https://cdn.jsdelivr.net/gh/PrismJS/prism-themes@master/themes/prism-ghcolors.min.css", rel: "stylesheet"))[]
+    #html_elem("script", attrs: (src: "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"))[]
+    #html_elem("script", attrs: (src: "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"))[]
+    #html_elem("style", ```css
         .code-block {
             width: 100%;
             max-width: 800px;
@@ -62,7 +64,7 @@
             margin: 0;
         }
     ```.text)
-    #html.elem("script", ```js
+    #html_elem("script", ```js
         document.addEventListener('DOMContentLoaded', function() {
             document.addEventListener('click', function(e) {
                 const button = e.target;
@@ -81,13 +83,13 @@
             });
         });
     ```.text)
-    #show raw.where(block: false): r => html.elem("code", attrs: (class: "language-"+r.lang), r.text);
-    #show raw.where(block: true): r => html.elem("div", attrs: (class: "code-block"))[
-        #html.elem("div", attrs: (class: "code-header"))[
-            #html.elem("div", attrs: (class: "code-tag"), r.lang)
-            #html.elem("button", attrs: (class: "code-copy"))[复制代码]
+    #show raw.where(block: false): r => html_elem("code", attrs: (class: "language-"+r.lang), r.text);
+    #show raw.where(block: true): r => html_elem("div", attrs: (class: "code-block"))[
+        #html_elem("div", attrs: (class: "code-header"))[
+            #html_elem("div", attrs: (class: "code-tag"), r.lang)
+            #html_elem("button", attrs: (class: "code-copy"))[复制代码]
         ]
-        #html.elem("div", attrs: (class: "code-wrapper"), html.elem("pre", html.elem("code", attrs: (class: "language-"+r.lang), r.text)))
+        #html_elem("div", attrs: (class: "code-wrapper"), html.elem("pre", html.elem("code", attrs: (class: "language-"+r.lang), r.text)))
     ];
     #content
 ]

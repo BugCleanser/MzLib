@@ -59,7 +59,7 @@
             style.insert("padding", styleRelative(c.inset));
         }
         // TODO
-        html.elem("div", attrs: ("style": strStyle(style)), c.body)
+        html_elem("div", attrs: ("style": strStyle(style)), c.body)
     };
     #show grid: c=>c.children.sum();// TODO
     #show grid.cell: c=>c.body;// TODO
