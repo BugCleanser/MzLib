@@ -1,4 +1,8 @@
-## 快速开始
+#import "../../../lib/template.typ": *
+
+#show: template
+
+= 快速开始
 
 这里是MzLibCore的基础教程
 

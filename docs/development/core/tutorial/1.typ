@@ -1,4 +1,8 @@
-# Hello World
+#import "../../../lib/template.typ": *
+
+#show: template
+
+= Hello World
 
 MzLib的架构是模块化的，一个程序至少需要一个主模块
 
@@ -8,7 +12,7 @@ MzLib的架构是模块化的，一个程序至少需要一个主模块
 public class Main extends MzModule
 {
     public static Main instance = new Main();
-    
+
     @Override
     public void onLoad()
     {
@@ -37,8 +41,8 @@ public class MyApplication
 
 为了使用MzLib的基本工具，请确保MzLib的模块已经加载
 
-1. 作为MzLib的附属插件加载
-2. 或者将MzLib shade到你的程序中，然后手动load它
++ 作为MzLib的附属插件加载
++ 或者将MzLib shade到你的程序中，然后手动load它
 
 手动load MzLib（不推荐）：
 

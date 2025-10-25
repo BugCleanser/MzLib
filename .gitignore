@@ -151,4 +151,5 @@ hs_err_pid*
 MzLibDemo/mappings
 MzLibMinecraft/mappings
 
+/docs/**/*.html
 /book
