@@ -19,7 +19,7 @@
         return link(path+stem(name), stem(name))
     }
     return [
-        #link("#", name)
+        #name
         #gen(children, path+name+"/")
     ];
 }))
@@ -42,7 +42,14 @@
         }
     }
 
-    aside > div:first-child {
+    aside * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    }
+
+    aside h2 {
         padding: 0 20px 20px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         margin-bottom: 20px;
@@ -57,7 +64,7 @@
     }
 
     aside h2::before {
-        content: "📁";
+        content: "📖";
         font-size: 1.8rem;
     }
 
@@ -130,11 +137,22 @@
     }
 ```.text);
 #html_elem("aside")[
-    = awa
+    = MzLib
     #gen(meta.fileTree, "/MzLib/")
 ];
 #html_elem("script", ```js
     document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('aside a').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.closest('li')?.classList.add('active');
+                let parent = link.closest('*:has(ul)');
+                while (parent) {
+                    parent.classList.add('open');
+                    parent = parent.parentElement?.closest('*:has(ul)');
+                }
+            }
+        });
         document.querySelectorAll('aside li:has(ul) > *:first-child').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
