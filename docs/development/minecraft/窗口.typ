@@ -1,3 +1,7 @@
+#import "./../../lib/template.typ": *
+
+#show: template
+
 = 窗口
 
 在此之前，请确保你已经学习了#link("./../core/Compound")[Compound]
@@ -21,21 +25,21 @@ Inventory inventory=InventorySimple.newInstance(9*5);
 Window window=WindowChest.newInstance(UnionWindowType.GENERIC_9x5.typeV1400, syncId, player.getInventory(), inventory, 5);
 ```
 
-WindowTypeV1400表示从1.14开始的窗口类型，可以通过UnionWindowType#typeV1400得到
+`WindowTypeV1400`表示从1.14开始的窗口类型，可以通过`UnionWindowType#typeV1400`得到
 
-其中UnionWindowType.GENERIC_9x5表示一个9*5的箱子界面
+其中`UnionWindowType.GENERIC_9x5`表示一个9*5的箱子界面
 
-现在你发现你没有syncId来创建窗口，但你先别急
+现在你发现你没有`syncId`来创建窗口，但你先别急
 
 === 打开窗口
 
-即使你创建了一个窗口，你也不能让玩家直接打开它，AbstractEntityPlayer#openWindow的参数是WindowFactory，你需要提供WindowFactory实例来创建这个窗口
+即使你创建了一个窗口，你也不能让玩家直接打开它，`AbstractEntityPlayer#openWindow`的参数是`WindowFactory`，你需要提供`WindowFactory`实例来创建这个窗口
 
-窗口的标题由WindowFactory提供
+窗口的标题由`WindowFactory`提供
 
 虽然这个设计可能很愚蠢，但Mojang代码就是这样写的（
 
-因此我们提供了一个WindowFactorySimple让你可以很容易创建WindowFactory的实例
+因此我们提供了一个`WindowFactorySimple`让你可以很容易创建`WindowFactory`的实例
 
 注意：在1.14之前，窗口的类型id由WindowFactory提供；从1.14开始，窗口的类型由Window提供
 
@@ -63,7 +67,7 @@ player.openWindow(windowFactory);
 
 === 设置槽位
 
-我们可以设置某个槽位的行为，它是WindowSlot的实例
+我们可以设置某个槽位的行为，它是`WindowSlot`的实例
 
 我们先以WindowSlotButton为例，它的canPlace和canTake始终返回false
 
