@@ -33,7 +33,9 @@
         }
     ```.text);
     #sidebar;
+    #html_elem("title", context document.title)
     #html_elem("main")[
+        #html_elem("h1", context document.title)
         #content
     ];
 ]

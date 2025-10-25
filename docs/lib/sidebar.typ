@@ -143,9 +143,12 @@
 #html_elem("script", ```js
     document.addEventListener('DOMContentLoaded', function() {
         const currentPath = window.location.pathname;
+        if(currentPath.endsWith("/"))
+            currentPath = currentPath.substr(0, currentPath.length-1);
         document.querySelectorAll('aside a').forEach(link => {
-            if (link.getAttribute('href') === currentPath) {
-                link.closest('li')?.classList.add('active');
+            const href = link.getAttribute('href');
+            if (href === currentPath || href === currentPath+"/index") {
+                link.closest('li').classList.add('active');
                 let parent = link.closest('*:has(ul)');
                 while (parent) {
                     parent.classList.add('open');

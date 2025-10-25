@@ -1,8 +1,8 @@
 #import "../../lib/template.typ": *
 
-#show: template
+#set document(title: "包装类")
 
-= 包装类
+#show: template
 
 包装类是MzLib中非常常用的对象
 
