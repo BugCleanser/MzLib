@@ -1,0 +1,46 @@
+#import "meta.typ": *
+
+#html.elem("style", ```
+    body {
+        display: flex;
+        margin: 0;
+        height: 100vh;
+    }
+
+    aside {
+        width: 200px;
+        background: #f0f0f0;
+        padding: 20px;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+    }
+```.text)
+
+#let stem(name) = {
+    let name = name.clusters()
+    let index = none;
+    for i in range(0, name.len()) {
+        if name.at(i) == "." {
+            index = i;
+        }
+    }
+    if index == none {
+        return name.sum();
+    }
+    return name.slice(0, index).sum();
+}
+
+#let gen(content, path) = list(..content.pairs().map(((name, children)) => {
+    if children == none {
+        return link(path+stem(name), stem(name))
+    }
+    return [
+        #name
+        #gen(children, path+name+"/")
+    ];
+}))
+
+#gen(meta.fileTree, "/MzLib/")

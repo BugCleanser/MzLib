@@ -147,7 +147,7 @@ $RECYCLE.BIN/
 hs_err_pid*
 /mappings/
 
-lib/
+/lib/
 MzLibDemo/mappings
 MzLibMinecraft/mappings
 
