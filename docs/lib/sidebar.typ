@@ -142,7 +142,7 @@
 ];
 #html_elem("script", ```js
     document.addEventListener('DOMContentLoaded', function() {
-        const currentPath = window.location.pathname;
+        let currentPath = window.location.pathname;
         if(currentPath.endsWith("/"))
             currentPath = currentPath.substr(0, currentPath.length-1);
         document.querySelectorAll('aside a').forEach(link => {

@@ -1,12 +1,12 @@
 #import "../../lib/template.typ": *
 
-#show: template
+#set document(title: "异步函数")
 
-= 异步函数
+#show: template
 
 也许你常有这样的烦恼（实则不然）：你需要在主线程上处理一些事物，但是其中你想进行一些延迟，显然你不能睡在主线程上
 
-== 设置定时任务
+= 设置定时任务
 
 最常见的方式就是创建一个计划任务了，服务端实例可以代表主线程的调度器
 
@@ -21,7 +21,7 @@ MinecraftServer.instance.schedule(() ->
 
 其中`SleepTicks`的实例是被```java MinecraftServer#schedule```处理的，实现了任务的创建
 
-== 创建异步函数
+= 创建异步函数
 
 你显然不太满意计划任务，因为它容易是你陷入回调地狱，因此我们使用嵌入控制流的延迟方法
 
@@ -55,7 +55,7 @@ public class MyAsyncFunction extends AsyncFunction<Void>
 
 这里的await是异步函数让步的一个标记，并不是真正调用了这个方法
 
-== 启动异步函数
+= 启动异步函数
 
 调用异步函数后，你可以认为它启动了一个协程，因此我们先构造它，然后调用start方法来启动
 
@@ -69,7 +69,7 @@ new MyAsyncFunction().start(MinecraftServer.instance);
 
 异步函数启动后`start`方法会返回一个```java CompletableFuture<R>```实例，当异步函数返回时它被完成
 
-== 等待CompletableFuture
+= 等待CompletableFuture
 
 在异步函数中，你可以等待一个```java CompletableFuture```的完成
 
@@ -99,7 +99,7 @@ public class MyAsyncFunction2 extends AsyncFunction<Void>
 }
 ```
 
-== 在匿名内部类中使用
+= 在匿名内部类中使用
 
 你也许想到：作为函数，异步函数应当可以有参数，但这样你需要创建构造器传入参数到字段，然后在`template`中使用
 

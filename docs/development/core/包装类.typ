@@ -10,7 +10,7 @@
 
 这里介绍包装类的基本用法
 
-== 包装已知类
+= 包装已知类
 
 如果你能直接访问这个类，可以使用`@WrapClass`
 
@@ -48,7 +48,7 @@ public interface WrapperClassLoader extends WrapperObject
 @WrapClassForName("java.lang.ClassLoader")
 ```
 
-== 使用包装类
+= 使用包装类
 
 如果有一个目标类的实例，可以使用create将其包装为包装类实例，从而访问其成员
 
@@ -61,7 +61,7 @@ WrapperClassLoader wcl = WrapperClassLoader.create(cl);
 wcl.findClass("java.lang.String");
 ```
 
-== 拓展包装类
+= 拓展包装类
 
 包装类可以被继承，当你需要包装它目标类的子类，或者你单纯想要拓展包装类的功能
 
@@ -109,7 +109,7 @@ ExtendedWrapperClassLoader ewcl = wcl.castTo(ExtendedWrapperClassLoader::create)
 ewcl.resolveClass(String.class);
 ```
 
-== 包装字段访问器
+= 包装字段访问器
 显然由于我们的包装类是interface无法创建字段，所以我们将字段封装为getter和setter（也可以只封装其中一个）
 
 使用`@WrapFieldAccessor`，若你的方法没有参数，代表这是一个getter，否则代表setter，setter的返回值应该为void
@@ -141,7 +141,7 @@ ExtendedWrapperClassLoader.create(this.getClass().getClassLoader()) // 包装Cla
         .setParent(null);
 ```
 
-== 包装构造器
+= 包装构造器
 
 包装构造器使用`@WrapConstructor`注解，返回值必须是当前包装类，构造的实例会自动包装
 
