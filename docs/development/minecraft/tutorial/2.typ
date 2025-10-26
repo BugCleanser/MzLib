@@ -21,7 +21,7 @@ api-version: 1.13
 
 现在开始对接MzLib
 
-== 创建主模块
+= 创建主模块
 
 ```java
 public class Demo extends MzModule
@@ -39,7 +39,7 @@ public class Demo extends MzModule
 }
 ```
 
-== 从Bukkit加载主模块
+= 从Bukkit加载主模块
 
 主模块需要被手动加载和卸载，你有两种方法来实现
 

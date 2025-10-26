@@ -4,6 +4,8 @@
 
 #show: template
 
+#title()
+
 文本组件`Text`是MC富文本的基本单元，包括样式、颜色、`hoverEvent`和`clickEvent`，文本组件的实例可以嵌套
 
 通过此教程方式创建出来的`Text`实例均可被修改，高版本中可能存在不可修改的`Text`

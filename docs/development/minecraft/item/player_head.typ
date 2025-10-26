@@ -4,6 +4,8 @@
 
 #show: template
 
+#title()
+
 = 构造物品
 
 通过`ItemStackBuilder.playerHead(url)`直接构造，其中`url`是贴图的链接，

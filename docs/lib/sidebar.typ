@@ -5,34 +5,34 @@
 #let aliases = (
     "index": "📄 简介",
 
-    "development/": "💻开发文档",
-    "development/core/tutorial/": "📚指南",
-    "development/core/tutorial/0": "🚀快速开始",
+    "development/": "💻 开发文档",
+    "development/core/tutorial/": "📚 指南",
+    "development/core/tutorial/0": "🚀 快速开始",
     "development/core/tutorial/1": "1.Hello World",
     "development/core/tutorial/2": "1.Config",
-    "development/core/event": "📢事件",
-    "development/core/wrapper": "📦包装类",
+    "development/core/event": "📢 事件",
+    "development/core/wrapper": "📦 包装类",
     "development/core/option": "Option类",
-    "development/core/async_function": "⏳异步函数",
-    "development/core/compound": "🧩Compound类",
+    "development/core/async_function": "⏳ 异步函数",
+    "development/core/compound": "🧩 Compound类",
 
-    "development/minecraft/tutorial/": "📚指南",
-    "development/minecraft/tutorial/0": "🚀快速开始",
+    "development/minecraft/tutorial/": "📚 指南",
+    "development/minecraft/tutorial/0": "🚀 快速开始",
     "development/minecraft/tutorial/1": "基本结构与约定",
     "development/minecraft/tutorial/2": "创建插件和模块",
     "development/minecraft/tutorial/3": "创建简单命令",
     "development/minecraft/tutorial/4": "监听事件",
     "development/minecraft/tutorial/5": "配置文件",
-    "development/minecraft/command": "💬命令",
+    "development/minecraft/command": "💬 命令",
     "development/minecraft/window": "🗔窗口",
-    "development/minecraft/text": "📝文本组件",
-    "development/minecraft/network_packet": "🌐网络数据包",
-    "development/minecraft/bukkit": "🔌配合BukkitAPI使用",
+    "development/minecraft/text": "📝 文本组件",
+    "development/minecraft/network_packet": "🌐 网络数据包",
+    "development/minecraft/bukkit": "🔌 配合BukkitAPI使用",
 
-    "development/minecraft/demo/": "🧪示例",
+    "development/minecraft/demo/": "🧪 示例",
 
-    "development/minecraft/item/": "💎物品",
-    "development/minecraft/item/player_head": "🧑玩家头颅与玩家档案描述",
+    "development/minecraft/item/": "💎 物品",
+    "development/minecraft/item/player_head": "🧑 玩家头颅与玩家档案描述",
 
     "user/": "💡用户手册"
 )
@@ -171,7 +171,7 @@
     }
 
     aside li.open > ul {
-        max-height: 500px;
+        max-height: none;
     }
 
     aside ul ul li > *:first-child {

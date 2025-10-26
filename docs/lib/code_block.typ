@@ -95,8 +95,6 @@
         }
 
         :not(pre) > code {
-          background: #f5f5f5;
-          padding: 0.2em 0.4em;
           border-radius: 4px;
         }
     ```.text)

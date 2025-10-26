@@ -4,6 +4,8 @@
 
 #show: template
 
+#title()
+
 目前MzLib的功能并不完善，有时你可能需要监听Bukkit的事件
 
 或者，使用其它插件的API时，你也需要用到Bukkit的对象

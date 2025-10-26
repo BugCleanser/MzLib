@@ -6,7 +6,7 @@
 
 #title()
 
-== 创建和加载
+= 创建和加载
 
 类似Bukkit的`saveDefaultConfig`，我们也可以自动保存和加载配置
 
@@ -50,7 +50,7 @@ public class Demo extends MzModule
 
 你可以为插件添加一个reload命令来重新执行`Config#load`
 
-== 读取配置
+= 读取配置
 
 假设你的配置文件结构如下
 

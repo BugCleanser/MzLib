@@ -12,7 +12,7 @@
 
 它的基本设置方法都会返回自身，因此我们可以用链式构造它，但下面的教程中我们会分步创建
 
-== 创建Command实例
+= 创建Command实例
 
 直接调用构造器，第一个参数是命令的名称，后面的参数是它的别名（可选）
 
@@ -20,7 +20,7 @@
 Command command = new Command("mzlibdemo", "mzd");
 ```
 
-== 设置命名空间
+= 设置命名空间
 
 命令可以以两种名称调用以防重名，/name 和 /namespace:name
 
@@ -30,7 +30,7 @@ Command command = new Command("mzlibdemo", "mzd");
 command.setNamespace(Demo.MOD_ID);
 ```
 
-== 设置命令处理器
+= 设置命令处理器
 
 你当然需要规定如何处理你的命令，使用`setHandler`
 
@@ -55,7 +55,7 @@ command.setHandler(context->
 
 示例中我们发送一条Hello World给命令发送者
 
-== 注册命令
+= 注册命令
 
 一般地，我们在一个模块中注册这个命令，不需要手动注销
 
@@ -74,7 +74,7 @@ public class Demo extends MzModule
 }
 ```
 
-== 添加子命令
+= 添加子命令
 
 使用```java Command#addChild```添加子命令，你可以在父命令创建时直接添加
 
@@ -103,7 +103,7 @@ public class DemoSubcommand extends MzModule
 
 然后在父命令注册后注册这个模块
 
-== 设置命令权限检查器
+= 设置命令权限检查器
 
 使用`setPermissionChecker`方法设置权限检查器
 
@@ -142,6 +142,6 @@ public class Demo extends MzModule
 command.setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.permissionChecker(this.permission));
 ```
 
-== 进阶
+= 进阶
 
-命令系统的进阶用法参见#link("./../命令")[进阶教程]
+命令系统的进阶用法参见#link("./../command")[进阶教程]

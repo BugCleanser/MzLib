@@ -4,6 +4,8 @@
 
 #show: template
 
+#title()
+
 在此之前，请确保你已经学习了#link("./../core/compound")[Compound类]
 
 在Bukkit中，一个物品栏可以被玩家直接打开，但在原版中并非如此

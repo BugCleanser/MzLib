@@ -12,4 +12,4 @@
     - 掌握一定的插件或mod的开发基础
     - 了解BukkitAPI
 
-MzLib现在正处于早期开发阶段，你可能需要配合BukkitAPI来完成功能，见#link("./../配合Bukkit使用")[配合Bukkit使用]
+MzLib现在正处于早期开发阶段，你可能需要配合BukkitAPI来完成功能，见#link("./../bukkit")[配合Bukkit使用]
