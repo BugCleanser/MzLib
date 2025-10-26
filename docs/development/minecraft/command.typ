@@ -1,10 +1,10 @@
 #import "./../../lib/template.typ": *
 
+#set document(title: [命令])
+
 #show: template
 
-= 命令
-
-== 处理命令参数
+= 处理命令参数
 
 参数处理使用`ArgumentParser`的实例，构造器中`name`表示参数名，仅用于提示帮助信息
 

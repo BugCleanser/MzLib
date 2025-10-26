@@ -44,6 +44,9 @@
 }
 
 #let template(content) = [
+    #show block: c => {
+        repr(c.body)
+    };
     #show box: c => {
         let style = (:)
         if c.width != auto {

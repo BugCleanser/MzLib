@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [创建插件和模块])
+
 #show: template
 
-= 创建插件和模块
+#title()
 
 让我们创建一个Bukkit插件
 

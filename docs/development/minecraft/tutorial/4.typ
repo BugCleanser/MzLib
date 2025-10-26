@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [监听事件])
+
 #show: template
 
-= 监听事件
+#title()
 
 对于一个已注册的事件，你可以直接在模块上创建监听器实例并注册
 

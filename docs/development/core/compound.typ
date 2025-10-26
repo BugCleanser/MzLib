@@ -1,8 +1,10 @@
 #import "../../lib/template.typ": *
 
+#set document(title: "Compound类")
+
 #show: template
 
-= Compound
+#title()
 
 Compound类是基于包装类的，请确保你已经学习了#link("./包装类")[包装类]
 

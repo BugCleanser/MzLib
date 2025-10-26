@@ -5,6 +5,10 @@
 
 #import "sidebar.typ";
 
+#let title() = html_elem("h1", context document.title)
+
+#let hr = html_elem("hr")
+
 #let template(content) = [
     #show: style.template
     #show: code_block.template
@@ -35,7 +39,6 @@
     #sidebar;
     #html_elem("title", context document.title)
     #html_elem("main")[
-        #html_elem("h1", context document.title)
         #content
     ];
 ]

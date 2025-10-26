@@ -1,18 +1,18 @@
 #import "./../../lib/template.typ": *
 
+#set document(title: [网络数据包])
+
 #show: template
 
-= 网络数据包
-
-== 发包
+= 发包
 
 发送一个数据包非常简单，只需调用`EntityPlayer#sendPacket`
 
-== 收包
+= 收包
 
 使得服务器认为收到了一个玩家的数据包并进行处理，调用`EntityPlayer#receivePacket`
 
-== 收发包监听
+= 收发包监听
 
 对于一个`Packet`的子类，我们可以监听它实例的发送或接收
 
@@ -34,7 +34,7 @@ public void onLoad()
 }
 ```
 
-=== 从数据包事件中获取和修改数据包
+== 从数据包事件中获取和修改数据包
 
 当数据包监听器被调用时，相关信息会被封装在数据包事件`PacketEvent.Specialized<P>`
 
@@ -52,7 +52,7 @@ this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEven
 }));
 ```
 
-=== 同步监听
+== 同步监听
 
 异步监听能进行的操作有限
 

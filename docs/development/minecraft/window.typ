@@ -1,14 +1,14 @@
 #import "./../../lib/template.typ": *
 
+#set document(title: [窗口])
+
 #show: template
 
-= 窗口
-
-在此之前，请确保你已经学习了#link("./../core/Compound")[Compound]
+在此之前，请确保你已经学习了#link("./../core/compound")[Compound类]
 
 在Bukkit中，一个物品栏可以被玩家直接打开，但在原版中并非如此
 
-== 窗口
+= 窗口
 
 玩家实际上打开的是一个窗口，你也可以管它叫物品栏界面，Mojang叫它菜单，Fabric(yarn)叫它屏幕，Spigot叫它容器
 
@@ -16,7 +16,7 @@
 
 窗口中有若干个槽位(WindowSlot)，槽位一般对应物品栏中的一个索引，你也可以自定义它的行为
 
-=== 创建窗口
+== 创建窗口
 
 例如我们可以创建一个箱子界面，也就是WindowChest的实例
 
@@ -31,7 +31,7 @@ Window window=WindowChest.newInstance(UnionWindowType.GENERIC_9x5.typeV1400, syn
 
 现在你发现你没有`syncId`来创建窗口，但你先别急
 
-=== 打开窗口
+== 打开窗口
 
 即使你创建了一个窗口，你也不能让玩家直接打开它，`AbstractEntityPlayer#openWindow`的参数是`WindowFactory`，你需要提供`WindowFactory`实例来创建这个窗口
 
@@ -65,7 +65,7 @@ WindowFactory windowFactory=WindowFactorySimple.chest(Text.literal("标题"), in
 player.openWindow(windowFactory);
 ```
 
-=== 设置槽位
+== 设置槽位
 
 我们可以设置某个槽位的行为，它是`WindowSlot`的实例
 
@@ -85,7 +85,7 @@ player.openWindow(windowFactory);
 
 这样玩家就不能在0号槽位放入或拿出物品
 
-=== 自定义WindowSlot
+== 自定义WindowSlot
 
 你已经迫不及待想要实现自己的WindowSlot了，它是一个封装类，我们需要用Compound类继承
 

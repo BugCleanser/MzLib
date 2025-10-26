@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [创建简单命令])
+
 #show: template
 
-= 创建简单命令
+#title()
 
 这是MzLib命令系统的入门教程
 

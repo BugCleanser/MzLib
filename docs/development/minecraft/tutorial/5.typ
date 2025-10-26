@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [配置文件])
+
 #show: template
 
-= 配置文件
+#title()
 
 == 创建和加载
 

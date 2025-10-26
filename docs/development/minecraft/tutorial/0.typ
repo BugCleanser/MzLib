@@ -1,10 +1,12 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [快速开始(Minecraft)])
+
 #show: template
 
-= 快速开始(Minecraft)
+#title()
 
-*开始之前，您需要先学习#link("./../../core/tutorial/开始")[MzLibCore的基本用法]*
+*开始之前，您需要先学习#link("./../../core/tutorial/0")[MzLibCore的基本用法]*
 
 *建议*：
     - 掌握一定的插件或mod的开发基础

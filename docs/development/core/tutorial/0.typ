@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [快速开始])
+
 #show: template
 
-= 快速开始
+#title()
 
 这里是MzLibCore的基础教程
 

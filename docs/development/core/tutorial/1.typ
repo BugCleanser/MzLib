@@ -1,8 +1,10 @@
 #import "../../../lib/template.typ": *
 
+#set document(title: [Hello World])
+
 #show: template
 
-= Hello World
+#title()
 
 MzLib的架构是模块化的，一个程序至少需要一个主模块
 

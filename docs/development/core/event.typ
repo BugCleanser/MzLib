@@ -1,10 +1,12 @@
 #import "../../lib/template.typ": *
 
+#set document(title: "事件")
+
 #show: template
 
-= 事件
+#title()
 
-== 注册事件类
+= 注册事件类
 
 创建一个自己的事件类，直接或间接继承`Event`，实现`call`方法，然后将类注册到你的模块中
 
@@ -38,7 +40,7 @@ public class MyEvent extends Event
 
 在合适的时候触发该事件即可
 
-== 触发事件
+= 触发事件
 
 若你创建了一个事件实例，调用`call`方法即可触发所有监听器
 
