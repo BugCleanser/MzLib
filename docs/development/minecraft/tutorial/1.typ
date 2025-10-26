@@ -56,7 +56,7 @@ if(entity.isInstanceOf(EntityPlayer::create))
 }
 ```
 
-有关如何创建一个包装器类型，见#link("./../../core/包装类")[包装器的进阶教程]
+有关如何创建一个包装器类型，见#link("./../../core/wrapper")[包装器的进阶教程]
 
 = 版本表示和名称约定
 

@@ -6,7 +6,7 @@
 
 #title()
 
-Compound类是基于包装类的，请确保你已经学习了#link("./包装类")[包装类]
+Compound类是基于包装类的，请确保你已经学习了#link("./wrapper")[包装类]
 
 Compound类的主要作用是继承包装类和多继承
 
