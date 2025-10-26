@@ -1,3 +1,5 @@
+#import "./template.typ": *
+
 #let styleColor(value) = {
     if value == auto {
         value = color.black;
@@ -44,9 +46,6 @@
 }
 
 #let template(content) = [
-    #show block: c => {
-        repr(c.body)
-    };
     #show box: c => {
         let style = (:)
         if c.width != auto {

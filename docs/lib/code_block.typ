@@ -1,4 +1,4 @@
-#import "meta.typ": *
+#import "./template.typ": *
 
 #let languageIcons = (
     "html": "html5",

@@ -1,17 +1,29 @@
 #import "meta.typ": *;
 
-#import "style.typ"
-#import "code_block.typ"
-
-#import "sidebar.typ";
+#let html_elem(tag, attrs: (:), body) = context{
+    if target() == "html" {
+        return html.elem(tag, body, attrs: attrs);
+    }
+    return body;
+}
+#let html_frame(body) = context{
+    if target() == "html" {
+        return html.frame(body);
+    }
+    return body;
+}
 
 #let title() = html_elem("h1", context document.title)
 
-#let hr = html_elem("hr")
+#let hr = html_elem("hr")[]
 
 #let template(content) = [
+    #import "style.typ"
     #show: style.template
+    #import "code_block.typ"
     #show: code_block.template
+    #import "sidebar.typ";
+    #sidebar;
     #html_elem("style", ```
         body {
             background-color: #f5f7fa;
@@ -20,11 +32,11 @@
         }
 
         main {
-            width: 800px;
+            width: 700pt;
             background-color: white;
-            padding: 30px;
+            padding: 30pt;
             margin: 0 auto;
-            min-height: 100vh;
+            min-height: calc(100% + 100vh);
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
     ```.text);
@@ -36,7 +48,6 @@
             padding-bottom: 1em;
         }
     ```.text);
-    #sidebar;
     #html_elem("title", context document.title)
     #html_elem("main")[
         #content

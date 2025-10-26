@@ -1,4 +1,4 @@
-#import "meta.typ": *
+#import "template.typ": *;
 
 #let root = "/MzLib/"
 #let hides = ("lib/",)
@@ -9,7 +9,7 @@
     "development/core/tutorial/": "📚 指南",
     "development/core/tutorial/0": "🚀 快速开始",
     "development/core/tutorial/1": "1.Hello World",
-    "development/core/tutorial/2": "1.Config",
+    "development/core/tutorial/2": "2.Config",
     "development/core/event": "📢 事件",
     "development/core/wrapper": "📦 包装类",
     "development/core/option": "Option类",
@@ -18,11 +18,11 @@
 
     "development/minecraft/tutorial/": "📚 指南",
     "development/minecraft/tutorial/0": "🚀 快速开始",
-    "development/minecraft/tutorial/1": "基本结构与约定",
-    "development/minecraft/tutorial/2": "创建插件和模块",
-    "development/minecraft/tutorial/3": "创建简单命令",
-    "development/minecraft/tutorial/4": "监听事件",
-    "development/minecraft/tutorial/5": "配置文件",
+    "development/minecraft/tutorial/1": "1.基本结构与约定",
+    "development/minecraft/tutorial/2": "2.创建插件和模块",
+    "development/minecraft/tutorial/3": "3.创建简单命令",
+    "development/minecraft/tutorial/4": "4.监听事件",
+    "development/minecraft/tutorial/5": "5.配置文件",
     "development/minecraft/command": "💬 命令",
     "development/minecraft/window": "🗔窗口",
     "development/minecraft/text": "📝 文本组件",
