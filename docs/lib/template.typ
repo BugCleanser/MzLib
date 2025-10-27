@@ -22,34 +22,45 @@
     #show: style.template
     #import "code_block.typ"
     #show: code_block.template
-    #import "sidebar.typ";
-    #sidebar;
+    #html_elem("title", context document.title)
     #html_elem("style", ```
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: #fdfdfd;
             min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(auto, 160pt) minmax(auto, 600pt) minmax(auto, 160pt);
+            gap: 27pt;
+            justify-content: center;
+            box-sizing: border-box;
         }
 
         main {
-            width: 700pt;
-            background-color: white;
-            padding: 30pt;
-            margin: 0 auto;
-            min-height: calc(100% + 100vh);
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            flex-direction: column;
+            padding: 0 24pt;
+            min-height: 100vh;
         }
     ```.text);
     #html_elem("style", ```css
+        body {
+            font-family: HK Grotesk, Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue, sans-serif;
+            color: #19181f;
+            font-size: 12pt;
+        }
         p {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding-top: 1em;
-            padding-bottom: 1em;
+            margin-block-start: .5rem;
+            margin-block-end: .5rem;
+            display: block;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            unicode-bidi: isolate;
         }
     ```.text);
-    #html_elem("title", context document.title)
+    #import "sidebar.typ";
+    #sidebar;
+    #import "catalogue.typ";
     #html_elem("main")[
-        #content
+        #show: catalogue.template;
+        #content;
     ];
+    #catalogue
 ]

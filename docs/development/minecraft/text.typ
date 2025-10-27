@@ -253,7 +253,7 @@ String keyKey = t4.getKeybindV1200();
 
 选择器组件，显示选择器选中的目标实体，不常用
 
-= 颜色
+== 颜色
 
 TextColor的实例，若为`null`则使用父组件的颜色或默认颜色
 
@@ -262,7 +262,7 @@ TextColor的实例，若为`null`则使用父组件的颜色或默认颜色
 Text t5 = Text.literal("Red text").setColor(TextColor.RED);
 ```
 
-== fromRgbV1600
+=== fromRgbV1600
 
 从MC1.16开始可以使用RGB颜色
 
@@ -271,7 +271,7 @@ Text t5 = Text.literal("Red text").setColor(TextColor.RED);
 Text t6 = Text.literal("RGB text").setColor(TextColor.fromRgbV1600(0xABCDEF));
 ```
 
-= 样式
+== 样式
 
 每种样式用一个Boolean表示，若为`null`则使用父组件的样式或默认样式
 
@@ -280,13 +280,13 @@ Text t6 = Text.literal("RGB text").setColor(TextColor.fromRgbV1600(0xABCDEF));
 Text t7 = Text.literal("special text").setBold(true).setItalic(true).setUnderlined(true).setStrikethrough(true).setObfuscated(true);
 ```
 
-= hoverEvent
+== hoverEvent
 
 TODO
 
 文档待完善
 
-= clickEvent
+== clickEvent
 
 TODO
 

@@ -3,38 +3,40 @@
 #let root = "/MzLib/"
 #let hides = ("lib/",)
 #let aliases = (
-    "index": "📄 简介",
+    "index": "简介",
 
-    "development/": "💻 开发文档",
-    "development/core/tutorial/": "📚 指南",
-    "development/core/tutorial/0": "🚀 快速开始",
+    "development": "开发文档",
+    "development/core": "Core",
+    "development/core/tutorial": "指南",
+    "development/core/tutorial/0": "快速开始",
     "development/core/tutorial/1": "1.Hello World",
     "development/core/tutorial/2": "2.Config",
-    "development/core/event": "📢 事件",
-    "development/core/wrapper": "📦 包装类",
+    "development/core/event": "事件",
+    "development/core/wrapper": "包装类",
     "development/core/option": "Option类",
-    "development/core/async_function": "⏳ 异步函数",
-    "development/core/compound": "🧩 Compound类",
+    "development/core/async_function": "异步函数",
+    "development/core/compound": "Compound类",
 
-    "development/minecraft/tutorial/": "📚 指南",
-    "development/minecraft/tutorial/0": "🚀 快速开始",
+    "development/minecraft": "Minecraft",
+    "development/minecraft/tutorial": "指南",
+    "development/minecraft/tutorial/0": "快速开始",
     "development/minecraft/tutorial/1": "1.基本结构与约定",
     "development/minecraft/tutorial/2": "2.创建插件和模块",
     "development/minecraft/tutorial/3": "3.创建简单命令",
     "development/minecraft/tutorial/4": "4.监听事件",
     "development/minecraft/tutorial/5": "5.配置文件",
-    "development/minecraft/command": "💬 命令",
-    "development/minecraft/window": "🗔窗口",
-    "development/minecraft/text": "📝 文本组件",
-    "development/minecraft/network_packet": "🌐 网络数据包",
-    "development/minecraft/bukkit": "🔌 配合BukkitAPI使用",
+    "development/minecraft/command": "命令",
+    "development/minecraft/window": "窗口",
+    "development/minecraft/text": "文本组件",
+    "development/minecraft/network_packet": "网络数据包",
+    "development/minecraft/bukkit": "配合BukkitAPI使用",
 
-    "development/minecraft/demo/": "🧪 示例",
+    "development/minecraft/demo": "示例",
 
-    "development/minecraft/item/": "💎 物品",
-    "development/minecraft/item/player_head": "🧑 玩家头颅与玩家档案描述",
+    "development/minecraft/item": "物品",
+    "development/minecraft/item/player_head": "玩家头颅与玩家档案描述",
 
-    "user/": "💡用户手册"
+    "user": "用户手册"
 )
 
 #let stem(name) = {
@@ -66,7 +68,8 @@
                 continue;
             }
             result.push[
-                #aliases.at(path+name+"/", default: name)
+                #aliases.at(path+name, default: name)
+                #html_elem("button", attrs: (class: "open"))[▶]
                 #gen(children, path: path+name+"/")
             ];
         }
@@ -74,120 +77,114 @@
     return list(..result);
 }
 
-#html_elem("aside")[
-    = MzLib
-    #gen(meta.fileTree)
-];
+#html_elem("aside", gen(meta.fileTree));
 #html_elem("style", ```
     aside {
-        width: 100pt;
-        background-color: #2c3e50;
-        color: white;
-        padding: 20px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        overflow-y: auto;
-    }
-    @media (min-width: 1000pt) {
-        aside {
-            width: calc(30% - 200pt);
-        }
+        padding: 9pt;
+        padding-inline-end: 3pt;
+        margin: 5pt -9pt -9pt;
     }
 
     aside * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        transition: ease .2s max-height, ease .2s opacity;
     }
 
-    aside h2 {
-        padding: 0 20px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        margin-bottom: 20px;
+    aside a {
+        margin-block-end: 4px;
     }
 
-    aside h2 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    aside h2::before {
-        content: "📖";
-        font-size: 1.8rem;
+    aside > ul > li > *:first-child {
+        margin-block-end: 9pt;
     }
 
     aside ul {
         list-style: none;
+        padding-inline-start: 12pt;
+    }
+    aside > ul {
+        padding-inline-start: 0pt !important;
+    }
+
+    aside li > *:first-child {
+        display: block;
+        padding: 2pt 12pt 2pt 6pt;
+        border-radius: 6px;
     }
 
     aside li {
         position: relative;
     }
 
-    aside li > *:first-child {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: rgba(255, 255, 255, 0.85);
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border-left: 3px solid transparent;
+    aside li.open > *:first-child {
+        background: #eff0f3;
     }
 
-    aside li > *:first-child:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
-        border-left-color: #1abc9c;
+    aside li > button.open {
+        display: block;
+        position: absolute;
+        top: 0pt;
+        right: 0pt;
+        border: 0pt;
+        background: #fdfdfd;
+        width: 18pt;
+        height: 18pt;
+        padding: 3pt;
+        border-radius: 4pt;
     }
-
-    aside li.active > *:first-child {
-        background-color: rgba(255, 255, 255, 0.15);
-        color: white;
-        border-left-color: #e74c3c;
+    @media (hover: hover) {
+        aside li > button.open {
+            display: none;
+        }
     }
-
-    aside li:has(ul) > p::after {
-        content: "▶";
-        margin-left: auto;
-        font-size: 0.8rem;
-        transition: transform 0.3s ease;
+    aside li:hover > button.open {
+        display: block;
     }
-
-    aside li:has(ul).open > *:first-child::after {
+    aside li.open > button.open {
+        background: #eff0f3;
+        display: block;
         transform: rotate(90deg);
     }
-
-    aside ul ul {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease;
-        background-color: rgba(0, 0, 0, 0.1);
+    aside li > button.open:hover {
+        background: #e4e5ea;
     }
 
+    aside li > ul {
+        overflow: visible hidden;
+        max-height: 0px;
+        pointer-events: none;
+        opacity: 0;
+        user-select: none;
+    }
     aside li.open > ul {
         max-height: none;
+        pointer-events: auto;
+        opacity: 1;
+        user-select: auto;
     }
 
-    aside ul ul li > *:first-child {
-        padding-left: 40px;
-        font-size: 0.9rem;
+    aside li.current > *:first-child {
+        color: #11566c;
+        font-weight: 600;
+    }
+    aside li.current > *:first-child:after {
+        content: "";
+        position: absolute;
+        width: 3pt;
+        height: 3pt;
+        border-radius: 50%;
+        background: #11566c;
+        right: 8pt;
+        top: 9pt;
+        margin-block: auto;
     }
 
-    aside ul ul ul li > *:first-child {
-        padding-left: 60px;
+    aside a {
+        color: inherit;
+        text-decoration: none;
     }
 
-    aside .menu-icon {
-        margin-right: 10px;
-        font-size: 1.1rem;
-        width: 20px;
-        text-align: center;
+    aside a:hover {
+        text-decoration: underline;
     }
 ```.text);
 #html_elem("script", ```js
@@ -198,7 +195,7 @@
         document.querySelectorAll('aside a').forEach(link => {
             const href = link.getAttribute('href');
             if (href === currentPath || href === currentPath+"/index") {
-                link.closest('li').classList.add('active');
+                link.closest('li').classList.add('current');
                 let parent = link.closest('*:has(ul)');
                 while (parent) {
                     parent.classList.add('open');
@@ -206,7 +203,7 @@
                 }
             }
         });
-        document.querySelectorAll('aside li:has(ul) > *:first-child').forEach(item => {
+        document.querySelectorAll('aside li > button.open').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
                 this.parentElement.classList.toggle('open');
