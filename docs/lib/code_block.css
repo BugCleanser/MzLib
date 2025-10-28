@@ -1,0 +1,109 @@
+.hljs {
+    background-color: unset !important;
+}
+
+.code-block {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+    background-color: #fdfdfd;
+    box-shadow: 0 4px 12px #59556533;
+    border-radius: 5pt;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+*:not(span) > .code-block {
+    margin-block-start: 18pt;
+    margin-block-end: 18pt;
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 12pt;
+}
+
+.code-block code {
+    padding: 0 !important;
+}
+
+.code-block:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.code-block .code-content {
+    padding: 0;
+    margin: 0;
+}
+
+.code-block .code-content pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.code-block .code-content pre code {
+    overflow-x: unset;
+}
+
+.code-block .code-header {
+    position: absolute;
+    margin: 0;
+    top: 4pt;
+    right: 8pt;
+    align-items: baseline;
+    gap: 8pt;
+    display: flex;
+    transition: none;
+}
+.code-block .language-badge {
+    margin: 0;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.code-block .copy-btn {
+    margin: 0;
+    background-color: #7c3aed;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.code-block .copy-btn:hover {
+    background-color: #6d28d9;
+    color: #ede9fe;
+}
+.code-block .copy-btn.copied {
+    background-color: #98c379;
+    color: #ffffff;
+}
+@media (hover: hover) {
+    .code-block .code-header {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+.code-block:hover .code-header, .code-block .code-header:has(.copy-btn.copied) {
+    visibility: visible;
+    opacity: unset;
+}
+
+code {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'PingFang SC', 'Microsoft YaHei', 'Courier New', monospace;
+}
+
+:not(pre) > code {
+    border-radius: 4px;
+}

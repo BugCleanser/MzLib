@@ -24,8 +24,9 @@ jobs:
       - name: Gen Meta
         run: |
           > ./docs/lib/meta.typ
-          echo "#let meta = (" >> ./docs/lib/meta.typ
-          echo -n "    fileTree: " >> ./docs/lib/meta.typ
+          echo "#let environment = "production";" >> ./docs/lib/meta.typ
+          echo "#let root = \"/MzLib/\";" >> ./docs/lib/meta.typ
+          echo -n "let fileTree = " >> ./docs/lib/meta.typ
           generate_tree() {
               local dir="$1"
               local indent="$2"
@@ -72,9 +73,8 @@ jobs:
                   echo -n "${indent})" >> ./docs/lib/meta.typ
               fi
           }
-          generate_tree "./docs" "    " "true"
-          echo "" >> ./docs/lib/meta.typ
-          echo ")" >> ./docs/lib/meta.typ
+          generate_tree "./docs" "" "true"
+          echo ";" >> ./docs/lib/meta.typ
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4

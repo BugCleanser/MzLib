@@ -1,0 +1,107 @@
+aside {
+    padding: 9pt;
+    padding-inline-end: 3pt;
+    margin: 5pt -9pt -9pt;
+}
+
+aside * {
+    transition: ease .2s max-height, ease .2s opacity;
+}
+
+aside a {
+    margin-block-end: 4px;
+}
+
+aside > ul > li > *:first-child {
+    margin-block-end: 9pt;
+}
+
+aside ul {
+    list-style: none;
+    padding-inline-start: 12pt;
+}
+aside > ul {
+    padding-inline-start: 0 !important;
+}
+
+aside li > *:first-child {
+    display: block;
+    padding: 2pt 12pt 2pt 6pt;
+    border-radius: 6px;
+}
+
+aside li {
+    position: relative;
+}
+
+aside li.open > *:first-child {
+    background: #eff0f3;
+}
+
+aside li > button.open {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    background: #fdfdfd;
+    width: 18pt;
+    height: 18pt;
+    padding: 3pt;
+    border-radius: 4pt;
+}
+@media (hover: hover) {
+    aside li > button.open {
+        display: none;
+    }
+}
+aside li:hover > button.open {
+    display: block;
+}
+aside li.open > button.open {
+    background: #eff0f3;
+    display: block;
+    transform: rotate(90deg);
+}
+aside li > button.open:hover {
+    background: #e4e5ea;
+}
+
+aside li > ul {
+    overflow: visible hidden;
+    max-height: 0;
+    pointer-events: none;
+    opacity: 0;
+    user-select: none;
+}
+aside li.open > ul {
+    max-height: none;
+    pointer-events: auto;
+    opacity: 1;
+    user-select: auto;
+}
+
+aside li.current > *:first-child {
+    color: #11566c;
+    font-weight: 600;
+}
+aside li.current > *:first-child::after {
+    content: "";
+    position: absolute;
+    width: 3pt;
+    height: 3pt;
+    border-radius: 50%;
+    background: #11566c;
+    right: 8pt;
+    top: 9pt;
+    margin-block: auto;
+}
+
+aside a {
+    color: inherit;
+    text-decoration: none;
+}
+
+aside a:hover {
+    text-decoration: underline;
+}

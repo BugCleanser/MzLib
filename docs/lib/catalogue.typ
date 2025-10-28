@@ -22,37 +22,7 @@
     #content
 ]
 
-#html_elem("style", ```css
-    .catalogue {
-        position: sticky;
-        top: 18pt;
-        padding-inline-start: 3pt;
-        font-size: 12pt;
-        margin-top: 48pt;
-        color: #565565;
-        font-weight: 600;
-        align-self: start;
-        box-sizing: border-box;
-        overflow: hidden auto;
-    }
-    .catalogue a {
-        color: inherit;
-        text-decoration: none;
-    }
-    .catalogue a:hover {
-        text-decoration: underline;
-    }
-    .catalogue ul {
-        list-style: none;
-        padding-inline-start: 12pt;
-        display: block;
-        margin-block-start: 0pt;
-        margin-block-end: 0pt;
-    }
-    .catalogue > ul {
-        padding-inline-start: 0px;
-    }
-```.text)
+#importStyle("catalogue.css", "lib/");
 #context {
     let result = ();
     let path = ();
