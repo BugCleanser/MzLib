@@ -6,8 +6,6 @@
 
 #title()
 
-#outline()
-
 = 发包
 
 发送一个数据包非常简单，只需调用`EntityPlayer#sendPacket`
