@@ -26,7 +26,7 @@ jobs:
           > ./docs/lib/meta.typ
           echo "#let environment = \"production\";" >> ./docs/lib/meta.typ
           echo "#let root = \"/MzLib/\";" >> ./docs/lib/meta.typ
-          echo -n "let fileTree = " >> ./docs/lib/meta.typ
+          echo -n "#let fileTree = " >> ./docs/lib/meta.typ
           generate_tree() {
               local dir="$1"
               local indent="$2"
