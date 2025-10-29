@@ -56,7 +56,7 @@ aside li > button.open::after {
         opacity: 0;
     }
 }
-aside li:hover > button.open, aside li.open > button.open {
+aside li:hover > button.open, aside li.open > button.open, aside li:focus-visible > button.open, aside li > button.open:focus-visible {
     opacity: 1;
 }
 aside li.open > button.open {

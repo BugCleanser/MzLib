@@ -91,12 +91,12 @@
 }
 @media (hover: hover) {
     .code-block .code-header {
-        visibility: hidden;
+        max-height: 0;
         opacity: 0;
     }
 }
 .code-block:hover .code-header, .code-block .code-header:has(.copy-btn.copied) {
-    visibility: visible;
+    max-height: none;
     opacity: unset;
 }
 
