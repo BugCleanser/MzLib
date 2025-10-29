@@ -68,7 +68,7 @@
             }
             result.push[
                 #aliases.at(path+name, default: name)
-                #html_elem("button", attrs: (class: "open"))[▶]
+                #html_elem("button", attrs: (class: "open"))[]
                 #gen(children, path: path+name+"/")
             ];
         }

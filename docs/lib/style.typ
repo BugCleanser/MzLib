@@ -27,6 +27,9 @@
         return repr(value);
     };
     value += 0%+0pt;
+    if value == 0%+0pt {
+        return "0";
+    };
     if value.ratio == 0% {
         return styleLength(value.length);
     };
@@ -115,7 +118,7 @@
     return style;
 }
 
-#let stackEx(..children, dir: ttb, gap: 0) = {
+#let stackEx(..children, dir: ttb, spacing: none) = {
     import "./template.typ": *
     children = children.pos();
     let style = (:);
@@ -130,8 +133,8 @@
             "column-reverse";
         } else {panic();}
     );
-    if gap!=0 {
-        style.insert("gap", styleRelative(gap));
+    if spacing!=0 {
+        style.insert("gap", styleRelative(spacing));
     }
     return html_elem("div", attrs: ("class": "container stack", "style": strStyle(style)), children.join());
 }
@@ -154,7 +157,7 @@
             // TODO
             return html_elem("div", attrs: ("class": "container block", "style": strStyle(style)), c.body)
         };
-        #show stack: c => stackEx(dir: c.dir, ..c.children);
+        #show stack: c => stackEx(dir: c.dir, spacing: c.spacing, ..c.children);
         #show repeat: [...]; // TODO
         #show grid: c=>c.children.sum(); // TODO
         #show grid.cell: c=>c.body; // TODO
