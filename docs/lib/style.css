@@ -1,0 +1,8 @@
+.box {
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.stack {
+    display: flex;
+}

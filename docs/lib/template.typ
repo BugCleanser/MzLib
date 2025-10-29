@@ -1,13 +1,17 @@
 #import "meta.typ";
+#import "style.typ": *;
+
+#let isHtml = "html" in dictionary(std);
+#let sequence = [].func();
 
 #let html_elem(tag, attrs: (:), body) = {
-    if dictionary(std).keys().contains("html") {
+    if isHtml {
         return html.elem(tag, body, attrs: attrs);
     }
     return body;
 };
 #let html_frame(body) = {
-    if dictionary(std).keys().contains("html") {
+    if isHtml {
         return html.frame(body);
     }
     return body;
@@ -38,6 +42,7 @@
     #importStyle("template.css", "lib/");
     #import "style.typ"
     #show: style.template
+    #style
     #import "code_block.typ"
     #show: code_block.template
     #html_elem("title", context document.title)

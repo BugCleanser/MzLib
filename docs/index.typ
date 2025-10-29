@@ -28,3 +28,4 @@ MzLib 是一个充满魔法的 Minecraft 插件，主要包含以下三个模块
 #hr
 
 Powered by #link("https://github.com/BugCleanser/MzLib")[MzLib] © 2023 #link("https://github.com/BugCleanser")[BugCleanser], All rights reserved.
+

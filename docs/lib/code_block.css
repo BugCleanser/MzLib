@@ -6,15 +6,15 @@
     margin: 0;
     padding: 0;
     position: relative;
-    box-sizing: border-box;
     background-color: #fdfdfd;
-    box-shadow: 0 4px 12px #59556533;
     border-radius: 5pt;
     overflow: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px #59556533;
+    box-sizing: border-box;
 }
 
-*:not(span) > .code-block {
+:not(.container) > .code-block {
     margin-block-start: 18pt;
     margin-block-end: 18pt;
 }
@@ -102,8 +102,4 @@
 
 code {
     font-family: 'Fira Code', 'Consolas', 'Monaco', 'PingFang SC', 'Microsoft YaHei', 'Courier New', monospace;
-}
-
-:not(pre) > code {
-    border-radius: 4px;
 }

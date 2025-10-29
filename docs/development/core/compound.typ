@@ -24,7 +24,7 @@ a的这个子类b会原封不动地继承a的所有构造器（并调用父类�
 
 详见代码中注释：
 
-== 继承包装类
+= 继承包装类
 
 ```java
 // 必须加上这个注解
@@ -78,7 +78,7 @@ public interface WindowSlotButton extends WindowSlot // 直接继承即可
 }
 ```
 
-== 多继承和属性
+= 多继承和属性
 
 作为interface，包装类天然支持多继承
 

@@ -1,5 +1,3 @@
-#import "./template.typ": *
-
 #let styleColor(value) = {
     if value == auto {
         value = color.black;
@@ -22,15 +20,19 @@
 }
 
 #let styleRelative(value) = {
+    if value == 0 {
+        return "0";
+    };
     if type(value) == fraction {
         return repr(value);
-    }
+    };
+    value += 0%+0pt;
     if value.ratio == 0% {
         return styleLength(value.length);
-    }
+    };
     if value.length == 0pt {
         return styleRatio(value.ratio);
-    }
+    };
     return "calc(" + repr(value) + ")";
 }
 
@@ -42,10 +44,7 @@
 }
 
 #let strStyle(value) = {
-    if value.len() == 0 {
-        return "";
-    }
-    return value.pairs().map(((k, v))=>k+": "+v+";\n").sum();
+    return value.pairs().map(((k, v))=>k+": "+v+";\n").sum(default: "");
 }
 
 #let mapBoxDic(dic) = {
@@ -116,22 +115,50 @@
     return style;
 }
 
-#let template(content) = [
-    #show box: c => {
-        let style = styleCommon(c);
-        // TODO
-        return html_elem("span", attrs: ("style": strStyle(style)), c.body)
-    };
-    #show block: c => {
-        if c.body == auto {
-            panic(c);
-        }
-        let style = styleCommon(c);
-        // TODO
-        return html_elem("div", attrs: ("style": strStyle(style)), c.body)
-    };
-    #show repeat: [...]; // TODO
-    #show grid: c=>c.children.sum();// TODO
-    #show grid.cell: c=>c.body;// TODO
-    #content
-]
+#let stackEx(..children, dir: ttb, gap: 0) = {
+    import "./template.typ": *
+    children = children.pos();
+    let style = (:);
+    style.insert("flex-direction",
+        if dir == ltr {
+            "row";
+        } else if dir == rtl {
+            "row-reverse";
+        } else if dir == ttb {
+            "column";
+        } else if dir == btt {
+            "column-reverse";
+        } else {panic();}
+    );
+    if gap!=0 {
+        style.insert("gap", styleRelative(gap));
+    }
+    return html_elem("div", attrs: ("class": "container stack", "style": strStyle(style)), children.join());
+}
+
+#let template(con) = {
+    import "./template.typ": *
+    if not isHtml {
+        con;
+    } else [
+        #show box: c => {
+            let style = styleCommon(c);
+            // TODO
+            return html_elem("div", attrs: ("class": "container box", "style": strStyle(style)), c.body)
+        };
+        #show block: c => {
+            if c.body == auto {
+                panic(c);
+            }
+            let style = styleCommon(c);
+            // TODO
+            return html_elem("div", attrs: ("class": "container block", "style": strStyle(style)), c.body)
+        };
+        #show stack: c => stackEx(dir: c.dir, ..c.children);
+        #show repeat: [...]; // TODO
+        #show grid: c=>c.children.sum(); // TODO
+        #show grid.cell: c=>c.body; // TODO
+        #importStyle("style.css", "lib/");
+        #con;
+    ];
+};
