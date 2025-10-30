@@ -51,7 +51,7 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
         return value;
     }
     
-    static <T, E extends Throwable> ThrowableSupplier<T, E> of(Supplier<T> value)
+    static <T> ThrowableSupplier<T, RuntimeException> of(Supplier<T> value)
     {
         return value::get;
     }

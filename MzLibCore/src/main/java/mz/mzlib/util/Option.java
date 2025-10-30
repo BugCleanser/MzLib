@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public abstract class Option<T> implements Iterable<T>
@@ -54,7 +55,12 @@ public abstract class Option<T> implements Iterable<T>
     
     public abstract T unwrapOr(T defaultValue);
     
-    public abstract T unwrapOrGet(Supplier<? extends T> supplier);
+    public abstract <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, E> supplier) throws E;
+    
+    public T unwrapOrGet(Supplier<? extends T> supplier)
+    {
+        return this.unwrapOrGet(ThrowableSupplier.of(supplier));
+    }
     
     public abstract <U> Option<U> and(Option<U> other);
     
@@ -63,6 +69,8 @@ public abstract class Option<T> implements Iterable<T>
     public abstract <U> Option<U> map(Function<? super T, ? extends U> mapper);
     
     public abstract <U> Option<U> then(Function<? super T, Option<U>> mapper);
+    
+    public abstract Option<T> filter(Predicate<? super T> predicate);
     
     protected static class Some<T> extends Option<T>
     {
@@ -105,7 +113,7 @@ public abstract class Option<T> implements Iterable<T>
             return this.unwrap();
         }
         @Override
-        public T unwrapOrGet(Supplier<? extends T> supplier)
+        public <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, E> supplier)
         {
             return this.unwrap();
         }
@@ -134,6 +142,14 @@ public abstract class Option<T> implements Iterable<T>
             return mapper.apply(this.unwrap());
         }
         
+        @Override
+        public Option<T> filter(Predicate<? super T> predicate)
+        {
+            if(predicate.test(this.unwrap()))
+                return this;
+            else
+                return none();
+        }
         @Override
         public int hashCode()
         {
@@ -211,9 +227,9 @@ public abstract class Option<T> implements Iterable<T>
             return defaultValue;
         }
         @Override
-        public T unwrapOrGet(Supplier<? extends T> supplier)
+        public <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, E> supplier) throws E
         {
-            return supplier.get();
+            return supplier.getOrThrow();
         }
         
         @Override
@@ -239,6 +255,11 @@ public abstract class Option<T> implements Iterable<T>
             return none();
         }
         
+        @Override
+        public Option<T> filter(Predicate<? super T> predicate)
+        {
+            return this;
+        }
         @Override
         public int hashCode()
         {

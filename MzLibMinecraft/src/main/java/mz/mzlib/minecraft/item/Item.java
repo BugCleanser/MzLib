@@ -114,6 +114,18 @@ public interface Item extends WrapperObject
         itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance));
     }
     
+    static Editor<NbtCompound> reviseCustomData(ItemStack itemStack)
+    {
+        return Editor.of( //
+                () -> getCustomData(itemStack).map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance), //
+                nbt -> setCustomData(itemStack, Option.some(nbt).filter(ThrowablePredicate.of(NbtCompound::isEmpty).negate())));
+    }
+    
+    /**
+     * @deprecated slow; cannot break
+     * @see #reviseCustomData
+     */
+    @Deprecated
     static Editor<Ref<Option<NbtCompound>>> editCustomData(ItemStack itemStack)
     {
         return FACTORY.getStatic().staticEditCustomData(itemStack);
@@ -144,7 +156,7 @@ public interface Item extends WrapperObject
     default Option<Text> staticGetCustomNameV_1300(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
-            for(NbtCompound display: tag.getNBTCompound("display"))
+            for(NbtCompound display: tag.getNbtCompound("display"))
                 for(String name: display.getString("Name"))
                     return Option.some(Text.fromLegacy(name));
         return Option.none();
@@ -155,7 +167,7 @@ public interface Item extends WrapperObject
     default Option<Text> staticGetCustomNameV1300_2005(ItemStack itemStack)
     {
         for(NbtCompound nbt: itemStack.getTagV_2005())
-            for(NbtCompound display: nbt.getNBTCompound("display"))
+            for(NbtCompound display: nbt.getNbtCompound("display"))
                 for(String name: display.getString("Name"))
                     return Option.some(Text.decode(name));
         return Option.none();
@@ -249,8 +261,8 @@ public interface Item extends WrapperObject
     default Option<List<Text>> staticGetLoreV_1400(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
-            for(NbtCompound display: tag.getNBTCompound("display"))
-                for(NbtList lore: display.getNBTList("Lore"))
+            for(NbtCompound display: tag.getNbtCompound("display"))
+                for(NbtList lore: display.getNbtList("Lore"))
                     return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::fromLegacy).collect(Collectors.toList()));
         return Option.none();
     }
@@ -260,8 +272,8 @@ public interface Item extends WrapperObject
     default Option<List<Text>> staticGetLoreV1400_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
-            for(NbtCompound display: tag.getNBTCompound("display"))
-                for(NbtList lore: display.getNBTList("Lore"))
+            for(NbtCompound display: tag.getNbtCompound("display"))
+                for(NbtList lore: display.getNbtList("Lore"))
                     return Option.some(lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Text::decode).collect(Collectors.toList()));
         return Option.none();
     }

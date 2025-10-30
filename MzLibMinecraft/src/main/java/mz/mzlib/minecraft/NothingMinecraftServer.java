@@ -15,11 +15,11 @@ public interface NothingMinecraftServer extends MinecraftServer, Nothing
     @NothingInject(wrapperMethodName="tickV_1300", wrapperMethodParams={}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
     default void tickEndV_1300()
     {
-        while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).first-tickNumber.get()<=0)
+        while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).getFirst()-tickNumber.get()<=0)
         {
             try
             {
-                Objects.requireNonNull(waitingTasks.poll()).second.run();
+                Objects.requireNonNull(waitingTasks.poll()).getSecond().run();
             }
             catch(Throwable e)
             {

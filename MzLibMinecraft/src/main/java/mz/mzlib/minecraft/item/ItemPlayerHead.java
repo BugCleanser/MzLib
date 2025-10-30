@@ -40,7 +40,7 @@ public interface ItemPlayerHead extends Item
     default Option<GameProfile.Description> staticGetOwnerV_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
-            for(NbtCompound skullOwner: tag.getNBTCompound("SkullOwner"))
+            for(NbtCompound skullOwner: tag.getNbtCompound("SkullOwner"))
                 return Option.some(NbtUtil.decodeGameProfileV_2005(skullOwner).toDescription());
         return Option.none();
     }

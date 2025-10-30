@@ -4,12 +4,18 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.module.MzModule;
+import mz.mzlib.tester.SimpleTester;
+import mz.mzlib.tester.TesterContext;
+import mz.mzlib.util.*;
+import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.io.DataInput;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -90,6 +96,39 @@ public interface NbtCompound extends NbtElement
     @WrapMinecraftMethod(@VersionName(name="put"))
     void put(String key, NbtElement value);
     
+    default void put(String key, byte value)
+    {
+        this.put(key, NbtByte.newInstance(value));
+    }
+    default void put(String key, boolean value)
+    {
+        this.put(key, NbtByte.newInstance(value));
+    }
+    default void put(String key, short value)
+    {
+        this.put(key, NbtShort.newInstance(value));
+    }
+    default void put(String key, int value)
+    {
+        this.put(key, NbtInt.newInstance(value));
+    }
+    default void put(String key, long value)
+    {
+        this.put(key, NbtLong.newInstance(value));
+    }
+    default void put(String key, float value)
+    {
+        this.put(key, NbtFloat.newInstance(value));
+    }
+    default void put(String key, double value)
+    {
+        this.put(key, NbtDouble.newInstance(value));
+    }
+    default void put(String key, String value)
+    {
+        this.put(key, NbtString.newInstance(value));
+    }
+    
     default void remove(String key)
     {
         this.put(key, NbtElement.FACTORY.getStatic());
@@ -114,9 +153,17 @@ public interface NbtCompound extends NbtElement
         return this.getOrPut(key, NbtCompound.FACTORY, NbtCompound::newInstance);
     }
     
-    default Option<NbtCompound> getNBTCompound(String key)
+    default Option<NbtCompound> getNbtCompound(String key)
     {
         return this.get(key, NbtCompound.FACTORY);
+    }
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
+    default Option<NbtCompound> getNBTCompound(String key)
+    {
+        return this.getNbtCompound(key);
     }
     
     default Option<Byte> getByte(String key)
@@ -154,9 +201,17 @@ public interface NbtCompound extends NbtElement
         return this.get(key, NbtString.FACTORY).map(NbtString::getValue);
     }
     
-    default Option<NbtList> getNBTList(String key)
+    default Option<NbtList> getNbtList(String key)
     {
         return this.get(key, NbtList.FACTORY);
+    }
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
+    default Option<NbtList> getNBTList(String key)
+    {
+        return this.getNbtList(key);
     }
     
     default Option<NbtByteArray> getByteArray(String key)
@@ -179,5 +234,119 @@ public interface NbtCompound extends NbtElement
     default NbtCompound copy()
     {
         return (NbtCompound)NbtElement.super.copy();
+    }
+    
+    default Editor<NbtCompound> reviseNbtCompound(String key)
+    {
+        return this.reviseNbtCompoundOr(key, ()->RuntimeUtil.valueThrow(new NoSuchElementException()));
+    }
+    default Editor<NbtCompound> reviseNbtCompoundOrNew(String key)
+    {
+        return this.reviseNbtCompoundOr(key, NbtCompound::newInstance);
+    }
+    default Editor<NbtCompound> reviseNbtCompoundOr(String key, Supplier<NbtCompound> supplier)
+    {
+        return Editor.of(()->this.getNbtCompound(key).map(NbtCompound::clone0).unwrapOrGet(supplier), child->this.put(key, child));
+    }
+    
+    default Editor<NbtList> reviseNbtList(String key)
+    {
+        return this.reviseNbtListOr(key, ()->RuntimeUtil.valueThrow(new NoSuchElementException()));
+    }
+    default Editor<NbtList> reviseNbtListOrNew(String key)
+    {
+        return this.reviseNbtListOr(key, NbtList::newInstance);
+    }
+    default Editor<NbtList> reviseNbtListOr(String key, Supplier<NbtList> supplier)
+    {
+        return Editor.of(()->this.getNbtList(key).map(NbtList::clone0).unwrapOrGet(supplier), child->this.put(key, child));
+    }
+    
+    @WrapMinecraftFieldAccessor(
+            {
+                    @VersionName(name="data", end=1400),
+                    @VersionName(name="field_11515", begin=1400)
+            }
+    )
+    Map<String, Object> asMap0();
+    default Map<String, NbtElement> asMap()
+    {
+        return new MapProxy<>(this.asMap0(), InvertibleFunction.identity(), InvertibleFunction.wrapper(NbtElement.FACTORY));
+    }
+    
+    default boolean isEmpty()
+    {
+        return this.asMap0().isEmpty();
+    }
+    
+    @Override
+    default NbtCompound clone0()
+    {
+        NbtCompound result = newInstance();
+        for(Map.Entry<String, NbtElement> entry: this.asMap().entrySet())
+        {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+    
+    class Module extends MzModule
+    {
+        public static Module instance = new Module();
+        
+        @Override
+        public void onLoad()
+        {
+            SimpleTester.Builder<TesterContext> testBuilder = SimpleTester.Builder.common().setName(NbtCompound.class.getName()).setMinLevel(1);
+            this.register(testBuilder.setFunction(context->
+            {
+                int value = 114514;
+                NbtCompound root = NbtCompound.newInstance();
+                for(NbtCompound nbtCompound: root.reviseNbtCompoundOrNew("path").then(nbt->nbt.reviseNbtCompoundOrNew("to")))
+                {
+                    nbtCompound.put("child", value);
+                }
+                if(root.getNbtCompound("path").unwrap().getNbtCompound("to").unwrap().getInt("child").unwrap() != value)
+                    throw new AssertionError("value");
+                if(root.equals(NbtCompound.newInstance()))
+                    throw new AssertionError("empty");
+                root = NbtCompound.newInstance();
+                for(NbtCompound nbtCompound: root.reviseNbtCompoundOrNew("path").then(nbt->nbt.reviseNbtCompoundOrNew("to")))
+                {
+                    nbtCompound.put("child", value);
+                    break;
+                }
+                if(!root.equals(NbtCompound.newInstance()))
+                    throw new AssertionError("value break");
+                root = NbtCompound.newInstance();
+                for(NbtCompound path: root.reviseNbtCompoundOrNew("path"))
+                {
+                    for(NbtCompound to: path.reviseNbtCompoundOrNew("to"))
+                    {
+                        to.put("child", value);
+                    }
+                }
+                if(root.getNbtCompound("path").unwrap().getNbtCompound("to").unwrap().getInt("child").unwrap() != value)
+                    throw new AssertionError("revise");
+                NbtCompound path1 = root.getNbtCompound("path").unwrap();
+                for(NbtCompound path: root.reviseNbtCompoundOrNew("path"))
+                {
+                    path.put("child", value);
+                }
+                if(path1.equals(root.getNbtCompound("path").unwrap()))
+                    throw new AssertionError("revise fork");
+                root = NbtCompound.newInstance();
+                for(NbtCompound path: root.reviseNbtCompoundOrNew("path"))
+                {
+                    for(NbtCompound to: path.reviseNbtCompoundOrNew("to"))
+                    {
+                        to.put("child", value);
+                    }
+                    break;
+                }
+                if(!root.equals(NbtCompound.newInstance()))
+                    throw new AssertionError("revise break");
+            }).build());
+        }
     }
 }

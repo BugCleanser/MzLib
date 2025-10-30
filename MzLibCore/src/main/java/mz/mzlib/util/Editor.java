@@ -1,71 +1,70 @@
 package mz.mzlib.util;
 
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
-public abstract class Editor<T> implements AutoCompletable<T>
+public class Editor<T> implements AutoCompletable<T, Object>
 {
-    public abstract T get();
+    AutoCompletable<T, Object> delegate;
     
-    public abstract void set(T value);
-    
-    T value;
-    @Override
-    public T start()
+    Editor(AutoCompletable<T, Object> delegate)
     {
-        if(this.value!=null)
-            throw new IllegalStateException("Editor is already started");
-        return this.value = this.get();
-    }
-    @Override
-    public void complete()
-    {
-        if(this.value==null)
-            throw new IllegalStateException("Editor is not started");
-        this.set(this.value);
+        this.delegate = delegate;
     }
     
-    public <U> Editor<U> map(InvertibleFunction<T, U> function)
+    public <T1> Editor<T1> map(InvertibleFunction<T, T1> action)
     {
-        return of(ThrowableSupplier.of(this::get).thenApply(function), function.inverse().thenAccept(this::set));
-    }
-    
-    public <U> Editor<U> then(Function<T, U> getter, BiConsumer<T, U> setter)
-    {
-        return new Editor<U>()
+        return of(AutoCompletable.of(()->
         {
-            @Override
-            public U get()
-            {
-                return getter.apply(Editor.this.start());
-            }
-            
-            @Override
-            public void set(U value)
-            {
-                setter.accept(Editor.this.value, value);
-                Editor.this.complete();
-            }
-        };
+            Pair<T, Object> data = this.start();
+            return Pair.of(action.apply(data.first), data.second);
+        }, (e, d) -> this.complete(action.inverse().apply(e), d)));
     }
     
+    public <T1, D1> Editor<T1> then(Function<? super T, ? extends AutoCompletable<T1, D1>> action)
+    {
+        return of(AutoCompletable.of(() ->
+        {
+            Pair<T, Object> data = this.start();
+            AutoCompletable<T1, D1> c = action.apply(data.getFirst());
+            Pair<T1, D1> data1 = c.start();
+            return Pair.of(data1.getFirst(), new ProxyData<>(data, c, data1.getSecond()));
+        }, (e, d) ->
+        {
+            d.next.complete(e, d.data1);
+            this.complete(d.data0.getFirst(), d.data0.getSecond());
+        }));
+    }
+    static class ProxyData<T, T1, D1>
+    {
+        Pair<T, Object> data0;
+        AutoCompletable<T1, D1> next;
+        D1 data1;
+        ProxyData(Pair<T, Object> data0, AutoCompletable<T1, D1> then, D1 data1)
+        {
+            this.data0 = data0;
+            this.next = then;
+            this.data1 = data1;
+        }
+    }
+    
+    @Override
+    public Pair<T, Object> start()
+    {
+        return this.delegate.start();
+    }
+    @Override
+    public void complete(T element, Object data)
+    {
+        this.delegate.complete(element, data);
+    }
+    
+    public static <T> Editor<T> of(AutoCompletable<T, ?> delegate)
+    {
+        return new Editor<>(RuntimeUtil.cast(delegate));
+    }
     public static <T> Editor<T> of(Supplier<? extends T> getter, Consumer<? super T> setter)
     {
-        return new Editor<T>()
-        {
-            @Override
-            public T get()
-            {
-                return getter.get();
-            }
-            @Override
-            public void set(T value)
-            {
-                setter.accept(value);
-            }
-        };
+        return of(AutoCompletable.of(getter, setter));
     }
     public static <T, H> Editor<T> of(H holder, Function<? super H, ? extends T> getter, BiConsumer<? super H, ? super T> setter)
     {

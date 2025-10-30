@@ -481,13 +481,13 @@ public class WrapperClassInfo
             });
             for(Pair<String, MethodType> i: callOnceMethods)
             {
-                mn = new MethodNode(Opcodes.ACC_PUBLIC, i.first, AsmUtil.getDesc(i.second), null, new String[0]);
+                mn = new MethodNode(Opcodes.ACC_PUBLIC, i.getFirst(), AsmUtil.getDesc(i.getSecond()), null, new String[0]);
                 final MethodNode finalMn = mn;
                 ClassUtil.forEachSuperTopology(this.getWrapperClass(), c->
                 {
                     try
                     {
-                        if(Modifier.isAbstract(c.getDeclaredMethod(i.first, i.second.parameterArray()).getModifiers()))
+                        if(Modifier.isAbstract(c.getDeclaredMethod(i.getFirst(), i.getSecond().parameterArray()).getModifiers()))
                             return;
                     }
                     catch(NoSuchMethodException ignored)
@@ -495,12 +495,12 @@ public class WrapperClassInfo
                         return;
                     }
                     finalMn.instructions.add(AsmUtil.insnVarLoad(c, 0));
-                    for(int j = 0, k = 1; j<i.second.parameterCount(); j++)
+                    for(int j = 0, k = 1; j<i.getSecond().parameterCount(); j++)
                     {
-                        finalMn.instructions.add(AsmUtil.insnVarLoad(i.second.parameterType(j), k));
-                        k += AsmUtil.getCategory(i.second.parameterType(j));
+                        finalMn.instructions.add(AsmUtil.insnVarLoad(i.getSecond().parameterType(j), k));
+                        k += AsmUtil.getCategory(i.getSecond().parameterType(j));
                     }
-                    finalMn.visitInvokeDynamicInsn(i.first, AsmUtil.getDesc(i.second.insertParameterTypes(0, c)), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodSpecialCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), c.getName(), Type.getMethodType(AsmUtil.getDesc(i.second)));
+                    finalMn.visitInvokeDynamicInsn(i.getFirst(), AsmUtil.getDesc(i.getSecond().insertParameterTypes(0, c)), new Handle(Opcodes.H_INVOKESTATIC, AsmUtil.getType(ClassUtil.class), "getMethodSpecialCallSite", AsmUtil.getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, String.class, MethodType.class), false), c.getName(), Type.getMethodType(AsmUtil.getDesc(i.getSecond())));
                 });
                 mn.instructions.add(AsmUtil.insnReturn(void.class));
                 cn.methods.add(mn);

@@ -7,8 +7,8 @@ import java.util.Objects;
 
 public class Pair<F, S> implements Comparable<Pair<F, S>>
 {
-    public F first;
-    public S second;
+    F first;
+    S second;
     
     public Pair(F first, S second)
     {
@@ -20,7 +20,6 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
     {
         return first;
     }
-    
     public S getSecond()
     {
         return second;
@@ -52,6 +51,11 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
     public boolean equals(Object o)
     {
         return o instanceof Pair && Objects.equals(first, ((Pair<?, ?>)o).first) && Objects.equals(second, ((Pair<?, ?>)o).second);
+    }
+    
+    public static <F, S> Pair<F, S> of(F first, S second)
+    {
+        return new Pair<>(first, second);
     }
     
     public static <F, S> Comparator<Pair<F, S>> comparingByFirst(Comparator<F> comparator)

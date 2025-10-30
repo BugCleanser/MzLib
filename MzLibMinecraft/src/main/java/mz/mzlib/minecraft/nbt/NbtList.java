@@ -4,6 +4,8 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.AutoCompletable;
+import mz.mzlib.util.Editor;
 import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.ListProxy;
@@ -42,10 +44,10 @@ public interface NbtList extends NbtElement
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))
-    List<Object> getValue();
+    List<Object> getValue0();
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))
-    void setValue(List<?> value);
+    void setValue0(List<Object> value);
     
     default List<NbtElement> asList()
     {
@@ -54,7 +56,7 @@ public interface NbtList extends NbtElement
     
     default <T extends NbtElement> List<T> asList(WrapperFactory<T> factory)
     {
-        return new ListProxy<>(this.getValue(), InvertibleFunction.wrapper(factory));
+        return new ListProxy<>(this.getValue0(), InvertibleFunction.wrapper(factory));
     }
     @Deprecated
     default <T extends NbtElement> List<T> asList(Function<Object, T> creator)
@@ -72,7 +74,7 @@ public interface NbtList extends NbtElement
     
     default NbtElement get(int index)
     {
-        return NbtElement.FACTORY.create(this.getValue().get(index));
+        return NbtElement.FACTORY.create(this.getValue0().get(index));
     }
     
     default <T extends NbtElement> T get(int index, WrapperFactory<T> factory)
@@ -87,7 +89,7 @@ public interface NbtList extends NbtElement
     
     default void set(int index, NbtElement value)
     {
-        this.getValue().set(index, RuntimeUtil.cast(value.getWrapped()));
+        this.getValue0().set(index, RuntimeUtil.cast(value.getWrapped()));
     }
     
     void add(NbtElement value);
@@ -102,12 +104,21 @@ public interface NbtList extends NbtElement
     @SpecificImpl("add")
     default void addV2105(NbtElement value)
     {
-        this.getValue().add(RuntimeUtil.cast(value.getWrapped()));
+        this.getValue0().add(RuntimeUtil.cast(value.getWrapped()));
     }
     
-    default NbtCompound getNBTCompound(int index)
+    default NbtCompound getNbtCompound(int index)
     {
         return this.get(index).castTo(NbtCompound.FACTORY);
+    }
+    
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
+    default NbtCompound getNBTCompound(int index)
+    {
+        return this.getNbtCompound(index);
     }
     
     default byte getByte(int index)
@@ -140,9 +151,17 @@ public interface NbtList extends NbtElement
         return this.get(index).castTo(NbtString.FACTORY).getValue();
     }
     
-    default NbtList getNBTList(int index)
+    default NbtList getNbtList(int index)
     {
         return this.get(index).castTo(NbtList.FACTORY);
+    }
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
+    default NbtList getNBTList(int index)
+    {
+        return this.getNbtList(index);
     }
     
     default NbtByteArray getByteArray(int index)
@@ -165,5 +184,25 @@ public interface NbtList extends NbtElement
     default NbtList copy()
     {
         return ((NbtList)NbtElement.super.copy());
+    }
+    
+    default AutoCompletable<NbtCompound, ?> reviseNbtCompound(int index)
+    {
+        return AutoCompletable.of(()->this.getNbtCompound(index).clone0(), child->this.set(index, child));
+    }
+    default AutoCompletable<NbtList, ?> reviseNbtList(int index)
+    {
+        return AutoCompletable.of(()->this.getNbtList(index).clone0(), child->this.set(index, child));
+    }
+    
+    @Override
+    default NbtList clone0()
+    {
+        NbtList result = newInstance();
+        for(NbtElement i: this.asList())
+        {
+            result.add(i);
+        }
+        return result;
     }
 }
