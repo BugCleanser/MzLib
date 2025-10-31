@@ -11,10 +11,7 @@
         });
         headingPath.update(s => {
             s = s.slice(0, x.level -1);
-            if x.body.func()!=text {
-                panic(x);
-            }
-            s.push(x.body.text);
+            s.push(contentToString(x.body));
             return s;
         });
         context html_elem("section", x, attrs: ("id": headingPath.get().join("-"))); // TODO
@@ -28,7 +25,7 @@
     let path = ();
     for i in headings.final()+(heading(level: 1, "EOF"),) {
         path = path.slice(0, i.level -1);
-        path.push(i.body.text);
+        path.push(contentToString(i.body));
         while result.len()>1 and result.first().at(0) < result.last().at(0) and result.last().at(0) >= i.level {
             let j = 0;
             while(result.at(j).at(0) < result.last().at(0)) {

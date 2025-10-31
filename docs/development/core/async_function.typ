@@ -4,6 +4,8 @@
 
 #show: template
 
+#set raw(lang: "java")
+
 #title()
 
 也许你常有这样的烦恼（实则不然）：你需要在主线程上处理一些事物，但是其中你想进行一些延迟，显然你不能睡在主线程上
@@ -21,13 +23,13 @@ MinecraftServer.instance.schedule(() ->
 
 这将会在主线程的20个ticks后打印Hello World
 
-其中`SleepTicks`的实例是被```java MinecraftServer#schedule```处理的，实现了任务的创建
+其中`SleepTicks`的实例是被`MinecraftServer#schedule`处理的，实现了任务的创建
 
 = 创建异步函数
 
 你显然不太满意计划任务，因为它容易是你陷入回调地狱，因此我们使用嵌入控制流的延迟方法
 
-首先你需要创建一个类并继承`AsyncFunction<R>`，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回Void
+首先你需要创建一个类并继承`AsyncFunction<R>`，其中R是返回值类型。这个类就表示一个异步函数，我们暂时先返回`Void`
 
 ```java
 public class MyAsyncFunction extends AsyncFunction<Void>
@@ -69,9 +71,9 @@ new MyAsyncFunction().start(MinecraftServer.instance);
 
 异步函数`await`的```java SleepTicks```实例也由```java MinecraftServer.instance```处理
 
-异步函数启动后`start`方法会返回一个```java CompletableFuture<R>```实例，当异步函数返回时它被完成
+异步函数启动后`start`方法会返回一个`CompletableFuture<R>`实例，当异步函数返回时它被完成
 
-= 等待CompletableFuture
+= 等待`CompletableFuture`
 
 在异步函数中，你可以等待一个```java CompletableFuture```的完成
 
@@ -123,7 +125,7 @@ public static AsyncFunction<Void> newMyAsyncFunction(int i)
 }
 ```
 
-通常情况下，如果你需要一个固定的`runner`，那你可以直接调用`start`再返回```java CompletableFuture```
+通常情况下，如果你需要一个固定的`runner`，那你可以直接调用`start`再返回`CompletableFuture`
 
 ```java
 public static CompletableFuture<Void> startMyAsyncFunction(int i)

@@ -4,6 +4,24 @@
 #let isHtml = "html" in dictionary(std);
 #let sequence = [].func();
 
+#let contentToString(con) = {
+    if type(con) == str {
+        return con;
+    }
+    if con.has("text") {
+        return con.at("text");
+    }
+    else if con.has("body") {
+        return contentToString(con.at("body"));
+    }
+    else if con.has("children") {
+        return con.at("children").map(contentToString).join();
+    }
+    else {
+        return repr(con);
+    };
+}
+
 #let html_elem(tag, attrs: (:), body) = {
     if isHtml {
         return html.elem(tag, body, attrs: attrs);
@@ -45,7 +63,7 @@
     #style
     #import "code_block.typ"
     #show: code_block.template
-    #html_elem("title", context document.title)
+    #html_elem("title", contentToString(context document.title))
     #import "sidebar.typ";
     #sidebar;
     #import "catalogue.typ";

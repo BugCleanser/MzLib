@@ -148,9 +148,13 @@ public interface NbtCompound extends NbtElement
         return this.getOrPut(key, new WrapperFactory<>(creator), newer);
     }
     
-    default NbtCompound getOrPutNewCompound(String key)
+    default NbtCompound getOrPutNewNbtCompound(String key)
     {
         return this.getOrPut(key, NbtCompound.FACTORY, NbtCompound::newInstance);
+    }
+    default NbtCompound getOrPutNewCompound(String key)
+    {
+        return this.getOrPutNewNbtCompound(key);
     }
     
     default Option<NbtCompound> getNbtCompound(String key)

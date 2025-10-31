@@ -3,7 +3,6 @@ package mz.mzlib.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -11,6 +10,14 @@ public interface AutoCompletable<T, D> extends Iterable<T>
 {
     Pair<T, D> start();
     void complete(T element, D data);
+    
+    default void accept(Consumer<T> action)
+    {
+        for(T element: this)
+        {
+            action.accept(element);
+        }
+    }
     
     static <T, D> AutoCompletable<T, D> of(Supplier<Pair<T, D>> start, BiConsumer<T, D> complete)
     {
