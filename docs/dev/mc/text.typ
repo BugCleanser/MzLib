@@ -1,4 +1,4 @@
-#import "./../../lib/template.typ": *
+#import "./../../lib/lib.typ": *
 
 #set document(title: [文本组件])
 

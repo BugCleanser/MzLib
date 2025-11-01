@@ -1,4 +1,4 @@
-#import "../../../lib/template.typ": *
+#import "../../../lib/lib.typ": *
 
 #set document(title: [玩家头颅与玩家档案描述])
 
