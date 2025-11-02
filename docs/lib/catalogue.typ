@@ -20,6 +20,7 @@
 ]
 
 #importStyle("catalogue.css", "lib/");
+#importScript("catalogue.js", "lib/");
 #context {
     let result = ();
     let path = ();

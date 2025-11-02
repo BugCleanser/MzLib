@@ -194,7 +194,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end=2005)
     default List<Text> staticGetPagesV_2005(ItemStack book)
     {
-        return book.tagV_2005().getOrPut("pages", NbtList.FACTORY, NbtList::newInstance).asList().stream().map(nbt->Text.decode(nbt.castTo(NbtString.FACTORY).getValue())).collect(Collectors.toList());
+        return book.tagV_2005().getOr("pages", NbtList.FACTORY, NbtList::newInstance).asList().stream().map(nbt->Text.decode(nbt.castTo(NbtString.FACTORY).getValue())).collect(Collectors.toList());
     }
     
     @SpecificImpl("staticGetPages")

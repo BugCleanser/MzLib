@@ -193,7 +193,7 @@ public interface Item extends WrapperObject
     {
         for(Text customName: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLegacy()));
+            itemStack.tagV_2005().getOr("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.toLegacy()));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())
@@ -207,7 +207,7 @@ public interface Item extends WrapperObject
     {
         for(Text customName: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
+            itemStack.tagV_2005().getOr("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Name", NbtString.newInstance(customName.encode().toString()));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())
@@ -319,7 +319,7 @@ public interface Item extends WrapperObject
     {
         for(List<Text> lore: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLegacy).map(NbtString::newInstance).toArray(NbtString[]::new)));
+            itemStack.tagV_2005().getOr("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::toLegacy).map(NbtString::newInstance).toArray(NbtString[]::new)));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())
@@ -333,7 +333,7 @@ public interface Item extends WrapperObject
     {
         for(List<Text> lore: value)
         {
-            itemStack.tagV_2005().getOrPut("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
+            itemStack.tagV_2005().getOr("display", NbtCompound.FACTORY, NbtCompound::newInstance).put("Lore", NbtList.newInstance(lore.stream().map(Text::encode).map(JsonElement::toString).map(NbtString::newInstance).toArray(NbtString[]::new)));
             return;
         }
         for(NbtCompound tag: itemStack.getTagV_2005())

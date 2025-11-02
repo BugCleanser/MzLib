@@ -27,6 +27,7 @@
     ```java
     for(NbtCompound customData: Item.reviseCustomData(itemStack))
     {
+        // nbt的修订
         for(NbtCompound myData: customData.reviseNbtCompoundOrNew("myData"))
         {
             myData.put("value1", 114514);

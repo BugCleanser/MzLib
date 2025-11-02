@@ -70,22 +70,22 @@ public interface NbtCompound extends NbtElement
         return create(null).staticNewInstance();
     }
     
-    @Deprecated
     @WrapMinecraftMethod(@VersionName(name="get"))
-    NbtElement get(String key);
+    NbtElement get0(String key);
+    
+    default Option<NbtElement> get(String key)
+    {
+        return Option.fromWrapper(this.get0(key));
+    }
     
     default boolean containsKey(String key)
     {
-        return this.get(key).isPresent();
+        return this.get(key).isSome();
     }
     
     default <T extends NbtElement> Option<T> get(String key, WrapperFactory<T> factory)
     {
-        NbtElement result = this.get(key);
-        if(result.isInstanceOf(factory))
-            return Option.some(result.castTo(factory));
-        else
-            return Option.none();
+        return this.get(key).filter(factory::isInstance).map(ThrowableFunction.wrapperCast(factory));
     }
     @Deprecated
     default <T extends NbtElement> Option<T> get(String key, Function<Object, T> creator)
@@ -134,7 +134,7 @@ public interface NbtCompound extends NbtElement
         this.put(key, NbtElement.FACTORY.getStatic());
     }
     
-    default <T extends NbtElement> T getOrPut(String key, WrapperFactory<T> factory, Supplier<T> newer)
+    default <T extends NbtElement> T getOr(String key, WrapperFactory<T> factory, Supplier<T> newer)
     {
         for(T result: this.get(key, factory))
             return result;
@@ -142,19 +142,32 @@ public interface NbtCompound extends NbtElement
         this.put(key, result);
         return result;
     }
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
+    default <T extends NbtElement> T getOrPut(String key, WrapperFactory<T> factory, Supplier<T> newer)
+    {
+        return this.getOr(key, factory, newer);
+    }
     @Deprecated
     default <T extends NbtElement> T getOrPut(String key, Function<Object, T> creator, Supplier<T> newer)
     {
-        return this.getOrPut(key, new WrapperFactory<>(creator), newer);
+        return this.getOr(key, new WrapperFactory<>(creator), newer);
     }
     
-    default NbtCompound getOrPutNewNbtCompound(String key)
+    default NbtCompound getNbtCompoundOrNew(String key)
     {
-        return this.getOrPut(key, NbtCompound.FACTORY, NbtCompound::newInstance);
+        return this.getOr(key, NbtCompound.FACTORY, NbtCompound::newInstance);
     }
+    
+    /**
+     * @deprecated typo
+     */
+    @Deprecated
     default NbtCompound getOrPutNewCompound(String key)
     {
-        return this.getOrPutNewNbtCompound(key);
+        return this.getNbtCompoundOrNew(key);
     }
     
     default Option<NbtCompound> getNbtCompound(String key)

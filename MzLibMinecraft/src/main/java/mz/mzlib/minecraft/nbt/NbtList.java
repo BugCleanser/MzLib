@@ -89,7 +89,7 @@ public interface NbtList extends NbtElement
     
     default void set(int index, NbtElement value)
     {
-        this.getValue0().set(index, RuntimeUtil.cast(value.getWrapped()));
+        this.getValue0().set(index, value.getWrapped());
     }
     
     void add(NbtElement value);
@@ -104,7 +104,7 @@ public interface NbtList extends NbtElement
     @SpecificImpl("add")
     default void addV2105(NbtElement value)
     {
-        this.getValue0().add(RuntimeUtil.cast(value.getWrapped()));
+        this.getValue0().add(value.getWrapped());
     }
     
     default NbtCompound getNbtCompound(int index)

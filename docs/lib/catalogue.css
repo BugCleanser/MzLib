@@ -17,6 +17,9 @@
 .catalogue a:hover {
     text-decoration: underline;
 }
+.catalogue li.current > :first-child * {
+    color: #11566c;
+}
 .catalogue ul {
     list-style: none;
     padding-inline-start: 12pt;
