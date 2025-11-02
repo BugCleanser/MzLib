@@ -106,6 +106,6 @@ code {
 
 code:not(.code-block code) {
     margin-inline: 0.2em;
-    background-color: #ebeef2 !important;
+    background-color: #eff3f8 !important;
     border-radius: 0.5em;
 }

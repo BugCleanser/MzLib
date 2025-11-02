@@ -15,11 +15,17 @@
 / #[= 基本类型]:
 
     - `NbtByte`
+
     - `NbtShort`
+
     - `NbtInt`
+
     - `NbtLong`
+
     - `NbtFloat`
+
     - `NbtDouble`
+
     - `NbtString`
 
     `boolean`一般转换为`byte`储存(`1`或`0`)
@@ -78,7 +84,7 @@
 
     当元素不存在或不为对应类型时，返回`Option.none()`
 
-    / #[== `修订`]:
+    / #[== 修订]:
 
         当你想修改元素但不想改变原实例时，可以使用浅克隆
         ```java
