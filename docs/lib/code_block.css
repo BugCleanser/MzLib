@@ -103,3 +103,9 @@
 code {
     font-family: 'Fira Code', 'Consolas', 'Monaco', 'PingFang SC', 'Microsoft YaHei', 'Courier New', monospace;
 }
+
+code:not(.code-block code) {
+    margin-inline: 0.2em;
+    background-color: #ebeef2 !important;
+    border-radius: 0.5em;
+}

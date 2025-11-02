@@ -1,5 +1,7 @@
 #import "template.typ": *;
 
+#set raw(lang: "java");
+
 #let hides = ("lib",)
 #let aliases = (
     "index": "简介",
