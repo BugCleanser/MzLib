@@ -17,7 +17,7 @@ public interface MzItem extends ItemStack
     ItemStack staticVanilla();
     
     @CallOnce
-    void init();
+    void init(NbtCompound data);
     
     default Identifier getMzId()
     {

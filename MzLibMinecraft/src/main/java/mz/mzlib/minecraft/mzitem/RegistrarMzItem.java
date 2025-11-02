@@ -21,9 +21,13 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     
     public MzItem newMzItem(Identifier id)
     {
+        return this.newMzItem(id, NbtCompound.newInstance());
+    }
+    public MzItem newMzItem(Identifier id, NbtCompound data)
+    {
         WrapperFactory<? extends MzItem> factory = this.factories.get(id);
         MzItem result = factory.getStatic().staticVanilla().as(factory);
-        result.init();
+        result.init(data);
         return result;
     }
     
