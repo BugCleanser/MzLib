@@ -17,12 +17,6 @@ public class EventPlayerQuit extends EventPlayer
     }
     
     @Override
-    public void setCancelled(boolean cancelled)
-    {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public void call()
     {
         super.call();
@@ -49,8 +43,7 @@ public class EventPlayerQuit extends EventPlayer
                     return Nothing.notReturn();
                 for(EntityPlayer player: this.getPlayer())
                 {
-                    EventPlayerQuit event = new EventPlayerQuit(player);
-                    event.call();
+                    new EventPlayerQuit(player).call();
                 }
                 return Nothing.notReturn();
             }

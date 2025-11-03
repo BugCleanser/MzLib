@@ -41,6 +41,8 @@ public abstract class EventPlayer extends EventEntity
             this.register(EventPlayerJoin.Module.instance);
             this.register(EventPlayerQuit.Module.instance);
             
+            this.register(EventPlayerUseItem.Module.instance);
+            
             this.register(EventAsyncByPacket.class);
             
             this.register(EventAsyncPlayerChat.Module.instance);

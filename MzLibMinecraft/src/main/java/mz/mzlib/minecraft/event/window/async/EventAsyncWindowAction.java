@@ -1,12 +1,13 @@
 package mz.mzlib.minecraft.event.window.async;
 
+import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAction;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.module.MzModule;
 
-public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowAction>
+public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowAction> implements EventAsyncByPacket.Cancellable
 {
     public EventAsyncWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent, int syncId)
     {

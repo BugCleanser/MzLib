@@ -31,7 +31,7 @@ public interface ActionResult extends WrapperObject
     }
     @SpecificImpl("staticPass")
     @VersionRange(begin=900)
-    @WrapMinecraftFieldAccessor(@VersionName(name="PASS"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="PASS", end=1400), @VersionName(name="field_5811", begin=1400)})
     ActionResult staticPassV900();
     
     static ActionResult success()
@@ -47,7 +47,12 @@ public interface ActionResult extends WrapperObject
     }
     @SpecificImpl("staticSuccess")
     @VersionRange(begin=900)
-    @WrapMinecraftFieldAccessor(@VersionName(name="SUCCESS"))
+    @WrapMinecraftFieldAccessor(
+            {
+                    @VersionName(name="SUCCESS", end=1400),
+                    @VersionName(name="field_5812", begin=1400, end=2102),
+                    @VersionName(name="field_52422", begin=2102) // yarn: SUCCESS_SERVER
+            })
     ActionResult staticSuccessV900();
     
     @VersionRange(begin=900)
@@ -56,8 +61,17 @@ public interface ActionResult extends WrapperObject
         return FACTORY.getStatic().staticFailV900();
     }
     @VersionRange
-    @WrapMinecraftFieldAccessor(@VersionName(name="FAIL"))
+    @WrapMinecraftFieldAccessor({@VersionName(name="FAIL", end=1400), @VersionName(name="field_5814", begin=1400)})
     ActionResult staticFailV900();
+    
+    @VersionRange(begin=1500)
+    static ActionResult consumeV1500()
+    {
+        return FACTORY.getStatic().staticConsumeV1500();
+    }
+    @VersionRange(begin=1500)
+    @WrapMinecraftFieldAccessor({@VersionName(name="CONSUME", end=1400), @VersionName(name="field_21466", begin=1400)})
+    ActionResult staticConsumeV1500();
     
     static boolean isAccepted()
     {

@@ -1,5 +1,7 @@
 #import "./../../lib/lib.typ": *
 
+#set raw(lang: "java");
+
 #set document(title: [网络数据包])
 
 #show: template
@@ -29,7 +31,7 @@
 @Override
 public void onLoad()
 {
-    this.register(new PacketListener<>(PacketC2sChatMessage::create, packetEvent->
+    this.register(new PacketListener<>(PacketC2sChatMessage.FACTORY, packetEvent->
     {
         packetEvent.setCancelled(true); // 取消收包，如果你想这么做的话
     }));
@@ -45,7 +47,7 @@ public void onLoad()
 如果需要修改发包的内容，你可能需要先确保这个数据包是副本（因为Mojang可能会把同一个数据包发送给不同玩家），通过`packetEvent#ensureCopied`
 
 ```java
-this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEvent->
+this.register(new PacketListener<>(PacketS2cWindowSlotUpdate.FACTORY, packetEvent->
 {
     // 确保数据包是副本
     packetEvent.ensureCopied();
@@ -69,7 +71,7 @@ this.register(new PacketListener<>(PacketS2cWindowSlotUpdate::create, packetEven
 如果MC本身就要在主线程处理这个数据包（如`PacketC2sCloseWindow`），则调用并`sync`方法不会导致更多延迟
 
 ```java
-this.register(new PacketListener<>(PacketC2sCloseWindow::create, packetEvent->
+this.register(new PacketListener<>(PacketC2sCloseWindow.FACTORY, packetEvent->
 {
     // 如果需要同步处理
     packetEvent.sync(()->

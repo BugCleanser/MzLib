@@ -8,11 +8,16 @@ import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
+import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.ActionResult;
+import mz.mzlib.minecraft.entity.player.EnumHandV900;
+import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextTranslatable;
+import mz.mzlib.minecraft.world.AbstractWorld;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -419,6 +424,16 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin=1700)
     @WrapMinecraftMethod({@VersionName(name="canCombine", end=2005), @VersionName(name="areItemsAndComponentsEqual", begin=2005)})
     boolean staticIsStackableV1700(ItemStack a, ItemStack b);
+    
+    @VersionRange(end=900)
+    @WrapMinecraftMethod(@VersionName(name="onStartUse"))
+    ItemStack useV_900(AbstractWorld world, AbstractEntityPlayer player);
+    @VersionRange(begin=900, end=2102)
+    @WrapMinecraftMethod({@VersionName(name="method_11390", end=1400), @VersionName(name="use", begin=1400)})
+    TypedActionResultV900_2102<ItemStack> useV900_2102(AbstractWorld world, AbstractEntityPlayer player, EnumHandV900 hand);
+    @VersionRange(begin=2102)
+    @WrapMinecraftMethod(@VersionName(name="use"))
+    ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, EnumHandV900 hand);
     
     @Override
     int hashCode0();

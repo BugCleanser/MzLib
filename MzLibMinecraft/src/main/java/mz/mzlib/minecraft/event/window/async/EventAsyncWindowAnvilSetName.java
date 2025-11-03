@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.event.window.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
@@ -8,7 +9,7 @@ import mz.mzlib.minecraft.network.packet.c2s.common.PacketC2sCustom;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAnvilNameV1300;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends EventAsyncWindow<P>
+public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends EventAsyncWindow<P> implements EventAsyncByPacket.Cancellable
 {
     public EventAsyncWindowAnvilSetName(PacketEvent.Specialized<P> packetEvent)
     {

@@ -60,12 +60,17 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
         return of(function::apply);
     }
     
-    static <T extends WrapperObject> ThrowableFunction<? extends WrapperObject, T, RuntimeException> wrapperCast(WrapperFactory<T> factory)
+    static <T> ThrowableFunction<? extends T, T, RuntimeException> upcast()
+    {
+        return InvertibleFunction.cast();
+    }
+    
+    static <T extends WrapperObject> ThrowableFunction<WrapperObject, T, RuntimeException> wrapperCast(WrapperFactory<T> factory)
     {
         return of(InvertibleFunction.wrapperCast(WrapperObject.FACTORY, factory));
     }
     @Deprecated
-    static <T extends WrapperObject> ThrowableFunction<? extends WrapperObject, T, RuntimeException> wrapperCast(Function<Object, T> creator)
+    static <T extends WrapperObject> ThrowableFunction<WrapperObject, T, RuntimeException> wrapperCast(Function<Object, T> creator)
     {
         return of(InvertibleFunction.wrapperCast(WrapperObject::create, creator));
     }

@@ -29,12 +29,6 @@ public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends Even
     }
     
     @Override
-    public void setCancelled(boolean cancelled)
-    {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public void call()
     {
         super.call();

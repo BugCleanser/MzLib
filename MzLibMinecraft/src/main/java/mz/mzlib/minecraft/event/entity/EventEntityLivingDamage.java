@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.event.entity;
 
+import mz.mzlib.event.Cancellable;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
@@ -12,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 import mz.mzlib.util.wrapper.basic.Wrapper_float;
 
-public class EventEntityLivingDamage extends EventEntity
+public class EventEntityLivingDamage extends EventEntity implements Cancellable
 {
     public DamageSource source;
     public float damage;
@@ -71,7 +72,7 @@ public class EventEntityLivingDamage extends EventEntity
                 if(e.isCancelled())
                 {
                     e.finish();
-                    return Wrapper_boolean.create(false);
+                    return Wrapper_boolean.FACTORY.create(false);
                 }
                 source.setWrappedFrom(e.getSource());
                 damage.setWrapped(e.getDamage());

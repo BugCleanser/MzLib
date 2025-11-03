@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.event.player.async.displayentity;
 import mz.mzlib.minecraft.entity.data.EntityDataHolder;
 import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.entity.display.DisplayEntity;
+import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.util.Option;
@@ -11,12 +12,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS2cEntityData> implements EntityDataHolder
+public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS2cEntityData> implements EntityDataHolder, EventAsyncByPacket.Cancellable
 {
     public EventAsyncDisplayEntityData(DisplayEntity displayEntity, PacketEvent.Specialized<PacketS2cEntityData> packetEvent)
     {
         super(displayEntity, packetEvent);
     }
+    
+    // TODO
     
     @Override
     public Option<Object> getData(EntityDataKey key)

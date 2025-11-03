@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMoveV900;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncByPacket<P>
+public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncByPacket<P> implements EventAsyncByPacket.Cancellable
 {
     public EventAsyncPlayerMove(PacketEvent.Specialized<? extends P> packetEvent)
     {

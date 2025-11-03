@@ -18,11 +18,6 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
     {
         return this.packetEvent.isCancelled();
     }
-    @Override
-    public void setCancelled(boolean cancelled)
-    {
-        this.packetEvent.setCancelled(cancelled);
-    }
     
     public PacketEvent.Specialized<? extends P> getPacketEvent()
     {
@@ -48,5 +43,14 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
     public void call()
     {
         super.call();
+    }
+    
+    public interface Cancellable extends mz.mzlib.event.Cancellable
+    {
+        @Override
+        default void setCancelled(boolean cancelled)
+        {
+            ((EventAsyncByPacket<?>)this).packetEvent.setCancelled(cancelled);
+        }
     }
 }

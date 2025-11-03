@@ -10,13 +10,6 @@ public class EventServerStop extends EventServer
     }
     
     @Override
-    public void setCancelled(boolean cancelled)
-    {
-        if(cancelled)
-            throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public void call()
     {
         super.call();

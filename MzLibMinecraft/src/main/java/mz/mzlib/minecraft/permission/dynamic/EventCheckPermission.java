@@ -1,9 +1,10 @@
 package mz.mzlib.minecraft.permission.dynamic;
 
+import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.Event;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 
-public abstract class EventCheckPermission extends Event
+public abstract class EventCheckPermission extends Event implements Cancellable
 {
     public EntityPlayer player;
     public EventCheckPermission(EntityPlayer player)

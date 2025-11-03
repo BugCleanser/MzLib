@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.Priority;
+import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;

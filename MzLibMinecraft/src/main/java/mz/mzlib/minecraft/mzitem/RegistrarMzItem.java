@@ -33,6 +33,8 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     
     public Option<MzItem> toMzItem(ItemStack itemStack)
     {
+        if(itemStack instanceof MzItem)
+            return Option.some((MzItem) itemStack);
         for(NbtCompound customData: Item.getCustomData(itemStack))
             for(NbtCompound mz: customData.getNbtCompound("mz"))
                 return Option.some(itemStack.as(Option.<WrapperFactory<? extends MzItem>>fromNullable(this.factories.get(Identifier.newInstance(mz.getString("id").unwrap()))).unwrapOr(MzItemUnknown.FACTORY)));

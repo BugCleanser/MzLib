@@ -41,6 +41,7 @@ public class EventAsyncDisplayEntity<P extends Packet> extends EventAsyncByPacke
         public void onLoad()
         {
             this.register(EventAsyncDisplayEntity.class);
+            
             this.register(EventAsyncDisplayEntitySpawn.class);
             this.register(EventAsyncDisplayEntityDestroy.class);
             this.register(EventAsyncDisplayEntityData.class);

@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
 import mz.mzlib.module.MzModule;
 
-public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessage>
+public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessage> implements EventAsyncByPacket.Cancellable
 {
     public EventAsyncPlayerChat(PacketEvent.Specialized<PacketC2sChatMessage> packetEvent)
     {
