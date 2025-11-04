@@ -59,18 +59,30 @@ public abstract class Option<T> implements Iterable<T>
     
     public T unwrapOrGet(Supplier<? extends T> supplier)
     {
-        return this.unwrapOrGet(ThrowableSupplier.of(supplier));
+        return this.unwrapOrGet(ThrowableSupplier.ofSupplier(supplier));
     }
     
     public abstract <U> Option<U> and(Option<U> other);
     
     public abstract Option<T> or(Option<T> other);
     
-    public abstract <U> Option<U> map(Function<? super T, ? extends U> mapper);
+    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E;
+    public <U> Option<U> map(Function<? super T, ? extends U> mapper)
+    {
+        return this.map(ThrowableFunction.ofFunction(mapper));
+    }
     
-    public abstract <U> Option<U> then(Function<? super T, Option<U>> mapper);
+    public abstract <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper) throws E;
+    public <U> Option<U> then(Function<? super T, Option<U>> mapper)
+    {
+        return this.then(ThrowableFunction.ofFunction(mapper));
+    }
     
-    public abstract Option<T> filter(Predicate<? super T> predicate);
+    public abstract <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E;
+    public Option<T> filter(Predicate<? super T> predicate)
+    {
+        return this.filter(ThrowablePredicate.ofPredicate(predicate));
+    }
     
     protected static class Some<T> extends Option<T>
     {
@@ -131,21 +143,21 @@ public abstract class Option<T> implements Iterable<T>
         }
         
         @Override
-        public <U> Option<U> map(Function<? super T, ? extends U> mapper)
+        public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
         {
-            return fromNullable(mapper.apply(this.unwrap()));
+            return fromNullable(mapper.applyOrThrow(this.unwrap()));
         }
         
         @Override
-        public <U> Option<U> then(Function<? super T, Option<U>> mapper)
+        public <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper) throws E
         {
-            return mapper.apply(this.unwrap());
+            return mapper.applyOrThrow(this.unwrap());
         }
         
         @Override
-        public Option<T> filter(Predicate<? super T> predicate)
+        public <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E
         {
-            if(predicate.test(this.unwrap()))
+            if(predicate.testOrThrow(this.unwrap()))
                 return this;
             else
                 return none();
@@ -245,18 +257,18 @@ public abstract class Option<T> implements Iterable<T>
         }
         
         @Override
-        public <U> Option<U> map(Function<? super T, ? extends U> mapper)
+        public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
         {
             return none();
         }
         @Override
-        public <U> Option<U> then(Function<? super T, Option<U>> mapper)
+        public <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper)
         {
             return none();
         }
         
         @Override
-        public Option<T> filter(Predicate<? super T> predicate)
+        public <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E
         {
             return this;
         }

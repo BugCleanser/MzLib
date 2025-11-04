@@ -118,7 +118,7 @@ public interface Item extends WrapperObject
     {
         return Editor.of( //
                 () -> getCustomData(itemStack).map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance), //
-                nbt -> setCustomData(itemStack, Option.some(nbt).filter(ThrowablePredicate.of(NbtCompound::isEmpty).negate())));
+                nbt -> setCustomData(itemStack, Option.some(nbt).filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate())));
     }
     
     /**

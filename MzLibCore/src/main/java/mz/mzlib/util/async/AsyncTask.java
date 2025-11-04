@@ -8,10 +8,10 @@ public class AsyncTask
     {
     }
 
-    public CompletableFuture<Void> step =CompletableFuture.completedFuture(null);
+    public CompletableFuture<Void> step = CompletableFuture.completedFuture(null);
     public void pause()
     {
-        this.step =new CompletableFuture<>();
+        this.step = new CompletableFuture<>();
     }
     public void resume()
     {
@@ -19,9 +19,9 @@ public class AsyncTask
     }
     public void stop(Throwable exception)
     {
-        CompletableFuture<Void> step=new CompletableFuture<>();
+        CompletableFuture<Void> step = new CompletableFuture<>();
         step.completeExceptionally(exception);
-        this.step=step;
+        this.step = step;
     }
     public void stop()
     {

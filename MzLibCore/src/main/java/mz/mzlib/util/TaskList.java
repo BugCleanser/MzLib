@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TaskList
 {
-    public List<Runnable> tasks=new ArrayList<>();
+    public List<Runnable> tasks = new ArrayList<>();
     
     public void schedule(Runnable task)
     {
@@ -14,7 +14,7 @@ public class TaskList
     
     public void run()
     {
-        for(Runnable task:this.tasks)
+        for(Runnable task: this.tasks)
         {
             try
             {

@@ -39,7 +39,7 @@ public @interface WrapMinecraftClass
             return false;
         }
         
-        public static <T> Option<String> getName(Class<? extends WrapperObject> wrapperClass)
+        public static Option<String> getName(Class<? extends WrapperObject> wrapperClass)
         {
             for(WrapSameClass annotation: Option.fromNullable(wrapperClass.getDeclaredAnnotation(WrapSameClass.class)))
                 return getName(annotation.value());

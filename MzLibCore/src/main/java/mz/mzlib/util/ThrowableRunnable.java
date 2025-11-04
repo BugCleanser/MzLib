@@ -16,4 +16,13 @@ public interface ThrowableRunnable<E extends Throwable> extends Runnable
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
+    
+    static <E extends Throwable> ThrowableRunnable<E> of(ThrowableRunnable<E> value)
+    {
+        return value;
+    }
+    static ThrowableRunnable<RuntimeException> ofRunnable(Runnable value)
+    {
+        return value::run;
+    }
 }

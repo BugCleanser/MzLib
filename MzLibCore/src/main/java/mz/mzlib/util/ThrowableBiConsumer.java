@@ -26,9 +26,14 @@ public interface ThrowableBiConsumer<F, S, E extends Throwable> extends BiConsum
         return value;
     }
     
-    static <T, F, E extends Throwable> ThrowableBiConsumer<T, F, E> of(BiConsumer<T, F> value)
+    static <T, F, E extends Throwable> ThrowableBiConsumer<T, F, E> ofBiConsumer(BiConsumer<T, F> value)
     {
         return value::accept;
+    }
+    @Deprecated
+    static <T, F, E extends Throwable> ThrowableBiConsumer<T, F, E> of(BiConsumer<T, F> value)
+    {
+        return ofBiConsumer(value);
     }
     
     default <F1> ThrowableBiConsumer<F1, S, E> mapFirst(Function<F1, F> function)

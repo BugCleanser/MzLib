@@ -42,27 +42,27 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     
     default <V> ThrowableFunction<T, V, E> thenApply(Function<? super R, ? extends V> after)
     {
-        return thenApply(this, of(after));
+        return thenApply(this, ofFunction(after)::applyOrThrow);
     }
     
     default ThrowableConsumer<T, E> thenAccept(Consumer<? super R> after)
     {
-        return thenAccept(this, ThrowableConsumer.of(after));
+        return thenAccept(this, ThrowableConsumer.ofConsumer(after));
     }
     
-    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(ThrowableFunction<T, R, E> function)
+    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(ThrowableFunction<? super T, ? extends R, E> function)
     {
-        return function;
+        return function::applyOrThrow;
     }
     
-    static <T, R, E extends Throwable> ThrowableFunction<T, R, E> of(Function<T, R> function)
+    static <T, R> ThrowableFunction<T, R, RuntimeException> ofFunction(Function<? super T, ? extends R> function)
     {
-        return of(function::apply);
+        return function::apply;
     }
-    
-    static <T> ThrowableFunction<? extends T, T, RuntimeException> upcast()
+    @Deprecated
+    static <T, R> ThrowableFunction<T, R, RuntimeException> of(Function<? super T, ? extends R> function)
     {
-        return InvertibleFunction.cast();
+        return ofFunction(function);
     }
     
     static <T extends WrapperObject> ThrowableFunction<WrapperObject, T, RuntimeException> wrapperCast(WrapperFactory<T> factory)
@@ -91,6 +91,6 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     
     static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()
     {
-        return of(Function.identity());
+        return ofFunction(Function.<T>identity())::applyOrThrow;
     }
 }

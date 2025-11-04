@@ -27,9 +27,14 @@ public interface ThrowableBiFunction<F, S, R, E extends Throwable> extends BiFun
         return value;
     }
     
-    static <T, F, R, E extends Throwable> ThrowableBiFunction<T, F, R, E> of(BiFunction<T, F, R> value)
+    static <T, F, R, E extends Throwable> ThrowableBiFunction<T, F, R, E> ofBiFunction(BiFunction<T, F, R> value)
     {
         return value::apply;
+    }
+    @Deprecated
+    static <T, F, R, E extends Throwable> ThrowableBiFunction<T, F, R, E> of(BiFunction<T, F, R> value)
+    {
+        return ofBiFunction(value);
     }
     
     default <F1> ThrowableBiFunction<F1, S, R, E> mapFirst(Function<F1, F> function)
@@ -54,7 +59,7 @@ public interface ThrowableBiFunction<F, S, R, E extends Throwable> extends BiFun
     
     default <V> ThrowableBiFunction<F, S, V, E> thenApply(Function<? super R, ? extends V> after)
     {
-        return of(BiFunction.super.andThen(after));
+        return ofBiFunction(BiFunction.super.andThen(after));
     }
     
     default ThrowableBiConsumer<F, S, E> thenAccept(Consumer<? super R> after)

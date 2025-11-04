@@ -33,12 +33,12 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
     
     default <U> ThrowableSupplier<U, E> thenApply(Function<? super T, ? extends U> action)
     {
-        return thenApply(this, ThrowableFunction.of(action));
+        return thenApply(this, ThrowableFunction.ofFunction(action)::applyOrThrow);
     }
     
     default ThrowableRunnable<E> thenAccept(Consumer<? super T> action)
     {
-        return thenAccept(this, ThrowableConsumer.of(action));
+        return thenAccept(this, ThrowableConsumer.ofConsumer(action));
     }
     
     default <U> ThrowableFunction<U, T, E> ignore()
@@ -51,9 +51,14 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
         return value;
     }
     
-    static <T> ThrowableSupplier<T, RuntimeException> of(Supplier<T> value)
+    static <T> ThrowableSupplier<T, RuntimeException> ofSupplier(Supplier<T> value)
     {
         return value::get;
+    }
+    @Deprecated
+    static <T> ThrowableSupplier<T, RuntimeException> of(Supplier<T> value)
+    {
+        return ofSupplier(value);
     }
     
     static <T> ThrowableSupplier<T, RuntimeException> constant(T value)

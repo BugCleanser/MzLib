@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
+@WrapMinecraftClass({@VersionName(name="java.lang.Class", end=1300, remap=false), @VersionName(name="net.minecraft.entity.EntityType", begin=1300)})
 public interface EntityType extends WrapperObject
 {
     WrapperFactory<EntityType> FACTORY = WrapperFactory.of(EntityType.class);

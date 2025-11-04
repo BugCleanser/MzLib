@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.ActionResult;
-import mz.mzlib.minecraft.entity.player.EnumHandV900;
+import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.serialization.CodecV1600;
@@ -42,56 +42,47 @@ public interface ItemStack extends WrapperObject
     
     static ItemStack empty()
     {
-        return create(null).staticEmpty();
+        return FACTORY.getStatic().static$empty();
     }
-    
-    ItemStack staticEmpty();
-    
-    @SpecificImpl("staticEmpty")
+    ItemStack static$empty();
+    @SpecificImpl("static$empty")
     @VersionRange(end=1100)
-    default ItemStack staticEmptyV_1100()
+    default ItemStack static$emptyV_1100()
     {
-        return create(null);
+        return FACTORY.create(null);
     }
-    
-    @SpecificImpl("staticEmpty")
+    @SpecificImpl("static$empty")
     @VersionRange(begin=1100)
     @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY"))
-    ItemStack staticEmptyV1100();
-    
-    ItemStack staticNewInstance(Item item);
-    
-    @WrapConstructor
-    @VersionRange(end=1300)
-    @SpecificImpl("staticNewInstance")
-    ItemStack staticNewInstanceV_1300(Item item);
-    
-    @WrapConstructor
-    @VersionRange(begin=1300)
-    ItemStack staticNewInstanceV1300(ItemConvertibleV1300 item);
-    
-    @SpecificImpl("staticNewInstance")
-    @VersionRange(begin=1300)
-    default ItemStack staticNewInstanceV1300(Item item)
-    {
-        return staticNewInstanceV1300((ItemConvertibleV1300)item.castTo(ItemV1300.FACTORY));
-    }
+    ItemStack static$emptyV1100();
     
     static ItemStack newInstance(Item item)
     {
-        return create(null).staticNewInstance(item);
+        return FACTORY.getStatic().static$newInstance(item);
     }
-    
     static ItemStack newInstance(Item item, int count)
     {
         ItemStack result = newInstance(item);
         result.setCount(count);
         return result;
     }
-    
     static ItemStack newInstance(ItemType type, int count)
     {
         return new ItemStackBuilder(ItemStack.copy(type.itemStack)).setCount(count).get();
+    }
+    ItemStack static$newInstance(Item item);
+    @WrapConstructor
+    @VersionRange(end=1300)
+    @SpecificImpl("static$newInstance")
+    ItemStack static$newInstanceV_1300(Item item);
+    @WrapConstructor
+    @VersionRange(begin=1300)
+    ItemStack static$newInstanceV1300(ItemConvertibleV1300 item);
+    @SpecificImpl("static$newInstance")
+    @VersionRange(begin=1300)
+    default ItemStack static$newInstanceV1300(Item item)
+    {
+        return static$newInstanceV1300((ItemConvertibleV1300)item.castTo(ItemV1300.FACTORY));
     }
     
     @VersionRange(begin=1600)
@@ -99,7 +90,7 @@ public interface ItemStack extends WrapperObject
     CodecV1600<?> staticCodec0V1600();
     static CodecV1600<?> codec0V1600()
     {
-        return create(null).staticCodec0V1600();
+        return FACTORY.getStatic().staticCodec0V1600();
     }
     static CodecV1600.Wrapper<ItemStack> codecV1600()
     {
@@ -143,7 +134,7 @@ public interface ItemStack extends WrapperObject
     
     static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
     {
-        return create(null).staticDecode0(nbt);
+        return FACTORY.getStatic().staticDecode0(nbt);
     }
     
     /**
@@ -393,7 +384,7 @@ public interface ItemStack extends WrapperObject
     
     static boolean isStackable(ItemStack a, ItemStack b)
     {
-        return create(null).staticIsStackable(a, b);
+        return FACTORY.getStatic().staticIsStackable(a, b);
     }
     
     boolean staticIsStackable(ItemStack a, ItemStack b);
@@ -430,10 +421,10 @@ public interface ItemStack extends WrapperObject
     ItemStack useV_900(AbstractWorld world, AbstractEntityPlayer player);
     @VersionRange(begin=900, end=2102)
     @WrapMinecraftMethod({@VersionName(name="method_11390", end=1400), @VersionName(name="use", begin=1400)})
-    TypedActionResultV900_2102<ItemStack> useV900_2102(AbstractWorld world, AbstractEntityPlayer player, EnumHandV900 hand);
+    TypedActionResultV900_2102<?> use0V900_2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
     @VersionRange(begin=2102)
     @WrapMinecraftMethod(@VersionName(name="use"))
-    ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, EnumHandV900 hand);
+    ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
     
     @Override
     int hashCode0();
@@ -541,6 +532,6 @@ public interface ItemStack extends WrapperObject
     
     static NbtCompound upgrade(NbtCompound nbt, int from)
     {
-        return create(null).staticUpgrade(nbt, from);
+        return FACTORY.getStatic().staticUpgrade(nbt, from);
     }
 }

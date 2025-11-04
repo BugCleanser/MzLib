@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Arrays;
 
 @WrapSameClass(WrapperObject.class)
-public interface Nothing extends WrapperObject
+public interface Nothing
 {
     static <T extends WrapperObject> T notReturn()
     {

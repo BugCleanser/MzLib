@@ -25,17 +25,22 @@ public interface ThrowablePredicate<T, E extends Throwable> extends Predicate<T>
         return testOrThrow(arg);
     }
     
-    static <T, E extends Throwable> ThrowablePredicate<T, E> of(ThrowablePredicate<T, E> predicate)
-    {
-        return predicate;
-    }
-    
-    static <T, E extends Throwable> ThrowablePredicate<T, E> of(Predicate<T> predicate)
+    static <T> ThrowablePredicate<T, RuntimeException> ofPredicate(Predicate<? super T> predicate)
     {
         return predicate::test;
     }
+    @Deprecated
+    static <T> ThrowablePredicate<T, RuntimeException> of(Predicate<? super T> predicate)
+    {
+        return ofPredicate(predicate);
+    }
     
-    static <T, E extends Throwable> ThrowablePredicate<T, E> of(ThrowableFunction<T, Boolean, E> function)
+    static <T, E extends Throwable> ThrowablePredicate<T, E> of(ThrowablePredicate<? super T, E> predicate)
+    {
+        return predicate::testOrThrow;
+    }
+    
+    static <T, E extends Throwable> ThrowablePredicate<T, E> of(ThrowableFunction<? super T, Boolean, E> function)
     {
         return function::applyOrThrow;
     }
@@ -43,18 +48,18 @@ public interface ThrowablePredicate<T, E extends Throwable> extends Predicate<T>
     @Override
     default ThrowablePredicate<T, E> negate()
     {
-        return of(Predicate.super.negate());
+        return ofPredicate(Predicate.super.negate())::testOrThrow;
     }
     
     @Override
     default ThrowablePredicate<T, E> and(Predicate<? super T> other)
     {
-        return of(Predicate.super.and(other));
+        return ofPredicate(Predicate.super.and(other))::testOrThrow;
     }
     
     @Override
     default ThrowablePredicate<T, E> or(Predicate<? super T> other)
     {
-        return of(Predicate.super.or(other));
+        return ofPredicate(Predicate.super.or(other))::testOrThrow;
     }
 }

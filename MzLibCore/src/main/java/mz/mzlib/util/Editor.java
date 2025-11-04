@@ -68,7 +68,7 @@ public class Editor<T> implements AutoCompletable<T, Object>
     }
     public static <T, H> Editor<T> of(H holder, Function<? super H, ? extends T> getter, BiConsumer<? super H, ? super T> setter)
     {
-        return of(ThrowableSupplier.constant(holder).thenApply(getter), ThrowableBiConsumer.of(setter).bindFirst(ThrowableSupplier.constant(holder)));
+        return of(ThrowableSupplier.constant(holder).thenApply(getter), ThrowableBiConsumer.ofBiConsumer(setter).bindFirst(ThrowableSupplier.constant(holder)));
     }
     
     public static <T> Editor<Ref<T>> ofRef(Supplier<? extends T> getter, Consumer<? super T> setter)

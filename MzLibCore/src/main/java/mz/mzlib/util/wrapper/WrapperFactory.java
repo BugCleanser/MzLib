@@ -42,6 +42,10 @@ public class WrapperFactory<T extends WrapperObject>
     {
         return new WrapperFactory<>(WrapperObject.create(wrapperClass, null));
     }
+    public static <T extends WrapperObject> WrapperFactory<T> of(T value)
+    {
+        return new WrapperFactory<>(value);
+    }
     
     @Deprecated
     public static <T extends WrapperObject> WrapperFactory<T> find(Class<T> wrapperClass)
