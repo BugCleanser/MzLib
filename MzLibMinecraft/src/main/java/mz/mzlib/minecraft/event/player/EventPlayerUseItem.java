@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.event.Cancellable;
-import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.ActionResult;
@@ -10,7 +9,6 @@ import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
-import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.world.AbstractWorld;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.nothing.*;
@@ -21,16 +19,22 @@ import java.util.function.Function;
 
 public class EventPlayerUseItem extends EventPlayer implements Cancellable
 {
+    Hand hand;
     ItemStack itemStack;
     ItemStack resultItemStack;
     ActionResult result = ActionResult.pass();
     
-    public EventPlayerUseItem(EntityPlayer player, ItemStack itemStack)
+    public EventPlayerUseItem(EntityPlayer player, Hand hand, ItemStack itemStack)
     {
         super(player);
+        this.hand = hand;
         this.resultItemStack = this.itemStack = RegistrarMzItem.instance.toMzItem(itemStack).map(Function.<ItemStack>identity()).unwrapOr(itemStack);
     }
     
+    public Hand getHand()
+    {
+        return this.hand;
+    }
     public ItemStack getItemStack()
     {
         return this.itemStack;
@@ -79,7 +83,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     {
         default boolean handleBegin(WrapperObject.Generic<EventPlayerUseItem> event, AbstractEntityPlayer player, Hand hand)
         {
-            event.setWrapped(new EventPlayerUseItem(player.as(EntityPlayer.FACTORY), this));
+            event.setWrapped(new EventPlayerUseItem(player.as(EntityPlayer.FACTORY), hand, this));
             event.getWrapped().call();
             if(event.getWrapped().isCancelled())
             {

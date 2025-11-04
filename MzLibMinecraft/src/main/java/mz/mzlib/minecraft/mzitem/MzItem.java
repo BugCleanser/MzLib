@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.CallOnce;
@@ -37,5 +38,18 @@ public interface MzItem extends ItemStack
         return Item.reviseCustomData(this)
                 .then(nbt -> nbt.reviseNbtCompoundOrNew("mz"))
                 .then(nbt -> nbt.reviseNbtCompoundOrNew("data"));
+    }
+    
+    class Module extends MzModule
+    {
+        public static Module instance = new Module();
+        
+        @Override
+        public void onLoad()
+        {
+            this.register(RegistrarMzItem.instance);
+            
+            this.register(MzItemUsable.Module.instance);
+        }
     }
 }
