@@ -19,16 +19,16 @@ public interface TextKeybindV1200 extends WrapperObject, Text
     
     static TextKeybindV1200 newInstance(String key)
     {
-        return FACTORY.getStatic().staticNewInstance(key);
+        return FACTORY.getStatic().static$newInstance(key);
     }
-    TextKeybindV1200 staticNewInstance(String key);
-    @SpecificImpl("staticNewInstance")
+    TextKeybindV1200 static$newInstance(String key);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1900)
     @WrapConstructor
-    TextKeybindV1200 staticNewInstanceV_1900(String key);
-    @SpecificImpl("staticNewInstance")
+    TextKeybindV1200 static$newInstanceV_1900(String key);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1900)
-    default TextKeybindV1200 staticNewInstanceV1900(String key)
+    default TextKeybindV1200 static$newInstanceV1900(String key)
     {
         return TextMutableV1600.newInstanceV1900(TextContentKeybindV1900.newInstance(key)).castTo(FACTORY);
     }

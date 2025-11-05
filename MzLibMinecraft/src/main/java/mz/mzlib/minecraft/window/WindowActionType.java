@@ -32,22 +32,22 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType drag()
     {
-        return FACTORY.getStatic().staticDrag();
+        return FACTORY.getStatic().static$drag();
     }
     
-    WindowActionType staticDrag();
+    WindowActionType static$drag();
     
-    @SpecificImpl("staticDrag")
+    @SpecificImpl("static$drag")
     @VersionRange(end=900)
-    default WindowActionType staticDragV_900()
+    default WindowActionType static$dragV_900()
     {
         return create(5);
     }
     
-    @SpecificImpl("staticDrag")
+    @SpecificImpl("static$drag")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12268", end=1400), @VersionName(name="field_7789", begin=1400)})
-    WindowActionType staticDragV900();
+    WindowActionType static$dragV900();
     
     /**
      * Left-click or right-click
@@ -55,22 +55,22 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType click()
     {
-        return FACTORY.getStatic().staticClick();
+        return FACTORY.getStatic().static$click();
     }
     
-    WindowActionType staticClick();
+    WindowActionType static$click();
     
-    @SpecificImpl("staticClick")
+    @SpecificImpl("static$click")
     @VersionRange(end=900)
-    default WindowActionType staticClickV_900()
+    default WindowActionType static$clickV_900()
     {
         return create(0);
     }
     
-    @SpecificImpl("staticClick")
+    @SpecificImpl("static$click")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12263", end=1400), @VersionName(name="field_7790", begin=1400)})
-    WindowActionType staticClickV900();
+    WindowActionType static$clickV900();
     
     /**
      * Use shortcut keys to exchange items (1~9 or F)
@@ -78,44 +78,44 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType swap()
     {
-        return FACTORY.getStatic().staticSwap();
+        return FACTORY.getStatic().static$swap();
     }
     
-    WindowActionType staticSwap();
+    WindowActionType static$swap();
     
-    @SpecificImpl("staticSwap")
+    @SpecificImpl("static$swap")
     @VersionRange(end=900)
-    default WindowActionType staticSwapV_900()
+    default WindowActionType static$swapV_900()
     {
         return create(2);
     }
     
-    @SpecificImpl("staticSwap")
+    @SpecificImpl("static$swap")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12265", end=1400), @VersionName(name="field_7791", begin=1400)})
-    WindowActionType staticSwapV900();
+    WindowActionType static$swapV900();
     
     /**
      * Double-click an item
      */
     static WindowActionType pickUpAll()
     {
-        return FACTORY.getStatic().staticPickUpAll();
+        return FACTORY.getStatic().static$pickUpAll();
     }
     
-    WindowActionType staticPickUpAll();
+    WindowActionType static$pickUpAll();
     
-    @SpecificImpl("staticPickUpAll")
+    @SpecificImpl("static$pickUpAll")
     @VersionRange(end=900)
-    default WindowActionType staticPickUpAllV_900()
+    default WindowActionType static$pickUpAllV_900()
     {
         return create(6);
     }
     
-    @SpecificImpl("staticPickUpAll")
+    @SpecificImpl("static$pickUpAll")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12269", end=1400), @VersionName(name="field_7793", begin=1400)})
-    WindowActionType staticPickUpAllV900();
+    WindowActionType static$pickUpAllV900();
     
     /**
      * Shift-click a slot
@@ -123,22 +123,22 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType shiftClick()
     {
-        return FACTORY.getStatic().staticShiftClick();
+        return FACTORY.getStatic().static$shiftClick();
     }
     
-    WindowActionType staticShiftClick();
+    WindowActionType static$shiftClick();
     
-    @SpecificImpl("staticShiftClick")
+    @SpecificImpl("static$shiftClick")
     @VersionRange(end=900)
-    default WindowActionType staticShiftClickV_900()
+    default WindowActionType static$shiftClickV_900()
     {
         return create(1);
     }
     
-    @SpecificImpl("staticShiftClick")
+    @SpecificImpl("static$shiftClick")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12264", end=1400), @VersionName(name="field_7794", begin=1400)})
-    WindowActionType staticShiftClickV900();
+    WindowActionType static$shiftClickV900();
     
     /**
      * Throw item:
@@ -150,44 +150,44 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType drop()
     {
-        return FACTORY.getStatic().staticDrop();
+        return FACTORY.getStatic().static$drop();
     }
     
-    WindowActionType staticDrop();
+    WindowActionType static$drop();
     
-    @SpecificImpl("staticDrop")
+    @SpecificImpl("static$drop")
     @VersionRange(end=900)
-    default WindowActionType staticDropV_900()
+    default WindowActionType static$dropV_900()
     {
         return create(4);
     }
     
-    @SpecificImpl("staticDrop")
+    @SpecificImpl("static$drop")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12267", end=1400), @VersionName(name="field_7795", begin=1400)})
-    WindowActionType staticDropV900();
+    WindowActionType static$dropV900();
     
     /**
      * Middle-click in creative-mode or middle-click with item
      */
     static WindowActionType copy()
     {
-        return FACTORY.getStatic().staticCopy();
+        return FACTORY.getStatic().static$copy();
     }
     
-    WindowActionType staticCopy();
+    WindowActionType static$copy();
     
-    @SpecificImpl("staticCopy")
+    @SpecificImpl("static$copy")
     @VersionRange(end=900)
-    default WindowActionType staticCopyV_900()
+    default WindowActionType static$copyV_900()
     {
         return create(3);
     }
     
-    @SpecificImpl("staticCopy")
+    @SpecificImpl("static$copy")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_12266", end=1400), @VersionName(name="field_7796", begin=1400)})
-    WindowActionType staticCopyV900();
+    WindowActionType static$copyV900();
     
     @Override
     default String toString0()

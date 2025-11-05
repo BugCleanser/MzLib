@@ -13,16 +13,16 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 @WrapSameClass(ItemStack.class)
 public interface MzItem extends ItemStack
 {
-    Identifier staticGetMzId();
+    Identifier static$getMzId();
     
-    ItemStack staticVanilla();
+    ItemStack static$vanilla();
     
     @CallOnce
     void init(NbtCompound data);
     
     default Identifier getMzId()
     {
-        return this.staticGetMzId();
+        return this.static$getMzId();
     }
     
     default Option<NbtCompound> getMzData()

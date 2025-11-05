@@ -21,9 +21,9 @@ public interface SkinTexturesV2109 extends WrapperObject
         
         static SkinOverride empty()
         {
-            return FACTORY.getStatic().staticEmpty();
+            return FACTORY.getStatic().static$empty();
         }
         @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY"))
-        SkinOverride staticEmpty();
+        SkinOverride static$empty();
     }
 }

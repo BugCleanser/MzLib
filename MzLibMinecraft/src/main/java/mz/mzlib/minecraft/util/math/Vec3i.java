@@ -19,9 +19,9 @@ public interface Vec3i extends WrapperObject
     }
     
     @WrapConstructor
-    BlockPos staticNewInstance(int x, int y, int z);
+    BlockPos static$newInstance(int x, int y, int z);
     static BlockPos newInstance(int x, int y, int z)
     {
-        return FACTORY.getStatic().staticNewInstance(x, y, z);
+        return FACTORY.getStatic().static$newInstance(x, y, z);
     }
 }

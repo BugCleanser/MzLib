@@ -21,9 +21,9 @@ public interface DataUpdateTypesV900_1300 extends WrapperObject, DataUpdateTypeV
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="field_14384"))
-    DataUpdateTypeV900_1300 staticItemStack();
+    DataUpdateTypeV900_1300 static$itemStack();
     static DataUpdateTypeV900_1300 itemStack()
     {
-        return FACTORY.getStatic().staticItemStack();
+        return FACTORY.getStatic().static$itemStack();
     }
 }

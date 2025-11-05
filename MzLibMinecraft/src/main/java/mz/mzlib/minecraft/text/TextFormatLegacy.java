@@ -47,9 +47,9 @@ public interface TextFormatLegacy extends WrapperObject
     
     static TextFormatLegacy fromName(String name)
     {
-        return FACTORY.getStatic().staticFromName(name);
+        return FACTORY.getStatic().static$fromName(name);
     }
     
     @WrapMinecraftMethod(@VersionName(name="byName"))
-    TextFormatLegacy staticFromName(String name);
+    TextFormatLegacy static$fromName(String name);
 }

@@ -29,29 +29,29 @@ public interface Identifier extends WrapperObject
     
     static Identifier newInstance(String namespace, String name)
     {
-        return FACTORY.getStatic().staticNewInstance(namespace, name);
+        return FACTORY.getStatic().static$newInstance(namespace, name);
     }
     
-    Identifier staticNewInstance(String namespace, String name);
+    Identifier static$newInstance(String namespace, String name);
     
     @VersionRange(end=900)
     @WrapConstructor
-    Identifier staticNewInstanceV_900(String name);
+    Identifier static$newInstanceV_900(String name);
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=900)
-    default Identifier staticNewInstanceV_900(String namespace, String name)
+    default Identifier static$newInstanceV_900(String namespace, String name)
     {
-        Identifier result = staticNewInstanceV_900("");
+        Identifier result = static$newInstanceV_900("");
         result.setNamespace(namespace);
         result.setName(name);
         return result;
     }
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=900)
     @WrapConstructor
-    Identifier staticNewInstanceV900(String namespace, String name);
+    Identifier static$newInstanceV900(String namespace, String name);
     
     static Identifier minecraft(String name)
     {

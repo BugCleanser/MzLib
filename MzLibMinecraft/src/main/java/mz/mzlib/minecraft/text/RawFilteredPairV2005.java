@@ -31,11 +31,11 @@ public interface RawFilteredPairV2005 extends WrapperObject
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     static <T> RawFilteredPairV2005 newInstance0(T raw, Optional<T> filtered)
     {
-        return FACTORY.getStatic().staticNewInstance0(raw, filtered);
+        return FACTORY.getStatic().static$newInstance0(raw, filtered);
     }
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @WrapConstructor
-    <T> RawFilteredPairV2005 staticNewInstance0(T raw, Optional<T> filtered);
+    <T> RawFilteredPairV2005 static$newInstance0(T raw, Optional<T> filtered);
     
     @WrapMinecraftMethod(@VersionName(name="get"))
     Object get0(boolean shouldFilter);

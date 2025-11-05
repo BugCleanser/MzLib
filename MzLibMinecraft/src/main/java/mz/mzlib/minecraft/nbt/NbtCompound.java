@@ -36,23 +36,23 @@ public interface NbtCompound extends NbtElement
     @Deprecated
     static NbtCompound load(DataInput input)
     {
-        return FACTORY.getStatic().staticLoad(input);
+        return FACTORY.getStatic().static$load(input);
     }
     
-    NbtCompound staticLoad(DataInput input);
+    NbtCompound static$load(DataInput input);
     
-    @SpecificImpl("staticLoad")
+    @SpecificImpl("static$load")
     @VersionRange(end=1500)
-    default NbtCompound staticLoadV_1500(DataInput input)
+    default NbtCompound static$loadV_1500(DataInput input)
     {
         NbtCompound result = newInstance();
         result.loadV_1500(input, 0, NbtReadingCounter.newInstance());
         return result;
     }
     
-    @SpecificImpl("staticLoad")
+    @SpecificImpl("static$load")
     @VersionRange(begin=1500)
-    default NbtCompound staticLoadV1500(DataInput input)
+    default NbtCompound static$loadV1500(DataInput input)
     {
         return TYPE_V1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound.FACTORY);
     }
@@ -63,11 +63,11 @@ public interface NbtCompound extends NbtElement
     }
     
     @WrapConstructor
-    NbtCompound staticNewInstance();
+    NbtCompound static$newInstance();
     
     static NbtCompound newInstance()
     {
-        return FACTORY.getStatic().staticNewInstance();
+        return FACTORY.getStatic().static$newInstance();
     }
     
     @WrapMinecraftMethod(@VersionName(name="get"))

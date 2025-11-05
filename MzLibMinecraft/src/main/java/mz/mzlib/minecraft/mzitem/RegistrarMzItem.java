@@ -26,7 +26,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     public MzItem newMzItem(Identifier id, NbtCompound data)
     {
         WrapperFactory<? extends MzItem> factory = this.factories.get(id);
-        MzItem result = factory.getStatic().staticVanilla().as(factory);
+        MzItem result = factory.getStatic().static$vanilla().as(factory);
         result.init(data);
         return result;
     }
@@ -59,11 +59,11 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
         if(!object.isAnnotationPresent(MzItemClass.class))
             throw new IllegalStateException("Class "+object.getName()+" is not annotated with @MzItemClass");
         WrapperFactory<? extends MzItem> factory = WrapperFactory.of(object);
-        this.factories.put(factory.getStatic().staticGetMzId(), factory);
+        this.factories.put(factory.getStatic().static$getMzId(), factory);
     }
     @Override
     public void unregister(MzModule module, Class<? extends MzItem> object)
     {
-        this.factories.remove(WrapperFactory.of(object).getStatic().staticGetMzId());
+        this.factories.remove(WrapperFactory.of(object).getStatic().static$getMzId());
     }
 }

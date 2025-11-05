@@ -22,21 +22,21 @@ public interface TextContentSelectorV1900 extends WrapperObject, TextContentV190
     
     static TextContentSelectorV1900 newInstance(String selector, Option<Text> separator)
     {
-        return FACTORY.getStatic().staticNewInstance(selector, separator);
+        return FACTORY.getStatic().static$newInstance(selector, separator);
     }
-    TextContentSelectorV1900 staticNewInstance(String selector, Option<Text> separator);
-    @SpecificImpl("staticNewInstance")
+    TextContentSelectorV1900 static$newInstance(String selector, Option<Text> separator);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=2102)
-    default TextContentSelectorV1900 staticNewInstanceV_2102(String selector, Option<Text> separator)
+    default TextContentSelectorV1900 static$newInstanceV_2102(String selector, Option<Text> separator)
     {
-        return FACTORY.getStatic().staticNewInstance0V_2102(selector, separator.map(Text::getWrapped).toOptional());
+        return FACTORY.getStatic().static$newInstance0V_2102(selector, separator.map(Text::getWrapped).toOptional());
     }
     @VersionRange(end=2102)
     @WrapConstructor
-    TextContentSelectorV1900 staticNewInstance0V_2102(String selector, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
-    @SpecificImpl("staticNewInstance")
+    TextContentSelectorV1900 static$newInstance0V_2102(String selector, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2102)
-    default TextContentSelectorV1900 staticNewInstanceV2102(String selector, Option<Text> separator)
+    default TextContentSelectorV1900 static$newInstanceV2102(String selector, Option<Text> separator)
     {
         Result<Option<ParsedSelectorV2102>, String> parse = ParsedSelectorV2102.parse(selector);
         for(String err: parse.getError())
@@ -48,11 +48,11 @@ public interface TextContentSelectorV1900 extends WrapperObject, TextContentV190
     
     static TextContentSelectorV1900 newInstanceV2102(ParsedSelectorV2102 selector, Option<Text> separator)
     {
-        return FACTORY.getStatic().staticNewInstance0V2102(selector, separator.map(Text::getWrapped).toOptional());
+        return FACTORY.getStatic().static$newInstance0V2102(selector, separator.map(Text::getWrapped).toOptional());
     }
     @VersionRange(begin=2102)
     @WrapConstructor
-    TextContentSelectorV1900 staticNewInstance0V2102(ParsedSelectorV2102 selector, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator);
+    TextContentSelectorV1900 static$newInstance0V2102(ParsedSelectorV2102 selector, @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator);
     
     String getSelector();
     @SpecificImpl("getSelector")

@@ -23,11 +23,11 @@ public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockE
     @VersionRange(begin=1200, end=1300)
     static CommandSender commandSourceToBukkitV1200_1300(CommandSource source)
     {
-        return FACTORY.getStatic().staticCommandSourceToBukkitV1200_1300(source);
+        return FACTORY.getStatic().static$commandSourceToBukkitV1200_1300(source);
     }
     @VersionRange(begin=1200, end=1300)
     @WrapMethod("unwrapSender")
-    CommandSender staticCommandSourceToBukkitV1200_1300(CommandSource source);
+    CommandSender static$commandSourceToBukkitV1200_1300(CommandSource source);
     
     @VersionRange(end=1300)
     @WrapFieldAccessor("sender")

@@ -23,10 +23,10 @@ public interface FontDescriptionV2109 extends WrapperObject
         
         static Resource newInstance(Identifier id)
         {
-            return FACTORY.getStatic().staticNewInstance(id);
+            return FACTORY.getStatic().static$newInstance(id);
         }
         @WrapConstructor
-        Resource staticNewInstance(Identifier id);
+        Resource static$newInstance(Identifier id);
         
         @WrapMinecraftFieldAccessor(@VersionName(name="id"))
         Identifier getId();

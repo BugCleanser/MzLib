@@ -74,42 +74,42 @@ public interface Item extends WrapperObject
     
     static Option<NbtCompound> getCustomData(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticGetCustomData(itemStack);
+        return FACTORY.getStatic().static$getCustomData(itemStack);
     }
     
-    Option<NbtCompound> staticGetCustomData(ItemStack itemStack);
+    Option<NbtCompound> static$getCustomData(ItemStack itemStack);
     
-    @SpecificImpl("staticGetCustomData")
+    @SpecificImpl("static$getCustomData")
     @VersionRange(end=2005)
-    default Option<NbtCompound> staticGetCustomDataV_2005(ItemStack itemStack)
+    default Option<NbtCompound> static$getCustomDataV_2005(ItemStack itemStack)
     {
         return itemStack.getTagV_2005();
     }
     
-    @SpecificImpl("staticGetCustomData")
+    @SpecificImpl("static$getCustomData")
     @VersionRange(begin=2005)
-    default Option<NbtCompound> staticGetCustomDataV2005(ItemStack itemStack)
+    default Option<NbtCompound> static$getCustomDataV2005(ItemStack itemStack)
     {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005).map(NbtCompoundComponentV2005::getNbtCompound);
     }
     
     static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
     {
-        FACTORY.getStatic().staticSetCustomData(itemStack, value);
+        FACTORY.getStatic().static$setCustomData(itemStack, value);
     }
     
-    void staticSetCustomData(ItemStack itemStack, Option<NbtCompound> value);
+    void static$setCustomData(ItemStack itemStack, Option<NbtCompound> value);
     
-    @SpecificImpl("staticSetCustomData")
+    @SpecificImpl("static$setCustomData")
     @VersionRange(end=2005)
-    default void staticSetCustomDataV_2005(ItemStack itemStack, Option<NbtCompound> value)
+    default void static$setCustomDataV_2005(ItemStack itemStack, Option<NbtCompound> value)
     {
         itemStack.setTagV_2005(value);
     }
     
-    @SpecificImpl("staticSetCustomData")
+    @SpecificImpl("static$setCustomData")
     @VersionRange(begin=2005)
-    default void staticSetCustomDataV2005(ItemStack itemStack, Option<NbtCompound> value)
+    default void static$setCustomDataV2005(ItemStack itemStack, Option<NbtCompound> value)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance));
     }
@@ -128,32 +128,32 @@ public interface Item extends WrapperObject
     @Deprecated
     static Editor<Ref<Option<NbtCompound>>> editCustomData(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticEditCustomData(itemStack);
+        return FACTORY.getStatic().static$editCustomData(itemStack);
     }
-    Editor<Ref<Option<NbtCompound>>> staticEditCustomData(ItemStack itemStack);
-    @SpecificImpl("staticEditCustomData")
+    Editor<Ref<Option<NbtCompound>>> static$editCustomData(ItemStack itemStack);
+    @SpecificImpl("static$editCustomData")
     @VersionRange(end=2005)
-    default Editor<Ref<Option<NbtCompound>>> staticEditCustomDataV_2005(ItemStack itemStack)
+    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV_2005(ItemStack itemStack)
     {
         return Editor.ofRef(itemStack, Item::getCustomData, Item::setCustomData);
     }
-    @SpecificImpl("staticEditCustomData")
+    @SpecificImpl("static$editCustomData")
     @VersionRange(begin=2005)
-    default Editor<Ref<Option<NbtCompound>>> staticEditCustomDataV2005(ItemStack itemStack)
+    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV2005(ItemStack itemStack)
     {
         return Editor.ofRef(itemStack, ThrowableFunction.of(Item::getCustomData).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)), Item::setCustomData);
     }
     
     static Option<Text> getCustomName(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticGetCustomName(itemStack);
+        return FACTORY.getStatic().static$getCustomName(itemStack);
     }
     
-    Option<Text> staticGetCustomName(ItemStack itemStack);
+    Option<Text> static$getCustomName(ItemStack itemStack);
     
-    @SpecificImpl("staticGetCustomName")
+    @SpecificImpl("static$getCustomName")
     @VersionRange(end=1300)
-    default Option<Text> staticGetCustomNameV_1300(ItemStack itemStack)
+    default Option<Text> static$getCustomNameV_1300(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNbtCompound("display"))
@@ -162,9 +162,9 @@ public interface Item extends WrapperObject
         return Option.none();
     }
     
-    @SpecificImpl("staticGetCustomName")
+    @SpecificImpl("static$getCustomName")
     @VersionRange(begin=1300, end=2005)
-    default Option<Text> staticGetCustomNameV1300_2005(ItemStack itemStack)
+    default Option<Text> static$getCustomNameV1300_2005(ItemStack itemStack)
     {
         for(NbtCompound nbt: itemStack.getTagV_2005())
             for(NbtCompound display: nbt.getNbtCompound("display"))
@@ -173,23 +173,23 @@ public interface Item extends WrapperObject
         return Option.none();
     }
     
-    @SpecificImpl("staticGetCustomName")
+    @SpecificImpl("static$getCustomName")
     @VersionRange(begin=2005)
-    default Option<Text> staticGetCustomNameV2005(ItemStack itemStack)
+    default Option<Text> static$getCustomNameV2005(ItemStack itemStack)
     {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005);
     }
     
     static void setCustomName(ItemStack itemStack, Option<Text> value)
     {
-        FACTORY.getStatic().staticSetCustomName(itemStack, value);
+        FACTORY.getStatic().static$setCustomName(itemStack, value);
     }
     
-    void staticSetCustomName(ItemStack itemStack, Option<Text> value);
+    void static$setCustomName(ItemStack itemStack, Option<Text> value);
     
-    @SpecificImpl("staticSetCustomName")
+    @SpecificImpl("static$setCustomName")
     @VersionRange(end=1300)
-    default void staticSetCustomNameV_1300(ItemStack itemStack, Option<Text> value)
+    default void static$setCustomNameV_1300(ItemStack itemStack, Option<Text> value)
     {
         for(Text customName: value)
         {
@@ -201,9 +201,9 @@ public interface Item extends WrapperObject
                 display.remove("Name");
     }
     
-    @SpecificImpl("staticSetCustomName")
+    @SpecificImpl("static$setCustomName")
     @VersionRange(begin=1300, end=2005)
-    default void staticSetCustomNameV1300_2005(ItemStack itemStack, Option<Text> value)
+    default void static$setCustomNameV1300_2005(ItemStack itemStack, Option<Text> value)
     {
         for(Text customName: value)
         {
@@ -215,31 +215,31 @@ public interface Item extends WrapperObject
                 display.remove("Name");
     }
     
-    @SpecificImpl("staticSetCustomName")
+    @SpecificImpl("static$setCustomName")
     @VersionRange(begin=2005)
-    default void staticSetCustomNameV2005(ItemStack itemStack, Option<Text> value)
+    default void static$setCustomNameV2005(ItemStack itemStack, Option<Text> value)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, value);
     }
     
     static void removeCustomName(ItemStack itemStack)
     {
-        FACTORY.getStatic().staticRemoveCustomName(itemStack);
+        FACTORY.getStatic().static$removeCustomName(itemStack);
     }
-    void staticRemoveCustomName(ItemStack itemStack);
+    void static$removeCustomName(ItemStack itemStack);
     
-    @SpecificImpl("staticRemoveCustomName")
+    @SpecificImpl("static$removeCustomName")
     @VersionRange(end=2005)
-    default void staticRemoveCustomNameV_1300(ItemStack itemStack)
+    default void static$removeCustomNameV_1300(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.get("display", NbtCompound.FACTORY))
                 display.remove("Name");
     }
     
-    @SpecificImpl("staticRemoveCustomName")
+    @SpecificImpl("static$removeCustomName")
     @VersionRange(begin=2005)
-    default void staticRemoveCustomNameV2005(ItemStack itemStack)
+    default void static$removeCustomNameV2005(ItemStack itemStack)
     {
         itemStack.getComponentsV2005().remove(COMPONENT_KEY_CUSTOM_NAME_V2005);
     }
@@ -251,14 +251,14 @@ public interface Item extends WrapperObject
     
     static Option<List<Text>> getLore(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticGetLore(itemStack);
+        return FACTORY.getStatic().static$getLore(itemStack);
     }
     
-    Option<List<Text>> staticGetLore(ItemStack itemStack);
+    Option<List<Text>> static$getLore(ItemStack itemStack);
     
-    @SpecificImpl("staticGetLore")
+    @SpecificImpl("static$getLore")
     @VersionRange(end=1400)
-    default Option<List<Text>> staticGetLoreV_1400(ItemStack itemStack)
+    default Option<List<Text>> static$getLoreV_1400(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNbtCompound("display"))
@@ -267,9 +267,9 @@ public interface Item extends WrapperObject
         return Option.none();
     }
     
-    @SpecificImpl("staticGetLore")
+    @SpecificImpl("static$getLore")
     @VersionRange(begin=1400, end=2005)
-    default Option<List<Text>> staticGetLoreV1400_2005(ItemStack itemStack)
+    default Option<List<Text>> static$getLoreV1400_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound display: tag.getNbtCompound("display"))
@@ -278,44 +278,44 @@ public interface Item extends WrapperObject
         return Option.none();
     }
     
-    @SpecificImpl("staticGetLore")
+    @SpecificImpl("static$getLore")
     @VersionRange(begin=2005)
-    default Option<List<Text>> staticGetLoreV2005(ItemStack itemStack)
+    default Option<List<Text>> static$getLoreV2005(ItemStack itemStack)
     {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines);
     }
     
     static Option<List<Text>> copyLore(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticCopyLore(itemStack);
+        return FACTORY.getStatic().static$copyLore(itemStack);
     }
     
-    Option<List<Text>> staticCopyLore(ItemStack itemStack);
+    Option<List<Text>> static$copyLore(ItemStack itemStack);
     
-    @SpecificImpl("staticCopyLore")
+    @SpecificImpl("static$copyLore")
     @VersionRange(end=2005)
-    default Option<List<Text>> staticCopyLoreV_2005(ItemStack itemStack)
+    default Option<List<Text>> static$copyLoreV_2005(ItemStack itemStack)
     {
         return getLore(itemStack);
     }
     
-    @SpecificImpl("staticCopyLore")
+    @SpecificImpl("static$copyLore")
     @VersionRange(begin=2005)
-    default Option<List<Text>> staticCopyLoreV2005(ItemStack itemStack)
+    default Option<List<Text>> static$copyLoreV2005(ItemStack itemStack)
     {
         return getLore(itemStack).map(ArrayList::new);
     }
     
     static void setLore(ItemStack itemStack, Option<List<Text>> value)
     {
-        FACTORY.getStatic().staticSetLore(itemStack, value);
+        FACTORY.getStatic().static$setLore(itemStack, value);
     }
     
-    void staticSetLore(ItemStack itemStack, Option<List<Text>> value);
+    void static$setLore(ItemStack itemStack, Option<List<Text>> value);
     
-    @SpecificImpl("staticSetLore")
+    @SpecificImpl("static$setLore")
     @VersionRange(end=1400)
-    default void staticSetLoreV_1400(ItemStack itemStack, Option<List<Text>> value)
+    default void static$setLoreV_1400(ItemStack itemStack, Option<List<Text>> value)
     {
         for(List<Text> lore: value)
         {
@@ -327,9 +327,9 @@ public interface Item extends WrapperObject
                 display.remove("Lore");
     }
     
-    @SpecificImpl("staticSetLore")
+    @SpecificImpl("static$setLore")
     @VersionRange(begin=1400, end=2005)
-    default void staticSetLoreV1400_2005(ItemStack itemStack, Option<List<Text>> value)
+    default void static$setLoreV1400_2005(ItemStack itemStack, Option<List<Text>> value)
     {
         for(List<Text> lore: value)
         {
@@ -341,9 +341,9 @@ public interface Item extends WrapperObject
                 display.remove("Lore");
     }
     
-    @SpecificImpl("staticSetLore")
+    @SpecificImpl("static$setLore")
     @VersionRange(begin=2005)
-    default void staticSetLoreV2005(ItemStack itemStack, Option<List<Text>> value)
+    default void static$setLoreV2005(ItemStack itemStack, Option<List<Text>> value)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance));
     }
@@ -355,29 +355,29 @@ public interface Item extends WrapperObject
     
     static Registry getRegistry()
     {
-        return FACTORY.getStatic().staticGetRegistry();
+        return FACTORY.getStatic().static$getRegistry();
     }
     
-    Registry staticGetRegistry();
+    Registry static$getRegistry();
     
     static SimpleRegistry getRegistryV_1300()
     {
-        return FACTORY.getStatic().staticGetRegistryV_1300();
+        return FACTORY.getStatic().static$getRegistryV_1300();
     }
     
-    @SpecificImpl("staticGetRegistry")
+    @SpecificImpl("static$getRegistry")
     @VersionRange(end=1300)
     @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY"))
-    SimpleRegistry staticGetRegistryV_1300();
+    SimpleRegistry static$getRegistryV_1300();
     
     static Registry getRegistryV1300()
     {
-        return FACTORY.getStatic().staticGetRegistryV1300();
+        return FACTORY.getStatic().static$getRegistryV1300();
     }
     
-    @SpecificImpl("staticGetRegistry")
+    @SpecificImpl("static$getRegistry")
     @VersionRange(begin=1300)
-    default Registry staticGetRegistryV1300()
+    default Registry static$getRegistryV1300()
     {
         return RegistriesV1300.item();
     }

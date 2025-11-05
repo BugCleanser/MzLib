@@ -27,18 +27,18 @@ public interface PropertyMap extends WrapperObject
     
     static PropertyMap newInstance()
     {
-        return FACTORY.getStatic().staticNewInstance();
+        return FACTORY.getStatic().static$newInstance();
     }
-    PropertyMap staticNewInstance();
-    @SpecificImpl("staticNewInstance")
+    PropertyMap static$newInstance();
+    @SpecificImpl("static$newInstance")
     @WrapConstructor
     @VersionRange(end=2109)
-    PropertyMap staticNewInstanceV_2109();
-    @SpecificImpl("staticNewInstance")
+    PropertyMap static$newInstanceV_2109();
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2109)
-    default PropertyMap staticNewInstanceV2109()
+    default PropertyMap static$newInstanceV2109()
     {
-        return this.staticNewInstance0V2109(LinkedHashMultimap.create());
+        return this.static$newInstance0V2109(LinkedHashMultimap.create());
     }
     
     static PropertyMap newInstance(Multimap<String, Property> properties)
@@ -53,13 +53,13 @@ public interface PropertyMap extends WrapperObject
     }
     static PropertyMap newInstance0(Multimap<String, ?> properties)
     {
-        return FACTORY.getStatic().staticNewInstance0(properties);
+        return FACTORY.getStatic().static$newInstance0(properties);
     }
-    PropertyMap staticNewInstance0(Multimap<String, ?> properties);
-    @SpecificImpl("staticNewInstance0")
+    PropertyMap static$newInstance0(Multimap<String, ?> properties);
+    @SpecificImpl("static$newInstance0")
     @WrapConstructor
     @VersionRange(end=2109)
-    default PropertyMap staticNewInstance0V_2109(Multimap<String, ?> properties)
+    default PropertyMap static$newInstance0V_2109(Multimap<String, ?> properties)
     {
         PropertyMap result = newInstance();
         for(Map.Entry<String, ?> entry: properties.entries())
@@ -68,10 +68,10 @@ public interface PropertyMap extends WrapperObject
         }
         return result;
     }
-    @SpecificImpl("staticNewInstance0")
+    @SpecificImpl("static$newInstance0")
     @WrapConstructor
     @VersionRange(begin=2109)
-    PropertyMap staticNewInstance0V2109(Multimap<String, ?> properties);
+    PropertyMap static$newInstance0V2109(Multimap<String, ?> properties);
     
     default void putV_2109(String key, Property value)
     {

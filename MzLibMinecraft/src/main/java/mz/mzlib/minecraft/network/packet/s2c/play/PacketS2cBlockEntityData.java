@@ -22,25 +22,25 @@ public interface PacketS2cBlockEntityData extends Packet
     
     static PacketS2cBlockEntityData newInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound nbt)
     {
-        return FACTORY.getStatic().staticNewInstance(pos, type, nbt);
+        return FACTORY.getStatic().static$newInstance(pos, type, nbt);
     }
     
-    PacketS2cBlockEntityData staticNewInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
+    PacketS2cBlockEntityData static$newInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
     
     @VersionRange(end=1800)
     @WrapConstructor
-    PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, int typeId, NbtCompound data);
+    PacketS2cBlockEntityData static$newInstanceV_1800(BlockPos pos, int typeId, NbtCompound data);
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1800)
-    default PacketS2cBlockEntityData staticNewInstanceV_1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data)
+    default PacketS2cBlockEntityData static$newInstanceV_1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data)
     {
         // TODO: cast type to id
         throw new UnsupportedOperationException();
     }
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1800)
     @WrapConstructor
-    PacketS2cBlockEntityData staticNewInstanceV1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
+    PacketS2cBlockEntityData static$newInstanceV1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);
 }

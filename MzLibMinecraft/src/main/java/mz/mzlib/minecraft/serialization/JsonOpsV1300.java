@@ -16,8 +16,8 @@ public interface JsonOpsV1300 extends WrapperObject, DynamicOpsV1300<JsonElement
     
     static JsonOpsV1300 instance()
     {
-        return FACTORY.getStatic().staticInstance();
+        return FACTORY.getStatic().static$instance();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="INSTANCE"))
-    JsonOpsV1300 staticInstance();
+    JsonOpsV1300 static$instance();
 }

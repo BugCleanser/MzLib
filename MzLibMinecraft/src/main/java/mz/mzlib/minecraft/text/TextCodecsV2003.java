@@ -21,8 +21,8 @@ public interface TextCodecsV2003 extends WrapperObject
     }
     static CodecV1600<?> codec0()
     {
-        return FACTORY.getStatic().staticCodec0();
+        return FACTORY.getStatic().static$codec0();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC"))
-    CodecV1600<?> staticCodec0();
+    CodecV1600<?> static$codec0();
 }

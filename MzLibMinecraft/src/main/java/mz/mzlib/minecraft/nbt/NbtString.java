@@ -20,10 +20,10 @@ public interface NbtString extends NbtElement
     }
 
     @WrapConstructor
-    NbtString staticNewInstance(String value);
+    NbtString static$newInstance(String value);
     static NbtString newInstance(String value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})

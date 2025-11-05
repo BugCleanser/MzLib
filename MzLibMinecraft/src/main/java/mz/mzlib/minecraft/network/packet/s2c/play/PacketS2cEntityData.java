@@ -42,33 +42,33 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     
     static PacketS2cEntityData newInstance(int entityId)
     {
-        return FACTORY.getStatic().staticNewInstance(entityId);
+        return FACTORY.getStatic().static$newInstance(entityId);
     }
     
-    PacketS2cEntityData staticNewInstance(int entityId);
+    PacketS2cEntityData static$newInstance(int entityId);
     
     @VersionRange(end=1903)
     @WrapConstructor
-    PacketS2cEntityData staticNewInstanceV_1903(int entityId, EntityDataTracker dataTracker, boolean updateAll);
+    PacketS2cEntityData static$newInstanceV_1903(int entityId, EntityDataTracker dataTracker, boolean updateAll);
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1903)
-    default PacketS2cEntityData staticNewInstanceV_1903(int entityId)
+    default PacketS2cEntityData static$newInstanceV_1903(int entityId)
     {
-        PacketS2cEntityData result = this.staticNewInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.FACTORY.getStatic()), true);
+        PacketS2cEntityData result = this.static$newInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.FACTORY.getStatic()), true);
         result.setDataList0(new ArrayList<>());
         return result;
     }
     
     @VersionRange(begin=1903)
     @WrapConstructor
-    PacketS2cEntityData staticNewInstance0V1903(int entityId, List<?> dataList0);
+    PacketS2cEntityData static$newInstance0V1903(int entityId, List<?> dataList0);
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1903)
-    default PacketS2cEntityData staticNewInstanceV1903(int entityId)
+    default PacketS2cEntityData static$newInstanceV1903(int entityId)
     {
-        return this.staticNewInstance0V1903(entityId, new ArrayList<>());
+        return this.static$newInstance0V1903(entityId, new ArrayList<>());
     }
     
     interface Entry
@@ -87,23 +87,23 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     
     static Entry newEntry(EntityDataKey key, Object value)
     {
-        return FACTORY.getStatic().staticNewEntry(key, value);
+        return FACTORY.getStatic().static$newEntry(key, value);
     }
     
-    Entry staticNewEntry(EntityDataKey type, Object value);
+    Entry static$newEntry(EntityDataKey type, Object value);
     
-    @SpecificImpl("staticNewEntry")
+    @SpecificImpl("static$newEntry")
     @VersionRange(end=1903)
-    default EntityDataTracker.Entry staticNewEntryV_1903(EntityDataKey type, Object value)
+    default EntityDataTracker.Entry static$newEntryV_1903(EntityDataKey type, Object value)
     {
         return EntityDataTracker.Entry.newInstance0(type, value);
     }
     
-    @SpecificImpl("staticNewEntry")
+    @SpecificImpl("static$newEntry")
     @VersionRange(begin=1903)
-    default EntityDataTracker.EntityDataV1903 staticNewEntryV1903(EntityDataKey type, Object value)
+    default EntityDataTracker.EntityDataV1903 static$newEntryV1903(EntityDataKey type, Object value)
     {
-        return this.staticNewEntryV_1903(type, value).toDataV1903();
+        return this.static$newEntryV_1903(type, value).toDataV1903();
     }
     
     List<Entry> getDataList();

@@ -70,11 +70,11 @@ public interface ClientConnection extends WrapperObject
     
     static void handlePacketV1300(Packet packet, PacketHandler handler)
     {
-        FACTORY.getStatic().staticHandlePacketV1300(packet, handler);
+        FACTORY.getStatic().static$handlePacketV1300(packet, handler);
     }
     @VersionRange(begin=1300)
     @WrapMinecraftMethod({@VersionName(name="method_20159", end=1400), @VersionName(name="handlePacket", begin=1400)})
-    void staticHandlePacketV1300(Packet packet, PacketHandler handler);
+    void static$handlePacketV1300(Packet packet, PacketHandler handler);
     
     @WrapMinecraftMethod(@VersionName(name="handleDisconnection"))
     void handleDisconnection();

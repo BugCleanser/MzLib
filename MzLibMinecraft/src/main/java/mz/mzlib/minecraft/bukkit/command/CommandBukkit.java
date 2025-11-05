@@ -23,8 +23,8 @@ public interface CommandBukkit extends WrapperObject
     
     static CommandBukkit newInstance(String name, Plugin owner)
     {
-        return FACTORY.getStatic().staticNewInstance(name, owner);
+        return FACTORY.getStatic().static$newInstance(name, owner);
     }
     @WrapConstructor
-    CommandBukkit staticNewInstance(String name, Plugin owner);
+    CommandBukkit static$newInstance(String name, Plugin owner);
 }

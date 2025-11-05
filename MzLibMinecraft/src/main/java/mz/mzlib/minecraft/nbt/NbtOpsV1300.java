@@ -24,11 +24,11 @@ public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="field_21487", end=1400), @VersionName(name="INSTANCE", begin=1400)})
-    NbtOpsV1300 staticInstance();
+    NbtOpsV1300 static$instance();
     
     static NbtOpsV1300 instance0()
     {
-        return FACTORY.getStatic().staticInstance();
+        return FACTORY.getStatic().static$instance();
     }
     static DynamicOpsV1300.Wrapper<NbtCompound> instance()
     {

@@ -26,18 +26,18 @@ public interface TextClickEvent extends WrapperObject
     
     static TextClickEvent runCommand(String command)
     {
-        return FACTORY.getStatic().staticRunCommand(command);
+        return FACTORY.getStatic().static$runCommand(command);
     }
-    TextClickEvent staticRunCommand(String command);
+    TextClickEvent static$runCommand(String command);
     @VersionRange(end=2105)
-    @SpecificImpl("staticRunCommand")
-    default TextClickEvent staticRunCommandV_2105(String command)
+    @SpecificImpl("static$runCommand")
+    default TextClickEvent static$runCommandV_2105(String command)
     {
         return newInstanceV_2105(Action.runCommand(), command);
     }
     @VersionRange(begin=2105)
-    @SpecificImpl("staticRunCommand")
-    default TextClickEvent staticRunCommandV2105(String command)
+    @SpecificImpl("static$runCommand")
+    default TextClickEvent static$runCommandV2105(String command)
     {
         return RunCommandV2105.newInstance(command);
     }
@@ -65,11 +65,11 @@ public interface TextClickEvent extends WrapperObject
     
     static TextClickEvent newInstanceV_2105(TextClickEvent.Action action, String value)
     {
-        return FACTORY.getStatic().staticNewInstanceV_2105(action, value);
+        return FACTORY.getStatic().static$newInstanceV_2105(action, value);
     }
     @VersionRange(end=2105)
     @WrapConstructor
-    TextClickEvent staticNewInstanceV_2105(TextClickEvent.Action action, String value);
+    TextClickEvent static$newInstanceV_2105(TextClickEvent.Action action, String value);
 
     @VersionRange(end=2105)
     @WrapMinecraftMethod(@VersionName(name="getValue"))
@@ -87,45 +87,45 @@ public interface TextClickEvent extends WrapperObject
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="OPEN_URL", end=1400), @VersionName(name="field_11749", begin=1400)})
-        Action staticOpenUrl();
+        Action static$openUrl();
         static Action openUrl()
         {
-            return FACTORY.getStatic().staticOpenUrl();
+            return FACTORY.getStatic().static$openUrl();
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="OPEN_FILE", end=1400), @VersionName(name="field_11746", begin=1400)})
-        Action staticOpenFile();
+        Action static$openFile();
         static Action openFile()
         {
-            return FACTORY.getStatic().staticOpenFile();
+            return FACTORY.getStatic().static$openFile();
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="RUN_COMMAND", end=1400), @VersionName(name="field_11750", begin=1400)})
-        Action staticRunCommand();
+        Action static$runCommand();
         static Action runCommand()
         {
-            return FACTORY.getStatic().staticRunCommand();
+            return FACTORY.getStatic().static$runCommand();
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="SUGGEST_COMMAND", end=1400), @VersionName(name="field_11745", begin=1400)})
-        Action staticSuggestCommand();
+        Action static$suggestCommand();
         static Action suggestCommand()
         {
-            return FACTORY.getStatic().staticSuggestCommand();
+            return FACTORY.getStatic().static$suggestCommand();
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="CHANGE_PAGE", end=1400), @VersionName(name="field_11748", begin=1400)})
-        Action staticChangePage();
+        Action static$changePage();
         static Action changePage()
         {
-            return FACTORY.getStatic().staticChangePage();
+            return FACTORY.getStatic().static$changePage();
         }
 
         @WrapMinecraftFieldAccessor({@VersionName(name="field_21462", begin=1500)})
-        Action staticCopyToClipboardV1500();
+        Action static$copyToClipboardV1500();
         static Action copyToClipboardV1500()
         {
-            return FACTORY.getStatic().staticCopyToClipboardV1500();
+            return FACTORY.getStatic().static$copyToClipboardV1500();
         }
     }
     
@@ -137,9 +137,9 @@ public interface TextClickEvent extends WrapperObject
         
         static RunCommandV2105 newInstance(String command)
         {
-            return FACTORY.getStatic().staticNewInstance(command);
+            return FACTORY.getStatic().static$newInstance(command);
         }
         @WrapConstructor
-        RunCommandV2105 staticNewInstance(String command);
+        RunCommandV2105 static$newInstance(String command);
     }
 }

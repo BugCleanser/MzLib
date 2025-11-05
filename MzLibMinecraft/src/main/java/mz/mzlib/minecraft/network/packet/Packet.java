@@ -181,7 +181,7 @@ public interface Packet extends WrapperObject
                 try
                 {
                     i.getCodec().encode(byteBuf, this.getWrapped());
-                    return (Packet)this.staticCreate(i.getCodec().decode(byteBuf));
+                    return (Packet)this.static$create(i.getCodec().decode(byteBuf));
                 }
                 catch(Throwable e)
                 {

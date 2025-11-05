@@ -16,27 +16,27 @@ public interface TextContentTranslatableV1900 extends WrapperObject, TextContent
     
     static TextContentTranslatableV1900 newInstance0(String key, Object[] args)
     {
-        return FACTORY.getStatic().staticNewInstance0(key, args);
+        return FACTORY.getStatic().static$newInstance0(key, args);
     }
-    TextContentTranslatableV1900 staticNewInstance0(String key, Object[] args);
-    @SpecificImpl("staticNewInstance0")
+    TextContentTranslatableV1900 static$newInstance0(String key, Object[] args);
+    @SpecificImpl("static$newInstance0")
     @VersionRange(end=1904)
     @WrapConstructor
-    TextContentTranslatableV1900 staticNewInstance0V_1904(String key, Object[] args);
+    TextContentTranslatableV1900 static$newInstance0V_1904(String key, Object[] args);
     @VersionRange(begin=1904)
     @WrapConstructor
-    TextContentTranslatableV1900 staticNewInstance0V1904(String key, String fallback, Object[] args);
-    @SpecificImpl("staticNewInstance0")
+    TextContentTranslatableV1900 static$newInstance0V1904(String key, String fallback, Object[] args);
+    @SpecificImpl("static$newInstance0")
     @VersionRange(begin=1904)
-    default TextContentTranslatableV1900 staticNewInstance0V1904(String key, Object[] args)
+    default TextContentTranslatableV1900 static$newInstance0V1904(String key, Object[] args)
     {
-        return this.staticNewInstance0V1904(key, null, args);
+        return this.static$newInstance0V1904(key, null, args);
     }
     
     @VersionRange(begin=1904)
     static TextContentTranslatableV1900 newInstance0V1904(String key, String fallback, Object[] args)
     {
-        return FACTORY.getStatic().staticNewInstance0V1904(key, fallback, args);
+        return FACTORY.getStatic().static$newInstance0V1904(key, fallback, args);
     }
 
     @WrapMinecraftMethod(@VersionName(name="getKey"))

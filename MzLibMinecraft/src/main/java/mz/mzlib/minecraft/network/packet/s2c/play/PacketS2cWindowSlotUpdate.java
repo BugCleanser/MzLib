@@ -42,17 +42,17 @@ public interface PacketS2cWindowSlotUpdate extends Packet
     
     static PacketS2cWindowSlotUpdate newInstanceV_1701(int syncId, int slot, ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticNewInstanceV_1701(syncId, slot, itemStack);
+        return FACTORY.getStatic().static$newInstanceV_1701(syncId, slot, itemStack);
     }
     @WrapConstructor
     @VersionRange(end=1701)
-    PacketS2cWindowSlotUpdate staticNewInstanceV_1701(int syncId, int slot, ItemStack itemStack);
+    PacketS2cWindowSlotUpdate static$newInstanceV_1701(int syncId, int slot, ItemStack itemStack);
     
     static PacketS2cWindowSlotUpdate newInstanceV1701(int syncId, int revision, int slot, ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticNewInstanceV1701(syncId, revision, slot, itemStack);
+        return FACTORY.getStatic().static$newInstanceV1701(syncId, revision, slot, itemStack);
     }
     @WrapConstructor
     @VersionRange(begin=1701)
-    PacketS2cWindowSlotUpdate staticNewInstanceV1701(int syncId, int revision, int slot, ItemStack itemStack);
+    PacketS2cWindowSlotUpdate static$newInstanceV1701(int syncId, int revision, int slot, ItemStack itemStack);
 }

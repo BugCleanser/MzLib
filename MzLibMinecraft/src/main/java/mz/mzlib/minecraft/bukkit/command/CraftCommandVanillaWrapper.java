@@ -23,28 +23,28 @@ public interface CraftCommandVanillaWrapper extends WrapperObject
         return WrapperObject.create(CraftCommandVanillaWrapper.class, wrapped);
     }
     
-    CraftCommandVanillaWrapper unsafe = RuntimeUtil.sneakilyRun(()->create(Root.getUnsafe().allocateInstance(FACTORY.getStatic().staticGetWrappedClass())));
+    CraftCommandVanillaWrapper unsafe = RuntimeUtil.sneakilyRun(()->create(Root.getUnsafe().allocateInstance(FACTORY.getStatic().static$getWrappedClass())));
     
     static CommandSource toCommandSource(CommandSender object)
     {
-        return FACTORY.getStatic().staticToCommandSource(object);
+        return FACTORY.getStatic().static$toCommandSource(object);
     }
     
-    CommandSource staticToCommandSource(CommandSender object);
+    CommandSource static$toCommandSource(CommandSender object);
     
     @VersionRange(end=1300)
     @WrapMethod("getListener")
     CommandSource toCommandSourceV_1300(CommandSender object);
     
-    @SpecificImpl("staticToCommandSource")
+    @SpecificImpl("static$toCommandSource")
     @VersionRange(end=1300)
-    default CommandSource staticToCommandSourceV_1300(CommandSender object)
+    default CommandSource static$toCommandSourceV_1300(CommandSender object)
     {
         return unsafe.toCommandSourceV_1300(object);
     }
     
-    @SpecificImpl("staticToCommandSource")
+    @SpecificImpl("static$toCommandSource")
     @VersionRange(begin=1300)
     @WrapMethod("getListener")
-    CommandSource staticToCommandSourceV1300(CommandSender object);
+    CommandSource static$toCommandSourceV1300(CommandSender object);
 }

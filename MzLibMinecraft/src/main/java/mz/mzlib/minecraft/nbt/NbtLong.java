@@ -20,10 +20,10 @@ public interface NbtLong extends NbtElement
     }
 
     @WrapConstructor
-    NbtLong staticNewInstance(long value);
+    NbtLong static$newInstance(long value);
     static NbtLong newInstance(long value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3821", begin=2105)})

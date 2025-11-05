@@ -22,11 +22,11 @@ public interface NbtLongArrayV1200 extends NbtElement
     }
     
     @WrapConstructor
-    NbtLongArrayV1200 staticNewInstance(long[] value);
+    NbtLongArrayV1200 static$newInstance(long[] value);
     
     static NbtLongArrayV1200 newInstance(long[] value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))

@@ -29,16 +29,16 @@ public interface TextTranslatable extends WrapperObject, Text
     }
     static TextTranslatable newInstance(String key, List<Object> args)
     {
-        return FACTORY.getStatic().staticNewInstance0(key, args.stream().map(FUNCTION_ARGS0.invert()).toArray());
+        return FACTORY.getStatic().static$newInstance0(key, args.stream().map(FUNCTION_ARGS0.invert()).toArray());
     }
-    TextTranslatable staticNewInstance0(String key, Object[] args);
-    @SpecificImpl("staticNewInstance0")
+    TextTranslatable static$newInstance0(String key, Object[] args);
+    @SpecificImpl("static$newInstance0")
     @VersionRange(end=1900)
     @WrapConstructor
-    TextTranslatable staticNewInstance0V_1900(String key, Object[] args);
-    @SpecificImpl("staticNewInstance0")
+    TextTranslatable static$newInstance0V_1900(String key, Object[] args);
+    @SpecificImpl("static$newInstance0")
     @VersionRange(begin=1900)
-    default TextTranslatable staticNewInstance0V1900(String key, Object[] args)
+    default TextTranslatable static$newInstance0V1900(String key, Object[] args)
     {
         return TextMutableV1600.newInstanceV1900(TextContentTranslatableV1900.newInstance0(key, args)).as(FACTORY);
     }

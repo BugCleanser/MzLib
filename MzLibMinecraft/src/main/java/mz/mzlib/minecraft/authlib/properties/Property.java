@@ -37,8 +37,8 @@ public interface Property extends WrapperObject
     }
     static Property newInstance(String name, String value, Option<String> signature)
     {
-        return FACTORY.getStatic().staticNewInstance0(name, value, signature.toNullable());
+        return FACTORY.getStatic().static$newInstance0(name, value, signature.toNullable());
     }
     @WrapConstructor
-    Property staticNewInstance0(String name, String value, String signature);
+    Property static$newInstance0(String name, String value, String signature);
 }

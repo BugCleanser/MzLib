@@ -19,22 +19,22 @@ public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFact
         return WrapperObject.create(BlockEntityChest.class, wrapped);
     }
     
-    BlockEntityChest staticNewInstance(BlockPos pos, BlockState state);
+    BlockEntityChest static$newInstance(BlockPos pos, BlockState state);
     @VersionRange(end=1700)
     @WrapConstructor
-    BlockEntityChest staticNewInstanceV_1700();
-    @SpecificImpl("staticNewInstance")
+    BlockEntityChest static$newInstanceV_1700();
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1700)
-    default BlockEntityChest staticNewInstanceV_1700(BlockPos pos, BlockState state)
+    default BlockEntityChest static$newInstanceV_1700(BlockPos pos, BlockState state)
     {
-        return staticNewInstanceV_1700();
+        return static$newInstanceV_1700();
     }
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1700)
     @WrapConstructor
-    BlockEntityChest staticNewInstanceV1700(BlockPos pos, BlockState state);
+    BlockEntityChest static$newInstanceV1700(BlockPos pos, BlockState state);
     static BlockEntityChest newInstance(BlockPos pos, BlockState state)
     {
-        return FACTORY.getStatic().staticNewInstance(pos, state);
+        return FACTORY.getStatic().static$newInstance(pos, state);
     }
 }

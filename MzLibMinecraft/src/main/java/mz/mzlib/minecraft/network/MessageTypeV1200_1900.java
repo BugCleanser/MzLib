@@ -22,25 +22,25 @@ public interface MessageTypeV1200_1900 extends WrapperObject
     
     static MessageTypeV1200_1900 chat()
     {
-        return FACTORY.getStatic().staticChat();
+        return FACTORY.getStatic().static$chat();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="CHAT", end=1400), @VersionName(name="field_11737", begin=1400)})
-    MessageTypeV1200_1900 staticChat();
+    MessageTypeV1200_1900 static$chat();
     
     static MessageTypeV1200_1900 system()
     {
-        return FACTORY.getStatic().staticSystem();
+        return FACTORY.getStatic().static$system();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="SYSTEM", end=1400), @VersionName(name="field_11735", begin=1400)})
-    MessageTypeV1200_1900 staticSystem();
+    MessageTypeV1200_1900 static$system();
     
     static MessageTypeV1200_1900 actionBar()
     {
-        return FACTORY.getStatic().staticActionBar();
+        return FACTORY.getStatic().static$actionBar();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="GAME_INFO", end=1400), @VersionName(name="field_11733", begin=1400)})
-    MessageTypeV1200_1900 staticActionBar();
+    MessageTypeV1200_1900 static$actionBar();
 }

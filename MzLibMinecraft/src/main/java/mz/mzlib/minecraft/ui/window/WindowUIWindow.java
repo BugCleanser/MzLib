@@ -23,27 +23,27 @@ public interface WindowUIWindow extends AbstractWindow
         return WrapperObject.create(WindowUIWindow.class, wrapped);
     }
     
-    WindowUIWindow staticNewInstance0(WindowType type, int syncId);
+    WindowUIWindow static$newInstance0(WindowType type, int syncId);
     
     @WrapConstructor
     @VersionRange(end=1400)
-    WindowUIWindow staticNewInstance0V_1400();
+    WindowUIWindow static$newInstance0V_1400();
     
-    @SpecificImpl("staticNewInstance0")
+    @SpecificImpl("static$newInstance0")
     @VersionRange(end=1400)
-    default WindowUIWindow staticNewInstance0V_1400(WindowType type, int syncId)
+    default WindowUIWindow static$newInstance0V_1400(WindowType type, int syncId)
     {
-        return this.staticNewInstance0V_1400();
+        return this.static$newInstance0V_1400();
     }
     
     @WrapConstructor
     @VersionRange(begin=1400)
-    WindowUIWindow staticNewInstance0V1400(WindowTypeV1400 type, int syncId);
-    @SpecificImpl("staticNewInstance0")
+    WindowUIWindow static$newInstance0V1400(WindowTypeV1400 type, int syncId);
+    @SpecificImpl("static$newInstance0")
     @VersionRange(begin=1400)
-    default WindowUIWindow staticNewInstance0V1400(WindowType type, int syncId)
+    default WindowUIWindow static$newInstance0V1400(WindowType type, int syncId)
     {
-        return this.staticNewInstance0V1400(type.typeV1400, syncId);
+        return this.static$newInstance0V1400(type.typeV1400, syncId);
     }
     
     @PropAccessor("uiWindow")
@@ -61,7 +61,7 @@ public interface WindowUIWindow extends AbstractWindow
     
     static WindowUIWindow newInstance0(WindowType type, int syncId)
     {
-        return FACTORY.getStatic().staticNewInstance0(type, syncId);
+        return FACTORY.getStatic().static$newInstance0(type, syncId);
     }
     
     static WindowUIWindow newInstance(UIWindow uiWindow, AbstractEntityPlayer player, int syncId)

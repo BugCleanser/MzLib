@@ -42,18 +42,18 @@ public interface Text extends WrapperObject
     
     static Text decode(JsonElement json)
     {
-        return FACTORY.getStatic().staticDecode(json);
+        return FACTORY.getStatic().static$decode(json);
     }
-    Text staticDecode(JsonElement json);
-    @SpecificImpl("staticDecode")
+    Text static$decode(JsonElement json);
+    @SpecificImpl("static$decode")
     @VersionRange(end=2106)
-    default Text staticDecodeV_2106(JsonElement json)
+    default Text static$decodeV_2106(JsonElement json)
     {
         return SerializerV_2106.decode(json);
     }
-    @SpecificImpl("staticDecode")
+    @SpecificImpl("static$decode")
     @VersionRange(begin=2106)
-    default Text staticDecodeV2106(JsonElement json)
+    default Text static$decodeV2106(JsonElement json)
     {
         Result<Option<Text>, String> result = TextCodecsV2003.codec().parse(JsonOpsV1300.instance(), json).toResult();
         for(String err: result.getError())
@@ -686,75 +686,75 @@ public interface Text extends WrapperObject
         
         static Gson gson()
         {
-            return SerializerV_2106.FACTORY.getStatic().staticGson();
+            return SerializerV_2106.FACTORY.getStatic().static$gson();
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="GSON"))
-        Gson staticGson();
+        Gson static$gson();
         
         static JsonElement encode(Text text)
         {
-            return SerializerV_2106.FACTORY.getStatic().staticEncode(text);
+            return SerializerV_2106.FACTORY.getStatic().static$encode(text);
         }
         
-        JsonElement staticEncode(Text text);
+        JsonElement static$encode(Text text);
         
-        @SpecificImpl("staticEncode")
+        @SpecificImpl("static$encode")
         @VersionRange(end=1400)
-        default JsonElement staticEncodeV_1400(Text text)
+        default JsonElement static$encodeV_1400(Text text)
         {
             return gson().toJsonTree(text.getWrapped());
         }
         
-        @SpecificImpl("staticEncode")
+        @SpecificImpl("static$encode")
         @VersionRange(begin=1400, end=2005)
         @WrapMinecraftMethod(@VersionName(name="toJsonTree"))
-        JsonElement staticEncodeV1400_2005(Text text);
+        JsonElement static$encodeV1400_2005(Text text);
         
         @VersionRange(begin=2005)
         @WrapMinecraftMethod(@VersionName(name="toJson"))
-        JsonElement staticEncodeV2005(Text text, RegistryEntryLookupV1903.class_7874 registries);
+        JsonElement static$encodeV2005(Text text, RegistryEntryLookupV1903.class_7874 registries);
         
-        @SpecificImpl("staticEncode")
+        @SpecificImpl("static$encode")
         @VersionRange(begin=2005)
-        default JsonElement staticEncodeV2005(Text text)
+        default JsonElement static$encodeV2005(Text text)
         {
-            return this.staticEncodeV2005(text, MinecraftServer.instance.getRegistriesV1602());
+            return this.static$encodeV2005(text, MinecraftServer.instance.getRegistriesV1602());
         }
         
         static Text decode(JsonElement json)
         {
-            return SerializerV_2106.FACTORY.getStatic().staticDecode(json);
+            return SerializerV_2106.FACTORY.getStatic().static$decode(json);
         }
         
-        Text staticDecode(JsonElement json);
+        Text static$decode(JsonElement json);
         
-        @SpecificImpl("staticDecode")
+        @SpecificImpl("static$decode")
         @VersionRange(end=1300)
-        default Text staticDecodeV_1300(JsonElement json)
+        default Text static$decodeV_1300(JsonElement json)
         {
-            return Text.create(gson().fromJson(json, Text.FACTORY.getStatic().staticGetWrappedClass()));
+            return Text.create(gson().fromJson(json, Text.FACTORY.getStatic().static$getWrappedClass()));
         }
         
-        @SpecificImpl("staticDecode")
+        @SpecificImpl("static$decode")
         @VersionRange(begin=1300, end=1600)
         @WrapMinecraftMethod({@VersionName(name="method_20179", end=1400), @VersionName(name="fromJson", begin=1400)})
-        Text staticDecodeV1300_1600(JsonElement json);
+        Text static$decodeV1300_1600(JsonElement json);
         
-        @SpecificImpl("staticDecode")
+        @SpecificImpl("static$decode")
         @VersionRange(begin=1600, end=2005)
         @WrapMinecraftMethod(@VersionName(name="fromJson"))
-        TextMutableV1600 staticDecodeV1600_2005(JsonElement json);
+        TextMutableV1600 static$decodeV1600_2005(JsonElement json);
         
         @VersionRange(begin=2005)
         @WrapMinecraftMethod(@VersionName(name="fromJson"))
-        TextMutableV1600 staticDecodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);
+        TextMutableV1600 static$decodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);
         
-        @SpecificImpl("staticDecode")
+        @SpecificImpl("static$decode")
         @VersionRange(begin=2005)
-        default Text staticDecodeV2005(JsonElement json)
+        default Text static$decodeV2005(JsonElement json)
         {
-            return this.staticDecodeV2005(json, MinecraftServer.instance.getRegistriesV1602());
+            return this.static$decodeV2005(json, MinecraftServer.instance.getRegistriesV1602());
         }
     }
     

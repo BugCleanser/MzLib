@@ -26,53 +26,53 @@ public interface TextStyle extends WrapperObject
     
     static TextStyle rootV_1600()
     {
-        return FACTORY.getStatic().staticRootV_1600();
+        return FACTORY.getStatic().static$rootV_1600();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="ROOT", end=1600))
-    TextStyle staticRootV_1600();
+    TextStyle static$rootV_1600();
     
     static TextStyle empty()
     {
-        return FACTORY.getStatic().staticEmpty();
+        return FACTORY.getStatic().static$empty();
     }
-    TextStyle staticEmpty();
-    @SpecificImpl("staticEmpty")
+    TextStyle static$empty();
+    @SpecificImpl("static$empty")
     @VersionRange(end=1600)
     @WrapConstructor
-    TextStyle staticNewInstanceV_1600();
-    @SpecificImpl("staticEmpty")
+    TextStyle static$newInstanceV_1600();
+    @SpecificImpl("static$empty")
     @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY", begin=1600))
-    TextStyle staticEmptyV1600();
+    TextStyle static$emptyV1600();
     
     @VersionRange(begin=1600)
     static TextStyle newInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
     {
-        return FACTORY.getStatic().staticNewInstanceV1600(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
+        return FACTORY.getStatic().static$newInstanceV1600(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
     @VersionRange(begin=1600)
-    TextStyle staticNewInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    TextStyle static$newInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
     @VersionRange(begin=1600, end=2104)
     @WrapConstructor
-    TextStyle staticNewInstanceV1600_2104(TextColorV1600 color, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    TextStyle static$newInstanceV1600_2104(TextColorV1600 color, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
     @VersionRange(begin=1600, end=2104)
-    @SpecificImpl("staticNewInstanceV1600")
-    default TextStyle staticNewInstanceV1600_2104(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
+    @SpecificImpl("static$newInstanceV1600")
+    default TextStyle static$newInstanceV1600_2104(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
     {
-        return this.staticNewInstanceV1600_2104(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
+        return this.static$newInstanceV1600_2104(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
-    @SpecificImpl("staticNewInstanceV1600")
+    @SpecificImpl("static$newInstanceV1600")
     @VersionRange(begin=2104, end=2109)
     @WrapConstructor
-    TextStyle staticNewInstanceV2104_2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
-    @SpecificImpl("staticNewInstanceV1600")
+    TextStyle static$newInstanceV2104_2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);
+    @SpecificImpl("static$newInstanceV1600")
     @VersionRange(begin=2109)
-    default TextStyle staticNewInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
+    default TextStyle static$newInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
     {
-        return this.staticNewInstanceV2109(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, Option.fromWrapper(font).map(FontDescriptionV2109.Resource::newInstance).unwrapOrGet(FontDescriptionV2109.Resource.FACTORY::getStatic));
+        return this.static$newInstanceV2109(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, Option.fromWrapper(font).map(FontDescriptionV2109.Resource::newInstance).unwrapOrGet(FontDescriptionV2109.Resource.FACTORY::getStatic));
     }
     @VersionRange(begin=2109)
     @WrapConstructor
-    TextStyle staticNewInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, FontDescriptionV2109 font);
+    TextStyle static$newInstanceV2109(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, FontDescriptionV2109 font);
     
     Integer getShadowColor();
     @SpecificImpl("getShadowColor")

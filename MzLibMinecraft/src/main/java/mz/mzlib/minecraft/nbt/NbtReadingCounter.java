@@ -23,22 +23,22 @@ public interface NbtReadingCounter extends WrapperObject
         return newInstance(Long.MAX_VALUE);
     }
     
-    NbtReadingCounter staticNewInstance(long maxBytes);
+    NbtReadingCounter static$newInstance(long maxBytes);
     static NbtReadingCounter newInstance(long maxBytes)
     {
-        return FACTORY.getStatic().staticNewInstance(maxBytes);
+        return FACTORY.getStatic().static$newInstance(maxBytes);
     }
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @WrapConstructor
     @VersionRange(end=2002)
-    NbtReadingCounter staticNewInstanceV_2002(long maxBytes);
+    NbtReadingCounter static$newInstanceV_2002(long maxBytes);
     @WrapConstructor
     @VersionRange(begin=2002)
-    NbtReadingCounter staticNewInstanceV2002(long maxBytes, int maxDepth);
-    @SpecificImpl("staticNewInstance")
+    NbtReadingCounter static$newInstanceV2002(long maxBytes, int maxDepth);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2002)
-    default NbtReadingCounter staticNewInstanceV2002(long maxBytes)
+    default NbtReadingCounter static$newInstanceV2002(long maxBytes)
     {
-        return this.staticNewInstanceV2002(maxBytes, MAX_MAX_DEPTH);
+        return this.static$newInstanceV2002(maxBytes, MAX_MAX_DEPTH);
     }
 }

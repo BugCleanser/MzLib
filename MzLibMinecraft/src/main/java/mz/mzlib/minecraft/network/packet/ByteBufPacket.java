@@ -25,11 +25,11 @@ public interface ByteBufPacket extends WrapperObject
     
     static ByteBufPacket newInstance(ByteBuf delegate)
     {
-        return FACTORY.getStatic().staticNewInstance(delegate);
+        return FACTORY.getStatic().static$newInstance(delegate);
     }
     
     @WrapConstructor
-    ByteBufPacket staticNewInstance(ByteBuf delegate);
+    ByteBufPacket static$newInstance(ByteBuf delegate);
     
     @WrapMinecraftMethod(@VersionName(name="readString"))
     String readString(int i);

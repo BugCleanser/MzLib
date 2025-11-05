@@ -32,10 +32,10 @@ public interface Window extends WrapperObject
     
     @WrapConstructor
     @VersionRange(end=1400)
-    Window staticNewInstanceV_1400();
+    Window static$newInstanceV_1400();
     @WrapConstructor
     @VersionRange(begin=1400)
-    Window staticNewInstanceV1400(WindowTypeV1400 type, int syncId);
+    Window static$newInstanceV1400(WindowTypeV1400 type, int syncId);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="syncId"))
     int getSyncId();

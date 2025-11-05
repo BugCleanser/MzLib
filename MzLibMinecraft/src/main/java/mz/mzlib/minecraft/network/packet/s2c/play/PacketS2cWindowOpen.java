@@ -29,5 +29,5 @@ public interface PacketS2cWindowOpen extends WrapperObject, Packet
     
     @VersionRange(end=1400)
     @WrapConstructor
-    ModuleWindow.NothingPacketS2cWindowOpen staticNewInstanceV_1400(int syncId, String typeId, Text title, int size);
+    ModuleWindow.NothingPacketS2cWindowOpen static$newInstanceV_1400(int syncId, String typeId, Text title, int size);
 }

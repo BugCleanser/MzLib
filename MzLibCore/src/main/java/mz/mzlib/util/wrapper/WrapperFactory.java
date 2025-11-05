@@ -19,7 +19,7 @@ public class WrapperFactory<T extends WrapperObject>
     
     public T create(Object wrapped)
     {
-        return RuntimeUtil.cast(this.wrapperStatic.staticCreate(wrapped));
+        return RuntimeUtil.cast(this.wrapperStatic.static$create(wrapped));
     }
     
     public T getStatic()
@@ -29,12 +29,12 @@ public class WrapperFactory<T extends WrapperObject>
     
     public Class<?> getWrappedClass()
     {
-        return this.getStatic().staticGetWrappedClass();
+        return this.getStatic().static$getWrappedClass();
     }
     
     public boolean isInstance(WrapperObject wrapper)
     {
-        return this.getStatic().staticIsInstance(wrapper);
+        return this.getStatic().static$isInstance(wrapper);
     }
     
     @SuppressWarnings("deprecation")

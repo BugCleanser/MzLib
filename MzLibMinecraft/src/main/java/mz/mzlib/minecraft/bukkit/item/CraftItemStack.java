@@ -22,16 +22,16 @@ public interface CraftItemStack extends WrapperObject
     org.bukkit.inventory.ItemStack getWrapped();
     
     @WrapConstructor
-    CraftItemStack staticNewInstance(ItemStack handle);
+    CraftItemStack static$newInstance(ItemStack handle);
     static CraftItemStack newInstance(ItemStack handle)
     {
-        return FACTORY.getStatic().staticNewInstance(handle);
+        return FACTORY.getStatic().static$newInstance(handle);
     }
     @WrapConstructor
-    CraftItemStack staticNewInstance(org.bukkit.inventory.ItemStack is);
+    CraftItemStack static$newInstance(org.bukkit.inventory.ItemStack is);
     static CraftItemStack newInstance(org.bukkit.inventory.ItemStack is)
     {
-        return FACTORY.getStatic().staticNewInstance(is);
+        return FACTORY.getStatic().static$newInstance(is);
     }
 
     @WrapFieldAccessor("handle")

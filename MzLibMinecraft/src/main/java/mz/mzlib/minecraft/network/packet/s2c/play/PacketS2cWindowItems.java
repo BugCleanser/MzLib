@@ -91,17 +91,17 @@ public interface PacketS2cWindowItems extends Packet
     
     @VersionRange(end=1100)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstance0V_1100(int syncId, List<Object> contents);
+    PacketS2cWindowItems static$newInstance0V_1100(int syncId, List<Object> contents);
     
     @VersionRange(begin=1100, end=1701)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstanceV1100_1701(int syncId, DefaultedListV1100 contents);
+    PacketS2cWindowItems static$newInstanceV1100_1701(int syncId, DefaultedListV1100 contents);
     
     @VersionRange(begin=1701, end=2105)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstanceV1701_2105(int syncId, int revision, DefaultedListV1100 contents, ItemStack cursor);
+    PacketS2cWindowItems static$newInstanceV1701_2105(int syncId, int revision, DefaultedListV1100 contents, ItemStack cursor);
     
     @VersionRange(begin=2105)
     @WrapConstructor
-    PacketS2cWindowItems staticNewInstanceV2105(int syncId, int revision, List<Object> contents, ItemStack cursor);
+    PacketS2cWindowItems static$newInstanceV2105(int syncId, int revision, List<Object> contents, ItemStack cursor);
 }

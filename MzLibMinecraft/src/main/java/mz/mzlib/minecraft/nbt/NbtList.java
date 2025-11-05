@@ -26,11 +26,11 @@ public interface NbtList extends NbtElement
     }
     
     @WrapConstructor
-    NbtList staticNewInstance();
+    NbtList static$newInstance();
     
     static NbtList newInstance()
     {
-        return FACTORY.getStatic().staticNewInstance();
+        return FACTORY.getStatic().static$newInstance();
     }
     
     static NbtList newInstance(NbtElement... elements)

@@ -26,13 +26,13 @@ public interface LoreComponentV2005 extends WrapperObject
     
     static LoreComponentV2005 newInstance(List<Text> lines)
     {
-        return FACTORY.getStatic().staticNewInstance(lines);
+        return FACTORY.getStatic().static$newInstance(lines);
     }
     @WrapConstructor
-    LoreComponentV2005 staticNewInstance0(List<Object> lines);
-    default LoreComponentV2005 staticNewInstance(List<Text> lines)
+    LoreComponentV2005 static$newInstance0(List<Object> lines);
+    default LoreComponentV2005 static$newInstance(List<Text> lines)
     {
-        return staticNewInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
+        return static$newInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="comp_2400"))

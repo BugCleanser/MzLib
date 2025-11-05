@@ -30,7 +30,7 @@ public @interface WrapArrayClass
         public void extra(WrapArrayClass annotation, ClassNode cn)
         {
             Class<? extends WrapperObject> type = annotation.value();
-            MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticNewInstance", AsmUtil.getDesc(WrapperArray.class, int.class), null, new String[0]);
+            MethodNode mn = new MethodNode(Opcodes.ACC_PUBLIC, "static$newInstance", AsmUtil.getDesc(WrapperArray.class, int.class), null, new String[0]);
             mn.instructions.add(AsmUtil.insnVarLoad(int.class, 1));
             mn.instructions.add(AsmUtil.insnArray(WrapperObject.getWrappedClass(type)));
             mn.instructions.add(AsmUtil.insnCreateWrapper(Type.getType("L"+cn.name+";")));

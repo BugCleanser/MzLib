@@ -64,10 +64,10 @@ public interface WindowSlot extends WrapperObject
     }
     static WindowSlot newInstance(Inventory inventory, int index, int x, int y)
     {
-        return FACTORY.getStatic().staticNewInstance(inventory, index, x, y);
+        return FACTORY.getStatic().static$newInstance(inventory, index, x, y);
     }
     @WrapConstructor
-    WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
+    WindowSlot static$newInstance(Inventory inventory, int index, int x, int y);
     
     @WrapMinecraftMethod(@VersionName(name="getStack"))
     ItemStack getItemStack();

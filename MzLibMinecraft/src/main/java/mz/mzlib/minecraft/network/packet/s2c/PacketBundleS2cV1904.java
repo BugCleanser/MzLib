@@ -29,8 +29,8 @@ public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
     }
     static PacketBundleS2cV1904 newInstance0(Iterable<?> packets0)
     {
-        return FACTORY.getStatic().staticNewInstance0(packets0);
+        return FACTORY.getStatic().static$newInstance0(packets0);
     }
     @WrapConstructor
-    PacketBundleS2cV1904 staticNewInstance0(Iterable<?> packets0);
+    PacketBundleS2cV1904 static$newInstance0(Iterable<?> packets0);
 }

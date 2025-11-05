@@ -23,52 +23,52 @@ public interface RegistriesV1300 extends WrapperObject
     
     static Registry item()
     {
-        return FACTORY.getStatic().staticItem();
+        return FACTORY.getStatic().static$item();
     }
     
-    Registry staticItem();
+    Registry static$item();
     
-    @SpecificImpl("staticItem")
+    @SpecificImpl("static$item")
     @VersionRange(end=1903)
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM"))
-    SimpleRegistry staticItemV_1903();
+    SimpleRegistry static$itemV_1903();
     
-    @SpecificImpl("staticItem")
+    @SpecificImpl("static$item")
     @VersionRange(begin=1903)
     @WrapMinecraftFieldAccessor(@VersionName(name="ITEM"))
-    Registry staticItemV1903();
+    Registry static$itemV1903();
     
     @VersionRange(begin=2005)
     @WrapMinecraftFieldAccessor(@VersionName(name="DATA_COMPONENT_TYPE"))
-    Registry staticComponentKeyV2005();
+    Registry static$componentKeyV2005();
     
     static Registry componentKeyV2005()
     {
-        return FACTORY.getStatic().staticComponentKeyV2005();
+        return FACTORY.getStatic().static$componentKeyV2005();
     }
     
     static Registry entityType()
     {
-        return FACTORY.getStatic().staticEntityType();
+        return FACTORY.getStatic().static$entityType();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
-    Registry staticEntityType();
+    Registry static$entityType();
     
     @VersionRange(begin=1400)
     @WrapMinecraftFieldAccessor({@VersionName(name="CONTAINER", end=1600), @VersionName(name="SCREEN_HANDLER", begin=1600)})
-    Registry staticWindowTypeV1400();
+    Registry static$windowTypeV1400();
     
     static Registry windowTypeV1400()
     {
-        return FACTORY.getStatic().staticWindowTypeV1400();
+        return FACTORY.getStatic().static$windowTypeV1400();
     }
     
     static Registry blockEntityType()
     {
-        return FACTORY.getStatic().staticBlockEntityType();
+        return FACTORY.getStatic().static$blockEntityType();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="BLOCK_ENTITY_TYPE", end=1400), @VersionName(name="field_11137", begin=1400, end=1903), @VersionName(name="field_41181", begin=1903)})
-    Registry staticBlockEntityType();
+    Registry static$blockEntityType();
 }

@@ -21,14 +21,14 @@ public interface GlobalConstants extends WrapperObject
     
     static GameVersionV1400_1904 getMinecraftVersionV1400_1800()
     {
-        return FACTORY.getStatic().staticGetMinecraftVersionV1400_1800();
+        return FACTORY.getStatic().static$getMinecraftVersionV1400_1800();
     }
     @WrapMinecraftMethod(@VersionName(name="getGameVersion", begin=1400, end=1800))
-    GameVersionV1400_1904 staticGetMinecraftVersionV1400_1800();
+    GameVersionV1400_1904 static$getMinecraftVersionV1400_1800();
     static MinecraftVersionV1800 getMinecraftVersionV1800()
     {
-        return FACTORY.getStatic().staticGetMinecraftVersionV1800();
+        return FACTORY.getStatic().static$getMinecraftVersionV1800();
     }
     @WrapMinecraftMethod(@VersionName(name="getGameVersion", begin=1800))
-    MinecraftVersionV1800 staticGetMinecraftVersionV1800();
+    MinecraftVersionV1800 static$getMinecraftVersionV1800();
 }

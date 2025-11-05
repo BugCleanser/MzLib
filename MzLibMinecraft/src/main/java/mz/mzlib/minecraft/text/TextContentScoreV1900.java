@@ -20,16 +20,16 @@ public interface TextContentScoreV1900 extends WrapperObject, TextContentV1900
     
     static TextContentScoreV1900 newInstance(String name, String objective)
     {
-        return FACTORY.getStatic().staticNewInstance(name, objective);
+        return FACTORY.getStatic().static$newInstance(name, objective);
     }
-    TextContentScoreV1900 staticNewInstance(String name, String objective);
-    @SpecificImpl("staticNewInstance")
+    TextContentScoreV1900 static$newInstance(String name, String objective);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=2102)
     @WrapConstructor
-    TextContentScoreV1900 staticNewInstanceV_2102(String name, String objective);
-    @SpecificImpl("staticNewInstance")
+    TextContentScoreV1900 static$newInstanceV_2102(String name, String objective);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2102)
-    default TextContentScoreV1900 staticNewInstanceV2102(String name, String objective)
+    default TextContentScoreV1900 static$newInstanceV2102(String name, String objective)
     {
         Result<Option<ParsedSelectorV2102>, String> parse = ParsedSelectorV2102.parse(name);
         return newInstanceV2102(parse.isSuccess() ? Either.first(parse.getValue().unwrap()) : Either.second(name), objective);
@@ -37,11 +37,11 @@ public interface TextContentScoreV1900 extends WrapperObject, TextContentV1900
     @VersionRange(begin=2102)
     static TextContentScoreV1900 newInstanceV2102(Either<ParsedSelectorV2102, String> name, String objective)
     {
-        return FACTORY.getStatic().staticNewInstance0V2102(EitherV1300.fromEither(name.mapFirst(ParsedSelectorV2102::getWrapped)), objective);
+        return FACTORY.getStatic().static$newInstance0V2102(EitherV1300.fromEither(name.mapFirst(ParsedSelectorV2102::getWrapped)), objective);
     }
     @VersionRange(begin=2102)
     @WrapConstructor
-    TextContentScoreV1900 staticNewInstance0V2102(EitherV1300<?, String> name, String objective);
+    TextContentScoreV1900 static$newInstance0V2102(EitherV1300<?, String> name, String objective);
     
     String getName();
     @SpecificImpl("getName")

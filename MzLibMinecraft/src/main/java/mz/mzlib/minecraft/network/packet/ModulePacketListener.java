@@ -123,7 +123,7 @@ public class ModulePacketListener extends MzModule
         static void channelRead0BeginLocate(NothingInjectLocating locating)
         {
             if(MinecraftPlatform.instance.getVersion()>=1300)
-                locating.allLater(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "staticHandlePacketV1300", Packet.class, PacketHandler.class));
+                locating.allLater(i->AsmUtil.isVisitingWrapped(locating.insns[i], ClientConnection.class, "static$handlePacketV1300", Packet.class, PacketHandler.class));
             assert !locating.locations.isEmpty();
         }
         

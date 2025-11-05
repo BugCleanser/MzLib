@@ -20,10 +20,10 @@ public interface NbtInt extends NbtElement
     }
 
     @WrapConstructor
-    NbtInt staticNewInstance(int value);
+    NbtInt static$newInstance(int value);
     static NbtInt newInstance(int value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3820", begin=2105)})

@@ -12,7 +12,7 @@ public interface MzItemUnknown extends MzItem
     WrapperFactory<MzItemUnknown> FACTORY = WrapperFactory.of(MzItemUnknown.class);
     
     @Override
-    default Identifier staticGetMzId()
+    default Identifier static$getMzId()
     {
         return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "unknown");
     }

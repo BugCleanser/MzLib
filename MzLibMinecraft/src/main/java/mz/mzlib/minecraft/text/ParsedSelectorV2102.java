@@ -21,8 +21,8 @@ public interface ParsedSelectorV2102 extends WrapperObject
     
     static Result<Option<ParsedSelectorV2102>, String> parse(String selector)
     {
-        return new DataResultV1600.Wrapper<>(FACTORY.getStatic().staticParse0(selector), FACTORY).toResult();
+        return new DataResultV1600.Wrapper<>(FACTORY.getStatic().static$parse0(selector), FACTORY).toResult();
     }
     @WrapMinecraftMethod(@VersionName(name="parse"))
-    DataResultV1600<?> staticParse0(String selector);
+    DataResultV1600<?> static$parse0(String selector);
 }

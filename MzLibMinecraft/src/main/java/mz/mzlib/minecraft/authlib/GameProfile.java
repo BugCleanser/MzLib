@@ -33,35 +33,35 @@ public interface GameProfile extends WrapperObject
      */
     static GameProfile newInstance(Option<UUID> id, Option<String> name)
     {
-        return FACTORY.getStatic().staticNewInstance(id, name);
+        return FACTORY.getStatic().static$newInstance(id, name);
     }
     
     @WrapConstructor
-    GameProfile staticNewInstance0(UUID id, String name);
+    GameProfile static$newInstance0(UUID id, String name);
     
-    GameProfile staticNewInstance(Option<UUID> id, Option<String> name);
+    GameProfile static$newInstance(Option<UUID> id, Option<String> name);
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=2002)
-    default GameProfile staticNewInstanceV_2002(Option<UUID> id, Option<String> name)
+    default GameProfile static$newInstanceV_2002(Option<UUID> id, Option<String> name)
     {
-        return this.staticNewInstance0(id.toNullable(), name.toNullable());
+        return this.static$newInstance0(id.toNullable(), name.toNullable());
     }
     
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2002)
-    default GameProfile staticNewInstanceV2002(Option<UUID> id, Option<String> name)
+    default GameProfile static$newInstanceV2002(Option<UUID> id, Option<String> name)
     {
-        return this.staticNewInstance0(id.unwrapOr(NIL_UUID_V2002), name.unwrapOr(""));
+        return this.static$newInstance0(id.unwrapOr(NIL_UUID_V2002), name.unwrapOr(""));
     }
     
     static GameProfile newInstanceV2109(UUID id, String name, PropertyMap properties)
     {
-        return FACTORY.getStatic().staticNewInstanceV2109(id, name, properties);
+        return FACTORY.getStatic().static$newInstanceV2109(id, name, properties);
     }
     @WrapConstructor
     @VersionRange(begin=2109)
-    GameProfile staticNewInstanceV2109(UUID id, String name, PropertyMap properties);
+    GameProfile static$newInstanceV2109(UUID id, String name, PropertyMap properties);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="id"))
     UUID getId0();

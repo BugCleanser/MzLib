@@ -41,11 +41,11 @@ public interface TextMutableV1600 extends Text
     }
     static TextMutableV1600 newInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style)
     {
-        return FACTORY.getStatic().staticNewInstanceV1900(content, extra, style);
+        return FACTORY.getStatic().static$newInstanceV1900(content, extra, style);
     }
     @VersionRange(begin=1900)
     @WrapConstructor
-    TextMutableV1600 staticNewInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style);
+    TextMutableV1600 static$newInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style);
     
     @WrapMinecraftMethod(@VersionName(name="setStyle"))
     void setStyleV1600(TextStyle style);

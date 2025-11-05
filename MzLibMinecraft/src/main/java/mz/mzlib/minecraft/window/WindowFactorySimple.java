@@ -28,11 +28,11 @@ public interface WindowFactorySimple extends WindowFactory
     }
     
     @WrapConstructor
-    WindowFactorySimple staticNewInstance();
+    WindowFactorySimple static$newInstance();
     
     static WindowFactorySimple newInstance(String windowIdV_1400, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
     {
-        WindowFactorySimple result = FACTORY.getStatic().staticNewInstance();
+        WindowFactorySimple result = FACTORY.getStatic().static$newInstance();
         result.setWindowTypeIdV_1400(windowIdV_1400);
         result.setDisplayName(displayName);
         result.setWindowCreator(windowCreator);

@@ -23,10 +23,10 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
     }
     static <T> DynamicOpsWithRegistriesV1903<T> newInstance(DynamicOpsV1300<T> ops, class_7863 c2)
     {
-        return FACTORY.getStatic().staticNewInstance(ops, c2);
+        return FACTORY.getStatic().static$newInstance(ops, c2);
     }
     @WrapMinecraftMethod(@VersionName(name="of"))
-    <T1> DynamicOpsWithRegistriesV1903<T1> staticNewInstance(DynamicOpsV1300<T1> ops, class_7863 c2);
+    <T1> DynamicOpsWithRegistriesV1903<T1> static$newInstance(DynamicOpsV1300<T1> ops, class_7863 c2);
     
     class Wrapper<T extends WrapperObject> extends DynamicOpsV1300.Wrapper<T>
     {
@@ -60,9 +60,9 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         
         static class_9683V2005 newInstance(RegistryEntryLookupV1903.class_7874 registries)
         {
-            return class_9683V2005.FACTORY.getStatic().staticNewInstance(registries);
+            return class_9683V2005.FACTORY.getStatic().static$newInstance(registries);
         }
         @WrapConstructor
-        class_9683V2005 staticNewInstance(RegistryEntryLookupV1903.class_7874 registries);
+        class_9683V2005 static$newInstance(RegistryEntryLookupV1903.class_7874 registries);
     }
 }

@@ -20,16 +20,16 @@ public interface TextLiteral extends WrapperObject, Text
     
     static TextLiteral newInstance(String literal)
     {
-        return FACTORY.getStatic().staticNewInstance(literal);
+        return FACTORY.getStatic().static$newInstance(literal);
     }
-    TextLiteral staticNewInstance(String literal);
-    @SpecificImpl("staticNewInstance")
+    TextLiteral static$newInstance(String literal);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1900)
     @WrapConstructor
-    TextLiteral staticNewInstanceV_1900(String literal);
-    @SpecificImpl("staticNewInstance")
+    TextLiteral static$newInstanceV_1900(String literal);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1900)
-    default TextLiteral staticNewInstanceV1900(String literal)
+    default TextLiteral static$newInstanceV1900(String literal)
     {
         return TextMutableV1600.newInstanceV1900(TextContentLiteralV1900.newInstance(literal)).castTo(FACTORY);
     }

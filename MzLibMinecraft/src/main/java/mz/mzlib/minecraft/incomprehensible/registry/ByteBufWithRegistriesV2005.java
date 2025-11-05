@@ -28,8 +28,8 @@ public interface ByteBufWithRegistriesV2005 extends WrapperObject
     
     static Function<ByteBuf, ? extends ByteBuf> method_56350(RegistryManagerV1602 registries)
     {
-        return FACTORY.getStatic().staticMethod_56350(registries);
+        return FACTORY.getStatic().static$method_56350(registries);
     }
     @WrapMinecraftMethod(@VersionName(name="method_56350"))
-    Function<ByteBuf, ? extends ByteBuf> staticMethod_56350(RegistryManagerV1602 registries);
+    Function<ByteBuf, ? extends ByteBuf> static$method_56350(RegistryManagerV1602 registries);
 }

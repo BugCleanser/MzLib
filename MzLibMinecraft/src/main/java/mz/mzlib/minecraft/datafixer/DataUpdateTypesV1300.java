@@ -21,9 +21,9 @@ public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeRefere
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="field_16592", end=1400), @VersionName(name="ITEM_STACK", begin=1400)})
-    DSLV1300.TypeReference staticItemStack();
+    DSLV1300.TypeReference static$itemStack();
     static DSLV1300.TypeReference itemStack()
     {
-        return FACTORY.getStatic().staticItemStack();
+        return FACTORY.getStatic().static$itemStack();
     }
 }

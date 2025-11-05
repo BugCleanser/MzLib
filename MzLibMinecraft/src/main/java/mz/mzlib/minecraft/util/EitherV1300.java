@@ -18,17 +18,17 @@ public interface EitherV1300<F, S> extends WrapperObject
     
     static <F, S> EitherV1300<F, S> first(F value)
     {
-        return FACTORY.getStatic().staticFirst(value);
+        return FACTORY.getStatic().static$first(value);
     }
     @WrapMethod("left")
-    <F1, S1> EitherV1300<F1, S1> staticFirst(F1 value);
+    <F1, S1> EitherV1300<F1, S1> static$first(F1 value);
     
     static <F, S> EitherV1300<F, S> second(S value)
     {
-        return FACTORY.getStatic().staticSecond(value);
+        return FACTORY.getStatic().static$second(value);
     }
     @WrapMethod("right")
-    <F1, S1> EitherV1300<F1, S1> staticSecond(S1 value);
+    <F1, S1> EitherV1300<F1, S1> static$second(S1 value);
     
     @WrapMethod("left")
     Optional<F> getFirst0();

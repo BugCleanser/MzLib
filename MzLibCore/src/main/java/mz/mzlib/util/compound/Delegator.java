@@ -21,7 +21,7 @@ public interface Delegator extends WrapperObject
     {
         try
         {
-            T result = factory.create(Root.getUnsafe().allocateInstance(factory.getStatic().staticGetWrappedClass()));
+            T result = factory.create(Root.getUnsafe().allocateInstance(factory.getStatic().static$getWrappedClass()));
             result.setDelegate(delegate);
             return result;
         }

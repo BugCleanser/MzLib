@@ -30,43 +30,43 @@ public interface GameProfileComponentV2005 extends WrapperObject
     
     static GameProfileComponentV2005 newInstance(GameProfile gameProfile)
     {
-        return FACTORY.getStatic().staticNewInstance(gameProfile);
+        return FACTORY.getStatic().static$newInstance(gameProfile);
     }
     
-    GameProfileComponentV2005 staticNewInstance(GameProfile gameProfile);
-    @SpecificImpl("staticNewInstance")
+    GameProfileComponentV2005 static$newInstance(GameProfile gameProfile);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=2109)
-    default GameProfileComponentV2005 staticNewInstanceV_2109(GameProfile gameProfile)
+    default GameProfileComponentV2005 static$newInstanceV_2109(GameProfile gameProfile)
     {
         return newInstanceV_2109(gameProfile.getName(), gameProfile.getId(), gameProfile.getProperties());
     }
     static GameProfileComponentV2005 newInstanceV_2109(Option<String> name, Option<UUID> id, PropertyMap properties)
     {
-        return FACTORY.getStatic().staticNewInstance0V_2109(name.toOptional(), id.toOptional(), properties);
+        return FACTORY.getStatic().static$newInstance0V_2109(name.toOptional(), id.toOptional(), properties);
     }
     @WrapConstructor
     @VersionRange(end=2109)
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    GameProfileComponentV2005 staticNewInstance0V_2109(Optional<String> name, Optional<UUID> id, PropertyMap properties);
-    @SpecificImpl("staticNewInstance")
+    GameProfileComponentV2005 static$newInstance0V_2109(Optional<String> name, Optional<UUID> id, PropertyMap properties);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2109)
     @WrapMinecraftMethod(@VersionName(name="ofStatic"))
-    GameProfileComponentV2005 staticNewInstanceV2109(GameProfile gameProfile);
+    GameProfileComponentV2005 static$newInstanceV2109(GameProfile gameProfile);
     
     static GameProfileComponentV2005 newInstance(GameProfile.Description description)
     {
-        return FACTORY.getStatic().staticNewInstance(description);
+        return FACTORY.getStatic().static$newInstance(description);
     }
-    GameProfileComponentV2005 staticNewInstance(GameProfile.Description description);
-    @SpecificImpl("staticNewInstance")
+    GameProfileComponentV2005 static$newInstance(GameProfile.Description description);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=2109)
-    default GameProfileComponentV2005 staticNewInstanceV_2109(GameProfile.Description description)
+    default GameProfileComponentV2005 static$newInstanceV_2109(GameProfile.Description description)
     {
         return newInstanceV_2109(description.getName(), description.getId(), description.getProperties().unwrapOrGet(PropertyMap::newInstance));
     }
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=2109)
-    default GameProfileComponentV2005 staticNewInstanceV2109(GameProfile.Description description)
+    default GameProfileComponentV2005 static$newInstanceV2109(GameProfile.Description description)
     {
         return newInstanceV2109(description, SkinTexturesV2109.SkinOverride.empty());
     }
@@ -79,11 +79,11 @@ public interface GameProfileComponentV2005 extends WrapperObject
     }
     static GameProfileComponentV2005 newInstanceV2109(EitherV1300<GameProfile, DataV2109> profileOrData, SkinTexturesV2109.SkinOverride override)
     {
-        return FACTORY.getStatic().staticNewInstance0V2109(EitherV1300.fromWrapper(profileOrData), override);
+        return FACTORY.getStatic().static$newInstance0V2109(EitherV1300.fromWrapper(profileOrData), override);
     }
     @WrapMinecraftMethod(@VersionName(name="ofDispatched"))
     @VersionRange(begin=2109)
-    GameProfileComponentV2005 staticNewInstance0V2109(EitherV1300<?, ?> profileOrData, SkinTexturesV2109.SkinOverride override);
+    GameProfileComponentV2005 static$newInstance0V2109(EitherV1300<?, ?> profileOrData, SkinTexturesV2109.SkinOverride override);
     
     @WrapMinecraftFieldAccessor({@VersionName(name="comp_2413", end=2109), @VersionName(name="profile", begin=2109)})
     GameProfile getGameProfile();
@@ -110,11 +110,11 @@ public interface GameProfileComponentV2005 extends WrapperObject
         
         static DataV2109 newInstance(Option<String> name, Option<UUID> id, PropertyMap properties)
         {
-            return FACTORY.getStatic().staticNewInstance0(name.toOptional(), id.toOptional(), properties);
+            return FACTORY.getStatic().static$newInstance0(name.toOptional(), id.toOptional(), properties);
         }
         @WrapConstructor
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        DataV2109 staticNewInstance0(Optional<String> name, Optional<UUID> id, PropertyMap properties);
+        DataV2109 static$newInstance0(Optional<String> name, Optional<UUID> id, PropertyMap properties);
         
         @WrapMinecraftFieldAccessor(@VersionName(name="name"))
         Optional<String> getName0();

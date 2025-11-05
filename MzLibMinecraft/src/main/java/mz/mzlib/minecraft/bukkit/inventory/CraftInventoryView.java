@@ -27,10 +27,10 @@ public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
     }
     
     @WrapConstructor
-    CraftInventoryView staticNewInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window);
+    CraftInventoryView static$newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window);
     static CraftInventoryView newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window)
     {
-        return FACTORY.getStatic().staticNewInstance(player, inventory, window);
+        return FACTORY.getStatic().static$newInstance(player, inventory, window);
     }
     
     static CraftInventoryView newInstance(AbstractEntityPlayer player, Inventory inventory, Window window)

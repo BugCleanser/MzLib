@@ -38,17 +38,17 @@ public class ExampleWrapper
         void m();
         
         @WrapMethod("m1")
-        void staticM1();
+        void static$m1();
         static void m1()
         {
-            FACTORY.getStatic().staticM1();
+            FACTORY.getStatic().static$m1();
         }
         
         @WrapConstructor
-        WrapperTest staticNewInstance();
+        WrapperTest static$newInstance();
         static WrapperTest newInstance()
         {
-            return FACTORY.getStatic().staticNewInstance();
+            return FACTORY.getStatic().static$newInstance();
         }
         
         @WrapFieldAccessor("var")

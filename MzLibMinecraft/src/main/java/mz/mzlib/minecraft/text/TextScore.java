@@ -18,16 +18,16 @@ public interface TextScore extends WrapperObject, Text
     
     static TextScore newInstance(String name, String objective)
     {
-        return FACTORY.getStatic().staticNewInstance(name, objective);
+        return FACTORY.getStatic().static$newInstance(name, objective);
     }
-    TextScore staticNewInstance(String name, String objective);
-    @SpecificImpl("staticNewInstance")
+    TextScore static$newInstance(String name, String objective);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1900)
     @WrapConstructor
-    TextScore staticNewInstanceV_1900(String name, String objective);
-    @SpecificImpl("staticNewInstance")
+    TextScore static$newInstanceV_1900(String name, String objective);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1900)
-    default TextScore staticNewInstanceV1900(String name, String objective)
+    default TextScore static$newInstanceV1900(String name, String objective)
     {
         return TextMutableV1600.newInstanceV1900(TextContentScoreV1900.newInstance(name, objective)).as(FACTORY);
     }

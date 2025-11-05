@@ -27,14 +27,14 @@ public interface VanillaI18nV_1300 extends WrapperObject, Nothing
     
     static String getTranslation(String key)
     {
-        return FACTORY.getStatic().staticGetTranslation(key);
+        return FACTORY.getStatic().static$getTranslation(key);
     }
     @WrapMinecraftMethod(@VersionName(name="translate"))
-    String staticGetTranslation(String key);
+    String static$getTranslation(String key);
     
     ThreadLocal<Ref<String>> lastKey = new ThreadLocal<>();
-    @NothingInject(wrapperMethodName="staticGetTranslation", wrapperMethodParams=String.class, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-    static void staticGetTranslationBegin(@LocalVar(0) String key)
+    @NothingInject(wrapperMethodName="static$getTranslation", wrapperMethodParams=String.class, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+    static void static$getTranslationBegin(@LocalVar(0) String key)
     {
         Ref<String> ref = lastKey.get();
         if(ref!=null)

@@ -23,18 +23,18 @@ public interface TextColorV1600 extends WrapperObject
     
     static TextColorV1600 fromRgb(int rgb)
     {
-        return FACTORY.getStatic().staticFromRgb(rgb);
+        return FACTORY.getStatic().static$fromRgb(rgb);
     }
     @WrapMinecraftMethod(@VersionName(name="fromRgb"))
-    TextColorV1600 staticFromRgb(int rgb);
+    TextColorV1600 static$fromRgb(int rgb);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="rgb"))
     int getRgb();
     
     static TextColorV1600 fromLegacy(TextFormatLegacy format)
     {
-        return FACTORY.getStatic().staticFromLegacy(format);
+        return FACTORY.getStatic().static$fromLegacy(format);
     }
     @WrapMinecraftMethod(@VersionName(name="fromFormatting"))
-    TextColorV1600 staticFromLegacy(TextFormatLegacy format);
+    TextColorV1600 static$fromLegacy(TextFormatLegacy format);
 }

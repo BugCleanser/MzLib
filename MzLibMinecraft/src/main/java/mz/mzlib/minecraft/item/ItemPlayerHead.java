@@ -30,14 +30,14 @@ public interface ItemPlayerHead extends Item
     
     static Option<GameProfile.Description> getOwner(ItemStack itemStack)
     {
-        return FACTORY.getStatic().staticGetOwner(itemStack);
+        return FACTORY.getStatic().static$getOwner(itemStack);
     }
     
-    Option<GameProfile.Description> staticGetOwner(ItemStack itemStack);
+    Option<GameProfile.Description> static$getOwner(ItemStack itemStack);
     
-    @SpecificImpl("staticGetOwner")
+    @SpecificImpl("static$getOwner")
     @VersionRange(end=2005)
-    default Option<GameProfile.Description> staticGetOwnerV_2005(ItemStack itemStack)
+    default Option<GameProfile.Description> static$getOwnerV_2005(ItemStack itemStack)
     {
         for(NbtCompound tag: itemStack.getTagV_2005())
             for(NbtCompound skullOwner: tag.getNbtCompound("SkullOwner"))
@@ -45,23 +45,23 @@ public interface ItemPlayerHead extends Item
         return Option.none();
     }
     
-    @SpecificImpl("staticGetOwner")
+    @SpecificImpl("static$getOwner")
     @VersionRange(begin=2005)
-    default Option<GameProfile.Description> staticGetOwnerV2005(ItemStack itemStack)
+    default Option<GameProfile.Description> static$getOwnerV2005(ItemStack itemStack)
     {
         return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005).map(GameProfileComponentV2005::toDescription);
     }
     
     static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value) // TODO
     {
-        FACTORY.getStatic().staticSetOwner(itemStack, value);
+        FACTORY.getStatic().static$setOwner(itemStack, value);
     }
     
-    void staticSetOwner(ItemStack itemStack, Option<GameProfile.Description> value);
+    void static$setOwner(ItemStack itemStack, Option<GameProfile.Description> value);
     
-    @SpecificImpl("staticSetOwner")
+    @SpecificImpl("static$setOwner")
     @VersionRange(end=2005)
-    default void staticSetOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
+    default void static$setOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
         for(GameProfile.Description profile: value)
         {
@@ -72,9 +72,9 @@ public interface ItemPlayerHead extends Item
             tag.remove("SkullOwner");
     }
     
-    @SpecificImpl("staticSetOwner")
+    @SpecificImpl("static$setOwner")
     @VersionRange(begin=2005)
-    default void staticSetOwnerV2005(ItemStack itemStack, Option<GameProfile.Description> value)
+    default void static$setOwnerV2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
         itemStack.getComponentsV2005().set(COMPONENT_KEY_PROFILE_V2005, value.map(GameProfileComponentV2005::newInstance));
     }

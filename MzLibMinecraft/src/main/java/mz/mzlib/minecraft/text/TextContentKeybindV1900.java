@@ -22,10 +22,10 @@ public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
     }
 
     @WrapConstructor
-    TextContentKeybindV1900 staticNewInstance(String keybind);
+    TextContentKeybindV1900 static$newInstance(String keybind);
     static TextContentKeybindV1900 newInstance(String keybind)
     {
-        return FACTORY.getStatic().staticNewInstance(keybind);
+        return FACTORY.getStatic().static$newInstance(keybind);
     }
 
     @WrapMinecraftMethod(@VersionName(name="getKey"))

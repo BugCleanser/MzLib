@@ -26,22 +26,22 @@ public interface PacketC2sWindowClose extends Packet
     
     static PacketC2sWindowClose newInstance(int syncId)
     {
-        return FACTORY.getStatic().staticNewInstance(syncId);
+        return FACTORY.getStatic().static$newInstance(syncId);
     }
-    PacketC2sWindowClose staticNewInstance(int syncId);
+    PacketC2sWindowClose static$newInstance(int syncId);
     @VersionRange(end=1700)
     @WrapConstructor
-    PacketC2sWindowClose staticNewInstanceV_1700();
-    @SpecificImpl("staticNewInstance")
+    PacketC2sWindowClose static$newInstanceV_1700();
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1700)
-    default PacketC2sWindowClose staticNewInstanceV_1700(int syncId)
+    default PacketC2sWindowClose static$newInstanceV_1700(int syncId)
     {
-        PacketC2sWindowClose result = this.staticNewInstanceV_1700();
+        PacketC2sWindowClose result = this.static$newInstanceV_1700();
         result.setSyncId(syncId);
         return result;
     }
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1700)
     @WrapConstructor
-    PacketC2sWindowClose staticNewInstanceV1700(int syncId);
+    PacketC2sWindowClose static$newInstanceV1700(int syncId);
 }

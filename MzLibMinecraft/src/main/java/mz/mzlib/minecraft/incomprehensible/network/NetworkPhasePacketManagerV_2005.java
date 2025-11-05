@@ -28,35 +28,35 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     
     static NetworkPhasePacketManagerV_2005 handshake()
     {
-        return FACTORY.getStatic().staticHandshake();
+        return FACTORY.getStatic().static$handshake();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="HANDSHAKING", end=1400), @VersionName(name="field_11689", begin=1400, end=1500), @VersionName(name="field_20590", begin=1500)})
-    NetworkPhasePacketManagerV_2005 staticHandshake();
+    NetworkPhasePacketManagerV_2005 static$handshake();
     
     static NetworkPhasePacketManagerV_2005 play()
     {
-        return FACTORY.getStatic().staticPlay();
+        return FACTORY.getStatic().static$play();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="PLAY", end=1400), @VersionName(name="field_11690", begin=1400, end=1500), @VersionName(name="field_20591", begin=1500)})
-    NetworkPhasePacketManagerV_2005 staticPlay();
+    NetworkPhasePacketManagerV_2005 static$play();
     
     static NetworkPhasePacketManagerV_2005 query()
     {
-        return FACTORY.getStatic().staticQuery();
+        return FACTORY.getStatic().static$query();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="STATUS", end=1400), @VersionName(name="field_11691", begin=1400, end=1500), @VersionName(name="field_20592", begin=1500)})
-    NetworkPhasePacketManagerV_2005 staticQuery();
+    NetworkPhasePacketManagerV_2005 static$query();
     
     static NetworkPhasePacketManagerV_2005 login()
     {
-        return FACTORY.getStatic().staticLogin();
+        return FACTORY.getStatic().static$login();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="LOGIN", end=1400), @VersionName(name="field_11688", begin=1400, end=1500), @VersionName(name="field_20593", begin=1500)})
-    NetworkPhasePacketManagerV_2005 staticLogin();
+    NetworkPhasePacketManagerV_2005 static$login();
     
     Integer getPacketId(PacketDirection direction, Packet packet);
     

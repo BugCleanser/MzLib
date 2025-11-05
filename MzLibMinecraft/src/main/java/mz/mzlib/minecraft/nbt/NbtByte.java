@@ -25,10 +25,10 @@ public interface NbtByte extends NbtElement
     }
     static NbtByte newInstance(byte value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
     @WrapConstructor
-    NbtByte staticNewInstance(byte value);
+    NbtByte static$newInstance(byte value);
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3817", begin=2105)})
     byte getValue();

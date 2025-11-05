@@ -23,9 +23,9 @@ public interface CraftInventory extends BukkitInventory
     }
     
     @WrapConstructor
-    CraftInventory staticNewInstance(Inventory inventory);
+    CraftInventory static$newInstance(Inventory inventory);
     static CraftInventory newInstance(Inventory inventory)
     {
-        return FACTORY.getStatic().staticNewInstance(inventory);
+        return FACTORY.getStatic().static$newInstance(inventory);
     }
 }

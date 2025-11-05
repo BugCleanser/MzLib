@@ -25,12 +25,12 @@ public interface EntityDataTracker extends WrapperObject
     
     static EntityDataTracker newInstanceV_1903(Entity entity)
     {
-        return FACTORY.getStatic().staticNewInstanceV_1903(entity);
+        return FACTORY.getStatic().static$newInstanceV_1903(entity);
     }
     
     @VersionRange(end=1903)
     @WrapConstructor
-    EntityDataTracker staticNewInstanceV_1903(Entity entity);
+    EntityDataTracker static$newInstanceV_1903(Entity entity);
     
     @WrapMinecraftInnerClass(outer=EntityDataTracker.class, name={@VersionName(name="DataEntry", end=1400), @VersionName(name="Entry", begin=1400)})
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
@@ -58,26 +58,26 @@ public interface EntityDataTracker extends WrapperObject
         
         static Entry newInstance0(EntityDataKey type, Object value)
         {
-            return Entry.FACTORY.getStatic().staticNewInstance0(type, value);
+            return Entry.FACTORY.getStatic().static$newInstance0(type, value);
         }
         
-        Entry staticNewInstance0(EntityDataKey type, Object value);
+        Entry static$newInstance0(EntityDataKey type, Object value);
         
         @VersionRange(end=900)
         @WrapConstructor
-        Entry staticNewInstance0V_900(int typeId, int index, Object value);
+        Entry static$newInstance0V_900(int typeId, int index, Object value);
         
-        @SpecificImpl("staticNewInstance0")
+        @SpecificImpl("static$newInstance0")
         @VersionRange(end=900)
-        default Entry staticNewInstance0V_900(EntityDataKey type, Object value)
+        default Entry static$newInstance0V_900(EntityDataKey type, Object value)
         {
-            return this.staticNewInstance0V_900(type.getTypeIdV_900(), type.getIndexV_900(), value);
+            return this.static$newInstance0V_900(type.getTypeIdV_900(), type.getIndexV_900(), value);
         }
         
-        @SpecificImpl("staticNewInstance0")
+        @SpecificImpl("static$newInstance0")
         @VersionRange(begin=900)
         @WrapConstructor
-        Entry staticNewInstance0V900(EntityDataKey type, Object value);
+        Entry static$newInstance0V900(EntityDataKey type, Object value);
         
         @Override
         EntityDataKey getKey();

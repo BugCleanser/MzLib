@@ -20,15 +20,15 @@ public interface PacketDirection extends WrapperObject
     
     static PacketDirection c2s()
     {
-        return FACTORY.getStatic().staticC2s();
+        return FACTORY.getStatic().static$c2s();
     }
     @WrapMinecraftFieldAccessor({@VersionName(name="SERVERBOUND", end=1400), @VersionName(name="field_11941", begin=1400)})
-    PacketDirection staticC2s();
+    PacketDirection static$c2s();
     
     static PacketDirection s2c()
     {
-        return FACTORY.getStatic().staticS2c();
+        return FACTORY.getStatic().static$s2c();
     }
     @WrapMinecraftFieldAccessor({@VersionName(name="CLIENTBOUND", end=1400), @VersionName(name="field_11942", begin=1400)})
-    PacketDirection staticS2c();
+    PacketDirection static$s2c();
 }

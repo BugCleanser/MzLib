@@ -15,17 +15,17 @@ public interface TextContentLiteralV1900 extends TextContentV1900
     
     static TextContentLiteralV1900 newInstance(String literal)
     {
-        return FACTORY.getStatic().staticNewInstance(literal);
+        return FACTORY.getStatic().static$newInstance(literal);
     }
-    TextContentLiteralV1900 staticNewInstance(String literal);
-    @SpecificImpl("staticNewInstance")
+    TextContentLiteralV1900 static$newInstance(String literal);
+    @SpecificImpl("static$newInstance")
     @WrapConstructor
     @VersionRange(end=2003)
-    TextContentLiteralV1900 staticNewInstanceV_2003(String literal);
-    @SpecificImpl("staticNewInstance")
+    TextContentLiteralV1900 static$newInstanceV_2003(String literal);
+    @SpecificImpl("static$newInstance")
     @WrapConstructor
     @VersionRange(begin=2003)
-    default TextContentLiteralV1900 staticNewInstanceV2003(String literal)
+    default TextContentLiteralV1900 static$newInstanceV2003(String literal)
     {
         return ImplV2003.newInstance(literal);
     }
@@ -41,9 +41,9 @@ public interface TextContentLiteralV1900 extends TextContentV1900
         
         static ImplV2003 newInstance(String literal)
         {
-            return FACTORY.getStatic().staticNewInstance(literal);
+            return FACTORY.getStatic().static$newInstance(literal);
         }
         @WrapConstructor
-        ImplV2003 staticNewInstance(String literal);
+        ImplV2003 static$newInstance(String literal);
     }
 }

@@ -20,11 +20,11 @@ public interface NbtFloat extends NbtElement
     }
 
     @WrapConstructor
-    NbtFloat staticNewInstance(float value);
+    NbtFloat static$newInstance(float value);
 
     static NbtFloat newInstance(float value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3819", begin=2105)})

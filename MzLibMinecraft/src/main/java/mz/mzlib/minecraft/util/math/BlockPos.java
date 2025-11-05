@@ -19,16 +19,16 @@ public interface BlockPos extends WrapperObject, Vec3i
     }
     
     @WrapConstructor
-    BlockPos staticNewInstance(int x, int y, int z);
+    BlockPos static$newInstance(int x, int y, int z);
     static BlockPos newInstance(int x, int y, int z)
     {
-        return FACTORY.getStatic().staticNewInstance(x, y, z);
+        return FACTORY.getStatic().static$newInstance(x, y, z);
     }
     
     @WrapConstructor
-    BlockPos staticNewInstance(Vec3i vec3i);
+    BlockPos static$newInstance(Vec3i vec3i);
     static BlockPos newInstance(Vec3i vec3i)
     {
-        return FACTORY.getStatic().staticNewInstance(vec3i);
+        return FACTORY.getStatic().static$newInstance(vec3i);
     }
 }

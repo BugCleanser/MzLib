@@ -22,21 +22,21 @@ public interface NbtUtil extends WrapperObject
     
     static GameProfile decodeGameProfileV_2005(NbtCompound nbt)
     {
-        return FACTORY.getStatic().staticDecodeGameProfileV_2005(nbt);
+        return FACTORY.getStatic().static$decodeGameProfileV_2005(nbt);
     }
     @VersionRange(end=2005)
     @WrapMinecraftMethod(@VersionName(name="toGameProfile"))
-    GameProfile staticDecodeGameProfileV_2005(NbtCompound nbt);
+    GameProfile static$decodeGameProfileV_2005(NbtCompound nbt);
     
     static NbtCompound encodeGameProfileV_2005(GameProfile profile)
     {
-        return FACTORY.getStatic().staticEncodeGameProfileV_2005(profile);
+        return FACTORY.getStatic().static$encodeGameProfileV_2005(profile);
     }
     @VersionRange(end=2005)
     @WrapMinecraftMethod({@VersionName(name="fromGameProfile", end=1400), @VersionName(name="method_10684", begin=1400)})
-    NbtCompound staticEncodeGameProfileV_2005(NbtCompound nbt, GameProfile profile);
-    default NbtCompound staticEncodeGameProfileV_2005(GameProfile profile)
+    NbtCompound static$encodeGameProfileV_2005(NbtCompound nbt, GameProfile profile);
+    default NbtCompound static$encodeGameProfileV_2005(GameProfile profile)
     {
-        return staticEncodeGameProfileV_2005(NbtCompound.newInstance(), profile);
+        return static$encodeGameProfileV_2005(NbtCompound.newInstance(), profile);
     }
 }

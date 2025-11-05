@@ -28,10 +28,10 @@ public interface WrittenBookContentComponentV2005 extends WrapperObject
     
     static WrittenBookContentComponentV2005 def()
     {
-        return FACTORY.getStatic().staticDef();
+        return FACTORY.getStatic().static$def();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="DEFAULT"))
-    WrittenBookContentComponentV2005 staticDef();
+    WrittenBookContentComponentV2005 static$def();
     
     default String getTitle()
     {
@@ -62,10 +62,10 @@ public interface WrittenBookContentComponentV2005 extends WrapperObject
     }
     static WrittenBookContentComponentV2005 newInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved)
     {
-        return FACTORY.getStatic().staticNewInstance0(title, author, generation, pages, resolved);
+        return FACTORY.getStatic().static$newInstance0(title, author, generation, pages, resolved);
     }
     @WrapConstructor
-    WrittenBookContentComponentV2005 staticNewInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
+    WrittenBookContentComponentV2005 static$newInstance0(RawFilteredPairV2005 title, String author, int generation, List<?> pages, boolean resolved);
     
     default WrittenBookContentComponentV2005 withTitle(String title)
     {

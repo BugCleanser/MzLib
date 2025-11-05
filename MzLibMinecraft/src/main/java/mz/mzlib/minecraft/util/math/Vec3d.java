@@ -21,10 +21,10 @@ public interface Vec3d extends WrapperObject
     }
 
     @WrapConstructor
-    Vec3d staticNewInstance(double x, double y, double z);
+    Vec3d static$newInstance(double x, double y, double z);
     static Vec3d newInstance(double x, double y, double z)
     {
-        return FACTORY.getStatic().staticNewInstance(x, y, z);
+        return FACTORY.getStatic().static$newInstance(x, y, z);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))

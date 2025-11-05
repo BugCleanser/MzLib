@@ -14,7 +14,7 @@ public class PermissionHelpLuckPerms extends PermissionRegistry
     public PlayerAdapter<?> playerAdapter;
     {
         this.provider = LuckPermsProvider.get();
-        this.playerAdapter = this.provider.getPlayerAdapter(EntityPlayer.FACTORY.getStatic().staticGetWrappedClass());
+        this.playerAdapter = this.provider.getPlayerAdapter(EntityPlayer.FACTORY.getStatic().static$getWrappedClass());
     }
     
     public User getUser(EntityPlayer player)

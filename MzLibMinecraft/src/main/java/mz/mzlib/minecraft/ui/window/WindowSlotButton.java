@@ -27,11 +27,11 @@ public interface WindowSlotButton extends WindowSlot
     }
     
     @WrapConstructor
-    WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);
+    WindowSlot static$newInstance(Inventory inventory, int index, int x, int y);
     
     static WindowSlot newInstance(Inventory inventory, int index)
     {
-        return FACTORY.getStatic().staticNewInstance(inventory, index, 0, 0);
+        return FACTORY.getStatic().static$newInstance(inventory, index, 0, 0);
     }
     
     @Override

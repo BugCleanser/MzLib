@@ -19,30 +19,30 @@ public interface InventorySimple extends WrapperObject, Inventory
     
     static InventorySimple newInstance(int size)
     {
-        return FACTORY.getStatic().staticNewInstance(size);
+        return FACTORY.getStatic().static$newInstance(size);
     }
     
-    InventorySimple staticNewInstance(int size);
+    InventorySimple static$newInstance(int size);
     @VersionRange(end=1300)
     @WrapConstructor
-    InventorySimple staticNewInstanceV_1300(String name, boolean hasCustomName, int size);
-    @SpecificImpl("staticNewInstance")
+    InventorySimple static$newInstanceV_1300(String name, boolean hasCustomName, int size);
+    @SpecificImpl("static$newInstance")
     @VersionRange(end=1300)
-    default InventorySimple staticNewInstanceV_1300(int size)
+    default InventorySimple static$newInstanceV_1300(int size)
     {
-        return this.staticNewInstanceV_1300(null, false, size);
+        return this.static$newInstanceV_1300(null, false, size);
     }
     @VersionRange(begin=1300, end=1400)
     @WrapConstructor
-    InventorySimple staticNewInstanceV1300_1400(Text name, int size);
-    @SpecificImpl("staticNewInstance")
+    InventorySimple static$newInstanceV1300_1400(Text name, int size);
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1300, end=1400)
-    default InventorySimple staticNewInstanceV1300_1400(int size)
+    default InventorySimple static$newInstanceV1300_1400(int size)
     {
-        return this.staticNewInstanceV1300_1400(Text.FACTORY.getStatic(), size);
+        return this.static$newInstanceV1300_1400(Text.FACTORY.getStatic(), size);
     }
-    @SpecificImpl("staticNewInstance")
+    @SpecificImpl("static$newInstance")
     @VersionRange(begin=1400)
     @WrapConstructor
-    InventorySimple staticNewInstanceV1400(int size);
+    InventorySimple static$newInstanceV1400(int size);
 }

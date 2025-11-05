@@ -87,37 +87,37 @@ public interface ItemStack extends WrapperObject
     
     @VersionRange(begin=1600)
     @WrapMinecraftFieldAccessor(@VersionName(name="CODEC"))
-    CodecV1600<?> staticCodec0V1600();
+    CodecV1600<?> static$codec0V1600();
     static CodecV1600<?> codec0V1600()
     {
-        return FACTORY.getStatic().staticCodec0V1600();
+        return FACTORY.getStatic().static$codec0V1600();
     }
     static CodecV1600.Wrapper<ItemStack> codecV1600()
     {
         return new CodecV1600.Wrapper<>(codec0V1600(), FACTORY);
     }
     
-    Result<Option<ItemStack>, String> staticDecode0(NbtCompound nbt);
+    Result<Option<ItemStack>, String> static$decode0(NbtCompound nbt);
     
-    ItemStack staticNewInstanceV_2005(NbtCompound nbt);
+    ItemStack static$newInstanceV_2005(NbtCompound nbt);
     
-    @SpecificImpl("staticNewInstanceV_2005")
+    @SpecificImpl("static$newInstanceV_2005")
     @VersionRange(end=1100)
     @WrapMinecraftMethod(@VersionName(name="fromNbt"))
-    ItemStack staticNewInstanceV_1100(NbtCompound nbt);
+    ItemStack static$newInstanceV_1100(NbtCompound nbt);
     
-    @SpecificImpl("staticNewInstanceV_2005")
+    @SpecificImpl("static$newInstanceV_2005")
     @VersionRange(begin=1100, end=2005)
     @WrapConstructor
-    ItemStack staticNewInstanceV1100_2005(NbtCompound nbt);
+    ItemStack static$newInstanceV1100_2005(NbtCompound nbt);
     
-    @SpecificImpl("staticDecode0")
+    @SpecificImpl("static$decode0")
     @VersionRange(end=2005)
-    default Result<Option<ItemStack>, String> staticDecode0V_2005(NbtCompound nbt)
+    default Result<Option<ItemStack>, String> static$decode0V_2005(NbtCompound nbt)
     {
         try
         {
-            return Result.success(Option.some(this.staticNewInstanceV_2005(nbt)));
+            return Result.success(Option.some(this.static$newInstanceV_2005(nbt)));
         }
         catch(Throwable e)
         {
@@ -125,16 +125,16 @@ public interface ItemStack extends WrapperObject
         }
     }
     
-    @SpecificImpl("staticDecode0")
+    @SpecificImpl("static$decode0")
     @VersionRange(begin=2005)
-    default Result<Option<ItemStack>, String> staticDecode0V2005(NbtCompound nbt)
+    default Result<Option<ItemStack>, String> static$decode0V2005(NbtCompound nbt)
     {
         return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt).toResult();
     }
     
     static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
     {
-        return FACTORY.getStatic().staticDecode0(nbt);
+        return FACTORY.getStatic().static$decode0(nbt);
     }
     
     /**
@@ -384,14 +384,14 @@ public interface ItemStack extends WrapperObject
     
     static boolean isStackable(ItemStack a, ItemStack b)
     {
-        return FACTORY.getStatic().staticIsStackable(a, b);
+        return FACTORY.getStatic().static$isStackable(a, b);
     }
     
-    boolean staticIsStackable(ItemStack a, ItemStack b);
+    boolean static$isStackable(ItemStack a, ItemStack b);
     
-    @SpecificImpl("staticIsStackable")
+    @SpecificImpl("static$isStackable")
     @VersionRange(end=1300)
-    default boolean staticIsStackableV_1300(ItemStack a, ItemStack b)
+    default boolean static$isStackableV_1300(ItemStack a, ItemStack b)
     {
         if(isEmpty(a) && isEmpty(b))
             return true;
@@ -400,9 +400,9 @@ public interface ItemStack extends WrapperObject
         return a.getItem().equals(b.getItem()) && a.getDamageV_1300()==b.getDamageV_1300() && a.getTagV_2005().equals(b.getTagV_2005());
     }
     
-    @SpecificImpl("staticIsStackable")
+    @SpecificImpl("static$isStackable")
     @VersionRange(begin=1300, end=1700)
-    default boolean staticIsStackableV1300_1700(ItemStack a, ItemStack b)
+    default boolean static$isStackableV1300_1700(ItemStack a, ItemStack b)
     {
         if(isEmpty(a) && isEmpty(b))
             return true;
@@ -411,10 +411,10 @@ public interface ItemStack extends WrapperObject
         return a.getItem().equals(b.getItem()) && a.getTagV_2005().equals(b.getTagV_2005());
     }
     
-    @SpecificImpl("staticIsStackable")
+    @SpecificImpl("static$isStackable")
     @VersionRange(begin=1700)
     @WrapMinecraftMethod({@VersionName(name="canCombine", end=2005), @VersionName(name="areItemsAndComponentsEqual", begin=2005)})
-    boolean staticIsStackableV1700(ItemStack a, ItemStack b);
+    boolean static$isStackableV1700(ItemStack a, ItemStack b);
     
     @VersionRange(end=900)
     @WrapMinecraftMethod(@VersionName(name="onStartUse"))
@@ -507,31 +507,31 @@ public interface ItemStack extends WrapperObject
         return upgrade(nbt, dataVersion);
     }
     
-    NbtCompound staticUpgrade(NbtCompound nbt, int from);
+    NbtCompound static$upgrade(NbtCompound nbt, int from);
     
-    @SpecificImpl("staticUpgrade")
+    @SpecificImpl("static$upgrade")
     @VersionRange(end=900)
-    default NbtCompound staticUpgradeV_900(NbtCompound nbt, int from)
+    default NbtCompound static$upgradeV_900(NbtCompound nbt, int from)
     {
         return nbt;
     }
     
-    @SpecificImpl("staticUpgrade")
+    @SpecificImpl("static$upgrade")
     @VersionRange(begin=900, end=1300)
-    default NbtCompound staticUpgradeV900_1300(NbtCompound nbt, int from)
+    default NbtCompound static$upgradeV900_1300(NbtCompound nbt, int from)
     {
         return MinecraftServer.instance.getDataUpdaterV900_1300().update(DataUpdateTypesV900_1300.itemStack(), nbt, from);
     }
     
-    @SpecificImpl("staticUpgrade")
+    @SpecificImpl("static$upgrade")
     @VersionRange(begin=1300)
-    default NbtCompound staticUpgradeV1300(NbtCompound nbt, int from)
+    default NbtCompound static$upgradeV1300(NbtCompound nbt, int from)
     {
         return MinecraftServer.instance.getDataUpdaterV1300().update(DataUpdateTypesV1300.itemStack(), DynamicV1300.newInstance(NbtOpsV1300.instance(), nbt), from, MinecraftServer.instance.getDataVersion()).getValue();
     }
     
     static NbtCompound upgrade(NbtCompound nbt, int from)
     {
-        return FACTORY.getStatic().staticUpgrade(nbt, from);
+        return FACTORY.getStatic().static$upgrade(nbt, from);
     }
 }

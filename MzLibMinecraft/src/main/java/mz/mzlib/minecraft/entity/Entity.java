@@ -39,22 +39,22 @@ public interface Entity extends WrapperObject
      */
     static EntityDataKey<?> dataKeyCustomName()
     {
-        return FACTORY.getStatic().staticDataKeyCustomName();
+        return FACTORY.getStatic().static$dataKeyCustomName();
     }
     
-    EntityDataKey<?> staticDataKeyCustomName();
+    EntityDataKey<?> static$dataKeyCustomName();
     
-    @SpecificImpl("staticDataKeyCustomName")
+    @SpecificImpl("static$dataKeyCustomName")
     @VersionRange(end=900)
-    default EntityDataKey<String> staticDataKeyCustomNameV_900()
+    default EntityDataKey<String> static$dataKeyCustomNameV_900()
     {
         return EntityDataKey.newInstanceV_900(2, (byte)4);
     }
     
-    @SpecificImpl("staticDataKeyCustomName")
+    @SpecificImpl("static$dataKeyCustomName")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor(@VersionName(name="CUSTOM_NAME"))
-    EntityDataKey<?> staticDataKeyCustomNameV900();
+    EntityDataKey<?> static$dataKeyCustomNameV900();
     
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(dataKeyCustomName(), //
             MinecraftPlatform.instance.getVersion()<1300 ? new InvertibleFunction<>(Text::toLegacy, Text::fromLegacy).thenCast() : //
@@ -66,22 +66,22 @@ public interface Entity extends WrapperObject
      */
     static EntityDataKey<?> dataKeyCustomNameVisible()
     {
-        return FACTORY.getStatic().staticDataKeyCustomNameVisible();
+        return FACTORY.getStatic().static$dataKeyCustomNameVisible();
     }
     
-    EntityDataKey<?> staticDataKeyCustomNameVisible();
+    EntityDataKey<?> static$dataKeyCustomNameVisible();
     
-    @SpecificImpl("staticDataKeyCustomNameVisible")
+    @SpecificImpl("static$dataKeyCustomNameVisible")
     @VersionRange(end=900)
-    default EntityDataKey<Byte> staticDataKeyCustomNameVisibleV_900()
+    default EntityDataKey<Byte> static$dataKeyCustomNameVisibleV_900()
     {
         return EntityDataKey.newInstanceV_900(3, (byte)0);
     }
     
-    @SpecificImpl("staticDataKeyCustomNameVisible")
+    @SpecificImpl("static$dataKeyCustomNameVisible")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor(@VersionName(name="NAME_VISIBLE"))
-    EntityDataKey<Boolean> staticDataKeyCustomNameVisibleV900();
+    EntityDataKey<Boolean> static$dataKeyCustomNameVisibleV900();
     
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(dataKeyCustomNameVisible(), //
             MinecraftPlatform.instance.getVersion()<900 ? new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() : //

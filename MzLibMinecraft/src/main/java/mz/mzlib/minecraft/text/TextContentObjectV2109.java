@@ -17,10 +17,10 @@ public interface TextContentObjectV2109 extends WrapperObject, TextContentV1900
     
     static TextContentObjectV2109 newInstance(TextObjectContentsV2109 contents)
     {
-        return FACTORY.getStatic().staticNewInstance(contents);
+        return FACTORY.getStatic().static$newInstance(contents);
     }
     @WrapConstructor
-    TextContentObjectV2109 staticNewInstance(TextObjectContentsV2109 contents);
+    TextContentObjectV2109 static$newInstance(TextObjectContentsV2109 contents);
     
     @WrapMinecraftMethod(@VersionName(name="contents"))
     TextObjectContentsV2109 getContents();

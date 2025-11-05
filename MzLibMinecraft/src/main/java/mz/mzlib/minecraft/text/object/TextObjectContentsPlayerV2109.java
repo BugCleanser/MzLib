@@ -17,8 +17,8 @@ public interface TextObjectContentsPlayerV2109 extends WrapperObject, TextObject
     
     static TextObjectContentsPlayerV2109 newInstance(GameProfile.Description gameProfile, boolean hat)
     {
-        return FACTORY.getStatic().staticNewInstance0(GameProfileComponentV2005.newInstance(gameProfile), hat);
+        return FACTORY.getStatic().static$newInstance0(GameProfileComponentV2005.newInstance(gameProfile), hat);
     }
     @WrapConstructor
-    TextObjectContentsPlayerV2109 staticNewInstance0(GameProfileComponentV2005 gameProfile, boolean hat);
+    TextObjectContentsPlayerV2109 static$newInstance0(GameProfileComponentV2005 gameProfile, boolean hat);
 }

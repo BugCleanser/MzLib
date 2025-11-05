@@ -3,7 +3,7 @@ package mz.mzlib.util.wrapper;
 @WrapArrayClass(WrapperObject.class)
 public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 {
-    WrapperArray<T> staticNewInstance(int length);
+    WrapperArray<T> static$newInstance(int length);
 
     T get(int index);
 

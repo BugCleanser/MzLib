@@ -46,32 +46,32 @@ public interface EntityType extends WrapperObject
     
     static EntityType fromId(Identifier id)
     {
-        return FACTORY.getStatic().staticFromId(id);
+        return FACTORY.getStatic().static$fromId(id);
     }
     
-    EntityType staticFromId(Identifier id);
+    EntityType static$fromId(Identifier id);
     
-    @SpecificImpl("staticFromId")
+    @SpecificImpl("static$fromId")
     @VersionRange(end=1100)
-    default EntityType staticFromIdV_1100(Identifier id)
+    default EntityType static$fromIdV_1100(Identifier id)
     {
         if(id.equals(Identifier.minecraft("fishing_bobber")))
             return create(EntityFishingBobber.FACTORY.getWrappedClass());
         return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
     
-    @SpecificImpl("staticFromId")
+    @SpecificImpl("static$fromId")
     @VersionRange(begin=1100, end=1300)
-    default EntityType staticFromIdV1100_1300(Identifier id)
+    default EntityType static$fromIdV1100_1300(Identifier id)
     {
         if(id.equals(Identifier.minecraft("fishing_bobber")))
             return create(EntityFishingBobber.FACTORY.getWrappedClass());
         return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
     
-    @SpecificImpl("staticFromId")
+    @SpecificImpl("static$fromId")
     @VersionRange(begin=1300)
-    default EntityType staticFromIdV1300(Identifier id)
+    default EntityType static$fromIdV1300(Identifier id)
     {
         return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
@@ -83,21 +83,21 @@ public interface EntityType extends WrapperObject
     
     static Registry getRegistry1100()
     {
-        return FACTORY.getStatic().staticGetRegistryV1100();
+        return FACTORY.getStatic().static$getRegistryV1100();
     }
     
-    Registry staticGetRegistryV1100();
+    Registry static$getRegistryV1100();
     
     @VersionRange(begin=1100, end=1300)
-    @SpecificImpl("staticGetRegistryV1100")
-    default Registry staticRegistryV1100_1300()
+    @SpecificImpl("static$getRegistryV1100")
+    default Registry static$registryV1100_1300()
     {
         return EntityTypesV_1300.registryV1100();
     }
     
     @VersionRange(begin=1300)
-    @SpecificImpl("staticGetRegistryV1100")
-    default Registry staticRegistryV1300()
+    @SpecificImpl("static$getRegistryV1100")
+    default Registry static$registryV1300()
     {
         return RegistriesV1300.entityType();
     }
@@ -112,7 +112,7 @@ public interface EntityType extends WrapperObject
         try
         {
             return Entity.create((Object)cacheV_1300.computeIfAbsent((Class<?>)this.getWrapped(), ThrowableFunction.of(c-> //
-                            ClassUtil.findConstructor(c, AbstractWorld.FACTORY.getStatic().staticGetWrappedClass()).asType(MethodType.methodType(Object.class, Object.class)))) //
+                            ClassUtil.findConstructor(c, AbstractWorld.FACTORY.getStatic().static$getWrappedClass()).asType(MethodType.methodType(Object.class, Object.class)))) //
                     .invokeExact((Object)world.getWrapped()));
         }
         catch(Throwable e)

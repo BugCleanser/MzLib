@@ -22,10 +22,10 @@ public interface DamageSource extends WrapperObject
 
     @VersionRange(begin = 1904)
     @WrapConstructor
-    DamageSource staticNewInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location);
+    DamageSource static$newInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location);
     static DamageSource newInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location)
     {
-        return FACTORY.getStatic().staticNewInstanceV1904(type, source, attacker, location);
+        return FACTORY.getStatic().static$newInstanceV1904(type, source, attacker, location);
     }
 
     Entity getSource();

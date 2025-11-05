@@ -30,66 +30,66 @@ public interface TextHoverEvent extends WrapperObject
     
     @WrapConstructor
     @VersionRange(end=1600)
-    TextHoverEvent staticNewInstanceV_1600(Action action, Text value);
+    TextHoverEvent static$newInstanceV_1600(Action action, Text value);
     
     static TextHoverEvent newInstanceV_1600(Action action, Text value)
     {
-        return FACTORY.getStatic().staticNewInstanceV_1600(action, value);
+        return FACTORY.getStatic().static$newInstanceV_1600(action, value);
     }
     
     @WrapConstructor
     @VersionRange(begin=1600, end=2105)
-    TextHoverEvent staticNewInstanceV1600_2105(Action action, WrapperObject content);
+    TextHoverEvent static$newInstanceV1600_2105(Action action, WrapperObject content);
     
     static TextHoverEvent newInstanceV1600_2105(Action action, WrapperObject content)
     {
-        return FACTORY.getStatic().staticNewInstanceV1600_2105(action, content);
+        return FACTORY.getStatic().static$newInstanceV1600_2105(action, content);
     }
     
     static TextHoverEvent showText(Text text)
     {
-        return FACTORY.getStatic().staticShowText(text);
+        return FACTORY.getStatic().static$showText(text);
     }
-    TextHoverEvent staticShowText(Text text);
-    @SpecificImpl("staticShowText")
+    TextHoverEvent static$showText(Text text);
+    @SpecificImpl("static$showText")
     @VersionRange(end=1600)
-    default TextHoverEvent staticShowTextV_1600(Text text)
+    default TextHoverEvent static$showTextV_1600(Text text)
     {
         return newInstanceV_1600(Action.showText(), text);
     }
-    @SpecificImpl("staticShowText")
+    @SpecificImpl("static$showText")
     @VersionRange(begin=1600, end=2105)
-    default TextHoverEvent staticShowTextV1600_2105(Text text)
+    default TextHoverEvent static$showTextV1600_2105(Text text)
     {
         return newInstanceV1600_2105(Action.showText(), text);
     }
-    @SpecificImpl("staticShowText")
+    @SpecificImpl("static$showText")
     @VersionRange(begin=2105)
-    default TextHoverEvent staticShowTextV2105(Text text)
+    default TextHoverEvent static$showTextV2105(Text text)
     {
         return ShowText2105.newInstance(text);
     }
     
     static TextHoverEvent showItem(ItemStack is)
     {
-        return FACTORY.getStatic().staticShowItem(is);
+        return FACTORY.getStatic().static$showItem(is);
     }
-    TextHoverEvent staticShowItem(ItemStack is);
-    @SpecificImpl("staticShowItem")
+    TextHoverEvent static$showItem(ItemStack is);
+    @SpecificImpl("static$showItem")
     @VersionRange(end=1600)
-    default TextHoverEvent staticShowItemV_1600(ItemStack is)
+    default TextHoverEvent static$showItemV_1600(ItemStack is)
     {
         return newInstanceV_1600(Action.showItem(), Text.literal(ItemStack.encode(is).getValue().unwrap().toString()));
     }
-    @SpecificImpl("staticShowItem")
+    @SpecificImpl("static$showItem")
     @VersionRange(begin=1600, end=2105)
-    default TextHoverEvent staticShowItemV1600_2105(ItemStack is)
+    default TextHoverEvent static$showItemV1600_2105(ItemStack is)
     {
         return newInstanceV1600_2105(Action.showItem(), ContentItemStackV1600_2105.newInstance(is));
     }
-    @SpecificImpl("staticShowItem")
+    @SpecificImpl("static$showItem")
     @VersionRange(begin=2105)
-    default TextHoverEvent staticShowItemV2105(ItemStack is)
+    default TextHoverEvent static$showItemV2105(ItemStack is)
     {
         return ShowItem2105.newInstance(is);
     }
@@ -188,27 +188,27 @@ public interface TextHoverEvent extends WrapperObject
         }
         
         @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_TEXT", end=1400), @VersionName(name="field_11762", begin=1400, end=1600), @VersionName(name="field_24342", begin=1600)})
-        Action staticShowText();
+        Action static$showText();
         
         static Action showText()
         {
-            return Action.FACTORY.getStatic().staticShowText();
+            return Action.FACTORY.getStatic().static$showText();
         }
         
         @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ITEM", end=1400), @VersionName(name="field_11757", begin=1400, end=1600), @VersionName(name="field_24343", begin=1600)})
-        Action staticShowItem();
+        Action static$showItem();
         
         static Action showItem()
         {
-            return Action.FACTORY.getStatic().staticShowItem();
+            return Action.FACTORY.getStatic().static$showItem();
         }
         
         @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ENTITY", end=1400), @VersionName(name="field_11761", begin=1400, end=1600), @VersionName(name="field_24344", begin=1600)})
-        Action staticShowEntity();
+        Action static$showEntity();
         
         static Action showEntity()
         {
-            return Action.FACTORY.getStatic().staticShowEntity();
+            return Action.FACTORY.getStatic().static$showEntity();
         }
     }
     
@@ -238,11 +238,11 @@ public interface TextHoverEvent extends WrapperObject
         }
         
         @WrapConstructor
-        ContentItemStackV1600_2105 staticNewInstance(ItemStack is);
+        ContentItemStackV1600_2105 static$newInstance(ItemStack is);
         
         static ContentItemStackV1600_2105 newInstance(ItemStack is)
         {
-            return ContentItemStackV1600_2105.FACTORY.getStatic().staticNewInstance(is);
+            return ContentItemStackV1600_2105.FACTORY.getStatic().static$newInstance(is);
         }
         
         ItemStack getItemStack();
@@ -306,11 +306,11 @@ public interface TextHoverEvent extends WrapperObject
         }
         
         @WrapConstructor
-        ContentEntityV1600 staticNewInstance(EntityType type, UUID id, Text name);
+        ContentEntityV1600 static$newInstance(EntityType type, UUID id, Text name);
         
         static ContentEntityV1600 newInstance(EntityType type, UUID id, Text name)
         {
-            return FACTORY.getStatic().staticNewInstance(type, id, name);
+            return FACTORY.getStatic().static$newInstance(type, id, name);
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="entityType"))
@@ -346,10 +346,10 @@ public interface TextHoverEvent extends WrapperObject
         
         static ShowEntity2105 newInstance(ContentEntityV1600 value)
         {
-            return FACTORY.getStatic().staticNewInstance(value);
+            return FACTORY.getStatic().static$newInstance(value);
         }
         @WrapConstructor
-        ShowEntity2105 staticNewInstance(ContentEntityV1600 value);
+        ShowEntity2105 static$newInstance(ContentEntityV1600 value);
         
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_3508"))
         ContentEntityV1600 getValue();
@@ -363,10 +363,10 @@ public interface TextHoverEvent extends WrapperObject
         
         static ShowItem2105 newInstance(ItemStack value)
         {
-            return FACTORY.getStatic().staticNewInstance(value);
+            return FACTORY.getStatic().static$newInstance(value);
         }
         @WrapConstructor
-        ShowItem2105 staticNewInstance(ItemStack value);
+        ShowItem2105 static$newInstance(ItemStack value);
         
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_3509"))
         ItemStack getValue();
@@ -380,10 +380,10 @@ public interface TextHoverEvent extends WrapperObject
         
         static ShowText2105 newInstance(Text value)
         {
-            return FACTORY.getStatic().staticNewInstance(value);
+            return FACTORY.getStatic().static$newInstance(value);
         }
         @WrapConstructor
-        ShowText2105 staticNewInstance(Text value);
+        ShowText2105 static$newInstance(Text value);
         
         @WrapMinecraftFieldAccessor(@VersionName(name="comp_3510"))
         Text getValue();

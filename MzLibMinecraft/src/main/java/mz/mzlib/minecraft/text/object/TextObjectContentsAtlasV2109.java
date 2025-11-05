@@ -16,8 +16,8 @@ public interface TextObjectContentsAtlasV2109 extends WrapperObject, TextObjectC
     
     static TextObjectContentsAtlasV2109 newInstance(Identifier atlas, Identifier sprite)
     {
-        return FACTORY.getStatic().staticNewInstance(atlas, sprite);
+        return FACTORY.getStatic().static$newInstance(atlas, sprite);
     }
     @WrapConstructor
-    TextObjectContentsAtlasV2109 staticNewInstance(Identifier atlas, Identifier sprite);
+    TextObjectContentsAtlasV2109 static$newInstance(Identifier atlas, Identifier sprite);
 }

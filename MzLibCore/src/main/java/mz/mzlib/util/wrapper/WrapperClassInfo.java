@@ -250,12 +250,12 @@ public class WrapperClassInfo
                     cn.methods.add(mn);
                 }
             }
-            mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticGetWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
+            mn = new MethodNode(Opcodes.ACC_PUBLIC, "static$getWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null, new String[0]);
             mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));
             mn.instructions.add(AsmUtil.insnReturn(Class.class));
             cn.methods.add(mn);
             //noinspection RedundantArrayCreation
-            mn = new MethodNode(Opcodes.ACC_PUBLIC, "staticCreate", AsmUtil.getDesc(WrapperObject.class, new Class[]{Object.class}), null, new String[0]);
+            mn = new MethodNode(Opcodes.ACC_PUBLIC, "static$create", AsmUtil.getDesc(WrapperObject.class, new Class[]{Object.class}), null, new String[0]);
             mn.visitTypeInsn(Opcodes.NEW, cn.name);
             mn.instructions.add(AsmUtil.insnDup(WrapperObject.class));
             mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 1));

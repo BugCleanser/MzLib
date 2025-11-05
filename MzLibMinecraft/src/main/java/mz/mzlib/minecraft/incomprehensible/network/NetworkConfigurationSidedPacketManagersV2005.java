@@ -22,15 +22,15 @@ public interface NetworkConfigurationSidedPacketManagersV2005 extends WrapperObj
     
     static NetworkPhaseSidedPacketManagerV2005 c2s()
     {
-        return FACTORY.getStatic().staticC2s();
+        return FACTORY.getStatic().static$c2s();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="C2S"))
-    NetworkPhaseSidedPacketManagerV2005 staticC2s();
+    NetworkPhaseSidedPacketManagerV2005 static$c2s();
     
     static NetworkPhaseSidedPacketManagerV2005 s2c()
     {
-        return FACTORY.getStatic().staticS2c();
+        return FACTORY.getStatic().static$s2c();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="S2C"))
-    NetworkPhaseSidedPacketManagerV2005 staticS2c();
+    NetworkPhaseSidedPacketManagerV2005 static$s2c();
 }

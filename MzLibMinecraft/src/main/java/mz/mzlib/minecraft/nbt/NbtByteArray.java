@@ -20,10 +20,10 @@ public interface NbtByteArray extends NbtElement
     }
 
     @WrapConstructor
-    NbtByteArray staticNewInstance(byte[] value);
+    NbtByteArray static$newInstance(byte[] value);
     static NbtByteArray newInstance(byte[] value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))

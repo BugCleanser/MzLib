@@ -20,10 +20,10 @@ public interface NbtIntArray extends NbtElement
     }
 
     @WrapConstructor
-    NbtIntArray staticNewInstance(int[] value);
+    NbtIntArray static$newInstance(int[] value);
     static NbtIntArray newInstance(int[] value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))

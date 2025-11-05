@@ -49,11 +49,11 @@ public interface EntityDataKey<T> extends WrapperObject
     
     static <T> EntityDataKey<T> newInstance(int index, EntityDataHandler<T> handler)
     {
-        return FACTORY.getStatic().staticNewInstance(index, handler);
+        return FACTORY.getStatic().static$newInstance(index, handler);
     }
     
     @WrapConstructor
-    <T1> EntityDataKey<T1> staticNewInstance(int index, EntityDataHandler<T1> handler);
+    <T1> EntityDataKey<T1> static$newInstance(int index, EntityDataHandler<T1> handler);
     
     class WrappedV_900
     {

@@ -19,33 +19,33 @@ public interface Hand extends WrapperObject
     
     static Hand mainHand()
     {
-        return FACTORY.getStatic().staticMainHand();
+        return FACTORY.getStatic().static$mainHand();
     }
-    Hand staticMainHand();
-    @SpecificImpl("staticMainHand")
+    Hand static$mainHand();
+    @SpecificImpl("static$mainHand")
     @VersionRange(end=900)
-    default Hand staticMainHandV_900()
+    default Hand static$mainHandV_900()
     {
         return FACTORY.create(true);
     }
-    @SpecificImpl("staticMainHand")
+    @SpecificImpl("static$mainHand")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_14436", end=1400), @VersionName(name="field_5808", begin=1400)})
-    Hand staticMainHandV900();
+    Hand static$mainHandV900();
     
     static Hand offHand()
     {
-        return FACTORY.getStatic().staticOffHand();
+        return FACTORY.getStatic().static$offHand();
     }
-    Hand staticOffHand();
-    @SpecificImpl("staticOffHand")
+    Hand static$offHand();
+    @SpecificImpl("static$offHand")
     @VersionRange(end=900)
-    default Hand staticOffHandV_900()
+    default Hand static$offHandV_900()
     {
         return FACTORY.create(false);
     }
-    @SpecificImpl("staticOffHand")
+    @SpecificImpl("static$offHand")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor({@VersionName(name="field_14437", end=1400), @VersionName(name="field_5810", begin=1400)})
-    Hand staticOffHandV900();
+    Hand static$offHandV900();
 }

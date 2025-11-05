@@ -64,13 +64,13 @@ public interface WrapperObject
         return WrapperClassInfo.get(wrapperClass).getWrappedClass();
     }
     
-    Class<?> staticGetWrappedClass();
+    Class<?> static$getWrappedClass();
     
-    WrapperObject staticCreate(Object wrapped);
+    WrapperObject static$create(Object wrapped);
     
-    default boolean staticIsInstance(WrapperObject wrapper)
+    default boolean static$isInstance(WrapperObject wrapper)
     {
-        return this.staticGetWrappedClass().isInstance(wrapper.getWrapped());
+        return this.static$getWrappedClass().isInstance(wrapper.getWrapped());
     }
     
     default <T extends WrapperObject> boolean is(WrapperFactory<T> factory)
@@ -80,7 +80,7 @@ public interface WrapperObject
     default <T extends WrapperObject> T as(WrapperFactory<T> factory)
     {
         if(this.isPresent() && !this.is(factory))
-            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().staticGetWrappedClass());
+            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().static$getWrappedClass());
         return factory.create(this.getWrapped());
     }
     default <T extends WrapperObject> Option<T> asOption(WrapperFactory<T> factory)
@@ -99,7 +99,7 @@ public interface WrapperObject
     default <T extends WrapperObject> T castTo(WrapperFactory<T> factory)
     {
         if(this.isPresent() && !this.isInstanceOf(factory))
-            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().staticGetWrappedClass());
+            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().static$getWrappedClass());
         return factory.create(this.getWrapped());
     }
     default <T extends WrapperObject> Option<T> tryCast(WrapperFactory<T> factory)

@@ -35,22 +35,22 @@ public interface EntityItem extends WrapperObject, Entity
      */
     static EntityDataKey<?> dataKeyItem()
     {
-        return FACTORY.getStatic().staticDataTypeItem();
+        return FACTORY.getStatic().static$dataTypeItem();
     }
     
-    EntityDataKey<?> staticDataTypeItem();
+    EntityDataKey<?> static$dataTypeItem();
     
-    @SpecificImpl("staticDataTypeItem")
+    @SpecificImpl("static$dataTypeItem")
     @VersionRange(end=900)
-    default EntityDataKey<?> staticDataTypeItemV_900()
+    default EntityDataKey<?> static$dataTypeItemV_900()
     {
         return EntityDataKey.newInstanceV_900(10, (byte)5);
     }
     
-    @SpecificImpl("staticDataTypeItem")
+    @SpecificImpl("static$dataTypeItem")
     @VersionRange(begin=900)
     @WrapMinecraftFieldAccessor(@VersionName(name="STACK"))
-    EntityDataKey<?> staticDataTypeItemV900();
+    EntityDataKey<?> static$dataTypeItemV900();
     
     EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(dataKeyItem(), //
             MinecraftPlatform.instance.getVersion()>=900 && MinecraftPlatform.instance.getVersion()<1100 ? //

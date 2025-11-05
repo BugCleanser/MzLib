@@ -21,11 +21,11 @@ public interface NbtDouble extends NbtElement
     }
     
     @WrapConstructor
-    NbtDouble staticNewInstance(double value);
+    NbtDouble static$newInstance(double value);
     
     static NbtDouble newInstance(double value)
     {
-        return FACTORY.getStatic().staticNewInstance(value);
+        return FACTORY.getStatic().static$newInstance(value);
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3818", begin=2105)})
