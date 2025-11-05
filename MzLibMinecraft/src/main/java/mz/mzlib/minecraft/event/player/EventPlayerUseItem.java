@@ -1,6 +1,8 @@
 package mz.mzlib.minecraft.event.player;
 
 import mz.mzlib.event.Cancellable;
+import mz.mzlib.event.EventListener;
+import mz.mzlib.minecraft.TesterContextPlayer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.ActionResult;
@@ -9,12 +11,17 @@ import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.world.AbstractWorld;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.tester.SimpleTester;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 public class EventPlayerUseItem extends EventPlayer implements Cancellable
@@ -74,7 +81,21 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
             this.register(EventPlayerUseItem.class);
             this.register(NothingItemStack.class);
             
-            // TODO test
+            this.register(new SimpleTester.Builder<>(TesterContextPlayer.class).setName(EventPlayerUseItem.class.getName()).setMinLevel(2).setFunction(this::test).build());
+        }
+        
+        public CompletableFuture<List<Throwable>> test(TesterContextPlayer context)
+        {
+            CompletableFuture<List<Throwable>> future = new CompletableFuture<>();
+            EventListener<EventPlayerUseItem> listener = new EventListener<>(EventPlayerUseItem.class, event->
+            {
+                if(event.getPlayer().equals(context.getPlayer()))
+                    future.complete(Collections.emptyList());
+            });
+            this.register(listener);
+            future.whenComplete((r, e) -> this.unregister(listener));
+            context.getPlayer().sendMessage(Text.literal("请手持物品对空气交互")); // TODO i18n
+            return future;
         }
     }
     

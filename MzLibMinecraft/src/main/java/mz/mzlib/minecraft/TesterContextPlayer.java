@@ -5,10 +5,15 @@ import mz.mzlib.tester.TesterContext;
 
 public class TesterContextPlayer extends TesterContext
 {
-    public EntityPlayer player;
+    EntityPlayer player;
     public TesterContextPlayer(int level, EntityPlayer player)
     {
         super(level);
         this.player=player;
+    }
+    
+    public EntityPlayer getPlayer()
+    {
+        return this.player;
     }
 }

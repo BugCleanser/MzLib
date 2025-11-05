@@ -11,6 +11,15 @@ public class RefStrong<T> implements Ref<T>
         set(value);
     }
     
+    public static <T> RefStrong<T> of(T value)
+    {
+        return new RefStrong<T>(value);
+    }
+    public static <T> RefStrong<T> ofNull()
+    {
+        return of(null);
+    }
+    
     @Override
     public T get()
     {

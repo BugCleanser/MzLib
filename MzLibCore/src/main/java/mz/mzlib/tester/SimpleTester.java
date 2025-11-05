@@ -74,12 +74,6 @@ public class SimpleTester<C extends TesterContext> implements Tester<C>
             return this;
         }
         
-        public Builder<C> setContextType(Class<C> contextType)
-        {
-            this.get().contextType = contextType;
-            return this;
-        }
-        
         public Builder<C> setMinLevel(int minLevel)
         {
             this.get().minLevel = minLevel;
