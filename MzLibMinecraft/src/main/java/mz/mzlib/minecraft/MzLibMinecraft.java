@@ -78,6 +78,8 @@ public class MzLibMinecraft extends MzModule
             this.register(CommandMzLibLang.instance);
             this.register(CommandMzLibItemInfo.instance);
             this.register(CommandMzLibJs.instance);
+            this.register(CommandMzLibGive.instance);
+            
             this.register(CommandGiveNbt.instance);
             
             this.register(MzItem.Module.instance);

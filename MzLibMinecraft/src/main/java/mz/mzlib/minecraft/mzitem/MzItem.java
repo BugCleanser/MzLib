@@ -18,7 +18,16 @@ public interface MzItem extends ItemStack
     ItemStack static$vanilla();
     
     @CallOnce
-    void init(NbtCompound data);
+    default void init(NbtCompound data)
+    {
+        for(NbtCompound customData: Item.reviseCustomData(this))
+        {
+            for(NbtCompound mz: customData.reviseNbtCompoundOrNew("mz"))
+            {
+                mz.put("id", this.getMzId().toString());
+            }
+        }
+    }
     
     default Identifier getMzId()
     {
@@ -50,6 +59,8 @@ public interface MzItem extends ItemStack
             this.register(RegistrarMzItem.instance);
             
             this.register(MzItemUsable.Module.instance);
+            
+            this.register(MzItemDebugStick.class);
         }
     }
 }

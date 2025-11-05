@@ -45,8 +45,9 @@ public class CommandGiveNbt extends MzModule
             fork.successful = false;
         if(fork.successful)
             context = fork;
-        else
+        else if(context.getSource().getPlayer().isSome())
         {
+            player = context.getSource().getPlayer().unwrap();
             nbt = new ArgumentParserNbtCompound().handle(context);
             if(context.argsReader.hasNext())
                 context.successful = false;
@@ -55,7 +56,6 @@ public class CommandGiveNbt extends MzModule
                 context.successful = false;
                 return;
             }
-            player = context.getSource().getPlayer().unwrap();
         }
         if(!context.successful || !context.doExecute)
             return;

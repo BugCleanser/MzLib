@@ -13,8 +13,8 @@ public class ArgumentParserString extends ArgumentParser<String>
     public ArgumentParserString(String name, boolean allowSpace, String... presets)
     {
         super(name);
-        this.allowSpace =allowSpace;
-        this.presets=presets;
+        this.allowSpace = allowSpace;
+        this.presets = presets;
     }
     public ArgumentParserString(CommandSource source, boolean allowSpace, String... presets)
     {

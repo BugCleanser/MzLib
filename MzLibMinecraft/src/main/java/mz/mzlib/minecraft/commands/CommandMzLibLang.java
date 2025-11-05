@@ -151,9 +151,7 @@ public class CommandMzLibLang extends MzModule
                 LangEditor.getTranslationKeyChildNodes(parent).stream().map(n->parent+"."+n).filter(s->s.startsWith(result)).forEach(context.suggestions::add);
             }
             else
-            {
                 LangEditor.getTranslationKeyChildNodes(null).stream().filter(s->s.startsWith(result)).forEach(context.suggestions::add);
-            }
             return result;
         }
     }
@@ -165,7 +163,7 @@ public class CommandMzLibLang extends MzModule
         
         public ArgumentParserTranslationValue(String name, String lang, String key)
         {
-            super(name, true, LangEditor.escape(I18n.getTranslation(lang, key)).replace(" ", "\\u0020"));
+            super(name, true, LangEditor.escape(I18n.resolve(lang, key)).replace(" ", "\\u0020"));
             this.lang = lang;
             this.key = key;
         }

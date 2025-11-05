@@ -29,6 +29,8 @@ public interface MzItemUsable extends MzItem
                     return;
                 for(MzItem mzItem: RegistrarMzItem.instance.toMzItem(event.getItemStack()))
                 {
+                    if(mzItem instanceof MzItemUnknown)
+                        event.setCancelled(true);
                     if(!(mzItem instanceof MzItemUsable))
                         return;
                     if(!((MzItemUsable)mzItem).use(event.getPlayer(), event.getHand()))

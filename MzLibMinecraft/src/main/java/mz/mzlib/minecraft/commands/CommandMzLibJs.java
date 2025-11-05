@@ -29,6 +29,7 @@ public class CommandMzLibJs extends MzModule
     @Override
     public void onLoad()
     {
+        this.register(this.permission);
         this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("js").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(this::handle)));
     }
     

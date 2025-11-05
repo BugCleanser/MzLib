@@ -24,6 +24,7 @@ public class CommandMzLibItemInfo extends MzModule
     @Override
     public void onLoad()
     {
+        this.register(this.permission);
         this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("iteminfo").setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.permissionChecker(this.permission)).setHandler(this::handle)));
     }
     

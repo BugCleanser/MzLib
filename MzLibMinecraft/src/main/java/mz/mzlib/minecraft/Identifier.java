@@ -18,12 +18,15 @@ public interface Identifier extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name="namespace"))
     String getNamespace();
     
+    @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name="namespace"))
+    @SuppressWarnings("DeprecatedIsStillUsed")
     void setNamespace(String value);
     
     @WrapMinecraftFieldAccessor(@VersionName(name="path"))
     String getName();
     
+    @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name="path"))
     void setName(String value);
     
@@ -69,5 +72,10 @@ public interface Identifier extends WrapperObject
             return newInstance(result[0], result[1]);
         else
             return minecraft(str);
+    }
+    
+    default boolean isMinecraft()
+    {
+        return "minecraft".equals(this.getNamespace());
     }
 }
