@@ -22,7 +22,7 @@ public interface PacketS2cBlockEntityData extends Packet
     
     static PacketS2cBlockEntityData newInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound nbt)
     {
-        return create(null).staticNewInstance(pos, type, nbt);
+        return FACTORY.getStatic().staticNewInstance(pos, type, nbt);
     }
     
     PacketS2cBlockEntityData staticNewInstance(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);

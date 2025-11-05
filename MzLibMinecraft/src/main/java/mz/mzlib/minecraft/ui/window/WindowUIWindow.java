@@ -61,7 +61,7 @@ public interface WindowUIWindow extends AbstractWindow
     
     static WindowUIWindow newInstance0(WindowType type, int syncId)
     {
-        return create(null).staticNewInstance0(type, syncId);
+        return FACTORY.getStatic().staticNewInstance0(type, syncId);
     }
     
     static WindowUIWindow newInstance(UIWindow uiWindow, AbstractEntityPlayer player, int syncId)

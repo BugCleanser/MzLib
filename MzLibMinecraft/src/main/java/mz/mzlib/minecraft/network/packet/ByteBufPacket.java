@@ -25,7 +25,7 @@ public interface ByteBufPacket extends WrapperObject
     
     static ByteBufPacket newInstance(ByteBuf delegate)
     {
-        return create(null).staticNewInstance(delegate);
+        return FACTORY.getStatic().staticNewInstance(delegate);
     }
     
     @WrapConstructor

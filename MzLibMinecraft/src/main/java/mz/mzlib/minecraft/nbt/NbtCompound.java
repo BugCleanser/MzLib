@@ -36,7 +36,7 @@ public interface NbtCompound extends NbtElement
     @Deprecated
     static NbtCompound load(DataInput input)
     {
-        return create(null).staticLoad(input);
+        return FACTORY.getStatic().staticLoad(input);
     }
     
     NbtCompound staticLoad(DataInput input);
@@ -67,7 +67,7 @@ public interface NbtCompound extends NbtElement
     
     static NbtCompound newInstance()
     {
-        return create(null).staticNewInstance();
+        return FACTORY.getStatic().staticNewInstance();
     }
     
     @WrapMinecraftMethod(@VersionName(name="get"))

@@ -32,7 +32,7 @@ public interface WindowFactorySimple extends WindowFactory
     
     static WindowFactorySimple newInstance(String windowIdV_1400, Text displayName, BiFunction<Integer, InventoryPlayer, Window> windowCreator)
     {
-        WindowFactorySimple result = create(null).staticNewInstance();
+        WindowFactorySimple result = FACTORY.getStatic().staticNewInstance();
         result.setWindowTypeIdV_1400(windowIdV_1400);
         result.setDisplayName(displayName);
         result.setWindowCreator(windowCreator);

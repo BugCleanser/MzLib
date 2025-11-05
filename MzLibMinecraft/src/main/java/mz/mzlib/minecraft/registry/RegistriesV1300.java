@@ -23,7 +23,7 @@ public interface RegistriesV1300 extends WrapperObject
     
     static Registry item()
     {
-        return create(null).staticItem();
+        return FACTORY.getStatic().staticItem();
     }
     
     Registry staticItem();
@@ -44,12 +44,12 @@ public interface RegistriesV1300 extends WrapperObject
     
     static Registry componentKeyV2005()
     {
-        return create(null).staticComponentKeyV2005();
+        return FACTORY.getStatic().staticComponentKeyV2005();
     }
     
     static Registry entityType()
     {
-        return create(null).staticEntityType();
+        return FACTORY.getStatic().staticEntityType();
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="ENTITY_TYPE"))
@@ -61,12 +61,12 @@ public interface RegistriesV1300 extends WrapperObject
     
     static Registry windowTypeV1400()
     {
-        return create(null).staticWindowTypeV1400();
+        return FACTORY.getStatic().staticWindowTypeV1400();
     }
     
     static Registry blockEntityType()
     {
-        return create(null).staticBlockEntityType();
+        return FACTORY.getStatic().staticBlockEntityType();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="BLOCK_ENTITY_TYPE", end=1400), @VersionName(name="field_11137", begin=1400, end=1903), @VersionName(name="field_41181", begin=1903)})

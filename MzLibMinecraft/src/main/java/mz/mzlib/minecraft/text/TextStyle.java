@@ -26,14 +26,14 @@ public interface TextStyle extends WrapperObject
     
     static TextStyle rootV_1600()
     {
-        return create(null).staticRootV_1600();
+        return FACTORY.getStatic().staticRootV_1600();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="ROOT", end=1600))
     TextStyle staticRootV_1600();
     
     static TextStyle empty()
     {
-        return create(null).staticEmpty();
+        return FACTORY.getStatic().staticEmpty();
     }
     TextStyle staticEmpty();
     @SpecificImpl("staticEmpty")
@@ -47,7 +47,7 @@ public interface TextStyle extends WrapperObject
     @VersionRange(begin=1600)
     static TextStyle newInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font)
     {
-        return create(null).staticNewInstanceV1600(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
+        return FACTORY.getStatic().staticNewInstanceV1600(color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
     @VersionRange(begin=1600)
     TextStyle staticNewInstanceV1600(TextColorV1600 color, Integer shadowColorV2104, Boolean bold, Boolean italic, Boolean underlined, Boolean strikethrough, Boolean obfuscated, TextClickEvent clickEvent, TextHoverEvent hoverEvent, String insertion, Identifier font);

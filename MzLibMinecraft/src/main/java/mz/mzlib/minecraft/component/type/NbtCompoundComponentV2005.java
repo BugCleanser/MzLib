@@ -27,6 +27,6 @@ public interface NbtCompoundComponentV2005 extends WrapperObject
     NbtCompoundComponentV2005 staticNewInstance(NbtCompound nbtCompound);
     static NbtCompoundComponentV2005 newInstance(NbtCompound nbtCompound)
     {
-        return create(null).staticNewInstance(nbtCompound);
+        return FACTORY.getStatic().staticNewInstance(nbtCompound);
     }
 }

@@ -32,7 +32,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType drag()
     {
-        return create(null).staticDrag();
+        return FACTORY.getStatic().staticDrag();
     }
     
     WindowActionType staticDrag();
@@ -55,7 +55,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType click()
     {
-        return create(null).staticClick();
+        return FACTORY.getStatic().staticClick();
     }
     
     WindowActionType staticClick();
@@ -78,7 +78,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType swap()
     {
-        return create(null).staticSwap();
+        return FACTORY.getStatic().staticSwap();
     }
     
     WindowActionType staticSwap();
@@ -100,7 +100,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType pickUpAll()
     {
-        return create(null).staticPickUpAll();
+        return FACTORY.getStatic().staticPickUpAll();
     }
     
     WindowActionType staticPickUpAll();
@@ -123,7 +123,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType shiftClick()
     {
-        return create(null).staticShiftClick();
+        return FACTORY.getStatic().staticShiftClick();
     }
     
     WindowActionType staticShiftClick();
@@ -150,7 +150,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType drop()
     {
-        return create(null).staticDrop();
+        return FACTORY.getStatic().staticDrop();
     }
     
     WindowActionType staticDrop();
@@ -172,7 +172,7 @@ public interface WindowActionType extends WrapperObject
      */
     static WindowActionType copy()
     {
-        return create(null).staticCopy();
+        return FACTORY.getStatic().staticCopy();
     }
     
     WindowActionType staticCopy();

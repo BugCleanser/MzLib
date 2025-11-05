@@ -30,7 +30,7 @@ public interface NbtList extends NbtElement
     
     static NbtList newInstance()
     {
-        return create(null).staticNewInstance();
+        return FACTORY.getStatic().staticNewInstance();
     }
     
     static NbtList newInstance(NbtElement... elements)

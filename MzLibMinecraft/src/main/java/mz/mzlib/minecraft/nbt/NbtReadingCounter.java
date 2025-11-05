@@ -26,7 +26,7 @@ public interface NbtReadingCounter extends WrapperObject
     NbtReadingCounter staticNewInstance(long maxBytes);
     static NbtReadingCounter newInstance(long maxBytes)
     {
-        return create(null).staticNewInstance(maxBytes);
+        return FACTORY.getStatic().staticNewInstance(maxBytes);
     }
     @SpecificImpl("staticNewInstance")
     @WrapConstructor

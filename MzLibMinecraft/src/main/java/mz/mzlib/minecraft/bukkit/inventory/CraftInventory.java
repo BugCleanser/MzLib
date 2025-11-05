@@ -26,6 +26,6 @@ public interface CraftInventory extends BukkitInventory
     CraftInventory staticNewInstance(Inventory inventory);
     static CraftInventory newInstance(Inventory inventory)
     {
-        return create(null).staticNewInstance(inventory);
+        return FACTORY.getStatic().staticNewInstance(inventory);
     }
 }

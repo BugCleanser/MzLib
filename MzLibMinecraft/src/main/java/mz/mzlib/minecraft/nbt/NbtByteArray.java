@@ -23,7 +23,7 @@ public interface NbtByteArray extends NbtElement
     NbtByteArray staticNewInstance(byte[] value);
     static NbtByteArray newInstance(byte[] value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))

@@ -66,6 +66,6 @@ public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacket
     @VersionRange(begin=1901, end=2002)
     default void sendPacketImplV1901_2002(Packet packet)
     {
-        this.sendPacketV1901_2002(packet, PacketCallbacksV1901.create(null));
+        this.sendPacketV1901_2002(packet, PacketCallbacksV1901.FACTORY.getStatic());
     }
 }

@@ -42,7 +42,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     
     static PacketS2cEntityData newInstance(int entityId)
     {
-        return create(null).staticNewInstance(entityId);
+        return FACTORY.getStatic().staticNewInstance(entityId);
     }
     
     PacketS2cEntityData staticNewInstance(int entityId);
@@ -55,7 +55,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @VersionRange(end=1903)
     default PacketS2cEntityData staticNewInstanceV_1903(int entityId)
     {
-        PacketS2cEntityData result = this.staticNewInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.create(null)), true);
+        PacketS2cEntityData result = this.staticNewInstanceV_1903(entityId, EntityDataTracker.newInstanceV_1903(Entity.FACTORY.getStatic()), true);
         result.setDataList0(new ArrayList<>());
         return result;
     }
@@ -87,7 +87,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     
     static Entry newEntry(EntityDataKey key, Object value)
     {
-        return create(null).staticNewEntry(key, value);
+        return FACTORY.getStatic().staticNewEntry(key, value);
     }
     
     Entry staticNewEntry(EntityDataKey type, Object value);

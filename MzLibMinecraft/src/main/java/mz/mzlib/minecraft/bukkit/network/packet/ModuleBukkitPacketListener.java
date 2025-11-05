@@ -43,7 +43,7 @@ public class ModuleBukkitPacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
         
         @VersionRange(begin=1901, end=2002)
@@ -60,7 +60,7 @@ public class ModuleBukkitPacketListener extends MzModule
             }))
                 return Nothing.notReturn();
             else
-                return Wrapper_void.create(null);
+                return Wrapper_void.FACTORY.getStatic();
         }
     }
 }

@@ -19,7 +19,7 @@ public interface InventorySimple extends WrapperObject, Inventory
     
     static InventorySimple newInstance(int size)
     {
-        return create(null).staticNewInstance(size);
+        return FACTORY.getStatic().staticNewInstance(size);
     }
     
     InventorySimple staticNewInstance(int size);
@@ -39,7 +39,7 @@ public interface InventorySimple extends WrapperObject, Inventory
     @VersionRange(begin=1300, end=1400)
     default InventorySimple staticNewInstanceV1300_1400(int size)
     {
-        return this.staticNewInstanceV1300_1400(Text.create(null), size);
+        return this.staticNewInstanceV1300_1400(Text.FACTORY.getStatic(), size);
     }
     @SpecificImpl("staticNewInstance")
     @VersionRange(begin=1400)

@@ -39,7 +39,7 @@ public interface Entity extends WrapperObject
      */
     static EntityDataKey<?> dataKeyCustomName()
     {
-        return create(null).staticDataKeyCustomName();
+        return FACTORY.getStatic().staticDataKeyCustomName();
     }
     
     EntityDataKey<?> staticDataKeyCustomName();
@@ -66,7 +66,7 @@ public interface Entity extends WrapperObject
      */
     static EntityDataKey<?> dataKeyCustomNameVisible()
     {
-        return create(null).staticDataKeyCustomNameVisible();
+        return FACTORY.getStatic().staticDataKeyCustomNameVisible();
     }
     
     EntityDataKey<?> staticDataKeyCustomNameVisible();

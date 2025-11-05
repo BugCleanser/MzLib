@@ -34,7 +34,7 @@ public interface TextHoverEvent extends WrapperObject
     
     static TextHoverEvent newInstanceV_1600(Action action, Text value)
     {
-        return create(null).staticNewInstanceV_1600(action, value);
+        return FACTORY.getStatic().staticNewInstanceV_1600(action, value);
     }
     
     @WrapConstructor
@@ -43,12 +43,12 @@ public interface TextHoverEvent extends WrapperObject
     
     static TextHoverEvent newInstanceV1600_2105(Action action, WrapperObject content)
     {
-        return create(null).staticNewInstanceV1600_2105(action, content);
+        return FACTORY.getStatic().staticNewInstanceV1600_2105(action, content);
     }
     
     static TextHoverEvent showText(Text text)
     {
-        return create(null).staticShowText(text);
+        return FACTORY.getStatic().staticShowText(text);
     }
     TextHoverEvent staticShowText(Text text);
     @SpecificImpl("staticShowText")
@@ -72,7 +72,7 @@ public interface TextHoverEvent extends WrapperObject
     
     static TextHoverEvent showItem(ItemStack is)
     {
-        return create(null).staticShowItem(is);
+        return FACTORY.getStatic().staticShowItem(is);
     }
     TextHoverEvent staticShowItem(ItemStack is);
     @SpecificImpl("staticShowItem")
@@ -192,7 +192,7 @@ public interface TextHoverEvent extends WrapperObject
         
         static Action showText()
         {
-            return Action.create(null).staticShowText();
+            return Action.FACTORY.getStatic().staticShowText();
         }
         
         @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ITEM", end=1400), @VersionName(name="field_11757", begin=1400, end=1600), @VersionName(name="field_24343", begin=1600)})
@@ -200,7 +200,7 @@ public interface TextHoverEvent extends WrapperObject
         
         static Action showItem()
         {
-            return Action.create(null).staticShowItem();
+            return Action.FACTORY.getStatic().staticShowItem();
         }
         
         @WrapMinecraftFieldAccessor({@VersionName(name="SHOW_ENTITY", end=1400), @VersionName(name="field_11761", begin=1400, end=1600), @VersionName(name="field_24344", begin=1600)})
@@ -208,7 +208,7 @@ public interface TextHoverEvent extends WrapperObject
         
         static Action showEntity()
         {
-            return Action.create(null).staticShowEntity();
+            return Action.FACTORY.getStatic().staticShowEntity();
         }
     }
     
@@ -242,7 +242,7 @@ public interface TextHoverEvent extends WrapperObject
         
         static ContentItemStackV1600_2105 newInstance(ItemStack is)
         {
-            return ContentItemStackV1600_2105.create(null).staticNewInstance(is);
+            return ContentItemStackV1600_2105.FACTORY.getStatic().staticNewInstance(is);
         }
         
         ItemStack getItemStack();

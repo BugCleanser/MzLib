@@ -23,11 +23,11 @@ public interface CraftCommandVanillaWrapper extends WrapperObject
         return WrapperObject.create(CraftCommandVanillaWrapper.class, wrapped);
     }
     
-    CraftCommandVanillaWrapper unsafe = RuntimeUtil.sneakilyRun(()->create(Root.getUnsafe().allocateInstance(create(null).staticGetWrappedClass())));
+    CraftCommandVanillaWrapper unsafe = RuntimeUtil.sneakilyRun(()->create(Root.getUnsafe().allocateInstance(FACTORY.getStatic().staticGetWrappedClass())));
     
     static CommandSource toCommandSource(CommandSender object)
     {
-        return create(null).staticToCommandSource(object);
+        return FACTORY.getStatic().staticToCommandSource(object);
     }
     
     CommandSource staticToCommandSource(CommandSender object);

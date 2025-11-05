@@ -67,7 +67,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
         else if(syncId==this.getCurrentWindow().getSyncId())
             return this.getCurrentWindow();
         else
-            return Window.create(null);
+            return Window.FACTORY.getStatic();
     }
     
     void sendMessage(Text message);

@@ -42,7 +42,7 @@ public interface WindowChest extends WrapperObject, Window
     }
     static WindowChest newInstance(WindowType type, int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {
-        return create(null).staticNewInstance(type, syncId, inventoryPlayer, inventory, rows);
+        return FACTORY.getStatic().staticNewInstance(type, syncId, inventoryPlayer, inventory, rows);
     }
     static WindowChest newInstance(int syncId, InventoryPlayer inventoryPlayer, Inventory inventory, int rows)
     {

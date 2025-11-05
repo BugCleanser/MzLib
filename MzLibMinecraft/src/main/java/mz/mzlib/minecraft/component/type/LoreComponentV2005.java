@@ -26,7 +26,7 @@ public interface LoreComponentV2005 extends WrapperObject
     
     static LoreComponentV2005 newInstance(List<Text> lines)
     {
-        return create(null).staticNewInstance(lines);
+        return FACTORY.getStatic().staticNewInstance(lines);
     }
     @WrapConstructor
     LoreComponentV2005 staticNewInstance0(List<Object> lines);

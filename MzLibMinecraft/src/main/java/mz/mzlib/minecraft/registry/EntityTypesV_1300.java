@@ -25,7 +25,7 @@ public interface EntityTypesV_1300 extends WrapperObject
     
     static EntityType getByNameV_1100(String name)
     {
-        return EntityType.create(create(null).staticMapName2ClassV_1100().get(name));
+        return EntityType.create(FACTORY.getStatic().staticMapName2ClassV_1100().get(name));
     }
     
     @VersionRange(end=1100)
@@ -34,7 +34,7 @@ public interface EntityTypesV_1300 extends WrapperObject
     
     static Registry registryV1100()
     {
-        return create(null).staticRegistryV1100();
+        return FACTORY.getStatic().staticRegistryV1100();
     }
     
     @VersionRange(begin=1100)

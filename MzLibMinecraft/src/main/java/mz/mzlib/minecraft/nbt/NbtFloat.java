@@ -24,7 +24,7 @@ public interface NbtFloat extends NbtElement
 
     static NbtFloat newInstance(float value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3819", begin=2105)})

@@ -23,7 +23,7 @@ public interface NbtIntArray extends NbtElement
     NbtIntArray staticNewInstance(int[] value);
     static NbtIntArray newInstance(int[] value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))

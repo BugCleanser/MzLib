@@ -25,7 +25,7 @@ public interface EntityDataTracker extends WrapperObject
     
     static EntityDataTracker newInstanceV_1903(Entity entity)
     {
-        return create(null).staticNewInstanceV_1903(entity);
+        return FACTORY.getStatic().staticNewInstanceV_1903(entity);
     }
     
     @VersionRange(end=1903)
@@ -58,7 +58,7 @@ public interface EntityDataTracker extends WrapperObject
         
         static Entry newInstance0(EntityDataKey type, Object value)
         {
-            return Entry.create(null).staticNewInstance0(type, value);
+            return Entry.FACTORY.getStatic().staticNewInstance0(type, value);
         }
         
         Entry staticNewInstance0(EntityDataKey type, Object value);

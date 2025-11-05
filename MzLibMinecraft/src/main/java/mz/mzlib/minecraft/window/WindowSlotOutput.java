@@ -25,7 +25,7 @@ public interface WindowSlotOutput extends WindowSlot
     
     static WindowSlot newInstance(Inventory inventory, int index)
     {
-        return create(null).staticNewInstance(inventory, index, 0, 0);
+        return FACTORY.getStatic().staticNewInstance(inventory, index, 0, 0);
     }
     
     @Override

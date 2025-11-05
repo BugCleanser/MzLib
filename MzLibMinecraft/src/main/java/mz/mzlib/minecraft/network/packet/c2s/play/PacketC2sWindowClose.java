@@ -26,7 +26,7 @@ public interface PacketC2sWindowClose extends Packet
     
     static PacketC2sWindowClose newInstance(int syncId)
     {
-        return create(null).staticNewInstance(syncId);
+        return FACTORY.getStatic().staticNewInstance(syncId);
     }
     PacketC2sWindowClose staticNewInstance(int syncId);
     @VersionRange(end=1700)

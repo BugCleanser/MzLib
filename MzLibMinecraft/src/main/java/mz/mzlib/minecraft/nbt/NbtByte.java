@@ -25,7 +25,7 @@ public interface NbtByte extends NbtElement
     }
     static NbtByte newInstance(byte value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
     @WrapConstructor
     NbtByte staticNewInstance(byte value);

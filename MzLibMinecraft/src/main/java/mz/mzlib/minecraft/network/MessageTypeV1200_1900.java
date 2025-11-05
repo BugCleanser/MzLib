@@ -22,7 +22,7 @@ public interface MessageTypeV1200_1900 extends WrapperObject
     
     static MessageTypeV1200_1900 chat()
     {
-        return create(null).staticChat();
+        return FACTORY.getStatic().staticChat();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="CHAT", end=1400), @VersionName(name="field_11737", begin=1400)})
@@ -30,7 +30,7 @@ public interface MessageTypeV1200_1900 extends WrapperObject
     
     static MessageTypeV1200_1900 system()
     {
-        return create(null).staticSystem();
+        return FACTORY.getStatic().staticSystem();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="SYSTEM", end=1400), @VersionName(name="field_11735", begin=1400)})
@@ -38,7 +38,7 @@ public interface MessageTypeV1200_1900 extends WrapperObject
     
     static MessageTypeV1200_1900 actionBar()
     {
-        return create(null).staticActionBar();
+        return FACTORY.getStatic().staticActionBar();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="GAME_INFO", end=1400), @VersionName(name="field_11733", begin=1400)})

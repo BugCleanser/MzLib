@@ -35,6 +35,6 @@ public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFact
     BlockEntityChest staticNewInstanceV1700(BlockPos pos, BlockState state);
     static BlockEntityChest newInstance(BlockPos pos, BlockState state)
     {
-        return create(null).staticNewInstance(pos, state);
+        return FACTORY.getStatic().staticNewInstance(pos, state);
     }
 }

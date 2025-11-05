@@ -74,7 +74,7 @@ public interface Item extends WrapperObject
     
     static Option<NbtCompound> getCustomData(ItemStack itemStack)
     {
-        return create(null).staticGetCustomData(itemStack);
+        return FACTORY.getStatic().staticGetCustomData(itemStack);
     }
     
     Option<NbtCompound> staticGetCustomData(ItemStack itemStack);
@@ -146,7 +146,7 @@ public interface Item extends WrapperObject
     
     static Option<Text> getCustomName(ItemStack itemStack)
     {
-        return create(null).staticGetCustomName(itemStack);
+        return FACTORY.getStatic().staticGetCustomName(itemStack);
     }
     
     Option<Text> staticGetCustomName(ItemStack itemStack);
@@ -182,7 +182,7 @@ public interface Item extends WrapperObject
     
     static void setCustomName(ItemStack itemStack, Option<Text> value)
     {
-        create(null).staticSetCustomName(itemStack, value);
+        FACTORY.getStatic().staticSetCustomName(itemStack, value);
     }
     
     void staticSetCustomName(ItemStack itemStack, Option<Text> value);
@@ -224,7 +224,7 @@ public interface Item extends WrapperObject
     
     static void removeCustomName(ItemStack itemStack)
     {
-        create(null).staticRemoveCustomName(itemStack);
+        FACTORY.getStatic().staticRemoveCustomName(itemStack);
     }
     void staticRemoveCustomName(ItemStack itemStack);
     
@@ -251,7 +251,7 @@ public interface Item extends WrapperObject
     
     static Option<List<Text>> getLore(ItemStack itemStack)
     {
-        return create(null).staticGetLore(itemStack);
+        return FACTORY.getStatic().staticGetLore(itemStack);
     }
     
     Option<List<Text>> staticGetLore(ItemStack itemStack);
@@ -287,7 +287,7 @@ public interface Item extends WrapperObject
     
     static Option<List<Text>> copyLore(ItemStack itemStack)
     {
-        return create(null).staticCopyLore(itemStack);
+        return FACTORY.getStatic().staticCopyLore(itemStack);
     }
     
     Option<List<Text>> staticCopyLore(ItemStack itemStack);
@@ -308,7 +308,7 @@ public interface Item extends WrapperObject
     
     static void setLore(ItemStack itemStack, Option<List<Text>> value)
     {
-        create(null).staticSetLore(itemStack, value);
+        FACTORY.getStatic().staticSetLore(itemStack, value);
     }
     
     void staticSetLore(ItemStack itemStack, Option<List<Text>> value);
@@ -355,14 +355,14 @@ public interface Item extends WrapperObject
     
     static Registry getRegistry()
     {
-        return create(null).staticGetRegistry();
+        return FACTORY.getStatic().staticGetRegistry();
     }
     
     Registry staticGetRegistry();
     
     static SimpleRegistry getRegistryV_1300()
     {
-        return create(null).staticGetRegistryV_1300();
+        return FACTORY.getStatic().staticGetRegistryV_1300();
     }
     
     @SpecificImpl("staticGetRegistry")
@@ -372,7 +372,7 @@ public interface Item extends WrapperObject
     
     static Registry getRegistryV1300()
     {
-        return create(null).staticGetRegistryV1300();
+        return FACTORY.getStatic().staticGetRegistryV1300();
     }
     
     @SpecificImpl("staticGetRegistry")

@@ -27,7 +27,7 @@ public interface VanillaI18nV_1300 extends WrapperObject, Nothing
     
     static String getTranslation(String key)
     {
-        return create(null).staticGetTranslation(key);
+        return FACTORY.getStatic().staticGetTranslation(key);
     }
     @WrapMinecraftMethod(@VersionName(name="translate"))
     String staticGetTranslation(String key);

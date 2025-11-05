@@ -29,7 +29,7 @@ public interface Identifier extends WrapperObject
     
     static Identifier newInstance(String namespace, String name)
     {
-        return create(null).staticNewInstance(namespace, name);
+        return FACTORY.getStatic().staticNewInstance(namespace, name);
     }
     
     Identifier staticNewInstance(String namespace, String name);

@@ -46,7 +46,7 @@ public interface EntityType extends WrapperObject
     
     static EntityType fromId(Identifier id)
     {
-        return create(null).staticFromId(id);
+        return FACTORY.getStatic().staticFromId(id);
     }
     
     EntityType staticFromId(Identifier id);
@@ -83,7 +83,7 @@ public interface EntityType extends WrapperObject
     
     static Registry getRegistry1100()
     {
-        return create(null).staticGetRegistryV1100();
+        return FACTORY.getStatic().staticGetRegistryV1100();
     }
     
     Registry staticGetRegistryV1100();
@@ -112,7 +112,7 @@ public interface EntityType extends WrapperObject
         try
         {
             return Entity.create((Object)cacheV_1300.computeIfAbsent((Class<?>)this.getWrapped(), ThrowableFunction.of(c-> //
-                            ClassUtil.findConstructor(c, AbstractWorld.create(null).staticGetWrappedClass()).asType(MethodType.methodType(Object.class, Object.class)))) //
+                            ClassUtil.findConstructor(c, AbstractWorld.FACTORY.getStatic().staticGetWrappedClass()).asType(MethodType.methodType(Object.class, Object.class)))) //
                     .invokeExact((Object)world.getWrapped()));
         }
         catch(Throwable e)

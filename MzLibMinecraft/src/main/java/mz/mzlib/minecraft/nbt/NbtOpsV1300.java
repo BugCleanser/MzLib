@@ -28,7 +28,7 @@ public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
     
     static NbtOpsV1300 instance0()
     {
-        return create(null).staticInstance();
+        return FACTORY.getStatic().staticInstance();
     }
     static DynamicOpsV1300.Wrapper<NbtCompound> instance()
     {

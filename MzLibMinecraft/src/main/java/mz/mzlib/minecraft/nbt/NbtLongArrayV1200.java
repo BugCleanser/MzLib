@@ -26,7 +26,7 @@ public interface NbtLongArrayV1200 extends NbtElement
     
     static NbtLongArrayV1200 newInstance(long[] value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
     
     @WrapMinecraftFieldAccessor(@VersionName(name="value"))

@@ -33,7 +33,7 @@ public interface GameProfile extends WrapperObject
      */
     static GameProfile newInstance(Option<UUID> id, Option<String> name)
     {
-        return create(null).staticNewInstance(id, name);
+        return FACTORY.getStatic().staticNewInstance(id, name);
     }
     
     @WrapConstructor

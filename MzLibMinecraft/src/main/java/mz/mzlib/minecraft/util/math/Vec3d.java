@@ -24,7 +24,7 @@ public interface Vec3d extends WrapperObject
     Vec3d staticNewInstance(double x, double y, double z);
     static Vec3d newInstance(double x, double y, double z)
     {
-        return create(null).staticNewInstance(x, y, z);
+        return FACTORY.getStatic().staticNewInstance(x, y, z);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))

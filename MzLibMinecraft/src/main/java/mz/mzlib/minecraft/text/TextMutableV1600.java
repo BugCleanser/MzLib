@@ -41,7 +41,7 @@ public interface TextMutableV1600 extends Text
     }
     static TextMutableV1600 newInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style)
     {
-        return create(null).staticNewInstanceV1900(content, extra, style);
+        return FACTORY.getStatic().staticNewInstanceV1900(content, extra, style);
     }
     @VersionRange(begin=1900)
     @WrapConstructor

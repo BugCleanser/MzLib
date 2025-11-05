@@ -31,7 +31,7 @@ public interface ComponentMapDefaultedV2005 extends ComponentMapV2005
     
     static ComponentMapDefaultedV2005 newInstance(ComponentMapV2005 base)
     {
-        return create(null).staticNewInstance(base);
+        return FACTORY.getStatic().staticNewInstance(base);
     }
     
     @WrapMinecraftMethod(@VersionName(name="set"))

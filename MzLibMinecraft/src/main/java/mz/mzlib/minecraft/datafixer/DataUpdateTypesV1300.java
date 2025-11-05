@@ -24,6 +24,6 @@ public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeRefere
     DSLV1300.TypeReference staticItemStack();
     static DSLV1300.TypeReference itemStack()
     {
-        return create(null).staticItemStack();
+        return FACTORY.getStatic().staticItemStack();
     }
 }

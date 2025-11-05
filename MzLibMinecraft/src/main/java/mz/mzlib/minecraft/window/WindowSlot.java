@@ -64,7 +64,7 @@ public interface WindowSlot extends WrapperObject
     }
     static WindowSlot newInstance(Inventory inventory, int index, int x, int y)
     {
-        return create(null).staticNewInstance(inventory, index, x, y);
+        return FACTORY.getStatic().staticNewInstance(inventory, index, x, y);
     }
     @WrapConstructor
     WindowSlot staticNewInstance(Inventory inventory, int index, int x, int y);

@@ -24,6 +24,6 @@ public interface DataUpdateTypesV900_1300 extends WrapperObject, DataUpdateTypeV
     DataUpdateTypeV900_1300 staticItemStack();
     static DataUpdateTypeV900_1300 itemStack()
     {
-        return create(null).staticItemStack();
+        return FACTORY.getStatic().staticItemStack();
     }
 }

@@ -60,7 +60,7 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         
         static class_9683V2005 newInstance(RegistryEntryLookupV1903.class_7874 registries)
         {
-            return class_9683V2005.create(null).staticNewInstance(registries);
+            return class_9683V2005.FACTORY.getStatic().staticNewInstance(registries);
         }
         @WrapConstructor
         class_9683V2005 staticNewInstance(RegistryEntryLookupV1903.class_7874 registries);

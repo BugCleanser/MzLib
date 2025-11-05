@@ -23,7 +23,7 @@ public interface NbtString extends NbtElement
     NbtString staticNewInstance(String value);
     static NbtString newInstance(String value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})

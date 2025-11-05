@@ -23,7 +23,7 @@ public interface NbtInt extends NbtElement
     NbtInt staticNewInstance(int value);
     static NbtInt newInstance(int value)
     {
-        return create(null).staticNewInstance(value);
+        return FACTORY.getStatic().staticNewInstance(value);
     }
 
     @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3820", begin=2105)})

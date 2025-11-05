@@ -22,7 +22,7 @@ public interface NetworkHandshakeSidedPacketManagersV2005 extends WrapperObject
     
     static NetworkPhaseSidedPacketManagerV2005 c2s()
     {
-        return create(null).staticC2s();
+        return FACTORY.getStatic().staticC2s();
     }
     @WrapMinecraftFieldAccessor(@VersionName(name="C2S"))
     NetworkPhaseSidedPacketManagerV2005 staticC2s();

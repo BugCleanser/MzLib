@@ -35,7 +35,7 @@ public interface EntityItem extends WrapperObject, Entity
      */
     static EntityDataKey<?> dataKeyItem()
     {
-        return create(null).staticDataTypeItem();
+        return FACTORY.getStatic().staticDataTypeItem();
     }
     
     EntityDataKey<?> staticDataTypeItem();

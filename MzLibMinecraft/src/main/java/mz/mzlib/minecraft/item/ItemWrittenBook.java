@@ -50,7 +50,7 @@ public interface ItemWrittenBook extends Item
     
     static String getTitle(ItemStack book)
     {
-        return create(null).staticGetTitle(book);
+        return FACTORY.getStatic().staticGetTitle(book);
     }
     
     String staticGetTitle(ItemStack book);
@@ -73,7 +73,7 @@ public interface ItemWrittenBook extends Item
     
     static void setTitle(ItemStack book, String title)
     {
-        create(null).staticSetTitle(book, title);
+        FACTORY.getStatic().staticSetTitle(book, title);
     }
     
     void staticSetTitle(ItemStack book, String title);
@@ -95,7 +95,7 @@ public interface ItemWrittenBook extends Item
     
     static String getAuthor(ItemStack book)
     {
-        return create(null).staticGetAuthor(book);
+        return FACTORY.getStatic().staticGetAuthor(book);
     }
     
     String staticGetAuthor(ItemStack book);
@@ -118,7 +118,7 @@ public interface ItemWrittenBook extends Item
     
     static void setAuthor(ItemStack book, String author)
     {
-        create(null).staticSetAuthor(book, author);
+        FACTORY.getStatic().staticSetAuthor(book, author);
     }
     
     void staticSetAuthor(ItemStack book, String author);
@@ -140,7 +140,7 @@ public interface ItemWrittenBook extends Item
     
     static int getGeneration(ItemStack book)
     {
-        return create(null).staticGetGeneration(book);
+        return FACTORY.getStatic().staticGetGeneration(book);
     }
     
     int staticGetGeneration(ItemStack book);
@@ -163,7 +163,7 @@ public interface ItemWrittenBook extends Item
     
     static void setGeneration(ItemStack book, int generation)
     {
-        create(null).staticSetGeneration(book, generation);
+        FACTORY.getStatic().staticSetGeneration(book, generation);
     }
     
     void staticSetGeneration(ItemStack book, int generation);
@@ -185,7 +185,7 @@ public interface ItemWrittenBook extends Item
     
     static List<Text> getPages(ItemStack book)
     {
-        return create(null).staticGetPages(book);
+        return FACTORY.getStatic().staticGetPages(book);
     }
     
     List<Text> staticGetPages(ItemStack book);
@@ -206,7 +206,7 @@ public interface ItemWrittenBook extends Item
     
     static void setPages(ItemStack book, List<Text> pages)
     {
-        create(null).staticSetPages(book, pages);
+        FACTORY.getStatic().staticSetPages(book, pages);
     }
     
     void staticSetPages(ItemStack book, List<Text> pages);
@@ -228,7 +228,7 @@ public interface ItemWrittenBook extends Item
     
     static boolean isResolved(ItemStack book)
     {
-        return create(null).staticIsResolved(book);
+        return FACTORY.getStatic().staticIsResolved(book);
     }
     
     boolean staticIsResolved(ItemStack book);
@@ -251,7 +251,7 @@ public interface ItemWrittenBook extends Item
     
     static void setResolved(ItemStack book, boolean resolved)
     {
-        create(null).staticSetResolved(book, resolved);
+        FACTORY.getStatic().staticSetResolved(book, resolved);
     }
     
     void staticSetResolved(ItemStack book, boolean resolved);

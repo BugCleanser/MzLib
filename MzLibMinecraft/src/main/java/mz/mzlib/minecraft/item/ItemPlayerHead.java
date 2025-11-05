@@ -30,7 +30,7 @@ public interface ItemPlayerHead extends Item
     
     static Option<GameProfile.Description> getOwner(ItemStack itemStack)
     {
-        return create(null).staticGetOwner(itemStack);
+        return FACTORY.getStatic().staticGetOwner(itemStack);
     }
     
     Option<GameProfile.Description> staticGetOwner(ItemStack itemStack);
@@ -54,7 +54,7 @@ public interface ItemPlayerHead extends Item
     
     static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value) // TODO
     {
-        create(null).staticSetOwner(itemStack, value);
+        FACTORY.getStatic().staticSetOwner(itemStack, value);
     }
     
     void staticSetOwner(ItemStack itemStack, Option<GameProfile.Description> value);

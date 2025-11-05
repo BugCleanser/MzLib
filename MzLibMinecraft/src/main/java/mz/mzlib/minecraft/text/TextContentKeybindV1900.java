@@ -25,7 +25,7 @@ public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
     TextContentKeybindV1900 staticNewInstance(String keybind);
     static TextContentKeybindV1900 newInstance(String keybind)
     {
-        return create(null).staticNewInstance(keybind);
+        return FACTORY.getStatic().staticNewInstance(keybind);
     }
 
     @WrapMinecraftMethod(@VersionName(name="getKey"))

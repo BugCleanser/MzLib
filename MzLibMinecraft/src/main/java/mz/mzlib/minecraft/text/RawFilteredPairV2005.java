@@ -31,7 +31,7 @@ public interface RawFilteredPairV2005 extends WrapperObject
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     static <T> RawFilteredPairV2005 newInstance0(T raw, Optional<T> filtered)
     {
-        return create(null).staticNewInstance0(raw, filtered);
+        return FACTORY.getStatic().staticNewInstance0(raw, filtered);
     }
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @WrapConstructor

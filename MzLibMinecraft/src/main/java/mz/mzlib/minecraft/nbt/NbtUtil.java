@@ -22,7 +22,7 @@ public interface NbtUtil extends WrapperObject
     
     static GameProfile decodeGameProfileV_2005(NbtCompound nbt)
     {
-        return create(null).staticDecodeGameProfileV_2005(nbt);
+        return FACTORY.getStatic().staticDecodeGameProfileV_2005(nbt);
     }
     @VersionRange(end=2005)
     @WrapMinecraftMethod(@VersionName(name="toGameProfile"))
@@ -30,7 +30,7 @@ public interface NbtUtil extends WrapperObject
     
     static NbtCompound encodeGameProfileV_2005(GameProfile profile)
     {
-        return create(null).staticEncodeGameProfileV_2005(profile);
+        return FACTORY.getStatic().staticEncodeGameProfileV_2005(profile);
     }
     @VersionRange(end=2005)
     @WrapMinecraftMethod({@VersionName(name="fromGameProfile", end=1400), @VersionName(name="method_10684", begin=1400)})

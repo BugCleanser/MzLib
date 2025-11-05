@@ -686,7 +686,7 @@ public interface Text extends WrapperObject
         
         static Gson gson()
         {
-            return SerializerV_2106.create(null).staticGson();
+            return SerializerV_2106.FACTORY.getStatic().staticGson();
         }
         
         @WrapMinecraftFieldAccessor(@VersionName(name="GSON"))
@@ -694,7 +694,7 @@ public interface Text extends WrapperObject
         
         static JsonElement encode(Text text)
         {
-            return SerializerV_2106.create(null).staticEncode(text);
+            return SerializerV_2106.FACTORY.getStatic().staticEncode(text);
         }
         
         JsonElement staticEncode(Text text);
@@ -724,7 +724,7 @@ public interface Text extends WrapperObject
         
         static Text decode(JsonElement json)
         {
-            return SerializerV_2106.create(null).staticDecode(json);
+            return SerializerV_2106.FACTORY.getStatic().staticDecode(json);
         }
         
         Text staticDecode(JsonElement json);
@@ -733,7 +733,7 @@ public interface Text extends WrapperObject
         @VersionRange(end=1300)
         default Text staticDecodeV_1300(JsonElement json)
         {
-            return Text.create(gson().fromJson(json, Text.create(null).staticGetWrappedClass()));
+            return Text.create(gson().fromJson(json, Text.FACTORY.getStatic().staticGetWrappedClass()));
         }
         
         @SpecificImpl("staticDecode")

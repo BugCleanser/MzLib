@@ -28,7 +28,7 @@ public interface PacketC2sWindowAnvilNameV1300 extends Packet
     
     static PacketC2sWindowAnvilNameV1300 newInstance(String name)
     {
-        return create(null).staticNewInstance(name);
+        return FACTORY.getStatic().staticNewInstance(name);
     }
     
     @WrapConstructor

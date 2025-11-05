@@ -28,7 +28,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     
     static NetworkPhasePacketManagerV_2005 handshake()
     {
-        return create(null).staticHandshake();
+        return FACTORY.getStatic().staticHandshake();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="HANDSHAKING", end=1400), @VersionName(name="field_11689", begin=1400, end=1500), @VersionName(name="field_20590", begin=1500)})
@@ -36,7 +36,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     
     static NetworkPhasePacketManagerV_2005 play()
     {
-        return create(null).staticPlay();
+        return FACTORY.getStatic().staticPlay();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="PLAY", end=1400), @VersionName(name="field_11690", begin=1400, end=1500), @VersionName(name="field_20591", begin=1500)})
@@ -44,7 +44,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     
     static NetworkPhasePacketManagerV_2005 query()
     {
-        return create(null).staticQuery();
+        return FACTORY.getStatic().staticQuery();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="STATUS", end=1400), @VersionName(name="field_11691", begin=1400, end=1500), @VersionName(name="field_20592", begin=1500)})
@@ -52,7 +52,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     
     static NetworkPhasePacketManagerV_2005 login()
     {
-        return create(null).staticLogin();
+        return FACTORY.getStatic().staticLogin();
     }
     
     @WrapMinecraftFieldAccessor({@VersionName(name="LOGIN", end=1400), @VersionName(name="field_11688", begin=1400, end=1500), @VersionName(name="field_20593", begin=1500)})
