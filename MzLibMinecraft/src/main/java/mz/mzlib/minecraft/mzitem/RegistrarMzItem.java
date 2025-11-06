@@ -11,7 +11,6 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>

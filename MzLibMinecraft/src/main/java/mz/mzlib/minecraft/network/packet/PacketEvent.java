@@ -26,9 +26,13 @@ public class PacketEvent
         return this.player;
     }
     
+    public Packet getPacket()
+    {
+        return this.packet;
+    }
     public <T extends Packet> T getPacket(WrapperFactory<T> factory)
     {
-        return this.packet.castTo(factory);
+        return this.getPacket().as(factory);
     }
     @Deprecated
     public <T extends Packet> T getPacket(Function<Object, T> creator)
@@ -36,7 +40,15 @@ public class PacketEvent
         return this.getPacket(new WrapperFactory<>(creator));
     }
     
-    public boolean isCopied = false;
+    public void setPacket(Packet value)
+    {
+        this.packet = value;
+    }
+    
+    /**
+     * @see #setPacket
+     */
+    @Deprecated
     public void ensureCopied()
     {
         if(this.isCopied)
@@ -44,6 +56,8 @@ public class PacketEvent
         this.packet.setWrappedFrom(this.packet.copy(this.channel.alloc()));
         this.isCopied = true;
     }
+    @Deprecated
+    public boolean isCopied = false;
     
     public TaskList syncTasks = null;
     public void sync(Runnable task)
@@ -96,6 +110,15 @@ public class PacketEvent
             return this.getBase().getPacket(this.getType());
         }
         
+        public void setPacket(Packet value)
+        {
+            this.getBase().setPacket(value);
+        }
+        
+        /**
+         * @see #setPacket
+         */
+        @Deprecated
         public void ensureCopied()
         {
             this.getBase().ensureCopied();

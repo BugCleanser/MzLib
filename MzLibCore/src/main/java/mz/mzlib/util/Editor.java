@@ -66,6 +66,10 @@ public class Editor<T> implements AutoCompletable<T, Object>
     {
         return of(AutoCompletable.of(getter, setter));
     }
+    public static <T> Editor<T> ofClone(Supplier<? extends T> getter, Function<? super T, ? extends T> cloner, Consumer<? super T> setter)
+    {
+        return of(ThrowableSupplier.ofSupplier(getter).thenApply(cloner), setter);
+    }
     public static <T, H> Editor<T> of(H holder, Function<? super H, ? extends T> getter, BiConsumer<? super H, ? super T> setter)
     {
         return of(ThrowableSupplier.constant(holder).thenApply(getter), ThrowableBiConsumer.ofBiConsumer(setter).bindFirst(ThrowableSupplier.constant(holder)));

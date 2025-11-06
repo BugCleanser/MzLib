@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.event.player.async;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
+import mz.mzlib.util.Editor;
 
 public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends EventAsyncByPacket<P>
 {
@@ -21,6 +22,15 @@ public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends Even
     {
         return this.original;
     }
+    
+    public Editor<ItemStack> reviseItemStack()
+    {
+        return Editor.ofClone(this::getItemStack, ItemStack::clone0, this::setItemStack);
+    }
+    /**
+     * @see #reviseItemStack
+     */
+    @Deprecated
     public ItemStack modifyItemStack()
     {
         if(this.original.getWrapped()==this.getItemStack().getWrapped())

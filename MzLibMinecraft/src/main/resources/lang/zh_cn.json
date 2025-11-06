@@ -57,5 +57,7 @@
 
   "mzlib.commands.mzlib.lang.loadmc.loading": "§e已在加载中，请留意后台",
   "mzlib.commands.mzlib.lang.loadmc.begin": "§a开始加载，请留意后台",
-  "mzlib.commands.mzlib.lang.custom.arg.language": "语言"
+  "mzlib.commands.mzlib.lang.custom.arg.language": "语言",
+
+  "mzlib.item.debug_stick": "§d调试棒"
 }

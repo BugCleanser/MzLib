@@ -1,5 +1,7 @@
 #import "./../../lib/lib.typ": *
 
+#set raw(lang: "java");
+
 #set document(title: [配合BukkitAPI使用])
 
 #show: template

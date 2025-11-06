@@ -13,6 +13,8 @@ import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
+import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
+import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
@@ -426,26 +428,59 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name="use"))
     ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
     
-    @Override
-    int hashCode0();
+    @VersionRange(begin=1903)
+    @WrapMinecraftMethod(@VersionName(name="isIn"))
+    boolean hasTagV1903(TagKeyV1903<?> tag);
     
-    @SpecificImpl("hashCode0")
+    @VersionRange(begin=2002)
+    @WrapMinecraftMethod(@VersionName(name="isIn"))
+    boolean isInV2002(RegistryEntryListV1903 registryEntries);
+    
+    /**
+     * Shadow clone
+     */
+    @Override
+    ItemStack clone0();
+    @SpecificImpl("clone0")
     @VersionRange(end=1300)
-    default int hashCodeV_1300()
+    default ItemStack impl$clone0V_1300()
     {
-        return Objects.hash(this.hashCodeV1300_2005(), this.getDamageV_1300());
+        ItemStack result = this.impl$clone0V1300_2005();
+        result.setDamageV_1300(this.getDamageV_1300());
+        return result;
+    }
+    @SpecificImpl("clone0")
+    @VersionRange(begin=1300, end=2005)
+    default ItemStack impl$clone0V1300_2005()
+    {
+        ItemStack result = newInstance(this.getItem(), this.getCount());
+        result.setTagV_2005(this.getTagV_2005());
+        return result;
+    }
+    @SpecificImpl("clone0")
+    @VersionRange(begin=2005)
+    default ItemStack impl$clone0V2005()
+    {
+        return this.copy();
     }
     
+    @Override
+    int hashCode0();
+    @SpecificImpl("hashCode0")
+    @VersionRange(end=1300)
+    default int impl$hashCode0V_1300()
+    {
+        return Objects.hash(this.impl$hashCode0V1300_2005(), this.getDamageV_1300());
+    }
     @SpecificImpl("hashCode0")
     @VersionRange(begin=1300, end=2005)
-    default int hashCodeV1300_2005()
+    default int impl$hashCode0V1300_2005()
     {
         return Objects.hash(this.getItem(), this.getCount(), this.getTagV_2005());
     }
-    
     @SpecificImpl("hashCode0")
     @VersionRange(begin=2005)
-    default int hashCodeV2005()
+    default int impl$hashCode0V2005()
     {
         return Objects.hash(this.getItem(), this.getCount(), this.getComponentsV2005());
     }
