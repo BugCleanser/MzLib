@@ -57,6 +57,6 @@ public interface EntityItem extends WrapperObject, Entity
         MinecraftPlatform.instance.getVersion() >= 900 && MinecraftPlatform.instance.getVersion() < 1100 ? //
             InvertibleFunction.wrapper(ItemStack.FACTORY).inverse().thenApply(Optional::fromNullable, Optional::orNull)
                 .thenCast() : //
-            new InvertibleFunction<>(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast()
+            InvertibleFunction.of(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast()
     );
 }

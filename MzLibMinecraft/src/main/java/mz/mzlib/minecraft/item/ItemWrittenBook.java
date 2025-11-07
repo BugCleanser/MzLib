@@ -55,9 +55,7 @@ public interface ItemWrittenBook extends Item
     {
         return FACTORY.getStatic().static$getTitle(book);
     }
-
     String static$getTitle(ItemStack book);
-
     @SpecificImpl("static$getTitle")
     @VersionRange(end = 2005)
     default String static$getTitleV_2005(ItemStack book)
@@ -68,7 +66,6 @@ public interface ItemWrittenBook extends Item
         }
         return "";
     }
-
     @SpecificImpl("static$getTitle")
     @VersionRange(begin = 2005)
     default String static$getTitleV2005(ItemStack book)
@@ -81,16 +78,16 @@ public interface ItemWrittenBook extends Item
     {
         FACTORY.getStatic().static$setTitle(book, title);
     }
-
     void static$setTitle(ItemStack book, String title);
-
     @SpecificImpl("static$setTitle")
     @VersionRange(end = 2005)
     default void static$setTitleV_2005(ItemStack book, String title)
     {
-        book.tagV_2005().put("title", NbtString.newInstance(title));
+        for(NbtCompound tag : Item.reviseCustomData(book))
+        {
+            tag.put("title", NbtString.newInstance(title));
+        }
     }
-
     @SpecificImpl("static$setTitle")
     @VersionRange(begin = 2005)
     default void static$setTitleV2005(ItemStack book, String title)
@@ -106,9 +103,7 @@ public interface ItemWrittenBook extends Item
     {
         return FACTORY.getStatic().static$getAuthor(book);
     }
-
     String static$getAuthor(ItemStack book);
-
     @SpecificImpl("static$getAuthor")
     @VersionRange(end = 2005)
     default String static$getAuthorV_2005(ItemStack book)
@@ -119,7 +114,6 @@ public interface ItemWrittenBook extends Item
         }
         return "";
     }
-
     @SpecificImpl("static$getAuthor")
     @VersionRange(begin = 2005)
     default String static$getAuthorV2005(ItemStack book)
@@ -132,16 +126,16 @@ public interface ItemWrittenBook extends Item
     {
         FACTORY.getStatic().static$setAuthor(book, author);
     }
-
     void static$setAuthor(ItemStack book, String author);
-
     @SpecificImpl("static$setAuthor")
     @VersionRange(end = 2005)
     default void static$setAuthorV_2005(ItemStack book, String author)
     {
-        book.tagV_2005().put("author", NbtString.newInstance(author));
+        for(NbtCompound tag : Item.reviseCustomData(book))
+        {
+            tag.put("author", NbtString.newInstance(author));
+        }
     }
-
     @SpecificImpl("static$setAuthor")
     @VersionRange(begin = 2005)
     default void static$setAuthorV2005(ItemStack book, String author)
@@ -157,9 +151,7 @@ public interface ItemWrittenBook extends Item
     {
         return FACTORY.getStatic().static$getGeneration(book);
     }
-
     int static$getGeneration(ItemStack book);
-
     @SpecificImpl("static$getGeneration")
     @VersionRange(end = 2005)
     default int static$getGenerationV_2005(ItemStack book)
@@ -170,7 +162,6 @@ public interface ItemWrittenBook extends Item
         }
         return 0;
     }
-
     @SpecificImpl("static$getGeneration")
     @VersionRange(begin = 2005)
     default int static$getGenerationV2005(ItemStack book)
@@ -183,16 +174,16 @@ public interface ItemWrittenBook extends Item
     {
         FACTORY.getStatic().static$setGeneration(book, generation);
     }
-
     void static$setGeneration(ItemStack book, int generation);
-
     @SpecificImpl("static$setGeneration")
     @VersionRange(end = 2005)
     default void static$setGenerationV_2005(ItemStack book, int generation)
     {
-        book.tagV_2005().put("generation", NbtInt.newInstance(generation));
+        for(NbtCompound tag : Item.reviseCustomData(book))
+        {
+            tag.put("generation", NbtInt.newInstance(generation));
+        }
     }
-
     @SpecificImpl("static$setGeneration")
     @VersionRange(begin = 2005)
     default void static$setGenerationV2005(ItemStack book, int generation)
@@ -209,7 +200,6 @@ public interface ItemWrittenBook extends Item
     {
         return FACTORY.getStatic().static$getPages(book);
     }
-
     List<Text> static$getPages(ItemStack book);
 
     @SpecificImpl("static$getPages")
@@ -219,7 +209,6 @@ public interface ItemWrittenBook extends Item
         return book.tagV_2005().getOr("pages", NbtList.FACTORY, NbtList::newInstance).asList().stream()
             .map(nbt -> Text.decode(nbt.castTo(NbtString.FACTORY).getValue())).collect(Collectors.toList());
     }
-
     @SpecificImpl("static$getPages")
     @VersionRange(begin = 2005)
     default List<Text> static$getPagesV2005(ItemStack book)
@@ -232,20 +221,21 @@ public interface ItemWrittenBook extends Item
     {
         FACTORY.getStatic().static$setPages(book, pages);
     }
-
     void static$setPages(ItemStack book, List<Text> pages);
-
     @SpecificImpl("static$setPages")
     @VersionRange(end = 2005)
     default void static$setPagesV_2005(ItemStack book, List<Text> pages)
     {
-        book.tagV_2005().put(
-            "pages", NbtList.newInstance(
-                pages.stream().map(page -> NbtString.newInstance(new Gson().toJson(page.encode())))
-                    .toArray(NbtElement[]::new))
-        );
+        for(NbtCompound tag : Item.reviseCustomData(book))
+        {
+            tag.put(
+                "pages", NbtList.newInstance(
+                    pages.stream().map(page -> NbtString.newInstance(new Gson().toJson(page.encode())))
+                        .toArray(NbtElement[]::new)
+                )
+            );
+        }
     }
-
     @SpecificImpl("static$setPages")
     @VersionRange(begin = 2005)
     default void static$setPagesV2005(ItemStack book, List<Text> pages)
@@ -257,13 +247,13 @@ public interface ItemWrittenBook extends Item
         }
     }
 
+    // TODO revise pages
+
     static boolean isResolved(ItemStack book)
     {
         return FACTORY.getStatic().static$isResolved(book);
     }
-
     boolean static$isResolved(ItemStack book);
-
     @SpecificImpl("static$isResolved")
     @VersionRange(end = 2005)
     default boolean static$isResolvedV_2005(ItemStack book)
@@ -274,7 +264,6 @@ public interface ItemWrittenBook extends Item
         }
         return false;
     }
-
     @SpecificImpl("static$isResolved")
     @VersionRange(begin = 2005)
     default boolean static$isResolvedV2005(ItemStack book)
@@ -287,16 +276,16 @@ public interface ItemWrittenBook extends Item
     {
         FACTORY.getStatic().static$setResolved(book, resolved);
     }
-
     void static$setResolved(ItemStack book, boolean resolved);
-
     @SpecificImpl("static$setResolved")
     @VersionRange(end = 2005)
     default void static$setResolvedV_2005(ItemStack book, boolean resolved)
     {
-        book.tagV_2005().put("resolved", NbtByte.newInstance(resolved));
+        for(NbtCompound tag : Item.reviseCustomData(book))
+        {
+            tag.put("resolved", NbtByte.newInstance(resolved));
+        }
     }
-
     @SpecificImpl("static$setResolved")
     @VersionRange(begin = 2005)
     default void static$setResolvedV2005(ItemStack book, boolean resolved)

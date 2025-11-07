@@ -34,13 +34,12 @@ public interface ItemPlayerHead extends Item
             null :
             ComponentKeyV2005.fromId("profile", GameProfileComponentV2005.FACTORY);
 
+
     static Option<GameProfile.Description> getOwner(ItemStack itemStack)
     {
         return FACTORY.getStatic().static$getOwner(itemStack);
     }
-
     Option<GameProfile.Description> static$getOwner(ItemStack itemStack);
-
     @SpecificImpl("static$getOwner")
     @VersionRange(end = 2005)
     default Option<GameProfile.Description> static$getOwnerV_2005(ItemStack itemStack)
@@ -54,7 +53,6 @@ public interface ItemPlayerHead extends Item
         }
         return Option.none();
     }
-
     @SpecificImpl("static$getOwner")
     @VersionRange(begin = 2005)
     default Option<GameProfile.Description> static$getOwnerV2005(ItemStack itemStack)
@@ -63,29 +61,23 @@ public interface ItemPlayerHead extends Item
             .map(GameProfileComponentV2005::toDescription);
     }
 
-    static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value) // TODO
+    static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value)
     {
         FACTORY.getStatic().static$setOwner(itemStack, value);
     }
-
     void static$setOwner(ItemStack itemStack, Option<GameProfile.Description> value);
-
     @SpecificImpl("static$setOwner")
     @VersionRange(end = 2005)
     default void static$setOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
-        for(GameProfile.Description profile : value)
+        for(NbtCompound tag : Item.reviseCustomData(itemStack))
         {
-            itemStack.tagV_2005()
-                .put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(profile)));
-            return;
-        }
-        for(NbtCompound tag : itemStack.getTagV_2005())
-        {
-            tag.remove("SkullOwner");
+            if(value.isSome())
+                tag.put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(value.unwrap())));
+            else
+                tag.remove("SkullOwner");
         }
     }
-
     @SpecificImpl("static$setOwner")
     @VersionRange(begin = 2005)
     default void static$setOwnerV2005(ItemStack itemStack, Option<GameProfile.Description> value)

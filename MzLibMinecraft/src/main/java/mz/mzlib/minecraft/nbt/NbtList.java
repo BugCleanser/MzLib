@@ -9,8 +9,10 @@ import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.nbt.NbtList"),
@@ -37,11 +39,12 @@ public interface NbtList extends NbtElement
 
     static NbtList newInstance(NbtElement... elements)
     {
+        return newInstance0(Arrays.stream(elements).map(NbtElement::getWrapped).collect(Collectors.toList()));
+    }
+    static NbtList newInstance0(List<Object> elements0)
+    {
         NbtList result = newInstance();
-        for(NbtElement i : elements)
-        {
-            result.add(i);
-        }
+        result.setValue0(elements0);
         return result;
     }
 

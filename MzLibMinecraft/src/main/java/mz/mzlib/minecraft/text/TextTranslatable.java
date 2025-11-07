@@ -69,18 +69,18 @@ public interface TextTranslatable extends WrapperObject, Text
         return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getKey();
     }
 
-    InvertibleFunction<Object, Object> FUNCTION_ARGS0 = new InvertibleFunction<>(
+    InvertibleFunction<Object, Object> FUNCTION_ARGS0 = InvertibleFunction.of(
         a0 ->
         {
             if(WrapperObject.FACTORY.create(a0).isInstanceOf(Text.FACTORY))
                 return Text.FACTORY.create(a0);
             return a0;
         }, a ->
-    {
-        if(a instanceof Text)
-            return ((Text) a).getWrapped();
-        return a;
-    }
+        {
+            if(a instanceof Text)
+                return ((Text) a).getWrapped();
+            return a;
+        }
     );
     default List<Object> getArgs()
     {

@@ -154,3 +154,4 @@ MzLibMinecraft/mappings
 
 /docs/**/*.html
 /book
+/.run/

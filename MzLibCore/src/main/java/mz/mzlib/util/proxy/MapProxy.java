@@ -166,7 +166,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
     public Set<Entry<K, V>> entrySet()
     {
         return new SetProxy<>(
-            this.delegate.entrySet(), new InvertibleFunction<>(
+            this.delegate.entrySet(), InvertibleFunction.of(
             x -> new MapEntry<>(functionKey.apply(x.getKey()), functionValue.apply(x.getValue())),
             x -> new MapEntry<>(functionKey.inverse().apply(x.getKey()), functionValue.inverse().apply(x.getValue()))
         ), this.modifyMonitor

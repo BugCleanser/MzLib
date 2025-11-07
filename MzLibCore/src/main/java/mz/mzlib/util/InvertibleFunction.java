@@ -16,10 +16,15 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         this.backward = backward;
     }
 
+    public static <T, U> InvertibleFunction<T, U> of(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
+    {
+        return new InvertibleFunction<>(forward, backward);
+    }
+
     @Override
     public InvertibleFunction<U, T> invert()
     {
-        return new InvertibleFunction<>(backward, forward);
+        return of(this.backward, this.forward);
     }
 
     @Override
@@ -30,18 +35,18 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
 
     public <V> InvertibleFunction<T, V> thenApply(InvertibleFunction<U, V> after)
     {
-        return new InvertibleFunction<>(this.andThen(after), after.inverse().andThen(this.inverse()));
+        return of(this.andThen(after), after.inverse().andThen(this.inverse()));
     }
     public <V> InvertibleFunction<T, V> thenApply(
         Function<? super U, ? extends V> after,
         Function<? super V, ? extends U> afterInverse)
     {
-        return this.thenApply(new InvertibleFunction<>(after, afterInverse));
+        return this.thenApply(of(after, afterInverse));
     }
 
     public static <T, U> InvertibleFunction<T, U> cast()
     {
-        return new InvertibleFunction<>(RuntimeUtil::cast, RuntimeUtil::cast);
+        return of(RuntimeUtil::cast, RuntimeUtil::cast);
     }
 
     public <V> InvertibleFunction<T, V> thenCast()
@@ -51,27 +56,27 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
 
     public static <T> InvertibleFunction<T, Ref<T>> ref()
     {
-        return new InvertibleFunction<>(RefStrong::new, Ref::get);
+        return of(RefStrong::new, Ref::get);
     }
 
     public static <T> InvertibleFunction<T, Option<T>> option()
     {
-        return new InvertibleFunction<>(Option::fromNullable, Option::toNullable);
+        return of(Option::fromNullable, Option::toNullable);
     }
 
     public static <T> InvertibleFunction<T, Optional<T>> optional()
     {
-        return new InvertibleFunction<>(Optional::ofNullable, RuntimeUtil::orNull);
+        return of(Optional::ofNullable, RuntimeUtil::orNull);
     }
 
     public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(WrapperFactory<T> factory)
     {
-        return new InvertibleFunction<>(factory::create, WrapperObject::getWrapped);
+        return of(factory::create, WrapperObject::getWrapped);
     }
     @Deprecated
     public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(Function<Object, T> creator)
     {
-        return new InvertibleFunction<>(creator, WrapperObject::getWrapped);
+        return of(creator, WrapperObject::getWrapped);
     }
 
     public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(
@@ -90,6 +95,6 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
 
     public static <T> InvertibleFunction<T, T> identity()
     {
-        return new InvertibleFunction<>(ThrowableFunction.identity(), ThrowableFunction.identity());
+        return of(ThrowableFunction.identity(), ThrowableFunction.identity());
     }
 }
