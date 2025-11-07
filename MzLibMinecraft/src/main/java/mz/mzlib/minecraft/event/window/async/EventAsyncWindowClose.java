@@ -12,23 +12,26 @@ public class EventAsyncWindowClose extends EventAsyncWindow<PacketC2sWindowClose
     {
         super(packetEvent, syncId);
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncWindowClose.class);
-            
-            this.register(new PacketListener<>(PacketC2sWindowClose.FACTORY, packetEvent->new EventAsyncWindowClose(packetEvent, packetEvent.getPacket().getSyncId()).call()));
+
+            this.register(new PacketListener<>(
+                PacketC2sWindowClose.FACTORY,
+                packetEvent -> new EventAsyncWindowClose(packetEvent, packetEvent.getPacket().getSyncId()).call()
+            ));
         }
     }
 }

@@ -18,13 +18,14 @@ import java.lang.annotation.Target;
 public @interface WrapCraftbukkitClass
 {
     VersionName[] value();
-    
+
     class Handler implements WrappedClassFinder<WrapCraftbukkitClass>
     {
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapCraftbukkitClass annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapCraftbukkitClass annotation)
+            throws ClassNotFoundException
         {
-            for(VersionName name: annotation.value())
+            for(VersionName name : annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(name))
                 {
@@ -32,7 +33,10 @@ public @interface WrapCraftbukkitClass
                     {
                         if(name.name().startsWith("OBC."))
                         {
-                            return Class.forName("org.bukkit.craftbukkit."+(MinecraftPlatformBukkit.instance.protocolVersion!=null ? MinecraftPlatformBukkit.instance.protocolVersion+'.' : "")+name.name().substring("OBC.".length()));
+                            return Class.forName("org.bukkit.craftbukkit." +
+                                (MinecraftPlatformBukkit.instance.protocolVersion != null ?
+                                    MinecraftPlatformBukkit.instance.protocolVersion + '.' :
+                                    "") + name.name().substring("OBC.".length()));
                         }
                         else
                         {
@@ -44,7 +48,7 @@ public @interface WrapCraftbukkitClass
                     }
                 }
             }
-            throw new ClassNotFoundException("No class found: "+annotation);
+            throw new ClassNotFoundException("No class found: " + annotation);
         }
     }
 }

@@ -8,7 +8,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtIntArray"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.IntArrayTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtIntArray")})
+@WrapMinecraftClass({
+    @VersionName(end = 1400, name = "net.minecraft.nbt.NbtIntArray"),
+    @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.IntArrayTag"),
+    @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtIntArray")
+})
 public interface NbtIntArray extends NbtElement
 {
     WrapperFactory<NbtIntArray> FACTORY = WrapperFactory.of(NbtIntArray.class);

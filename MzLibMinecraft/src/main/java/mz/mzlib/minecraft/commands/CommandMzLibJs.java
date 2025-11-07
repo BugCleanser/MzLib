@@ -21,20 +21,24 @@ import java.util.Objects;
 public class CommandMzLibJs extends MzModule
 {
     public static CommandMzLibJs instance = new CommandMzLibJs();
-    
+
     public Permission permission = new Permission("mzlib.command.mzlib.js");
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("js").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(this::handle)));
+        this.register(new ChildCommandRegistration(
+            MzLibMinecraft.instance.command,
+            this.command = new Command("js").setPermissionChecker(Command.permissionChecker(this.permission))
+                .setHandler(this::handle)
+        ));
     }
-    
+
     public Object scope = MinecraftJsUtil.initScope();
-    
+
     public void handle(CommandContext context)
     {
         String code = new ArgumentParserString("code", true).handle(context);
@@ -47,11 +51,11 @@ public class CommandMzLibJs extends MzModule
             JsUtil.put(this.scope, "context", context);
             Object result = JsUtil.eval(this.scope, code);
             if(result instanceof NativeJavaObject)
-                result = result.getClass().getSimpleName()+": "+((NativeJavaObject)result).unwrap();
+                result = result.getClass().getSimpleName() + ": " + ((NativeJavaObject) result).unwrap();
             else if(result instanceof NativeArray)
-                result = "NativeArray: "+new ArrayList<Object>((NativeArray)result);
-            else if(result!=null)
-                result = result.getClass().getSimpleName()+": "+result;
+                result = "NativeArray: " + new ArrayList<Object>((NativeArray) result);
+            else if(result != null)
+                result = result.getClass().getSimpleName() + ": " + result;
             context.getSource().sendMessage(Text.literal(Objects.toString(result)).setColor(TextColor.GREEN));
         }
         catch(RhinoException e)

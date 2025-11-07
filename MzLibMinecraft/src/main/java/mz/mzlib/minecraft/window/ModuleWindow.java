@@ -22,28 +22,33 @@ import java.util.List;
 public class ModuleWindow extends MzModule
 {
     public static ModuleWindow instance = new ModuleWindow();
-    
+
     public void onLoad()
     {
         this.register(NothingPacketS2cWindowOpen.class);
         this.register(NothingWindow.class);
     }
-    
+
     @WrapSameClass(PacketS2cWindowOpen.class)
     public interface NothingPacketS2cWindowOpen extends PacketS2cWindowOpen, Nothing
     {
-        @VersionRange(end=1400)
-        @NothingInject(wrapperMethodName="<init>", wrapperMethodParams={int.class, String.class, Text.class, int.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+        @VersionRange(end = 1400)
+        @NothingInject(wrapperMethodName = "<init>", wrapperMethodParams = {
+            int.class,
+            String.class,
+            Text.class,
+            int.class
+        }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         static void initBeforeV_1400(@LocalVar(2) WrapperString typeId, @LocalVar(4) Wrapper_int size)
         {
             int i = typeId.getWrapped().indexOf('*');
-            if(i==-1)
+            if(i == -1)
                 return;
-            size.setWrapped(Integer.parseInt(typeId.getWrapped().substring(i+1)));
+            size.setWrapped(Integer.parseInt(typeId.getWrapped().substring(i + 1)));
             typeId.setWrapped(typeId.getWrapped().substring(0, i));
         }
     }
-    
+
     @WrapSameClass(Window.class)
     public interface NothingWindow extends Window, Nothing
     {
@@ -54,13 +59,22 @@ public class ModuleWindow extends MzModule
         {
             return WrapperObject.create(NothingWindow.class, wrapped);
         }
-        
-        @NothingInject(wrapperMethodName="placeIn", wrapperMethodParams={ItemStack.class, int.class, int.class, boolean.class}, type=NothingInjectType.INSERT_BEFORE, locateMethod="")
-        default WrapperBoolean placeInOverwrite(@LocalVar(1) ItemStack itemStack, @LocalVar(2) int begin, @LocalVar(3) int end, @LocalVar(4) boolean inverted)
+
+        @NothingInject(wrapperMethodName = "placeIn", wrapperMethodParams = {
+            ItemStack.class,
+            int.class,
+            int.class,
+            boolean.class
+        }, type = NothingInjectType.INSERT_BEFORE, locateMethod = "")
+        default WrapperBoolean placeInOverwrite(
+            @LocalVar(1) ItemStack itemStack,
+            @LocalVar(2) int begin,
+            @LocalVar(3) int end,
+            @LocalVar(4) boolean inverted)
         {
             return WrapperBoolean.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
         }
-        
+
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)
         {
             if(!itemStack.isPresent())
@@ -69,12 +83,12 @@ public class ModuleWindow extends MzModule
                 return false;
             if(doCheck)
                 itemStack = ItemStack.copy(itemStack);
-            
+
             boolean result = false;
             int k = begin;
             if(inverted)
-                k = end-1;
-            
+                k = end - 1;
+
             List<WindowSlot> slots = this.getSlots();
             WindowSlot slot;
             ItemStack is;
@@ -85,70 +99,70 @@ public class ModuleWindow extends MzModule
                 {
                     if(inverted)
                     {
-                        if(k<begin)
+                        if(k < begin)
                             break;
                     }
-                    else if(k>=end)
+                    else if(k >= end)
                         break;
-                    
+
                     slot = slots.get(k);
                     is = slot.getItemStack();
                     if(doCheck)
                         is = ItemStack.copy(is);
-                    
+
                     if(!ItemStack.isEmpty(is) && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, is))
                     {
-                        l = is.getCount()+itemStack.getCount();
+                        l = is.getCount() + itemStack.getCount();
                         int i1 = slot.getMaxStackCount(is);
-                        if(l<=i1)
+                        if(l <= i1)
                         {
                             itemStack.setCount(0);
                             is.setCount(l);
                             if(!doCheck)
                                 slot.markDirty();
-                            
+
                             result = true;
                         }
-                        else if(is.getCount()<i1)
+                        else if(is.getCount() < i1)
                         {
-                            itemStack.shrink(i1-is.getCount());
+                            itemStack.shrink(i1 - is.getCount());
                             is.setCount(i1);
                             if(!doCheck)
                                 slot.markDirty();
-                            
+
                             result = true;
                         }
                     }
-                    
+
                     if(inverted)
                         --k;
                     else
                         ++k;
                 }
             }
-            
+
             if(!ItemStack.isEmpty(itemStack))
             {
                 if(inverted)
-                    k = end-1;
+                    k = end - 1;
                 else
                     k = begin;
-                
+
                 while(true)
                 {
                     if(inverted)
                     {
-                        if(k<begin)
+                        if(k < begin)
                             break;
                     }
-                    else if(k>=end)
+                    else if(k >= end)
                         break;
-                    
+
                     slot = slots.get(k);
                     is = slot.getItemStack();
                     if(doCheck)
                         is = ItemStack.copy(is);
-                    
+
                     if(ItemStack.isEmpty(is) && slot.canPlace(itemStack))
                     {
                         l = slot.getMaxStackCount(itemStack);
@@ -159,18 +173,18 @@ public class ModuleWindow extends MzModule
                             slot.setItemStackByPlayer(itemStack.split(Math.min(itemStack.getCount(), l)));
                             slot.markDirty();
                         }
-                        
+
                         result = true;
                         break;
                     }
-                    
+
                     if(inverted)
                         --k;
                     else
                         ++k;
                 }
             }
-            
+
             return result;
         }
     }

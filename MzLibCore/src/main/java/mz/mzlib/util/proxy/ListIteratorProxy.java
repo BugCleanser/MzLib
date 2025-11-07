@@ -16,7 +16,7 @@ public class ListIteratorProxy<T, U> extends IteratorProxy<T, U> implements List
     {
         super(delegate, function);
     }
-    
+
     @Override
     public ListIterator<U> getDelegate()
     {
@@ -27,7 +27,7 @@ public class ListIteratorProxy<T, U> extends IteratorProxy<T, U> implements List
     {
         return RuntimeUtil.cast(super.getFunction());
     }
-    
+
     @Override
     public boolean hasPrevious()
     {
@@ -54,7 +54,7 @@ public class ListIteratorProxy<T, U> extends IteratorProxy<T, U> implements List
         this.modifyMonitor.onModify();
         this.getDelegate().set(this.getFunction().inverse().apply(t));
         this.modifyMonitor.markDirty();
-        
+
     }
     @Override
     public void add(T t)

@@ -13,27 +13,27 @@ public abstract class EventAsyncWindow<P extends Packet> extends EventAsyncByPac
         super(packetEvent);
         this.syncId = syncId;
     }
-    
+
     public int getSyncId()
     {
         return this.syncId;
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncWindow.class);
-            
+
             this.register(EventAsyncWindowAction.Module.instance);
             this.register(EventAsyncWindowClose.Module.instance);
             this.register(EventAsyncWindowAnvilSetName.Module.instance);

@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Optional;
 import java.util.function.Function;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.RawFilteredPair", begin=2005))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.RawFilteredPair", begin = 2005))
 public interface RawFilteredPairV2005 extends WrapperObject
 {
     WrapperFactory<RawFilteredPairV2005> FACTORY = WrapperFactory.of(RawFilteredPairV2005.class);
@@ -22,12 +22,12 @@ public interface RawFilteredPairV2005 extends WrapperObject
     {
         return WrapperObject.create(RawFilteredPairV2005.class, wrapped);
     }
-    
+
     static RawFilteredPairV2005 newInstance(WrapperObject raw, Option<? extends WrapperObject> filtered)
     {
         return newInstance0(raw.getWrapped(), filtered.map(WrapperObject::getWrapped).toOptional());
     }
-    
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     static <T> RawFilteredPairV2005 newInstance0(T raw, Optional<T> filtered)
     {
@@ -36,11 +36,11 @@ public interface RawFilteredPairV2005 extends WrapperObject
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @WrapConstructor
     <T> RawFilteredPairV2005 static$newInstance0(T raw, Optional<T> filtered);
-    
-    @WrapMinecraftMethod(@VersionName(name="get"))
+
+    @WrapMinecraftMethod(@VersionName(name = "get"))
     Object get0(boolean shouldFilter);
-    
-    default <T extends WrapperObject> T get(boolean shouldFilter, WrapperFactory< T> factory)
+
+    default <T extends WrapperObject> T get(boolean shouldFilter, WrapperFactory<T> factory)
     {
         return factory.create(this.get0(shouldFilter));
     }

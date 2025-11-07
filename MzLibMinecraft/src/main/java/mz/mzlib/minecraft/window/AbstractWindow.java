@@ -25,20 +25,20 @@ public interface AbstractWindow extends Window
     {
         return WrapperObject.create(AbstractWindow.class, wrapped);
     }
-    
+
     Inventory getInventory();
-    
+
     AbstractEntityPlayer getPlayer();
-    
+
     @Override
-    @CompoundOverride(parent=Window.class, method="getBukkitView")
+    @CompoundOverride(parent = Window.class, method = "getBukkitView")
     default BukkitInventoryView getBukkitView()
     {
         return CraftInventoryView.newInstance(this.getPlayer(), this.getInventory(), this);
     }
-    
+
     @Override
-    @CompoundOverride(parent=Window.class, method="quickMove")
+    @CompoundOverride(parent = Window.class, method = "quickMove")
     default ItemStack quickMove(AbstractEntityPlayer player, int index)
     {
         WindowSlot slot = this.getSlot(index);
@@ -46,29 +46,29 @@ public interface AbstractWindow extends Window
             return ItemStack.empty();
         ItemStack is = slot.getItemStack();
         ItemStack original = ItemStack.copy(is);
-        int upperSize = this.getSlots().size()-36;
-        if(index<upperSize)
+        int upperSize = this.getSlots().size() - 36;
+        if(index < upperSize)
         {
             if(!this.placeIn(is, upperSize, this.getSlots().size(), true))
                 return ItemStack.empty();
         }
         else if(!this.placeIn(is, 0, upperSize, false))
             return ItemStack.empty();
-        
+
         if(ItemStack.isEmpty(is))
             slot.setItemStackByPlayer(ItemStack.empty());
         else
             slot.markDirty();
         return original;
     }
-    
+
     @Override
-    @CompoundOverride(parent=Window.class, method="checkReachable")
+    @CompoundOverride(parent = Window.class, method = "checkReachable")
     default boolean checkReachable(AbstractEntityPlayer player)
     {
         return true;
     }
-    
+
     /**
      * @param index the index of slot or -1 when click title bar with item or -999 when click outside
      * @param data  see {@link WindowActionType}
@@ -77,8 +77,8 @@ public interface AbstractWindow extends Window
     {
         this.onActionSuper(index, data, actionType, player);
     }
-    
-    @CompoundOverride(parent=Window.class, method="onActionV_1700")
+
+    @CompoundOverride(parent = Window.class, method = "onActionV_1700")
     @Override
     default ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
@@ -87,28 +87,28 @@ public interface AbstractWindow extends Window
             player.castTo(EntityPlayer.FACTORY).updateWindowV_1700(this);
         return ItemStack.empty();
     }
-    
-    @CompoundOverride(parent=Window.class, method="onActionV1700")
+
+    @CompoundOverride(parent = Window.class, method = "onActionV1700")
     @Override
     default void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         this.onAction(index, data, actionType, player);
     }
-    
+
     void onActionSuper(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
-    
-    @CompoundSuper(parent=Window.class, method="onActionV_1700")
+
+    @CompoundSuper(parent = Window.class, method = "onActionV_1700")
     ItemStack onActionSuperV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
-    
+
     @SpecificImpl("onActionSuper")
-    @VersionRange(end=1700)
+    @VersionRange(end = 1700)
     default void onActionSuperImplV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player)
     {
         ItemStack ignored = this.onActionSuperV_1700(index, data, actionType, player);
     }
-    
+
     @SpecificImpl("onActionSuper")
-    @VersionRange(begin=1700)
-    @CompoundSuper(parent=Window.class, method="onActionV1700")
+    @VersionRange(begin = 1700)
+    @CompoundSuper(parent = Window.class, method = "onActionV1700")
     void onActionSuperV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
 }

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.bukkit.command;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.command.CommandBlockExecutor;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.util.wrapper.*;
@@ -19,17 +18,17 @@ public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockE
     {
         return WrapperObject.create(CommandBlockExecutorBukkit.class, wrapped);
     }
-    
-    @VersionRange(begin=1200, end=1300)
+
+    @VersionRange(begin = 1200, end = 1300)
     static CommandSender commandSourceToBukkitV1200_1300(CommandSource source)
     {
         return FACTORY.getStatic().static$commandSourceToBukkitV1200_1300(source);
     }
-    @VersionRange(begin=1200, end=1300)
+    @VersionRange(begin = 1200, end = 1300)
     @WrapMethod("unwrapSender")
     CommandSender static$commandSourceToBukkitV1200_1300(CommandSource source);
-    
-    @VersionRange(end=1300)
+
+    @VersionRange(end = 1300)
     @WrapFieldAccessor("sender")
     CommandSender getBukkitSenderV_1300();
 }

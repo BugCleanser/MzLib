@@ -23,10 +23,16 @@ public @interface PropAccessor
     class Handler implements WrappedMemberFinder<PropAccessor>
     {
         @Override
-        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, PropAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(
+            Class<? extends WrapperObject> wrapperClass,
+            Class<?> wrappedClass,
+            Method wrapperMethod,
+            PropAccessor annotation,
+            Class<?> returnType,
+            Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
-            switch (argTypes.length)
+            switch(argTypes.length)
             {
                 case 0:
                     type = returnType;

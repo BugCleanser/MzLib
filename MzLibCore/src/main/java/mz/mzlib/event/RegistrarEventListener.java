@@ -6,7 +6,7 @@ import mz.mzlib.util.RuntimeUtil;
 
 public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 {
-    public static RegistrarEventListener instance=new RegistrarEventListener();
+    public static RegistrarEventListener instance = new RegistrarEventListener();
 
     public Class<EventListener<?>> getType()
     {

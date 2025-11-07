@@ -10,12 +10,15 @@ public class ArgumentParserInt extends ArgumentParser<Integer>
     public ArgumentParserInt(String name, int... presets)
     {
         super(name);
-        this.presets=presets;
+        this.presets = presets;
     }
-    
+
     @Override
     public Integer parse(CommandContext context)
     {
-        return Integer.parseInt(new ArgumentParserString(this.name, false, Arrays.stream(this.presets).mapToObj(Integer::toString).toArray(String[]::new)).parse(context));
+        return Integer.parseInt(new ArgumentParserString(
+            this.name, false,
+            Arrays.stream(this.presets).mapToObj(Integer::toString).toArray(String[]::new)
+        ).parse(context));
     }
 }

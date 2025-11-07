@@ -1,12 +1,12 @@
 name: MzLib
 version: ${version}
 authors:
- - "lvyitian"
- - "mz"
- - "Yurinann"
- - "awa"
- - "Core2002"
- - "hpwriterkyle"
- - "pi_ka"
+  - "lvyitian"
+  - "mz"
+  - "Yurinann"
+  - "awa"
+  - "Core2002"
+  - "hpwriterkyle"
+  - "pi_ka"
 main: mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin
 api-version: 1.13

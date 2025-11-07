@@ -9,21 +9,24 @@ import mz.mzlib.module.MzModule;
 public class DemoUIInput extends MzModule
 {
     public static DemoUIInput instance = new DemoUIInput();
-    
+
     @Override
     public void onLoad()
     {
-        this.register(new ChildCommandRegistration(Demo.instance.command, new Command("input") //
-                .setPermissionChecker(Command::checkPermissionSenderPlayer) //
-                .setHandler(context->
-                {
-                    if(context.getArgsReader().hasNext())
-                        context.successful = false;
-                    if(!context.successful)
-                        return;
-                    if(!context.doExecute)
-                        return;
-                    UIWindowAnvilInput.invoke(context.getSource().getPlayer().unwrap(), "", Text.literal("Title")).thenAccept(text->context.getSource().sendMessage(Text.literal(text)));
-                })));
+        this.register(new ChildCommandRegistration(
+            Demo.instance.command, new Command("input") //
+            .setPermissionChecker(Command::checkPermissionSenderPlayer) //
+            .setHandler(context ->
+            {
+                if(context.getArgsReader().hasNext())
+                    context.successful = false;
+                if(!context.successful)
+                    return;
+                if(!context.doExecute)
+                    return;
+                UIWindowAnvilInput.invoke(context.getSource().getPlayer().unwrap(), "", Text.literal("Title"))
+                    .thenAccept(text -> context.getSource().sendMessage(Text.literal(text)));
+            })
+        ));
     }
 }

@@ -17,9 +17,9 @@ public @interface VersionRanges
     {
         public boolean isEnabled(VersionRanges annotation, AnnotatedElement element)
         {
-            for (VersionRange versionRange : annotation.value())
+            for(VersionRange versionRange : annotation.value())
             {
-                if (MinecraftPlatform.instance.inVersion(versionRange))
+                if(MinecraftPlatform.instance.inVersion(versionRange))
                     return true;
             }
             return false;

@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.component.type.LoreComponent", begin=2005))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.component.type.LoreComponent", begin = 2005))
 public interface LoreComponentV2005 extends WrapperObject
 {
     WrapperFactory<LoreComponentV2005> FACTORY = WrapperFactory.of(LoreComponentV2005.class);
@@ -23,7 +23,7 @@ public interface LoreComponentV2005 extends WrapperObject
     {
         return WrapperObject.create(LoreComponentV2005.class, wrapped);
     }
-    
+
     static LoreComponentV2005 newInstance(List<Text> lines)
     {
         return FACTORY.getStatic().static$newInstance(lines);
@@ -34,10 +34,10 @@ public interface LoreComponentV2005 extends WrapperObject
     {
         return static$newInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="comp_2400"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "comp_2400"))
     List<Object> getLines0();
-    
+
     default List<Text> getLines()
     {
         return new ListProxy<>(this.getLines0(), InvertibleFunction.wrapper(Text.FACTORY));

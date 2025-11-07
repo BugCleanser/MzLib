@@ -13,7 +13,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
     protected Collection<U> delegate;
     protected InvertibleFunction<U, T> function;
     protected ModifyMonitor modifyMonitor;
-    
+
     public CollectionProxy(Collection<U> delegate, InvertibleFunction<U, T> function, ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
@@ -24,29 +24,29 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
     {
         this(delegate, function, ModifyMonitor.Empty.instance);
     }
-    
+
     public Collection<U> getDelegate()
     {
         return this.delegate;
     }
-    
+
     public InvertibleFunction<U, T> getFunction()
     {
         return this.function;
     }
-    
+
     @Override
     public int size()
     {
         return this.getDelegate().size();
     }
-    
+
     @Override
     public boolean isEmpty()
     {
         return this.getDelegate().isEmpty();
     }
-    
+
     @Override
     public boolean contains(Object o)
     {
@@ -61,7 +61,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         }
         return this.getDelegate().contains(k1);
     }
-    
+
     @Override
     public boolean add(T t)
     {
@@ -70,7 +70,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         this.modifyMonitor.markDirty();
         return result;
     }
-    
+
     @Override
     public boolean remove(Object o)
     {
@@ -88,7 +88,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         this.modifyMonitor.markDirty();
         return result;
     }
-    
+
     @Override
     public boolean addAll(Collection<? extends T> c)
     {
@@ -102,7 +102,7 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         this.modifyMonitor.markDirty();
         return result;
     }
-    
+
     @Override
     public void clear()
     {
@@ -110,20 +110,20 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         this.getDelegate().clear();
         this.modifyMonitor.markDirty();
     }
-    
+
     @SuppressWarnings("NullableProblems")
     @Override
     public Iterator<T> iterator()
     {
         return new IteratorProxy<>(this.getDelegate().iterator(), this.getFunction(), this.modifyMonitor);
     }
-    
+
     @Override
     public int hashCode()
     {
         return this.getDelegate().hashCode();
     }
-    
+
     @SuppressWarnings("EqualsDoesntCheckParameterClass")
     @Override
     public boolean equals(Object obj)

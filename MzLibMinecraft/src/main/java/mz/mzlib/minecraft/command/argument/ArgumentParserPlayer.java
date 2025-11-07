@@ -17,16 +17,22 @@ public class ArgumentParserPlayer extends ArgumentParser<EntityPlayer>
     {
         this("player");
     }
-    
+
     @Override
     public EntityPlayer parse(CommandContext context)
     {
-        String name = new ArgumentParserString(this.name, false, MinecraftServer.instance.getPlayers().stream().map(EntityPlayer::getName).toArray(String[]::new)).parse(context);
-        if(name==null)
+        String name = new ArgumentParserString(
+            this.name, false,
+            MinecraftServer.instance.getPlayers().stream().map(EntityPlayer::getName).toArray(String[]::new)
+        ).parse(context);
+        if(name == null)
             return null;
         EntityPlayer result = MinecraftServer.instance.getPlayerManager().getPlayer(name);
         if(!result.isPresent())
-            context.addArgError(MinecraftI18n.resolveText(context.source, "mzlib.command.arg.player.not_found", Collections.singletonMap("name", name)));
+            context.addArgError(MinecraftI18n.resolveText(
+                context.source, "mzlib.command.arg.player.not_found",
+                Collections.singletonMap("name", name)
+            ));
         return result;
     }
 }

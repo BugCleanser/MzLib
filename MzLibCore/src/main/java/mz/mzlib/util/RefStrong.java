@@ -5,12 +5,12 @@ import java.util.Objects;
 public class RefStrong<T> implements Ref<T>
 {
     public T target;
-    
+
     public RefStrong(T value)
     {
         set(value);
     }
-    
+
     public static <T> RefStrong<T> of(T value)
     {
         return new RefStrong<T>(value);
@@ -19,31 +19,31 @@ public class RefStrong<T> implements Ref<T>
     {
         return of(null);
     }
-    
+
     @Override
     public T get()
     {
         return target;
     }
-    
+
     @Override
     public void set(T value)
     {
         target = value;
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof Ref && get()==((Ref<?>)obj).get();
+        return obj instanceof Ref && get() == ((Ref<?>) obj).get();
     }
-    
+
     @Override
     public int hashCode()
     {
         return System.identityHashCode(this.get());
     }
-    
+
     @Override
     public String toString()
     {

@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.block.BlockState"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.block.BlockState"))
 public interface BlockState extends WrapperObject
 {
     WrapperFactory<BlockState> FACTORY = WrapperFactory.of(BlockState.class);

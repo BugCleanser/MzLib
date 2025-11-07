@@ -10,7 +10,7 @@ public class PacketListener<T extends Packet>
     public final WrapperFactory<T> factory;
     public float priority;
     public Consumer<PacketEvent.Specialized<T>> handler;
-    
+
     public PacketListener(WrapperFactory<T> factory, float priority, Consumer<PacketEvent.Specialized<T>> handler)
     {
         this.factory = factory;
@@ -31,7 +31,7 @@ public class PacketListener<T extends Packet>
     {
         this(creator, 0.f, handler);
     }
-    
+
     public void call(PacketEvent event)
     {
         this.handler.accept(event.specialize(this.factory));

@@ -11,11 +11,11 @@ import java.util.function.BooleanSupplier;
 @WrapSameClass(MinecraftServer.class)
 public interface NothingMinecraftServer extends MinecraftServer, Nothing
 {
-    @VersionRange(end=1300)
-    @NothingInject(wrapperMethodName="tickV_1300", wrapperMethodParams={}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+    @VersionRange(end = 1300)
+    @NothingInject(wrapperMethodName = "tickV_1300", wrapperMethodParams = {}, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
     default void tickEndV_1300()
     {
-        while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).getFirst()-tickNumber.get()<=0)
+        while(!waitingTasks.isEmpty() && Objects.requireNonNull(waitingTasks.peek()).getFirst() - tickNumber.get() <= 0)
         {
             try
             {
@@ -39,9 +39,9 @@ public interface NothingMinecraftServer extends MinecraftServer, Nothing
         }
         tickNumber.target++;
     }
-    
-    @VersionRange(begin=1300)
-    @NothingInject(wrapperMethodName="tickV1300", wrapperMethodParams={BooleanSupplier.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
+
+    @VersionRange(begin = 1300)
+    @NothingInject(wrapperMethodName = "tickV1300", wrapperMethodParams = { BooleanSupplier.class }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
     default void tickEndV1300()
     {
         tickEndV_1300();

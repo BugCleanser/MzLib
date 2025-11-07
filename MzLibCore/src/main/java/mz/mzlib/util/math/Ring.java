@@ -10,7 +10,7 @@ public class Ring<T>
         this.addition = addition;
         this.multiplication = multiplication;
     }
-    
+
     public Group<T> getAddition()
     {
         return this.addition;
@@ -19,12 +19,12 @@ public class Ring<T>
     {
         return this.multiplication;
     }
-    
+
     public T zero()
     {
         return this.getAddition().identity();
     }
-    
+
     public T add(T a, T b)
     {
         return this.getAddition().apply(a, b);

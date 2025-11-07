@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.util.Formatting"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.util.Formatting"))
 public interface TextFormatLegacy extends WrapperObject
 {
     WrapperFactory<TextFormatLegacy> FACTORY = WrapperFactory.of(TextFormatLegacy.class);
@@ -18,7 +18,7 @@ public interface TextFormatLegacy extends WrapperObject
     {
         return WrapperObject.create(TextFormatLegacy.class, wrapped);
     }
-    
+
     TextFormatLegacy BLACK = fromName("BLACK");
     TextFormatLegacy DARK_BLUE = fromName("DARK_BLUE");
     TextFormatLegacy DARK_GREEN = fromName("DARK_GREEN");
@@ -41,15 +41,15 @@ public interface TextFormatLegacy extends WrapperObject
     TextFormatLegacy UNDERLINE = fromName("UNDERLINE");
     TextFormatLegacy ITALIC = fromName("ITALIC");
     TextFormatLegacy RESET = fromName("RESET");
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="code"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "code"))
     char getCode();
-    
+
     static TextFormatLegacy fromName(String name)
     {
         return FACTORY.getStatic().static$fromName(name);
     }
-    
-    @WrapMinecraftMethod(@VersionName(name="byName"))
+
+    @WrapMinecraftMethod(@VersionName(name = "byName"))
     TextFormatLegacy static$fromName(String name);
 }

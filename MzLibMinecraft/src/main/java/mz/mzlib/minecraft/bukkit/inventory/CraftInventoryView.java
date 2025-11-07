@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.bukkit.inventory;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.bukkit.BukkitEnabled;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.bukkit.entity.BukkitHumanEntity;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
@@ -15,7 +14,7 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
-@WrapCraftbukkitClass(@VersionName(name="OBC.inventory.CraftInventoryView"))
+@WrapCraftbukkitClass(@VersionName(name = "OBC.inventory.CraftInventoryView"))
 public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
 {
     WrapperFactory<CraftInventoryView> FACTORY = WrapperFactory.of(CraftInventoryView.class);
@@ -25,17 +24,17 @@ public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
     {
         return WrapperObject.create(CraftInventoryView.class, wrapped);
     }
-    
+
     @WrapConstructor
     CraftInventoryView static$newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window);
     static CraftInventoryView newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window)
     {
         return FACTORY.getStatic().static$newInstance(player, inventory, window);
     }
-    
+
     static CraftInventoryView newInstance(AbstractEntityPlayer player, Inventory inventory, Window window)
     {
-        BukkitInventory bukkitInventory=CraftInventory.newInstance(inventory);
+        BukkitInventory bukkitInventory = CraftInventory.newInstance(inventory);
         // TODO
         return newInstance(BukkitHumanEntity.create(BukkitEntityUtil.toBukkit(player)), bukkitInventory, window);
     }

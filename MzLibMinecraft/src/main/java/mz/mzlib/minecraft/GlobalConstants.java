@@ -8,7 +8,10 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.util.SharedConstants", end=1400), @VersionName(name="net.minecraft.SharedConstants", begin=1400)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.util.SharedConstants", end = 1400),
+    @VersionName(name = "net.minecraft.SharedConstants", begin = 1400)
+})
 public interface GlobalConstants extends WrapperObject
 {
     WrapperFactory<GlobalConstants> FACTORY = WrapperFactory.of(GlobalConstants.class);
@@ -18,17 +21,17 @@ public interface GlobalConstants extends WrapperObject
     {
         return WrapperObject.create(GlobalConstants.class, wrapped);
     }
-    
+
     static GameVersionV1400_1904 getMinecraftVersionV1400_1800()
     {
         return FACTORY.getStatic().static$getMinecraftVersionV1400_1800();
     }
-    @WrapMinecraftMethod(@VersionName(name="getGameVersion", begin=1400, end=1800))
+    @WrapMinecraftMethod(@VersionName(name = "getGameVersion", begin = 1400, end = 1800))
     GameVersionV1400_1904 static$getMinecraftVersionV1400_1800();
     static MinecraftVersionV1800 getMinecraftVersionV1800()
     {
         return FACTORY.getStatic().static$getMinecraftVersionV1800();
     }
-    @WrapMinecraftMethod(@VersionName(name="getGameVersion", begin=1800))
+    @WrapMinecraftMethod(@VersionName(name = "getGameVersion", begin = 1800))
     MinecraftVersionV1800 static$getMinecraftVersionV1800();
 }

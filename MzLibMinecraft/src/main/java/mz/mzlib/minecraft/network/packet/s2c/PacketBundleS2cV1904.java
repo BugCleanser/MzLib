@@ -11,8 +11,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1904)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.BundleS2CPacket"))
+@VersionRange(begin = 1904)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.packet.s2c.play.BundleS2CPacket"))
 public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
 {
     WrapperFactory<PacketBundleS2cV1904> FACTORY = WrapperFactory.of(PacketBundleS2cV1904.class);
@@ -22,7 +22,7 @@ public interface PacketBundleS2cV1904 extends WrapperObject, PacketBundleV1904
     {
         return WrapperObject.create(PacketBundleS2cV1904.class, wrapped);
     }
-    
+
     static PacketBundleS2cV1904 newInstance(Iterable<Packet> packets)
     {
         return newInstance0(IteratorProxy.iterable(packets, Packet::getWrapped));

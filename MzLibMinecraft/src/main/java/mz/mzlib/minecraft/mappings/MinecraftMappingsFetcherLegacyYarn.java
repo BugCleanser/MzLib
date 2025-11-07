@@ -13,7 +13,9 @@ public class MinecraftMappingsFetcherLegacyYarn implements MinecraftMappingsFetc
     @Override
     public MappingsByMap fetch(String version, File cacheFolder) throws IOException
     {
-        try(InputStream is = IOUtil.openFileInZip(MinecraftPlatform.instance.getMzLibJar(), "mappings/yarn/"+version+".tiny"))
+        try(
+            InputStream is = IOUtil.openFileInZip(
+                MinecraftPlatform.instance.getMzLibJar(), "mappings/yarn/" + version + ".tiny"))
         {
             return MappingsByMap.parseYarnLegacy(new String(IOUtil.readAll(is), StandardCharsets.UTF_8));
         }

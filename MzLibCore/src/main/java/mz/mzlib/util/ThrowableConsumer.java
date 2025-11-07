@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 public interface ThrowableConsumer<T, E extends Throwable> extends Consumer<T>
 {
     void acceptOrThrow(T arg) throws E;
-    
+
     @Override
     default void accept(T t)
     {
@@ -18,7 +18,7 @@ public interface ThrowableConsumer<T, E extends Throwable> extends Consumer<T>
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    
+
     static <T, E extends Throwable> ThrowableConsumer<T, E> of(ThrowableConsumer<T, E> value)
     {
         return value;
@@ -32,9 +32,11 @@ public interface ThrowableConsumer<T, E extends Throwable> extends Consumer<T>
     {
         return ofConsumer(value);
     }
-    
+
     static <T, E extends Throwable> ThrowableConsumer<T, E> nothing()
     {
-        return value -> {};
+        return value ->
+        {
+        };
     }
 }

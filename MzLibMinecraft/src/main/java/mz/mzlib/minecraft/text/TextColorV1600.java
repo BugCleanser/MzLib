@@ -9,8 +9,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1600)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.TextColor"))
+@VersionRange(begin = 1600)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.TextColor"))
 public interface TextColorV1600 extends WrapperObject
 {
     WrapperFactory<TextColorV1600> FACTORY = WrapperFactory.of(TextColorV1600.class);
@@ -20,21 +20,21 @@ public interface TextColorV1600 extends WrapperObject
     {
         return WrapperObject.create(TextColorV1600.class, wrapped);
     }
-    
+
     static TextColorV1600 fromRgb(int rgb)
     {
         return FACTORY.getStatic().static$fromRgb(rgb);
     }
-    @WrapMinecraftMethod(@VersionName(name="fromRgb"))
+    @WrapMinecraftMethod(@VersionName(name = "fromRgb"))
     TextColorV1600 static$fromRgb(int rgb);
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="rgb"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "rgb"))
     int getRgb();
-    
+
     static TextColorV1600 fromLegacy(TextFormatLegacy format)
     {
         return FACTORY.getStatic().static$fromLegacy(format);
     }
-    @WrapMinecraftMethod(@VersionName(name="fromFormatting"))
+    @WrapMinecraftMethod(@VersionName(name = "fromFormatting"))
     TextColorV1600 static$fromLegacy(TextFormatLegacy format);
 }

@@ -12,9 +12,13 @@ public class CastCheckerAnalyzerTypeInsnNode extends CastCheckerAnalyzer<TypeIns
     public static CastCheckerAnalyzerTypeInsnNode instance = new CastCheckerAnalyzerTypeInsnNode();
 
     @Override
-    public Set<Integer> analyze(CastChecker caster, int index, TypeInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker caster,
+        int index,
+        TypeInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.NEW:
                 context.push(new CastChecker.OperandVisitor());

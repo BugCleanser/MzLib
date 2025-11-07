@@ -16,13 +16,13 @@ public interface MzItemDebugStick extends MzItem, MzItemUsable
     {
         return ItemStack.newInstance(Item.fromId(Identifier.minecraft("stick")));
     }
-    
+
     @Override
     default Identifier static$getMzId()
     {
         return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "debug_stick");
     }
-    
+
     @Override
     default boolean use(EntityPlayer player, Hand hand)
     {

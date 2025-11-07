@@ -26,26 +26,26 @@ import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 public interface MzItem extends ItemStack
 {
     Identifier static$getMzId();
-    
+
     ItemStack static$vanilla();
-    
+
     default boolean isVanilla() // TODO V_2002
     {
         return false;
     }
-    
+
     @CallOnce
     default void init(NbtCompound data)
     {
-        for(NbtCompound customData: Item.reviseCustomData(this))
+        for(NbtCompound customData : Item.reviseCustomData(this))
         {
-            for(NbtCompound mz: customData.reviseNbtCompoundOrNew("mz"))
+            for(NbtCompound mz : customData.reviseNbtCompoundOrNew("mz"))
             {
                 mz.put("id", this.getMzId().toString());
             }
         }
     }
-    
+
     @CallOnce
     default void onDisplay(EntityPlayer player, ItemStack itemStack)
     {
@@ -59,55 +59,58 @@ public interface MzItem extends ItemStack
             Item.setCustomName(itemStack, Option.some(MinecraftI18n.resolveText(player, key)));
         // TODO lore
     }
-    
+
     default Identifier getMzId()
     {
         return this.static$getMzId();
     }
-    
+
     default Option<NbtCompound> getMzData()
     {
-        for(NbtCompound customData: Item.getCustomData(this))
+        for(NbtCompound customData : Item.getCustomData(this))
         {
-            for(NbtCompound mz: customData.getNbtCompound("mz"))
+            for(NbtCompound mz : customData.getNbtCompound("mz"))
             {
                 return mz.getNbtCompound("data");
             }
         }
         return Option.none();
     }
-    
+
     default Editor<NbtCompound> reviseMzData()
     {
         return Item.reviseCustomData(this)
-                .then(nbt -> nbt.reviseNbtCompoundOrNew("mz"))
-                .then(nbt -> nbt.reviseNbtCompoundOrNew("data"));
+            .then(nbt -> nbt.reviseNbtCompoundOrNew("mz"))
+            .then(nbt -> nbt.reviseNbtCompoundOrNew("data"));
     }
-    
+
     class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(NothingItemStack.class);
             this.register(RegistrarMzItem.instance);
-            
-            this.register(new EventListener<>(EventAsyncPlayerDisplayItem.class, Priority.VERY_HIGH, this::onAsyncPlayerDisplayItem));
-            
+
+            this.register(new EventListener<>(
+                EventAsyncPlayerDisplayItem.class, Priority.VERY_HIGH,
+                this::onAsyncPlayerDisplayItem
+            ));
+
             this.register(MzItemUsable.Module.instance);
-            
+
             this.register(MzItemDebugStick.class);
         }
-        
+
         public void onAsyncPlayerDisplayItem(EventAsyncPlayerDisplayItem<?> event)
         {
-            event.sync(()->
+            event.sync(() ->
             {
-                for(MzItem mzItem: RegistrarMzItem.instance.toMzItem(event.getOriginal()))
+                for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(event.getOriginal()))
                 {
-                    for(ItemStack itemStack: event.reviseItemStack())
+                    for(ItemStack itemStack : event.reviseItemStack())
                     {
                         mzItem.onDisplay(event.getPlayer(), itemStack);
                     }
@@ -115,38 +118,38 @@ public interface MzItem extends ItemStack
             });
         }
     }
-    
+
     @WrapSameClass(ItemStack.class)
     interface NothingItemStack extends Nothing, ItemStack
     {
         default Wrapper_boolean handleVanilla()
         {
-            for(MzItem mzItem: RegistrarMzItem.instance.toMzItem(this))
+            for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(this))
             {
                 if(!mzItem.isVanilla())
                     return Wrapper_boolean.FACTORY.create(false);
             }
             return Nothing.notReturn();
         }
-        
+
         @VersionRange(begin = 1903)
         @NothingInject(
-                wrapperMethodName = "hasTagV1903",
-                wrapperMethodParams = {TagKeyV1903.class},
-                locateMethod = "",
-                type = NothingInjectType.INSERT_BEFORE
+            wrapperMethodName = "hasTagV1903",
+            wrapperMethodParams = { TagKeyV1903.class },
+            locateMethod = "",
+            type = NothingInjectType.INSERT_BEFORE
         )
         default Wrapper_boolean hasTagV1903$begin()
         {
             return this.handleVanilla();
         }
-        
+
         @VersionRange(begin = 2002)
         @NothingInject(
-                wrapperMethodName = "isInV2002",
-                wrapperMethodParams = { RegistryEntryListV1903.class },
-                locateMethod = "",
-                type = NothingInjectType.INSERT_BEFORE
+            wrapperMethodName = "isInV2002",
+            wrapperMethodParams = { RegistryEntryListV1903.class },
+            locateMethod = "",
+            type = NothingInjectType.INSERT_BEFORE
         )
         default Wrapper_boolean isInV2002$begin()
         {

@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="com.mojang.authlib.properties.Property"))
+@WrapMinecraftClass(@VersionName(name = "com.mojang.authlib.properties.Property"))
 public interface Property extends WrapperObject
 {
     WrapperFactory<Property> FACTORY = WrapperFactory.of(Property.class);
@@ -19,18 +19,18 @@ public interface Property extends WrapperObject
     {
         return WrapperObject.create(Property.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="name"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
     String getName();
-    @WrapMinecraftFieldAccessor(@VersionName(name="value"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
     String getValue();
-    @WrapMinecraftFieldAccessor(@VersionName(name="signature"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "signature"))
     String getSignature0();
     default Option<String> getSignature()
     {
         return Option.fromNullable(this.getSignature0());
     }
-    
+
     static Property newInstance(String name, String value)
     {
         return newInstance(name, value, Option.none());

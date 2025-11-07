@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.listener.PacketListener"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.listener.PacketListener"))
 public interface MinecraftPacketListener extends WrapperObject
 {
     WrapperFactory<MinecraftPacketListener> FACTORY = WrapperFactory.of(MinecraftPacketListener.class);

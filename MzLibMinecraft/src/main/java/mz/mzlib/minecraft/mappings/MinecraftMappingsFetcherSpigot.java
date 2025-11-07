@@ -28,18 +28,37 @@ import java.util.Optional;
 public class MinecraftMappingsFetcherSpigot
 {
     public String baseUrl = "https://hub.spigotmc.org/stash/projects/SPIGOT/repos/builddata/raw/";
-    
+
     public Mappings<?> fetch(String version, String protocolVersion, File cacheFolder)
     {
-        CachedValue<String> refsGetter = new CachedValue<>(()->Objects.requireNonNull(new Gson().fromJson(MappingsUtil.request(MappingsUtil.url("https://hub.spigotmc.org/versions/"+version+".json")), JsonObject.class)).getAsJsonObject("refs").get("BuildData").getAsString());
-        CachedValue<JsonObject> infoGetter = new CachedValue<>(()->new Gson().fromJson(MappingsUtil.request(MappingsUtil.url(baseUrl+"info.json"+"?at="+refsGetter.get())), JsonObject.class));
-        
-        MappingsByMap raw = MappingsByMap.parseCsrg(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+".csrg")).orElse(null), ()->MappingsUtil.request(MappingsUtil.url(baseUrl+"mappings/"+infoGetter.get().get("classMappings").getAsString()+"?at="+refsGetter.get()))), MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it, "Spigot"), version+"-members.csrg")).orElse(null), ()->Optional.ofNullable(infoGetter.get().get("memberMappings")).map(it->MappingsUtil.request(baseUrl+"mappings/"+infoGetter.get().get("memberMappings").getAsString()+"?at="+refsGetter.get())).orElse("")));
+        CachedValue<String> refsGetter = new CachedValue<>(() -> Objects.requireNonNull(new Gson().fromJson(
+            MappingsUtil.request(MappingsUtil.url("https://hub.spigotmc.org/versions/" + version + ".json")),
+            JsonObject.class
+        )).getAsJsonObject("refs").get("BuildData").getAsString());
+        CachedValue<JsonObject> infoGetter = new CachedValue<>(() -> new Gson().fromJson(
+            MappingsUtil.request(MappingsUtil.url(baseUrl + "info.json" + "?at=" + refsGetter.get())),
+            JsonObject.class
+        ));
+
+        MappingsByMap raw = MappingsByMap.parseCsrg(
+            MappingsUtil.cache(
+                Optional.ofNullable(cacheFolder).map(it -> new File(new File(it, "Spigot"), version + ".csrg"))
+                    .orElse(null), () -> MappingsUtil.request(MappingsUtil.url(
+                    baseUrl + "mappings/" + infoGetter.get().get("classMappings").getAsString() + "?at=" +
+                        refsGetter.get()))
+            ), MappingsUtil.cache(
+                Optional.ofNullable(cacheFolder).map(it -> new File(new File(it, "Spigot"), version + "-members.csrg"))
+                    .orElse(null), () -> Optional.ofNullable(infoGetter.get().get("memberMappings")).map(
+                    it -> MappingsUtil.request(
+                        baseUrl + "mappings/" + infoGetter.get().get("memberMappings").getAsString() + "?at=" +
+                            refsGetter.get())).orElse("")
+            )
+        );
         raw.classes.put("net.minecraft.server.MinecraftServer", "net.minecraft.server.MinecraftServer");
         List<Mappings<?>> result = new ArrayList<>();
-        if(MinecraftPlatform.parseVersion(version)<1700)
+        if(MinecraftPlatform.parseVersion(version) < 1700)
         {
-            result.add(new MappingsPackage("net.minecraft.server."+protocolVersion, null));
+            result.add(new MappingsPackage("net.minecraft.server." + protocolVersion, null));
             MappingsByMap mcs = new MappingsByMap();
             mcs.classes.put("MinecraftServer", "net.minecraft.server.MinecraftServer");
             result.add(mcs);
@@ -47,11 +66,11 @@ public class MinecraftMappingsFetcherSpigot
         if(version.equals("1.16.5"))
         {
             MappingsByMap mappingsPackage = new MappingsByMap();
-            for(String cn: raw.classes.keySet())
+            for(String cn : raw.classes.keySet())
             {
                 int i = cn.lastIndexOf('.');
-                if(i!=-1)
-                    mappingsPackage.classes.put(cn.substring(i+1), cn);
+                if(i != -1)
+                    mappingsPackage.classes.put(cn.substring(i + 1), cn);
             }
             result.add(mappingsPackage);
         }

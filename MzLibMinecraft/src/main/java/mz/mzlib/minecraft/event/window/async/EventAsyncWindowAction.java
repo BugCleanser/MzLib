@@ -13,7 +13,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     {
         super(packetEvent, syncId);
     }
-    
+
     public WindowActionType getActionType()
     {
         return this.getPacket().getActionType();
@@ -22,7 +22,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     {
         this.getPacket().setActionType(value);
     }
-    
+
     public int getSlotIndex()
     {
         return this.getPacket().getSlotIndex();
@@ -31,7 +31,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     {
         this.getPacket().setSlotIndex(value);
     }
-    
+
     public int getData()
     {
         return this.getPacket().getData();
@@ -40,23 +40,26 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     {
         this.getPacket().setData(value);
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncWindowAction.class);
-            
-            this.register(new PacketListener<>(PacketC2sWindowAction.FACTORY, packetEvent->new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()));
+
+            this.register(new PacketListener<>(
+                PacketC2sWindowAction.FACTORY,
+                packetEvent -> new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()
+            ));
         }
     }
 }

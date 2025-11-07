@@ -9,7 +9,7 @@ public class ArgumentParserString extends ArgumentParser<String>
 {
     public boolean allowSpace;
     String[] presets;
-    
+
     public ArgumentParserString(String name, boolean allowSpace, String... presets)
     {
         super(name);
@@ -18,15 +18,18 @@ public class ArgumentParserString extends ArgumentParser<String>
     }
     public ArgumentParserString(CommandSource source, boolean allowSpace, String... presets)
     {
-        this(MinecraftI18n.resolve(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("presets", presets).get()), allowSpace, presets);
+        this(
+            MinecraftI18n.resolve(source, "mzlib.command.arg.enum", MapBuilder.hashMap().put("presets", presets).get()),
+            allowSpace, presets
+        );
     }
-    
+
     @Override
     public String parse(CommandContext context)
     {
         StringBuilder result = new StringBuilder();
         result.append(context.argsReader.readString());
-        int spaces=0;
+        int spaces = 0;
         while(this.allowSpace && context.argsReader.hasNext())
         {
             result.append(' ').append(context.argsReader.readString());
@@ -37,7 +40,7 @@ public class ArgumentParserString extends ArgumentParser<String>
             for(String preset : this.presets)
             {
                 if(preset.startsWith(result.toString()))
-                    context.suggestions.add(preset.split(" ", spaces+1)[spaces]);
+                    context.suggestions.add(preset.split(" ", spaces + 1)[spaces]);
             }
         }
         return result.toString();

@@ -9,14 +9,14 @@ public interface AsyncFunctionRunner extends Executor
     void schedule(Runnable function);
 
     void schedule(Runnable function, BasicAwait await);
-    
+
     @Override
     @SuppressWarnings("NullableProblems")
     default void execute(Runnable command)
     {
         this.schedule(command);
     }
-    
+
     static AsyncFunctionRunner fromExecutor(Executor executor)
     {
         if(executor instanceof AsyncFunctionRunner)
@@ -28,32 +28,32 @@ public interface AsyncFunctionRunner extends Executor
             {
                 executor.execute(function);
             }
-            
+
             @Override
-            public void schedule(Runnable function,BasicAwait await)
+            public void schedule(Runnable function, BasicAwait await)
             {
                 throw new UnsupportedOperationException();
             }
         };
     }
-    
+
     class DelegatorModule implements AsyncFunctionRunner
     {
         public AsyncFunctionRunner delegate;
         public MzModule module;
-        
+
         public DelegatorModule(AsyncFunctionRunner delegate, MzModule module)
         {
             this.delegate = delegate;
             this.module = module;
         }
-        
+
         @Override
         public void schedule(Runnable function)
         {
             if(!module.isLoaded())
                 return;
-            delegate.schedule(()->
+            delegate.schedule(() ->
             {
                 if(!module.isLoaded())
                     return;
@@ -65,12 +65,14 @@ public interface AsyncFunctionRunner extends Executor
         {
             if(!module.isLoaded())
                 return;
-            delegate.schedule(()->
-            {
-                if(!module.isLoaded())
-                    return;
-                function.run();
-            }, await);
+            delegate.schedule(
+                () ->
+                {
+                    if(!module.isLoaded())
+                        return;
+                    function.run();
+                }, await
+            );
         }
     }
     default DelegatorModule asModule(MzModule module)

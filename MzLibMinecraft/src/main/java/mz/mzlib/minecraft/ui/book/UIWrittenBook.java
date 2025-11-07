@@ -21,25 +21,26 @@ import java.util.function.Consumer;
 public abstract class UIWrittenBook implements UI
 {
     public abstract List<Text> getPages(EntityPlayer player);
-    
+
     public List<Consumer<EntityPlayer>> buttons = new ArrayList<>();
-    
+
     public int newButton(Consumer<EntityPlayer> handle)
     {
         this.buttons.add(handle);
-        return this.buttons.size()-1;
+        return this.buttons.size() - 1;
     }
-    
+
     public static TextClickEvent buttonClickEvent(int button)
     {
-        return TextClickEvent.runCommand("/"+MzLibMinecraft.instance.command.name+" "+Module.instance.command.name+" "+button);
+        return TextClickEvent.runCommand(
+            "/" + MzLibMinecraft.instance.command.name + " " + Module.instance.command.name + " " + button);
     }
-    
+
     public void clear()
     {
         this.buttons.clear();
     }
-    
+
     @Override
     public void open(EntityPlayer player)
     {
@@ -50,42 +51,51 @@ public abstract class UIWrittenBook implements UI
         ItemWrittenBook.setResolved(book, true);
         player.openBook(book);
     }
-    
+
     @Deprecated
     @Override
     public void onPlayerClose(EntityPlayer player)
     {
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         public Command command;
-        
+
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(this.command = new Command("book_click").setPermissionCheckers(Command::checkPermissionSenderPlayer, source->UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ? null : MinecraftI18n.resolveText(source, "mzlib.commands.mzlib.book_click.error.not_opening")).setHandler(context->
-            {
-                Integer button = new ArgumentParserInt("button").handle(context);
-                if(context.argsReader.hasNext())
-                    context.successful = false;
-                if(!context.successful || !context.doExecute)
-                    return;
-                EntityPlayer sender = context.getSource().getPlayer().unwrap();
-                List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook)UIStack.get(sender).top()).buttons;
-                if(button<0 || button>=buttons.size())
+            MzLibMinecraft.instance.command.addChild(
+                this.command = new Command("book_click").setPermissionCheckers(
+                    Command::checkPermissionSenderPlayer,
+                    source -> UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ?
+                        null :
+                        MinecraftI18n.resolveText(source, "mzlib.commands.mzlib.book_click.error.not_opening")
+                ).setHandler(context ->
                 {
-                    context.successful = false;
-                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.book_click.error.invalid_button_index"));
-                    UIStack.get(sender).top().open(sender);
-                    return;
-                }
-                buttons.get(button).accept(sender);
-            }));
+                    Integer button = new ArgumentParserInt("button").handle(context);
+                    if(context.argsReader.hasNext())
+                        context.successful = false;
+                    if(!context.successful || !context.doExecute)
+                        return;
+                    EntityPlayer sender = context.getSource().getPlayer().unwrap();
+                    List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook) UIStack.get(sender).top()).buttons;
+                    if(button < 0 || button >= buttons.size())
+                    {
+                        context.successful = false;
+                        context.getSource().sendMessage(MinecraftI18n.resolveText(
+                            context.getSource(),
+                            "mzlib.commands.mzlib.book_click.error.invalid_button_index"
+                        ));
+                        UIStack.get(sender).top().open(sender);
+                        return;
+                    }
+                    buttons.get(button).accept(sender);
+                }));
         }
-        
+
         @Override
         public void onUnload()
         {

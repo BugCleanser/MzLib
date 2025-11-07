@@ -15,70 +15,71 @@ import java.util.jar.JarFile;
 
 public class TesterJarWrappers implements Tester<TesterContext>
 {
-	public File file;
-	public ClassLoader classLoader;
-	public TesterJarWrappers(File file, ClassLoader classLoader)
-	{
-		this.file=file;
-		this.classLoader=classLoader;
-	}
-	
-	@Override
-	public Class<TesterContext> getContextType()
-	{
-		return TesterContext.class;
-	}
+    public File file;
+    public ClassLoader classLoader;
+    public TesterJarWrappers(File file, ClassLoader classLoader)
+    {
+        this.file = file;
+        this.classLoader = classLoader;
+    }
 
-	@Override
-	public String getName()
-	{
-		return "JarWrappers: "+file.getName();
-	}
+    @Override
+    public Class<TesterContext> getContextType()
+    {
+        return TesterContext.class;
+    }
 
-	@Override
-	public CompletableFuture<List<Throwable>> test(TesterContext context)
-	{
-		return CompletableFuture.supplyAsync(()->
-		{
-			List<String> classNames=new ArrayList<>();
-			try(JarFile jar=new JarFile(this.file))
-			{
-				for(JarEntry entry: jar.stream().toArray(JarEntry[]::new))
-				{
-					if(!entry.getName().endsWith(".class"))
-						continue;
-					classNames.add(entry.getName().substring(0, entry.getName().length()-".class".length()).replace('/', '.'));
-				}
-			}
-			catch(IOException e)
-			{
-				throw RuntimeUtil.sneakilyThrow(e);
-			}
-			List<Throwable> exceptions=new ArrayList<>();
-			for(String className: classNames)
-			{
-				Class<?> clazz;
-				try
-				{
-					clazz = Class.forName(className, false, classLoader);
-				}
-				catch(Throwable ignored)
-				{
-					continue;
-				}
-				if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
-				{
-					try
-					{
-						WrapperFactory.of(RuntimeUtil.<Class<? extends WrapperObject>>cast(clazz));
-					}
-					catch(Throwable e)
-					{
-						exceptions.add(e);
-					}
-				}
-			}
-			return exceptions;
-		});
-	}
+    @Override
+    public String getName()
+    {
+        return "JarWrappers: " + file.getName();
+    }
+
+    @Override
+    public CompletableFuture<List<Throwable>> test(TesterContext context)
+    {
+        return CompletableFuture.supplyAsync(() ->
+        {
+            List<String> classNames = new ArrayList<>();
+            try(JarFile jar = new JarFile(this.file))
+            {
+                for(JarEntry entry : jar.stream().toArray(JarEntry[]::new))
+                {
+                    if(!entry.getName().endsWith(".class"))
+                        continue;
+                    classNames.add(
+                        entry.getName().substring(0, entry.getName().length() - ".class".length()).replace('/', '.'));
+                }
+            }
+            catch(IOException e)
+            {
+                throw RuntimeUtil.sneakilyThrow(e);
+            }
+            List<Throwable> exceptions = new ArrayList<>();
+            for(String className : classNames)
+            {
+                Class<?> clazz;
+                try
+                {
+                    clazz = Class.forName(className, false, classLoader);
+                }
+                catch(Throwable ignored)
+                {
+                    continue;
+                }
+                if(WrapperObject.class.isAssignableFrom(clazz) && ElementSwitcher.isEnabled(clazz))
+                {
+                    try
+                    {
+                        WrapperFactory.of(RuntimeUtil.<Class<? extends WrapperObject>>cast(clazz));
+                    }
+                    catch(Throwable e)
+                    {
+                        exceptions.add(e);
+                    }
+                }
+            }
+            return exceptions;
+        });
+    }
 }

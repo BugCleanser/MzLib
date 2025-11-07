@@ -8,8 +8,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=900, end=1300)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.world.level.storage.LevelDataType"))
+@VersionRange(begin = 900, end = 1300)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.world.level.storage.LevelDataType"))
 public interface DataUpdateTypesV900_1300 extends WrapperObject, DataUpdateTypeV900_1300
 {
     WrapperFactory<DataUpdateTypesV900_1300> FACTORY = WrapperFactory.of(DataUpdateTypesV900_1300.class);
@@ -19,8 +19,8 @@ public interface DataUpdateTypesV900_1300 extends WrapperObject, DataUpdateTypeV
     {
         return WrapperObject.create(DataUpdateTypesV900_1300.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="field_14384"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_14384"))
     DataUpdateTypeV900_1300 static$itemStack();
     static DataUpdateTypeV900_1300 itemStack()
     {

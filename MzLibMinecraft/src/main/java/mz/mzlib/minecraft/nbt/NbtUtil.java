@@ -9,7 +9,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.nbt.NbtHelper"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.nbt.NbtHelper"))
 public interface NbtUtil extends WrapperObject
 {
     WrapperFactory<NbtUtil> FACTORY = WrapperFactory.of(NbtUtil.class);
@@ -19,21 +19,24 @@ public interface NbtUtil extends WrapperObject
     {
         return WrapperObject.create(NbtUtil.class, wrapped);
     }
-    
+
     static GameProfile decodeGameProfileV_2005(NbtCompound nbt)
     {
         return FACTORY.getStatic().static$decodeGameProfileV_2005(nbt);
     }
-    @VersionRange(end=2005)
-    @WrapMinecraftMethod(@VersionName(name="toGameProfile"))
+    @VersionRange(end = 2005)
+    @WrapMinecraftMethod(@VersionName(name = "toGameProfile"))
     GameProfile static$decodeGameProfileV_2005(NbtCompound nbt);
-    
+
     static NbtCompound encodeGameProfileV_2005(GameProfile profile)
     {
         return FACTORY.getStatic().static$encodeGameProfileV_2005(profile);
     }
-    @VersionRange(end=2005)
-    @WrapMinecraftMethod({@VersionName(name="fromGameProfile", end=1400), @VersionName(name="method_10684", begin=1400)})
+    @VersionRange(end = 2005)
+    @WrapMinecraftMethod({
+        @VersionName(name = "fromGameProfile", end = 1400),
+        @VersionName(name = "method_10684", begin = 1400)
+    })
     NbtCompound static$encodeGameProfileV_2005(NbtCompound nbt, GameProfile profile);
     default NbtCompound static$encodeGameProfileV_2005(GameProfile profile)
     {

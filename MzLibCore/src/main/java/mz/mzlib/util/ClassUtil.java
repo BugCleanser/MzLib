@@ -29,10 +29,10 @@ public class ClassUtil
     private ClassUtil()
     {
     }
-    
+
     public static ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
     public static ClassLoader extClassLoader = sysClassLoader.getParent();
-    
+
     public static Class<?> classForName(String name, ClassLoader cl) throws ClassNotFoundException
     {
         switch(name)
@@ -59,7 +59,7 @@ public class ClassUtil
                 return Class.forName(name, false, cl);
         }
     }
-    
+
     public static Field getField(Class<?> clazz, String name) throws Throwable
     {
         try
@@ -70,13 +70,13 @@ public class ClassUtil
         {
             try
             {
-                if(clazz!=Object.class)
+                if(clazz != Object.class)
                     return getField(getSuperclass(clazz), name);
             }
             catch(Throwable ignored)
             {
             }
-            for(Class<?> i: clazz.getInterfaces())
+            for(Class<?> i : clazz.getInterfaces())
             {
                 try
                 {
@@ -89,7 +89,7 @@ public class ClassUtil
             throw e;
         }
     }
-    
+
     public static Method getMethod(Class<?> clazz, String name, Class<?>... parameterTypes) throws Throwable
     {
         try
@@ -100,13 +100,13 @@ public class ClassUtil
         {
             try
             {
-                if(clazz!=Object.class)
+                if(clazz != Object.class)
                     return getMethod(getSuperclass(clazz), name, parameterTypes);
             }
             catch(Throwable ignored)
             {
             }
-            for(Class<?> i: clazz.getInterfaces())
+            for(Class<?> i : clazz.getInterfaces())
             {
                 try
                 {
@@ -119,7 +119,7 @@ public class ClassUtil
             throw e;
         }
     }
-    
+
     public static Class<?> baseType(Class<?> type)
     {
         if(type.isPrimitive())
@@ -127,17 +127,17 @@ public class ClassUtil
         else
             return Object.class;
     }
-    
+
     public static Class<?> getReturnType(Member m)
     {
         if(m instanceof Method)
         {
-            return ((Method)m).getReturnType();
+            return ((Method) m).getReturnType();
         }
         assert m instanceof Constructor;
         return void.class;
     }
-    
+
     public static List<? extends Member> getDeclaredMembers(Class<?> clazz)
     {
         List<Member> result = new ArrayList<>(Arrays.asList(clazz.getDeclaredConstructors()));
@@ -145,7 +145,7 @@ public class ClassUtil
         result.addAll(Arrays.asList(clazz.getDeclaredMethods()));
         return result;
     }
-    
+
     public static Method getDeclaredMethod(Class<?> clazz, Method method)
     {
         try
@@ -157,30 +157,45 @@ public class ClassUtil
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    
-    public static MethodHandle findConstructor(Class<?> declaringClass, Class<?>... parameterTypes) throws NoSuchMethodException, IllegalAccessException
+
+    public static MethodHandle findConstructor(Class<?> declaringClass, Class<?>... parameterTypes)
+        throws NoSuchMethodException, IllegalAccessException
     {
-        return Root.getTrusted(declaringClass).findConstructor(declaringClass, MethodType.methodType(void.class, parameterTypes));
+        return Root.getTrusted(declaringClass)
+            .findConstructor(declaringClass, MethodType.methodType(void.class, parameterTypes));
     }
-    
-    public static MethodHandle findMethod(Class<?> declaringClass, boolean isStatic, String name, Class<?> returnType, Class<?>... parameterTypes) throws NoSuchMethodException, IllegalAccessException
+
+    public static MethodHandle findMethod(
+        Class<?> declaringClass,
+        boolean isStatic,
+        String name,
+        Class<?> returnType,
+        Class<?>... parameterTypes) throws NoSuchMethodException, IllegalAccessException
     {
         if(isStatic)
         {
-            return Root.getTrusted(declaringClass).findStatic(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
+            return Root.getTrusted(declaringClass)
+                .findStatic(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
         }
         else
         {
-            return Root.getTrusted(declaringClass).findVirtual(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
+            return Root.getTrusted(declaringClass)
+                .findVirtual(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
         }
     }
-    
-    public static MethodHandle findMethodSpecial(Class<?> declaringClass, String name, Class<?> returnType, Class<?>... parameterTypes) throws NoSuchMethodException, IllegalAccessException
+
+    public static MethodHandle findMethodSpecial(
+        Class<?> declaringClass,
+        String name,
+        Class<?> returnType,
+        Class<?>... parameterTypes) throws NoSuchMethodException, IllegalAccessException
     {
-        return Root.getTrusted(declaringClass).findSpecial(declaringClass, name, MethodType.methodType(returnType, parameterTypes), declaringClass);
+        return Root.getTrusted(declaringClass)
+            .findSpecial(declaringClass, name, MethodType.methodType(returnType, parameterTypes), declaringClass);
     }
-    
-    public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException
+
+    public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type)
+        throws NoSuchFieldException, IllegalAccessException
     {
         if(isStatic)
         {
@@ -191,12 +206,14 @@ public class ClassUtil
             return Root.getTrusted(declaringClass).findGetter(declaringClass, name, type);
         }
     }
-    public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name) throws NoSuchFieldException, IllegalAccessException
+    public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name)
+        throws NoSuchFieldException, IllegalAccessException
     {
         return findFieldGetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
     }
-    
-    public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type) throws NoSuchFieldException, IllegalAccessException
+
+    public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type)
+        throws NoSuchFieldException, IllegalAccessException
     {
         if(isStatic)
         {
@@ -207,11 +224,12 @@ public class ClassUtil
             return Root.getTrusted(declaringClass).findSetter(declaringClass, name, type);
         }
     }
-    public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name) throws NoSuchFieldException, IllegalAccessException
+    public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name)
+        throws NoSuchFieldException, IllegalAccessException
     {
         return findFieldSetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
     }
-    
+
     public static MethodHandle unreflect(Constructor<?> constructor)
     {
         try
@@ -223,7 +241,7 @@ public class ClassUtil
             throw new AssertionError(e);
         }
     }
-    
+
     public static MethodHandle unreflectGetter(Field field)
     {
         try
@@ -235,7 +253,7 @@ public class ClassUtil
             throw new AssertionError(e);
         }
     }
-    
+
     public static MethodHandle unreflectSetter(Field field)
     {
         try
@@ -247,7 +265,7 @@ public class ClassUtil
             throw new AssertionError(e);
         }
     }
-    
+
     public static MethodHandle unreflect(Method method)
     {
         try
@@ -259,7 +277,7 @@ public class ClassUtil
             throw new AssertionError(e);
         }
     }
-    
+
     public static MethodHandle unreflectSpecial(Method method)
     {
         try
@@ -271,82 +289,89 @@ public class ClassUtil
             throw new AssertionError(e);
         }
     }
-    
+
     public static Class<?> getSuperclass(Class<?> clazz)
     {
         if(clazz.isInterface())
             return Object.class;
         return clazz.getSuperclass();
     }
-    
+
     public static <E extends Throwable> void forEachSuper(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
     {
         proc.accept(clazz);
-        if(clazz!=Object.class)
+        if(clazz != Object.class)
             forEachSuper(getSuperclass(clazz), proc);
-        for(Class<?> i: clazz.getInterfaces())
+        for(Class<?> i : clazz.getInterfaces())
         {
             forEachSuper(i, proc);
         }
     }
-    
-    public static <E extends Throwable> void forEachSuperUnique(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
+
+    public static <E extends Throwable> void forEachSuperUnique(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc)
+        throws E
     {
         Set<Class<?>> history = new HashSet<>();
-        forEachSuper(clazz, c->
-        {
-            if(history.add(c))
-                proc.acceptOrThrow(c);
-        });
+        forEachSuper(
+            clazz, c ->
+            {
+                if(history.add(c))
+                    proc.acceptOrThrow(c);
+            }
+        );
     }
-    
+
     /**
      * Iterate through all super classes in topological order
      * From super to children
      */
-    public static <E extends Throwable> void forEachSuperTopology(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
+    public static <E extends Throwable> void forEachSuperTopology(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc)
+        throws E
     {
         Map<Class<?>, Integer> degreeIn = new HashMap<>();
         Map<Class<?>, Set<Class<?>>> edgeOut = new HashMap<>();
-        forEachSuperUnique(clazz, c->
-        {
-            if(c!=Object.class)
+        forEachSuperUnique(
+            clazz, c ->
             {
-                edgeOut.computeIfAbsent(getSuperclass(c), ThrowableSupplier.of(HashSet<Class<?>>::new).ignore()).add(c);
-                degreeIn.compute(c, (k, v)->Option.fromNullable(v).unwrapOr(0)+1);
+                if(c != Object.class)
+                {
+                    edgeOut.computeIfAbsent(getSuperclass(c), ThrowableSupplier.of(HashSet<Class<?>>::new).ignore())
+                        .add(c);
+                    degreeIn.compute(c, (k, v) -> Option.fromNullable(v).unwrapOr(0) + 1);
+                }
+                for(Class<?> i : c.getInterfaces())
+                {
+                    edgeOut.computeIfAbsent(i, ThrowableSupplier.of(HashSet<Class<?>>::new).ignore()).add(c);
+                }
+                degreeIn.compute(c, (k, v) -> Option.fromNullable(v).unwrapOr(0) + c.getInterfaces().length);
             }
-            for(Class<?> i: c.getInterfaces())
-            {
-                edgeOut.computeIfAbsent(i, ThrowableSupplier.of(HashSet<Class<?>>::new).ignore()).add(c);
-            }
-            degreeIn.compute(c, (k, v)->Option.fromNullable(v).unwrapOr(0)+c.getInterfaces().length);
-        });
+        );
         Queue<Class<?>> q = new ArrayDeque<>();
         q.add(Object.class);
         while(!q.isEmpty())
         {
             Class<?> now = q.poll();
             proc.acceptOrThrow(now);
-            for(Set<Class<?>> es: Option.fromNullable(edgeOut.get(now)))
+            for(Set<Class<?>> es : Option.fromNullable(edgeOut.get(now)))
             {
-                for(Class<?> c: es)
+                for(Class<?> c : es)
                 {
-                    if(degreeIn.compute(c, (k, v)->Objects.requireNonNull(v)-1)==0)
+                    if(degreeIn.compute(c, (k, v) -> Objects.requireNonNull(v) - 1) == 0)
                         q.add(c);
                 }
             }
         }
-        for(Integer value: degreeIn.values())
+        for(Integer value : degreeIn.values())
         {
-            assert value==0;
+            assert value == 0;
         }
     }
-    
+
     public static Instrumentation instrumentation;
-    
+
     public static Instrumentation getInstrumentation()
     {
-        if(instrumentation==null)
+        if(instrumentation == null)
         {
             try
             {
@@ -355,8 +380,10 @@ public class ClassUtil
             catch(Throwable e)
             {
                 System.err.println("Unable to inject JavaAgent");
-                System.err.println("Please remove the startup parameters -XX:+DisableAttachMechanism and -Djdk.attach.allowAttachSelf=false");
-                System.err.println("You can also try installing ByteBuddyAgent manually (this is not a plugin, check the installation method on the MzLib official website)");
+                System.err.println(
+                    "Please remove the startup parameters -XX:+DisableAttachMechanism and -Djdk.attach.allowAttachSelf=false");
+                System.err.println(
+                    "You can also try installing ByteBuddyAgent manually (this is not a plugin, check the installation method on the MzLib official website)");
                 System.err.println("无法注入JavaAgent");
                 System.err.println("请删除启动参数-XX:+DisableAttachMechanism和-Djdk.attach.allowAttachSelf=false");
                 System.err.println("也可以尝试手动安装ByteBuddyAgent（这不是一个插件，在MzLib官网查看安装方法）");
@@ -366,20 +393,25 @@ public class ClassUtil
         }
         return instrumentation;
     }
-    
+
     public synchronized static byte[] getByteCode(Class<?> clazz)
     {
         try
         {
             RefStrong<byte[]> result = new RefStrong<>(null);
-            while(result.get()==null)
+            while(result.get() == null)
             {
                 ClassFileTransformer tr = new ClassFileTransformer()
                 {
                     @Override
-                    public byte[] transform(ClassLoader cl, String name, Class<?> c, ProtectionDomain d, byte[] byteCode)
+                    public byte[] transform(
+                        ClassLoader cl,
+                        String name,
+                        Class<?> c,
+                        ProtectionDomain d,
+                        byte[] byteCode)
                     {
-                        if(c==clazz)
+                        if(c == clazz)
                             result.set(byteCode);
                         getInstrumentation().removeTransformer(this);
                         return null;
@@ -395,7 +427,7 @@ public class ClassUtil
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    
+
     public static Class<?> defineClass(ClassLoader classLoader, String name, byte[] byteCode)
     {
         synchronized(ClassUtil.class)
@@ -406,7 +438,8 @@ public class ClassUtil
                 {
                     try
                     {
-                        getInstrumentation().redefineClasses(new ClassDefinition(Class.forName(name.replace('/', '.'), false, classLoader), byteCode));
+                        getInstrumentation().redefineClasses(
+                            new ClassDefinition(Class.forName(name.replace('/', '.'), false, classLoader), byteCode));
                         return Class.forName(name.replace('/', '.'), false, classLoader);
                     }
                     catch(Throwable e)
@@ -452,7 +485,7 @@ public class ClassUtil
             }
         }
     }
-    
+
     public static void makeReference(ClassLoader classLoader, Object target)
     {
         try
@@ -466,10 +499,15 @@ public class ClassUtil
             catch(ClassNotFoundException e)
             {
                 ClassNode cn = new ClassNode();
-                cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, attachedName, null, AsmUtil.getType(Object.class), new String[]{});
-                cn.visitField(Opcodes.ACC_PUBLIC|Opcodes.ACC_STATIC, "instance", AsmUtil.getDesc(Set.class), null, null).visitEnd();
+                cn.visit(
+                    Opcodes.V1_8, Opcodes.ACC_PUBLIC, attachedName, null, AsmUtil.getType(Object.class),
+                    new String[]{}
+                );
+                cn.visitField(
+                        Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, "instance", AsmUtil.getDesc(Set.class), null, null)
+                    .visitEnd();
                 cn.visitEnd();
-                ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+                ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                 cn.accept(cw);
                 attached = defineClass(classLoader, attachedName, cw.toByteArray());
                 attached.getDeclaredField("instance").set(null, ConcurrentHashMap.newKeySet());
@@ -481,42 +519,42 @@ public class ClassUtil
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    
+
     public static <T> Class<T> getPrimitive(Class<T> src)
     {
-        if(src==Character.class)
+        if(src == Character.class)
         {
             return RuntimeUtil.cast(char.class);
         }
-        else if(src==Boolean.class)
+        else if(src == Boolean.class)
         {
             return RuntimeUtil.cast(boolean.class);
         }
-        else if(src==Byte.class)
+        else if(src == Byte.class)
         {
             return RuntimeUtil.cast(byte.class);
         }
-        else if(src==Short.class)
+        else if(src == Short.class)
         {
             return RuntimeUtil.cast(short.class);
         }
-        else if(src==Integer.class)
+        else if(src == Integer.class)
         {
             return RuntimeUtil.cast(int.class);
         }
-        else if(src==Long.class)
+        else if(src == Long.class)
         {
             return RuntimeUtil.cast(long.class);
         }
-        else if(src==Float.class)
+        else if(src == Float.class)
         {
             return RuntimeUtil.cast(float.class);
         }
-        else if(src==Double.class)
+        else if(src == Double.class)
         {
             return RuntimeUtil.cast(double.class);
         }
-        else if(src==Void.class)
+        else if(src == Void.class)
         {
             return RuntimeUtil.cast(void.class);
         }
@@ -525,42 +563,42 @@ public class ClassUtil
             return src;
         }
     }
-    
+
     public static <T> Class<T> getWrapper(Class<T> src)
     {
-        if(src==char.class)
+        if(src == char.class)
         {
             return RuntimeUtil.cast(Character.class);
         }
-        else if(src==boolean.class)
+        else if(src == boolean.class)
         {
             return RuntimeUtil.cast(Boolean.class);
         }
-        else if(src==byte.class)
+        else if(src == byte.class)
         {
             return RuntimeUtil.cast(Byte.class);
         }
-        else if(src==short.class)
+        else if(src == short.class)
         {
             return RuntimeUtil.cast(Short.class);
         }
-        else if(src==int.class)
+        else if(src == int.class)
         {
             return RuntimeUtil.cast(Integer.class);
         }
-        else if(src==long.class)
+        else if(src == long.class)
         {
             return RuntimeUtil.cast(Long.class);
         }
-        else if(src==float.class)
+        else if(src == float.class)
         {
             return RuntimeUtil.cast(Float.class);
         }
-        else if(src==double.class)
+        else if(src == double.class)
         {
             return RuntimeUtil.cast(Double.class);
         }
-        else if(src==void.class)
+        else if(src == void.class)
         {
             return RuntimeUtil.cast(Void.class);
         }
@@ -569,42 +607,89 @@ public class ClassUtil
             return src;
         }
     }
-    
+
     public static MethodHandle defineMethod(ClassLoader cl, MethodNode mn)
     {
         ClassNode cn = new ClassNode();
         cn.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "$Method", null, AsmUtil.getType(Object.class), new String[0]);
         cn.methods.add(mn);
-        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES|ClassWriter.COMPUTE_MAXS);
+        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         cn.accept(cw);
         return unreflect(defineClass(new SimpleClassLoader(cl), cn.name, cw.toByteArray()).getDeclaredMethods()[0]);
     }
-    
-    public static CallSite getConstructorCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+
+    public static CallSite getConstructorCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
-        return new ConstantCallSite(findConstructor(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), methodType.parameterArray()).asType(invokedType));
+        return new ConstantCallSite(
+            findConstructor(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()),
+                methodType.parameterArray()
+            ).asType(invokedType));
     }
-    
-    public static CallSite getMethodCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType, int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+
+    public static CallSite getMethodCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType,
+        int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
-        return new ConstantCallSite(findMethod(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), isStatic!=0, invokedName, methodType.returnType(), methodType.parameterArray()).asType(invokedType));
+        return new ConstantCallSite(
+            findMethod(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), isStatic != 0, invokedName,
+                methodType.returnType(), methodType.parameterArray()
+            ).asType(invokedType));
     }
-    
-    public static CallSite getMethodSpecialCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+
+    public static CallSite getMethodSpecialCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
-        return new ConstantCallSite(findMethodSpecial(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedName, methodType.returnType(), methodType.parameterArray()).asType(invokedType));
+        return new ConstantCallSite(
+            findMethodSpecial(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedName,
+                methodType.returnType(), methodType.parameterArray()
+            ).asType(invokedType));
     }
-    
-    public static CallSite getFieldGetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+
+    public static CallSite getFieldGetterCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
     {
-        return new ConstantCallSite(findFieldGetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==0, invokedName, methodType.returnType()).asType(invokedType));
+        return new ConstantCallSite(
+            findFieldGetter(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()),
+                invokedType.parameterCount() == 0, invokedName, methodType.returnType()
+            ).asType(invokedType));
     }
-    
-    public static CallSite getFieldSetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+
+    public static CallSite getFieldSetterCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
     {
-        return new ConstantCallSite(findFieldSetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==1, invokedName, methodType.parameterType(methodType.parameterCount()-1)).asType(invokedType));
+        return new ConstantCallSite(
+            findFieldSetter(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()),
+                invokedType.parameterCount() == 1, invokedName,
+                methodType.parameterType(methodType.parameterCount() - 1)
+            ).asType(invokedType));
     }
-    
+
     public static Class<?> toWrappedClass(Class<?> wrapperClass)
     {
         if(WrapperObject.class.isAssignableFrom(wrapperClass))
@@ -613,26 +698,56 @@ public class ClassUtil
     }
     public static MethodType getWrappedType(MethodType wrapperType)
     {
-        return MethodType.methodType(toWrappedClass(wrapperType.returnType()), Arrays.stream(wrapperType.parameterArray()).map(ClassUtil::toWrappedClass).collect(Collectors.toList()));
+        return MethodType.methodType(
+            toWrappedClass(wrapperType.returnType()),
+            Arrays.stream(wrapperType.parameterArray()).map(ClassUtil::toWrappedClass).collect(Collectors.toList())
+        );
     }
-    
-    public static CallSite getConstructorCallSiteWithWrapperType(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+
+    public static CallSite getConstructorCallSiteWithWrapperType(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
         return getConstructorCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType));
     }
-    
-    public static CallSite getMethodCallSiteWithWrapperType(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName, MethodType methodType, int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+
+    public static CallSite getMethodCallSiteWithWrapperType(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName,
+        MethodType methodType,
+        int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
     {
         return getMethodCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType), isStatic);
     }
-    
-    public static CallSite getFieldGetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+
+    public static CallSite getFieldGetterCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
     {
-        return new ConstantCallSite(findFieldGetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==0, invokedName).asType(invokedType));
+        return new ConstantCallSite(
+            findFieldGetter(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()),
+                invokedType.parameterCount() == 0, invokedName
+            ).asType(invokedType));
     }
-    
-    public static CallSite getFieldSetterCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+
+    public static CallSite getFieldSetterCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
     {
-        return new ConstantCallSite(findFieldSetter(Class.forName(ownerName, false, caller.lookupClass().getClassLoader()), invokedType.parameterCount()==1, invokedName).asType(invokedType));
+        return new ConstantCallSite(
+            findFieldSetter(
+                Class.forName(ownerName, false, caller.lookupClass().getClassLoader()),
+                invokedType.parameterCount() == 1, invokedName
+            ).asType(invokedType));
     }
 }

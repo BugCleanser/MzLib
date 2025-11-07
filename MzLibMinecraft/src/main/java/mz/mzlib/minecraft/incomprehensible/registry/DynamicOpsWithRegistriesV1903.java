@@ -12,12 +12,15 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.registry.RegistryOps", begin=1903))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.registry.RegistryOps", begin = 1903))
 public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, DynamicOpsV1300<T>
 {
-    WrapperFactory<DynamicOpsWithRegistriesV1903<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DynamicOpsWithRegistriesV1903.class));
-    
-    static <T> DynamicOpsWithRegistriesV1903<T> newInstance(DynamicOpsV1300<T> ops, RegistryManagerV1602.Immutable registries)
+    WrapperFactory<DynamicOpsWithRegistriesV1903<?>> FACTORY = RuntimeUtil.cast(
+        WrapperFactory.of(DynamicOpsWithRegistriesV1903.class));
+
+    static <T> DynamicOpsWithRegistriesV1903<T> newInstance(
+        DynamicOpsV1300<T> ops,
+        RegistryManagerV1602.Immutable registries)
     {
         return newInstance(ops, class_9683V2005.newInstance(registries));
     }
@@ -25,9 +28,9 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
     {
         return FACTORY.getStatic().static$newInstance(ops, c2);
     }
-    @WrapMinecraftMethod(@VersionName(name="of"))
+    @WrapMinecraftMethod(@VersionName(name = "of"))
     <T1> DynamicOpsWithRegistriesV1903<T1> static$newInstance(DynamicOpsV1300<T1> ops, class_7863 c2);
-    
+
     class Wrapper<T extends WrapperObject> extends DynamicOpsV1300.Wrapper<T>
     {
         public Wrapper(DynamicOpsWithRegistriesV1903<?> base, WrapperFactory<T> type)
@@ -35,8 +38,8 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
             super(base, type);
         }
     }
-    
-    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="RegistryInfoGetter"))
+
+    @WrapMinecraftInnerClass(outer = DynamicOpsWithRegistriesV1903.class, name = @VersionName(name = "RegistryInfoGetter"))
     interface class_7863 extends WrapperObject
     {
         WrapperFactory<class_7863> FACTORY = WrapperFactory.of(class_7863.class);
@@ -47,7 +50,8 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
             return WrapperObject.create(class_7863.class, wrapped);
         }
     }
-    @WrapMinecraftInnerClass(outer=DynamicOpsWithRegistriesV1903.class, name=@VersionName(name="CachedRegistryInfoGetter", begin=2005))
+
+    @WrapMinecraftInnerClass(outer = DynamicOpsWithRegistriesV1903.class, name = @VersionName(name = "CachedRegistryInfoGetter", begin = 2005))
     interface class_9683V2005 extends WrapperObject, class_7863
     {
         WrapperFactory<class_9683V2005> FACTORY = WrapperFactory.of(class_9683V2005.class);
@@ -57,7 +61,7 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         {
             return WrapperObject.create(class_9683V2005.class, wrapped);
         }
-        
+
         static class_9683V2005 newInstance(RegistryEntryLookupV1903.class_7874 registries)
         {
             return class_9683V2005.FACTORY.getStatic().static$newInstance(registries);

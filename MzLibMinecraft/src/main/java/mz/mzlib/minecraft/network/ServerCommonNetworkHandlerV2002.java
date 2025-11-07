@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.server.network.ServerCommonNetworkHandler", begin=2002))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.server.network.ServerCommonNetworkHandler", begin = 2002))
 public interface ServerCommonNetworkHandlerV2002 extends WrapperObject, MinecraftPacketListener
 {
     WrapperFactory<ServerCommonNetworkHandlerV2002> FACTORY = WrapperFactory.of(ServerCommonNetworkHandlerV2002.class);
@@ -21,17 +21,17 @@ public interface ServerCommonNetworkHandlerV2002 extends WrapperObject, Minecraf
     {
         return WrapperObject.create(ServerCommonNetworkHandlerV2002.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="connection"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "connection"))
     ClientConnection getConnection();
-    
+
     default EntityPlayer getPlayer()
     {
         if(this.isInstanceOf(ServerPlayNetworkHandler.FACTORY))
             return this.castTo(ServerPlayNetworkHandler.FACTORY).getPlayer();
         return null;
     }
-    
-    @WrapMinecraftMethod(@VersionName(name="sendPacket"))
+
+    @WrapMinecraftMethod(@VersionName(name = "sendPacket"))
     void sendPacket(Packet packet);
 }

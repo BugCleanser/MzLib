@@ -10,8 +10,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1400)
-@WrapMinecraftClass({@VersionName(name="net.minecraft.container.ContainerType", end=1600), @VersionName(name="net.minecraft.screen.ScreenHandlerType", begin=1600)})
+@VersionRange(begin = 1400)
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.container.ContainerType", end = 1600),
+    @VersionName(name = "net.minecraft.screen.ScreenHandlerType", begin = 1600)
+})
 public interface WindowTypeV1400 extends WrapperObject
 {
     WrapperFactory<WindowTypeV1400> FACTORY = WrapperFactory.of(WindowTypeV1400.class);
@@ -21,17 +24,17 @@ public interface WindowTypeV1400 extends WrapperObject
     {
         return WrapperObject.create(WindowTypeV1400.class, wrapped);
     }
-    
+
     static Registry getRegistry()
     {
         return RegistriesV1300.windowTypeV1400();
     }
-    
+
     static WindowTypeV1400 fromId(Identifier id)
     {
         return getRegistry().get(id).castTo(WindowTypeV1400.FACTORY);
     }
-    
+
     static WindowTypeV1400 fromId(String id)
     {
         return fromId(Identifier.newInstance(id));

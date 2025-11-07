@@ -13,7 +13,7 @@ public class PermissionRegistry implements PermissionHelp
     public Set<Permission> permissions = new HashSet<>();
     public Set<String> defaultNonOp = new HashSet<>();
     public Set<String> defaultDenialOp = new HashSet<>();
-    
+
     @Override
     public boolean check(EntityPlayer player, String permission)
     {
@@ -22,7 +22,7 @@ public class PermissionRegistry implements PermissionHelp
         else
             return this.defaultNonOp.contains(permission);
     }
-    
+
     @Override
     public void register(MzModule module, Permission object)
     {
@@ -32,7 +32,7 @@ public class PermissionRegistry implements PermissionHelp
         if(!object.defaultOp)
             this.defaultDenialOp.add(object.id);
     }
-    
+
     @Override
     public void unregister(MzModule module, Permission object)
     {

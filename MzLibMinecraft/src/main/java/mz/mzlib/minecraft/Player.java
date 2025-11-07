@@ -17,39 +17,39 @@ public class Player
     {
         this.uuid = uuid;
     }
-    
+
     public static Player of(UUID uuid)
     {
         return new Player(uuid);
     }
-    
+
     public UUID getUuid()
     {
         return this.uuid;
     }
-    
+
     public Option<EntityPlayer> getEntity()
     {
         return MinecraftServer.instance.getPlayerManager().getPlayer(this.uuid);
     }
-    
+
     public boolean isOnline()
     {
         return this.getEntity().isSome();
     }
-    
+
     @Override
     public int hashCode()
     {
         return Objects.hashCode(this.uuid);
     }
-    
+
     @Override
     public boolean equals(Object obj)
     {
         if(!(obj instanceof Player))
             return false;
-        Player player = (Player)obj;
+        Player player = (Player) obj;
         return Objects.equals(this.uuid, player.uuid);
     }
 }

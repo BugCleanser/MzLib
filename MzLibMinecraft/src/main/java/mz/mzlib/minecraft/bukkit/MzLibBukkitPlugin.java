@@ -7,6 +7,7 @@ import java.io.File;
 public class MzLibBukkitPlugin extends JavaPlugin
 {
     public static MzLibBukkitPlugin instance;
+
     {
         instance = this;
     }
@@ -22,7 +23,7 @@ public class MzLibBukkitPlugin extends JavaPlugin
     {
         MzLibBukkit.instance.unload();
     }
-    
+
     @Override
     public File getFile()
     {

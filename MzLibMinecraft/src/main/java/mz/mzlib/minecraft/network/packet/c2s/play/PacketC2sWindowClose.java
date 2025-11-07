@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.*;
 
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", end=1604), @VersionName(name="net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket", begin=1604)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.network.packet.c2s.play.GuiCloseC2SPacket", end = 1604),
+    @VersionName(name = "net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket", begin = 1604)
+})
 public interface PacketC2sWindowClose extends Packet
 {
     WrapperFactory<PacketC2sWindowClose> FACTORY = WrapperFactory.of(PacketC2sWindowClose.class);
@@ -18,22 +21,22 @@ public interface PacketC2sWindowClose extends Packet
     {
         return WrapperObject.create(PacketC2sWindowClose.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="id", end=1604), @VersionName(name="syncId", begin=1604)})
+
+    @WrapMinecraftFieldAccessor({ @VersionName(name = "id", end = 1604), @VersionName(name = "syncId", begin = 1604) })
     int getSyncId();
-    @WrapMinecraftFieldAccessor({@VersionName(name="id", end=1604), @VersionName(name="syncId", begin=1604)})
+    @WrapMinecraftFieldAccessor({ @VersionName(name = "id", end = 1604), @VersionName(name = "syncId", begin = 1604) })
     void setSyncId(int value);
-    
+
     static PacketC2sWindowClose newInstance(int syncId)
     {
         return FACTORY.getStatic().static$newInstance(syncId);
     }
     PacketC2sWindowClose static$newInstance(int syncId);
-    @VersionRange(end=1700)
+    @VersionRange(end = 1700)
     @WrapConstructor
     PacketC2sWindowClose static$newInstanceV_1700();
     @SpecificImpl("static$newInstance")
-    @VersionRange(end=1700)
+    @VersionRange(end = 1700)
     default PacketC2sWindowClose static$newInstanceV_1700(int syncId)
     {
         PacketC2sWindowClose result = this.static$newInstanceV_1700();
@@ -41,7 +44,7 @@ public interface PacketC2sWindowClose extends Packet
         return result;
     }
     @SpecificImpl("static$newInstance")
-    @VersionRange(begin=1700)
+    @VersionRange(begin = 1700)
     @WrapConstructor
     PacketC2sWindowClose static$newInstanceV1700(int syncId);
 }

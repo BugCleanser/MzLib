@@ -8,8 +8,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2005)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.codec.PacketEncoder"))
+@VersionRange(begin = 2005)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.codec.PacketEncoder"))
 public interface BinaryEncoderV2005 extends WrapperObject
 {
     WrapperFactory<BinaryEncoderV2005> FACTORY = WrapperFactory.of(BinaryEncoderV2005.class);
@@ -19,7 +19,7 @@ public interface BinaryEncoderV2005 extends WrapperObject
     {
         return WrapperObject.create(BinaryEncoderV2005.class, wrapped);
     }
-    
-    @WrapMinecraftMethod(@VersionName(name="encode"))
+
+    @WrapMinecraftMethod(@VersionName(name = "encode"))
     void encode(Object buf, Object value);
 }

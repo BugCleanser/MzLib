@@ -16,15 +16,15 @@ import java.io.InputStream;
 public class Demo extends MzModule
 {
     public static Demo instance = new Demo();
-    
+
     public File jar;
     public File dataFolder;
-    
+
     public Config config;
-    
+
     public Permission permission = new Permission("mzlibdemo.command.mzlibdemo");
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
@@ -34,11 +34,12 @@ public class Demo extends MzModule
             {
                 this.config = Config.loadJs(MinecraftJsUtil.initScope(), is, new File(this.dataFolder, "config.js"));
             }
-            
+
             this.register(this.permission);
             this.register(I18n.load(this.jar, "lang", 0));
-            this.register(this.command = new Command("mzlibdemo").setNamespace("mzlibdemo").setPermissionChecker(sender->Command.checkPermission(sender, this.permission)));
-            
+            this.register(this.command = new Command("mzlibdemo").setNamespace("mzlibdemo")
+                .setPermissionChecker(sender -> Command.checkPermission(sender, this.permission)));
+
             this.register(DemoReload.instance);
             this.register(Tictactoe.instance);
             this.register(DemoBookUi.instance);

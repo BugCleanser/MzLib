@@ -9,7 +9,7 @@ import mz.mzlib.module.MzModule;
 public class MzLibMinecraftInitializer extends MzModule
 {
     public static MzLibMinecraftInitializer instance = new MzLibMinecraftInitializer();
-    
+
     @Override
     public void onLoad()
     {

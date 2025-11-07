@@ -16,29 +16,29 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
         super(eventDisplayEntityData.packetEvent, original);
         this.eventDisplayEntityData = eventDisplayEntityData;
     }
-    
+
     public EventAsyncDisplayEntityData getEventDisplayEntityData()
     {
         return this.eventDisplayEntityData;
     }
-    
+
     public DisplayEntity getDisplayEntity()
     {
         return this.getEventDisplayEntityData().getDisplayEntity();
     }
-    
+
     @Override
     public void runLater(Runnable runnable)
     {
         this.getEventDisplayEntityData().runLater(runnable);
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class InEntityItem extends EventAsyncPlayerDisplayItemInEntity
     {
         public InEntityItem(EventAsyncDisplayEntityData eventDisplayEntityData, ItemStack original)
@@ -55,33 +55,37 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
         {
             this.eventDisplayEntityData.getPacket().putData(EntityItem.DATA_ADAPTER_ITEM, value);
         }
-        
+
         @Override
         public void call()
         {
             super.call();
         }
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncPlayerDisplayItemInEntity.class);
             this.register(InEntityItem.class);
-            this.register(new EventListener<>(EventAsyncDisplayEntityData.class, event->
+            this.register(new EventListener<>(
+                EventAsyncDisplayEntityData.class, event ->
             {
                 if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
                     return;
-                for(ItemStack original: event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
+                for(ItemStack original : event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
+                {
                     synchronized(event.getDisplayEntity())
                     {
                         new InEntityItem(event, original).call();
                     }
-            }));
+                }
+            }
+            ));
         }
     }
 }

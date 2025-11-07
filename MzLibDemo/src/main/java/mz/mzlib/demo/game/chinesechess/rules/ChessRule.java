@@ -6,6 +6,7 @@ import mz.mzlib.demo.game.chinesechess.other.Position;
 import java.util.List;
 
 @FunctionalInterface
-public interface ChessRule {
+public interface ChessRule
+{
     List<Position> generateSelectables(Chess chess);
 }

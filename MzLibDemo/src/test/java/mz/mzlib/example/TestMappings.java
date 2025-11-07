@@ -54,21 +54,30 @@ public class TestMappings
         });
         String protocolVersion = "v1_9_R2";
         boolean isPaper = true;
-        
+
         File folder = new File("mappings");
         List<Mappings<?>> result = new ArrayList<>();
-        if(isPaper && MinecraftPlatform.instance.getVersion()>=2005)
-            result.add(new MinecraftMappingsFetcherMojang().fetch(MinecraftPlatform.instance.getVersionString(), folder));
+        if(isPaper && MinecraftPlatform.instance.getVersion() >= 2005)
+            result.add(
+                new MinecraftMappingsFetcherMojang().fetch(MinecraftPlatform.instance.getVersionString(), folder));
         else
-            result.add(new MinecraftMappingsFetcherSpigot().fetch(MinecraftPlatform.instance.getVersionString(), protocolVersion, folder));
-        if(MinecraftPlatform.instance.getVersion()<1400)
+            result.add(new MinecraftMappingsFetcherSpigot().fetch(
+                MinecraftPlatform.instance.getVersionString(),
+                protocolVersion, folder
+            ));
+        if(MinecraftPlatform.instance.getVersion() < 1400)
         {
             // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(versionString, folder);
-            result.add(new MinecraftMappingsFetcherLegacyYarn().fetch(MinecraftPlatform.instance.getVersionString(), folder));
+            result.add(
+                new MinecraftMappingsFetcherLegacyYarn().fetch(MinecraftPlatform.instance.getVersionString(), folder));
         }
         else
         {
-            result.add(new MinecraftMappingsFetcherYarnIntermediary().fetch(MinecraftPlatform.instance.getVersionString(), folder));
+            result.add(
+                new MinecraftMappingsFetcherYarnIntermediary().fetch(
+                    MinecraftPlatform.instance.getVersionString(),
+                    folder
+                ));
             result.add(new MinecraftMappingsFetcherYarn().fetch(MinecraftPlatform.instance.getVersionString(), folder));
         }
         MappingsPipe mappings = new MappingsPipe(result);

@@ -23,15 +23,17 @@ public interface CommandSourceBukkit extends CommandSource
     {
         return WrapperObject.create(CommandSourceBukkit.class, wrapped);
     }
-    
+
     CommandSender getBukkitSender();
-    
+
     @SpecificImpl("getBukkitSender")
-    @VersionRange(end=1200)
+    @VersionRange(end = 1200)
     default CommandSender getBukkitSenderV_1200()
     {
-        for(Entity entity: this.getEntity())
+        for(Entity entity : this.getEntity())
+        {
             return BukkitEntityUtil.toBukkit(entity);
+        }
         if(this.isInstanceOf(MinecraftServer.FACTORY))
             return Bukkit.getConsoleSender();
         if(this.isInstanceOf(CommandBlockExecutorBukkit.FACTORY))
@@ -40,16 +42,16 @@ public interface CommandSourceBukkit extends CommandSource
             return MinecraftServer.instance.castTo(MinecraftServerBukkit.FACTORY).getRemoteConsoleV_2002();
         throw new UnsupportedOperationException();
     }
-    
+
     @SpecificImpl("getBukkitSender")
-    @VersionRange(begin=1200, end=1300)
+    @VersionRange(begin = 1200, end = 1300)
     default CommandSender getBukkitSenderV1200_1300()
     {
         return CommandBlockExecutorBukkit.commandSourceToBukkitV1200_1300(this);
     }
-    
+
     @SpecificImpl("getBukkitSender")
-    @VersionRange(begin=1300)
+    @VersionRange(begin = 1300)
     @WrapMethod("getBukkitSender")
     CommandSender getBukkitSenderV1300();
 }

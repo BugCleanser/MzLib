@@ -16,7 +16,7 @@ public interface Delegator extends WrapperObject
     {
         return WrapperObject.create(Delegator.class, wrapped);
     }
-    
+
     static <T extends Delegator> T newInstance(WrapperFactory<T> factory, Object delegate)
     {
         try
@@ -35,10 +35,10 @@ public interface Delegator extends WrapperObject
     {
         return newInstance(new WrapperFactory<>(creator), delegate);
     }
-    
+
     @WrapMethod("getDelegate")
     Object getDelegate();
-    
+
     @WrapMethod("setDelegate")
     void setDelegate(Object delegate);
 }

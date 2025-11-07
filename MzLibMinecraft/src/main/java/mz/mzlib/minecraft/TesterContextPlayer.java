@@ -9,9 +9,9 @@ public class TesterContextPlayer extends TesterContext
     public TesterContextPlayer(int level, EntityPlayer player)
     {
         super(level);
-        this.player=player;
+        this.player = player;
     }
-    
+
     public EntityPlayer getPlayer()
     {
         return this.player;

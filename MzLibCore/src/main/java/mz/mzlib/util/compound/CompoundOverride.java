@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 public @interface CompoundOverride
 {
     Class<? extends WrapperObject> parent();
-    
+
     /**
      * Name of wrapper method
      */

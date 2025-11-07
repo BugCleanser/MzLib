@@ -7,7 +7,7 @@ import java.util.function.Function;
 public class WrapperFactory<T extends WrapperObject>
 {
     protected final T wrapperStatic;
-    
+
     public WrapperFactory(T wrapperStatic)
     {
         this.wrapperStatic = wrapperStatic;
@@ -16,27 +16,27 @@ public class WrapperFactory<T extends WrapperObject>
     {
         this(creator.apply(null));
     }
-    
+
     public T create(Object wrapped)
     {
         return RuntimeUtil.cast(this.wrapperStatic.static$create(wrapped));
     }
-    
+
     public T getStatic()
     {
         return this.wrapperStatic;
     }
-    
+
     public Class<?> getWrappedClass()
     {
         return this.getStatic().static$getWrappedClass();
     }
-    
+
     public boolean isInstance(WrapperObject wrapper)
     {
         return this.getStatic().static$isInstance(wrapper);
     }
-    
+
     @SuppressWarnings("deprecation")
     public static <T extends WrapperObject> WrapperFactory<T> of(Class<T> wrapperClass)
     {
@@ -46,7 +46,7 @@ public class WrapperFactory<T extends WrapperObject>
     {
         return new WrapperFactory<>(value);
     }
-    
+
     @Deprecated
     public static <T extends WrapperObject> WrapperFactory<T> find(Class<T> wrapperClass)
     {

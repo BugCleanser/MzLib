@@ -18,18 +18,18 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
     {
         super(delegate, function);
     }
-    
+
     public List<U> getDelegate()
     {
-        return (List<U>)super.getDelegate();
+        return (List<U>) super.getDelegate();
     }
-    
+
     @Override
     public T get(int index)
     {
         return this.function.apply(this.getDelegate().get(index));
     }
-    
+
     @Override
     public T set(int index, T element)
     {
@@ -38,7 +38,7 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
         this.modifyMonitor.markDirty();
         return result;
     }
-    
+
     @Override
     public void add(int index, T element)
     {
@@ -46,7 +46,7 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
         this.getDelegate().add(index, this.function.inverse().apply(element));
         this.modifyMonitor.markDirty();
     }
-    
+
     @Override
     public T remove(int index)
     {
@@ -55,7 +55,7 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
         this.modifyMonitor.markDirty();
         return result;
     }
-    
+
     @Override
     public int indexOf(Object o)
     {
@@ -70,7 +70,7 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
         }
         return this.getDelegate().indexOf(u);
     }
-    
+
     @Override
     public int lastIndexOf(Object o)
     {
@@ -85,46 +85,46 @@ public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
         }
         return this.getDelegate().lastIndexOf(u);
     }
-    
+
     @Override
     public boolean addAll(int index, Collection<? extends T> c)
     {
         rangeCheckForAdd(index);
         boolean modified = false;
-        for(T e: c)
+        for(T e : c)
         {
             this.getDelegate().add(index++, this.function.inverse().apply(e));
             modified = true;
         }
         return modified;
     }
-    
+
     @Override
     public ListIterator<T> listIterator()
     {
         return this.listIterator(0);
     }
-    
+
     @Override
     public ListIterator<T> listIterator(int index)
     {
         return new ListIteratorProxy<>(this.getDelegate().listIterator(index), this.function, this.modifyMonitor);
     }
-    
+
     @Override
     public List<T> subList(int fromIndex, int toIndex)
     {
         return new ListProxy<>(this.getDelegate().subList(fromIndex, toIndex), this.function, this.modifyMonitor);
     }
-    
+
     private void rangeCheckForAdd(int index)
     {
-        if(index<0 || index>size())
+        if(index < 0 || index > size())
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
-    
+
     private String outOfBoundsMsg(int index)
     {
-        return "Index: "+index+", Size: "+size();
+        return "Index: " + index + ", Size: " + size();
     }
 }

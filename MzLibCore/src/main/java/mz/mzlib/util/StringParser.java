@@ -12,28 +12,28 @@ public class StringParser
     {
         this.string = string;
     }
-    
+
     public int index = 0;
-    
+
     public char peek() throws ParseException
     {
         if(!this.hasNext())
             throw this.exception();
         return this.string.charAt(this.index);
     }
-    
+
     public char read() throws ParseException
     {
         char result = this.peek();
         this.index++;
         return result;
     }
-    
+
     public boolean hasNext()
     {
-        return this.index<this.string.length();
+        return this.index < this.string.length();
     }
-    
+
     public String readString(Character... terminators) throws ParseException
     {
         return this.readString(Arrays.stream(terminators).collect(Collectors.toSet()));
@@ -42,10 +42,12 @@ public class StringParser
     {
         StringBuilder result = new StringBuilder();
         while(this.hasNext() && !terminators.contains(this.peek()))
+        {
             result.append(this.read());
+        }
         return result.toString();
     }
-    
+
     public ParseException exception()
     {
         return new ParseException(this.string, this.index);

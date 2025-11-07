@@ -20,70 +20,71 @@ public abstract class Option<T> implements Iterable<T>
     {
         return RuntimeUtil.cast(None.instance);
     }
-    
+
     public static <T> Option<T> fromNullable(T value)
     {
-        if(value==null)
+        if(value == null)
             return none();
         else
             return some(value);
     }
-    
+
     public abstract T toNullable();
-    
+
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <T> Option<T> fromOptional(Optional<T> optional)
     {
         return fromNullable(optional.orElse(null));
     }
-    
+
     public abstract Optional<T> toOptional();
-    
+
     public static <T extends WrapperObject> Option<T> fromWrapper(T wrapper)
     {
-        if(wrapper!=null && wrapper.isPresent())
+        if(wrapper != null && wrapper.isPresent())
             return some(wrapper);
         else
             return none();
     }
-    
+
     public abstract boolean isSome();
-    
+
     public abstract boolean isNone();
-    
+
     public abstract T unwrap();
-    
+
     public abstract T unwrapOr(T defaultValue);
-    
+
     public abstract <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, E> supplier) throws E;
-    
+
     public T unwrapOrGet(Supplier<? extends T> supplier)
     {
         return this.unwrapOrGet(ThrowableSupplier.ofSupplier(supplier));
     }
-    
+
     public abstract <U> Option<U> and(Option<U> other);
-    
+
     public abstract Option<T> or(Option<T> other);
-    
-    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E;
+
+    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
+        throws E;
     public <U> Option<U> map(Function<? super T, ? extends U> mapper)
     {
         return this.map(ThrowableFunction.ofFunction(mapper));
     }
-    
+
     public abstract <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper) throws E;
     public <U> Option<U> then(Function<? super T, Option<U>> mapper)
     {
         return this.then(ThrowableFunction.ofFunction(mapper));
     }
-    
+
     public abstract <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E;
     public Option<T> filter(Predicate<? super T> predicate)
     {
         return this.filter(ThrowablePredicate.ofPredicate(predicate));
     }
-    
+
     protected static class Some<T> extends Option<T>
     {
         T value;
@@ -91,7 +92,7 @@ public abstract class Option<T> implements Iterable<T>
         {
             this.value = Objects.requireNonNull(value);
         }
-        
+
         @Override
         public boolean isSome()
         {
@@ -107,14 +108,14 @@ public abstract class Option<T> implements Iterable<T>
         {
             return this.unwrap();
         }
-        
+
         @Override
         public Optional<T> toOptional()
         {
             return Optional.of(this.unwrap());
         }
-        
-        
+
+
         @Override
         public T unwrap()
         {
@@ -129,31 +130,31 @@ public abstract class Option<T> implements Iterable<T>
         {
             return this.unwrap();
         }
-        
+
         @Override
         public <U> Option<U> and(Option<U> other)
         {
             return other;
         }
-        
+
         @Override
         public Option<T> or(Option<T> other)
         {
             return this;
         }
-        
+
         @Override
         public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
         {
             return fromNullable(mapper.applyOrThrow(this.unwrap()));
         }
-        
+
         @Override
         public <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper) throws E
         {
             return mapper.applyOrThrow(this.unwrap());
         }
-        
+
         @Override
         public <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E
         {
@@ -167,23 +168,23 @@ public abstract class Option<T> implements Iterable<T>
         {
             return Objects.hash(0, this.value);
         }
-        
+
         @Override
         public boolean equals(Object obj)
         {
-            if(obj==this)
+            if(obj == this)
                 return true;
             if(!(obj instanceof Some))
                 return false;
-            return this.value.equals(((Some<?>)obj).value);
+            return this.value.equals(((Some<?>) obj).value);
         }
-        
+
         @Override
         public Iterator<T> iterator()
         {
             return new Itr();
         }
-        
+
         class Itr implements Iterator<T>
         {
             boolean hasNext = true;
@@ -202,11 +203,11 @@ public abstract class Option<T> implements Iterable<T>
             }
         }
     }
-    
+
     protected static class None<T> extends Option<T>
     {
         static None<?> instance = new None<>();
-        
+
         @Override
         public boolean isSome()
         {
@@ -227,7 +228,7 @@ public abstract class Option<T> implements Iterable<T>
         {
             return Optional.empty();
         }
-        
+
         @Override
         public T unwrap()
         {
@@ -243,19 +244,19 @@ public abstract class Option<T> implements Iterable<T>
         {
             return supplier.getOrThrow();
         }
-        
+
         @Override
         public <U> Option<U> and(Option<U> other)
         {
             return none();
         }
-        
+
         @Override
         public Option<T> or(Option<T> other)
         {
             return other;
         }
-        
+
         @Override
         public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
         {
@@ -266,7 +267,7 @@ public abstract class Option<T> implements Iterable<T>
         {
             return none();
         }
-        
+
         @Override
         public <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E
         {
@@ -277,18 +278,18 @@ public abstract class Option<T> implements Iterable<T>
         {
             return 0;
         }
-        
+
         public boolean equals(Object obj)
         {
             return obj instanceof None;
         }
-        
+
         @Override
         public Iterator<T> iterator()
         {
             return new Itr();
         }
-        
+
         class Itr implements Iterator<T>
         {
             @Override

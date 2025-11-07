@@ -10,8 +10,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=900, end=1300)
-@WrapMinecraftClass({@VersionName(name="net.minecraft.datafixer.DataFixerUpper")})
+@VersionRange(begin = 900, end = 1300)
+@WrapMinecraftClass({ @VersionName(name = "net.minecraft.datafixer.DataFixerUpper") })
 public interface DataUpdaterV900_1300 extends WrapperObject
 {
     WrapperFactory<DataUpdaterV900_1300> FACTORY = WrapperFactory.of(DataUpdaterV900_1300.class);
@@ -21,10 +21,10 @@ public interface DataUpdaterV900_1300 extends WrapperObject
     {
         return WrapperObject.create(DataUpdaterV900_1300.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="dataVersion"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "dataVersion"))
     int getDataVersion();
-    
-    @WrapMinecraftMethod(@VersionName(name="applyDataFixes"))
+
+    @WrapMinecraftMethod(@VersionName(name = "applyDataFixes"))
     NbtCompound update(DataUpdateTypeV900_1300 type, NbtCompound data, int from);
 }

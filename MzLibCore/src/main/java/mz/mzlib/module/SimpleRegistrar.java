@@ -8,7 +8,10 @@ public class SimpleRegistrar<T> implements IRegistrar<T>
     public BiConsumer<MzModule, T> registerMethod;
     public BiConsumer<MzModule, T> unregisterMethod;
 
-    public SimpleRegistrar(Class<T> type, BiConsumer<MzModule, T> registerMethod, BiConsumer<MzModule, T> unregisterMethod)
+    public SimpleRegistrar(
+        Class<T> type,
+        BiConsumer<MzModule, T> registerMethod,
+        BiConsumer<MzModule, T> unregisterMethod)
     {
         this.type = type;
         this.registerMethod = registerMethod;

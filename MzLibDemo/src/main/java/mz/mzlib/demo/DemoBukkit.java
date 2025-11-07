@@ -12,7 +12,7 @@ public class DemoBukkit extends JavaPlugin
         Demo.instance.dataFolder = this.getDataFolder();
         MzLib.instance.register(Demo.instance);
     }
-    
+
     @Override
     public void onDisable()
     {

@@ -17,37 +17,43 @@ import mz.mzlib.module.MzModule;
 public class CommandMzLibGive extends MzModule
 {
     public static CommandMzLibGive instance = new CommandMzLibGive();
-    
+
     public Permission permission = new Permission("mzlib.command.mzlib.give");
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("give").setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.permissionChecker(this.permission)).setHandler(this::handle)));
+        this.register(new ChildCommandRegistration(
+            MzLibMinecraft.instance.command,
+            this.command = new Command("give").setPermissionCheckers(
+                Command::checkPermissionSenderPlayer,
+                Command.permissionChecker(this.permission)
+            ).setHandler(this::handle)
+        ));
     }
-    
+
     public void handle(CommandContext context)
     {
         EntityPlayer player;
         Identifier id;
         NbtCompound data;
-        
+
         ArgumentParserIdentifier idParser = new ArgumentParserIdentifier(RegistrarMzItem.instance.factories.keySet());
-        
+
         CommandContext fork = context.fork();
         player = new ArgumentParserPlayer().handle(fork);
         id = idParser.handle(fork);
-        
+
         CommandContext fork1 = fork.fork();
         data = new ArgumentParserNbtCompound().handle(fork1);
         if(fork1.successful)
             fork = fork1;
         else
             data = NbtCompound.newInstance();
-        
+
         if(fork.argsReader.hasNext())
             fork.successful = false;
         if(fork.successful)
@@ -63,10 +69,10 @@ public class CommandMzLibGive extends MzModule
             else
                 data = NbtCompound.newInstance();
         }
-        
+
         if(!context.successful || !context.doExecute)
             return;
-        
+
         try
         {
             player.give(RegistrarMzItem.instance.newMzItem(id, data));

@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.*;
 import org.bukkit.command.CommandMap;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.PAPER)
-@VersionRange(begin=2102)
+@VersionRange(begin = 2102)
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginInstanceManager")
 public interface PluginInstanceManagerPaperV2102 extends WrapperObject
 {
@@ -17,7 +17,7 @@ public interface PluginInstanceManagerPaperV2102 extends WrapperObject
     {
         return WrapperObject.create(PluginInstanceManagerPaperV2102.class, wrapped);
     }
-    
+
     @WrapFieldAccessor("commandMap")
     CommandMap getCommandMap();
 }

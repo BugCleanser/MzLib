@@ -9,7 +9,10 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 // Mojang: net.minecraft.core.RegistryAccess
-@WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.DynamicRegistryManager", begin=1602, end=1903), @VersionName(name="net.minecraft.registry.DynamicRegistryManager", begin=1903)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.util.registry.DynamicRegistryManager", begin = 1602, end = 1903),
+    @VersionName(name = "net.minecraft.registry.DynamicRegistryManager", begin = 1903)
+})
 public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
 {
     WrapperFactory<RegistryManagerV1602> FACTORY = WrapperFactory.of(RegistryManagerV1602.class);
@@ -19,8 +22,8 @@ public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookup
     {
         return WrapperObject.create(RegistryManagerV1602.class, wrapped);
     }
-    
-    @WrapMinecraftInnerClass(outer=RegistryManagerV1602.class, name=@VersionName(name="Immutable", begin=1802))
+
+    @WrapMinecraftInnerClass(outer = RegistryManagerV1602.class, name = @VersionName(name = "Immutable", begin = 1802))
     interface Immutable extends RegistryManagerV1602
     {
         WrapperFactory<Immutable> FACTORY = WrapperFactory.of(Immutable.class);

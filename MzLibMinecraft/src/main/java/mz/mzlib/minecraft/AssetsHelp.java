@@ -21,7 +21,7 @@ import java.util.Map;
 public class AssetsHelp implements Iterable<String>
 {
     public static AssetsHelp instance = new AssetsHelp();
-    
+
     public int retry = 10;
     public String defaultHost = "launchermeta.mojang.com";
     public String getHost()
@@ -30,13 +30,15 @@ public class AssetsHelp implements Iterable<String>
     }
     public URL replaceHost(URL url) throws MalformedURLException
     {
-        if(MzLibMinecraft.instance.config.getString("assets_host")==null)
+        if(MzLibMinecraft.instance.config.getString("assets_host") == null)
             return url;
         return new URL("https", MzLibMinecraft.instance.config.getString("assets_host"), -1, url.getFile());
     }
-    public LazyConstant<JsonObject> versionManifest = new LazyConstant<>(()->
+    public LazyConstant<JsonObject> versionManifest = new LazyConstant<>(() ->
     {
-        try(InputStream is = IOUtil.openConnectionCheckRedirects(new URL("https", getHost(), -1, "/mc/game/version_manifest.json"), retry))
+        try(
+            InputStream is = IOUtil.openConnectionCheckRedirects(
+                new URL("https", getHost(), -1, "/mc/game/version_manifest.json"), retry))
         {
             return new Gson().fromJson(new String(IOUtil.readAll(is), StandardCharsets.UTF_8), JsonObject.class);
         }
@@ -45,49 +47,73 @@ public class AssetsHelp implements Iterable<String>
             throw RuntimeUtil.sneakilyThrow(e);
         }
     });
-    public LazyConstant<JsonObject> versionInfo = new LazyConstant<>(()->
+    public LazyConstant<JsonObject> versionInfo = new LazyConstant<>(() ->
     {
         try
         {
-            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/versionInfo-"+MinecraftPlatform.instance.getVersionString()+".json"), ThrowableSupplier.of(()->
-            {
-                for(JsonElement version: versionManifest.get().get("versions").getAsJsonArray())
-                {
-                    if(version.getAsJsonObject().get("id").getAsString().equals(MinecraftPlatform.instance.getVersionString()))
-                    {
-                        URL url = replaceHost(new URL(version.getAsJsonObject().get("url").getAsString()));
-                            try(InputStream is = IOUtil.openConnectionCheckRedirects(url, retry))
+            return new Gson().fromJson(
+                new String(
+                    IOUtil.cache(
+                        new File(
+                            MinecraftPlatform.instance.getMzLibDataFolder(),
+                            "assets/versionInfo-" + MinecraftPlatform.instance.getVersionString() + ".json"
+                        ), ThrowableSupplier.of(() ->
+                        {
+                            for(JsonElement version : versionManifest.get().get("versions").getAsJsonArray())
+                            {
+                                if(version.getAsJsonObject().get("id").getAsString()
+                                    .equals(MinecraftPlatform.instance.getVersionString()))
+                                {
+                                    URL url = replaceHost(new URL(version.getAsJsonObject().get("url").getAsString()));
+                                    try(InputStream is = IOUtil.openConnectionCheckRedirects(url, retry))
+                                    {
+                                        return IOUtil.readAll(is);
+                                    }
+                                }
+                            }
+                            throw new AssertionError();
+                        })
+                    ), StandardCharsets.UTF_8
+                ), JsonObject.class
+            );
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    });
+    public LazyConstant<JsonObject> assetIndex = new LazyConstant<>(() ->
+    {
+        try
+        {
+            return new Gson().fromJson(
+                new String(
+                    IOUtil.cache(
+                        new File(
+                            MinecraftPlatform.instance.getMzLibDataFolder(),
+                            "assets/assetIndex-" + MinecraftPlatform.instance.getVersionString() + ".json"
+                        ), ThrowableSupplier.of(() ->
+                        {
+                            try(
+                                InputStream is = IOUtil.openConnectionCheckRedirects(
+                                    replaceHost(new URL(
+                                        versionInfo.get().get("assetIndex").getAsJsonObject().get("url").getAsString())),
+                                    retry
+                                ))
                             {
                                 return IOUtil.readAll(is);
                             }
-                    }
-                }
-                throw new AssertionError();
-            })), StandardCharsets.UTF_8), JsonObject.class);
+                        })
+                    ), StandardCharsets.UTF_8
+                ), JsonObject.class
+            ).get("objects").getAsJsonObject();
         }
         catch(Throwable e)
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
     });
-    public LazyConstant<JsonObject> assetIndex = new LazyConstant<>(()->
-    {
-        try
-        {
-            return new Gson().fromJson(new String(IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/assetIndex-"+MinecraftPlatform.instance.getVersionString()+".json"), ThrowableSupplier.of(()->
-            {
-                try(InputStream is = IOUtil.openConnectionCheckRedirects(replaceHost(new URL(versionInfo.get().get("assetIndex").getAsJsonObject().get("url").getAsString())), retry))
-                {
-                    return IOUtil.readAll(is);
-                }
-            })), StandardCharsets.UTF_8), JsonObject.class).get("objects").getAsJsonObject();
-        }
-        catch(Throwable e)
-        {
-            throw RuntimeUtil.sneakilyThrow(e);
-        }
-    });
-    
+
     public class AssetsIterator implements Iterator<String>
     {
         public Iterator<Map.Entry<String, JsonElement>> i = AssetsHelp.this.assetIndex.get().entrySet().iterator();
@@ -111,22 +137,29 @@ public class AssetsHelp implements Iterable<String>
     public byte[] getAsset(String file) throws IOException
     {
         if(file.contains(".."))
-            throw new NoSuchFileException("Minecraft assets: "+file);
-        return IOUtil.cache(new File(MinecraftPlatform.instance.getMzLibDataFolder(), "assets/"+MinecraftPlatform.instance.getVersionString()+"/"+file), ThrowableSupplier.of(()->
-        {
-            try(InputStream is = AssetsHelp.class.getClassLoader().getResourceAsStream("assets/"+file))
+            throw new NoSuchFileException("Minecraft assets: " + file);
+        return IOUtil.cache(
+            new File(
+                MinecraftPlatform.instance.getMzLibDataFolder(),
+                "assets/" + MinecraftPlatform.instance.getVersionString() + "/" + file
+            ), ThrowableSupplier.of(() ->
             {
-                if(is!=null)
+                try(InputStream is = AssetsHelp.class.getClassLoader().getResourceAsStream("assets/" + file))
+                {
+                    if(is != null)
+                        return IOUtil.readAll(is);
+                }
+                JsonElement jsonElement = this.assetIndex.get().get(file);
+                if(jsonElement == null)
+                    throw new NoSuchFileException("Minecraft assets: " + file);
+                String hash = jsonElement.getAsJsonObject().get("hash").getAsString();
+                try(
+                    InputStream is = IOUtil.openConnectionCheckRedirects(
+                        new URL("https", this.getHost(), -1, "/assets/" + hash.substring(0, 2) + "/" + hash), retry))
+                {
                     return IOUtil.readAll(is);
-            }
-            JsonElement jsonElement = this.assetIndex.get().get(file);
-            if(jsonElement==null)
-                throw new NoSuchFileException("Minecraft assets: "+file);
-            String hash = jsonElement.getAsJsonObject().get("hash").getAsString();
-            try(InputStream is = IOUtil.openConnectionCheckRedirects(new URL("https", this.getHost(), -1, "/assets/"+hash.substring(0, 2)+"/"+hash), retry))
-            {
-                return IOUtil.readAll(is);
-            }
-        }));
+                }
+            })
+        );
     }
 }

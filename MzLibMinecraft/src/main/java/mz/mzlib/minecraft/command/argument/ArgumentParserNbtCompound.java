@@ -14,7 +14,7 @@ public class ArgumentParserNbtCompound extends ArgumentParser<NbtCompound>
     {
         this("nbt");
     }
-    
+
     @Override
     public NbtCompound parse(CommandContext context)
     {
@@ -22,7 +22,8 @@ public class ArgumentParserNbtCompound extends ArgumentParser<NbtCompound>
         do
         {
             result.append(context.argsReader.readString());
-        }while(context.argsReader.hasNext() && RuntimeUtil.runAndCatch(()->NbtCompound.parse(result.toString()))!=null);
+        } while(context.argsReader.hasNext() &&
+            RuntimeUtil.runAndCatch(() -> NbtCompound.parse(result.toString())) != null);
         return NbtCompound.parse(result.toString());
     }
 }

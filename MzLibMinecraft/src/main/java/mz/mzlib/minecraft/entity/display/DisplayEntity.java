@@ -24,7 +24,7 @@ public class DisplayEntity implements EntityDataHolder
     public UUID uuidV900;
     public EntityType type;
     public Vec3d position;
-    
+
     public DisplayEntity(EntityPlayer player, PacketS2cEntitySpawn packetSpawn)
     {
         this.player = player;
@@ -34,10 +34,10 @@ public class DisplayEntity implements EntityDataHolder
         this.type = packetSpawn.getEntityType();
         this.position = packetSpawn.getPosition();
     }
-    
+
     public EntityDataHolder dataHolder = EntityDataHolder.of(new HashMap<>());
     public EntityDataHolder unsynced = EntityDataHolder.of(new HashMap<>());
-    
+
     @Override
     public Option<Object> getData(EntityDataKey key)
     {
@@ -60,7 +60,7 @@ public class DisplayEntity implements EntityDataHolder
     {
         this.dataHolder.forEachData(action);
     }
-    
+
     public Map<Identifier, ?> tags = new HashMap<>();
     public <T> Option<T> removeTag(Identifier key)
     {

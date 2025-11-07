@@ -11,25 +11,25 @@ public interface ElementSwitcher<T extends Annotation>
     {
         try
         {
-            for (Annotation a : element.getAnnotations())
+            for(Annotation a : element.getAnnotations())
             {
                 ElementSwitcherClass clazz = a.annotationType().getAnnotation(ElementSwitcherClass.class);
-                if (clazz == null)
+                if(clazz == null)
                 {
                     continue;
                 }
-                if (!isEnabled(a.annotationType()))
+                if(!isEnabled(a.annotationType()))
                 {
                     continue;
                 }
-                if (!clazz.value().newInstance().isEnabled(RuntimeUtil.cast(a), element))
+                if(!clazz.value().newInstance().isEnabled(RuntimeUtil.cast(a), element))
                 {
                     return false;
                 }
             }
             return true;
         }
-        catch (Throwable e)
+        catch(Throwable e)
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }

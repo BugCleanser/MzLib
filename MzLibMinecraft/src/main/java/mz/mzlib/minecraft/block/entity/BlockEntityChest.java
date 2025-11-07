@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.*;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.ChestBlockEntity"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.block.entity.ChestBlockEntity"))
 public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFactory
 {
     WrapperFactory<BlockEntityChest> FACTORY = WrapperFactory.of(BlockEntityChest.class);
@@ -18,19 +18,19 @@ public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFact
     {
         return WrapperObject.create(BlockEntityChest.class, wrapped);
     }
-    
+
     BlockEntityChest static$newInstance(BlockPos pos, BlockState state);
-    @VersionRange(end=1700)
+    @VersionRange(end = 1700)
     @WrapConstructor
     BlockEntityChest static$newInstanceV_1700();
     @SpecificImpl("static$newInstance")
-    @VersionRange(end=1700)
+    @VersionRange(end = 1700)
     default BlockEntityChest static$newInstanceV_1700(BlockPos pos, BlockState state)
     {
         return static$newInstanceV_1700();
     }
     @SpecificImpl("static$newInstance")
-    @VersionRange(begin=1700)
+    @VersionRange(begin = 1700)
     @WrapConstructor
     BlockEntityChest static$newInstanceV1700(BlockPos pos, BlockState state);
     static BlockEntityChest newInstance(BlockPos pos, BlockState state)

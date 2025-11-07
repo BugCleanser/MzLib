@@ -17,21 +17,21 @@ public abstract class EventEntity extends Event
     {
         return this.entity;
     }
-    
+
     @Override
     public void call()
     {
     }
-    
+
     public static class Module extends MzModule
     {
-        public static Module instance=new Module();
-        
+        public static Module instance = new Module();
+
         @Override
         public void onLoad()
         {
             this.register(EventEntity.class);
-            
+
             this.register(EventEntityLivingDamage.Module.instance);
         }
     }

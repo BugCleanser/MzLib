@@ -25,54 +25,65 @@ import java.lang.reflect.Method;
 public @interface WrapMinecraftFieldAccessor
 {
     VersionName[] value();
-    
+
     class Handler implements ElementSwitcher<WrapMinecraftFieldAccessor>, WrappedMemberFinder<WrapMinecraftFieldAccessor>
     {
         @Override
         public boolean isEnabled(WrapMinecraftFieldAccessor annotation, AnnotatedElement element)
         {
-            for(VersionName n: annotation.value())
+            for(VersionName n : annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-        
+
         @Override
-        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapMinecraftFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(
+            Class<? extends WrapperObject> wrapperClass,
+            Class<?> wrappedClass,
+            Method wrapperMethod,
+            WrapMinecraftFieldAccessor annotation,
+            Class<?> returnType,
+            Class<?>[] argTypes) throws NoSuchFieldException
         {
             NoSuchFieldException lastException = null;
             l1:
-            for(VersionName name: annotation.value())
+            for(VersionName name : annotation.value())
             {
                 if(name.remap())
                 {
-                    for(String className: WrapMinecraftClass.Handler.getName(wrapperClass))
+                    for(String className : WrapMinecraftClass.Handler.getName(wrapperClass))
                     {
                         try
                         {
-                            return WrapFieldAccessor.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
-                            {
-                                @Override
-                                public Class<WrapFieldAccessor> annotationType()
+                            return WrapFieldAccessor.Handler.class.newInstance().find(
+                                wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
                                 {
-                                    return WrapFieldAccessor.class;
-                                }
-                                
-                                @Override
-                                public String[] value()
-                                {
-                                    return new String[]{MinecraftPlatform.instance.getMappings().inverse().mapField(className, name.name())};
-                                }
-                            }, returnType, argTypes);
+                                    @Override
+                                    public Class<WrapFieldAccessor> annotationType()
+                                    {
+                                        return WrapFieldAccessor.class;
+                                    }
+
+                                    @Override
+                                    public String[] value()
+                                    {
+                                        return new String[]{
+                                            MinecraftPlatform.instance.getMappings().inverse().mapField(
+                                                className, name.name())
+                                        };
+                                    }
+                                }, returnType, argTypes
+                            );
                         }
                         catch(NoSuchFieldException e)
                         {
                             lastException = e;
                             continue l1;
                         }
-                        catch(InstantiationException|IllegalAccessException e)
+                        catch(InstantiationException | IllegalAccessException e)
                         {
                             throw RuntimeUtil.sneakilyThrow(e);
                         }
@@ -83,26 +94,28 @@ public @interface WrapMinecraftFieldAccessor
                 {
                     try
                     {
-                        return WrapFieldAccessor.Handler.class.newInstance().find(wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
-                        {
-                            @Override
-                            public Class<WrapFieldAccessor> annotationType()
+                        return WrapFieldAccessor.Handler.class.newInstance().find(
+                            wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
                             {
-                                return WrapFieldAccessor.class;
-                            }
-                            
-                            @Override
-                            public String[] value()
-                            {
-                                return new String[]{name.name()};
-                            }
-                        }, returnType, argTypes);
+                                @Override
+                                public Class<WrapFieldAccessor> annotationType()
+                                {
+                                    return WrapFieldAccessor.class;
+                                }
+
+                                @Override
+                                public String[] value()
+                                {
+                                    return new String[]{ name.name() };
+                                }
+                            }, returnType, argTypes
+                        );
                     }
                     catch(NoSuchFieldException e)
                     {
                         lastException = e;
                     }
-                    catch(InstantiationException|IllegalAccessException e)
+                    catch(InstantiationException | IllegalAccessException e)
                     {
                         throw RuntimeUtil.sneakilyThrow(e);
                     }

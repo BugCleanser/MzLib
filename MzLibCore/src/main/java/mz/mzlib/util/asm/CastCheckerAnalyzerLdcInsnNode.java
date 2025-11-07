@@ -11,12 +11,16 @@ public class CastCheckerAnalyzerLdcInsnNode extends CastCheckerAnalyzer<LdcInsnN
 {
     public static CastCheckerAnalyzerLdcInsnNode instance = new CastCheckerAnalyzerLdcInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, LdcInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        LdcInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        if (insn.getOpcode() == Opcodes.LDC)
+        if(insn.getOpcode() == Opcodes.LDC)
         {
             context.push(new CastChecker.OperandVisitor());
-            if (insn.cst instanceof Long || insn.cst instanceof Double)
+            if(insn.cst instanceof Long || insn.cst instanceof Double)
             {
                 context.push(new CastChecker.OperandVisitor());
             }

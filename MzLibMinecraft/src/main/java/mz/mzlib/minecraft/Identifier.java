@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.*;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.util.Identifier"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.util.Identifier"))
 public interface Identifier extends WrapperObject
 {
     WrapperFactory<Identifier> FACTORY = WrapperFactory.of(Identifier.class);
@@ -14,35 +14,35 @@ public interface Identifier extends WrapperObject
     {
         return WrapperObject.create(Identifier.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="namespace"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "namespace"))
     String getNamespace();
-    
+
     @Deprecated
-    @WrapMinecraftFieldAccessor(@VersionName(name="namespace"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "namespace"))
     @SuppressWarnings("DeprecatedIsStillUsed")
     void setNamespace(String value);
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="path"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "path"))
     String getName();
-    
+
     @Deprecated
-    @WrapMinecraftFieldAccessor(@VersionName(name="path"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "path"))
     void setName(String value);
-    
+
     static Identifier newInstance(String namespace, String name)
     {
         return FACTORY.getStatic().static$newInstance(namespace, name);
     }
-    
+
     Identifier static$newInstance(String namespace, String name);
-    
-    @VersionRange(end=900)
+
+    @VersionRange(end = 900)
     @WrapConstructor
     Identifier static$newInstanceV_900(String name);
-    
+
     @SpecificImpl("static$newInstance")
-    @VersionRange(end=900)
+    @VersionRange(end = 900)
     default Identifier static$newInstanceV_900(String namespace, String name)
     {
         Identifier result = static$newInstanceV_900("");
@@ -50,12 +50,12 @@ public interface Identifier extends WrapperObject
         result.setName(name);
         return result;
     }
-    
+
     @SpecificImpl("static$newInstance")
-    @VersionRange(begin=900)
+    @VersionRange(begin = 900)
     @WrapConstructor
     Identifier static$newInstanceV900(String namespace, String name);
-    
+
     static Identifier minecraft(String name)
     {
         return newInstance("minecraft", name);
@@ -64,16 +64,16 @@ public interface Identifier extends WrapperObject
     {
         return minecraft(name);
     }
-    
+
     static Identifier newInstance(String str)
     {
         String[] result = str.split(":", 2);
-        if(result.length==2)
+        if(result.length == 2)
             return newInstance(result[0], result[1]);
         else
             return minecraft(str);
     }
-    
+
     default boolean isMinecraft()
     {
         return "minecraft".equals(this.getNamespace());

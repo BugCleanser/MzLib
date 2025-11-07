@@ -6,5 +6,11 @@ import java.lang.reflect.Method;
 
 public interface WrappedMemberFinder<T extends Annotation>
 {
-    Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, T annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException, NoSuchFieldException;
+    Member find(
+        Class<? extends WrapperObject> wrapperClass,
+        Class<?> wrappedClass,
+        Method wrapperMethod,
+        T annotation,
+        Class<?> returnType,
+        Class<?>[] argTypes) throws NoSuchMethodException, NoSuchFieldException;
 }

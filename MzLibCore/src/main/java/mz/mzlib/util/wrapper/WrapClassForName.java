@@ -15,22 +15,23 @@ public @interface WrapClassForName
     class Handler implements WrappedClassFinder<WrapClassForName>
     {
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapClassForName annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapClassForName annotation)
+            throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            for (String i : annotation.value())
+            for(String i : annotation.value())
             {
                 try
                 {
                     return Class.forName(i, false, classLoader);
                 }
-                catch (ClassNotFoundException e)
+                catch(ClassNotFoundException e)
                 {
                     lastException = e;
                 }
             }
-            if (lastException != null)
+            if(lastException != null)
                 throw lastException;
             return null;
         }

@@ -16,7 +16,7 @@ import java.lang.reflect.AnnotatedElement;
  */
 @Deprecated
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD })
 @ElementSwitcherClass(FabricEnabled.Handler.class)
 public @interface FabricEnabled
 {
@@ -28,7 +28,7 @@ public @interface FabricEnabled
             if(MinecraftPlatform.instance instanceof MinecraftPlatformFabric)
                 return true;
             if(MinecraftPlatform.instance instanceof MinecraftPlatformBukkit)
-                return ((MinecraftPlatformBukkit)MinecraftPlatform.instance).fabric.isSome();
+                return ((MinecraftPlatformBukkit) MinecraftPlatform.instance).fabric.isSome();
             return false;
         }
     }

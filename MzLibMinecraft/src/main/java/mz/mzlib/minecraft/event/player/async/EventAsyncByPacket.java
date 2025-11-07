@@ -12,13 +12,13 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
         super(packetEvent.getPlayer().unwrap());
         this.packetEvent = packetEvent;
     }
-    
+
     @Override
     public boolean isCancelled()
     {
         return this.packetEvent.isCancelled();
     }
-    
+
     public PacketEvent.Specialized<? extends P> getPacketEvent()
     {
         return this.packetEvent;
@@ -27,30 +27,30 @@ public class EventAsyncByPacket<P extends Packet> extends EventPlayer
     {
         return this.getPacketEvent().getPacket();
     }
-    
+
     public void sync(Runnable task)
     {
         this.packetEvent.sync(task);
     }
-    
+
     @Override
     public void runLater(Runnable runnable) throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public interface Cancellable extends mz.mzlib.event.Cancellable
     {
         @Override
         default void setCancelled(boolean cancelled)
         {
-            ((EventAsyncByPacket<?>)this).packetEvent.setCancelled(cancelled);
+            ((EventAsyncByPacket<?>) this).packetEvent.setCancelled(cancelled);
         }
     }
 }

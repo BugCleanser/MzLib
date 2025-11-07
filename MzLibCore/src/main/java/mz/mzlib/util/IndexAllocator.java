@@ -18,7 +18,7 @@ public class IndexAllocator<T>
 
     public synchronized int alloc()
     {
-        if (!this.bin.isEmpty())
+        if(!this.bin.isEmpty())
             return this.bin.poll();
         this.list.add(null);
         return this.list.size() - 1;

@@ -8,11 +8,12 @@ import mz.mzlib.module.MzModule;
 public class DemoReload extends MzModule
 {
     public static DemoReload instance = new DemoReload();
-    
+
     @Override
     public void onLoad()
     {
-        this.register(new ChildCommandRegistration(Demo.instance.command, new Command("reload").setHandler(context->
+        this.register(new ChildCommandRegistration(
+            Demo.instance.command, new Command("reload").setHandler(context ->
         {
             if(context.getArgsReader().hasNext())
                 context.successful = false;
@@ -22,6 +23,7 @@ public class DemoReload extends MzModule
                 return;
             MzLib.instance.unregister(Demo.instance);
             MzLib.instance.register(Demo.instance);
-        })));
+        })
+        ));
     }
 }

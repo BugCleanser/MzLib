@@ -12,7 +12,7 @@ import mz.mzlib.util.wrapper.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.MutableText", begin=1600))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.MutableText", begin = 1600))
 public interface TextMutableV1600 extends Text
 {
     WrapperFactory<TextMutableV1600> FACTORY = WrapperFactory.of(TextMutableV1600.class);
@@ -22,19 +22,19 @@ public interface TextMutableV1600 extends Text
     {
         return WrapperObject.create(TextMutableV1600.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="siblings", begin=1900))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "siblings", begin = 1900))
     void setExtra0V1900(List<Object> value);
-    
+
     @SpecificImpl("setExtra")
-    @VersionRange(begin=1900)
+    @VersionRange(begin = 1900)
     @Override
     default Text setExtraV1900(List<Text> value)
     {
         this.setExtra0V1900(new ListProxy<>(value, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
         return this;
     }
-    
+
     static TextMutableV1600 newInstanceV1900(TextContentV1900 content)
     {
         return newInstanceV1900(content, new ArrayList<>(), TextStyle.empty());
@@ -43,15 +43,15 @@ public interface TextMutableV1600 extends Text
     {
         return FACTORY.getStatic().static$newInstanceV1900(content, extra, style);
     }
-    @VersionRange(begin=1900)
+    @VersionRange(begin = 1900)
     @WrapConstructor
     TextMutableV1600 static$newInstanceV1900(TextContentV1900 content, List<?> extra, TextStyle style);
-    
-    @WrapMinecraftMethod(@VersionName(name="setStyle"))
+
+    @WrapMinecraftMethod(@VersionName(name = "setStyle"))
     void setStyleV1600(TextStyle style);
-    
+
     @SpecificImpl("setStyle")
-    @VersionRange(begin=1900)
+    @VersionRange(begin = 1900)
     @Override
     default void setStyleV1900(TextStyle style)
     {

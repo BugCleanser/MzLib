@@ -15,17 +15,17 @@ public class MzLibBukkit extends MzModule
     public void onLoad()
     {
         this.register(MzLib.instance);
-        
+
         this.register(MinecraftPlatformBukkit.instance);
 
         this.register(CraftServer.FACTORY.create(Bukkit.getServer()).getServer());
-        
+
         this.register(RegistrarCommandBukkit.instance);
         this.register(PermissionHelpBukkit.instance);
-        
+
         this.register(ModuleBukkitWindow.instance);
         this.register(ModuleBukkitPacketListener.instance);
-        
+
         this.register(MzLibMinecraft.instance);
     }
 }

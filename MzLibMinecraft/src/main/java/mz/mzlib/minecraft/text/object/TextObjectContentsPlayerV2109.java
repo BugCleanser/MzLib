@@ -9,12 +9,12 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2109)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.object.PlayerTextObjectContents"))
+@VersionRange(begin = 2109)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.object.PlayerTextObjectContents"))
 public interface TextObjectContentsPlayerV2109 extends WrapperObject, TextObjectContentsV2109
 {
     WrapperFactory<TextObjectContentsPlayerV2109> FACTORY = WrapperFactory.of(TextObjectContentsPlayerV2109.class);
-    
+
     static TextObjectContentsPlayerV2109 newInstance(GameProfile.Description gameProfile, boolean hat)
     {
         return FACTORY.getStatic().static$newInstance0(GameProfileComponentV2005.newInstance(gameProfile), hat);

@@ -12,7 +12,7 @@ import java.lang.reflect.AnnotatedElement;
  */
 @Deprecated
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD })
 @ElementSwitcherClass(FabricDisabled.Handler.class)
 public @interface FabricDisabled
 {
@@ -21,14 +21,16 @@ public @interface FabricDisabled
         @Override
         public boolean isEnabled(FabricDisabled annotation, AnnotatedElement element)
         {
-            return !new FabricEnabled.Handler().isEnabled(new FabricEnabled()
-            {
-                @Override
-                public Class<? extends Annotation> annotationType()
+            return !new FabricEnabled.Handler().isEnabled(
+                new FabricEnabled()
                 {
-                    return FabricEnabled.class;
-                }
-            }, element);
+                    @Override
+                    public Class<? extends Annotation> annotationType()
+                    {
+                        return FabricEnabled.class;
+                    }
+                }, element
+            );
         }
     }
 }

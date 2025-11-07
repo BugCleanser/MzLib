@@ -24,7 +24,7 @@ public @interface WrapSameClass
         {
             return ElementSwitcher.isEnabled(((WrapSameClass) annotation).value());
         }
-        
+
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapSameClass annotation)
         {

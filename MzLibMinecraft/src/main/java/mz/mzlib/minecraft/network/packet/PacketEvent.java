@@ -20,12 +20,12 @@ public class PacketEvent
         this.player = player;
         this.packet = packet;
     }
-    
+
     public Option<EntityPlayer> getPlayer()
     {
         return this.player;
     }
-    
+
     public Packet getPacket()
     {
         return this.packet;
@@ -39,12 +39,12 @@ public class PacketEvent
     {
         return this.getPacket(new WrapperFactory<>(creator));
     }
-    
+
     public void setPacket(Packet value)
     {
         this.packet = value;
     }
-    
+
     /**
      * @see #setPacket
      */
@@ -58,15 +58,15 @@ public class PacketEvent
     }
     @Deprecated
     public boolean isCopied = false;
-    
+
     public TaskList syncTasks = null;
     public void sync(Runnable task)
     {
-        if(this.syncTasks==null)
+        if(this.syncTasks == null)
             this.syncTasks = new TaskList();
         this.syncTasks.schedule(task);
     }
-    
+
     public void setCancelled(boolean cancelled)
     {
         this.isCancelled = cancelled;
@@ -75,12 +75,12 @@ public class PacketEvent
     {
         return this.isCancelled;
     }
-    
+
     public <T extends Packet> Specialized<T> specialize(WrapperFactory<T> factory)
     {
         return new Specialized<>(this, factory);
     }
-    
+
     public static class Specialized<T extends Packet>
     {
         PacketEvent base;
@@ -90,7 +90,7 @@ public class PacketEvent
             this.base = common;
             this.type = creator;
         }
-        
+
         public PacketEvent getBase()
         {
             return this.base;
@@ -99,22 +99,22 @@ public class PacketEvent
         {
             return this.type;
         }
-        
+
         public Option<EntityPlayer> getPlayer()
         {
             return this.getBase().getPlayer();
         }
-        
+
         public T getPacket()
         {
             return this.getBase().getPacket(this.getType());
         }
-        
+
         public void setPacket(Packet value)
         {
             this.getBase().setPacket(value);
         }
-        
+
         /**
          * @see #setPacket
          */
@@ -123,12 +123,12 @@ public class PacketEvent
         {
             this.getBase().ensureCopied();
         }
-        
+
         public void sync(Runnable task)
         {
             this.getBase().sync(task);
         }
-        
+
         public void setCancelled(boolean cancelled)
         {
             this.getBase().setCancelled(cancelled);

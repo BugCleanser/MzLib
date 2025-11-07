@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.projectile.FishingBobberEntity"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.projectile.FishingBobberEntity"))
 public interface EntityFishingBobber extends WrapperObject, Entity
 {
     WrapperFactory<EntityFishingBobber> FACTORY = WrapperFactory.of(EntityFishingBobber.class);

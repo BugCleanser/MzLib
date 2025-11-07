@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1300)
+@VersionRange(begin = 1300)
 @WrapSameClass(Item.class)
 public interface ItemV1300 extends WrapperObject, Item, ItemConvertibleV1300
 {

@@ -8,21 +8,21 @@ import mz.mzlib.util.async.AsyncFunction;
 public class ExampleAsyncFunction extends MzModule
 {
     public static ExampleAsyncFunction instance = new ExampleAsyncFunction();
-    
+
     @Override
     public void onLoad()
     {
         new Func1().start(MinecraftServer.instance.asModule(this));
         System.out.println("ExampleAsyncFunction is Load");
     }
-    
+
     public static class Func2 extends AsyncFunction<Void>
     {
         @Override
         public void run()
         {
         }
-        
+
         @Override
         protected Void template()
         {
@@ -32,18 +32,18 @@ public class ExampleAsyncFunction extends MzModule
             return null;
         }
     }
-    
+
     public static class Func1 extends AsyncFunction<Void>
     {
         @Override
         public void run()
         {
         }
-        
+
         @Override
         protected Void template()
         {
-            for(int i = 0; i<10; i++)
+            for(int i = 0; i < 10; i++)
             {
                 System.out.println("Hello World0");
                 await(new SleepTicks(20));

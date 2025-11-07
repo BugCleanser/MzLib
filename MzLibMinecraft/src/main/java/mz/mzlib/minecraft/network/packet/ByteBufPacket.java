@@ -9,7 +9,10 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.util.PacketByteBuf", end=1600), @VersionName(name="net.minecraft.network.PacketByteBuf", begin=1600)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.util.PacketByteBuf", end = 1600),
+    @VersionName(name = "net.minecraft.network.PacketByteBuf", begin = 1600)
+})
 public interface ByteBufPacket extends WrapperObject
 {
     WrapperFactory<ByteBufPacket> FACTORY = WrapperFactory.of(ByteBufPacket.class);
@@ -19,21 +22,21 @@ public interface ByteBufPacket extends WrapperObject
     {
         return WrapperObject.create(ByteBufPacket.class, wrapped);
     }
-    
+
     @Override
     ByteBuf getWrapped();
-    
+
     static ByteBufPacket newInstance(ByteBuf delegate)
     {
         return FACTORY.getStatic().static$newInstance(delegate);
     }
-    
+
     @WrapConstructor
     ByteBufPacket static$newInstance(ByteBuf delegate);
-    
-    @WrapMinecraftMethod(@VersionName(name="readString"))
+
+    @WrapMinecraftMethod(@VersionName(name = "readString"))
     String readString(int i);
-    
-    @WrapMinecraftMethod(@VersionName(name="writeString"))
+
+    @WrapMinecraftMethod(@VersionName(name = "writeString"))
     ByteBufPacket writeString(String str);
 }

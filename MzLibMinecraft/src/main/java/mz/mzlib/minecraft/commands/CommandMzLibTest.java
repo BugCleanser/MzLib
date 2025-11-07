@@ -20,17 +20,20 @@ import java.util.Map;
 public class CommandMzLibTest extends MzModule
 {
     public static CommandMzLibTest instance = new CommandMzLibTest();
-    
+
     public Permission permission = new Permission("mzlib.command.mzlib.test");
-    
+
     @Override
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, //
-                new Command("test").setPermissionChecker(Command.permissionChecker(this.permission)).setHandler(this::handle)));
+        this.register(new ChildCommandRegistration(
+            MzLibMinecraft.instance.command, //
+            new Command("test").setPermissionChecker(Command.permissionChecker(this.permission))
+                .setHandler(this::handle)
+        ));
     }
-    
+
     public void handle(CommandContext context)
     {
         CommandContext fork = context.fork();
@@ -57,34 +60,40 @@ public class CommandMzLibTest extends MzModule
         if(context.getSource().getPlayer().isSome())
         {
             testerContext = new TesterContextPlayer(level, context.getSource().getPlayer().unwrap());
-            context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.begin.player"));
+            context.getSource()
+                .sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.begin.player"));
         }
         else
         {
             testerContext = new TesterContext(level);
-            context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.begin.non_player"));
+            context.getSource().sendMessage(
+                MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.begin.non_player"));
         }
-        Tester.testAll(testerContext).whenComplete((r, e)->
+        Tester.testAll(testerContext).whenComplete((r, e) ->
         {
-            if(e!=null)
+            if(e != null)
             {
                 e.printStackTrace(System.err);
                 return;
             }
-            for(Map.Entry<Tester<?>, List<Throwable>> entry: r.entrySet())
+            for(Map.Entry<Tester<?>, List<Throwable>> entry : r.entrySet())
             {
                 System.err.println(entry.getKey().getName());
-                for(Throwable t: entry.getValue())
+                for(Throwable t : entry.getValue())
                 {
                     t.printStackTrace(System.err);
                 }
             }
-            MinecraftServer.instance.schedule(()->
+            MinecraftServer.instance.schedule(() ->
             {
                 if(r.isEmpty())
-                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.success"));
+                    context.getSource().sendMessage(
+                        MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.success"));
                 else
-                    context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.mzlib.test.failure", Collections.singletonMap("num", r.size())));
+                    context.getSource().sendMessage(MinecraftI18n.resolveText(
+                        context.getSource(), "mzlib.commands.mzlib.test.failure",
+                        Collections.singletonMap("num", r.size())
+                    ));
             });
         });
     }

@@ -8,29 +8,30 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2005)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.state.QueryStates"))
+@VersionRange(begin = 2005)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.state.QueryStates"))
 public interface NetworkQuerySidedPacketManagersV2005 extends WrapperObject
 {
-    WrapperFactory<NetworkQuerySidedPacketManagersV2005> FACTORY = WrapperFactory.of(NetworkQuerySidedPacketManagersV2005.class);
+    WrapperFactory<NetworkQuerySidedPacketManagersV2005> FACTORY = WrapperFactory.of(
+        NetworkQuerySidedPacketManagersV2005.class);
     @Deprecated
     @WrapperCreator
     static NetworkQuerySidedPacketManagersV2005 create(Object wrapped)
     {
         return WrapperObject.create(NetworkQuerySidedPacketManagersV2005.class, wrapped);
     }
-    
+
     static NetworkPhaseSidedPacketManagerV2005 c2s()
     {
         return FACTORY.getStatic().static$c2s();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="C2S"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "C2S"))
     NetworkPhaseSidedPacketManagerV2005 static$c2s();
-    
+
     static NetworkPhaseSidedPacketManagerV2005 s2c()
     {
         return FACTORY.getStatic().static$s2c();
     }
-    @WrapMinecraftFieldAccessor(@VersionName(name="S2C"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "S2C"))
     NetworkPhaseSidedPacketManagerV2005 static$s2c();
 }

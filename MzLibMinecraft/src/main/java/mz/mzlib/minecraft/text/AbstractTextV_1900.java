@@ -13,7 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 
-@VersionRange(end=1900)
+@VersionRange(end = 1900)
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.BaseText"))
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {
@@ -25,9 +25,9 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
         return WrapperObject.create(AbstractTextV_1900.class, wrapped);
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name="siblings"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "siblings"))
     void setExtra0(List<Object> value);
-    
+
     @SpecificImpl("setExtra")
     @Override
     default Text setExtraV_1900(List<Text> value)
@@ -35,9 +35,9 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
         this.setExtra0(new ListProxy<>(value, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
         return this;
     }
-    
+
     @SpecificImpl("setStyle")
     @Override
-    @WrapMinecraftFieldAccessor(@VersionName(name="style"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "style"))
     void setStyleV_1900(TextStyle style);
 }

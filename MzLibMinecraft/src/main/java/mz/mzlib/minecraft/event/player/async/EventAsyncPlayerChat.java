@@ -11,7 +11,7 @@ public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessag
     {
         super(packetEvent);
     }
-    
+
     public String getMessage()
     {
         return this.getPacket().getMessage();
@@ -20,21 +20,24 @@ public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessag
     {
         this.getPacket().setMessage(value);
     }
-    
+
     @Override
     public void call()
     {
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncPlayerChat.class);
-            this.register(new PacketListener<>(PacketC2sChatMessage.FACTORY, packetEvent->new EventAsyncPlayerChat(packetEvent).call()));
+            this.register(new PacketListener<>(
+                PacketC2sChatMessage.FACTORY,
+                packetEvent -> new EventAsyncPlayerChat(packetEvent).call()
+            ));
         }
     }
 }

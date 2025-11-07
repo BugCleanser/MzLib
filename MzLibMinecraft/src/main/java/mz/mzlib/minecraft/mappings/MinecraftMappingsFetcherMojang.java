@@ -26,16 +26,28 @@ public class MinecraftMappingsFetcherMojang implements MinecraftMappingsFetcher
 {
     /**
      * 此答辩由mz拉
+     *
      * @author MZ
      */
     @Override
     public MappingsByMap fetch(String version, File cacheFolder)
     {
-        return MappingsByMap.parseMojang(MappingsUtil.cache(Optional.ofNullable(cacheFolder).map(it->new File(new File(it,"Mojang"),version+".txt")).orElse(null), ()->MappingsUtil.request(new Gson().fromJson(MappingsUtil.request(
-                StreamSupport.stream(new Gson().fromJson(MappingsUtil.request("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"), JsonObject.class).getAsJsonArray("versions").spliterator(), false)
+        return MappingsByMap.parseMojang(MappingsUtil.cache(
+            Optional.ofNullable(cacheFolder).map(it -> new File(new File(it, "Mojang"), version + ".txt")).orElse(null),
+            () -> MappingsUtil.request(new Gson().fromJson(
+                MappingsUtil.request(
+                    StreamSupport.stream(
+                            new Gson().fromJson(
+                                MappingsUtil.request("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"),
+                                JsonObject.class
+                            ).getAsJsonArray("versions").spliterator(), false
+                        )
                         .map(it -> ((JsonObject) it))
-                        .filter(it->it.get("id").getAsString().equals(version)).findFirst().orElseThrow(() -> new RuntimeException("mojang not found version" + version))
+                        .filter(it -> it.get("id").getAsString().equals(version)).findFirst()
+                        .orElseThrow(() -> new RuntimeException("mojang not found version" + version))
                         .get("url").getAsString()
-        ), JsonObject.class).getAsJsonObject("downloads").getAsJsonObject("server_mappings").get("url").getAsString())));
+                ), JsonObject.class
+            ).getAsJsonObject("downloads").getAsJsonObject("server_mappings").get("url").getAsString())
+        ));
     }
 }

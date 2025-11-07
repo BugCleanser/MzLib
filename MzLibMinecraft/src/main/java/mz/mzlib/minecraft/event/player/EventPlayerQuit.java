@@ -15,33 +15,33 @@ public class EventPlayerQuit extends EventPlayer
     {
         super(player);
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventPlayerQuit.class);
             this.register(NothingClientConnection.class);
         }
-        
+
         @WrapSameClass(ClientConnection.class)
         public interface NothingClientConnection extends ClientConnection, Nothing
         {
-            @NothingInject(wrapperMethodName="handleDisconnection", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+            @NothingInject(wrapperMethodName = "handleDisconnection", wrapperMethodParams = {}, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
             default Wrapper_void handleDisconnectionBegin()
             {
-                if(this.getChannel()==null || this.getChannel().isOpen())
+                if(this.getChannel() == null || this.getChannel().isOpen())
                     return Nothing.notReturn();
-                for(EntityPlayer player: this.getPlayer())
+                for(EntityPlayer player : this.getPlayer())
                 {
                     new EventPlayerQuit(player).call();
                 }

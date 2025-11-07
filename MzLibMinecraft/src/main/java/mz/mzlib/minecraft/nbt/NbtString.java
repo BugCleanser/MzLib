@@ -8,7 +8,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtString"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.StringTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtString")})
+@WrapMinecraftClass({
+    @VersionName(end = 1400, name = "net.minecraft.nbt.NbtString"),
+    @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.StringTag"),
+    @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtString")
+})
 public interface NbtString extends NbtElement
 {
     WrapperFactory<NbtString> FACTORY = WrapperFactory.of(NbtString.class);
@@ -26,10 +30,16 @@ public interface NbtString extends NbtElement
         return FACTORY.getStatic().static$newInstance(value);
     }
 
-    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "value", end = 2105),
+        @VersionName(name = "comp_3831", begin = 2105)
+    })
     String getValue();
-    
+
     @Deprecated
-    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3831", begin=2105)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "value", end = 2105),
+        @VersionName(name = "comp_3831", begin = 2105)
+    })
     void setValue(String value);
 }

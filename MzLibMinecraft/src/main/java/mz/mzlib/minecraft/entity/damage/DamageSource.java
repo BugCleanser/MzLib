@@ -30,7 +30,7 @@ public interface DamageSource extends WrapperObject
 
     Entity getSource();
     @SpecificImpl("getSource")
-    @VersionRange(end=1904)
+    @VersionRange(end = 1904)
     default Entity getSourceV_1904()
     {
         if(this.isInstanceOf(DamageSourceEntityV_1904.FACTORY))
@@ -44,7 +44,7 @@ public interface DamageSource extends WrapperObject
 
     Entity getAttacker();
     @SpecificImpl("getAttacker")
-    @VersionRange(end=1904)
+    @VersionRange(end = 1904)
     default Entity getAttackerV_1904()
     {
         if(this.isInstanceOf(DamageSourceProjectileV_1904.FACTORY))

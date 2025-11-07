@@ -13,9 +13,13 @@ public class CastCheckerAnalyzerLookupSwitchInsnNode extends CastCheckerAnalyzer
 {
     public static CastCheckerAnalyzerLookupSwitchInsnNode instance = new CastCheckerAnalyzerLookupSwitchInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, LookupSwitchInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        LookupSwitchInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.LOOKUPSWITCH:
                 context.pop();
@@ -23,6 +27,7 @@ public class CastCheckerAnalyzerLookupSwitchInsnNode extends CastCheckerAnalyzer
             default:
                 throw new UnsupportedOperationException();
         }
-        return Stream.concat(insn.labels.stream(), Stream.of(insn.dflt)).map(LabelNode::getLabel).map(analyzer.labels::get).collect(Collectors.toSet());
+        return Stream.concat(insn.labels.stream(), Stream.of(insn.dflt)).map(LabelNode::getLabel)
+            .map(analyzer.labels::get).collect(Collectors.toSet());
     }
 }

@@ -38,7 +38,7 @@ public class CastChecker
                 result.second = this.second;
                 return result;
             }
-            catch (CloneNotSupportedException e)
+            catch(CloneNotSupportedException e)
             {
                 throw new InternalError(e);
             }
@@ -91,7 +91,7 @@ public class CastChecker
 
     public void cast(OperandVisitor visitor, Type type)
     {
-        if (type.getSort() != Type.OBJECT && type.getSort() != Type.ARRAY)
+        if(type.getSort() != Type.OBJECT && type.getSort() != Type.ARRAY)
         {
             return;
         }
@@ -100,10 +100,10 @@ public class CastChecker
 
     public void analyze()
     {
-        for (int i = 0; i < insns.size(); i++)
+        for(int i = 0; i < insns.size(); i++)
         {
             AbstractInsnNode insn = insns.get(i);
-            if (insn instanceof LabelNode)
+            if(insn instanceof LabelNode)
             {
                 labels.put(((LabelNode) insn).getLabel(), i);
             }
@@ -111,31 +111,32 @@ public class CastChecker
         Queue<Integer> queue = new ArrayDeque<>();
         contexts.set(0, new Stack<>());
         queue.add(0);
-        for (TryCatchBlockNode i : tryCatchBlocks)
+        for(TryCatchBlockNode i : tryCatchBlocks)
         {
             int index = labels.get(i.handler.getLabel());
             contexts.set(index, CollectionUtil.addAll(new Stack<>(), new OperandVisitor(i.handler, null)));
             queue.add(index);
         }
-        while (!queue.isEmpty())
+        while(!queue.isEmpty())
         {
             int index = queue.poll();
             CastCheckerAnalyzer<?> analyzer = analyzers.get(insns.get(index).getClass());
-            @SuppressWarnings("unchecked") Stack<OperandVisitor> result = (Stack<OperandVisitor>) contexts.get(index).clone();
+            @SuppressWarnings("unchecked") Stack<OperandVisitor> result = (Stack<OperandVisitor>) contexts.get(index)
+                .clone();
             Set<Integer> next = analyzer.analyze(this, index, RuntimeUtil.cast(insns.get(index)), result);
-            if (!result.isEmpty())
+            if(!result.isEmpty())
             {
                 OperandVisitor top = result.pop();
-                if (result.size() >= 2)
+                if(result.size() >= 2)
                 {
                     OperandVisitor second = result.pop();
                     result.push(new OperandVisitor(second.top, insns.get(index)));
                 }
                 result.push(new OperandVisitor(insns.get(index), top.second));
             }
-            for (int i : next)
+            for(int i : next)
             {
-                if (contexts.set(i, result) == null)
+                if(contexts.set(i, result) == null)
                 {
                     queue.add(i);
                 }
@@ -145,13 +146,13 @@ public class CastChecker
 
     public void autoCast()
     {
-        for (Map.Entry<OperandVisitor, Type> i : casters.entrySet())
+        for(Map.Entry<OperandVisitor, Type> i : casters.entrySet())
         {
-            if (i.getKey().top != null)
+            if(i.getKey().top != null)
             {
                 insns.insert(i.getKey().top, new TypeInsnNode(Opcodes.CHECKCAST, i.getValue().getInternalName()));
             }
-            else if (i.getKey().second != null)
+            else if(i.getKey().second != null)
             {
                 InsnList il = new InsnList();
                 il.add(new InsnNode(Opcodes.SWAP));
@@ -164,14 +165,18 @@ public class CastChecker
                 throw new UnsupportedOperationException();
             }
         }
-        for (AbstractInsnNode insn : insns.toArray())
+        for(AbstractInsnNode insn : insns.toArray())
         {
-            if (insn instanceof InsnNode)
+            if(insn instanceof InsnNode)
             {
-                switch (insn.getOpcode())
+                switch(insn.getOpcode())
                 {
                     case Opcodes.ARRAYLENGTH:
-                        insns.insert(insn, new MethodInsnNode(Opcodes.INVOKESTATIC, AsmUtil.getType(Array.class), "getLength", AsmUtil.getDesc(int.class, Object.class), false));
+                        insns.insert(insn, new MethodInsnNode(
+                                Opcodes.INVOKESTATIC, AsmUtil.getType(Array.class), "getLength",
+                                AsmUtil.getDesc(int.class, Object.class), false
+                            )
+                        );
                         insns.remove(insn);
                     default:
                         break;

@@ -15,32 +15,35 @@ import java.util.List;
 public class DemoBookUi extends MzModule
 {
     public static final DemoBookUi instance = new DemoBookUi();
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
-        Demo.instance.command.addChild(this.command = new Command("book").setPermissionChecker(Command::checkPermissionSenderPlayer).setHandler(context->
-        {
-            if(context.argsReader.hasNext())
-                return;
-            if(!context.successful || !context.doExecute)
-                return;
-            UIStack.get(context.getSource().getPlayer().unwrap()).start(new UIDemoBook());
-        }));
+        Demo.instance.command.addChild(
+            this.command = new Command("book").setPermissionChecker(Command::checkPermissionSenderPlayer)
+                .setHandler(context ->
+                {
+                    if(context.argsReader.hasNext())
+                        return;
+                    if(!context.successful || !context.doExecute)
+                        return;
+                    UIStack.get(context.getSource().getPlayer().unwrap()).start(new UIDemoBook());
+                }));
     }
-    
+
     public static class UIDemoBook extends UIWrittenBook
     {
         int button0, button1;
-        
+
         public UIDemoBook()
         {
-            this.button0 = this.newButton(player->player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));
-            this.button1 = this.newButton(player->player.sendMessage(Text.literal("Button 1")));
+            this.button0 = this.newButton(
+                player -> player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));
+            this.button1 = this.newButton(player -> player.sendMessage(Text.literal("Button 1")));
         }
-        
+
         @Override
         public List<Text> getPages(EntityPlayer player)
         {

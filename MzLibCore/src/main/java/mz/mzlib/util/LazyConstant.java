@@ -21,11 +21,11 @@ public class LazyConstant<T>
     @SuppressWarnings("OptionalAssignedToNull")
     public T get()
     {
-        if (this.value != null)
+        if(this.value != null)
             return this.value.orElse(null);
-        synchronized (this)
+        synchronized(this)
         {
-            if (this.value != null)
+            if(this.value != null)
                 return this.value.orElse(null);
             this.init();
             return this.value.orElse(null);

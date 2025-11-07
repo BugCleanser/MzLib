@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.EntityDamageSource", end=1904))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.EntityDamageSource", end = 1904))
 public interface DamageSourceEntityV_1904 extends WrapperObject
 {
     WrapperFactory<DamageSourceEntityV_1904> FACTORY = WrapperFactory.of(DamageSourceEntityV_1904.class);
@@ -19,8 +19,8 @@ public interface DamageSourceEntityV_1904 extends WrapperObject
         return WrapperObject.create(DamageSourceEntityV_1904.class, wrapped);
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name="source"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "source"))
     Entity getSource();
-    @WrapMinecraftFieldAccessor(@VersionName(name="source"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "source"))
     void setSource(Entity value);
 }

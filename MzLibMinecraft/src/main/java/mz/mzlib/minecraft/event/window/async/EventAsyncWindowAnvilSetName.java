@@ -15,30 +15,30 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
     {
         super(packetEvent, 0);
     }
-    
+
     @Override
     public int getSyncId()
     {
         throw new UnsupportedOperationException();
     }
-    
+
     public abstract String getName();
-    
+
     public abstract void setName(String value);
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class V_1300 extends EventAsyncWindowAnvilSetName<PacketC2sCustom>
     {
         public V_1300(PacketEvent.Specialized<PacketC2sCustom> packetEvent)
         {
             super(packetEvent);
         }
-        
+
         @Override
         public String getName()
         {
@@ -59,14 +59,14 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
             this.getPacket().getPayload().writeString(value);
         }
     }
-    
+
     public static class V1300 extends EventAsyncWindowAnvilSetName<PacketC2sWindowAnvilNameV1300>
     {
         public V1300(PacketEvent.Specialized<PacketC2sWindowAnvilNameV1300> packetEvent)
         {
             super(packetEvent);
         }
-        
+
         @Override
         public String getName()
         {
@@ -78,25 +78,30 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
             this.getPacket().setName(value);
         }
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncWindowAnvilSetName.class);
-            if(MinecraftPlatform.instance.getVersion()<1300)
+            if(MinecraftPlatform.instance.getVersion() < 1300)
             {
-                this.register(new PacketListener<>(PacketC2sCustom.FACTORY, packetEvent->
+                this.register(new PacketListener<>(
+                    PacketC2sCustom.FACTORY, packetEvent ->
                 {
                     if(packetEvent.getPacket().getChannelV_1300().equals("MC|ItemName"))
                         new V_1300(packetEvent).call();
-                }));
+                }
+                ));
             }
             else
-                this.register(new PacketListener<>(PacketC2sWindowAnvilNameV1300.FACTORY, packetEvent->new V1300(packetEvent).call()));
+                this.register(new PacketListener<>(
+                    PacketC2sWindowAnvilNameV1300.FACTORY,
+                    packetEvent -> new V1300(packetEvent).call()
+                ));
         }
     }
 }

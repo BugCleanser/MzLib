@@ -10,16 +10,17 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 public interface MzItemUnknown extends MzItem
 {
     WrapperFactory<MzItemUnknown> FACTORY = WrapperFactory.of(MzItemUnknown.class);
-    
+
     @Override
     default Identifier static$getMzId()
     {
         return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "unknown");
     }
-    
+
     @Override
     default Identifier getMzId()
     {
-        return Identifier.newInstance(Item.getCustomData(this).unwrap().getNbtCompound("mz").unwrap().getString("id").unwrap());
+        return Identifier.newInstance(
+            Item.getCustomData(this).unwrap().getNbtCompound("mz").unwrap().getString("id").unwrap());
     }
 }

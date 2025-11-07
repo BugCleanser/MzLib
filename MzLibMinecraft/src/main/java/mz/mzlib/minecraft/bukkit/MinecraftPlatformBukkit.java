@@ -16,9 +16,9 @@ import java.util.*;
 public class MinecraftPlatformBukkit implements MinecraftPlatform
 {
     public static MinecraftPlatformBukkit instance = new MinecraftPlatformBukkit();
-    
+
     public Option<MinecraftPlatformFabric> fabric;
-    
+
     Set<String> tags = new HashSet<>(Collections.singleton(Tag.BUKKIT));
     @Override
     public Set<String> getTags()
@@ -28,7 +28,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     @Override
     public String getLanguage(EntityPlayer player)
     {
-        if(MinecraftPlatform.instance.getVersion()<1200)
+        if(MinecraftPlatform.instance.getVersion() < 1200)
             return this.getLanguageV_1200(player);
         else
             return this.getLanguageV1200(player);
@@ -36,17 +36,17 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     @SuppressWarnings("deprecation")
     public String getLanguageV_1200(EntityPlayer player)
     {
-        return ((Player)BukkitEntityUtil.toBukkit(player)).spigot().getLocale();
+        return ((Player) BukkitEntityUtil.toBukkit(player)).spigot().getLocale();
     }
     public String getLanguageV1200(EntityPlayer player)
     {
-        return ((Player)BukkitEntityUtil.toBukkit(player)).getLocale();
+        return ((Player) BukkitEntityUtil.toBukkit(player)).getLocale();
     }
-    
+
     public String protocolVersion;
-    
+
     {
-        if(RuntimeUtil.runAndCatch(()->Class.forName("net.fabricmc.api.ModInitializer"))==null)
+        if(RuntimeUtil.runAndCatch(() -> Class.forName("net.fabricmc.api.ModInitializer")) == null)
         {
             this.tags.add(Tag.FABRIC);
             this.fabric = Option.some(new MinecraftPlatformFabric()
@@ -75,27 +75,29 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         }
         else
             this.fabric = Option.none();
-        this.isPaper = RuntimeUtil.runAndCatch(()->Class.forName("com.destroystokyo.paper.PaperConfig"))==null || RuntimeUtil.runAndCatch(()->Class.forName("io.papermc.paper.configuration.Configuration"))==null;
+        this.isPaper = RuntimeUtil.runAndCatch(() -> Class.forName("com.destroystokyo.paper.PaperConfig")) == null ||
+            RuntimeUtil.runAndCatch(() -> Class.forName("io.papermc.paper.configuration.Configuration")) == null;
         if(this.isPaper)
             this.tags.add(Tag.PAPER);
-        String packageName = Bukkit.getServer().getClass().getPackage().getName().substring("org.bukkit.craftbukkit".length());
+        String packageName = Bukkit.getServer().getClass().getPackage().getName()
+            .substring("org.bukkit.craftbukkit".length());
         protocolVersion = packageName.isEmpty() ? null : packageName.substring(".".length());
     }
-    
+
     public String versionString;
     public int version;
-    
+
     {
         this.versionString = Bukkit.getBukkitVersion().split("-")[0];
         this.version = MinecraftPlatform.parseVersion(this.versionString);
     }
-    
+
     public boolean isPaper;
     public boolean isPaper()
     {
         return this.isPaper;
     }
-    
+
     @Override
     public String getVersionString()
     {
@@ -106,7 +108,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     {
         return version;
     }
-    
+
     @Override
     public File getMzLibJar()
     {
@@ -117,27 +119,28 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
     {
         return MzLibBukkitPlugin.instance.getDataFolder();
     }
-    
+
     public Mappings<?> mappings;
-    
+
     @Override
     public Mappings<?> getMappings()
     {
-        for(MinecraftPlatformFabric minecraftPlatformFabric: this.fabric)
+        for(MinecraftPlatformFabric minecraftPlatformFabric : this.fabric)
         {
             return minecraftPlatformFabric.getMappings();
         }
-        if(this.mappings!=null)
+        if(this.mappings != null)
             return this.mappings;
         try
         {
             File folder = new File(getMzLibDataFolder(), "mappings");
             List<Mappings<?>> result = new ArrayList<>();
-            if(this.isPaper() && this.getVersion()>=2005)
+            if(this.isPaper() && this.getVersion() >= 2005)
                 result.add(new MinecraftMappingsFetcherMojang().fetch(getVersionString(), folder));
             else
-                result.add(new MinecraftMappingsFetcherSpigot().fetch(getVersionString(), this.protocolVersion, folder));
-            if(this.getVersion()<1400)
+                result.add(
+                    new MinecraftMappingsFetcherSpigot().fetch(getVersionString(), this.protocolVersion, folder));
+            if(this.getVersion() < 1400)
             {
                 // = new MinecraftMappingsFetcherLegacyYarnIntermediary().fetch(getVersionString(), folder);
                 // TODO
@@ -148,7 +151,7 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
                 result.add(new MinecraftMappingsFetcherYarnIntermediary().fetch(getVersionString(), folder));
                 result.add(new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder));
             }
-            return this.mappings =new MappingsPipe(result);
+            return this.mappings = new MappingsPipe(result);
         }
         catch(Throwable e)
         {

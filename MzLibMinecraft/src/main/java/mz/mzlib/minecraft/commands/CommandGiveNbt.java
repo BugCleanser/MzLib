@@ -18,26 +18,26 @@ import java.util.Collections;
 public class CommandGiveNbt extends MzModule
 {
     public static CommandGiveNbt instance = new CommandGiveNbt();
-    
+
     public Permission permission = new Permission("mzlib.command.givenbt");
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
         this.register(this.permission);
         this.register(this.command = new Command("givenbt") //
-                .setNamespace("mzlib") //
-                .setPermissionChecker(Command.permissionChecker(this.permission)) //
-                .setHandler(this::handle));
+            .setNamespace("mzlib") //
+            .setPermissionChecker(Command.permissionChecker(this.permission)) //
+            .setHandler(this::handle));
     }
-    
+
     public void handle(CommandContext context)
     {
         EntityPlayer player;
         NbtCompound nbt;
-        
+
         CommandContext fork = context.fork();
         player = new ArgumentParserPlayer().handle(fork);
         nbt = new ArgumentParserNbtCompound().handle(fork);
@@ -60,12 +60,17 @@ public class CommandGiveNbt extends MzModule
         if(!context.successful || !context.doExecute)
             return;
         Result<Option<ItemStack>, String> decode = ItemStack.decode(nbt);
-        for(ItemStack itemStack: decode.getValue())
+        for(ItemStack itemStack : decode.getValue())
+        {
             player.give(itemStack);
-        for(String err: decode.getError())
+        }
+        for(String err : decode.getError())
         {
             context.successful = false;
-            context.getSource().sendMessage(MinecraftI18n.resolveText(context.getSource(), "mzlib.commands.givenbt.error.illegal_item", Collections.singletonMap("error", err)));
+            context.getSource().sendMessage(MinecraftI18n.resolveText(
+                context.getSource(), "mzlib.commands.givenbt.error.illegal_item",
+                Collections.singletonMap("error", err)
+            ));
         }
     }
 }

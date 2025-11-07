@@ -26,7 +26,7 @@ public class ArrayUtil
     public static Boolean[] box(boolean[] array)
     {
         Boolean[] result = new Boolean[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -36,7 +36,7 @@ public class ArrayUtil
     public static Character[] box(char[] array)
     {
         Character[] result = new Character[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -46,7 +46,7 @@ public class ArrayUtil
     public static Byte[] box(byte[] array)
     {
         Byte[] result = new Byte[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -56,7 +56,7 @@ public class ArrayUtil
     public static Short[] box(short[] array)
     {
         Short[] result = new Short[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -66,7 +66,7 @@ public class ArrayUtil
     public static Float[] box(float[] array)
     {
         Float[] result = new Float[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -75,35 +75,35 @@ public class ArrayUtil
 
     public static Object[] box(Object array)
     {
-        if (array instanceof int[])
+        if(array instanceof int[])
         {
             return box((int[]) array);
         }
-        else if (array instanceof long[])
+        else if(array instanceof long[])
         {
             return box((long[]) array);
         }
-        else if (array instanceof double[])
+        else if(array instanceof double[])
         {
             return box((double[]) array);
         }
-        else if (array instanceof boolean[])
+        else if(array instanceof boolean[])
         {
             return box((boolean[]) array);
         }
-        else if (array instanceof char[])
+        else if(array instanceof char[])
         {
             return box((char[]) array);
         }
-        else if (array instanceof byte[])
+        else if(array instanceof byte[])
         {
             return box((byte[]) array);
         }
-        else if (array instanceof short[])
+        else if(array instanceof short[])
         {
             return box((short[]) array);
         }
-        else if (array instanceof float[])
+        else if(array instanceof float[])
         {
             return box((float[]) array);
         }
@@ -131,7 +131,7 @@ public class ArrayUtil
     public static byte[] unbox(Byte[] array)
     {
         byte[] result = new byte[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -141,7 +141,7 @@ public class ArrayUtil
     public static boolean[] unbox(Boolean[] array)
     {
         boolean[] result = new boolean[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -151,7 +151,7 @@ public class ArrayUtil
     public static char[] unbox(Character[] array)
     {
         char[] result = new char[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -161,7 +161,7 @@ public class ArrayUtil
     public static short[] unbox(Short[] array)
     {
         short[] result = new short[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -171,7 +171,7 @@ public class ArrayUtil
     public static float[] unbox(Float[] array)
     {
         float[] result = new float[array.length];
-        for (int i = 0; i < result.length; i++)
+        for(int i = 0; i < result.length; i++)
         {
             result[i] = array[i];
         }
@@ -180,35 +180,35 @@ public class ArrayUtil
 
     public static Object unbox(Object[] array)
     {
-        if (array instanceof Integer[])
+        if(array instanceof Integer[])
         {
             return unbox((Integer[]) array);
         }
-        else if (array instanceof Long[])
+        else if(array instanceof Long[])
         {
             return unbox((Long[]) array);
         }
-        else if (array instanceof Double[])
+        else if(array instanceof Double[])
         {
             return unbox((Double[]) array);
         }
-        else if (array instanceof Byte[])
+        else if(array instanceof Byte[])
         {
             return unbox((Byte[]) array);
         }
-        else if (array instanceof Boolean[])
+        else if(array instanceof Boolean[])
         {
             return unbox((Boolean[]) array);
         }
-        else if (array instanceof Short[])
+        else if(array instanceof Short[])
         {
             return unbox((Short[]) array);
         }
-        else if (array instanceof Character[])
+        else if(array instanceof Character[])
         {
             return unbox((Character[]) array);
         }
-        else if (array instanceof Float[])
+        else if(array instanceof Float[])
         {
             return unbox((Float[]) array);
         }

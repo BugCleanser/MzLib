@@ -9,8 +9,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1904)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.BundlePacket"))
+@VersionRange(begin = 1904)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.packet.BundlePacket"))
 public interface PacketBundleV1904 extends Packet
 {
     WrapperFactory<PacketBundleV1904> FACTORY = WrapperFactory.of(PacketBundleV1904.class);
@@ -20,10 +20,10 @@ public interface PacketBundleV1904 extends Packet
     {
         return WrapperObject.create(PacketBundleV1904.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="packets"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "packets"))
     Iterable<?> getPackets0();
-    
+
     default Iterable<Packet> getPackets()
     {
         return IteratorProxy.iterable(this.getPackets0(), Packet.FACTORY::create);

@@ -2,7 +2,8 @@ package mz.mzlib.demo.game.chinesechess.chesses;
 
 import mz.mzlib.demo.game.chinesechess.other.Position2D;
 
-public interface Chess2D extends Chess {
+public interface Chess2D extends Chess
+{
     @Override
     Position2D getPosition();
 

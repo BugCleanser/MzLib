@@ -11,18 +11,20 @@ import java.io.File;
 public class DemoFabric extends MzModule implements ModInitializer
 {
     public static DemoFabric instance;
+
     {
         instance = this;
     }
-    
+
     @Override
     public void onInitialize()
     {
-        Demo.instance.jar = FabricLoader.getInstance().getModContainer("mzlib_demo").orElseThrow(AssertionError::new).getOrigin().getPaths().get(0).toFile();
+        Demo.instance.jar = FabricLoader.getInstance().getModContainer("mzlib_demo").orElseThrow(AssertionError::new)
+            .getOrigin().getPaths().get(0).toFile();
         Demo.instance.dataFolder = new File(Demo.instance.jar.getParentFile(), "MzLibDemo");
         MzLibMinecraftInitializer.instance.future.thenRun(this::load);
     }
-    
+
     @Override
     public void onLoad()
     {

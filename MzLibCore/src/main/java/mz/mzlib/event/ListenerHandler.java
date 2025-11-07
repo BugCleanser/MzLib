@@ -12,19 +12,22 @@ import java.util.stream.Collectors;
 
 public class ListenerHandler
 {
-    public static Map<Class<? extends Event>,ListenerHandler> handlers=new ConcurrentHashMap<>();
-    public static CallSite getCallSite(MethodHandles.Lookup caller,
-                                       String invokedName,
-                                       MethodType invokedType,
-                                       Class<? extends Event> eventClass) throws NoSuchMethodException, IllegalAccessException
+    public static Map<Class<? extends Event>, ListenerHandler> handlers = new ConcurrentHashMap<>();
+    public static CallSite getCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        Class<? extends Event> eventClass) throws NoSuchMethodException, IllegalAccessException
     {
-        return new ConstantCallSite(caller.findVirtual(ListenerHandler.class,"call",MethodType.methodType(void.class,Event.class)).bindTo(handlers.get(eventClass)).asType(invokedType));
+        return new ConstantCallSite(
+            caller.findVirtual(ListenerHandler.class, "call", MethodType.methodType(void.class, Event.class))
+                .bindTo(handlers.get(eventClass)).asType(invokedType));
     }
 
-    public List<EventListener<?>> sortedListeners=new ArrayList<>();
+    public List<EventListener<?>> sortedListeners = new ArrayList<>();
     public void call(Event event)
     {
-        for(EventListener<?> listener:this.sortedListeners)
+        for(EventListener<?> listener : this.sortedListeners)
         {
             try
             {
@@ -37,10 +40,11 @@ public class ListenerHandler
         }
     }
 
-    public Set<EventListener<?>> listeners=new HashSet<>();
+    public Set<EventListener<?>> listeners = new HashSet<>();
     public synchronized void update()
     {
-        this.sortedListeners=listeners.stream().sorted((a,b)->Float.compare(b.priority,a.priority)).collect(Collectors.toList());
+        this.sortedListeners = listeners.stream().sorted((a, b) -> Float.compare(b.priority, a.priority))
+            .collect(Collectors.toList());
     }
     public synchronized void addListener(EventListener<?> listener)
     {

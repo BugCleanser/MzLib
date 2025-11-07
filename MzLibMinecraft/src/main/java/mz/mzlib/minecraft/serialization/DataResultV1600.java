@@ -12,8 +12,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@VersionRange(begin=1600)
-@WrapMinecraftClass(@VersionName(name="com.mojang.serialization.DataResult"))
+@VersionRange(begin = 1600)
+@WrapMinecraftClass(@VersionName(name = "com.mojang.serialization.DataResult"))
 public interface DataResultV1600<T> extends WrapperObject
 {
     WrapperFactory<DataResultV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DataResultV1600.class));
@@ -23,28 +23,30 @@ public interface DataResultV1600<T> extends WrapperObject
     {
         return WrapperObject.create(DataResultV1600.class, wrapped);
     }
-    
+
     default Option<T> resultOrPartial(Consumer<String> onError)
     {
         return Option.fromOptional(this.resultOrPartial0(onError));
     }
-    @WrapMinecraftMethod(@VersionName(name="resultOrPartial"))
+    @WrapMinecraftMethod(@VersionName(name = "resultOrPartial"))
     Optional<T> resultOrPartial0(Consumer<String> onError);
-    
+
     default Option<String> getErrorMessage() // FIXME
     {
         Ref<String> error = new RefStrong<>(null);
         Option<T> ignored = this.resultOrPartial(error::set);
         return Option.fromNullable(error.get());
     }
-    
+
     default Result<Option<T>, String> toResult() // FIXME
     {
-        for(String msg: this.getErrorMessage())
+        for(String msg : this.getErrorMessage())
+        {
             return Result.failure(Option.none(), msg);
+        }
         return Result.success(this.resultOrPartial(ThrowableConsumer.nothing()));
     }
-    
+
     class Wrapper<T extends WrapperObject>
     {
         DataResultV1600<?> base;
@@ -54,11 +56,13 @@ public interface DataResultV1600<T> extends WrapperObject
             this.base = base;
             this.type = type;
         }
-        
+
         public Result<Option<T>, String> toResult() // FIXME
         {
-            for(String msg: this.base.getErrorMessage())
+            for(String msg : this.base.getErrorMessage())
+            {
                 return Result.failure(Option.none(), msg);
+            }
             return Result.success(this.base.resultOrPartial(ThrowableConsumer.nothing()).map(type::create));
         }
     }

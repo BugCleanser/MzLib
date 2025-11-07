@@ -11,9 +11,13 @@ public class CastCheckerAnalyzerIincInsnNode extends CastCheckerAnalyzer<IincIns
 {
     public static CastCheckerAnalyzerIincInsnNode instance = new CastCheckerAnalyzerIincInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, IincInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        IincInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.IINC:
                 break;

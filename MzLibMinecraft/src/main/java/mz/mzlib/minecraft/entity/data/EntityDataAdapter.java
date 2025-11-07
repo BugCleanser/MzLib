@@ -8,18 +8,18 @@ public class EntityDataAdapter<T>
 {
     public EntityDataKey<?> key;
     public InvertibleFunction<T, Object> function;
-    
+
     public <U> EntityDataAdapter(EntityDataKey<U> key, InvertibleFunction<T, U> function)
     {
         this.key = key;
         this.function = RuntimeUtil.cast(function);
     }
-    
+
     public EntityDataKey<?> getKey()
     {
         return this.key;
     }
-    
+
     public Option<T> get(EntityDataHolder holder)
     {
         return holder.getData(this.key).map(this.function.inverse());

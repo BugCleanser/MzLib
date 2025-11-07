@@ -9,9 +9,13 @@ public class CastCheckerAnalyzerJumpInsnNode extends CastCheckerAnalyzer<JumpIns
 {
     public static CastCheckerAnalyzerJumpInsnNode instance = new CastCheckerAnalyzerJumpInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, JumpInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        JumpInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.IFEQ:
             case Opcodes.IFNE:

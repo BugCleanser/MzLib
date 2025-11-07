@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.util.wrapper.*;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.PAPER)
-@VersionRange(begin=2102)
+@VersionRange(begin = 2102)
 @WrapClassForName("io.papermc.paper.plugin.manager.PaperPluginManagerImpl")
 public interface PluginManagerPaperV2102 extends WrapperObject
 {
@@ -16,7 +16,7 @@ public interface PluginManagerPaperV2102 extends WrapperObject
     {
         return WrapperObject.create(PluginManagerPaperV2102.class, wrapped);
     }
-    
+
     @WrapFieldAccessor("instanceManager")
     PluginInstanceManagerPaperV2102 getInstanceManager();
 }

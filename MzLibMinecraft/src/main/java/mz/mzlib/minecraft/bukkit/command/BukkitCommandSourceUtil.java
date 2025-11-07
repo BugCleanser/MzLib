@@ -9,7 +9,7 @@ public class BukkitCommandSourceUtil
     {
         return object.castTo(CommandSourceBukkit.FACTORY).getBukkitSender();
     }
-    
+
     public static CommandSource fromBukkit(CommandSender object)
     {
         return CraftCommandVanillaWrapper.toCommandSource(object);

@@ -11,8 +11,14 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1300)
-@WrapMinecraftClass({@VersionName(name="net.minecraft.class_4372", end=1400), @VersionName(name="net.minecraft.datafixer.NbtOps", begin=1400, end=1500), @VersionName(name="net.minecraft.datafixers.NbtOps", begin=1500, end=1501), @VersionName(name="net.minecraft.datafixer.NbtOps", begin=1501, end=1602), @VersionName(name="net.minecraft.nbt.NbtOps", begin=1602)})
+@VersionRange(begin = 1300)
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.class_4372", end = 1400),
+    @VersionName(name = "net.minecraft.datafixer.NbtOps", begin = 1400, end = 1500),
+    @VersionName(name = "net.minecraft.datafixers.NbtOps", begin = 1500, end = 1501),
+    @VersionName(name = "net.minecraft.datafixer.NbtOps", begin = 1501, end = 1602),
+    @VersionName(name = "net.minecraft.nbt.NbtOps", begin = 1602)
+})
 public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
 {
     WrapperFactory<NbtOpsV1300> FACTORY = WrapperFactory.of(NbtOpsV1300.class);
@@ -22,10 +28,13 @@ public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
     {
         return WrapperObject.create(NbtOpsV1300.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_21487", end=1400), @VersionName(name="INSTANCE", begin=1400)})
+
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "field_21487", end = 1400),
+        @VersionName(name = "INSTANCE", begin = 1400)
+    })
     NbtOpsV1300 static$instance();
-    
+
     static NbtOpsV1300 instance0()
     {
         return FACTORY.getStatic().static$instance();
@@ -34,7 +43,7 @@ public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
     {
         return new DynamicOpsV1300.Wrapper<>(instance0(), NbtCompound.FACTORY);
     }
-    
+
     static DynamicOpsWithRegistriesV1903<?> withRegistries0V1903()
     {
         return DynamicOpsWithRegistriesV1903.newInstance(instance0(), MinecraftServer.instance.getRegistriesV1802());

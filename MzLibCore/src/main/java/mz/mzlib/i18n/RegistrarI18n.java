@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class RegistrarI18n implements IRegistrar<I18n>
 {
-    public static RegistrarI18n instance=new RegistrarI18n();
+    public static RegistrarI18n instance = new RegistrarI18n();
 
-    public List<I18n> sortedI18ns=new ArrayList<>();
+    public List<I18n> sortedI18ns = new ArrayList<>();
 
     @Override
     public Class<I18n> getType()
@@ -21,7 +21,7 @@ public class RegistrarI18n implements IRegistrar<I18n>
         return I18n.class;
     }
 
-    public Set<I18n> i18ns=new HashSet<>();
+    public Set<I18n> i18ns = new HashSet<>();
     @Override
     public synchronized void register(MzModule module, I18n object)
     {
@@ -36,6 +36,7 @@ public class RegistrarI18n implements IRegistrar<I18n>
     }
     public void update()
     {
-        this.sortedI18ns=this.i18ns.stream().sorted((a,b)->Float.compare(b.getPriority(),a.getPriority())).collect(Collectors.toList());
+        this.sortedI18ns = this.i18ns.stream().sorted((a, b) -> Float.compare(b.getPriority(), a.getPriority()))
+            .collect(Collectors.toList());
     }
 }

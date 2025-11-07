@@ -30,14 +30,15 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     ItemStack itemStack;
     ItemStack resultItemStack;
     ActionResult result = ActionResult.pass();
-    
+
     public EventPlayerUseItem(EntityPlayer player, Hand hand, ItemStack itemStack)
     {
         super(player);
         this.hand = hand;
-        this.resultItemStack = this.itemStack = RegistrarMzItem.instance.toMzItem(itemStack).map(Function.<ItemStack>identity()).unwrapOr(itemStack);
+        this.resultItemStack = this.itemStack = RegistrarMzItem.instance.toMzItem(itemStack)
+            .map(Function.<ItemStack>identity()).unwrapOr(itemStack);
     }
-    
+
     public Hand getHand()
     {
         return this.hand;
@@ -46,7 +47,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     {
         return this.itemStack;
     }
-    
+
     public ItemStack getResultItemStack()
     {
         return this.resultItemStack;
@@ -55,7 +56,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     {
         this.resultItemStack = value;
     }
-    
+
     public ActionResult getResult()
     {
         return this.result;
@@ -64,45 +65,52 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     {
         this.result = value;
     }
-    
+
     @Override
     public void call()
     {
         super.call();
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventPlayerUseItem.class);
             this.register(NothingItemStack.class);
-            
-            this.register(new SimpleTester.Builder<>(TesterContextPlayer.class).setName(EventPlayerUseItem.class.getName()).setMinLevel(2).setFunction(this::test).build());
+
+            this.register(
+                new SimpleTester.Builder<>(TesterContextPlayer.class).setName(EventPlayerUseItem.class.getName())
+                    .setMinLevel(2).setFunction(this::test).build());
         }
-        
+
         public CompletableFuture<List<Throwable>> test(TesterContextPlayer context)
         {
             CompletableFuture<List<Throwable>> future = new CompletableFuture<>();
-            EventListener<EventPlayerUseItem> listener = new EventListener<>(EventPlayerUseItem.class, event->
+            EventListener<EventPlayerUseItem> listener = new EventListener<>(
+                EventPlayerUseItem.class, event ->
             {
                 if(event.getPlayer().equals(context.getPlayer()))
                     future.complete(Collections.emptyList());
-            });
+            }
+            );
             this.register(listener);
             future.whenComplete((r, e) -> this.unregister(listener));
             context.getPlayer().sendMessage(Text.literal("请手持物品对空气交互")); // TODO i18n
             return future;
         }
     }
-    
+
     @WrapSameClass(ItemStack.class)
     public interface NothingItemStack extends Nothing, ItemStack
     {
-        default boolean handleBegin(WrapperObject.Generic<EventPlayerUseItem> event, AbstractEntityPlayer player, Hand hand)
+        default boolean handleBegin(
+            WrapperObject.Generic<EventPlayerUseItem> event,
+            AbstractEntityPlayer player,
+            Hand hand)
         {
             event.setWrapped(new EventPlayerUseItem(player.as(EntityPlayer.FACTORY), hand, this));
             event.getWrapped().call();
@@ -113,72 +121,112 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
             }
             return true;
         }
-        
+
         static ItemStack resultV_900(EventPlayerUseItem event)
         {
             return event.getResultItemStack();
         }
-        @VersionRange(end=900)
-        @NothingInject(wrapperMethodName="useV_900", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default ItemStack useV_900$begin(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @LocalVar(2) AbstractEntityPlayer player)
+        @VersionRange(end = 900)
+        @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class
+        }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+        default ItemStack useV_900$begin(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @LocalVar(2) AbstractEntityPlayer player)
         {
             if(handleBegin(event, player, Hand.mainHand()))
                 return Nothing.notReturn();
             return resultV_900(event.getWrapped());
         }
-        @VersionRange(end=900)
-        @NothingInject(wrapperMethodName="useV_900", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
-        default ItemStack useV_900$end(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @StackTop ItemStack returnValue)
+        @VersionRange(end = 900)
+        @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class
+        }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
+        default ItemStack useV_900$end(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @StackTop ItemStack returnValue)
         {
             event.getWrapped().setResult(ActionResult.pass());
             event.getWrapped().setResultItemStack(returnValue);
             event.getWrapped().finish();
             return resultV_900(event.getWrapped());
         }
-        
+
         static TypedActionResultV900_2102<?> resultV900_2102(EventPlayerUseItem event)
         {
-            return TypedActionResultV900_2102.Wrapper.newInstance(event.getResult(), event.getResultItemStack()).getBase();
+            return TypedActionResultV900_2102.Wrapper.newInstance(event.getResult(), event.getResultItemStack())
+                .getBase();
         }
-        @VersionRange(begin=900, end=2102)
-        @NothingInject(wrapperMethodName="use0V900_2102", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class, Hand.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default TypedActionResultV900_2102<?> use0V900_2102$begin(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @LocalVar(2) AbstractEntityPlayer player, @LocalVar(3) Hand hand)
+        @VersionRange(begin = 900, end = 2102)
+        @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class,
+            Hand.class
+        }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+        default TypedActionResultV900_2102<?> use0V900_2102$begin(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @LocalVar(2) AbstractEntityPlayer player,
+            @LocalVar(3) Hand hand)
         {
             if(handleBegin(event, player, hand))
                 return Nothing.notReturn();
             return resultV900_2102(event.getWrapped());
         }
-        @VersionRange(begin=900, end=2102)
-        @NothingInject(wrapperMethodName="use0V900_2102", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class, Hand.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
-        default TypedActionResultV900_2102<?> use0V900_2102$end(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @StackTop TypedActionResultV900_2102<?> returnValue)
+        @VersionRange(begin = 900, end = 2102)
+        @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class,
+            Hand.class
+        }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
+        default TypedActionResultV900_2102<?> use0V900_2102$end(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @StackTop TypedActionResultV900_2102<?> returnValue)
         {
             event.getWrapped().setResult(returnValue.getActionResult());
-            event.getWrapped().setResultItemStack(new TypedActionResultV900_2102.Wrapper<>(returnValue, ItemStack.FACTORY).getValue());
+            event.getWrapped().setResultItemStack(
+                new TypedActionResultV900_2102.Wrapper<>(returnValue, ItemStack.FACTORY).getValue());
             event.getWrapped().finish();
             return resultV900_2102(event.getWrapped());
         }
-        
+
         static ActionResult resultV2102(EventPlayerUseItem event)
         {
             if(event.getResult().is(ActionResult.SuccessV2102.FACTORY))
-                return event.getResult().as(ActionResult.SuccessV2102.FACTORY).withNewHandStack(event.getResultItemStack());
+                return event.getResult().as(ActionResult.SuccessV2102.FACTORY)
+                    .withNewHandStack(event.getResultItemStack());
             return event.getResult();
         }
-        @VersionRange(begin=2102)
-        @NothingInject(wrapperMethodName="useV2102", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class, Hand.class}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
-        default ActionResult useV2102$begin(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @LocalVar(2) AbstractEntityPlayer player, @LocalVar(3) Hand hand)
+        @VersionRange(begin = 2102)
+        @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class,
+            Hand.class
+        }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
+        default ActionResult useV2102$begin(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @LocalVar(2) AbstractEntityPlayer player,
+            @LocalVar(3) Hand hand)
         {
             if(handleBegin(event, player, hand))
                 return Nothing.notReturn();
             return resultV2102(event.getWrapped());
         }
-        @VersionRange(begin=2102)
-        @NothingInject(wrapperMethodName="useV2102", wrapperMethodParams={AbstractWorld.class, AbstractEntityPlayer.class, Hand.class}, locateMethod="locateAllReturn", type=NothingInjectType.INSERT_BEFORE)
-        default ActionResult useV2102$end(@CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event, @StackTop ActionResult returnValue)
+        @VersionRange(begin = 2102)
+        @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
+            AbstractWorld.class,
+            AbstractEntityPlayer.class,
+            Hand.class
+        }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
+        default ActionResult useV2102$end(
+            @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
+            @StackTop ActionResult returnValue)
         {
             event.getWrapped().setResult(returnValue);
             if(returnValue.is(ActionResult.SuccessV2102.FACTORY))
-                event.getWrapped().setResultItemStack(returnValue.as(ActionResult.SuccessV2102.FACTORY).getNewHandStack());
+                event.getWrapped()
+                    .setResultItemStack(returnValue.as(ActionResult.SuccessV2102.FACTORY).getNewHandStack());
             else
                 event.getWrapped().setResultItemStack(this);
             event.getWrapped().finish();

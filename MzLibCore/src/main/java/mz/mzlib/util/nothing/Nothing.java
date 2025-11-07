@@ -13,10 +13,14 @@ public interface Nothing
     {
         return null;
     }
-    
+
     default void locateAllReturn(NothingInjectLocating locating)
     {
-        locating.allLater(i->Arrays.asList(Opcodes.IRETURN, Opcodes.LRETURN, Opcodes.FRETURN, Opcodes.DRETURN, Opcodes.ARETURN, Opcodes.RETURN).contains(locating.insns[i].getOpcode()));
+        locating.allLater(
+            i -> Arrays.asList(
+                Opcodes.IRETURN, Opcodes.LRETURN, Opcodes.FRETURN, Opcodes.DRETURN, Opcodes.ARETURN,
+                Opcodes.RETURN
+            ).contains(locating.insns[i].getOpcode()));
         assert !locating.locations.isEmpty();
     }
 }

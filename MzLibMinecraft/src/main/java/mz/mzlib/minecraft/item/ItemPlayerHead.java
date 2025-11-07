@@ -15,7 +15,10 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.item.SkullItem", end=2002), @VersionName(name="net.minecraft.item.PlayerHeadItem", begin=2002)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.item.SkullItem", end = 2002),
+    @VersionName(name = "net.minecraft.item.PlayerHeadItem", begin = 2002)
+})
 public interface ItemPlayerHead extends Item
 {
     WrapperFactory<ItemPlayerHead> FACTORY = WrapperFactory.of(ItemPlayerHead.class);
@@ -25,60 +28,72 @@ public interface ItemPlayerHead extends Item
     {
         return WrapperObject.create(ItemPlayerHead.class, wrapped);
     }
-    
-    ComponentKeyV2005.Wrapper<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 = MinecraftPlatform.instance.getVersion()<2005 ? null : ComponentKeyV2005.fromId("profile", GameProfileComponentV2005.FACTORY);
-    
+
+    ComponentKeyV2005.Wrapper<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 =
+        MinecraftPlatform.instance.getVersion() < 2005 ?
+            null :
+            ComponentKeyV2005.fromId("profile", GameProfileComponentV2005.FACTORY);
+
     static Option<GameProfile.Description> getOwner(ItemStack itemStack)
     {
         return FACTORY.getStatic().static$getOwner(itemStack);
     }
-    
+
     Option<GameProfile.Description> static$getOwner(ItemStack itemStack);
-    
+
     @SpecificImpl("static$getOwner")
-    @VersionRange(end=2005)
+    @VersionRange(end = 2005)
     default Option<GameProfile.Description> static$getOwnerV_2005(ItemStack itemStack)
     {
-        for(NbtCompound tag: itemStack.getTagV_2005())
-            for(NbtCompound skullOwner: tag.getNbtCompound("SkullOwner"))
+        for(NbtCompound tag : itemStack.getTagV_2005())
+        {
+            for(NbtCompound skullOwner : tag.getNbtCompound("SkullOwner"))
+            {
                 return Option.some(NbtUtil.decodeGameProfileV_2005(skullOwner).toDescription());
+            }
+        }
         return Option.none();
     }
-    
+
     @SpecificImpl("static$getOwner")
-    @VersionRange(begin=2005)
+    @VersionRange(begin = 2005)
     default Option<GameProfile.Description> static$getOwnerV2005(ItemStack itemStack)
     {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005).map(GameProfileComponentV2005::toDescription);
+        return itemStack.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005)
+            .map(GameProfileComponentV2005::toDescription);
     }
-    
+
     static void setOwner(ItemStack itemStack, Option<GameProfile.Description> value) // TODO
     {
         FACTORY.getStatic().static$setOwner(itemStack, value);
     }
-    
+
     void static$setOwner(ItemStack itemStack, Option<GameProfile.Description> value);
-    
+
     @SpecificImpl("static$setOwner")
-    @VersionRange(end=2005)
+    @VersionRange(end = 2005)
     default void static$setOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
-        for(GameProfile.Description profile: value)
+        for(GameProfile.Description profile : value)
         {
-            itemStack.tagV_2005().put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(profile)));
+            itemStack.tagV_2005()
+                .put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(profile)));
             return;
         }
-        for(NbtCompound tag: itemStack.getTagV_2005())
+        for(NbtCompound tag : itemStack.getTagV_2005())
+        {
             tag.remove("SkullOwner");
+        }
     }
-    
+
     @SpecificImpl("static$setOwner")
-    @VersionRange(begin=2005)
+    @VersionRange(begin = 2005)
     default void static$setOwnerV2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_PROFILE_V2005, value.map(GameProfileComponentV2005::newInstance));
+        itemStack.getComponentsV2005()
+            .set(COMPONENT_KEY_PROFILE_V2005, value.map(GameProfileComponentV2005::newInstance));
     }
-    
+
     @Deprecated
     static String texturesFromUrl(String url)
     {

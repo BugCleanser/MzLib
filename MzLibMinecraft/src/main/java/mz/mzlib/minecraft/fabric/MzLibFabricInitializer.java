@@ -8,17 +8,17 @@ import net.fabricmc.api.ModInitializer;
 public class MzLibFabricInitializer extends MzModule implements ModInitializer
 {
     public static MzLibFabricInitializer instance;
-    
+
     {
         instance = this;
     }
-    
+
     @Override
     public void onInitialize()
     {
         this.load();
     }
-    
+
     @Override
     public void onLoad()
     {

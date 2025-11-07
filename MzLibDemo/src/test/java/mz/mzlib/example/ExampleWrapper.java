@@ -28,29 +28,29 @@ public class ExampleWrapper
             System.out.println("HelloWorld");
         }
     }
-    
+
     @WrapClass(TestClass.class)
     public interface WrapperTest extends WrapperObject
     {
         WrapperFactory<WrapperTest> FACTORY = WrapperFactory.of(WrapperTest.class);
-        
+
         @WrapMethod("m")
         void m();
-        
+
         @WrapMethod("m1")
         void static$m1();
         static void m1()
         {
             FACTORY.getStatic().static$m1();
         }
-        
+
         @WrapConstructor
         WrapperTest static$newInstance();
         static WrapperTest newInstance()
         {
             return FACTORY.getStatic().static$newInstance();
         }
-        
+
         @WrapFieldAccessor("var")
         double getVar();
         @WrapFieldAccessor("var")
@@ -61,13 +61,13 @@ public class ExampleWrapper
     public void test()
     {
         WrapperTest.m1();
-        WrapperTest test=WrapperTest.newInstance();
+        WrapperTest test = WrapperTest.newInstance();
         test.m();
-        System.out.println("Debug: "+test.getVar());
+        System.out.println("Debug: " + test.getVar());
         test.setVar(1919810);
         test.m();
     }
-    
+
     @WrapSameClass(WrapperObject.class)
     public interface A extends WrapperObject
     {
@@ -77,7 +77,7 @@ public class ExampleWrapper
             l.add(A.class);
         }
     }
-    
+
     @WrapSameClass(A.class)
     public interface B extends A
     {
@@ -87,7 +87,7 @@ public class ExampleWrapper
             l.add(B.class);
         }
     }
-    
+
     @WrapSameClass(A.class)
     public interface C extends A
     {
@@ -97,7 +97,7 @@ public class ExampleWrapper
             l.add(C.class);
         }
     }
-    
+
     @WrapSameClass(A.class)
     public interface D extends B, C
     {
@@ -107,13 +107,13 @@ public class ExampleWrapper
             l.add(D.class);
         }
     }
-    
+
     @Test
     public void test2()
     {
-        List<Class<?>> l=new ArrayList<>();
+        List<Class<?>> l = new ArrayList<>();
         WrapperFactory.of(D.class).getStatic().f(l);
-        assert l.size()==4;
+        assert l.size() == 4;
         assert l.contains(A.class);
         assert l.contains(B.class);
         assert l.contains(C.class);

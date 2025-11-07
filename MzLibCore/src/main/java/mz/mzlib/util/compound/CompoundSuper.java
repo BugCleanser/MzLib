@@ -22,12 +22,12 @@ import java.lang.reflect.Method;
 public @interface CompoundSuper
 {
     Class<? extends WrapperObject> parent();
-    
+
     /**
      * Name of wrapper method
      */
     String method();
-    
+
     class Handler implements ElementSwitcher<CompoundSuper>, WrappedMemberFinder<CompoundSuper>
     {
         @Override
@@ -35,23 +35,30 @@ public @interface CompoundSuper
         {
             try
             {
-                return ElementSwitcher.isEnabled(annotation.parent().getMethod(annotation.method(), ((Method)element).getParameterTypes()));
+                return ElementSwitcher.isEnabled(
+                    annotation.parent().getMethod(annotation.method(), ((Method) element).getParameterTypes()));
             }
             catch(Throwable e)
             {
                 throw RuntimeUtil.sneakilyThrow(e);
             }
         }
-        
+
         @Override
-        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, CompoundSuper annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchMethodException
+        public Member find(
+            Class<? extends WrapperObject> wrapperClass,
+            Class<?> wrappedClass,
+            Method wrapperMethod,
+            CompoundSuper annotation,
+            Class<?> returnType,
+            Class<?>[] argTypes) throws NoSuchMethodException
         {
             return wrappedClass.getDeclaredMethod(getInnerMethodName(annotation), argTypes);
         }
-        
+
         public static String getInnerMethodName(CompoundSuper annotation)
         {
-            return "super$"+annotation.method()+"$"+annotation.parent().getName().replace('.','$');
+            return "super$" + annotation.method() + "$" + annotation.parent().getName().replace('.', '$');
         }
     }
 }

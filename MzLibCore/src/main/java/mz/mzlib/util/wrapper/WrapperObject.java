@@ -25,16 +25,16 @@ public interface WrapperObject
     {
         return WrapperObject.create(WrapperObject.class, wrapped);
     }
-    
+
     Object getWrapped();
-    
+
     void setWrapped(Object wrapped);
-    
+
     default void setWrappedFrom(WrapperObject wrapper)
     {
         this.setWrapped(wrapper.getWrapped());
     }
-    
+
     /**
      * slow
      */
@@ -43,19 +43,24 @@ public interface WrapperObject
     {
         try
         {
-            return RuntimeUtil.cast((WrapperObject)WrapperClassInfo.get(type).getConstructor().invokeExact((Object)wrapped));
+            return RuntimeUtil.cast(
+                (WrapperObject) WrapperClassInfo.get(type).getConstructor().invokeExact((Object) wrapped));
         }
         catch(Throwable e)
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    
-    static CallSite getConstructorCallSite(MethodHandles.Lookup caller, String invokedName, MethodType invokedType, Class<? extends WrapperObject> wrapperClass)
+
+    static CallSite getConstructorCallSite(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        Class<? extends WrapperObject> wrapperClass)
     {
         return new ConstantCallSite(WrapperClassInfo.get(wrapperClass).getConstructor().asType(invokedType));
     }
-    
+
     /**
      * slow
      */
@@ -63,16 +68,16 @@ public interface WrapperObject
     {
         return WrapperClassInfo.get(wrapperClass).getWrappedClass();
     }
-    
+
     Class<?> static$getWrappedClass();
-    
+
     WrapperObject static$create(Object wrapped);
-    
+
     default boolean static$isInstance(WrapperObject wrapper)
     {
         return this.static$getWrappedClass().isInstance(wrapper.getWrapped());
     }
-    
+
     default <T extends WrapperObject> boolean is(WrapperFactory<T> factory)
     {
         return factory.isInstance(this);
@@ -80,7 +85,8 @@ public interface WrapperObject
     default <T extends WrapperObject> T as(WrapperFactory<T> factory)
     {
         if(this.isPresent() && !this.is(factory))
-            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().static$getWrappedClass());
+            throw new ClassCastException("Try to cast an object of " + this.getWrapped().getClass() + " to " +
+                factory.getStatic().static$getWrappedClass());
         return factory.create(this.getWrapped());
     }
     default <T extends WrapperObject> Option<T> asOption(WrapperFactory<T> factory)
@@ -90,8 +96,8 @@ public interface WrapperObject
         else
             return Option.none();
     }
-    
-    
+
+
     default boolean isInstanceOf(WrapperFactory<?> factory)
     {
         return factory.isInstance(this);
@@ -99,7 +105,8 @@ public interface WrapperObject
     default <T extends WrapperObject> T castTo(WrapperFactory<T> factory)
     {
         if(this.isPresent() && !this.isInstanceOf(factory))
-            throw new ClassCastException("Try to cast an object of "+this.getWrapped().getClass()+" to "+factory.getStatic().static$getWrappedClass());
+            throw new ClassCastException("Try to cast an object of " + this.getWrapped().getClass() + " to " +
+                factory.getStatic().static$getWrappedClass());
         return factory.create(this.getWrapped());
     }
     default <T extends WrapperObject> Option<T> tryCast(WrapperFactory<T> factory)
@@ -109,7 +116,7 @@ public interface WrapperObject
         else
             return Option.none();
     }
-    
+
     @Deprecated
     default boolean isInstanceOf(Function<Object, ? extends WrapperObject> creator)
     {
@@ -125,7 +132,7 @@ public interface WrapperObject
     {
         return this.tryCast(new WrapperFactory<>(creator));
     }
-    
+
     /**
      * @see #isPresent()
      * @deprecated wrapper shouldn't be null, please invoke wrapper.isPresent()
@@ -133,14 +140,14 @@ public interface WrapperObject
     @Deprecated
     static boolean isPresent(WrapperObject wrapper)
     {
-        return wrapper!=null && wrapper.getWrapped()!=null;
+        return wrapper != null && wrapper.getWrapped() != null;
     }
-    
+
     default boolean isPresent()
     {
-        return this.getWrapped()!=null;
+        return this.getWrapped() != null;
     }
-    
+
     @WrapMethod("toString")
     String toString0();
     @WrapMethod("hashCode")
@@ -149,29 +156,40 @@ public interface WrapperObject
     boolean equals0(WrapperObject object);
     @WrapMethod("clone")
     WrapperObject clone0();
-    
-    static FieldInsnNode insnField(int opcode, Class<? extends WrapperObject> owner, String getterName) throws NoSuchMethodException
+
+    static FieldInsnNode insnField(int opcode, Class<? extends WrapperObject> owner, String getterName)
+        throws NoSuchMethodException
     {
-        Field target = (Field)WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(getterName));
-        return new FieldInsnNode(opcode, AsmUtil.getType(target.getDeclaringClass()), target.getName(), AsmUtil.getDesc(target.getType()));
+        Field target = (Field) WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(getterName));
+        return new FieldInsnNode(
+            opcode, AsmUtil.getType(target.getDeclaringClass()), target.getName(), AsmUtil.getDesc(target.getType()));
     }
-    
-    static MethodInsnNode insnMethod(int opcode, Class<? extends WrapperObject> owner, String name, MethodType methodType, boolean isInterface) throws NoSuchMethodException
+
+    static MethodInsnNode insnMethod(
+        int opcode,
+        Class<? extends WrapperObject> owner,
+        String name,
+        MethodType methodType,
+        boolean isInterface) throws NoSuchMethodException
     {
-        Executable target = (Executable)WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(name, methodType.parameterArray()));
-        return new MethodInsnNode(opcode, AsmUtil.getType(target.getDeclaringClass()), target instanceof Constructor ? "<init>" : target.getName(), AsmUtil.getDesc(target), isInterface);
+        Executable target = (Executable) WrapperClassInfo.get(owner).getWrappedMembers()
+            .get(owner.getMethod(name, methodType.parameterArray()));
+        return new MethodInsnNode(
+            opcode, AsmUtil.getType(target.getDeclaringClass()),
+            target instanceof Constructor ? "<init>" : target.getName(), AsmUtil.getDesc(target), isInterface
+        );
     }
-    
+
     @WrapSameClass(WrapperObject.class)
     interface Generic<T> extends WrapperObject
     {
         WrapperFactory<Generic<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(Generic.class));
-        
+
         static <T> WrapperFactory<Generic<T>> factory()
         {
             return RuntimeUtil.cast(FACTORY);
         }
-        
+
         @Override
         T getWrapped();
     }

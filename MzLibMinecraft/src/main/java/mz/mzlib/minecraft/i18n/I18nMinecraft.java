@@ -25,7 +25,7 @@ public class I18nMinecraft
     {
         return MinecraftI18n.resolve(player, key);
     }
-    
+
     /**
      * @see MinecraftI18n#resolve(CommandSource, String, Object)
      */

@@ -13,14 +13,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class  MinecraftPlatformFabric implements MinecraftPlatform
+public class MinecraftPlatformFabric implements MinecraftPlatform
 {
     public String versionString;
     public Integer version;
     public File mzLibJar;
     public File mzLibDataFolder;
     public Mappings<?> mappings;
-    
+
     @Override
     public Set<String> getTags()
     {
@@ -29,14 +29,15 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
     @Override
     public String getVersionString()
     {
-        if(this.versionString!=null)
+        if(this.versionString != null)
             return this.versionString;
-        return this.versionString = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
+        return this.versionString = FabricLoader.getInstance().getModContainer("minecraft")
+            .orElseThrow(AssertionError::new).getMetadata().getVersion().getFriendlyString();
     }
     @Override
     public int getVersion()
     {
-        if(this.version!=null)
+        if(this.version != null)
             return this.version;
         return this.version = MinecraftPlatform.parseVersion(this.getVersionString());
     }
@@ -49,25 +50,27 @@ public class  MinecraftPlatformFabric implements MinecraftPlatform
     @Override
     public File getMzLibJar()
     {
-        if(this.mzLibJar!=null)
+        if(this.mzLibJar != null)
             return this.mzLibJar;
-        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibMinecraft.instance.MOD_ID).orElseThrow(AssertionError::new).getOrigin().getPaths();
-        assert paths.size()==1;
+        List<Path> paths = FabricLoader.getInstance().getModContainer(MzLibMinecraft.instance.MOD_ID)
+            .orElseThrow(AssertionError::new).getOrigin().getPaths();
+        assert paths.size() == 1;
         return this.mzLibJar = paths.get(0).toFile();
     }
     @Override
     public File getMzLibDataFolder()
     {
-        if(this.mzLibDataFolder!=null)
+        if(this.mzLibDataFolder != null)
             return this.mzLibDataFolder;
         return this.mzLibDataFolder = new File(this.getMzLibJar().getParentFile(), "MzLib");
     }
-    
+
     @Override
     public Mappings<?> getMappings()
     {
-        if(this.mappings!=null)
+        if(this.mappings != null)
             return this.mappings;
-        return this.mappings = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), new File(getMzLibDataFolder(), "mappings"));
+        return this.mappings = new MinecraftMappingsFetcherYarn().fetch(
+            getVersionString(), new File(getMzLibDataFolder(), "mappings"));
     }
 }

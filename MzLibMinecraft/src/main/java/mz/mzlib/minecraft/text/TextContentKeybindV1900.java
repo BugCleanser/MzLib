@@ -9,8 +9,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1900)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.KeybindTextContent"))
+@VersionRange(begin = 1900)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.KeybindTextContent"))
 public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
 {
     WrapperFactory<TextContentKeybindV1900> FACTORY = WrapperFactory.of(TextContentKeybindV1900.class);
@@ -28,6 +28,6 @@ public interface TextContentKeybindV1900 extends WrapperObject, TextContentV1900
         return FACTORY.getStatic().static$newInstance(keybind);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="getKey"))
+    @WrapMinecraftMethod(@VersionName(name = "getKey"))
     String getKey();
 }

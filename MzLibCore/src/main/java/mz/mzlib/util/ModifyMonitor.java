@@ -8,11 +8,12 @@ public interface ModifyMonitor
     default void markDirty()
     {
     }
-    
+
     class Empty implements ModifyMonitor
     {
         public static Empty instance = new Empty();
     }
+
     class Simple implements ModifyMonitor
     {
         Runnable onModify, markDirty;

@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 public @interface NothingInject
 {
     String wrapperMethodName();
-    
+
     Class<?>[] wrapperMethodParams();
 
     float priority() default Priority.NORMAL;

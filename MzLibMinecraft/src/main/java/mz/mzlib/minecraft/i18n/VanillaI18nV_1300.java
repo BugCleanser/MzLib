@@ -13,8 +13,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(end=1300)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.util.CommonI18n"))
+@VersionRange(end = 1300)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.util.CommonI18n"))
 public interface VanillaI18nV_1300 extends WrapperObject, Nothing
 {
     WrapperFactory<VanillaI18nV_1300> FACTORY = WrapperFactory.of(VanillaI18nV_1300.class);
@@ -24,20 +24,20 @@ public interface VanillaI18nV_1300 extends WrapperObject, Nothing
     {
         return WrapperObject.create(VanillaI18nV_1300.class, wrapped);
     }
-    
+
     static String getTranslation(String key)
     {
         return FACTORY.getStatic().static$getTranslation(key);
     }
-    @WrapMinecraftMethod(@VersionName(name="translate"))
+    @WrapMinecraftMethod(@VersionName(name = "translate"))
     String static$getTranslation(String key);
-    
+
     ThreadLocal<Ref<String>> lastKey = new ThreadLocal<>();
-    @NothingInject(wrapperMethodName="static$getTranslation", wrapperMethodParams=String.class, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+    @NothingInject(wrapperMethodName = "static$getTranslation", wrapperMethodParams = String.class, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
     static void static$getTranslationBegin(@LocalVar(0) String key)
     {
         Ref<String> ref = lastKey.get();
-        if(ref!=null)
+        if(ref != null)
             ref.set(key);
     }
 }

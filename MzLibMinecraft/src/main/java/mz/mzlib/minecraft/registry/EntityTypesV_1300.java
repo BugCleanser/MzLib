@@ -11,8 +11,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
 
-@VersionRange(end=1300)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.EntityType"))
+@VersionRange(end = 1300)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.EntityType"))
 public interface EntityTypesV_1300 extends WrapperObject
 {
     WrapperFactory<EntityTypesV_1300> FACTORY = WrapperFactory.of(EntityTypesV_1300.class);
@@ -22,22 +22,22 @@ public interface EntityTypesV_1300 extends WrapperObject
     {
         return WrapperObject.create(EntityTypesV_1300.class, wrapped);
     }
-    
+
     static EntityType getByNameV_1100(String name)
     {
         return EntityType.create(FACTORY.getStatic().static$mapName2ClassV_1100().get(name));
     }
-    
-    @VersionRange(end=1100)
-    @WrapMinecraftFieldAccessor(@VersionName(name="NAME_CLASS_MAP"))
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "NAME_CLASS_MAP"))
     Map<String, Class<?>> static$mapName2ClassV_1100();
-    
+
     static Registry registryV1100()
     {
         return FACTORY.getStatic().static$registryV1100();
     }
-    
-    @VersionRange(begin=1100)
-    @WrapMinecraftFieldAccessor(@VersionName(name="REGISTRY"))
+
+    @VersionRange(begin = 1100)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
     Registry static$registryV1100();
 }

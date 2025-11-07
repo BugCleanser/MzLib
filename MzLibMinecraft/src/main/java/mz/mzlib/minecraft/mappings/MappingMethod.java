@@ -17,25 +17,26 @@ public class MappingMethod
     }
 
     public static MappingMethod parse(String name, String sig)
-    {        String returnType = sig.substring(sig.indexOf(")") + 1);
+    {
+        String returnType = sig.substring(sig.indexOf(")") + 1);
         List<String> params = new ArrayList<>();
         String rawParams = sig.substring(1, sig.indexOf(")"));
 
         int i = 0;
-        while (i < rawParams.length())
+        while(i < rawParams.length())
         {
             char current = rawParams.charAt(i);
-            if (current == 'L')
+            if(current == 'L')
             {
                 int semicolonIndex = rawParams.indexOf(';', i);
                 params.add(rawParams.substring(i, semicolonIndex + 1));
                 i = semicolonIndex + 1;
             }
-            else if (current == '[')
+            else if(current == '[')
             {
                 i++;
                 char arrayType = rawParams.charAt(i);
-                if (arrayType == 'L')
+                if(arrayType == 'L')
                 {
                     int semicolonIndex = rawParams.indexOf(';', i);
                     params.add("[" + rawParams.substring(i, semicolonIndex + 1));
@@ -59,9 +60,9 @@ public class MappingMethod
     @Override
     public boolean equals(Object o)
     {
-        if (this == o)
+        if(this == o)
             return true;
-        if (!(o instanceof MappingMethod))
+        if(!(o instanceof MappingMethod))
             return false;
         MappingMethod that = (MappingMethod) o;
         return Objects.equals(name, that.name) && Arrays.equals(parameterTypes, that.parameterTypes);

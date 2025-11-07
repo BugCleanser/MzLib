@@ -4,7 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -16,14 +19,14 @@ public class Config
     {
         this.data = data;
     }
-    
+
     public Object get(String path, Object def)
     {
         Object result = this.data;
-        for(String key: path.split("\\."))
+        for(String key : path.split("\\."))
         {
             result = RuntimeUtil.<Map<String, Object>>cast(result).get(key);
-            if(result==null)
+            if(result == null)
                 return def;
         }
         return result;
@@ -34,7 +37,7 @@ public class Config
     }
     public String getString(String path, String def)
     {
-        return (String)this.get(path, def);
+        return (String) this.get(path, def);
     }
     public String getString(String path)
     {
@@ -42,7 +45,7 @@ public class Config
     }
     public Number getNumber(String path, Number def)
     {
-        return (Number)this.get(path, def);
+        return (Number) this.get(path, def);
     }
     public Number getNumber(String path)
     {
@@ -50,11 +53,11 @@ public class Config
     }
     public boolean getBoolean(String path, boolean def)
     {
-        return (boolean)this.get(path, def);
+        return (boolean) this.get(path, def);
     }
     public boolean getBoolean(String path)
     {
-        return (boolean)this.get(path, null);
+        return (boolean) this.get(path, null);
     }
     public List<Object> getList(String path)
     {
@@ -68,7 +71,7 @@ public class Config
     {
         return RuntimeUtil.cast(this.get(path, null));
     }
-    
+
     public static Config loadJson(InputStream def, File file) throws Exception
     {
         Object scope = JsUtil.initScope();
@@ -90,7 +93,8 @@ public class Config
         try(FileOutputStream fos = new FileOutputStream(file))
         {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            fos.write(gson.toJson(gson.fromJson(JsUtil.toJson(scope, json), JsonElement.class)).getBytes(StandardCharsets.UTF_8));
+            fos.write(gson.toJson(gson.fromJson(JsUtil.toJson(scope, json), JsonElement.class))
+                .getBytes(StandardCharsets.UTF_8));
         }
         return new Config(json);
     }
@@ -120,12 +124,12 @@ public class Config
     {
         return loadJson(def, file);
     }
-    
+
     private static void merge(Object data, Object def)
     {
         if(!(def instanceof Map))
             return;
-        for(Map.Entry<String, Object> i: RuntimeUtil.<Map<String, Object>>cast(def).entrySet())
+        for(Map.Entry<String, Object> i : RuntimeUtil.<Map<String, Object>>cast(def).entrySet())
         {
             Map<String, Object> d = RuntimeUtil.cast(data);
             if(!d.containsKey(i.getKey()))

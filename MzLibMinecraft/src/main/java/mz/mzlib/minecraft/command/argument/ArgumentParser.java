@@ -12,7 +12,7 @@ public abstract class ArgumentParser<T>
     {
         this.name = name;
     }
-    
+
     public abstract T parse(CommandContext context);
     public T handle(CommandContext context)
     {
@@ -28,7 +28,10 @@ public abstract class ArgumentParser<T>
         }
         catch(Throwable e)
         {
-            context.addArgError(MinecraftI18n.resolveText(context.source, "mzlib.command.arg.error", Collections.singletonMap("msg", e.getMessage())));
+            context.addArgError(MinecraftI18n.resolveText(
+                context.source, "mzlib.command.arg.error",
+                Collections.singletonMap("msg", e.getMessage())
+            ));
             return null;
         }
     }

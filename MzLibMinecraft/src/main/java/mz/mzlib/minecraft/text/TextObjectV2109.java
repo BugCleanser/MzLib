@@ -10,12 +10,12 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2109)
+@VersionRange(begin = 2109)
 @WrapSameClass(Text.class)
 public interface TextObjectV2109 extends WrapperObject, Text
 {
     WrapperFactory<TextObjectV2109> FACTORY = WrapperFactory.of(TextObjectV2109.class);
-    
+
     static TextObjectV2109 atlas(Identifier atlas, Identifier sprite)
     {
         return newInstance(TextObjectContentsAtlasV2109.newInstance(atlas, sprite));
@@ -24,7 +24,7 @@ public interface TextObjectV2109 extends WrapperObject, Text
     {
         return newInstance(TextObjectContentsPlayerV2109.newInstance(gameProfile, hat));
     }
-    
+
     static TextObjectV2109 newInstance(TextObjectContentsV2109 contents)
     {
         return TextMutableV1600.newInstanceV1900(TextContentObjectV2109.newInstance(contents)).as(FACTORY);

@@ -6,15 +6,15 @@ import java.util.List;
 public class TaskList
 {
     public List<Runnable> tasks = new ArrayList<>();
-    
+
     public void schedule(Runnable task)
     {
         this.tasks.add(task);
     }
-    
+
     public void run()
     {
-        for(Runnable task: this.tasks)
+        for(Runnable task : this.tasks)
         {
             try
             {
@@ -26,7 +26,7 @@ public class TaskList
             }
         }
     }
-    
+
     public void onCatch(Throwable e)
     {
         e.printStackTrace(System.err);

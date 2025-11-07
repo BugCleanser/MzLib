@@ -20,10 +20,10 @@ public class TextColor
     public static TextColor LIGHT_PURPLE = new TextColor(TextFormatLegacy.LIGHT_PURPLE);
     public static TextColor YELLOW = new TextColor(TextFormatLegacy.YELLOW);
     public static TextColor WHITE = new TextColor(TextFormatLegacy.WHITE);
-    
+
     public TextFormatLegacy legacy;
     public TextColorV1600 v1600;
-    
+
     public TextColor(TextFormatLegacy legacy, TextColorV1600 v1600)
     {
         this.legacy = legacy;
@@ -31,23 +31,23 @@ public class TextColor
     }
     public TextColor(TextFormatLegacy legacy)
     {
-        this(legacy, MinecraftPlatform.instance.getVersion()<1600?null:TextColorV1600.fromLegacy(legacy));
+        this(legacy, MinecraftPlatform.instance.getVersion() < 1600 ? null : TextColorV1600.fromLegacy(legacy));
     }
     public TextColor(TextColorV1600 v1600)
     {
         this(null, v1600);
     }
-    
+
     public static TextColor fromRgbV1600(int rgb)
     {
         return new TextColor(TextColorV1600.fromRgb(rgb));
     }
-    
+
     public TextFormatLegacy getLegacy()
     {
         return this.legacy;
     }
-    
+
     public char getCode()
     {
         return this.legacy.getCode();

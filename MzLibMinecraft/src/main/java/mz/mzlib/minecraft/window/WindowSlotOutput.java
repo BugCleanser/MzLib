@@ -19,17 +19,17 @@ public interface WindowSlotOutput extends WindowSlot
     {
         return WrapperObject.create(WindowSlotOutput.class, wrapped);
     }
-    
+
     @WrapConstructor
     WindowSlot static$newInstance(Inventory inventory, int index, int x, int y);
-    
+
     static WindowSlot newInstance(Inventory inventory, int index)
     {
         return FACTORY.getStatic().static$newInstance(inventory, index, 0, 0);
     }
-    
+
     @Override
-    @CompoundOverride(parent=WindowSlot.class, method="canPlace")
+    @CompoundOverride(parent = WindowSlot.class, method = "canPlace")
     default boolean canPlace(ItemStack itemStack)
     {
         return false;

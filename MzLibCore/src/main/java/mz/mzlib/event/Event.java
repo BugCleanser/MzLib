@@ -9,12 +9,12 @@ public abstract class Event
 {
     public TaskList futureTasks = new TaskList();
     boolean isCancelled = false;
-    
+
     public boolean isCancelled()
     {
         return this.isCancelled;
     }
-    
+
     /**
      * Execute when the operation corresponding to the event ends or is canceled.
      */
@@ -24,7 +24,7 @@ public abstract class Event
             throw new IllegalStateException("Event finished");
         this.futureTasks.schedule(runnable);
     }
-    
+
     public void finish()
     {
         this.futureTasks.run();
@@ -34,7 +34,7 @@ public abstract class Event
     {
         return this.futureTasks == null;
     }
-    
+
     /**
      * Implement this method but do nothing.
      * Invoke to call all the listeners.

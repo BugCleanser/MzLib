@@ -26,11 +26,11 @@ public class UnionClassLoader extends ClassLoader
             {
                 WrapperClassLoader wrapper = WrapperClassLoader.create(member);
                 Class<?> result = wrapper.findClass(name);
-                if (resolve)
+                if(resolve)
                     wrapper.resolveClass(result);
                 return result;
             }
-            catch (ClassNotFoundException ignore)
+            catch(ClassNotFoundException ignore)
             {
             }
             return super.loadClass(name, resolve);
@@ -55,15 +55,17 @@ public class UnionClassLoader extends ClassLoader
         MemberDelegator memberDelegator = new MemberDelegator(this);
         memberDelegator.member = memberAllocator.apply(memberDelegator);
         memberPriorities.put(memberDelegator.member, priority);
-        members.compute(priority, (aFloat, classLoaders) ->
-        {
-            if (classLoaders == null)
+        members.compute(
+            priority, (aFloat, classLoaders) ->
             {
-                classLoaders = new HashSet<>();
+                if(classLoaders == null)
+                {
+                    classLoaders = new HashSet<>();
+                }
+                classLoaders.add(memberDelegator.member);
+                return classLoaders;
             }
-            classLoaders.add(memberDelegator.member);
-            return classLoaders;
-        });
+        );
         return memberDelegator.member;
     }
 
@@ -74,11 +76,13 @@ public class UnionClassLoader extends ClassLoader
 
     public void removeMember(ClassLoader cl)
     {
-        members.computeIfPresent(this.memberPriorities.remove(cl), (aFloat, classLoaders) ->
-        {
-            classLoaders.remove(cl);
-            return classLoaders;
-        });
+        members.computeIfPresent(
+            this.memberPriorities.remove(cl), (aFloat, classLoaders) ->
+            {
+                classLoaders.remove(cl);
+                return classLoaders;
+            }
+        );
     }
 
     public Set<String> loadingClasses = ConcurrentHashMap.newKeySet();
@@ -91,34 +95,35 @@ public class UnionClassLoader extends ClassLoader
         {
             result = super.loadClass(name, false);
         }
-        catch (ClassNotFoundException ignore)
+        catch(ClassNotFoundException ignore)
         {
         }
-        if (result == null)
+        if(result == null)
         {
-            if (!loadingClasses.add(name))
+            if(!loadingClasses.add(name))
             {
                 return null;
             }
             try
             {
-                for (Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream().sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
+                for(Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream()
+                    .sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
                 {
-                    for (ClassLoader i : j.getValue())
+                    for(ClassLoader i : j.getValue())
                     {
                         try
                         {
                             result = i.loadClass(name);
-                            if (result != null)
+                            if(result != null)
                             {
                                 break;
                             }
                         }
-                        catch (ClassNotFoundException ignore)
+                        catch(ClassNotFoundException ignore)
                         {
                         }
                     }
-                    if (result != null)
+                    if(result != null)
                     {
                         break;
                     }
@@ -129,11 +134,11 @@ public class UnionClassLoader extends ClassLoader
                 loadingClasses.remove(name);
             }
         }
-        if (result == null)
+        if(result == null)
         {
             throw new ClassNotFoundException(name);
         }
-        if (resolve)
+        if(resolve)
         {
             this.resolveClass(result);
         }
@@ -146,25 +151,26 @@ public class UnionClassLoader extends ClassLoader
     public URL getResource(String name)
     {
         URL result = super.getResource(name);
-        if (result == null)
+        if(result == null)
         {
-            if (!gettingResources.add(name))
+            if(!gettingResources.add(name))
             {
                 return null;
             }
             try
             {
-                for (Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream().sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
+                for(Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream()
+                    .sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
                 {
-                    for (ClassLoader i : j.getValue())
+                    for(ClassLoader i : j.getValue())
                     {
                         result = i.getResource(name);
-                        if (result != null)
+                        if(result != null)
                         {
                             break;
                         }
                     }
-                    if (result != null)
+                    if(result != null)
                     {
                         break;
                     }
@@ -182,25 +188,26 @@ public class UnionClassLoader extends ClassLoader
     public InputStream getResourceAsStream(String name)
     {
         InputStream result = super.getResourceAsStream(name);
-        if (result == null)
+        if(result == null)
         {
-            if (!gettingResources.add(name))
+            if(!gettingResources.add(name))
             {
                 return null;
             }
             try
             {
-                for (Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream().sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
+                for(Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream()
+                    .sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
                 {
-                    for (ClassLoader i : j.getValue())
+                    for(ClassLoader i : j.getValue())
                     {
                         result = i.getResourceAsStream(name);
-                        if (result != null)
+                        if(result != null)
                         {
                             break;
                         }
                     }
-                    if (result != null)
+                    if(result != null)
                     {
                         break;
                     }
@@ -218,13 +225,14 @@ public class UnionClassLoader extends ClassLoader
     public Enumeration<URL> getResources(String name) throws IOException
     {
         List<URL> result = new ArrayList<>(Collections.list(super.getResources(name)));
-        if (gettingResources.add(name))
+        if(gettingResources.add(name))
         {
             try
             {
-                for (Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream().sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
+                for(Map.Entry<Float, Set<ClassLoader>> j : members.entrySet().stream()
+                    .sorted((a, b) -> Float.compare(b.getKey(), a.getKey())).collect(Collectors.toList()))
                 {
-                    for (ClassLoader i : j.getValue())
+                    for(ClassLoader i : j.getValue())
                     {
                         result.addAll(Collections.list(i.getResources(name)));
                     }

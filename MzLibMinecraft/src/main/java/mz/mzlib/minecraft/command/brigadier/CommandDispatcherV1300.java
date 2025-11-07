@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.util.wrapper.*;
 
-@VersionRange(begin=1300)
+@VersionRange(begin = 1300)
 @WrapClassForName("com.mojang.brigadier.CommandDispatcher")
 public interface CommandDispatcherV1300 extends WrapperObject
 {
@@ -15,10 +15,10 @@ public interface CommandDispatcherV1300 extends WrapperObject
     {
         return WrapperObject.create(CommandDispatcherV1300.class, wrapped);
     }
-    
+
     @Override
     CommandDispatcher<?> getWrapped();
-    
+
     @WrapFieldAccessor("root")
     CommandNodeV1300 getRoot();
 }

@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.world.CommandBlockExecutor"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.world.CommandBlockExecutor"))
 public interface CommandBlockExecutor extends WrapperObject, CommandOutput
 {
     WrapperFactory<CommandBlockExecutor> FACTORY = WrapperFactory.of(CommandBlockExecutor.class);

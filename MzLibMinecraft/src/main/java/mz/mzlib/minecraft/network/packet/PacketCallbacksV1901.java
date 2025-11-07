@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.PacketCallbacks", begin=1901))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.PacketCallbacks", begin = 1901))
 public interface PacketCallbacksV1901 extends WrapperObject
 {
     WrapperFactory<PacketCallbacksV1901> FACTORY = WrapperFactory.of(PacketCallbacksV1901.class);

@@ -8,7 +8,7 @@ public class EventServerStop extends EventServer
     {
         super(server);
     }
-    
+
     @Override
     public void call()
     {

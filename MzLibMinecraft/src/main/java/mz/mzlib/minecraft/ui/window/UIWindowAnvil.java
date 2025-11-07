@@ -16,24 +16,25 @@ public abstract class UIWindowAnvil extends UIWindow
     {
         super(WindowType.ANVIL, inventory);
     }
-    
+
     public UIWindowAnvil()
     {
         super(WindowType.ANVIL, 3);
     }
-    
+
     public void onNameChanged(EntityPlayer player, String name)
     {
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventAsyncWindowAnvilSetName.class, Priority.VERY_LOW, event->event.sync(()->
+            this.register(new EventListener<>(
+                EventAsyncWindowAnvilSetName.class, Priority.VERY_LOW, event -> event.sync(() ->
             {
                 if(event.isCancelled())
                     return;
@@ -43,17 +44,18 @@ public abstract class UIWindowAnvil extends UIWindow
                 UI ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
                 if(ui instanceof UIWindowAnvil)
                 {
-                    event.sync(()->
+                    event.sync(() ->
                     {
                         if(window.isInstanceOf(WindowUIWindow.FACTORY))
                         {
                             UI ui1 = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
                             if(ui1 instanceof UIWindowAnvil)
-                                ((UIWindowAnvil)ui1).onNameChanged(event.getPlayer(), event.getName());
+                                ((UIWindowAnvil) ui1).onNameChanged(event.getPlayer(), event.getName());
                         }
                     });
                 }
-            })));
+            })
+            ));
         }
     }
 }

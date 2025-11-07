@@ -23,7 +23,7 @@ public class MinecraftJsUtil
         initNbt(scope);
         return scope;
     }
-    
+
     public static void initText(Object scope)
     {
         JsUtil.put(scope, "Text", JsUtil.wrapClass(scope, Text.class));
@@ -31,14 +31,14 @@ public class MinecraftJsUtil
         JsUtil.put(scope, "TextHoverEvent", JsUtil.wrapClass(scope, TextHoverEvent.class));
         JsUtil.put(scope, "TextClickEvent", JsUtil.wrapClass(scope, TextClickEvent.class));
     }
-    
+
     public static void initItem(Object scope)
     {
         JsUtil.put(scope, "Item", JsUtil.wrapClass(scope, Item.class));
         JsUtil.put(scope, "ItemStack", JsUtil.wrapClass(scope, ItemStack.class));
         JsUtil.put(scope, "ItemStackBuilder", JsUtil.wrapClass(scope, ItemStackBuilder.class));
     }
-    
+
     public static void initNbt(Object scope)
     {
         JsUtil.put(scope, "NbtElement", JsUtil.wrapClass(scope, NbtElement.class));

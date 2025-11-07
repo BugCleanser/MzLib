@@ -16,7 +16,7 @@ public class CastCheckerAnalyzerInsnNode extends CastCheckerAnalyzer<InsnNode>
     public Set<Integer> analyze(CastChecker caster, int index, InsnNode insn, Stack<CastChecker.OperandVisitor> context)
     {
         CastChecker.OperandVisitor top, top2, top3, top4;
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.NOP:
                 break;
@@ -49,7 +49,7 @@ public class CastCheckerAnalyzerInsnNode extends CastCheckerAnalyzer<InsnNode>
             case Opcodes.LALOAD:
             case Opcodes.DALOAD:
                 context.pop(); // index
-                switch (insn.getOpcode())
+                switch(insn.getOpcode())
                 {
                     case Opcodes.IASTORE:
                         caster.cast(context.pop(), Type.getType(int[].class));
@@ -91,7 +91,7 @@ public class CastCheckerAnalyzerInsnNode extends CastCheckerAnalyzer<InsnNode>
             case Opcodes.SASTORE:
                 context.pop();
                 context.pop();
-                switch (insn.getOpcode())
+                switch(insn.getOpcode())
                 {
                     case Opcodes.IASTORE:
                         caster.cast(context.pop(), Type.getType(int[].class));

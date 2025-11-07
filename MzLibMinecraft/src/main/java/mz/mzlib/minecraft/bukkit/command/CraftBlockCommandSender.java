@@ -11,7 +11,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.BlockCommandSender;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
-@WrapCraftbukkitClass(@VersionName(name="OBC.command.CraftBlockCommandSender"))
+@WrapCraftbukkitClass(@VersionName(name = "OBC.command.CraftBlockCommandSender"))
 public interface CraftBlockCommandSender extends WrapperObject
 {
     WrapperFactory<CraftBlockCommandSender> FACTORY = WrapperFactory.of(CraftBlockCommandSender.class);
@@ -21,10 +21,10 @@ public interface CraftBlockCommandSender extends WrapperObject
     {
         return WrapperObject.create(CraftBlockCommandSender.class, wrapped);
     }
-    
+
     @Override
     BlockCommandSender getWrapped();
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="block", begin=1400))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "block", begin = 1400))
     CommandSource getCommandSourceV1400();
 }

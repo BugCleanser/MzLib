@@ -12,11 +12,11 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
-        {
-                @VersionName(name="net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket", end=1400),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.OpenContainerS2CPacket", begin=1400, end=1600),
-                @VersionName(name="net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket", begin=1600)
-        })
+    {
+        @VersionName(name = "net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket", end = 1400),
+        @VersionName(name = "net.minecraft.network.packet.s2c.play.OpenContainerS2CPacket", begin = 1400, end = 1600),
+        @VersionName(name = "net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket", begin = 1600)
+    })
 public interface PacketS2cWindowOpen extends WrapperObject, Packet
 {
     WrapperFactory<PacketS2cWindowOpen> FACTORY = WrapperFactory.of(PacketS2cWindowOpen.class);
@@ -26,8 +26,8 @@ public interface PacketS2cWindowOpen extends WrapperObject, Packet
     {
         return WrapperObject.create(PacketS2cWindowOpen.class, wrapped);
     }
-    
-    @VersionRange(end=1400)
+
+    @VersionRange(end = 1400)
     @WrapConstructor
     ModuleWindow.NothingPacketS2cWindowOpen static$newInstanceV_1400(int syncId, String typeId, Text title, int size);
 }

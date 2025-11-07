@@ -9,19 +9,19 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2109)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.ObjectTextContent"))
+@VersionRange(begin = 2109)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.ObjectTextContent"))
 public interface TextContentObjectV2109 extends WrapperObject, TextContentV1900
 {
     WrapperFactory<TextContentObjectV2109> FACTORY = WrapperFactory.of(TextContentObjectV2109.class);
-    
+
     static TextContentObjectV2109 newInstance(TextObjectContentsV2109 contents)
     {
         return FACTORY.getStatic().static$newInstance(contents);
     }
     @WrapConstructor
     TextContentObjectV2109 static$newInstance(TextObjectContentsV2109 contents);
-    
-    @WrapMinecraftMethod(@VersionName(name="contents"))
+
+    @WrapMinecraftMethod(@VersionName(name = "contents"))
     TextObjectContentsV2109 getContents();
 }

@@ -25,44 +25,65 @@ import java.util.Arrays;
 public @interface WrapMinecraftClass
 {
     VersionName[] value();
-    
+
     class Handler implements ElementSwitcher<WrapMinecraftClass>, WrappedClassFinder<WrapMinecraftClass>
     {
         @Override
         public boolean isEnabled(WrapMinecraftClass annotation, AnnotatedElement element)
         {
-            for(VersionName n: annotation.value())
+            for(VersionName n : annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-        
+
         public static Option<String> getName(Class<? extends WrapperObject> wrapperClass)
         {
-            for(WrapSameClass annotation: Option.fromNullable(wrapperClass.getDeclaredAnnotation(WrapSameClass.class)))
+            for(WrapSameClass annotation : Option.fromNullable(wrapperClass.getDeclaredAnnotation(WrapSameClass.class)))
+            {
                 return getName(annotation.value());
-            for(WrapMinecraftClass annotation: Option.fromNullable(wrapperClass.getDeclaredAnnotation(WrapMinecraftClass.class)))
-                for(String result: Option.fromOptional(Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion).map(VersionName::name).findAny()))
+            }
+            for(WrapMinecraftClass annotation : Option.fromNullable(
+                wrapperClass.getDeclaredAnnotation(WrapMinecraftClass.class)))
+            {
+                for(String result : Option.fromOptional(
+                    Arrays.stream(annotation.value()).filter(MinecraftPlatform.instance::inVersion)
+                        .map(VersionName::name).findAny()))
+                {
                     return Option.some(result);
-            for(WrapMinecraftInnerClass annotation: Option.fromNullable(wrapperClass.getDeclaredAnnotation(WrapMinecraftInnerClass.class)))
-                for(Option<String> result: Option.fromOptional(Arrays.stream(annotation.name()).filter(MinecraftPlatform.instance::inVersion).map(n->getName(annotation.outer()).map(o->o+"$"+n.name())).findAny()))
+                }
+            }
+            for(WrapMinecraftInnerClass annotation : Option.fromNullable(
+                wrapperClass.getDeclaredAnnotation(WrapMinecraftInnerClass.class)))
+            {
+                for(Option<String> result : Option.fromOptional(
+                    Arrays.stream(annotation.name()).filter(MinecraftPlatform.instance::inVersion)
+                        .map(n -> getName(annotation.outer()).map(o -> o + "$" + n.name())).findAny()))
+                {
                     return result;
+                }
+            }
             return Option.none();
         }
-        
+
         @Override
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftClass annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftClass annotation)
+            throws ClassNotFoundException
         {
             ClassNotFoundException lastException = null;
-            for(VersionName name: annotation.value())
+            for(VersionName name : annotation.value())
             {
                 if(MinecraftPlatform.instance.inVersion(name))
                 {
                     try
                     {
-                        return ClassUtil.classForName(name.remap()?MinecraftPlatform.instance.getMappings().inverse().mapClass(name.name()):name.name(), wrapperClass.getClassLoader());
+                        return ClassUtil.classForName(
+                            name.remap() ?
+                                MinecraftPlatform.instance.getMappings().inverse().mapClass(name.name()) :
+                                name.name(), wrapperClass.getClassLoader()
+                        );
                     }
                     catch(ClassNotFoundException e)
                     {
@@ -70,8 +91,8 @@ public @interface WrapMinecraftClass
                     }
                 }
             }
-            if(lastException!=null)
-                throw new ClassNotFoundException("No class found: "+annotation, lastException);
+            if(lastException != null)
+                throw new ClassNotFoundException("No class found: " + annotation, lastException);
             return null;
         }
     }

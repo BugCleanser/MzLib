@@ -8,12 +8,12 @@ import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2109)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.text.object.AtlasTextObjectContents"))
+@VersionRange(begin = 2109)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.text.object.AtlasTextObjectContents"))
 public interface TextObjectContentsAtlasV2109 extends WrapperObject, TextObjectContentsV2109
 {
     WrapperFactory<TextObjectContentsAtlasV2109> FACTORY = WrapperFactory.of(TextObjectContentsAtlasV2109.class);
-    
+
     static TextObjectContentsAtlasV2109 newInstance(Identifier atlas, Identifier sprite)
     {
         return FACTORY.getStatic().static$newInstance(atlas, sprite);

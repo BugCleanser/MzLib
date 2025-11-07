@@ -16,18 +16,24 @@ import mz.mzlib.util.Result;
 public class CommandMzLibItemInfo extends MzModule
 {
     public static CommandMzLibItemInfo instance = new CommandMzLibItemInfo();
-    
+
     public Permission permission = new Permission("mzlib.command.mzlib.iteminfo");
-    
+
     public Command command;
-    
+
     @Override
     public void onLoad()
     {
         this.register(this.permission);
-        this.register(new ChildCommandRegistration(MzLibMinecraft.instance.command, this.command = new Command("iteminfo").setPermissionCheckers(Command::checkPermissionSenderPlayer, Command.permissionChecker(this.permission)).setHandler(this::handle)));
+        this.register(new ChildCommandRegistration(
+            MzLibMinecraft.instance.command,
+            this.command = new Command("iteminfo").setPermissionCheckers(
+                Command::checkPermissionSenderPlayer,
+                Command.permissionChecker(this.permission)
+            ).setHandler(this::handle)
+        ));
     }
-    
+
     public void handle(CommandContext context)
     {
         if(context.argsReader.hasNext())
@@ -36,11 +42,16 @@ public class CommandMzLibItemInfo extends MzModule
             return;
         if(context.doExecute)
         {
-            Result<Option<NbtCompound>, String> encode = ItemStack.encode(context.getSource().getPlayer().unwrap().getHandItemStack());
-            for(NbtCompound nbt: encode.getValue())
+            Result<Option<NbtCompound>, String> encode = ItemStack.encode(
+                context.getSource().getPlayer().unwrap().getHandItemStack());
+            for(NbtCompound nbt : encode.getValue())
+            {
                 context.getSource().sendMessage(Text.literal(nbt.toString()));
-            for(String err: encode.getError())
+            }
+            for(String err : encode.getError())
+            {
                 context.getSource().sendMessage(Text.literal(err).setColor(TextColor.RED));
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ import mz.mzlib.util.wrapper.*;
 import java.util.Arrays;
 import java.util.List;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.network.packet.s2c.play.InventoryS2CPacket"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.network.packet.s2c.play.InventoryS2CPacket"))
 public interface PacketS2cWindowItems extends Packet
 {
     WrapperFactory<PacketS2cWindowItems> FACTORY = WrapperFactory.of(PacketS2cWindowItems.class);
@@ -24,84 +24,100 @@ public interface PacketS2cWindowItems extends Packet
     {
         return WrapperObject.create(PacketS2cWindowItems.class, wrapped);
     }
-    
+
     /**
      * nameV_1400: screenId
      * nameV1400_1600: guiId
      * nameV1600: syncId
      */
-    @WrapMinecraftFieldAccessor({@VersionName(name="screenId", end=1400), @VersionName(name="field_12146", begin=1400, end=2105), @VersionName(name="syncId", begin=2105)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "screenId", end = 1400),
+        @VersionName(name = "field_12146", begin = 1400, end = 2105),
+        @VersionName(name = "syncId", begin = 2105)
+    })
     int getSyncId();
-    
+
     List<Object> getContents0();
-    
+
     default List<ItemStack> getContents()
     {
         return new ListProxy<>(this.getContents0(), InvertibleFunction.wrapper(ItemStack.FACTORY));
     }
-    
-    @VersionRange(end=1100)
-    @WrapMinecraftFieldAccessor(@VersionName(name="stacks"))
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "stacks"))
     Object[] getContents0V_1100();
-    
+
     @SpecificImpl("getContents0")
-    @VersionRange(end=1100)
+    @VersionRange(end = 1100)
     default List<?> getContentsV_1100()
     {
         return Arrays.asList(this.getContents0V_1100());
     }
-    
+
     @SpecificImpl("getContents0")
-    @VersionRange(begin=1100)
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_15348", end=1400), @VersionName(name="slotStackList", begin=1400, end=1600), @VersionName(name="contents", begin=1600)})
+    @VersionRange(begin = 1100)
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "field_15348", end = 1400),
+        @VersionName(name = "slotStackList", begin = 1400, end = 1600),
+        @VersionName(name = "contents", begin = 1600)
+    })
     List<?> getContents0V1100();
-    
+
     void setContents0(List<?> value);
-    
-    @VersionRange(end=1100)
-    @WrapMinecraftFieldAccessor(@VersionName(name="stacks"))
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "stacks"))
     void setContents0V_1100(Object[] value);
-    
+
     @SpecificImpl("setContents0")
-    @VersionRange(end=1100)
+    @VersionRange(end = 1100)
     default void setContents0V_1100(List<?> value)
     {
         this.setContents0V_1100(value.toArray());
     }
-    
+
     @SpecificImpl("setContents0")
-    @VersionRange(begin=1100)
-    @WrapMinecraftFieldAccessor({@VersionName(name="field_15348", end=1400), @VersionName(name="slotStackList", begin=1400, end=1600), @VersionName(name="contents", begin=1600)})
+    @VersionRange(begin = 1100)
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "field_15348", end = 1400),
+        @VersionName(name = "slotStackList", begin = 1400, end = 1600),
+        @VersionName(name = "contents", begin = 1600)
+    })
     void setContents0V1100(List<?> value);
-    
+
     default void setContents(List<ItemStack> value)
     {
         this.setContents0(new ListProxy<>(value, InvertibleFunction.wrapper(ItemStack.FACTORY).inverse()));
     }
-    
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="cursorStack", begin=1701))
+
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "cursorStack", begin = 1701))
     ItemStack getCursorV1701();
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="cursorStack", begin=1701))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "cursorStack", begin = 1701))
     void setCursorV1701(ItemStack itemStack);
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="revision", begin=1701))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "revision", begin = 1701))
     int getRevisionV1701();
-    
-    @VersionRange(end=1100)
+
+    @VersionRange(end = 1100)
     @WrapConstructor
     PacketS2cWindowItems static$newInstance0V_1100(int syncId, List<Object> contents);
-    
-    @VersionRange(begin=1100, end=1701)
+
+    @VersionRange(begin = 1100, end = 1701)
     @WrapConstructor
     PacketS2cWindowItems static$newInstanceV1100_1701(int syncId, DefaultedListV1100 contents);
-    
-    @VersionRange(begin=1701, end=2105)
+
+    @VersionRange(begin = 1701, end = 2105)
     @WrapConstructor
-    PacketS2cWindowItems static$newInstanceV1701_2105(int syncId, int revision, DefaultedListV1100 contents, ItemStack cursor);
-    
-    @VersionRange(begin=2105)
+    PacketS2cWindowItems static$newInstanceV1701_2105(
+        int syncId,
+        int revision,
+        DefaultedListV1100 contents,
+        ItemStack cursor);
+
+    @VersionRange(begin = 2105)
     @WrapConstructor
     PacketS2cWindowItems static$newInstanceV2105(int syncId, int revision, List<Object> contents, ItemStack cursor);
 }

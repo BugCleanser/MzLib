@@ -27,16 +27,26 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
         this.prefix = prefix;
         this.initial = initial;
         this.text = initial;
-        
-        this.putButton(0, player->new ItemStackBuilder("name_tag").setCustomName(Text.literal(this.prefix+this.initial)).setLore(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.reset.lore")).get(), (player, actionType, data)->MinecraftServer.instance.execute(()->
-        {
-            player.getCurrentWindow().sendSlotUpdate(player, 0);
-            player.getCurrentWindow().sendSlotUpdate(player, 2);
-        }));
-        this.putButton(1, player->new ItemStackBuilder("torch").setCustomName(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back")).get(), (player, actionType, data)->UIStack.get(player).back());
-        this.putButton(2, player->new ItemStackBuilder("slime_ball").setCustomName(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done")).get(), (player, actionType, data)->this.done(player, this.text));
+
+        this.putButton(
+            0, player -> new ItemStackBuilder("name_tag").setCustomName(Text.literal(this.prefix + this.initial))
+                .setLore(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.reset.lore")).get(),
+            (player, actionType, data) -> MinecraftServer.instance.execute(() ->
+            {
+                player.getCurrentWindow().sendSlotUpdate(player, 0);
+                player.getCurrentWindow().sendSlotUpdate(player, 2);
+            })
+        );
+        this.putButton(1, player -> new ItemStackBuilder("torch").setCustomName(
+                MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back")).get(),
+            (player, actionType, data) -> UIStack.get(player).back()
+        );
+        this.putButton(2, player -> new ItemStackBuilder("slime_ball").setCustomName(
+                MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done")).get(),
+            (player, actionType, data) -> this.done(player, this.text)
+        );
     }
-    
+
     @Override
     public void onNameChanged(EntityPlayer player, String name)
     {
@@ -45,16 +55,16 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
         else
         {
             Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = this.icons.get(0);
-            this.putIcon(0, p->ItemStack.empty());
+            this.putIcon(0, p -> ItemStack.empty());
             player.getCurrentWindow().sendSlotUpdate(player, 0);
             this.putIcon0(0, icon);
             player.getCurrentWindow().sendSlotUpdate(player, 0);
         }
         player.getCurrentWindow().sendSlotUpdate(player, 2);
     }
-    
+
     public abstract void done(EntityPlayer player, String text);
-    
+
     public static CompletableFuture<String> invoke(EntityPlayer player, String initial, Text title)
     {
         CompletableFuture<String> result = new CompletableFuture<>();

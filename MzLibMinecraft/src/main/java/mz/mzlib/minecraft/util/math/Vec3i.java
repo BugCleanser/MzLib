@@ -7,7 +7,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.util.math.Vec3i"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.util.math.Vec3i"))
 public interface Vec3i extends WrapperObject
 {
     WrapperFactory<Vec3i> FACTORY = WrapperFactory.of(Vec3i.class);
@@ -17,7 +17,7 @@ public interface Vec3i extends WrapperObject
     {
         return WrapperObject.create(Vec3i.class, wrapped);
     }
-    
+
     @WrapConstructor
     BlockPos static$newInstance(int x, int y, int z);
     static BlockPos newInstance(int x, int y, int z)

@@ -12,8 +12,8 @@ public interface WrapperClass extends WrapperObject
     {
         return WrapperObject.create(WrapperClass.class, wrapped);
     }
-    
-    @JvmVersion(begin=9)
+
+    @JvmVersion(begin = 9)
     @WrapMethod("getModule")
     WrapperModuleJ9 getModuleJ9();
 }

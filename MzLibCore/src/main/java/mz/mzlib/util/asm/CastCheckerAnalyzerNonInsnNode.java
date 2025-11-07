@@ -10,7 +10,11 @@ public class CastCheckerAnalyzerNonInsnNode extends CastCheckerAnalyzer<Abstract
 {
     public static CastCheckerAnalyzerNonInsnNode instance = new CastCheckerAnalyzerNonInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, AbstractInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        AbstractInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
         return Collections.singleton(index + 1);
     }

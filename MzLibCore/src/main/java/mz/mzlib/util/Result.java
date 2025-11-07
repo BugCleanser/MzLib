@@ -6,29 +6,29 @@ import java.util.function.Function;
 public abstract class Result<V, E>
 {
     protected V value;
-    
+
     protected Result(V value)
     {
         this.value = Objects.requireNonNull(value, "value");
     }
-    
+
     public V getValue()
     {
         return this.value;
     }
     public abstract boolean isSuccess();
-    
+
     public abstract boolean isFailure();
-    
+
     public abstract Option<E> getError();
-    
+
     public abstract Either<V, E> toEither();
-    
+
     public abstract Pair<V, Option<E>> toPair();
-    
-    public abstract <V1> Result<V1, E> mapValue(Function<? super V,? extends V1> action);
-    public abstract <E1> Result<V, E1> mapError(Function<? super E,? extends E1> action);
-    
+
+    public abstract <V1> Result<V1, E> mapValue(Function<? super V, ? extends V1> action);
+    public abstract <E1> Result<V, E1> mapError(Function<? super E, ? extends E1> action);
+
     public static <V, E> Result<V, E> success(V value)
     {
         return new Success<>(value);
@@ -39,11 +39,13 @@ public abstract class Result<V, E>
     }
     public static <V, E> Result<V, E> of(V value, Option<E> error)
     {
-        for(E e: error)
+        for(E e : error)
+        {
             return failure(value, e);
+        }
         return success(value);
     }
-    
+
     static class Success<V, E> extends Result<V, E>
     {
         protected Success(V value)
@@ -76,7 +78,7 @@ public abstract class Result<V, E>
             return new Pair<>(this.value, Option.none());
         }
         @Override
-        public <V1> Result<V1, E> mapValue(Function<? super V,? extends V1> action)
+        public <V1> Result<V1, E> mapValue(Function<? super V, ? extends V1> action)
         {
             return success(action.apply(this.value));
         }
@@ -86,7 +88,7 @@ public abstract class Result<V, E>
             return RuntimeUtil.cast(this);
         }
     }
-    
+
     static class Failure<V, E> extends Result<V, E>
     {
         protected E error;
@@ -121,7 +123,7 @@ public abstract class Result<V, E>
             return new Pair<>(this.value, Option.some(this.error));
         }
         @Override
-        public <V1> Result<V1, E> mapValue(Function<? super V,? extends V1> action)
+        public <V1> Result<V1, E> mapValue(Function<? super V, ? extends V1> action)
         {
             return failure(action.apply(this.value), this.error);
         }

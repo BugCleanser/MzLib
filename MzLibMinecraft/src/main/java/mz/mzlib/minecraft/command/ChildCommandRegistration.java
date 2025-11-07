@@ -7,13 +7,13 @@ public class ChildCommandRegistration implements Registrable
 {
     public Command parent;
     public Command child;
-    
+
     public ChildCommandRegistration(Command parent, Command child)
     {
         this.parent = parent;
         this.child = child;
     }
-    
+
     @Override
     public void onRegister(MzModule module)
     {

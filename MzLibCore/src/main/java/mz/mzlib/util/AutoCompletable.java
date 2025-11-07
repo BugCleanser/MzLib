@@ -10,15 +10,15 @@ public interface AutoCompletable<T, D> extends Iterable<T>
 {
     Pair<T, D> start();
     void complete(T element, D data);
-    
+
     default void accept(Consumer<T> action)
     {
-        for(T element: this)
+        for(T element : this)
         {
             action.accept(element);
         }
     }
-    
+
     static <T, D> AutoCompletable<T, D> of(Supplier<Pair<T, D>> start, BiConsumer<T, D> complete)
     {
         return new AutoCompletable<T, D>()
@@ -37,15 +37,15 @@ public interface AutoCompletable<T, D> extends Iterable<T>
     }
     static <T> AutoCompletable<T, Void> of(Supplier<? extends T> start, Consumer<? super T> complete)
     {
-        return of(()->Pair.of(start.get(), null), (e, d)->complete.accept(e));
+        return of(() -> Pair.of(start.get(), null), (e, d) -> complete.accept(e));
     }
-    
+
     @Override
     default Iterator<T> iterator()
     {
         return new Itr<>(this);
     }
-    
+
     class Itr<T, D> implements Iterator<T>
     {
         AutoCompletable<T, D> owner;
@@ -55,7 +55,7 @@ public interface AutoCompletable<T, D> extends Iterable<T>
             this.owner = owner;
             this.data = owner.start();
         }
-        
+
         byte state = 0;
         @Override
         public boolean hasNext()
@@ -74,7 +74,7 @@ public interface AutoCompletable<T, D> extends Iterable<T>
         @Override
         public T next()
         {
-            if(this.state!=0)
+            if(this.state != 0)
                 throw new NoSuchElementException();
             this.state = 1;
             return this.data.getFirst();

@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.ProjectileDamageSource", end=1904))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.ProjectileDamageSource", end = 1904))
 public interface DamageSourceProjectileV_1904 extends WrapperObject
 {
     WrapperFactory<DamageSourceProjectileV_1904> FACTORY = WrapperFactory.of(DamageSourceProjectileV_1904.class);
@@ -18,9 +18,9 @@ public interface DamageSourceProjectileV_1904 extends WrapperObject
     {
         return WrapperObject.create(DamageSourceProjectileV_1904.class, wrapped);
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="attacker"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "attacker"))
     Entity getAttacker();
-    @WrapMinecraftFieldAccessor(@VersionName(name="attacker"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "attacker"))
     void setAttacker(Entity value);
 }

@@ -5,7 +5,7 @@ import mz.mzlib.util.wrapper.*;
 
 import java.util.Map;
 
-@VersionRange(begin=1300)
+@VersionRange(begin = 1300)
 @WrapClassForName("com.mojang.brigadier.tree.CommandNode")
 public interface CommandNodeV1300 extends WrapperObject
 {
@@ -16,14 +16,14 @@ public interface CommandNodeV1300 extends WrapperObject
     {
         return WrapperObject.create(CommandNodeV1300.class, wrapped);
     }
-    
+
     @WrapFieldAccessor("children")
     Map<String, ?> getChildren();
     @WrapFieldAccessor("literals")
     Map<String, ?> getLiterals();
     @WrapFieldAccessor("arguments")
     Map<String, ?> getArguments();
-    
+
     default void removeChild(String childName)
     {
         this.getChildren().remove(childName);

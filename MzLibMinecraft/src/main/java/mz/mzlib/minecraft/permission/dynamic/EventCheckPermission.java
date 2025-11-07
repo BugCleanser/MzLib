@@ -11,7 +11,7 @@ public abstract class EventCheckPermission extends Event implements Cancellable
     {
         this.player = player;
     }
-    
+
     public EntityPlayer getPlayer()
     {
         return this.player;
@@ -20,13 +20,13 @@ public abstract class EventCheckPermission extends Event implements Cancellable
     {
         this.setCancelled(true);
     }
-    
+
     public boolean check()
     {
         this.call();
         return !this.isCancelled();
     }
-    
+
     @Override
     public void call()
     {

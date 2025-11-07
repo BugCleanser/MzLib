@@ -12,12 +12,16 @@ public class CastCheckerAnalyzerMultiANewArrayInsnNode extends CastCheckerAnalyz
     public static CastCheckerAnalyzerMultiANewArrayInsnNode instance = new CastCheckerAnalyzerMultiANewArrayInsnNode();
 
     @Override
-    public Set<Integer> analyze(CastChecker caster, int index, MultiANewArrayInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker caster,
+        int index,
+        MultiANewArrayInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.MULTIANEWARRAY:
-                for (int i = 0; i < insn.dims; i++)
+                for(int i = 0; i < insn.dims; i++)
                 {
                     context.pop();
                 }

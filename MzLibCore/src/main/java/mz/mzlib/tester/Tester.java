@@ -5,7 +5,6 @@ import mz.mzlib.module.MzModule;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.async.AsyncFunction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,32 +15,32 @@ import java.util.concurrent.ForkJoinPool;
 public interface Tester<C extends TesterContext>
 {
     String getName();
-    
+
     Class<C> getContextType();
-    
+
     default int getMinLevel()
     {
         return 0;
     }
-    
+
     default boolean shouldTest(TesterContext context)
     {
-        return this.getContextType().isInstance(context) && context.level>=this.getMinLevel();
+        return this.getContextType().isInstance(context) && context.level >= this.getMinLevel();
     }
-    
+
     CompletableFuture<List<Throwable>> test(C context);
-    
+
     class Registrar implements IRegistrar<Tester<?>>
     {
         public static Registrar instance = new Registrar();
         public List<Tester<?>> testers = new CopyOnWriteArrayList<>();
-        
+
         @Override
         public Class<Tester<?>> getType()
         {
             return RuntimeUtil.cast(Tester.class);
         }
-        
+
         @Override
         public void register(MzModule module, Tester<?> object)
         {
@@ -53,7 +52,7 @@ public interface Tester<C extends TesterContext>
             this.testers.remove(object);
         }
     }
-    
+
     static CompletableFuture<Map<Tester<?>, List<Throwable>>> testAll(TesterContext testContext)
     {
         return new AsyncFunction<Map<Tester<?>, List<Throwable>>>()
@@ -61,7 +60,7 @@ public interface Tester<C extends TesterContext>
             protected Map<Tester<?>, List<Throwable>> template() throws Throwable
             {
                 Map<Tester<?>, List<Throwable>> result = new HashMap<>();
-                for(Tester<?> tester: Registrar.instance.testers)
+                for(Tester<?> tester : Registrar.instance.testers)
                 {
                     if(tester.shouldTest(testContext))
                     {

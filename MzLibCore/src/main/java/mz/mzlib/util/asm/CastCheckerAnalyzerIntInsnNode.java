@@ -11,9 +11,13 @@ public class CastCheckerAnalyzerIntInsnNode extends CastCheckerAnalyzer<IntInsnN
 {
     public static CastCheckerAnalyzerIntInsnNode instance = new CastCheckerAnalyzerIntInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, IntInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        IntInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.BIPUSH:
             case Opcodes.SIPUSH:

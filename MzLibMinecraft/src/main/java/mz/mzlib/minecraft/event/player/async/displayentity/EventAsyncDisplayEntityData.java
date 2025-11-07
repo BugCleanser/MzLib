@@ -14,18 +14,22 @@ import java.util.function.BiConsumer;
 
 public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS2cEntityData> implements EntityDataHolder, EventAsyncByPacket.Cancellable
 {
-    public EventAsyncDisplayEntityData(DisplayEntity displayEntity, PacketEvent.Specialized<PacketS2cEntityData> packetEvent)
+    public EventAsyncDisplayEntityData(
+        DisplayEntity displayEntity,
+        PacketEvent.Specialized<PacketS2cEntityData> packetEvent)
     {
         super(displayEntity, packetEvent);
     }
-    
+
     // TODO
-    
+
     @Override
     public Option<Object> getData(EntityDataKey key)
     {
         for(Object result : EventAsyncDisplayEntityData.this.getPacket().getData(key))
+        {
             return Option.some(result);
+        }
         return EventAsyncDisplayEntityData.this.getDisplayEntity().getData(key);
     }
     @Override
@@ -44,18 +48,18 @@ public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS
     public void forEachData(BiConsumer<EntityDataKey, Object> action)
     {
         Set<EntityDataKey> set = new HashSet<>();
-        EventAsyncDisplayEntityData.this.getPacket().forEachData((k, v)->
+        EventAsyncDisplayEntityData.this.getPacket().forEachData((k, v) ->
         {
             set.add(k);
             action.accept(k, v);
         });
-        EventAsyncDisplayEntityData.this.getDisplayEntity().forEachData((k, v)->
+        EventAsyncDisplayEntityData.this.getDisplayEntity().forEachData((k, v) ->
         {
             if(set.add(k))
                 action.accept(k, v);
         });
     }
-    
+
     @Override
     public void call()
     {

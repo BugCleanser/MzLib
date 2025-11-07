@@ -11,9 +11,13 @@ public class CastCheckerAnalyzerVarInsnNode extends CastCheckerAnalyzer<VarInsnN
 {
     public static CastCheckerAnalyzerVarInsnNode instance = new CastCheckerAnalyzerVarInsnNode();
 
-    public Set<Integer> analyze(CastChecker analyzer, int index, VarInsnNode insn, Stack<CastChecker.OperandVisitor> context)
+    public Set<Integer> analyze(
+        CastChecker analyzer,
+        int index,
+        VarInsnNode insn,
+        Stack<CastChecker.OperandVisitor> context)
     {
-        switch (insn.getOpcode())
+        switch(insn.getOpcode())
         {
             case Opcodes.ILOAD:
             case Opcodes.LLOAD:

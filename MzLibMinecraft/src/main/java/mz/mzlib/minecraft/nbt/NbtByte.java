@@ -8,7 +8,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(end = 1400, name = "net.minecraft.nbt.NbtByte"), @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.ByteTag"), @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtByte")})
+@WrapMinecraftClass({
+    @VersionName(end = 1400, name = "net.minecraft.nbt.NbtByte"),
+    @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.ByteTag"),
+    @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtByte")
+})
 public interface NbtByte extends NbtElement
 {
     WrapperFactory<NbtByte> FACTORY = WrapperFactory.of(NbtByte.class);
@@ -18,7 +22,7 @@ public interface NbtByte extends NbtElement
     {
         return WrapperObject.create(NbtByte.class, wrapped);
     }
-    
+
     static NbtByte newInstance(boolean value)
     {
         return newInstance(value ? (byte) 1 : (byte) 0);
@@ -30,10 +34,16 @@ public interface NbtByte extends NbtElement
     @WrapConstructor
     NbtByte static$newInstance(byte value);
 
-    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3817", begin=2105)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "value", end = 2105),
+        @VersionName(name = "comp_3817", begin = 2105)
+    })
     byte getValue();
-    
+
     @Deprecated
-    @WrapMinecraftFieldAccessor({@VersionName(name="value", end=2105), @VersionName(name="comp_3817", begin=2105)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "value", end = 2105),
+        @VersionName(name = "comp_3817", begin = 2105)
+    })
     void setValue(byte value);
 }

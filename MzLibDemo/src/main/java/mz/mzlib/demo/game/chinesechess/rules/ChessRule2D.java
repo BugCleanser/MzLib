@@ -6,6 +6,7 @@ import mz.mzlib.demo.game.chinesechess.other.Position2D;
 import java.util.List;
 
 @FunctionalInterface
-public interface ChessRule2D {
+public interface ChessRule2D
+{
     List<Position2D> generateSelectables(Chess2D chess);
 }

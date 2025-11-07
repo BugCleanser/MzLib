@@ -10,7 +10,7 @@ public class EventServerStart extends EventServer implements Cancellable
         super(server);
     }
     public boolean successful = true;
-    
+
     @Override
     public void call()
     {

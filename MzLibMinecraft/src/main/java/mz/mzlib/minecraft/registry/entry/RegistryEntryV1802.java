@@ -11,7 +11,10 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Optional;
 
 // Mojang: net.minecraft.core.Holder
-@WrapMinecraftClass({@VersionName(name="net.minecraft.util.registry.RegistryEntry", begin=1802, end=1903),@VersionName(name = "net.minecraft.registry.entry.RegistryEntry", begin = 1903)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.util.registry.RegistryEntry", begin = 1802, end = 1903),
+    @VersionName(name = "net.minecraft.registry.entry.RegistryEntry", begin = 1903)
+})
 public interface RegistryEntryV1802 extends WrapperObject
 {
     WrapperFactory<RegistryEntryV1802> FACTORY = WrapperFactory.of(RegistryEntryV1802.class);
@@ -22,7 +25,7 @@ public interface RegistryEntryV1802 extends WrapperObject
         return WrapperObject.create(RegistryEntryV1802.class, wrapped);
     }
 
-    @WrapMinecraftMethod(@VersionName(name="getKey"))
+    @WrapMinecraftMethod(@VersionName(name = "getKey"))
     Optional<Object> getKey0();
     default Optional<RegistryKeyV1600> getKey()
     {

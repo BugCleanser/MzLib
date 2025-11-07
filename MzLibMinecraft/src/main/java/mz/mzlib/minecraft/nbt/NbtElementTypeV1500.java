@@ -11,7 +11,10 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.io.DataInput;
 
-@WrapMinecraftClass({@VersionName(name="net.minecraft.nbt.TagReader", begin=1500, end=1605), @VersionName(name="net.minecraft.nbt.NbtType", begin=1605)})
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.nbt.TagReader", begin = 1500, end = 1605),
+    @VersionName(name = "net.minecraft.nbt.NbtType", begin = 1605)
+})
 public interface NbtElementTypeV1500 extends WrapperObject
 {
     WrapperFactory<NbtElementTypeV1500> FACTORY = WrapperFactory.of(NbtElementTypeV1500.class);
@@ -21,17 +24,17 @@ public interface NbtElementTypeV1500 extends WrapperObject
     {
         return WrapperObject.create(NbtElementTypeV1500.class, wrapped);
     }
-    
+
     NbtElement load(DataInput input, NbtReadingCounter counter);
-    @WrapMinecraftMethod(@VersionName(name="read", end=2002))
+    @WrapMinecraftMethod(@VersionName(name = "read", end = 2002))
     NbtElement loadV_2002(DataInput input, int depth, NbtReadingCounter counter);
     @SpecificImpl("load")
-    @VersionRange(end=2002)
+    @VersionRange(end = 2002)
     default NbtElement loadV_2002(DataInput input, NbtReadingCounter counter)
     {
         return loadV_2002(input, 0, counter);
     }
     @SpecificImpl("load")
-    @WrapMinecraftMethod(@VersionName(name="read", begin=2002))
+    @WrapMinecraftMethod(@VersionName(name = "read", begin = 2002))
     NbtElement loadV2002(DataInput input, NbtReadingCounter counter);
 }

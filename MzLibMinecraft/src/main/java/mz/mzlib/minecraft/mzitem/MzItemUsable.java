@@ -15,28 +15,30 @@ public interface MzItemUsable extends MzItem
     {
         return true;
     }
-    
+
     class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventPlayerUseItem.class, Priority.VERY_LOW, event ->
+            this.register(new EventListener<>(
+                EventPlayerUseItem.class, Priority.VERY_LOW, event ->
             {
                 if(event.isCancelled())
                     return;
-                for(MzItem mzItem: RegistrarMzItem.instance.toMzItem(event.getItemStack()))
+                for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(event.getItemStack()))
                 {
                     if(mzItem instanceof MzItemUnknown)
                         event.setCancelled(true);
                     if(!(mzItem instanceof MzItemUsable))
                         return;
-                    if(!((MzItemUsable)mzItem).use(event.getPlayer(), event.getHand()))
+                    if(!((MzItemUsable) mzItem).use(event.getPlayer(), event.getHand()))
                         event.setCancelled(true);
                 }
-            }));
+            }
+            ));
         }
     }
 }

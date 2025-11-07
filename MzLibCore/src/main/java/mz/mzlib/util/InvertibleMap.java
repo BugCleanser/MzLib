@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> implements Map<K, V>
 {
     protected Map<K, V> delegate;
-    
+
     public InvertibleMap(InvertibleMap<V, K> inverse, Map<K, V> delegate)
     {
         this.inverse = inverse;
@@ -24,13 +24,13 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
     {
         this(HashMap::new);
     }
-    
+
     @Override
     protected InvertibleMap<V, K> invert()
     {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public int size()
     {
@@ -77,7 +77,9 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
     public void putAll(Map<? extends K, ? extends V> m)
     {
         for(Entry<? extends K, ? extends V> e : m.entrySet())
+        {
             this.put(e.getKey(), e.getValue());
+        }
     }
     @Override
     public void clear()
@@ -150,6 +152,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             this.delegate.remove();
         }
     }
+
     public class IteratorEntry extends Itr implements Iterator<Entry<K, V>>
     {
         @Override
@@ -158,6 +161,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             return this.nextEntry();
         }
     }
+
     public class IteratorKey extends Itr implements Iterator<K>
     {
         @Override
@@ -166,6 +170,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             return this.nextEntry().getKey();
         }
     }
+
     public class IteratorValue extends Itr implements Iterator<V>
     {
         @Override
@@ -199,15 +204,15 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             {
                 if(!(o instanceof Entry))
                     return false;
-                Entry<?, ?> e = (Entry<?, ?>)o;
-                return InvertibleMap.this.containsKey(e.getKey()) && InvertibleMap.this.get(e.getKey())==e.getValue();
+                Entry<?, ?> e = (Entry<?, ?>) o;
+                return InvertibleMap.this.containsKey(e.getKey()) && InvertibleMap.this.get(e.getKey()) == e.getValue();
             }
             @Override
             public boolean remove(Object o)
             {
                 if(!(o instanceof Entry))
                     return false;
-                Entry<?, ?> e = (Entry<?, ?>)o;
+                Entry<?, ?> e = (Entry<?, ?>) o;
                 return InvertibleMap.this.remove(e.getKey(), e.getValue());
             }
         };

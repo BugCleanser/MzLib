@@ -2,7 +2,7 @@ package mz.mzlib.util;
 
 import mz.mzlib.util.wrapper.*;
 
-@JvmVersion(begin=9)
+@JvmVersion(begin = 9)
 @WrapClassForName("java.lang.Module")
 public interface WrapperModuleJ9 extends WrapperObject
 {
@@ -13,7 +13,7 @@ public interface WrapperModuleJ9 extends WrapperObject
     {
         return WrapperObject.create(WrapperModuleJ9.class, wrapped);
     }
-    
+
     @WrapMethod("isOpen")
     boolean isOpen(String packageName, WrapperModuleJ9 target);
 }

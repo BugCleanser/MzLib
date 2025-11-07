@@ -15,7 +15,7 @@ import java.lang.reflect.AnnotatedElement;
  */
 @Deprecated
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD })
 @ElementSwitcherClass(PaperEnabled.Switcher.class)
 public @interface PaperEnabled
 {
@@ -23,7 +23,8 @@ public @interface PaperEnabled
     {
         public boolean isEnabled(PaperEnabled annotation, AnnotatedElement element)
         {
-            return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit && MinecraftPlatformBukkit.instance.isPaper;
+            return MinecraftPlatform.instance instanceof MinecraftPlatformBukkit &&
+                MinecraftPlatformBukkit.instance.isPaper;
         }
     }
 }

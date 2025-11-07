@@ -14,53 +14,53 @@ public class ExampleCompound
     public static class Foo
     {
         int var;
-        
+
         public Foo(int var)
         {
             this.var = var;
         }
-        
+
         public void f()
         {
             System.out.println("Hello World");
         }
-        
+
         public void g()
         {
             f();
             System.out.println(this.var);
         }
     }
-    
+
     @WrapClass(Foo.class)
     public interface WrapperFoo extends WrapperObject
     {
         WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.of(WrapperFoo.class);
-        
+
         @WrapMethod("f")
         void f();
-        
+
         @WrapMethod("g")
         void g();
     }
-    
+
     @Compound
     public interface CompoundFoo extends WrapperFoo, Delegator
     {
         WrapperFactory<CompoundFoo> FACTORY = WrapperFactory.of(CompoundFoo.class);
-        
+
         static CompoundFoo newInstance(Foo delegate)
         {
             return Delegator.newInstance(FACTORY, delegate);
         }
-        
-        @CompoundOverride(parent=WrapperFoo.class, method="f")
+
+        @CompoundOverride(parent = WrapperFoo.class, method = "f")
         default void f()
         {
             System.out.println("Fuck you World");
         }
     }
-    
+
     @Test
     public void test() throws Throwable
     {

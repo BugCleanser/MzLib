@@ -21,9 +21,9 @@ import java.lang.reflect.AnnotatedElement;
 public @interface WrapMinecraftInnerClass
 {
     Class<? extends WrapperObject> outer();
-    
+
     VersionName[] name();
-    
+
     class Handler implements ElementSwitcher<WrapMinecraftInnerClass>, WrappedClassFinder<WrapMinecraftInnerClass>
     {
         @Override
@@ -31,30 +31,34 @@ public @interface WrapMinecraftInnerClass
         {
             if(!ElementSwitcher.isEnabled(annotation.outer()))
                 return false;
-            for(VersionName n: annotation.name())
+            for(VersionName n : annotation.name())
             {
                 if(MinecraftPlatform.instance.inVersion(n))
                     return true;
             }
             return false;
         }
-        
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftInnerClass annotation) throws ClassNotFoundException
+
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapMinecraftInnerClass annotation)
+            throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
-            
+
             ClassNotFoundException lastException = null;
-            for(VersionName inner: annotation.name())
+            for(VersionName inner : annotation.name())
             {
                 if(!MinecraftPlatform.instance.inVersion(inner))
                     continue;
                 if(inner.remap())
                 {
-                    for(String outer: WrapMinecraftClass.Handler.getName(annotation.outer()))
+                    for(String outer : WrapMinecraftClass.Handler.getName(annotation.outer()))
                     {
                         try
                         {
-                            return Class.forName(MinecraftPlatform.instance.getMappings().inverse().mapClass(outer+"$"+inner.name()), false, classLoader);
+                            return Class.forName(
+                                MinecraftPlatform.instance.getMappings().inverse().mapClass(outer + "$" + inner.name()),
+                                false, classLoader
+                            );
                         }
                         catch(ClassNotFoundException e)
                         {
@@ -66,7 +70,11 @@ public @interface WrapMinecraftInnerClass
                 {
                     try
                     {
-                        return Class.forName(MinecraftPlatform.instance.getMappings().inverse().mapClass(WrapperObject.getWrappedClass(annotation.outer()).getName()+"$"+inner.name()), false, classLoader);
+                        return Class.forName(
+                            MinecraftPlatform.instance.getMappings().inverse().mapClass(
+                                WrapperObject.getWrappedClass(annotation.outer()).getName() + "$" + inner.name()), false,
+                            classLoader
+                        );
                     }
                     catch(ClassNotFoundException e)
                     {
@@ -74,8 +82,8 @@ public @interface WrapMinecraftInnerClass
                     }
                 }
             }
-            
-            if(lastException!=null)
+
+            if(lastException != null)
                 throw lastException;
             return null;
         }

@@ -13,24 +13,24 @@ public class MergedClassLoader extends ClassLoader
     @Override
     protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
     {
-        if (!loadingClasses.add(name))
+        if(!loadingClasses.add(name))
         {
             return null;
         }
         try
         {
-            for (ClassLoader i : classLoaders)
+            for(ClassLoader i : classLoaders)
             {
                 try
                 {
                     Class<?> result = i.loadClass(name);
-                    if (resolve)
+                    if(resolve)
                     {
                         this.resolveClass(result);
                     }
                     return result;
                 }
-                catch (ClassNotFoundException ignore)
+                catch(ClassNotFoundException ignore)
                 {
                 }
             }

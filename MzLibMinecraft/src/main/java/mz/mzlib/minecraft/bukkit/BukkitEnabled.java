@@ -15,7 +15,7 @@ import java.lang.reflect.AnnotatedElement;
  */
 @Deprecated
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
+@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD })
 @ElementSwitcherClass(BukkitEnabled.Handler.class)
 public @interface BukkitEnabled
 {

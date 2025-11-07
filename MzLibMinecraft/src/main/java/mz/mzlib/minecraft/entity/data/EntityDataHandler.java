@@ -7,7 +7,10 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({@VersionName(name="byte", remap=false, end=900), @VersionName(name="net.minecraft.entity.data.TrackedDataHandler", begin=900)})
+@WrapMinecraftClass({
+    @VersionName(name = "byte", remap = false, end = 900),
+    @VersionName(name = "net.minecraft.entity.data.TrackedDataHandler", begin = 900)
+})
 public interface EntityDataHandler<T> extends WrapperObject
 {
     WrapperFactory<EntityDataHandler<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(EntityDataHandler.class));

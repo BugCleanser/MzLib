@@ -26,7 +26,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     @Override
     public void register(MzModule module, IRegistrar<?> object)
     {
-        synchronized (registrars)
+        synchronized(registrars)
         {
             registrars.computeIfAbsent(object.getType(), t -> ConcurrentHashMap.newKeySet()).add(object);
         }
@@ -35,7 +35,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     @Override
     public void unregister(MzModule module, IRegistrar<?> object)
     {
-        synchronized (registrars)
+        synchronized(registrars)
         {
             registrars.get(object.getType()).remove(object);
         }

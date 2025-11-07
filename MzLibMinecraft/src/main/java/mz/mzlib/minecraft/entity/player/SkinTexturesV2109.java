@@ -8,22 +8,22 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=2109)
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.SkinTextures"))
+@VersionRange(begin = 2109)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.player.SkinTextures"))
 public interface SkinTexturesV2109 extends WrapperObject
 {
     WrapperFactory<SkinTexturesV2109> FACTORY = WrapperFactory.of(SkinTexturesV2109.class);
-    
-    @WrapMinecraftInnerClass(outer=SkinTexturesV2109.class, name=@VersionName(name="SkinOverride"))
+
+    @WrapMinecraftInnerClass(outer = SkinTexturesV2109.class, name = @VersionName(name = "SkinOverride"))
     interface SkinOverride extends WrapperObject
     {
         WrapperFactory<SkinOverride> FACTORY = WrapperFactory.of(SkinOverride.class);
-        
+
         static SkinOverride empty()
         {
             return FACTORY.getStatic().static$empty();
         }
-        @WrapMinecraftFieldAccessor(@VersionName(name="EMPTY"))
+        @WrapMinecraftFieldAccessor(@VersionName(name = "EMPTY"))
         SkinOverride static$empty();
     }
 }

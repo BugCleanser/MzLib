@@ -21,7 +21,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.OptionalInt;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.entity.player.PlayerEntity"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.player.PlayerEntity"))
 public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
 {
     WrapperFactory<AbstractEntityPlayer> FACTORY = WrapperFactory.of(AbstractEntityPlayer.class);
@@ -31,84 +31,103 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     {
         return WrapperObject.create(AbstractEntityPlayer.class, wrapped);
     }
-    
-    @WrapMinecraftMethod(@VersionName(name="getGameProfile"))
+
+    @WrapMinecraftMethod(@VersionName(name = "getGameProfile"))
     GameProfile getGameProfile();
-    
-    @WrapMinecraftMethod(@VersionName(name="getPlayerConfigEntry"))
-    @VersionRange(begin=2109)
+
+    @WrapMinecraftMethod(@VersionName(name = "getPlayerConfigEntry"))
+    @VersionRange(begin = 2109)
     PlayerConfigEntryV2109 getPlayerConfigEntryV2109();
-    
+
     default String getName()
     {
         return this.getGameProfile().getName().unwrap();
     }
-    
-    @WrapMinecraftFieldAccessor(@VersionName(name="inventory"))
+
+    @WrapMinecraftFieldAccessor(@VersionName(name = "inventory"))
     InventoryPlayer getInventory();
-    
+
     /**
      * The open window
      * or player inventory window if no window is open
      */
-    @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "openScreenHandler", end = 1400),
+        @VersionName(name = "container", begin = 1400, end = 1600),
+        @VersionName(name = "currentScreenHandler", begin = 1600)
+    })
     Window getCurrentWindow();
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="openScreenHandler", end=1400), @VersionName(name="container", begin=1400, end=1600), @VersionName(name="currentScreenHandler", begin=1600)})
+
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "openScreenHandler", end = 1400),
+        @VersionName(name = "container", begin = 1400, end = 1600),
+        @VersionName(name = "currentScreenHandler", begin = 1600)
+    })
     void setCurrentWindow(Window value);
-    
-    @WrapMinecraftFieldAccessor({@VersionName(name="playerScreenHandler", end=1400), @VersionName(name="playerContainer", begin=1400, end=1600), @VersionName(name="playerScreenHandler", begin=1600)})
+
+    @WrapMinecraftFieldAccessor({
+        @VersionName(name = "playerScreenHandler", end = 1400),
+        @VersionName(name = "playerContainer", begin = 1400, end = 1600),
+        @VersionName(name = "playerScreenHandler", begin = 1600)
+    })
     Window getDefaultWindow();
-    
+
     default Window getWindow(int syncId)
     {
-        if(syncId==0 || syncId==-1)
+        if(syncId == 0 || syncId == -1)
             return this.getDefaultWindow();
-        else if(syncId==this.getCurrentWindow().getSyncId())
+        else if(syncId == this.getCurrentWindow().getSyncId())
             return this.getCurrentWindow();
         else
             return Window.FACTORY.getStatic();
     }
-    
+
     void sendMessage(Text message);
-    
-    @VersionRange(begin=1100, end=1300)
-    @VersionRange(begin=1600)
-    @WrapMinecraftMethod(@VersionName(name="sendMessage"))
+
+    @VersionRange(begin = 1100, end = 1300)
+    @VersionRange(begin = 1600)
+    @WrapMinecraftMethod(@VersionName(name = "sendMessage"))
     void sendMessageV1100_1300__1600(Text message, boolean actionBar);
-    
-    @VersionRange(begin=1100, end=1300)
-    @VersionRange(begin=1600)
+
+    @VersionRange(begin = 1100, end = 1300)
+    @VersionRange(begin = 1600)
     @SpecificImpl("sendMessage")
     default void sendMessageV1100_1300__1600(Text message)
     {
         this.sendMessageV1100_1300__1600(message, false);
     }
-    
+
     void openWindow(WindowFactory windowFactory);
-    
+
     @SpecificImpl("openWindow")
-    @VersionRange(end=1400)
-    @WrapMinecraftMethod(@VersionName(name="openHandledScreen"))
+    @VersionRange(end = 1400)
+    @WrapMinecraftMethod(@VersionName(name = "openHandledScreen"))
     void openWindowV_1400(WindowFactory windowFactory);
-    
-    @VersionRange(begin=1400)
-    @WrapMinecraftMethod({@VersionName(name="openContainer", end=1600), @VersionName(name="openHandledScreen", begin=1600)})
+
+    @VersionRange(begin = 1400)
+    @WrapMinecraftMethod({
+        @VersionName(name = "openContainer", end = 1600),
+        @VersionName(name = "openHandledScreen", begin = 1600)
+    })
     OptionalInt openWindowV1400(WindowFactory windowFactory);
-    
+
     @SpecificImpl("openWindow")
-    @VersionRange(begin=1400)
+    @VersionRange(begin = 1400)
     default void openWindowSpecificImplV1400(WindowFactory windowFactory)
     {
         OptionalInt ignored = this.openWindowV1400(windowFactory);
     }
-    
-    @WrapMinecraftMethod({@VersionName(name="closeHandledScreen", end=1400), @VersionName(name="closeContainer", begin=1400, end=1600), @VersionName(name="closeHandledScreen", begin=1600)})
+
+    @WrapMinecraftMethod({
+        @VersionName(name = "closeHandledScreen", end = 1400),
+        @VersionName(name = "closeContainer", begin = 1400, end = 1600),
+        @VersionName(name = "closeHandledScreen", begin = 1600)
+    })
     void closeInterface();
-    
-    @WrapMinecraftMethod(@VersionName(name="dropItem"))
+
+    @WrapMinecraftMethod(@VersionName(name = "dropItem"))
     EntityItem drop(ItemStack itemStack, boolean retainOwnership);
-    
+
     default void give(ItemStack is)
     {
         this.getInventory().addItemStack(is);
@@ -117,25 +136,29 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
             EntityItem ignored = this.drop(is, true);
         }
     }
-    
+
     void openBook0(ItemStack book);
-    
+
     @SpecificImpl("openBook0")
-    @VersionRange(end=900)
-    @WrapMinecraftMethod(@VersionName(name="openBookEditScreen"))
+    @VersionRange(end = 900)
+    @WrapMinecraftMethod(@VersionName(name = "openBookEditScreen"))
     void openBook0V_900(ItemStack book);
-    
-    @VersionRange(begin=900)
-    @WrapMinecraftMethod({@VersionName(name="method_3201", end=1400), @VersionName(name="openEditBookScreen", begin=1400, end=1605), @VersionName(name="useBook", begin=1605)})
+
+    @VersionRange(begin = 900)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_3201", end = 1400),
+        @VersionName(name = "openEditBookScreen", begin = 1400, end = 1605),
+        @VersionName(name = "useBook", begin = 1605)
+    })
     void openBook0V900(ItemStack book, Hand hand);
-    
+
     @SpecificImpl("openBook0")
-    @VersionRange(begin=900)
+    @VersionRange(begin = 900)
     default void openBook0V900(ItemStack book)
     {
         this.openBook0V900(book, Hand.mainHand());
     }
-    
+
     default ItemStack getHandItemStack()
     {
         return this.getInventory().getHandItemStack();

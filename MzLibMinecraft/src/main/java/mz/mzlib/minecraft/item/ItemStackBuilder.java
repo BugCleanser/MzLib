@@ -22,15 +22,15 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     public static final Colored CONCRETE_V1200 = new Colored("concrete");
     public static final Colored CONCRETE_POWDER_V1200 = new Colored("concrete_powder");
     public static final Colored GLAZED_TERRACOTTA_V1200 = new Colored("glazed_terracotta");
-    
+
     public static ItemStackBuilder forFlattening(String idV_1300, int damageV_1300, String idV1300)
     {
-        if(MinecraftPlatform.instance.getVersion()<1300)
+        if(MinecraftPlatform.instance.getVersion() < 1300)
             return new ItemStackBuilder(idV_1300).setDamageV_1300(damageV_1300);
         else
             return new ItemStackBuilder(idV1300);
     }
-    
+
     public static ItemStackBuilder playerHead(GameProfile.Description description)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
@@ -57,7 +57,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     {
         return playerHead(GameProfile.Description.texturesUrl(texturesUrl));
     }
-    
+
     public ItemStack result;
     public ItemStackBuilder(ItemStack itemStack)
     {
@@ -71,7 +71,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     {
         this(item, 1);
     }
-    
+
     public ItemStackBuilder(Identifier item, int count)
     {
         this(Item.fromId(item), count);
@@ -80,7 +80,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     {
         this(item, 1);
     }
-    
+
     public ItemStackBuilder(String item, int count)
     {
         this(Identifier.newInstance(item), count);
@@ -89,41 +89,41 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     {
         this(item, 1);
     }
-    
+
     public ItemStackBuilder setCount(int count)
     {
         this.result.setCount(count);
         return this;
     }
-    
+
     public ItemStackBuilder setDamageV_1300(int damage)
     {
         this.result.setDamageV_1300(damage);
         return this;
     }
-    
+
     public ItemStackBuilder setCustomName(Text value)
     {
         Item.setCustomName(this.result, Option.some(value));
         return this;
     }
-    
+
     public ItemStackBuilder setLore(Text... value)
     {
         Item.setLore(this.result, Option.some(Arrays.asList(value)));
         return this;
     }
-    
+
     public ItemStack get()
     {
         return this.result;
     }
-    
+
     public ItemStackBuilder copy()
     {
         return new ItemStackBuilder(ItemStack.copy(this.result));
     }
-    
+
     public static class Colored
     {
         InvertibleMap<String, Integer> colorDamages;
@@ -155,13 +155,13 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
         {
             this(baseId, baseId);
         }
-        
+
         public ItemStackBuilder build(String color)
         {
-            if(MinecraftPlatform.instance.getVersion()<1300)
+            if(MinecraftPlatform.instance.getVersion() < 1300)
                 return new ItemStackBuilder(this.idV_1300).setDamageV_1300(this.colorDamages.get(color));
             else
-                return new ItemStackBuilder(color+"_"+this.baseIdV1300);
+                return new ItemStackBuilder(color + "_" + this.baseIdV1300);
         }
         public ItemStackBuilder white()
         {
@@ -228,20 +228,20 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
             return this.build("black");
         }
     }
-    
+
     public static class ColoredReversed extends Colored
     {
         public ColoredReversed(String idV_1300, String baseIdV1300)
         {
             super(idV_1300, baseIdV1300);
-            this.colorDamages.replaceAll((k, v)->15-v);
+            this.colorDamages.replaceAll((k, v) -> 15 - v);
         }
         public ColoredReversed(String baseId)
         {
             this(baseId, baseId);
         }
     }
-    
+
     public static class ColoredShulkerBox extends Colored
     {
         public ColoredShulkerBox()
@@ -251,18 +251,18 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
         @Override
         public ItemStackBuilder build(String color)
         {
-            return new ItemStackBuilder(color+"_"+this.baseIdV1300);
+            return new ItemStackBuilder(color + "_" + this.baseIdV1300);
         }
         @Override
         public ItemStackBuilder lightGray()
         {
-            if(MinecraftPlatform.instance.getVersion()<1300)
+            if(MinecraftPlatform.instance.getVersion() < 1300)
                 return this.build("silver");
             else
                 return super.lightGray();
         }
     }
-    
+
     /**
      * Use in js
      */
@@ -296,29 +296,29 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     @Deprecated
     public ItemStackBuilder set(Map<String, Object> prop)
     {
-        for(Map.Entry<String, Object> e: prop.entrySet())
+        for(Map.Entry<String, Object> e : prop.entrySet())
         {
             Object value = Objects.requireNonNull(JsUtil.toJvm(e.getValue()));
             switch(e.getKey())
             {
                 case "count":
-                    this.setCount(((Number)value).intValue());
+                    this.setCount(((Number) value).intValue());
                     break;
                 case "damage":
-                    if(MinecraftPlatform.instance.getVersion()<1300)
-                        this.setDamageV_1300(((Number)value).intValue());
+                    if(MinecraftPlatform.instance.getVersion() < 1300)
+                        this.setDamageV_1300(((Number) value).intValue());
                     break;
                 case "customName":
                     if(value instanceof Text)
-                        this.setCustomName((Text)value);
+                        this.setCustomName((Text) value);
                     else
                         this.setCustomName(Text.literal(value.toString()));
                     break;
                 case "lore":
-                    this.setLore(RuntimeUtil.<List<Object>>cast(value).stream().map(o->
+                    this.setLore(RuntimeUtil.<List<Object>>cast(value).stream().map(o ->
                     {
                         if(o instanceof Text)
-                            return (Text)o;
+                            return (Text) o;
                         return Text.literal(o.toString());
                     }).toArray(Text[]::new));
                     break;

@@ -23,39 +23,41 @@ public class NothingInjectLocating
     {
         this(insns, 0);
     }
-    
+
     public void offset(int offset)
     {
-        this.forEach(l->
+        this.forEach(l ->
         {
-            int result = l+offset;
-            if(result>=0 && result<insns.length)
+            int result = l + offset;
+            if(result >= 0 && result < insns.length)
                 return Collections.singleton(result);
             else
                 return Collections.emptySet();
         });
     }
-    
+
     public void tagLocalVar(String tag)
     {
-        for(int l: this.locations)
+        for(int l : this.locations)
         {
             if(!(this.insns[l] instanceof VarInsnNode))
-                throw new IllegalStateException("Try to tag local var but current insn is not var insn node: "+this.insns[l]);
-            int index = ((VarInsnNode)this.insns[l]).var;
+                throw new IllegalStateException(
+                    "Try to tag local var but current insn is not var insn node: " + this.insns[l]);
+            int index = ((VarInsnNode) this.insns[l]).var;
             if(this.taggedLocalVars.containsKey(tag) && !Objects.equals(this.taggedLocalVars.get(tag), index))
-                throw new IllegalStateException("Tagging local var conflict: "+index+" and "+this.taggedLocalVars.get(tag)+".");
+                throw new IllegalStateException(
+                    "Tagging local var conflict: " + index + " and " + this.taggedLocalVars.get(tag) + ".");
             this.taggedLocalVars.put(tag, index);
         }
     }
-    
+
     public void next(int opcode)
     {
         this.next(opcode, Integer.MAX_VALUE);
     }
     public void next(int opcode, int limit)
     {
-        this.next(l->insns[l].getOpcode()==opcode, limit);
+        this.next(l -> insns[l].getOpcode() == opcode, limit);
     }
     public void allLater(int opcode)
     {
@@ -63,7 +65,7 @@ public class NothingInjectLocating
     }
     public void allLater(int opcode, int limit)
     {
-        this.allLater(l->insns[l].getOpcode()==opcode, limit);
+        this.allLater(l -> insns[l].getOpcode() == opcode, limit);
     }
     public void next(AbstractInsnNode insn)
     {
@@ -71,17 +73,17 @@ public class NothingInjectLocating
     }
     public void next(AbstractInsnNode insn, int limit)
     {
-        this.next(l->AsmUtil.equals(insns[l], insn), limit);
+        this.next(l -> AsmUtil.equals(insns[l], insn), limit);
     }
-    
+
     public void next(Predicate<Integer> predicate, int limit)
     {
-        this.forEach(l->
+        this.forEach(l ->
         {
-            for(long i = l+1, end = Math.min(insns.length, 1+l+(long)limit); i<end; i++)
+            for(long i = l + 1, end = Math.min(insns.length, 1 + l + (long) limit); i < end; i++)
             {
-                if(predicate.test((int)i))
-                    return Collections.singleton((int)i);
+                if(predicate.test((int) i))
+                    return Collections.singleton((int) i);
             }
             return Collections.emptySet();
         });
@@ -92,13 +94,13 @@ public class NothingInjectLocating
     }
     public void allLater(Predicate<Integer> predicate, int limit)
     {
-        this.forEach(l->
+        this.forEach(l ->
         {
             HashSet<Integer> result = new HashSet<>();
-            for(long i = l+1, end = Math.min(insns.length, 1+l+(long)limit); i<end; i++)
+            for(long i = l + 1, end = Math.min(insns.length, 1 + l + (long) limit); i < end; i++)
             {
-                if(predicate.test((int)i))
-                    result.add((int)i);
+                if(predicate.test((int) i))
+                    result.add((int) i);
             }
             return result;
         });
@@ -107,7 +109,7 @@ public class NothingInjectLocating
     {
         this.allLater(predicate, Integer.MAX_VALUE);
     }
-    
+
     public void forEach(Function<Integer, Set<Integer>> action)
     {
         this.locations = this.locations.stream().map(action).flatMap(Set::stream).collect(Collectors.toSet());

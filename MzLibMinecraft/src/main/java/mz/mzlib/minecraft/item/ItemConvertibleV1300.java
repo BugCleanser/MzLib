@@ -8,8 +8,11 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin=1300)
-@WrapMinecraftClass({@VersionName(name="net.minecraft.item.Itemable", end=1400), @VersionName(name="net.minecraft.item.ItemConvertible", begin=1400)})
+@VersionRange(begin = 1300)
+@WrapMinecraftClass({
+    @VersionName(name = "net.minecraft.item.Itemable", end = 1400),
+    @VersionName(name = "net.minecraft.item.ItemConvertible", begin = 1400)
+})
 public interface ItemConvertibleV1300 extends WrapperObject
 {
     WrapperFactory<ItemConvertibleV1300> FACTORY = WrapperFactory.of(ItemConvertibleV1300.class);
@@ -20,6 +23,6 @@ public interface ItemConvertibleV1300 extends WrapperObject
         return WrapperObject.create(ItemConvertibleV1300.class, wrapped);
     }
 
-    @WrapMinecraftMethod({@VersionName(name="getItem",end=1400),@VersionName(name="asItem",begin=1400)})
+    @WrapMinecraftMethod({ @VersionName(name = "getItem", end = 1400), @VersionName(name = "asItem", begin = 1400) })
     Item asItem();
 }

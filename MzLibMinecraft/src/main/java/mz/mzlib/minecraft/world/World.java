@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.server.world.ServerWorld"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.server.world.ServerWorld"))
 public interface World extends WrapperObject, AbstractWorld
 {
     WrapperFactory<World> FACTORY = WrapperFactory.of(World.class);

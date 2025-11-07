@@ -6,7 +6,7 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name="net.minecraft.block.entity.BlockEntity"))
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.block.entity.BlockEntity"))
 public interface BlockEntity extends WrapperObject
 {
     WrapperFactory<BlockEntity> FACTORY = WrapperFactory.of(BlockEntity.class);

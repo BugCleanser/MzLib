@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 public class ServerModule implements Registrable
 {
     public MzModule module;
-    
+
     public ServerModule(MzModule module)
     {
         this.module = module;
     }
-    
+
     public static LinkedHashMap<ServerModule, MzModule> moduleParents = new LinkedHashMap<>();
-    
+
     @Override
     public void onRegister(MzModule module)
     {
@@ -32,18 +32,19 @@ public class ServerModule implements Registrable
     {
         moduleParents.remove(this);
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
-            this.register(new EventListener<>(EventServerStart.class, event->event.runLater(()->
+            this.register(new EventListener<>(
+                EventServerStart.class, event -> event.runLater(() ->
             {
                 this.register(event.server);
-                for(Map.Entry<ServerModule, MzModule> entry: moduleParents.entrySet())
+                for(Map.Entry<ServerModule, MzModule> entry : moduleParents.entrySet())
                 {
                     try
                     {
@@ -54,15 +55,19 @@ public class ServerModule implements Registrable
                         e.printStackTrace(System.err);
                     }
                 }
-            })));
-            this.register(new EventListener<>(EventServerStop.class, event->
+            })
+            ));
+            this.register(new EventListener<>(
+                EventServerStop.class, event ->
             {
                 this.unregister(event.server);
-                for(Map.Entry<ServerModule, MzModule> entry: CollectionUtil.reverse(moduleParents.entrySet().stream()).collect(Collectors.toList()))
+                for(Map.Entry<ServerModule, MzModule> entry : CollectionUtil.reverse(moduleParents.entrySet().stream())
+                    .collect(Collectors.toList()))
                 {
                     entry.getValue().unregister(entry.getKey().module);
                 }
-            }));
+            }
+            ));
         }
     }
 }

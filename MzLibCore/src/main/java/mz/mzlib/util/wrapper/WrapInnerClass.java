@@ -15,26 +15,27 @@ public @interface WrapInnerClass
 
     class Handler implements WrappedClassFinder<WrapInnerClass>
     {
-        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapInnerClass annotation) throws ClassNotFoundException
+        public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapInnerClass annotation)
+            throws ClassNotFoundException
         {
             ClassLoader classLoader = wrapperClass.getClassLoader();
             ClassNotFoundException lastException = null;
-            Class<?> superClass=WrapperObject.getWrappedClass(annotation.outer());
-            if(superClass==null)
+            Class<?> superClass = WrapperObject.getWrappedClass(annotation.outer());
+            if(superClass == null)
                 return null;
-            String superName=superClass.getName();
-            for (String i : annotation.name())
+            String superName = superClass.getName();
+            for(String i : annotation.name())
             {
                 try
                 {
-                    return Class.forName(superName+"$"+i, false, classLoader);
+                    return Class.forName(superName + "$" + i, false, classLoader);
                 }
-                catch (ClassNotFoundException e)
+                catch(ClassNotFoundException e)
                 {
                     lastException = e;
                 }
             }
-            if (lastException != null)
+            if(lastException != null)
                 throw lastException;
             return null;
         }

@@ -8,13 +8,15 @@ public abstract class Either<F, S>
     public abstract boolean isSecond();
     public abstract Option<F> getFirst();
     public abstract Option<S> getSecond();
-    
+
     public abstract Either<S, F> invert();
-    
+
     public abstract <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action);
     public abstract <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action);
-    public abstract <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond);
-    
+    public abstract <T> T map(
+        Function<? super F, ? extends T> actionFirst,
+        Function<? super S, ? extends T> actionSecond);
+
     public static <F, S> Either<F, S> first(F value)
     {
         return new First<>(value);
@@ -23,16 +25,16 @@ public abstract class Either<F, S>
     {
         return new Second<>(value);
     }
-    
+
     public static <F, S> Either<F, S> fromNullable(F first, S second)
     {
         assert Boolean.logicalXor(first != null, second != null);
-        if (first != null)
+        if(first != null)
             return first(first);
         else
             return second(second);
     }
-    
+
     static class First<F, S> extends Either<F, S>
     {
         protected F value;
@@ -77,7 +79,7 @@ public abstract class Either<F, S>
             return actionFirst.apply(this.value);
         }
     }
-    
+
     static class Second<F, S> extends Either<F, S>
     {
         protected S value;

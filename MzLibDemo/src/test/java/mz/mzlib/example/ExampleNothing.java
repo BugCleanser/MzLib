@@ -1,7 +1,6 @@
 package mz.mzlib.example;
 
 import mz.mzlib.MzLib;
-import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
@@ -19,14 +18,14 @@ public class ExampleNothing
     {
         @WrapMethod("toString")
         String toString();
-        
-        @NothingInject(wrapperMethodName="toString", wrapperMethodParams={}, locateMethod="", type=NothingInjectType.INSERT_BEFORE)
+
+        @NothingInject(wrapperMethodName = "toString", wrapperMethodParams = {}, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default WrapperString injectionToString()
         {
             return WrapperString.create("Hello World");
         }
     }
-    
+
     @Test
     public void test()
     {

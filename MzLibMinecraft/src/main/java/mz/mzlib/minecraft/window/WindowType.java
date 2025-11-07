@@ -10,11 +10,11 @@ public class WindowType
     public static WindowType GENERIC_9x4 = new WindowType("minecraft:chest*36", "generic_9x4", 36);
     public static WindowType GENERIC_9x5 = new WindowType("minecraft:chest*45", "generic_9x5", 45);
     public static WindowType GENERIC_9x6 = new WindowType("minecraft:chest*54", "generic_9x6", 54);
-    
+
     public static WindowType CRAFTING = new WindowType("minecraft:crafting_table", "crafting", 10);
     public static WindowType HOPPER = new WindowType("minecraft:hopper*5", "hopper", 5);
     public static WindowType ANVIL = new WindowType("minecraft:anvil", "anvil", 3);
-    
+
     public static WindowType generic9x(int rows)
     {
         switch(rows)
@@ -35,7 +35,7 @@ public class WindowType
                 throw new IllegalArgumentException(Integer.toString(rows));
         }
     }
-    
+
     public String typeIdV_1400;
     public WindowTypeV1400 typeV1400;
     public int upperSize;
@@ -45,9 +45,12 @@ public class WindowType
         this.typeV1400 = typeV1400;
         this.upperSize = upperSize;
     }
-    
+
     public WindowType(String typeIdV_1400, String typeIdV1400, int upperSize)
     {
-        this(typeIdV_1400, MinecraftPlatform.instance.getVersion()<1400 ? null : WindowTypeV1400.fromId(typeIdV1400), upperSize);
+        this(
+            typeIdV_1400, MinecraftPlatform.instance.getVersion() < 1400 ? null : WindowTypeV1400.fromId(typeIdV1400),
+            upperSize
+        );
     }
 }

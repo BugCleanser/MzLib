@@ -17,8 +17,8 @@ public interface MinecraftServerBukkit extends MinecraftServer
     {
         return WrapperObject.create(MinecraftServerBukkit.class, wrapped);
     }
-    
-    @VersionRange(end=2002)
+
+    @VersionRange(end = 2002)
     @WrapFieldAccessor("remoteConsole")
     RemoteConsoleCommandSender getRemoteConsoleV_2002();
 }

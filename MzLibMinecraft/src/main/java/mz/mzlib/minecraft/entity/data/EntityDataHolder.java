@@ -8,18 +8,18 @@ import java.util.function.BiConsumer;
 public interface EntityDataHolder
 {
     Option<Object> getData(EntityDataKey key);
-    
+
     Option<Object> putData(EntityDataKey key, Object value);
-    
+
     Option<Object> removeData(EntityDataKey key);
-    
+
     void forEachData(BiConsumer<EntityDataKey, Object> action);
-    
+
     default boolean hasData(EntityDataKey key)
     {
-        return getData(key)!=null;
+        return getData(key) != null;
     }
-    
+
     default <T> Option<T> getData(EntityDataAdapter<T> adapter)
     {
         return adapter.get(this);
@@ -37,12 +37,12 @@ public interface EntityDataHolder
     {
         return this.hasData(adapter.getKey());
     }
-    
+
     static EntityDataHolder of(Map<EntityDataKey, Object> map)
     {
         return new ByMap(map);
     }
-    
+
     class ByMap implements EntityDataHolder
     {
         Map<EntityDataKey, Object> map;

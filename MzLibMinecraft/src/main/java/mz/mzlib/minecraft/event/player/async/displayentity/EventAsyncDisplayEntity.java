@@ -14,12 +14,12 @@ public class EventAsyncDisplayEntity<P extends Packet> extends EventAsyncByPacke
         super(packetEvent);
         this.displayEntity = displayEntity;
     }
-    
+
     public DisplayEntity getDisplayEntity()
     {
         return this.displayEntity;
     }
-    
+
     @Override
     public void runLater(Runnable runnable) throws UnsupportedOperationException
     {
@@ -27,21 +27,21 @@ public class EventAsyncDisplayEntity<P extends Packet> extends EventAsyncByPacke
             throw new IllegalStateException("Event finished");
         this.futureTasks.schedule(runnable);
     }
-    
+
     @Override
     public void call()
     {
     }
-    
+
     public static class Module extends MzModule
     {
         public static Module instance = new Module();
-        
+
         @Override
         public void onLoad()
         {
             this.register(EventAsyncDisplayEntity.class);
-            
+
             this.register(EventAsyncDisplayEntitySpawn.class);
             this.register(EventAsyncDisplayEntityDestroy.class);
             this.register(EventAsyncDisplayEntityData.class);

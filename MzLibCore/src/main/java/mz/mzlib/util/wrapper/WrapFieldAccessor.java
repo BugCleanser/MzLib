@@ -26,10 +26,16 @@ public @interface WrapFieldAccessor
     class Handler implements WrappedMemberFinder<WrapFieldAccessor>
     {
         @Override
-        public Member find(Class<? extends WrapperObject> wrapperClass, Class<?> wrappedClass, Method wrapperMethod, WrapFieldAccessor annotation, Class<?> returnType, Class<?>[] argTypes) throws NoSuchFieldException
+        public Member find(
+            Class<? extends WrapperObject> wrapperClass,
+            Class<?> wrappedClass,
+            Method wrapperMethod,
+            WrapFieldAccessor annotation,
+            Class<?> returnType,
+            Class<?>[] argTypes) throws NoSuchFieldException
         {
             Class<?> type;
-            switch (argTypes.length)
+            switch(argTypes.length)
             {
                 case 0:
                     type = returnType;
@@ -40,20 +46,22 @@ public @interface WrapFieldAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
-            for (String i : annotation.value())
+            for(String i : annotation.value())
             {
                 try
                 {
-                    if (i.startsWith("@") || i.startsWith("#"))
+                    if(i.startsWith("@") || i.startsWith("#"))
                     {
-                        return Arrays.stream(wrappedClass.getDeclaredFields()).filter(j -> j.getType() == type && (Modifier.isStatic(j.getModifiers()) ^ i.startsWith("@"))).toArray(Field[]::new)[Integer.parseInt(i.substring(1))];
+                        return Arrays.stream(wrappedClass.getDeclaredFields()).filter(
+                                j -> j.getType() == type && (Modifier.isStatic(j.getModifiers()) ^ i.startsWith("@")))
+                            .toArray(Field[]::new)[Integer.parseInt(i.substring(1))];
                     }
                     else
                     {
                         return RuntimeUtil.require(wrappedClass.getDeclaredField(i), f -> f.getType() == type);
                     }
                 }
-                catch (AssertionError|ArrayIndexOutOfBoundsException ignored)
+                catch(AssertionError | ArrayIndexOutOfBoundsException ignored)
                 {
                 }
             }

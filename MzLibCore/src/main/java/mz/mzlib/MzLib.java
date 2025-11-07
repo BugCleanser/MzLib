@@ -11,14 +11,14 @@ import mz.mzlib.util.nothing.RegistrarNothingClass;
 public class MzLib extends MzModule
 {
     public static MzLib instance = new MzLib();
-    
+
     @Override
     public void onLoad()
     {
         this.register(Instance.Registrar.instance);
-        
+
         this.register(Tester.Registrar.instance);
-        
+
         this.register(RegistrarI18n.instance);
         this.register(RegistrarNothingClass.instance);
         this.register(RegistrarEventClass.instance);
