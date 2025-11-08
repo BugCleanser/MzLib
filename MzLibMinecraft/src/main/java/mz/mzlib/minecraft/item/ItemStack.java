@@ -450,6 +450,10 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "use"))
     ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
 
+    @VersionRange(begin = 1700)
+    @WrapMinecraftMethod(@VersionName(name = "method_31574"))
+    boolean isOfV1700(Item item);
+
     @VersionRange(begin = 1903)
     @WrapMinecraftMethod(@VersionName(name = "isIn"))
     boolean hasTagV1903(TagKeyV1903<?> tag);
@@ -469,6 +473,7 @@ public interface ItemStack extends WrapperObject
     {
         ItemStack result = this.impl$clone0V1300_2005();
         result.setDamageV_1300(this.getDamageV_1300());
+
         return result;
     }
     @SpecificImpl("clone0")

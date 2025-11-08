@@ -100,21 +100,15 @@ public interface WrapperObject
 
     default boolean isInstanceOf(WrapperFactory<?> factory)
     {
-        return factory.isInstance(this);
+        return this.is(factory);
     }
     default <T extends WrapperObject> T castTo(WrapperFactory<T> factory)
     {
-        if(this.isPresent() && !this.isInstanceOf(factory))
-            throw new ClassCastException("Try to cast an object of " + this.getWrapped().getClass() + " to " +
-                factory.getStatic().static$getWrappedClass());
-        return factory.create(this.getWrapped());
+        return this.as(factory);
     }
     default <T extends WrapperObject> Option<T> tryCast(WrapperFactory<T> factory)
     {
-        if(this.isInstanceOf(factory))
-            return Option.some(this.castTo(factory));
-        else
-            return Option.none();
+        return this.asOption(factory);
     }
 
     @Deprecated

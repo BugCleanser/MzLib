@@ -14,6 +14,11 @@ public interface Nothing
         return null;
     }
 
+    static boolean isReturn(WrapperObject result)
+    {
+        return result!=null;
+    }
+
     default void locateAllReturn(NothingInjectLocating locating)
     {
         locating.allLater(

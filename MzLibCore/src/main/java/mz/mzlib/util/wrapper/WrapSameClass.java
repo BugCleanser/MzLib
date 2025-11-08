@@ -22,7 +22,7 @@ public @interface WrapSameClass
         @Override
         public boolean isEnabled(WrapSameClass annotation, AnnotatedElement element)
         {
-            return ElementSwitcher.isEnabled(((WrapSameClass) annotation).value());
+            return ElementSwitcher.isEnabled(annotation.value());
         }
 
         @Override
