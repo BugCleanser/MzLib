@@ -15,6 +15,11 @@ public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends Even
         super(packetEvent);
         this.original = original;
     }
+    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<? extends P> packetEvent)
+    {
+        super(packetEvent);
+        this.original = this.getItemStack();
+    }
 
     public abstract ItemStack getItemStack();
     public abstract void setItemStack(ItemStack value);

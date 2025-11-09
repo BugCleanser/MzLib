@@ -12,9 +12,9 @@ public class PacketEvent
 {
     public Channel channel;
     public Option<EntityPlayer> player;
-    public Packet packet;
+    final Packet packet;
     public boolean isCancelled = false;
-    public PacketEvent(Channel channel, Option<EntityPlayer> player, Packet packet)
+    public PacketEvent(Channel channel, Option<EntityPlayer> player, final Packet packet)
     {
         this.channel = channel;
         this.player = player;
@@ -28,7 +28,7 @@ public class PacketEvent
 
     public Packet getPacket()
     {
-        return this.packet;
+        return this.getPacket(Packet.FACTORY);
     }
     public <T extends Packet> T getPacket(WrapperFactory<T> factory)
     {
@@ -42,7 +42,7 @@ public class PacketEvent
 
     public void setPacket(Packet value)
     {
-        this.packet = value;
+        this.packet.setWrappedFrom(value);
     }
 
     /**
@@ -53,7 +53,7 @@ public class PacketEvent
     {
         if(this.isCopied)
             return;
-        this.packet.setWrappedFrom(this.packet.copy(this.channel.alloc()));
+        this.setPacket(this.packet.copy(this.channel.alloc()));
         this.isCopied = true;
     }
     @Deprecated
