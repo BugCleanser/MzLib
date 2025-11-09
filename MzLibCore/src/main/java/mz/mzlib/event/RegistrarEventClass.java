@@ -7,12 +7,16 @@ import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
 {
@@ -28,9 +32,32 @@ public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
         return Event.class.isAssignableFrom(object);
     }
 
+    public Map<Class<? extends Event>, Set<Class<? extends Event>>> subEvents = new ConcurrentHashMap<>();
+
     public void register(MzModule module, Class<? extends Event> object)
     {
-        ListenerHandler.handlers.put(object, new ListenerHandler());
+        ListenerHandler listenerHandler = new ListenerHandler();
+        ListenerHandler.handlers.put(object, listenerHandler);
+        this.subEvents.put(object, ConcurrentHashMap.newKeySet());
+        for(Class<? extends Event> clazz = RuntimeUtil.cast(object.getSuperclass());
+            clazz != Event.class;
+            clazz = RuntimeUtil.cast(clazz.getSuperclass()))
+        {
+            for(Set<Class<? extends Event>> parentChildren : Option.fromNullable(this.subEvents.get(clazz)))
+            {
+                parentChildren.add(object);
+                for(ListenerHandler parentHandler : Option.fromNullable(ListenerHandler.handlers.get(clazz)))
+                {
+                    //noinspection SynchronizationOnLocalVariableOrMethodParameter
+                    synchronized(parentHandler)
+                    {
+                        listenerHandler.listeners.addAll(parentHandler.listeners); // requires to update
+                    }
+                }
+            }
+        }
+        listenerHandler.update(); // update
+
         ClassNode cn = new ClassNode();
         new ClassReader(ClassUtil.getByteCode(object)).accept(cn, 0);
         MethodNode mn = AsmUtil.getMethodNode(cn, "call", AsmUtil.getDesc(void.class, new Class[0]));
@@ -47,14 +74,6 @@ public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
                 ), false
             ), Type.getType(AsmUtil.getDesc(object))
         );
-        if(object.getSuperclass() != Event.class)
-        {
-            mn.instructions.add(AsmUtil.insnVarLoad(object, 0));
-            mn.visitMethodInsn(
-                Opcodes.INVOKESPECIAL, AsmUtil.getType(object.getSuperclass()), "call",
-                AsmUtil.getDesc(void.class, new Class[0]), object.getSuperclass().isInterface()
-            );
-        }
         mn.instructions.add(AsmUtil.insnReturn(void.class));
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         cn.accept(cw);
@@ -63,6 +82,16 @@ public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
 
     public void unregister(MzModule module, Class<? extends Event> object)
     {
+        for(Class<? extends Event> clazz = RuntimeUtil.cast(object.getSuperclass());
+            clazz != Event.class;
+            clazz = RuntimeUtil.cast(clazz.getSuperclass()))
+        {
+            for(Set<Class<? extends Event>> parent : Option.fromNullable(this.subEvents.get(clazz)))
+            {
+                parent.remove(object);
+            }
+        }
+        this.subEvents.remove(object);
         ListenerHandler.handlers.remove(object);
     }
 }

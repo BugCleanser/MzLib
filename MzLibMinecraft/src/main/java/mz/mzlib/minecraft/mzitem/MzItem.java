@@ -176,10 +176,10 @@ public interface MzItem extends ItemStack
         public interface NothingVanillaIngredientV1200 extends Nothing, VanillaIngredientV1200
         {
             @NothingInject(
-                    wrapperMethodName = "test",
-                    wrapperMethodParams = { ItemStack.class },
-                    locateMethod = "",
-                    type = NothingInjectType.INSERT_BEFORE
+                wrapperMethodName = "test",
+                wrapperMethodParams = { ItemStack.class },
+                locateMethod = "",
+                type = NothingInjectType.INSERT_BEFORE
             )
             default Wrapper_boolean test$begin(@LocalVar(1) ItemStack itemStack)
             {
@@ -227,6 +227,6 @@ public interface MzItem extends ItemStack
                 return handleRecipeV_1200(inventory);
             }
         }
-        // TODO other recipe type
+        // TODO: other recipe type V_1200
     }
 }

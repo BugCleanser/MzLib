@@ -1,6 +1,5 @@
 package mz.mzlib.minecraft;
 
-import mz.mzlib.event.RegistrarEventListener;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.commands.*;
@@ -61,7 +60,6 @@ public class MzLibMinecraft extends MzModule
 
             this.register(this.command = new Command("mzlib", "mz").setNamespace(this.MOD_ID));
 
-            this.register(RegistrarEventListener.instance);
             this.register(ModulePacketListener.instance);
 
             this.register(MinecraftEventModule.instance);

@@ -78,6 +78,8 @@ public class ModulePacketListener extends MzModule
             if(sortedListeners == null)
                 return true;
             PacketEvent event = new PacketEvent(channel, player, packet);
+            if(Thread.currentThread() != MinecraftServer.instance.getThread())
+                event.syncTasks = new TaskList();
             for(PacketListener<?> listener : sortedListeners)
             {
                 try
@@ -88,11 +90,6 @@ public class ModulePacketListener extends MzModule
                 {
                     e.printStackTrace(System.err);
                 }
-            }
-            if(event.syncTasks != null && Thread.currentThread() == MinecraftServer.instance.getThread())
-            {
-                event.syncTasks.run();
-                event.syncTasks = null;
             }
             if(event.syncTasks == null)
                 return true;

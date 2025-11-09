@@ -62,9 +62,9 @@ public class PacketEvent
     public TaskList syncTasks = null;
     public void sync(Runnable task)
     {
-        if(this.syncTasks == null)
-            this.syncTasks = new TaskList();
-        this.syncTasks.schedule(task);
+        if(this.syncTasks != null)
+            this.syncTasks.schedule(task);
+        task.run();
     }
 
     public void setCancelled(boolean cancelled)

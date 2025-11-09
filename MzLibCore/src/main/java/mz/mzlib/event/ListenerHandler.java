@@ -8,7 +8,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class ListenerHandler
 {
@@ -24,7 +23,7 @@ public class ListenerHandler
                 .bindTo(handlers.get(eventClass)).asType(invokedType));
     }
 
-    public List<EventListener<?>> sortedListeners = new ArrayList<>();
+    public List<EventListener<?>> sortedListeners = Collections.emptyList();
     public void call(Event event)
     {
         for(EventListener<?> listener : this.sortedListeners)
@@ -43,8 +42,8 @@ public class ListenerHandler
     public Set<EventListener<?>> listeners = new HashSet<>();
     public synchronized void update()
     {
-        this.sortedListeners = listeners.stream().sorted((a, b) -> Float.compare(b.priority, a.priority))
-            .collect(Collectors.toList());
+        this.sortedListeners = Arrays.asList(listeners.stream().sorted((a, b) -> Float.compare(b.priority, a.priority))
+            .toArray(EventListener<?>[]::new));
     }
     public synchronized void addListener(EventListener<?> listener)
     {
