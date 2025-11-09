@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.commands.*;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
+import mz.mzlib.minecraft.item.ModuleItemDisplaySign;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
@@ -74,6 +75,8 @@ public class MzLibMinecraft extends MzModule
 
             this.register(NbtCompound.Module.instance);
             this.register(Text.Module.instance);
+
+            this.register(ModuleItemDisplaySign.instance);
 
             this.register(CommandMzLibTest.instance);
             this.register(CommandMzLibLang.instance);

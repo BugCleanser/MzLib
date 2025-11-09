@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.event.player.async;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
+import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
 
 public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends EventAsyncByPacket<P>

@@ -49,5 +49,8 @@
   "mzlib.commands.mzlib.lang.loadmc.loading": "§e已在加载中，请留意后台",
   "mzlib.commands.mzlib.lang.loadmc.begin": "§a开始加载，请留意后台",
   "mzlib.commands.mzlib.lang.custom.arg.language": "语言",
+
+  "mzlib.item_display_sign": "§7§o此物品由创造模式获取，仅供展示",
+
   "mzlib.item.debug_stick": "§d调试棒"
 }
