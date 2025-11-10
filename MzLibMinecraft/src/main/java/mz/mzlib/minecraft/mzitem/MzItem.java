@@ -16,7 +16,7 @@ import mz.mzlib.minecraft.recipe.RecipeVanillaShapeless;
 import mz.mzlib.minecraft.recipe.VanillaIngredientV1200;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
-import mz.mzlib.minecraft.world.AbstractWorld;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.ElementSwitcher;
@@ -203,7 +203,7 @@ public interface MzItem extends ItemStack
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",
-                wrapperMethodParams = { InventoryCrafting.class, AbstractWorld.class },
+                wrapperMethodParams = { InventoryCrafting.class, World.class },
                 locateMethod = "",
                 type = NothingInjectType.INSERT_BEFORE
             )
@@ -218,7 +218,7 @@ public interface MzItem extends ItemStack
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",
-                wrapperMethodParams = { InventoryCrafting.class, AbstractWorld.class },
+                wrapperMethodParams = { InventoryCrafting.class, World.class },
                 locateMethod = "",
                 type = NothingInjectType.INSERT_BEFORE
             )

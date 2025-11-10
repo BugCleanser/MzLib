@@ -22,7 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         @VersionName(name = "net.minecraft.container.NameableContainerFactory", begin = 1502, end = 1600),
         @VersionName(name = "net.minecraft.screen.NamedScreenHandlerFactory", begin = 1600)
     })
-public interface WindowFactory extends WrapperObject, AbstractWindowFactory, UI
+public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, UI
 {
     WrapperFactory<WindowFactory> FACTORY = WrapperFactory.of(WindowFactory.class);
     @Deprecated

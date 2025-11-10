@@ -4,7 +4,7 @@ import mz.mzlib.event.Cancellable;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityLiving;
 import mz.mzlib.minecraft.entity.damage.DamageSource;
-import mz.mzlib.minecraft.world.World;
+import mz.mzlib.minecraft.world.WorldServer;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
@@ -88,7 +88,7 @@ public class EventEntityLivingDamage extends EventEntity implements Cancellable
 
             @VersionRange(begin = 2102)
             @NothingInject(wrapperMethodName = "damageV2102", wrapperMethodParams = {
-                World.class,
+                WorldServer.class,
                 DamageSource.class,
                 float.class
             }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
@@ -119,7 +119,7 @@ public class EventEntityLivingDamage extends EventEntity implements Cancellable
 
             @VersionRange(begin = 2102)
             @NothingInject(wrapperMethodName = "damageV2102", wrapperMethodParams = {
-                World.class,
+                WorldServer.class,
                 DamageSource.class,
                 float.class
             }, locateMethod = "locateDamageAfter", type = NothingInjectType.INSERT_BEFORE)

@@ -13,7 +13,7 @@ import mz.mzlib.util.compound.PropAccessor;
 import mz.mzlib.util.wrapper.*;
 
 @Compound
-public interface WindowUIWindow extends AbstractWindow
+public interface WindowUIWindow extends WindowAbstract
 {
     WrapperFactory<WindowUIWindow> FACTORY = WrapperFactory.of(WindowUIWindow.class);
     @Deprecated
@@ -75,7 +75,7 @@ public interface WindowUIWindow extends AbstractWindow
 
     default ItemStack quickMoveSuper(AbstractEntityPlayer player, int index)
     {
-        return AbstractWindow.super.quickMove(player, index);
+        return WindowAbstract.super.quickMove(player, index);
     }
 
     @Override

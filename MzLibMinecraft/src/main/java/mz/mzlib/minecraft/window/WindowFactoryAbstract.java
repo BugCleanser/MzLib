@@ -20,14 +20,14 @@ import mz.mzlib.util.wrapper.WrapperObject;
         @VersionName(name = "net.minecraft.container.ContainerFactory", begin = 1502, end = 1600),
         @VersionName(name = "net.minecraft.screen.ScreenHandlerFactory", begin = 1600)
     })
-public interface AbstractWindowFactory extends WrapperObject
+public interface WindowFactoryAbstract extends WrapperObject
 {
-    WrapperFactory<AbstractWindowFactory> FACTORY = WrapperFactory.of(AbstractWindowFactory.class);
+    WrapperFactory<WindowFactoryAbstract> FACTORY = WrapperFactory.of(WindowFactoryAbstract.class);
     @Deprecated
     @WrapperCreator
-    static AbstractWindowFactory create(Object wrapped)
+    static WindowFactoryAbstract create(Object wrapped)
     {
-        return WrapperObject.create(AbstractWindowFactory.class, wrapped);
+        return WrapperObject.create(WindowFactoryAbstract.class, wrapped);
     }
 
     @VersionRange(begin = 1300, end = 1400)

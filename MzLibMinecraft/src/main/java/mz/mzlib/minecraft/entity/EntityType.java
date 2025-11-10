@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.entity.projectile.EntityFishingBobber;
 import mz.mzlib.minecraft.registry.EntityTypesV_1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
-import mz.mzlib.minecraft.world.AbstractWorld;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
@@ -105,18 +105,18 @@ public interface EntityType extends WrapperObject
         return RegistriesV1300.entityType();
     }
 
-    Entity newEntity(AbstractWorld world);
+    Entity newEntity(World world);
 
     Map<Class<?>, MethodHandle> cacheV_1300 = MinecraftPlatform.instance.getVersion() < 1300 ? new HashMap<>() : null;
     @SpecificImpl("newEntity")
     @VersionRange(end = 1300)
-    default Entity newEntityV_1300(AbstractWorld world)
+    default Entity newEntityV_1300(World world)
     {
         try
         {
             return Entity.create((Object) cacheV_1300.computeIfAbsent(
                     (Class<?>) this.getWrapped(), ThrowableFunction.of(c -> //
-                        ClassUtil.findConstructor(c, AbstractWorld.FACTORY.getStatic().static$getWrappedClass())
+                        ClassUtil.findConstructor(c, World.FACTORY.getStatic().static$getWrappedClass())
                             .asType(MethodType.methodType(Object.class, Object.class)))
                 ) //
                 .invokeExact((Object) world.getWrapped()));
@@ -133,7 +133,7 @@ public interface EntityType extends WrapperObject
 
     @SpecificImpl("newEntity")
     @VersionRange(begin = 1300, end = 1400)
-    default Entity newEntityV1300_1400(AbstractWorld world)
+    default Entity newEntityV1300_1400(World world)
     {
         return Entity.create(this.getFactoryV1300_1400().apply(world.getWrapped()));
     }
@@ -144,7 +144,7 @@ public interface EntityType extends WrapperObject
 
     @SpecificImpl("newEntity")
     @VersionRange(begin = 1400)
-    default Entity newEntityV1400(AbstractWorld world)
+    default Entity newEntityV1400(World world)
     {
         return getFactoryV1400().create(this, world);
     }
@@ -162,7 +162,7 @@ public interface EntityType extends WrapperObject
         }
 
         @WrapMinecraftMethod(@VersionName(name = "create"))
-        Entity create(EntityType type, AbstractWorld world);
+        Entity create(EntityType type, World world);
     }
 
     /**

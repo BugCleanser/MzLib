@@ -12,14 +12,14 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
-public interface AbstractWindowSlot extends WindowSlot
+public interface WindowSlotAbstract extends WindowSlot
 {
-    WrapperFactory<AbstractWindowSlot> FACTORY = WrapperFactory.of(AbstractWindowSlot.class);
+    WrapperFactory<WindowSlotAbstract> FACTORY = WrapperFactory.of(WindowSlotAbstract.class);
     @Deprecated
     @WrapperCreator
-    static AbstractWindowSlot create(Object wrapped)
+    static WindowSlotAbstract create(Object wrapped)
     {
-        return WrapperObject.create(AbstractWindowSlot.class, wrapped);
+        return WrapperObject.create(WindowSlotAbstract.class, wrapped);
     }
 
     default void onTake(AbstractEntityPlayer player, ItemStack itemStack)

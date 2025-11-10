@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.world.AbstractWorld;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.SimpleTester;
 import mz.mzlib.util.nothing.*;
@@ -128,7 +128,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(end = 900)
         @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default ItemStack useV_900$begin(
@@ -141,7 +141,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(end = 900)
         @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
         default ItemStack useV_900$end(
@@ -161,7 +161,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(begin = 900, end = 2102)
         @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class,
             Hand.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
@@ -176,7 +176,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(begin = 900, end = 2102)
         @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class,
             Hand.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
@@ -200,7 +200,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(begin = 2102)
         @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class,
             Hand.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
@@ -215,7 +215,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         }
         @VersionRange(begin = 2102)
         @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
-            AbstractWorld.class,
+            World.class,
             AbstractEntityPlayer.class,
             Hand.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)

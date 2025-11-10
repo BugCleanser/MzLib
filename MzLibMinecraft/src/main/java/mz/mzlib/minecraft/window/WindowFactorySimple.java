@@ -43,7 +43,7 @@ public interface WindowFactorySimple extends WindowFactory
     }
 
     @VersionRange(end = 1300)
-    @CompoundOverride(parent = AbstractWindowFactory.class, method = "getTranslationKeyV_1300")
+    @CompoundOverride(parent = WindowFactoryAbstract.class, method = "getTranslationKeyV_1300")
     @Override
     default String getTranslationKeyV_1300()
     {
@@ -51,7 +51,7 @@ public interface WindowFactorySimple extends WindowFactory
     }
 
     @VersionRange(begin = 1300, end = 1400)
-    @CompoundOverride(parent = AbstractWindowFactory.class, method = "getDefaultNameV1300_1400")
+    @CompoundOverride(parent = WindowFactoryAbstract.class, method = "getDefaultNameV1300_1400")
     @Override
     default Text getDefaultNameV1300_1400()
     {
@@ -59,7 +59,7 @@ public interface WindowFactorySimple extends WindowFactory
     }
 
     @VersionRange(end = 1400)
-    @CompoundOverride(parent = AbstractWindowFactory.class, method = "hasCustomNameV_1400")
+    @CompoundOverride(parent = WindowFactoryAbstract.class, method = "hasCustomNameV_1400")
     @Override
     default boolean hasCustomNameV_1400()
     {
@@ -67,7 +67,7 @@ public interface WindowFactorySimple extends WindowFactory
     }
 
     @VersionRange(end = 1400)
-    @CompoundOverride(parent = AbstractWindowFactory.class, method = "getCustomNameV_1400")
+    @CompoundOverride(parent = WindowFactoryAbstract.class, method = "getCustomNameV_1400")
     @Override
     default Text getCustomNameV_1400()
     {

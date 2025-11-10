@@ -59,10 +59,12 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     })
     CommandManager getCommandManager();
 
+    @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.FOLIA)
     @VersionRange(end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "setupWorld"))
     void tickV_1300();
 
+    @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.FOLIA)
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({ @VersionName(name = "method_20324", end = 1400), @VersionName(name = "tick", begin = 1400) })
     void tickV1300(BooleanSupplier booleanSupplier);

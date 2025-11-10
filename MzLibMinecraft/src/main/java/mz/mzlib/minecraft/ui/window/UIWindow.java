@@ -125,7 +125,7 @@ public abstract class UIWindow implements UI
     }
 
     /**
-     * @see AbstractWindow#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
+     * @see WindowAbstract#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
      */
     public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {

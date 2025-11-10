@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.entity.data.EntityDataAdapter;
 import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.util.math.Vec3d;
-import mz.mzlib.minecraft.world.World;
+import mz.mzlib.minecraft.world.WorldServer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -139,7 +139,7 @@ public interface Entity extends WrapperObject
 
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "damage"))
-    boolean damageV2102(World world, DamageSource source, float amount);
+    boolean damageV2102(WorldServer world, DamageSource source, float amount);
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "x", end = 1600))
     double getXV_1600();

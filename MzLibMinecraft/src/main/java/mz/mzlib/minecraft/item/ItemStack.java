@@ -19,7 +19,7 @@ import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextTranslatable;
-import mz.mzlib.minecraft.world.AbstractWorld;
+import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -442,13 +442,13 @@ public interface ItemStack extends WrapperObject
 
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "onStartUse"))
-    ItemStack useV_900(AbstractWorld world, AbstractEntityPlayer player);
+    ItemStack useV_900(World world, AbstractEntityPlayer player);
     @VersionRange(begin = 900, end = 2102)
     @WrapMinecraftMethod({ @VersionName(name = "method_11390", end = 1400), @VersionName(name = "use", begin = 1400) })
-    TypedActionResultV900_2102<?> use0V900_2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
+    TypedActionResultV900_2102<?> use0V900_2102(World world, AbstractEntityPlayer player, Hand hand);
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "use"))
-    ActionResult useV2102(AbstractWorld world, AbstractEntityPlayer player, Hand hand);
+    ActionResult useV2102(World world, AbstractEntityPlayer player, Hand hand);
 
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod(@VersionName(name = "method_31574"))
