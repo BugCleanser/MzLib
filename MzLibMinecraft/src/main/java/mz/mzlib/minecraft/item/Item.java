@@ -442,7 +442,7 @@ public interface Item extends WrapperObject
 
     @VersionRange(end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
-    String getNameV_1400(ItemStack itemStack);
+    String getNameLocalizedV_1400(ItemStack itemStack);
 
     String getTranslationKeyV_2102(ItemStack itemStack);
     @SpecificImpl("getTranslationKeyV_2102")
@@ -452,7 +452,7 @@ public interface Item extends WrapperObject
         VanillaI18nV_1300.lastKey.set(new RefStrong<>(null));
         try
         {
-            String ignored = this.getNameV_1400(itemStack);
+            String ignored = this.getNameLocalizedV_1400(itemStack);
             return VanillaI18nV_1300.lastKey.get().get();
         }
         finally
@@ -470,5 +470,5 @@ public interface Item extends WrapperObject
         @VersionName(name = "getDisplayName", end = 1400),
         @VersionName(name = "getName", begin = 1400)
     })
-    Text getDefaultNameV1300(ItemStack itemStack);
+    Text getNameV1300(ItemStack itemStack);
 }

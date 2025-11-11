@@ -188,8 +188,7 @@ public interface ItemStack extends WrapperObject
 
     @WrapMinecraftMethod({
         @VersionName(name = "toNbt", end = 1400),
-        @VersionName(name = "toTag", begin = 1400, end = 1605),
-        @VersionName(name = "writeNbt", begin = 1605, end = 2005)
+        @VersionName(name = "method_7953", begin = 1400)
     })
     NbtCompound encode0V_2005(NbtCompound nbt);
 
@@ -215,9 +214,17 @@ public interface ItemStack extends WrapperObject
     }
 
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
-    Item getItem();
+    default Item getItem()
+    {
+        return Option.fromWrapper(this.getItem0()).unwrapOr(Item.AIR);
+    }
+    /**
+     * @see #getItem
+     */
+    @WrapMinecraftFieldAccessor(@VersionName(name = "item")) // cannot replace with wrapping method
+    Item getItem0();
 
+    @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
     void setItem(Item item);
 
@@ -226,11 +233,25 @@ public interface ItemStack extends WrapperObject
         return getItem().getId();
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "count"))
     int getCount();
-
+    @SpecificImpl("getCount")
+    @VersionRange(end = 1100)
     @WrapMinecraftFieldAccessor(@VersionName(name = "count"))
+    int getCount_V1100();
+    @SpecificImpl("getCount")
+    @VersionRange(begin = 1100)
+    @WrapMinecraftMethod(@VersionName(name = "getCount"))
+    int getCountV1100();
+
     void setCount(int count);
+    @SpecificImpl("setCount")
+    @VersionRange(end = 1100)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "count"))
+    void setCountV_1100(int count);
+    @SpecificImpl("setCount")
+    @VersionRange(begin = 1100)
+    @WrapMinecraftMethod(@VersionName(name = "setCount"))
+    void setCountV1100(int count);
 
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "damage"))
@@ -243,8 +264,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 2005)
     @WrapMinecraftMethod({
         @VersionName(end = 1400, name = "getNbt"),
-        @VersionName(begin = 1400, end = 1701, name = "getTag"),
-        @VersionName(begin = 1701, name = "getNbt")
+        @VersionName(begin = 1400, name = "method_7969")
     })
     NbtCompound getTag0V_2005();
     default Option<NbtCompound> getTagV_2005()
@@ -255,8 +275,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 2005)
     @WrapMinecraftMethod({
         @VersionName(end = 1400, name = "setNbt"),
-        @VersionName(begin = 1400, end = 1701, name = "setTag"),
-        @VersionName(begin = 1701, name = "setNbt")
+        @VersionName(begin = 1400, name = "method_7980")
     })
     void setTag0V_2005(NbtCompound value);
     default void setTagV_2005(Option<NbtCompound> value)
@@ -276,7 +295,7 @@ public interface ItemStack extends WrapperObject
     }
 
     @VersionRange(begin = 2005)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "components"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "components")) // cannot replace with wrapping method
     ComponentMapDefaultedV2005 getComponentsV2005();
 
     /**
@@ -289,23 +308,20 @@ public interface ItemStack extends WrapperObject
 
     static boolean isEmpty(ItemStack is)
     {
-        return is.getWrapped() == empty().getWrapped() || is.isEmpty();
+        return !is.isPresent() || is.isEmpty();
     }
-
     /**
      * @see #isEmpty(ItemStack)
      * @deprecated This method is deprecated because it may cause a null pointer exception before Minecraft 1.11.
      */
     @Deprecated
     boolean isEmpty();
-
     @SpecificImpl("isEmpty")
     @VersionRange(end = 1100)
     default boolean isEmptyV_1100()
     {
         return !this.getItem().isPresent() || this.getCount() == 0 || this.getItem().equals(Item.AIR);
     }
-
     @SpecificImpl("isEmpty")
     @VersionRange(begin = 1100)
     @WrapMinecraftMethod(@VersionName(name = "isEmpty"))
@@ -318,8 +334,6 @@ public interface ItemStack extends WrapperObject
     {
         int n = this.getCount() + count;
         this.setCount(n);
-        if(n <= 0)
-            this.setItem(Item.AIR);
     }
 
     default void shrink(int count)
@@ -369,32 +383,53 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "getMaxCount"))
     int getMaxStackCount();
 
+    static Text getName(ItemStack is)
+    {
+        if(isEmpty(is))
+            return AIR.getName();
+        return is.getName();
+    }
+    Text getName();
+    @SpecificImpl("getName")
+    @VersionRange(end = 1300)
+    default Text getNameV_1300()
+    {
+        return TextTranslatable.newInstance(this.getTranslationKeyV_2102());
+    }
+    @SpecificImpl("getName")
+    @VersionRange(begin = 1300)
+    default Text getNameV1300()
+    {
+        return this.getItem().getNameV1300(this);
+    }
 
+    /**
+     * @see #getName(ItemStack)
+     */
+    @Deprecated
     static String getTranslationKey(ItemStack is)
     {
         if(isEmpty(is))
             return AIR.getTranslationKey();
         return is.getTranslationKey();
     }
-
     /**
      * @see #getTranslationKey(ItemStack)
      */
     @Deprecated
     String getTranslationKey();
-
     @SpecificImpl("getTranslationKey")
     @VersionRange(end = 2102)
     default String getTranslationKeyV_2102()
     {
         return this.getItem().getTranslationKeyV_2102(this);
     }
-
+    @Deprecated
     @SpecificImpl("getTranslationKey")
     @VersionRange(begin = 2102)
     default String getTranslationKeyV2102()
     {
-        return this.getItem().getDefaultNameV1300(this).castTo(TextTranslatable.FACTORY).getKey();
+        return this.getItem().getNameV1300(this).castTo(TextTranslatable.FACTORY).getKey();
     }
 
     default ItemType getType()
