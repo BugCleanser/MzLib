@@ -13,7 +13,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShapeless;
-import mz.mzlib.minecraft.recipe.VanillaIngredientV1200;
+import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.world.World;
@@ -100,10 +100,8 @@ public interface MzItem extends ItemStack
         public void onLoad()
         {
             this.register(NothingItemStack.class);
-            if(ElementSwitcher.isEnabled(NothingVanillaIngredientV1200.class))
-                this.register(NothingVanillaIngredientV1200.class);
-            if(ElementSwitcher.isEnabled(NothingRecipeVanillaShapedV_1200.class))
-                this.register(NothingRecipeVanillaShapedV_1200.class);
+            this.register(NothingVanillaIngredient.class);
+            this.registerIfEnabled(NothingRecipeVanillaShapedV_1200.class);
 
             this.register(RegistrarMzItem.instance);
 
@@ -170,18 +168,17 @@ public interface MzItem extends ItemStack
                 return this.handleVanilla();
             }
         }
-
-        @VersionRange(begin = 1200)
-        @WrapSameClass(VanillaIngredientV1200.class)
-        public interface NothingVanillaIngredientV1200 extends Nothing, VanillaIngredientV1200
+        @WrapSameClass(VanillaIngredient.class)
+        public interface NothingVanillaIngredient extends Nothing, VanillaIngredient
         {
+            @VersionRange(begin = 1200)
             @NothingInject(
-                wrapperMethodName = "test",
+                wrapperMethodName = "testV1200",
                 wrapperMethodParams = { ItemStack.class },
                 locateMethod = "",
                 type = NothingInjectType.INSERT_BEFORE
             )
-            default Wrapper_boolean test$begin(@LocalVar(1) ItemStack itemStack)
+            default Wrapper_boolean testV1200$begin(@LocalVar(1) ItemStack itemStack)
             {
                 return itemStack.as(NothingItemStack.FACTORY).handleVanilla();
             }

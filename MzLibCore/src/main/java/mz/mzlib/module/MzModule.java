@@ -2,8 +2,10 @@ package mz.mzlib.module;
 
 import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
+import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
 
+import java.lang.reflect.AnnotatedElement;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -141,6 +143,12 @@ public abstract class MzModule
         {
             this.registeredObjects.put(object, workedRegistrarsRecord);
         }
+    }
+
+    public void registerIfEnabled(AnnotatedElement element)
+    {
+        if(ElementSwitcher.isEnabled(element))
+            this.register(element);
     }
 
     public void unregister(Object object)
