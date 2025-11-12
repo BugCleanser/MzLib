@@ -62,9 +62,10 @@ public interface Text extends WrapperObject
         return result.getValue().unwrap();
     }
 
+    Gson GSON = new Gson();
     static Text decode(String json)
     {
-        return decode(new Gson().fromJson(json, JsonElement.class));
+        return decode(GSON.fromJson(json, JsonElement.class));
     }
 
     JsonElement encode();

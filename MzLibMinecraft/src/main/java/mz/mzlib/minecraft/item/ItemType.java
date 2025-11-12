@@ -7,10 +7,15 @@ import java.util.Objects;
  */
 public class ItemType
 {
-    public ItemStack itemStack;
+    ItemStack itemStack;
     public ItemType(ItemStack itemStack)
     {
-        this.itemStack = new ItemStackBuilder(ItemStack.copy(itemStack)).setCount(1).get();
+        this.itemStack = new ItemStackBuilder(itemStack.copy()).setCount(1).get();
+    }
+
+    public ItemStack toItemStack(int count)
+    {
+        return new ItemStackBuilder(this.itemStack.copy()).setCount(count).get();
     }
 
     @Override
