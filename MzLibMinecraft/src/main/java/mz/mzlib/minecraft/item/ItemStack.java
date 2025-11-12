@@ -13,6 +13,7 @@ import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
+import mz.mzlib.minecraft.recipe.Recipe;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.serialization.CodecV1600;

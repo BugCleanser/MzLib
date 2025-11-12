@@ -73,17 +73,16 @@ public class Editor<T> implements AutoCompletable<T, Object>
     {
         return of(AutoCompletable.of(getter, setter));
     }
+
+    public static <T, R> Editor<R> ofReviser(Supplier<R> reviserGetter, Function<R, T> reviserApplier, Consumer<? super T> setter)
+    {
+        return Editor.of(reviserGetter, ThrowableFunction.ofFunction(reviserApplier).thenAccept(setter));
+    }
     public static <T, R extends Supplier<T>> Editor<R> ofReviser(Supplier<R> reviserGetter, Consumer<? super T> setter)
     {
-        return Editor.of(reviserGetter, reviser -> setter.accept(reviser.get()));
+        return ofReviser(reviserGetter, R::get, setter);
     }
-    public static <T, R extends Supplier<T>> Editor<R> ofReviser(
-        Supplier<T> getter,
-        Function<T, R> reviserGetter,
-        Consumer<? super T> setter)
-    {
-        return ofReviser(ThrowableSupplier.ofSupplier(getter).thenApply(reviserGetter), setter);
-    }
+
     public static <T> Editor<T> ofClone(
         Supplier<? extends T> getter,
         Function<? super T, ? extends T> cloner,

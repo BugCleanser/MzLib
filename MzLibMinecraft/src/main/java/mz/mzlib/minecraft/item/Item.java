@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
+import mz.mzlib.minecraft.recipe.Recipe;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.registry.SimpleRegistry;
@@ -26,6 +27,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.Item"))
@@ -72,6 +74,7 @@ public interface Item extends WrapperObject
     {
         return getRegistryV1300().getIdV1300(this);
     }
+
 
     static Option<NbtCompound> getCustomData(ItemStack itemStack)
     {
