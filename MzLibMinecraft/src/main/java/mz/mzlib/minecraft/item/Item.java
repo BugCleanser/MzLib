@@ -1,5 +1,7 @@
 package mz.mzlib.minecraft.item;
 
+import mz.mzlib.data.DataHandler;
+import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
@@ -11,7 +13,6 @@ import mz.mzlib.minecraft.i18n.VanillaI18nV_1300;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
-import mz.mzlib.minecraft.recipe.Recipe;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.registry.SimpleRegistry;
@@ -19,6 +20,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -27,7 +29,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.Item"))
@@ -75,58 +76,58 @@ public interface Item extends WrapperObject
         return getRegistryV1300().getIdV1300(this);
     }
 
+    DataKey.Revisable<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey.Revisable<>("custom_data");
 
-    static Option<NbtCompound> getCustomData(ItemStack itemStack)
+    class Module extends MzModule
     {
-        return FACTORY.getStatic().static$getCustomData(itemStack);
-    }
-    Option<NbtCompound> static$getCustomData(ItemStack itemStack);
-    @SpecificImpl("static$getCustomData")
-    @VersionRange(end = 2005)
-    default Option<NbtCompound> static$getCustomDataV_2005(ItemStack itemStack)
-    {
-        return itemStack.getTagV_2005();
-    }
-    @SpecificImpl("static$getCustomData")
-    @VersionRange(begin = 2005)
-    default Option<NbtCompound> static$getCustomDataV2005(ItemStack itemStack)
-    {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
-            .map(NbtCompoundComponentV2005::getNbtCompound);
-    }
-
-    static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
-    {
-        FACTORY.getStatic().static$setCustomData(itemStack, value);
-    }
-    void static$setCustomData(ItemStack itemStack, Option<NbtCompound> value);
-    @SpecificImpl("static$setCustomData")
-    @VersionRange(end = 2005)
-    default void static$setCustomDataV_2005(ItemStack itemStack, Option<NbtCompound> value)
-    {
-        itemStack.setTagV_2005(value);
-    }
-    @SpecificImpl("static$setCustomData")
-    @VersionRange(begin = 2005)
-    default void static$setCustomDataV2005(ItemStack itemStack, Option<NbtCompound> value)
-    {
-        itemStack.getComponentsV2005()
-            .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance));
-    }
-
-    static Editor<NbtCompound> reviseCustomData(ItemStack itemStack)
-    {
-        return Editor.of(
-            () -> getCustomData(itemStack).map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance),
-            nbt -> setCustomData(
-                itemStack,
-                Option.some(nbt).filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate())
-            )
-        );
+        @Override
+        public void onLoad()
+        {
+            (MinecraftPlatform.instance.getVersion() < 2005 ?
+                DataHandler.factory(CUSTOM_DATA)
+                    .getter(ItemStack::getTagV_2005)
+                    .setter(ItemStack::setTagV_2005)
+                :
+                DataHandler.factory(CUSTOM_DATA)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
+                        .map(NbtCompoundComponentV2005::getNbtCompound))
+                    .setter((is, value) -> is.getComponentsV2005()
+                        .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance)))
+            ).<NbtCompound>revisable()
+                .getter(data -> data.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
+                .applier(reviser -> Option.some(reviser)
+                    .filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate()))
+                .register(this);
+        }
     }
 
     /**
-     * @see #reviseCustomData
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static Option<NbtCompound> getCustomData(ItemStack itemStack)
+    {
+        return CUSTOM_DATA.get(itemStack);
+    }
+    /**
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
+    {
+        CUSTOM_DATA.set(itemStack, value);
+    }
+    /**
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static Editor<NbtCompound> reviseCustomData(ItemStack itemStack)
+    {
+        return CUSTOM_DATA.revise(itemStack);
+    }
+
+    /**
+     * @see #CUSTOM_DATA#revise
      * @deprecated slow; cannot break
      */
     @Deprecated
@@ -139,7 +140,7 @@ public interface Item extends WrapperObject
     @VersionRange(end = 2005)
     default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV_2005(ItemStack itemStack)
     {
-        return Editor.ofRef(itemStack, Item::getCustomData, Item::setCustomData);
+        return Editor.ofRef(itemStack, CUSTOM_DATA::get, CUSTOM_DATA::set);
     }
     @SpecificImpl("static$editCustomData")
     @VersionRange(begin = 2005)
@@ -147,8 +148,8 @@ public interface Item extends WrapperObject
     {
         return Editor.ofRef(
             itemStack,
-            ThrowableFunction.of(Item::getCustomData).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)),
-            Item::setCustomData
+            ThrowableFunction.of(CUSTOM_DATA::get).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)),
+            CUSTOM_DATA::set
         );
     }
 
@@ -205,7 +206,7 @@ public interface Item extends WrapperObject
     @VersionRange(end = 1300)
     default void static$setCustomNameV_1300(ItemStack itemStack, Option<Text> value)
     {
-        for(NbtCompound tag : reviseCustomData(itemStack))
+        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
         {
             for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
             {
@@ -220,7 +221,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin = 1300, end = 2005)
     default void static$setCustomNameV1300_2005(ItemStack itemStack, Option<Text> value)
     {
-        for(NbtCompound tag : reviseCustomData(itemStack))
+        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
         {
             for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
             {
@@ -347,7 +348,7 @@ public interface Item extends WrapperObject
     @VersionRange(end = 2005)
     default void static$setLoreV_2005(ItemStack itemStack, Option<List<Text>> value)
     {
-        for(NbtCompound tag : reviseCustomData(itemStack))
+        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
         {
             for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
             {
@@ -378,7 +379,7 @@ public interface Item extends WrapperObject
     @VersionRange(end = 2005)
     default Editor<List<Text>> static$reviseLoreV_2005(ItemStack itemStack)
     {
-        return reviseCustomData(itemStack)
+        return CUSTOM_DATA.revise(itemStack)
             .then(tag -> tag.reviseNbtCompoundOrNew("display"))
             .then(display -> Editor.of(
                 () -> new ListProxy<>(

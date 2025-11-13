@@ -19,7 +19,6 @@ import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
-import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.nothing.LocalVar;
 import mz.mzlib.util.nothing.Nothing;
@@ -45,7 +44,7 @@ public interface MzItem extends ItemStack
     @CallOnce
     default void init(NbtCompound data)
     {
-        for(NbtCompound customData : Item.reviseCustomData(this))
+        for(NbtCompound customData : Item.CUSTOM_DATA.revise(this))
         {
             for(NbtCompound mz : customData.reviseNbtCompoundOrNew("mz"))
             {
@@ -75,7 +74,7 @@ public interface MzItem extends ItemStack
 
     default Option<NbtCompound> getMzData()
     {
-        for(NbtCompound customData : Item.getCustomData(this))
+        for(NbtCompound customData : Item.CUSTOM_DATA.get(this))
         {
             for(NbtCompound mz : customData.getNbtCompound("mz"))
             {
@@ -87,7 +86,7 @@ public interface MzItem extends ItemStack
 
     default Editor<NbtCompound> reviseMzData()
     {
-        return Item.reviseCustomData(this)
+        return Item.CUSTOM_DATA.revise(this)
             .then(nbt -> nbt.reviseNbtCompoundOrNew("mz"))
             .then(nbt -> nbt.reviseNbtCompoundOrNew("data"));
     }

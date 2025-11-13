@@ -22,13 +22,13 @@ public class ModuleItemDisplaySign extends MzModule
 
     public void handle(EventAsyncPlayerDisplayItem<?> event)
     {
-        for(NbtCompound customData : Item.getCustomData(event.getItemStack()))
+        for(NbtCompound customData : Item.CUSTOM_DATA.get(event.getItemStack()))
         {
             if(customData.getByte("mz_display").unwrapOr((byte) 0) != 1)
                 break;
             for(ItemStack itemStack : event.reviseItemStack())
             {
-                for(NbtCompound customData1 : Item.reviseCustomData(itemStack))
+                for(NbtCompound customData1 : Item.CUSTOM_DATA.revise(itemStack))
                 {
                     customData1.put("mz_display", (byte) 2);
                 }
@@ -43,7 +43,7 @@ public class ModuleItemDisplaySign extends MzModule
         {
             for(ItemStack itemStack : event.reviseItemStack())
             {
-                for(NbtCompound customData : Item.reviseCustomData(itemStack))
+                for(NbtCompound customData : Item.CUSTOM_DATA.revise(itemStack))
                 {
                     if(customData.getByte("mz_display").unwrapOr((byte) 0) == 0)
                         customData.put("mz_display", (byte) 1);

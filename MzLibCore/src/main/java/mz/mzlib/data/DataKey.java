@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.data;
+package mz.mzlib.data;
 
 import mz.mzlib.util.Editor;
 
@@ -41,9 +41,17 @@ public class DataKey<H, T>
             super(name);
         }
 
+        DataHandler.Revisable<H, T, R> getHandlerRevisable()
+        {
+            DataHandler<H, T> handler = this.getHandler();
+            if(!(handler instanceof DataHandler.Revisable))
+                throw new IllegalStateException("This key (" + this.name + ") has non-revisable handler: " + handler);
+            return (DataHandler.Revisable<H, T, R>) handler;
+        }
+
         public Editor<R> revise(H holder)
         {
-            return ((DataHandler.Revisable<H, T, R>) this.getHandler()).revise(holder);
+            return this.getHandlerRevisable().revise(holder);
         }
     }
 }

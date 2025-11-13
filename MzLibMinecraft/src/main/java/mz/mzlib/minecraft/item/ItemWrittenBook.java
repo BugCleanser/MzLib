@@ -83,7 +83,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end = 2005)
     default void static$setTitleV_2005(ItemStack book, String title)
     {
-        for(NbtCompound tag : Item.reviseCustomData(book))
+        for(NbtCompound tag : CUSTOM_DATA.revise(book))
         {
             tag.put("title", NbtString.newInstance(title));
         }
@@ -131,7 +131,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end = 2005)
     default void static$setAuthorV_2005(ItemStack book, String author)
     {
-        for(NbtCompound tag : Item.reviseCustomData(book))
+        for(NbtCompound tag : CUSTOM_DATA.revise(book))
         {
             tag.put("author", NbtString.newInstance(author));
         }
@@ -179,7 +179,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end = 2005)
     default void static$setGenerationV_2005(ItemStack book, int generation)
     {
-        for(NbtCompound tag : Item.reviseCustomData(book))
+        for(NbtCompound tag : CUSTOM_DATA.revise(book))
         {
             tag.put("generation", NbtInt.newInstance(generation));
         }
@@ -226,7 +226,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end = 2005)
     default void static$setPagesV_2005(ItemStack book, List<Text> pages)
     {
-        for(NbtCompound tag : Item.reviseCustomData(book))
+        for(NbtCompound tag : CUSTOM_DATA.revise(book))
         {
             tag.put(
                 "pages", NbtList.newInstance(
@@ -281,7 +281,7 @@ public interface ItemWrittenBook extends Item
     @VersionRange(end = 2005)
     default void static$setResolvedV_2005(ItemStack book, boolean resolved)
     {
-        for(NbtCompound tag : Item.reviseCustomData(book))
+        for(NbtCompound tag : CUSTOM_DATA.revise(book))
         {
             tag.put("resolved", NbtByte.newInstance(resolved));
         }

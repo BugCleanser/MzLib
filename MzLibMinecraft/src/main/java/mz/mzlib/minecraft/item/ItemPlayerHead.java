@@ -70,7 +70,7 @@ public interface ItemPlayerHead extends Item
     @VersionRange(end = 2005)
     default void static$setOwnerV_2005(ItemStack itemStack, Option<GameProfile.Description> value)
     {
-        for(NbtCompound tag : Item.reviseCustomData(itemStack))
+        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
         {
             if(value.isSome())
                 tag.put("SkullOwner", NbtUtil.encodeGameProfileV_2005(GameProfile.fromDescription(value.unwrap())));

@@ -39,7 +39,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
             return Option.some((MzItem) itemStack);
         if(itemStack.isEmpty())
             return Option.none();
-        for(NbtCompound customData : Item.getCustomData(itemStack))
+        for(NbtCompound customData : Item.CUSTOM_DATA.get(itemStack))
         {
             for(NbtCompound mz : customData.getNbtCompound("mz"))
             {

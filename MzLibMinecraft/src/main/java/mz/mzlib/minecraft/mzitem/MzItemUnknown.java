@@ -21,6 +21,6 @@ public interface MzItemUnknown extends MzItem
     default Identifier getMzId()
     {
         return Identifier.newInstance(
-            Item.getCustomData(this).unwrap().getNbtCompound("mz").unwrap().getString("id").unwrap());
+            Item.CUSTOM_DATA.get(this).unwrap().getNbtCompound("mz").unwrap().getString("id").unwrap());
     }
 }

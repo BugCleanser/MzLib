@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.data;
+package mz.mzlib.data;
 
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.Registrable;
@@ -116,9 +116,9 @@ public class DataHandler<H, T> implements Registrable
         }
     }
 
-    public static <H, T> Factory<H, T> factory()
+    public static <H, T> Factory<H, T> factory(DataKey<H, T> key)
     {
-        return new Factory<>();
+        return new Factory<>(key);
     }
 
     public static class Factory<H, T>
@@ -128,8 +128,9 @@ public class DataHandler<H, T> implements Registrable
         Function<H, T> getter;
         BiConsumer<H, T> setter;
 
-        public Factory()
+        public Factory(DataKey<H, T> key)
         {
+            this.key = key;
         }
         public Factory(Factory<H, T> other)
         {
@@ -139,17 +140,15 @@ public class DataHandler<H, T> implements Registrable
             this.setter = other.setter;
         }
 
-        public Factory<H, T> key(DataKey<H, T> key)
-        {
-            Factory<H, T> result = new Factory<>(this);
-            result.key = key;
-            return result;
-        }
         public Factory<H, T> checker(Predicate<H> checker)
         {
             Factory<H, T> result = new Factory<>(this);
             result.checker = checker;
             return result;
+        }
+        public Factory<H, T> checker(Class<? extends H> holderClass)
+        {
+            return this.checker(holderClass::isInstance);
         }
         public Factory<H, T> getter(Function<H, T> getter)
         {
@@ -176,6 +175,10 @@ public class DataHandler<H, T> implements Registrable
                 throw new IllegalStateException("Setter is not set");
             return new DataHandler<>(this.key, this.checker, this.getter, this.setter);
         }
+        public void register(MzModule module)
+        {
+            module.register(this.build());
+        }
 
         public <R> Revisable<H, T, R> revisable()
         {
@@ -190,6 +193,8 @@ public class DataHandler<H, T> implements Registrable
 
             public Revisable(Factory<H, T> base)
             {
+                if(!(base.key instanceof DataKey.Revisable))
+                    throw new IllegalArgumentException("Key is not revisable");
                 this.base = base;
             }
             public Revisable(Revisable<H, T, R> other)
@@ -199,12 +204,6 @@ public class DataHandler<H, T> implements Registrable
                 this.applier = other.applier;
             }
 
-            public Revisable<H, T, R> key(DataKey.Revisable<H, T, R> key)
-            {
-                Revisable<H, T, R> result = new Revisable<>(this);
-                result.base.key = key;
-                return result;
-            }
             public Revisable<H, T, R> getter(Function<T, R> getter)
             {
                 Revisable<H, T, R> result = new Revisable<>(this);
@@ -220,8 +219,6 @@ public class DataHandler<H, T> implements Registrable
 
             public DataHandler<H, T> build()
             {
-                if(!(base.key instanceof DataKey.Revisable))
-                    throw new IllegalStateException("Key is not revisable");
                 if(this.getter == null)
                     throw new IllegalStateException("Getter is not set");
                 if(this.applier == null)
@@ -234,6 +231,10 @@ public class DataHandler<H, T> implements Registrable
                     this.getter,
                     this.applier
                 );
+            }
+            public void register(MzModule module)
+            {
+                module.register(this.build());
             }
         }
     }
