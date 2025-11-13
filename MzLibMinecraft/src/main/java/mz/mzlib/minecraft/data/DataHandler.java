@@ -115,4 +115,126 @@ public class DataHandler<H, T> implements Registrable
                 this.key.handler = null;
         }
     }
+
+    public static <H, T> Factory<H, T> factory()
+    {
+        return new Factory<>();
+    }
+
+    public static class Factory<H, T>
+    {
+        DataKey<H, T> key;
+        Predicate<H> checker;
+        Function<H, T> getter;
+        BiConsumer<H, T> setter;
+
+        public Factory()
+        {
+        }
+        public Factory(Factory<H, T> other)
+        {
+            this.key = other.key;
+            this.checker = other.checker;
+            this.getter = other.getter;
+            this.setter = other.setter;
+        }
+
+        public Factory<H, T> key(DataKey<H, T> key)
+        {
+            Factory<H, T> result = new Factory<>(this);
+            result.key = key;
+            return result;
+        }
+        public Factory<H, T> checker(Predicate<H> checker)
+        {
+            Factory<H, T> result = new Factory<>(this);
+            result.checker = checker;
+            return result;
+        }
+        public Factory<H, T> getter(Function<H, T> getter)
+        {
+            Factory<H, T> result = new Factory<>(this);
+            result.getter = getter;
+            return result;
+        }
+        public Factory<H, T> setter(BiConsumer<H, T> setter)
+        {
+            Factory<H, T> result = new Factory<>(this);
+            result.setter = setter;
+            return result;
+        }
+
+        public DataHandler<H, T> build()
+        {
+            if(this.key == null)
+                throw new IllegalStateException("Key is not set");
+            if(this.checker == null)
+                throw new IllegalStateException("Checker is not set");
+            if(this.getter == null)
+                throw new IllegalStateException("Getter is not set");
+            if(this.setter == null)
+                throw new IllegalStateException("Setter is not set");
+            return new DataHandler<>(this.key, this.checker, this.getter, this.setter);
+        }
+
+        public <R> Revisable<H, T, R> revisable()
+        {
+            return new Revisable<>(this);
+        }
+
+        public static class Revisable<H, T, R>
+        {
+            Factory<H, T> base;
+            Function<T, R> getter;
+            Function<R, T> applier;
+
+            public Revisable(Factory<H, T> base)
+            {
+                this.base = base;
+            }
+            public Revisable(Revisable<H, T, R> other)
+            {
+                this.base = new Factory<>(other.base);
+                this.getter = other.getter;
+                this.applier = other.applier;
+            }
+
+            public Revisable<H, T, R> key(DataKey.Revisable<H, T, R> key)
+            {
+                Revisable<H, T, R> result = new Revisable<>(this);
+                result.base.key = key;
+                return result;
+            }
+            public Revisable<H, T, R> getter(Function<T, R> getter)
+            {
+                Revisable<H, T, R> result = new Revisable<>(this);
+                result.getter = getter;
+                return result;
+            }
+            public Revisable<H, T, R> applier(Function<R, T> applier)
+            {
+                Revisable<H, T, R> result = new Revisable<>(this);
+                result.applier = applier;
+                return result;
+            }
+
+            public DataHandler<H, T> build()
+            {
+                if(!(base.key instanceof DataKey.Revisable))
+                    throw new IllegalStateException("Key is not revisable");
+                if(this.getter == null)
+                    throw new IllegalStateException("Getter is not set");
+                if(this.applier == null)
+                    throw new IllegalStateException("Applier is not set");
+                return new DataHandler.Revisable<>(
+                    (DataKey.Revisable<H, T, R>) this.base.key,
+                    this.base.checker,
+                    this.base.getter,
+                    this.base.setter,
+                    this.getter,
+                    this.applier
+                );
+            }
+        }
+    }
 }
