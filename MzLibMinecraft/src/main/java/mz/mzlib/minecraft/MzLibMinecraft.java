@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.Item;
+import mz.mzlib.minecraft.item.ItemPlayerHead;
 import mz.mzlib.minecraft.item.ModuleItemDisplaySign;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;

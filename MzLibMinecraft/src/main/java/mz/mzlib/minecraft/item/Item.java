@@ -144,6 +144,8 @@ public interface Item extends WrapperObject
         @Override
         public void onLoad()
         {
+            this.register(ItemPlayerHead.Module.instance);
+
             (MinecraftPlatform.instance.getVersion() < 2005 ?
                 DataHandler.factory(CUSTOM_DATA)
                     .getter(ItemStack::getTagV_2005)

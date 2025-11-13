@@ -34,7 +34,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     public static ItemStackBuilder playerHead(GameProfile.Description description)
     {
         ItemStackBuilder result = forFlattening("skull", 3, "player_head");
-        ItemPlayerHead.setOwner(result.result, Option.some(description));
+        ItemPlayerHead.OWNER.set(result.result, Option.some(description));
         return result;
     }
     public static ItemStackBuilder playerHead0(Option<String> name, Option<UUID> uuid, String textures)
