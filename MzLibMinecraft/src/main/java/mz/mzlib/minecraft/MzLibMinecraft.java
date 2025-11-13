@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.commands.*;
 import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
+import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ModuleItemDisplaySign;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;
@@ -51,6 +52,8 @@ public class MzLibMinecraft extends MzModule
             this.register(I18n.load(MinecraftPlatform.instance.getMzLibJar(), "lang", 0));
 
             this.register(MinecraftI18n.instance);
+
+            this.register(Item.Module.instance);
 
             this.register(
                 new TesterJarWrappers(MinecraftPlatform.instance.getMzLibJar(), MzLibMinecraft.class.getClassLoader()));

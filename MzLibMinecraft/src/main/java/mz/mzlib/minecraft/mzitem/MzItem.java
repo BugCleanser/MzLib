@@ -62,8 +62,8 @@ public interface MzItem extends ItemStack
     {
         Identifier id = this.getMzId();
         String key = id.getNamespace() + ".item." + id.getName();
-        if(Item.getCustomName(itemStack).isNone())
-            Item.setCustomName(itemStack, Option.some(MinecraftI18n.resolveText(player, key)));
+        if(Item.CUSTOM_NAME.get(itemStack).isNone())
+            Item.CUSTOM_NAME.set(itemStack, Option.some(MinecraftI18n.resolveText(player, key)));
         // TODO lore
     }
 

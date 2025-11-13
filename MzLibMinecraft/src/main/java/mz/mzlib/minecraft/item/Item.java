@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.item;
 
+import com.google.gson.JsonElement;
 import mz.mzlib.data.DataHandler;
 import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.Identifier;
@@ -29,7 +30,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.Item"))
 public interface Item extends WrapperObject
@@ -47,6 +48,10 @@ public interface Item extends WrapperObject
     }
 
     Item AIR = fromId(Identifier.minecraft("air"));
+
+    DataKey.Revisable<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey.Revisable<>("custom_data");
+    DataKey<ItemStack, Option<Text>> CUSTOM_NAME = new DataKey<>("custom_name");
+    DataKey.Revisable<ItemStack, Option<List<Text>>, List<Text>> LORE = new DataKey.Revisable<>("lore");
 
     ComponentKeyV2005.Wrapper<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 =
         MinecraftPlatform.instance.getVersion() < 2005 ?
@@ -74,350 +79,6 @@ public interface Item extends WrapperObject
     default Identifier getIdV1300()
     {
         return getRegistryV1300().getIdV1300(this);
-    }
-
-    DataKey.Revisable<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey.Revisable<>("custom_data");
-
-    class Module extends MzModule
-    {
-        @Override
-        public void onLoad()
-        {
-            (MinecraftPlatform.instance.getVersion() < 2005 ?
-                DataHandler.factory(CUSTOM_DATA)
-                    .getter(ItemStack::getTagV_2005)
-                    .setter(ItemStack::setTagV_2005)
-                :
-                DataHandler.factory(CUSTOM_DATA)
-                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
-                        .map(NbtCompoundComponentV2005::getNbtCompound))
-                    .setter((is, value) -> is.getComponentsV2005()
-                        .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance)))
-            ).<NbtCompound>revisable()
-                .getter(data -> data.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
-                .applier(reviser -> Option.some(reviser)
-                    .filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate()))
-                .register(this);
-        }
-    }
-
-    /**
-     * @see #CUSTOM_DATA
-     */
-    @Deprecated
-    static Option<NbtCompound> getCustomData(ItemStack itemStack)
-    {
-        return CUSTOM_DATA.get(itemStack);
-    }
-    /**
-     * @see #CUSTOM_DATA
-     */
-    @Deprecated
-    static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
-    {
-        CUSTOM_DATA.set(itemStack, value);
-    }
-    /**
-     * @see #CUSTOM_DATA
-     */
-    @Deprecated
-    static Editor<NbtCompound> reviseCustomData(ItemStack itemStack)
-    {
-        return CUSTOM_DATA.revise(itemStack);
-    }
-
-    /**
-     * @see #CUSTOM_DATA#revise
-     * @deprecated slow; cannot break
-     */
-    @Deprecated
-    static Editor<Ref<Option<NbtCompound>>> editCustomData(ItemStack itemStack)
-    {
-        return FACTORY.getStatic().static$editCustomData(itemStack);
-    }
-    Editor<Ref<Option<NbtCompound>>> static$editCustomData(ItemStack itemStack);
-    @SpecificImpl("static$editCustomData")
-    @VersionRange(end = 2005)
-    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV_2005(ItemStack itemStack)
-    {
-        return Editor.ofRef(itemStack, CUSTOM_DATA::get, CUSTOM_DATA::set);
-    }
-    @SpecificImpl("static$editCustomData")
-    @VersionRange(begin = 2005)
-    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV2005(ItemStack itemStack)
-    {
-        return Editor.ofRef(
-            itemStack,
-            ThrowableFunction.of(CUSTOM_DATA::get).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)),
-            CUSTOM_DATA::set
-        );
-    }
-
-    static Option<Text> getCustomName(ItemStack itemStack)
-    {
-        return FACTORY.getStatic().static$getCustomName(itemStack);
-    }
-    Option<Text> static$getCustomName(ItemStack itemStack);
-    @SpecificImpl("static$getCustomName")
-    @VersionRange(end = 1300)
-    default Option<Text> static$getCustomNameV_1300(ItemStack itemStack)
-    {
-        for(NbtCompound tag : itemStack.getTagV_2005())
-        {
-            for(NbtCompound display : tag.getNbtCompound("display"))
-            {
-                for(String name : display.getString("Name"))
-                {
-                    return Option.some(Text.fromLegacy(name));
-                }
-            }
-        }
-        return Option.none();
-    }
-    @SpecificImpl("static$getCustomName")
-    @VersionRange(begin = 1300, end = 2005)
-    default Option<Text> static$getCustomNameV1300_2005(ItemStack itemStack)
-    {
-        for(NbtCompound nbt : itemStack.getTagV_2005())
-        {
-            for(NbtCompound display : nbt.getNbtCompound("display"))
-            {
-                for(String name : display.getString("Name"))
-                {
-                    return Option.some(Text.decode(name));
-                }
-            }
-        }
-        return Option.none();
-    }
-    @SpecificImpl("static$getCustomName")
-    @VersionRange(begin = 2005)
-    default Option<Text> static$getCustomNameV2005(ItemStack itemStack)
-    {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005);
-    }
-
-    static void setCustomName(ItemStack itemStack, Option<Text> value)
-    {
-        FACTORY.getStatic().static$setCustomName(itemStack, value);
-    }
-    void static$setCustomName(ItemStack itemStack, Option<Text> value);
-    @SpecificImpl("static$setCustomName")
-    @VersionRange(end = 1300)
-    default void static$setCustomNameV_1300(ItemStack itemStack, Option<Text> value)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
-        {
-            for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
-            {
-                if(value.isSome())
-                    display.put("Name", value.unwrap().toLegacy());
-                else
-                    display.remove("Name");
-            }
-        }
-    }
-    @SpecificImpl("static$setCustomName")
-    @VersionRange(begin = 1300, end = 2005)
-    default void static$setCustomNameV1300_2005(ItemStack itemStack, Option<Text> value)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
-        {
-            for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
-            {
-                if(value.isSome())
-                    display.put("Name", value.unwrap().encode().toString());
-                else
-                    display.remove("Name");
-            }
-        }
-    }
-    @SpecificImpl("static$setCustomName")
-    @VersionRange(begin = 2005)
-    default void static$setCustomNameV2005(ItemStack itemStack, Option<Text> value)
-    {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, value);
-    }
-
-    /**
-     * @see #setCustomName
-     */
-    @Deprecated
-    static void removeCustomName(ItemStack itemStack)
-    {
-        setCustomName(itemStack, Option.none());
-    }
-
-    static Editor<Ref<Option<Text>>> editCustomName(ItemStack itemStack)
-    {
-        return Editor.ofRef(itemStack, Item::getCustomName, Item::setCustomName);
-    }
-
-    static Text decodeLoreLineV_2005(String value)
-    {
-        return FACTORY.getStatic().static$decodeLoreLineV_2005(value);
-    }
-    Text static$decodeLoreLineV_2005(String value);
-    @SpecificImpl("static$decodeLoreLineV_2005")
-    @VersionRange(end = 1400)
-    default Text static$decodeLoreLineV_1400(String value)
-    {
-        return Text.fromLegacy(value);
-    }
-    @SpecificImpl("static$decodeLoreLineV_2005")
-    @VersionRange(begin = 1400, end = 2005)
-    default Text static$decodeLoreLineV1400_2005(String value)
-    {
-        return Text.decode(value);
-    }
-
-    static Option<List<Text>> getLore(ItemStack itemStack)
-    {
-        return FACTORY.getStatic().static$getLore(itemStack);
-    }
-    Option<List<Text>> static$getLore(ItemStack itemStack);
-    @SpecificImpl("static$getLore")
-    @VersionRange(end = 2005)
-    default Option<List<Text>> static$getLoreV_2005(ItemStack itemStack)
-    {
-        for(NbtCompound tag : itemStack.getTagV_2005())
-        {
-            for(NbtCompound display : tag.getNbtCompound("display"))
-            {
-                for(NbtList lore : display.getNbtList("Lore"))
-                {
-                    return Option.some(
-                        lore.asList(NbtString.FACTORY).stream().map(NbtString::getValue).map(Item::decodeLoreLineV_2005)
-                            .collect(Collectors.toList()));
-                }
-            }
-        }
-        return Option.none();
-    }
-    @SpecificImpl("static$getLore")
-    @VersionRange(begin = 2005)
-    default Option<List<Text>> static$getLoreV2005(ItemStack itemStack)
-    {
-        return itemStack.getComponentsV2005().get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines);
-    }
-
-    @Deprecated
-    static Option<List<Text>> copyLore(ItemStack itemStack)
-    {
-        return FACTORY.getStatic().static$copyLore(itemStack);
-    }
-    Option<List<Text>> static$copyLore(ItemStack itemStack);
-    @SpecificImpl("static$copyLore")
-    @VersionRange(end = 2005)
-    default Option<List<Text>> static$copyLoreV_2005(ItemStack itemStack)
-    {
-        return getLore(itemStack);
-    }
-    @SpecificImpl("static$copyLore")
-    @VersionRange(begin = 2005)
-    default Option<List<Text>> static$copyLoreV2005(ItemStack itemStack)
-    {
-        return getLore(itemStack).map(ArrayList::new);
-    }
-
-    @VersionRange(end = 2005)
-    static String encodeLoreLineV_2005(Text value)
-    {
-        return FACTORY.getStatic().static$encodeLoreLineV_2005(value);
-    }
-    String static$encodeLoreLineV_2005(Text value);
-    @SpecificImpl("static$encodeLoreLineV_2005")
-    @VersionRange(end = 1400)
-    default String static$encodeLoreLineV_1400(Text value)
-    {
-        return value.toLegacy();
-    }
-    @SpecificImpl("static$encodeLoreLineV_2005")
-    @VersionRange(begin = 1400, end = 2005)
-    default String static$encodeLoreLineV1400_2005(Text value)
-    {
-        return value.encode().toString();
-    }
-
-    static void setLore(ItemStack itemStack, Option<List<Text>> value)
-    {
-        FACTORY.getStatic().static$setLore(itemStack, value);
-    }
-    void static$setLore(ItemStack itemStack, Option<List<Text>> value);
-    @SpecificImpl("static$setLore")
-    @VersionRange(end = 2005)
-    default void static$setLoreV_2005(ItemStack itemStack, Option<List<Text>> value)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(itemStack))
-        {
-            for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
-            {
-                if(value.isSome())
-                    display.put(
-                        "Lore", NbtList.newInstance(
-                            value.unwrap().stream().map(Item::encodeLoreLineV_2005).map(NbtString::newInstance)
-                                .toArray(NbtString[]::new))
-                    );
-                else
-                    display.remove("Lore");
-            }
-        }
-    }
-    @SpecificImpl("static$setLore")
-    @VersionRange(begin = 2005)
-    default void static$setLoreV2005(ItemStack itemStack, Option<List<Text>> value)
-    {
-        itemStack.getComponentsV2005().set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance));
-    }
-
-    static Editor<List<Text>> reviseLore(ItemStack itemStack)
-    {
-        return FACTORY.getStatic().static$reviseLore(itemStack);
-    }
-    Editor<List<Text>> static$reviseLore(ItemStack itemStack);
-    @SpecificImpl("static$reviseLore")
-    @VersionRange(end = 2005)
-    default Editor<List<Text>> static$reviseLoreV_2005(ItemStack itemStack)
-    {
-        return CUSTOM_DATA.revise(itemStack)
-            .then(tag -> tag.reviseNbtCompoundOrNew("display"))
-            .then(display -> Editor.of(
-                () -> new ListProxy<>(
-                    display.getNbtList("Lore").unwrapOrGet(NbtList::newInstance).asList(NbtString.FACTORY).stream()
-                        .map(NbtString::getValue).collect(Collectors.toList()), // clone to String List
-                    InvertibleFunction.of(Item::decodeLoreLineV_2005, Item::encodeLoreLineV_2005)
-                ),
-                list ->
-                {
-                    if(list.isEmpty())
-                        display.remove("Lore");
-                    else
-                        display.put(
-                            "Lore", NbtList.newInstance(
-                                ((ListProxy<Text, String>) list).getDelegate().stream().map(NbtString::newInstance)
-                                    .toArray(NbtString[]::new))
-                        );
-                }
-            ));
-    }
-    @SpecificImpl("static$reviseLore")
-    @VersionRange(begin = 2005)
-    default Editor<List<Text>> static$reviseLoreV2005(ItemStack itemStack)
-    {
-        return Editor.of(
-            () -> getLore(itemStack).map(ArrayList::new).unwrapOrGet(ArrayList::new),
-            list -> setLore(itemStack, Option.some(list))
-        );
-    }
-
-    /**
-     * @see #reviseLore
-     * @deprecated slow
-     */
-    @Deprecated
-    static Editor<Ref<Option<List<Text>>>> editLore(ItemStack itemStack)
-    {
-        return Editor.ofRef(itemStack, Item::copyLore, Item::setLore);
     }
 
     static Registry getRegistry()
@@ -475,4 +136,293 @@ public interface Item extends WrapperObject
         @VersionName(name = "getName", begin = 1400)
     })
     Text getNameV1300(ItemStack itemStack);
+
+    class Module extends MzModule
+    {
+        public static Module instance = new Module();
+
+        @Override
+        public void onLoad()
+        {
+            (MinecraftPlatform.instance.getVersion() < 2005 ?
+                DataHandler.factory(CUSTOM_DATA)
+                    .getter(ItemStack::getTagV_2005)
+                    .setter(ItemStack::setTagV_2005)
+                :
+                DataHandler.factory(CUSTOM_DATA)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
+                        .map(NbtCompoundComponentV2005::getNbtCompound))
+                    .setter((is, value) -> is.getComponentsV2005()
+                        .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance)))
+            ).<NbtCompound>revisable()
+                .getter(data -> data.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
+                .applier(reviser -> Option.some(reviser)
+                    .filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate()))
+                .register(this);
+
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+            {
+                final Function<String, Text> customNameDecoder;
+                final Function<Text, String> customNameEncoder;
+                if(MinecraftPlatform.instance.getVersion() < 1300)
+                {
+                    customNameDecoder = Text::fromLegacy;
+                    customNameEncoder = Text::toLegacy;
+                }
+                else
+                {
+                    customNameDecoder = Text::decode;
+                    customNameEncoder = ThrowableFunction.ofFunction(Text::encode).thenApply(JsonElement::toString);
+                }
+                DataHandler.factory(CUSTOM_NAME)
+                    .getter(is ->
+                    {
+                        for(NbtCompound nbt : is.getTagV_2005())
+                        {
+                            for(NbtCompound display : nbt.getNbtCompound("display"))
+                            {
+                                for(String name : display.getString("Name"))
+                                {
+                                    return Option.some(customNameDecoder.apply(name));
+                                }
+                            }
+                        }
+                        return Option.none();
+                    })
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
+                            {
+                                if(value.isSome())
+                                    display.put("Name", customNameEncoder.apply(value.unwrap()));
+                                else
+                                    display.remove("Name");
+                            }
+                        }
+                    })
+                    .register(this);
+            }
+            else
+                DataHandler.factory(CUSTOM_NAME)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005))
+                    .setter((is, value) -> is.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, value))
+                    .register(this);
+
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+            {
+                final Function<String, Text> loreLineDecoder;
+                final Function<Text, String> loreLineEncoder;
+                if(MinecraftPlatform.instance.getVersion() < 1400)
+                {
+                    loreLineDecoder = Text::fromLegacy;
+                    loreLineEncoder = Text::toLegacy;
+                }
+                else
+                {
+                    loreLineDecoder = Text::decode;
+                    loreLineEncoder = ThrowableFunction.ofFunction(Text::encode).thenApply(JsonElement::toString);
+                }
+                InvertibleFunction<NbtString, Text> proxyFunction = InvertibleFunction.of(
+                    ThrowableFunction.of(NbtString::getValue).thenApply(loreLineDecoder),
+                    loreLineEncoder.andThen(NbtString::newInstance)
+                );
+                DataHandler.factory(LORE)
+                    .getter(is ->
+                    {
+                        for(NbtCompound tag : is.getTagV_2005())
+                        {
+                            for(NbtCompound display : tag.getNbtCompound("display"))
+                            {
+                                for(NbtList lore : display.getNbtList("Lore"))
+                                {
+                                    return Option.some(new ListProxy<>(
+                                        new ArrayList<>(lore.asList(NbtString.FACTORY)), // copy
+                                        proxyFunction
+                                    ));
+                                }
+                            }
+                        }
+                        return Option.none();
+                    })
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            l1:
+                            for(NbtCompound display : tag.reviseNbtCompoundOrNew("display"))
+                            {
+                                for(List<Text> unwrap : value)
+                                {
+                                    if(unwrap instanceof ListProxy &&
+                                        ((ListProxy<?, ?>) unwrap).getFunction() == proxyFunction)
+                                        display.put(
+                                            "Lore", NbtList.newInstance(
+                                                ((ListProxy<Text, NbtString>) unwrap).getDelegate())
+                                        );
+                                    else
+                                        display.put(
+                                            "Lore", NbtList.newInstance(
+                                                unwrap.stream()
+                                                    .map(loreLineEncoder)
+                                                    .map(NbtString::newInstance)
+                                                    .toArray(NbtString[]::new))
+                                        );
+                                    continue l1;
+                                }
+                                display.remove("Lore");
+                            }
+                        }
+                    })
+                    .<List<Text>>revisable()
+                    .getter(lore -> lore.unwrapOrGet(ArrayList::new))
+                    .applier(reviser -> Option.some(reviser)
+                        .filter(ThrowablePredicate.ofPredicate(List<Text>::isEmpty).negate()))
+                    .register(this);
+            }
+            else
+                DataHandler.factory(LORE)
+                    .getter(is -> is.getComponentsV2005()
+                        .get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines))
+                    .setter((is, value) -> is.getComponentsV2005()
+                        .set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance)))
+                    .<List<Text>>revisable()
+                    .getter(lore -> lore.map(ArrayList::new).unwrapOrGet(ArrayList::new))
+                    .applier(reviser -> Option.some(reviser)
+                        .filter(ThrowablePredicate.ofPredicate(List<Text>::isEmpty).negate()))
+                    .register(this);
+        }
+    }
+
+    /**
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static Option<NbtCompound> getCustomData(ItemStack itemStack)
+    {
+        return CUSTOM_DATA.get(itemStack);
+    }
+    /**
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static void setCustomData(ItemStack itemStack, Option<NbtCompound> value)
+    {
+        CUSTOM_DATA.set(itemStack, value);
+    }
+    /**
+     * @see #CUSTOM_DATA
+     */
+    @Deprecated
+    static Editor<NbtCompound> reviseCustomData(ItemStack itemStack)
+    {
+        return CUSTOM_DATA.revise(itemStack);
+    }
+
+    /**
+     * @see #CUSTOM_DATA
+     * @deprecated slow; cannot break
+     */
+    @Deprecated
+    static Editor<Ref<Option<NbtCompound>>> editCustomData(ItemStack itemStack)
+    {
+        return FACTORY.getStatic().static$editCustomData(itemStack);
+    }
+    Editor<Ref<Option<NbtCompound>>> static$editCustomData(ItemStack itemStack);
+    @SpecificImpl("static$editCustomData")
+    @VersionRange(end = 2005)
+    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV_2005(ItemStack itemStack)
+    {
+        return Editor.ofRef(itemStack, CUSTOM_DATA::get, CUSTOM_DATA::set);
+    }
+    @SpecificImpl("static$editCustomData")
+    @VersionRange(begin = 2005)
+    default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV2005(ItemStack itemStack)
+    {
+        return Editor.ofRef(
+            itemStack,
+            ThrowableFunction.of(CUSTOM_DATA::get).thenApply(ThrowableFunction.optionMap(NbtCompound::copy)),
+            CUSTOM_DATA::set
+        );
+    }
+
+    /**
+     * @see #CUSTOM_NAME
+     */
+    @Deprecated
+    static Option<Text> getCustomName(ItemStack itemStack)
+    {
+        return CUSTOM_NAME.get(itemStack);
+    }
+    /**
+     * @see #CUSTOM_NAME
+     */
+    @Deprecated
+    static void setCustomName(ItemStack itemStack, Option<Text> value)
+    {
+        CUSTOM_NAME.set(itemStack, value);
+    }
+    /**
+     * @see #CUSTOM_NAME
+     */
+    @Deprecated
+    static Editor<Ref<Option<Text>>> editCustomName(ItemStack itemStack)
+    {
+        return Editor.ofRef(itemStack, Item::getCustomName, Item::setCustomName);
+    }
+
+    /**
+     * @see #LORE
+     */
+    @Deprecated
+    static Option<List<Text>> getLore(ItemStack itemStack)
+    {
+        return LORE.get(itemStack);
+    }
+    /**
+     * @see #LORE
+     */
+    @Deprecated
+    static void setLore(ItemStack itemStack, Option<List<Text>> value)
+    {
+        LORE.set(itemStack, value);
+    }
+    /**
+     * @see #LORE
+     */
+    @Deprecated
+    static Editor<List<Text>> reviseLore(ItemStack itemStack)
+    {
+        return LORE.revise(itemStack);
+    }
+
+    @Deprecated
+    static Option<List<Text>> copyLore(ItemStack itemStack)
+    {
+        return FACTORY.getStatic().static$copyLore(itemStack);
+    }
+    Option<List<Text>> static$copyLore(ItemStack itemStack);
+    @SpecificImpl("static$copyLore")
+    @VersionRange(end = 2005)
+    default Option<List<Text>> static$copyLoreV_2005(ItemStack itemStack)
+    {
+        return LORE.get(itemStack);
+    }
+    @SpecificImpl("static$copyLore")
+    @VersionRange(begin = 2005)
+    default Option<List<Text>> static$copyLoreV2005(ItemStack itemStack)
+    {
+        return LORE.get(itemStack).map(ArrayList::new);
+    }
+
+    /**
+     * @see #reviseLore
+     * @deprecated slow
+     */
+    @Deprecated
+    static Editor<Ref<Option<List<Text>>>> editLore(ItemStack itemStack)
+    {
+        return Editor.ofRef(itemStack, Item::copyLore, LORE::set);
+    }
 }

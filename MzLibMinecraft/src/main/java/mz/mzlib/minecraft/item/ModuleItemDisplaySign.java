@@ -32,7 +32,7 @@ public class ModuleItemDisplaySign extends MzModule
                 {
                     customData1.put("mz_display", (byte) 2);
                 }
-                for(List<Text> lore : Item.reviseLore(itemStack))
+                for(List<Text> lore : Item.LORE.revise(itemStack))
                 {
                     lore.add(0, MinecraftI18n.resolveText(event.getPlayer(), "mzlib.item_display_sign"));
                 }

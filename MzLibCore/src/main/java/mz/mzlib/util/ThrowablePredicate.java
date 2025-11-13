@@ -45,6 +45,15 @@ public interface ThrowablePredicate<T, E extends Throwable> extends Predicate<T>
         return function::applyOrThrow;
     }
 
+    static <T> ThrowablePredicate<T, RuntimeException> always()
+    {
+        return it -> true;
+    }
+    static <T> ThrowablePredicate<T, RuntimeException> never()
+    {
+        return it -> false;
+    }
+
     @Override
     default ThrowablePredicate<T, E> negate()
     {

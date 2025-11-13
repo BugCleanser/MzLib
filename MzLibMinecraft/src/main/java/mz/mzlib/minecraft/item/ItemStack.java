@@ -13,7 +13,6 @@ import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
-import mz.mzlib.minecraft.recipe.Recipe;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.serialization.CodecV1600;
@@ -145,9 +144,12 @@ public interface ItemStack extends WrapperObject
      */
     static Result<Option<ItemStack>, String> decode(NbtCompound nbt)
     {
-        if(!nbt.containsKey("id"))
-            return Result.success(Option.some(ItemStack.empty()));
-        return decode0(upgrade(nbt));
+        for(String id : nbt.getString("id"))
+        {
+            if(!Identifier.newInstance(id).equals(Identifier.minecraft("air")))
+                return decode0(upgrade(nbt));
+        }
+        return Result.success(Option.some(ItemStack.empty()));
     }
 
     default Result<Option<NbtCompound>, String> encode()
@@ -171,6 +173,7 @@ public interface ItemStack extends WrapperObject
     }
 
     Result<Option<NbtCompound>, String> encode0();
+    @VersionRange(end = 2005)
     @WrapMinecraftMethod({
         @VersionName(name = "toNbt", end = 1400),
         @VersionName(name = "method_7953", begin = 1400)
@@ -189,7 +192,6 @@ public interface ItemStack extends WrapperObject
             return Result.failure(Option.none(), e.toString());
         }
     }
-
     @SpecificImpl("encode0")
     @VersionRange(begin = 2005)
     default Result<Option<NbtCompound>, String> encode0V2005()
@@ -207,7 +209,8 @@ public interface ItemStack extends WrapperObject
     /**
      * @see #getItem
      */
-    @WrapMinecraftFieldAccessor(@VersionName(name = "item")) // cannot replace with wrapping method
+    @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
+    // cannot replace with wrapping method
     Item getItem0();
 
     @Deprecated
@@ -288,7 +291,8 @@ public interface ItemStack extends WrapperObject
     }
 
     @VersionRange(begin = 2005)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "components")) // cannot replace with wrapping method
+    @WrapMinecraftFieldAccessor(@VersionName(name = "components"))
+        // cannot replace with wrapping method
     ComponentMapDefaultedV2005 getComponentsV2005();
 
     /**

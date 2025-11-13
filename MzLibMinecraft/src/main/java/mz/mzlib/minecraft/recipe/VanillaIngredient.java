@@ -24,7 +24,7 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
     @Override
     boolean test(ItemStack itemStack);
     @SpecificImpl("test")
-    @VersionRange(begin = 1200)
+    @VersionRange(end = 1200)
     default boolean testV_1200(ItemStack itemStack)
     {
         for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(itemStack))

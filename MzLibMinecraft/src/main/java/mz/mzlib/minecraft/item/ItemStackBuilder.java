@@ -104,13 +104,13 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 
     public ItemStackBuilder setCustomName(Text value)
     {
-        Item.setCustomName(this.result, Option.some(value));
+        Item.CUSTOM_NAME.set(this.result, Option.some(value));
         return this;
     }
 
     public ItemStackBuilder setLore(Text... value)
     {
-        Item.setLore(this.result, Option.some(Arrays.asList(value)));
+        Item.LORE.set(this.result, Option.some(Arrays.asList(value)));
         return this;
     }
 
@@ -121,7 +121,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 
     public ItemStackBuilder copy()
     {
-        return new ItemStackBuilder(ItemStack.copy(this.result));
+        return new ItemStackBuilder(this.result.copy());
     }
 
     public static class Colored

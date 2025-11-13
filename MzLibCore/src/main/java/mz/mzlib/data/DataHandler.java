@@ -4,6 +4,7 @@ import mz.mzlib.module.MzModule;
 import mz.mzlib.module.Registrable;
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.ThrowableBiConsumer;
+import mz.mzlib.util.ThrowablePredicate;
 import mz.mzlib.util.ThrowableSupplier;
 
 import java.util.function.BiConsumer;
@@ -131,6 +132,7 @@ public class DataHandler<H, T> implements Registrable
         public Factory(DataKey<H, T> key)
         {
             this.key = key;
+            this.checker = ThrowablePredicate.always();
         }
         public Factory(Factory<H, T> other)
         {
@@ -145,10 +147,6 @@ public class DataHandler<H, T> implements Registrable
             Factory<H, T> result = new Factory<>(this);
             result.checker = checker;
             return result;
-        }
-        public Factory<H, T> checker(Class<? extends H> holderClass)
-        {
-            return this.checker(holderClass::isInstance);
         }
         public Factory<H, T> getter(Function<H, T> getter)
         {

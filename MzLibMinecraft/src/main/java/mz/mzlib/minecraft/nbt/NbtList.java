@@ -39,7 +39,11 @@ public interface NbtList extends NbtElement
 
     static NbtList newInstance(NbtElement... elements)
     {
-        return newInstance0(Arrays.stream(elements).map(NbtElement::getWrapped).collect(Collectors.toList()));
+        return newInstance(Arrays.asList(elements));
+    }
+    static NbtList newInstance(List<? extends NbtElement> elements)
+    {
+        return newInstance0(elements.stream().map(NbtElement::getWrapped).collect(Collectors.toList()));
     }
     static NbtList newInstance0(List<Object> elements0)
     {
