@@ -80,7 +80,7 @@ public class Editor<T> implements AutoCompletable<T, Object>
     }
     public static <T, R extends Supplier<T>> Editor<R> ofReviser(Supplier<R> reviserGetter, Consumer<? super T> setter)
     {
-        return ofReviser(reviserGetter, R::get, setter);
+        return ofReviser(reviserGetter, Supplier::get, setter);
     }
 
     public static <T> Editor<T> ofClone(

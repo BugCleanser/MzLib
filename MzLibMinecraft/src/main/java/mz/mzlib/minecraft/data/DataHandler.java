@@ -63,7 +63,7 @@ public class DataHandler<H, T> implements Registrable
         BiConsumer<H, T> setter,
         Function<T, R> reviserGetter)
     {
-        return of(key, checker, getter, setter, reviserGetter, R::get);
+        return of(key, checker, getter, setter, reviserGetter, reviser -> reviser.get());
     }
 
     public static class Revisable<H, T, R> extends DataHandler<H, T>

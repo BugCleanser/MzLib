@@ -133,7 +133,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
         {
             this.idV_1300 = idV_1300;
             this.baseIdV1300 = baseIdV1300;
-            colorDamages = new InvertibleMap<>();
+            this.colorDamages = new InvertibleMap<>();
             this.colorDamages.put("white", 0);
             this.colorDamages.put("orange", 1);
             this.colorDamages.put("magenta", 2);
