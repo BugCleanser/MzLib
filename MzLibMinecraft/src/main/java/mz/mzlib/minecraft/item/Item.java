@@ -145,6 +145,7 @@ public interface Item extends WrapperObject
         public void onLoad()
         {
             this.register(ItemPlayerHead.Module.instance);
+            this.register(ItemWrittenBook.Module.instance);
 
             (MinecraftPlatform.instance.getVersion() < 2005 ?
                 DataHandler.factory(CUSTOM_DATA)

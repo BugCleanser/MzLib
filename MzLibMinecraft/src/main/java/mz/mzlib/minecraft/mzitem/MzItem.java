@@ -36,6 +36,7 @@ public interface MzItem extends ItemStack
 
     ItemStack static$vanilla();
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     default boolean isVanilla()
     {
         return false;

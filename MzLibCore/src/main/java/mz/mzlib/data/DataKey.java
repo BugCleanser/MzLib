@@ -1,6 +1,7 @@
 package mz.mzlib.data;
 
 import mz.mzlib.util.Editor;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,10 @@ public class DataKey<H, T, R>
     {
         this.name = name;
     }
-    List<DataHandler<H, T, R>> handlers = new ArrayList<>();
-    DataHandler<H, T, R> handler;
+    List<DataHandler<H, T, ? extends R>> handlers = new ArrayList<>();
+    DataHandler<H, T, ? extends R> handler;
 
-    DataHandler<H, T, R> getHandler()
+    DataHandler<H, T, ? extends R> getHandler()
     {
         if(this.handler == null)
             throw new IllegalStateException("This key has no handler registered: " + this.name);
@@ -35,6 +36,6 @@ public class DataKey<H, T, R>
     }
     public Editor<R> revise(H holder)
     {
-        return this.getHandler().revise(holder);
+        return RuntimeUtil.cast(this.getHandler().revise(holder));
     }
 }

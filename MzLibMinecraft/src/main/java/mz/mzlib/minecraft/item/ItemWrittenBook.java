@@ -2,24 +2,31 @@ package mz.mzlib.minecraft.item;
 
 
 import com.google.gson.Gson;
+import mz.mzlib.data.DataHandler;
+import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.type.WrittenBookContentComponentV2005;
-import mz.mzlib.minecraft.nbt.*;
+import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.nbt.NbtElement;
+import mz.mzlib.minecraft.nbt.NbtList;
+import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.module.MzModule;
+import mz.mzlib.util.InvertibleFunction;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Ref;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.WrittenBookItem"))
 public interface ItemWrittenBook extends Item
@@ -32,12 +39,20 @@ public interface ItemWrittenBook extends Item
         return WrapperObject.create(ItemWrittenBook.class, wrapped);
     }
 
+    Item WRITTEN_BOOK = Item.fromId("written_book");
+
     int MAX_PAGE_LINES = 14;
 
     ComponentKeyV2005.Wrapper<WrittenBookContentComponentV2005> COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005 =
         MinecraftPlatform.instance.getVersion() < 2005 ?
             null :
             ComponentKeyV2005.fromId("written_book_content", WrittenBookContentComponentV2005.FACTORY);
+
+    DataKey<ItemStack, String, Void> TITLE = new DataKey<>("title");
+    DataKey<ItemStack, String, Void> AUTHOR = new DataKey<>("author");
+    DataKey<ItemStack, Integer, Void> GENERATION = new DataKey<>("generation");
+    DataKey<ItemStack, List<Text>, List<Text>> PAGES = new DataKey<>("pages");
+    DataKey<ItemStack, Boolean, Void> RESOLVED = new DataKey<>("resolved");
 
     static List<Text> makePages(List<Text> lines)
     {
@@ -51,249 +66,260 @@ public interface ItemWrittenBook extends Item
         return result;
     }
 
+    class Module extends MzModule
+    {
+        public static Module instance = new Module();
+
+        @Override
+        public void onLoad()
+        {
+            Predicate<ItemStack> checker = is -> is.getItem().equals(WRITTEN_BOOK);
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+                DataHandler.factory(TITLE)
+                    .checker(checker)
+                    .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getString("title")).unwrapOr(""))
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            tag.put("title", value);
+                        }
+                    })
+                    .register(this);
+            else
+                DataHandler.factory(TITLE)
+                    .checker(checker)
+                    .getter(is ->
+                        is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
+                            .unwrapOrGet(WrittenBookContentComponentV2005::def).getTitle())
+                    .setter((is, value) ->
+                    {
+                        for(Ref<Option<WrittenBookContentComponentV2005>> ref : is.getComponentsV2005()
+                            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
+                        {
+                            ref.set(Option.some(
+                                ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withTitle(value)));
+                        }
+                    })
+                    .register(this);
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+                DataHandler.factory(AUTHOR)
+                    .checker(checker)
+                    .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getString("author")).unwrapOr(""))
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            tag.put("author", value);
+                        }
+                    })
+                    .register(this);
+            else
+                DataHandler.factory(AUTHOR)
+                    .checker(checker)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
+                        .unwrapOrGet(WrittenBookContentComponentV2005::def).getAuthor())
+                    .setter((is, value) ->
+                    {
+                        for(Ref<Option<WrittenBookContentComponentV2005>> ref : is.getComponentsV2005()
+                            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
+                        {
+                            ref.set(Option.some(
+                                ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withAuthor(value)));
+                        }
+                    })
+                    .register(this);
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+                DataHandler.factory(GENERATION)
+                    .checker(checker)
+                    .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getInt("generation")).unwrapOr(0))
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            tag.put("generation", value);
+                        }
+                    })
+                    .register(this);
+            else
+                DataHandler.factory(GENERATION)
+                    .checker(checker)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
+                        .unwrapOrGet(WrittenBookContentComponentV2005::def).getGeneration())
+                    .setter((is, value) ->
+                    {
+                        for(Ref<Option<WrittenBookContentComponentV2005>> ref : is.getComponentsV2005()
+                            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
+                        {
+                            ref.set(
+                                Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def)
+                                    .withGeneration(value)));
+                        }
+                    })
+                    .register(this);
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+            {
+                InvertibleFunction<NbtString, Text> functionPage = InvertibleFunction.of(
+                    str -> Text.decode(str.getValue()),
+                    text -> NbtString.newInstance(text.encode().toString())
+                );
+                DataHandler.factory(PAGES)
+                    .checker(checker)
+                    .getter(is -> new ListProxy<>(
+                        is.tagV_2005().getNbtList("pages").map(pages -> pages.asList(NbtString.FACTORY))
+                            .map(ArrayList::new).unwrapOrGet(ArrayList::new), // clone
+                        functionPage
+                    ))
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            if(value instanceof ListProxy && ((ListProxy<?, ?>) value).getFunction() == functionPage)
+                                tag.put(
+                                    "pages", NbtList.newInstance(((ListProxy<Text, NbtString>) value).getDelegate()));
+                            else
+                                tag.put(
+                                    "pages", NbtList.newInstance(
+                                        value.stream()
+                                            .map(page -> NbtString.newInstance(new Gson().toJson(page.encode())))
+                                            .toArray(NbtElement[]::new)
+                                    )
+                                );
+                        }
+                    })
+                    .reviserGetter(Function.identity())
+                    .reviserApplier(Function.identity())
+                    .register(this);
+            }
+            else
+                DataHandler.factory(PAGES)
+                    .checker(checker)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
+                        .unwrapOrGet(WrittenBookContentComponentV2005::def).getPages())
+                    .setter((is, value) ->
+                    {
+                        for(Ref<Option<WrittenBookContentComponentV2005>> ref : is.getComponentsV2005()
+                            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
+                        {
+                            ref.set(Option.some(
+                                ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withPages(value)));
+                        }
+                    })
+                    .reviserGetter(Function.identity())
+                    .reviserApplier(Function.identity())
+                    .register(this);
+            if(MinecraftPlatform.instance.getVersion() < 2005)
+                DataHandler.factory(RESOLVED)
+                    .checker(checker)
+                    .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getBoolean("resolved")).unwrapOr(false))
+                    .setter((is, value) ->
+                    {
+                        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+                        {
+                            tag.put("resolved", value);
+                        }
+                    })
+                    .register(this);
+            else
+                DataHandler.factory(RESOLVED)
+                    .checker(checker)
+                    .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
+                        .unwrapOrGet(WrittenBookContentComponentV2005::def).isResolved())
+                    .setter((is, value) ->
+                    {
+                        for(Ref<Option<WrittenBookContentComponentV2005>> ref : is.getComponentsV2005()
+                            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
+                        {
+                            ref.set(Option.some(
+                                ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withResolved(value)));
+                        }
+                    })
+                    .register(this);
+        }
+    }
+
+    /**
+     * @see #TITLE
+     */
+    @Deprecated
     static String getTitle(ItemStack book)
     {
-        return FACTORY.getStatic().static$getTitle(book);
+        return TITLE.get(book);
     }
-    String static$getTitle(ItemStack book);
-    @SpecificImpl("static$getTitle")
-    @VersionRange(end = 2005)
-    default String static$getTitleV_2005(ItemStack book)
-    {
-        for(String s : book.tagV_2005().getString("title"))
-        {
-            return s;
-        }
-        return "";
-    }
-    @SpecificImpl("static$getTitle")
-    @VersionRange(begin = 2005)
-    default String static$getTitleV2005(ItemStack book)
-    {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
-            .unwrapOrGet(WrittenBookContentComponentV2005::def).getTitle();
-    }
-
+    /**
+     * @see #TITLE
+     */
+    @Deprecated
     static void setTitle(ItemStack book, String title)
     {
-        FACTORY.getStatic().static$setTitle(book, title);
-    }
-    void static$setTitle(ItemStack book, String title);
-    @SpecificImpl("static$setTitle")
-    @VersionRange(end = 2005)
-    default void static$setTitleV_2005(ItemStack book, String title)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(book))
-        {
-            tag.put("title", NbtString.newInstance(title));
-        }
-    }
-    @SpecificImpl("static$setTitle")
-    @VersionRange(begin = 2005)
-    default void static$setTitleV2005(ItemStack book, String title)
-    {
-        for(Ref<Option<WrittenBookContentComponentV2005>> ref : book.getComponentsV2005()
-            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-        {
-            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withTitle(title)));
-        }
+        TITLE.set(book, title);
     }
 
+    /**
+     * @see #AUTHOR
+     */
+    @Deprecated
     static String getAuthor(ItemStack book)
     {
-        return FACTORY.getStatic().static$getAuthor(book);
+        return AUTHOR.get(book);
     }
-    String static$getAuthor(ItemStack book);
-    @SpecificImpl("static$getAuthor")
-    @VersionRange(end = 2005)
-    default String static$getAuthorV_2005(ItemStack book)
-    {
-        for(String author : book.tagV_2005().getString("author"))
-        {
-            return author;
-        }
-        return "";
-    }
-    @SpecificImpl("static$getAuthor")
-    @VersionRange(begin = 2005)
-    default String static$getAuthorV2005(ItemStack book)
-    {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
-            .unwrapOrGet(WrittenBookContentComponentV2005::def).getAuthor();
-    }
-
+    /**
+     * @see #AUTHOR
+     */
+    @Deprecated
     static void setAuthor(ItemStack book, String author)
     {
-        FACTORY.getStatic().static$setAuthor(book, author);
-    }
-    void static$setAuthor(ItemStack book, String author);
-    @SpecificImpl("static$setAuthor")
-    @VersionRange(end = 2005)
-    default void static$setAuthorV_2005(ItemStack book, String author)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(book))
-        {
-            tag.put("author", NbtString.newInstance(author));
-        }
-    }
-    @SpecificImpl("static$setAuthor")
-    @VersionRange(begin = 2005)
-    default void static$setAuthorV2005(ItemStack book, String author)
-    {
-        for(Ref<Option<WrittenBookContentComponentV2005>> ref : book.getComponentsV2005()
-            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-        {
-            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withAuthor(author)));
-        }
+        AUTHOR.set(book, author);
     }
 
+    /**
+     * @see #GENERATION
+     */
+    @Deprecated
     static int getGeneration(ItemStack book)
     {
-        return FACTORY.getStatic().static$getGeneration(book);
+        return GENERATION.get(book);
     }
-    int static$getGeneration(ItemStack book);
-    @SpecificImpl("static$getGeneration")
-    @VersionRange(end = 2005)
-    default int static$getGenerationV_2005(ItemStack book)
-    {
-        for(Integer generation : book.tagV_2005().getInt("generation"))
-        {
-            return generation;
-        }
-        return 0;
-    }
-    @SpecificImpl("static$getGeneration")
-    @VersionRange(begin = 2005)
-    default int static$getGenerationV2005(ItemStack book)
-    {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
-            .unwrapOrGet(WrittenBookContentComponentV2005::def).getGeneration();
-    }
-
+    /**
+     * @see #GENERATION
+     */
+    @Deprecated
     static void setGeneration(ItemStack book, int generation)
     {
-        FACTORY.getStatic().static$setGeneration(book, generation);
-    }
-    void static$setGeneration(ItemStack book, int generation);
-    @SpecificImpl("static$setGeneration")
-    @VersionRange(end = 2005)
-    default void static$setGenerationV_2005(ItemStack book, int generation)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(book))
-        {
-            tag.put("generation", NbtInt.newInstance(generation));
-        }
-    }
-    @SpecificImpl("static$setGeneration")
-    @VersionRange(begin = 2005)
-    default void static$setGenerationV2005(ItemStack book, int generation)
-    {
-        for(Ref<Option<WrittenBookContentComponentV2005>> ref : book.getComponentsV2005()
-            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-        {
-            ref.set(
-                Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withGeneration(generation)));
-        }
+        GENERATION.set(book, generation);
     }
 
+    /**
+     * @see #PAGES
+     */
+    @Deprecated
     static List<Text> getPages(ItemStack book)
     {
-        return FACTORY.getStatic().static$getPages(book);
+        return PAGES.get(book);
     }
-    List<Text> static$getPages(ItemStack book);
-
-    @SpecificImpl("static$getPages")
-    @VersionRange(end = 2005)
-    default List<Text> static$getPagesV_2005(ItemStack book)
-    {
-        return book.tagV_2005().getOr("pages", NbtList.FACTORY, NbtList::newInstance).asList().stream()
-            .map(nbt -> Text.decode(nbt.castTo(NbtString.FACTORY).getValue())).collect(Collectors.toList());
-    }
-    @SpecificImpl("static$getPages")
-    @VersionRange(begin = 2005)
-    default List<Text> static$getPagesV2005(ItemStack book)
-    {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
-            .unwrapOrGet(WrittenBookContentComponentV2005::def).getPages();
-    }
-
+    /**
+     * @see #PAGES
+     */
+    @Deprecated
     static void setPages(ItemStack book, List<Text> pages)
     {
-        FACTORY.getStatic().static$setPages(book, pages);
-    }
-    void static$setPages(ItemStack book, List<Text> pages);
-    @SpecificImpl("static$setPages")
-    @VersionRange(end = 2005)
-    default void static$setPagesV_2005(ItemStack book, List<Text> pages)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(book))
-        {
-            tag.put(
-                "pages", NbtList.newInstance(
-                    pages.stream().map(page -> NbtString.newInstance(new Gson().toJson(page.encode())))
-                        .toArray(NbtElement[]::new)
-                )
-            );
-        }
-    }
-    @SpecificImpl("static$setPages")
-    @VersionRange(begin = 2005)
-    default void static$setPagesV2005(ItemStack book, List<Text> pages)
-    {
-        for(Ref<Option<WrittenBookContentComponentV2005>> ref : book.getComponentsV2005()
-            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-        {
-            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withPages(pages)));
-        }
+        PAGES.set(book, pages);
     }
 
-    // TODO revise pages
-
+    /**
+     * @see #RESOLVED
+     */
+    @Deprecated
     static boolean isResolved(ItemStack book)
     {
-        return FACTORY.getStatic().static$isResolved(book);
+        return RESOLVED.get(book);
     }
-    boolean static$isResolved(ItemStack book);
-    @SpecificImpl("static$isResolved")
-    @VersionRange(end = 2005)
-    default boolean static$isResolvedV_2005(ItemStack book)
-    {
-        for(boolean resolved : book.tagV_2005().getBoolean("resolved"))
-        {
-            return resolved;
-        }
-        return false;
-    }
-    @SpecificImpl("static$isResolved")
-    @VersionRange(begin = 2005)
-    default boolean static$isResolvedV2005(ItemStack book)
-    {
-        return book.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
-            .unwrapOrGet(WrittenBookContentComponentV2005::def).isResolved();
-    }
-
+    /**
+     * @see #RESOLVED
+     */
+    @Deprecated
     static void setResolved(ItemStack book, boolean resolved)
     {
-        FACTORY.getStatic().static$setResolved(book, resolved);
-    }
-    void static$setResolved(ItemStack book, boolean resolved);
-    @SpecificImpl("static$setResolved")
-    @VersionRange(end = 2005)
-    default void static$setResolvedV_2005(ItemStack book, boolean resolved)
-    {
-        for(NbtCompound tag : CUSTOM_DATA.revise(book))
-        {
-            tag.put("resolved", NbtByte.newInstance(resolved));
-        }
-    }
-    @SpecificImpl("static$setResolved")
-    @VersionRange(begin = 2005)
-    default void static$setResolvedV2005(ItemStack book, boolean resolved)
-    {
-        for(Ref<Option<WrittenBookContentComponentV2005>> ref : book.getComponentsV2005()
-            .edit(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005))
-        {
-            ref.set(Option.some(ref.get().unwrapOrGet(WrittenBookContentComponentV2005::def).withResolved(resolved)));
-        }
+        RESOLVED.set(book, resolved);
     }
 }

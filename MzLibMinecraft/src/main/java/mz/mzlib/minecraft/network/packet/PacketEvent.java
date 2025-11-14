@@ -12,7 +12,7 @@ public class PacketEvent
 {
     public Channel channel;
     public Option<EntityPlayer> player;
-    final Packet packet;
+    final Packet packet; // ref
     public boolean isCancelled = false;
     public PacketEvent(Channel channel, Option<EntityPlayer> player, final Packet packet)
     {
@@ -26,20 +26,19 @@ public class PacketEvent
         return this.player;
     }
 
+    public <T extends Packet> T getPacket(WrapperFactory<T> factory)
+    {
+        return this.packet.as(factory);
+    }
     public Packet getPacket()
     {
         return this.getPacket(Packet.FACTORY);
-    }
-    public <T extends Packet> T getPacket(WrapperFactory<T> factory)
-    {
-        return this.getPacket().as(factory);
     }
     @Deprecated
     public <T extends Packet> T getPacket(Function<Object, T> creator)
     {
         return this.getPacket(new WrapperFactory<>(creator));
     }
-
     public void setPacket(Packet value)
     {
         this.packet.setWrappedFrom(value);

@@ -47,8 +47,8 @@ public abstract class UIWrittenBook implements UI
         ItemStack book = new ItemStackBuilder("written_book").get();
         ItemWrittenBook.setTitle(book, "UIWrittenBook");
         ItemWrittenBook.setAuthor(book, "UIWrittenBook");
-        ItemWrittenBook.setPages(book, this.getPages(player));
-        ItemWrittenBook.setResolved(book, true);
+        ItemWrittenBook.PAGES.set(book, this.getPages(player));
+        ItemWrittenBook.RESOLVED.set(book, true);
         player.openBook(book);
     }
 

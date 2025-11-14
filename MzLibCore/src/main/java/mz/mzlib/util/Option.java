@@ -66,8 +66,17 @@ public abstract class Option<T> implements Iterable<T>
 
     public abstract Option<T> or(Option<T> other);
 
-    public abstract <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
+    public abstract <U, E extends Throwable> Option<U> flatMap(ThrowableFunction<? super T, ? extends Option<? extends U>, E> mapper)
         throws E;
+    public <U> Option<U> flatMap(Function<? super T, ? extends Option<? extends U>> mapper)
+    {
+        return this.flatMap(ThrowableFunction.ofFunction(mapper));
+    }
+    public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
+        throws E
+    {
+        return this.flatMap(it -> Option.fromNullable(mapper.applyOrThrow(it)));
+    }
     public <U> Option<U> map(Function<? super T, ? extends U> mapper)
     {
         return this.map(ThrowableFunction.ofFunction(mapper));
@@ -144,9 +153,9 @@ public abstract class Option<T> implements Iterable<T>
         }
 
         @Override
-        public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper) throws E
+        public <U, E extends Throwable> Option<U> flatMap(ThrowableFunction<? super T, ? extends Option<? extends U>, E> mapper) throws E
         {
-            return fromNullable(mapper.applyOrThrow(this.unwrap()));
+            return RuntimeUtil.cast(mapper.applyOrThrow(this.unwrap()));
         }
 
         @Override
@@ -258,7 +267,7 @@ public abstract class Option<T> implements Iterable<T>
         }
 
         @Override
-        public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
+        public <U, E extends Throwable> Option<U> flatMap(ThrowableFunction<? super T, ? extends Option<? extends U>, E> mapper)
         {
             return none();
         }

@@ -10,13 +10,13 @@ import java.util.function.Predicate;
 
 public class DataHandler<H, T, R> implements Registrable
 {
-    final DataKey<H, T, R> key;
+    final DataKey<H, T, ? super R> key;
     Predicate<H> checker;
     Function<H, T> getter;
     BiConsumer<H, T> setter;
     Function<T, R> reviserGetter;
     Function<R, T> reviserApplier;
-    public DataHandler(DataKey<H, T, R> key, Predicate<H> checker, Function<H, T> getter, BiConsumer<H, T> setter, Function<T, R> reviserGetter, Function<R, T> reviserApplier)
+    public DataHandler(DataKey<H, T, ? super R> key, Predicate<H> checker, Function<H, T> getter, BiConsumer<H, T> setter, Function<T, R> reviserGetter, Function<R, T> reviserApplier)
     {
         this.key = key;
         this.checker = checker;
@@ -48,7 +48,7 @@ public class DataHandler<H, T, R> implements Registrable
     }
 
     public static <H, T, R> DataHandler<H, T, R> of(
-        DataKey<H, T, R> key,
+        DataKey<H, T, ? super R> key,
         Predicate<H> checker,
         Function<H, T> getter,
         BiConsumer<H, T> setter,
@@ -74,27 +74,27 @@ public class DataHandler<H, T, R> implements Registrable
         {
             this.key.handlers.remove(this);
             if(!this.key.handlers.isEmpty())
-                this.key.handler = this.key.handlers.get(this.key.handlers.size() - 1);
+                this.key.handler = RuntimeUtil.cast(this.key.handlers.get(this.key.handlers.size() - 1));
             else
                 this.key.handler = null;
         }
     }
 
-    public static <H, T, R> Factory<H, T, R> factory(DataKey<H, T, R> key)
+    public static <H, T, R> Factory<H, T, R> factory(DataKey<H, T, ? super R> key)
     {
         return new Factory<>(key);
     }
 
     public static class Factory<H, T, R>
     {
-        DataKey<H, T, R> key;
+        DataKey<H, T, ? super R> key;
         Predicate<H> checker;
         Function<H, T> getter;
         BiConsumer<H, T> setter;
         Function<T, R> reviserGetter;
         Function<R, T> reviserApplier;
 
-        public Factory(DataKey<H, T, R> key)
+        public Factory(DataKey<H, T, ? super R> key)
         {
             this.key = key;
             this.checker = ThrowablePredicate.always();
