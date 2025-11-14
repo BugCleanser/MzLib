@@ -5,17 +5,17 @@ import mz.mzlib.util.Editor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataKey<H, T>
+public class DataKey<H, T, R>
 {
     String name;
     public DataKey(String name)
     {
         this.name = name;
     }
-    List<DataHandler<H, T>> handlers = new ArrayList<>();
-    DataHandler<H, T> handler;
+    List<DataHandler<H, T, R>> handlers = new ArrayList<>();
+    DataHandler<H, T, R> handler;
 
-    DataHandler<H, T> getHandler()
+    DataHandler<H, T, R> getHandler()
     {
         if(this.handler == null)
             throw new IllegalStateException("This key has no handler registered: " + this.name);
@@ -33,25 +33,8 @@ public class DataKey<H, T>
     {
         this.getHandler().set(holder, value);
     }
-
-    public static class Revisable<H, T, R> extends DataKey<H, T>
+    public Editor<R> revise(H holder)
     {
-        public Revisable(String name)
-        {
-            super(name);
-        }
-
-        DataHandler.Revisable<H, T, R> getHandlerRevisable()
-        {
-            DataHandler<H, T> handler = this.getHandler();
-            if(!(handler instanceof DataHandler.Revisable))
-                throw new IllegalStateException("This key (" + this.name + ") has non-revisable handler: " + handler);
-            return (DataHandler.Revisable<H, T, R>) handler;
-        }
-
-        public Editor<R> revise(H holder)
-        {
-            return this.getHandlerRevisable().revise(holder);
-        }
+        return this.getHandler().revise(holder);
     }
 }

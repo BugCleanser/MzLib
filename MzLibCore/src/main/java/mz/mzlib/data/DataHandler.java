@@ -2,28 +2,28 @@ package mz.mzlib.data;
 
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.Registrable;
-import mz.mzlib.util.Editor;
-import mz.mzlib.util.ThrowableBiConsumer;
-import mz.mzlib.util.ThrowablePredicate;
-import mz.mzlib.util.ThrowableSupplier;
+import mz.mzlib.util.*;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
-public class DataHandler<H, T> implements Registrable
+public class DataHandler<H, T, R> implements Registrable
 {
-    final DataKey<H, T> key;
+    final DataKey<H, T, R> key;
     Predicate<H> checker;
     Function<H, T> getter;
     BiConsumer<H, T> setter;
-    public DataHandler(DataKey<H, T> key, Predicate<H> checker, Function<H, T> getter, BiConsumer<H, T> setter)
+    Function<T, R> reviserGetter;
+    Function<R, T> reviserApplier;
+    public DataHandler(DataKey<H, T, R> key, Predicate<H> checker, Function<H, T> getter, BiConsumer<H, T> setter, Function<T, R> reviserGetter, Function<R, T> reviserApplier)
     {
         this.key = key;
         this.checker = checker;
         this.getter = getter;
         this.setter = setter;
+        this.reviserGetter = reviserGetter;
+        this.reviserApplier = reviserApplier;
     }
 
     public boolean check(H holder)
@@ -38,61 +38,24 @@ public class DataHandler<H, T> implements Registrable
     {
         this.setter.accept(holder, value);
     }
-
-    public static <H, T> DataHandler<H, T> of(
-        DataKey<H, T> key,
-        Predicate<H> checker,
-        Function<H, T> getter,
-        BiConsumer<H, T> setter)
+    public Editor<R> revise(H holder)
     {
-        return new DataHandler<>(key, checker, getter, setter);
+        return Editor.ofReviser(
+                ThrowableSupplier.constant(holder).thenApply(this.getter).thenApply(this.reviserGetter),
+                this.reviserApplier,
+                ThrowableBiConsumer.ofBiConsumer(this.setter).bindFirst(ThrowableSupplier.constant(holder))
+        );
     }
-    public static <H, T, R> Revisable<H, T, R> of(
-        DataKey.Revisable<H, T, R> key,
+
+    public static <H, T, R> DataHandler<H, T, R> of(
+        DataKey<H, T, R> key,
         Predicate<H> checker,
         Function<H, T> getter,
         BiConsumer<H, T> setter,
         Function<T, R> reviserGetter,
         Function<R, T> reviserApplier)
     {
-        return new Revisable<>(key, checker, getter, setter, reviserGetter, reviserApplier);
-    }
-    public static <H, T, R extends Supplier<? extends T>> Revisable<H, T, R> of(
-        DataKey.Revisable<H, T, R> key,
-        Predicate<H> checker,
-        Function<H, T> getter,
-        BiConsumer<H, T> setter,
-        Function<T, R> reviserGetter)
-    {
-        return of(key, checker, getter, setter, reviserGetter, Supplier::get);
-    }
-
-    public static class Revisable<H, T, R> extends DataHandler<H, T>
-    {
-        Function<T, R> reviserGetter;
-        Function<R, T> reviserApplier;
-
-        public Revisable(
-            DataKey.Revisable<H, T, R> key,
-            Predicate<H> checker,
-            Function<H, T> getter,
-            BiConsumer<H, T> setter,
-            Function<T, R> reviserGetter,
-            Function<R, T> reviserApplier)
-        {
-            super(key, checker, getter, setter);
-            this.reviserGetter = reviserGetter;
-            this.reviserApplier = reviserApplier;
-        }
-
-        public Editor<R> revise(H holder)
-        {
-            return Editor.ofReviser(
-                ThrowableSupplier.constant(holder).thenApply(this.getter).thenApply(this.reviserGetter),
-                this.reviserApplier,
-                ThrowableBiConsumer.ofBiConsumer(this.setter).bindFirst(ThrowableSupplier.constant(holder))
-            );
-        }
+        return new DataHandler<>(key, checker, getter, setter, reviserGetter, reviserApplier);
     }
 
     @Override
@@ -117,51 +80,69 @@ public class DataHandler<H, T> implements Registrable
         }
     }
 
-    public static <H, T> Factory<H, T> factory(DataKey<H, T> key)
+    public static <H, T, R> Factory<H, T, R> factory(DataKey<H, T, R> key)
     {
         return new Factory<>(key);
     }
 
-    public static class Factory<H, T>
+    public static class Factory<H, T, R>
     {
-        DataKey<H, T> key;
+        DataKey<H, T, R> key;
         Predicate<H> checker;
         Function<H, T> getter;
         BiConsumer<H, T> setter;
+        Function<T, R> reviserGetter;
+        Function<R, T> reviserApplier;
 
-        public Factory(DataKey<H, T> key)
+        public Factory(DataKey<H, T, R> key)
         {
             this.key = key;
             this.checker = ThrowablePredicate.always();
+            this.reviserGetter = x -> RuntimeUtil.valueThrow(new UnsupportedOperationException());
+            this.reviserApplier = x -> null;
         }
-        public Factory(Factory<H, T> other)
+        public Factory(Factory<H, T, R> other)
         {
             this.key = other.key;
             this.checker = other.checker;
             this.getter = other.getter;
             this.setter = other.setter;
+            this.reviserGetter = other.reviserGetter;
+            this.reviserApplier = other.reviserApplier;
         }
 
-        public Factory<H, T> checker(Predicate<H> checker)
+        public Factory<H, T, R> checker(Predicate<H> checker)
         {
-            Factory<H, T> result = new Factory<>(this);
+            Factory<H, T, R> result = new Factory<>(this);
             result.checker = checker;
             return result;
         }
-        public Factory<H, T> getter(Function<H, T> getter)
+        public Factory<H, T, R> getter(Function<H, T> getter)
         {
-            Factory<H, T> result = new Factory<>(this);
+            Factory<H, T, R> result = new Factory<>(this);
             result.getter = getter;
             return result;
         }
-        public Factory<H, T> setter(BiConsumer<H, T> setter)
+        public Factory<H, T, R> setter(BiConsumer<H, T> setter)
         {
-            Factory<H, T> result = new Factory<>(this);
+            Factory<H, T, R> result = new Factory<>(this);
             result.setter = setter;
             return result;
         }
+        public Factory<H, T, R> reviserGetter(Function<T, R> value)
+        {
+            Factory<H, T, R> result = new Factory<>(this);
+            result.reviserGetter = value;
+            return result;
+        }
+        public Factory<H, T, R> reviserApplier(Function<R, T> value)
+        {
+            Factory<H, T, R> result = new Factory<>(this);
+            result.reviserApplier = value;
+            return result;
+        }
 
-        public DataHandler<H, T> build()
+        public DataHandler<H, T, R> build()
         {
             if(this.key == null)
                 throw new IllegalStateException("Key is not set");
@@ -171,69 +152,11 @@ public class DataHandler<H, T> implements Registrable
                 throw new IllegalStateException("Getter is not set");
             if(this.setter == null)
                 throw new IllegalStateException("Setter is not set");
-            return new DataHandler<>(this.key, this.checker, this.getter, this.setter);
+            return new DataHandler<>(this.key, this.checker, this.getter, this.setter, this.reviserGetter, this.reviserApplier);
         }
         public void register(MzModule module)
         {
             module.register(this.build());
-        }
-
-        public <R> Revisable<H, T, R> revisable()
-        {
-            return new Revisable<>(this);
-        }
-
-        public static class Revisable<H, T, R>
-        {
-            Factory<H, T> base;
-            Function<T, R> getter;
-            Function<R, T> applier;
-
-            public Revisable(Factory<H, T> base)
-            {
-                if(!(base.key instanceof DataKey.Revisable))
-                    throw new IllegalArgumentException("Key is not revisable");
-                this.base = base;
-            }
-            public Revisable(Revisable<H, T, R> other)
-            {
-                this.base = new Factory<>(other.base);
-                this.getter = other.getter;
-                this.applier = other.applier;
-            }
-
-            public Revisable<H, T, R> getter(Function<T, R> getter)
-            {
-                Revisable<H, T, R> result = new Revisable<>(this);
-                result.getter = getter;
-                return result;
-            }
-            public Revisable<H, T, R> applier(Function<R, T> applier)
-            {
-                Revisable<H, T, R> result = new Revisable<>(this);
-                result.applier = applier;
-                return result;
-            }
-
-            public DataHandler<H, T> build()
-            {
-                if(this.getter == null)
-                    throw new IllegalStateException("Getter is not set");
-                if(this.applier == null)
-                    throw new IllegalStateException("Applier is not set");
-                return new DataHandler.Revisable<>(
-                    (DataKey.Revisable<H, T, R>) this.base.key,
-                    this.base.checker,
-                    this.base.getter,
-                    this.base.setter,
-                    this.getter,
-                    this.applier
-                );
-            }
-            public void register(MzModule module)
-            {
-                module.register(this.build());
-            }
         }
     }
 }

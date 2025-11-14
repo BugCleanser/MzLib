@@ -49,9 +49,9 @@ public interface Item extends WrapperObject
 
     Item AIR = fromId(Identifier.minecraft("air"));
 
-    DataKey.Revisable<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey.Revisable<>("custom_data");
-    DataKey<ItemStack, Option<Text>> CUSTOM_NAME = new DataKey<>("custom_name");
-    DataKey.Revisable<ItemStack, Option<List<Text>>, List<Text>> LORE = new DataKey.Revisable<>("lore");
+    DataKey<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey<>("custom_data");
+    DataKey<ItemStack, Option<Text>, Void> CUSTOM_NAME = new DataKey<>("custom_name");
+    DataKey<ItemStack, Option<List<Text>>, List<Text>> LORE = new DataKey<>("lore");
 
     ComponentKeyV2005.Wrapper<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 =
         MinecraftPlatform.instance.getVersion() < 2005 ?
@@ -156,9 +156,9 @@ public interface Item extends WrapperObject
                         .map(NbtCompoundComponentV2005::getNbtCompound))
                     .setter((is, value) -> is.getComponentsV2005()
                         .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance)))
-            ).<NbtCompound>revisable()
-                .getter(data -> data.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
-                .applier(reviser -> Option.some(reviser)
+            )
+                .reviserGetter(data -> data.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
+                .reviserApplier(reviser -> Option.some(reviser)
                     .filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate()))
                 .register(this);
 
@@ -277,9 +277,8 @@ public interface Item extends WrapperObject
                             }
                         }
                     })
-                    .<List<Text>>revisable()
-                    .getter(lore -> lore.unwrapOrGet(ArrayList::new))
-                    .applier(reviser -> Option.some(reviser)
+                    .reviserGetter(lore -> lore.unwrapOrGet(ArrayList::new))
+                    .reviserApplier(reviser -> Option.some(reviser)
                         .filter(ThrowablePredicate.ofPredicate(List<Text>::isEmpty).negate()))
                     .register(this);
             }
@@ -289,9 +288,8 @@ public interface Item extends WrapperObject
                         .get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines))
                     .setter((is, value) -> is.getComponentsV2005()
                         .set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance)))
-                    .<List<Text>>revisable()
-                    .getter(lore -> lore.map(ArrayList::new).unwrapOrGet(ArrayList::new))
-                    .applier(reviser -> Option.some(reviser)
+                    .reviserGetter(lore -> lore.map(ArrayList::new).unwrapOrGet(ArrayList::new))
+                    .reviserApplier(reviser -> Option.some(reviser)
                         .filter(ThrowablePredicate.ofPredicate(List<Text>::isEmpty).negate()))
                     .register(this);
         }

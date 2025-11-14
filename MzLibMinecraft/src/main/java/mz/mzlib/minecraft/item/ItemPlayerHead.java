@@ -34,7 +34,7 @@ public interface ItemPlayerHead extends Item
 
     Item PLAYER_HEAD_V1300 = MinecraftPlatform.instance.getVersion() < 1300 ? null : Item.fromId("player_head");
 
-    DataKey<ItemStack, Option<GameProfile.Description>> OWNER = new DataKey<>("owner");
+    DataKey<ItemStack, Option<GameProfile.Description>, Void> OWNER = new DataKey<>("owner");
 
     ComponentKeyV2005.Wrapper<GameProfileComponentV2005> COMPONENT_KEY_PROFILE_V2005 =
         MinecraftPlatform.instance.getVersion() < 2005 ?
