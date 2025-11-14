@@ -65,7 +65,7 @@
             if hides.contains(path+name) {
                 continue;
             }
-            result.push(link(meta.root+path+name, aliases.at(path+name, default: name)))
+            result.push(link(meta.root+path+name+".html", aliases.at(path+name, default: name)))
         }
         else {
             if hides.contains(path+name) {

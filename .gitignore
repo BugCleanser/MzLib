@@ -154,3 +154,6 @@ MzLibMinecraft/mappings
 /docs/**/*.html
 /book
 /.run/
+
+deploy/
+docs/lib/meta.typ
