@@ -21,6 +21,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Rust Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          components: rust-src
+
+      - name: Install Typst with Cargo
+        run: cargo install typst-cli
+
       - name: Build Docs
         run: chmod +x ./gradlew && ./gradlew buildDocs
 
