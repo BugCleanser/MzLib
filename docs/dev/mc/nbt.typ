@@ -129,3 +129,29 @@
     NbtElement e1 = nbt.get(0);
     String e2 = nbt.getString(1);
     ```
+
+/ #[= 保存到文件]:
+
+    使用`NbtIo`类
+
+    将一个`NbtElement`存入文件，*原则上它必须是`NbtCompound`*
+
+    ```java
+    NbtIo.write(nbt, dataOutput);
+    ```
+
+    读取时使用`NbtSizeTracker`限制其大小，`NbtSizeTracker.newInstance()`是默认最大限度
+    ```java
+    NbtElement nbt = NbtIo.read(dataInput, NbtSizeTracker.newInstance());
+    ```
+
+    / #[== 压缩保存]:
+
+        推荐使用默认的压缩格式保存：*仅支持`NbtCompound`*
+
+        ```java
+        NbtIo.writeCompoundCompressed(nbt, stream);
+        ```
+        ```java
+        NbtCompound nbt = NbtIo.readCompoundCompressed(stream);
+        ```

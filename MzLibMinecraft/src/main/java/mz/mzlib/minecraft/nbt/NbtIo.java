@@ -19,7 +19,6 @@ public interface NbtIo extends WrapperObject
     {
         return FACTORY.getStatic().static$read(input, tracker);
     }
-
     static void write(NbtElement nbt, DataOutput output) throws IOException
     {
         FACTORY.getStatic().static$write(nbt, output);
@@ -29,10 +28,14 @@ public interface NbtIo extends WrapperObject
     {
         return FACTORY.getStatic().static$readCompoundCompressed(stream);
     }
-
     static void writeCompoundCompressed(NbtCompound nbt, OutputStream stream) throws IOException
     {
         FACTORY.getStatic().static$writeCompoundCompressed(nbt, stream);
+    }
+
+    static NbtCompound readCompoundCompressedV2003(InputStream stream, NbtSizeTracker tracker) throws IOException
+    {
+        return FACTORY.getStatic().static$readCompoundCompressedV2003(stream, tracker);
     }
 
 
@@ -51,13 +54,13 @@ public interface NbtIo extends WrapperObject
     @VersionRange(begin = 2003)
     default NbtCompound static$readCompoundCompressedV2003(InputStream stream) throws IOException
     {
-        return this.static$readCompoundCompressedV2003(stream, NbtSizeTracker.newInstance());
+        return readCompoundCompressedV2003(stream, NbtSizeTracker.newInstance());
     }
+
+    @WrapMinecraftMethod(@VersionName(name = "writeCompressed"))
+    void static$writeCompoundCompressed(NbtCompound nbt, OutputStream stream) throws IOException;
 
     @VersionRange(begin = 2003)
     @WrapMinecraftMethod(@VersionName(name = "readCompressed"))
     NbtCompound static$readCompoundCompressedV2003(InputStream stream, NbtSizeTracker tracker) throws IOException;
-
-    @WrapMinecraftMethod(@VersionName(name = "writeCompressed"))
-    void static$writeCompoundCompressed(NbtCompound nbt, OutputStream stream) throws IOException;
 }
