@@ -51,7 +51,7 @@ public interface NbtCompound extends NbtElement
     default NbtCompound static$loadV_1500(DataInput input)
     {
         NbtCompound result = newInstance();
-        result.loadV_1500(input, 0, NbtReadingCounter.newInstance());
+        result.loadV_1500(input, 0, NbtSizeTracker.newInstance());
         return result;
     }
 
@@ -59,7 +59,7 @@ public interface NbtCompound extends NbtElement
     @VersionRange(begin = 1500)
     default NbtCompound static$loadV1500(DataInput input)
     {
-        return TYPE_V1500.load(input, NbtReadingCounter.newInstance()).castTo(NbtCompound.FACTORY);
+        return TYPE_V1500.load(input, NbtSizeTracker.newInstance()).castTo(NbtCompound.FACTORY);
     }
 
     static NbtCompound parse(String str)

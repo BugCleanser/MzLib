@@ -26,7 +26,10 @@ public interface Recipe extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "matches"))
     boolean matchesV_1300(InventoryCrafting inventory, World world);
     @VersionRange(begin = 1300, end = 2100)
-    @WrapMinecraftMethod(@VersionName(name = "matches"))
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_3500", end = 1400),
+        @VersionName(name = "matches", begin = 1400)
+    })
     boolean matchesV1300_2100(Inventory inventory, World world);
     @VersionRange(begin = 2100)
     @WrapMinecraftMethod(@VersionName(name = "matches"))

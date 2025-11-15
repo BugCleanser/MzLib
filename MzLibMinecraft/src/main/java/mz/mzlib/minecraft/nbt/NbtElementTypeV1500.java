@@ -25,16 +25,16 @@ public interface NbtElementTypeV1500 extends WrapperObject
         return WrapperObject.create(NbtElementTypeV1500.class, wrapped);
     }
 
-    NbtElement load(DataInput input, NbtReadingCounter counter);
+    NbtElement load(DataInput input, NbtSizeTracker counter);
     @WrapMinecraftMethod(@VersionName(name = "read", end = 2002))
-    NbtElement loadV_2002(DataInput input, int depth, NbtReadingCounter counter);
+    NbtElement loadV_2002(DataInput input, int depth, NbtSizeTracker counter);
     @SpecificImpl("load")
     @VersionRange(end = 2002)
-    default NbtElement loadV_2002(DataInput input, NbtReadingCounter counter)
+    default NbtElement loadV_2002(DataInput input, NbtSizeTracker counter)
     {
         return loadV_2002(input, 0, counter);
     }
     @SpecificImpl("load")
     @WrapMinecraftMethod(@VersionName(name = "read", begin = 2002))
-    NbtElement loadV2002(DataInput input, NbtReadingCounter counter);
+    NbtElement loadV2002(DataInput input, NbtSizeTracker counter);
 }

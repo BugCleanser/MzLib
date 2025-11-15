@@ -19,7 +19,7 @@ public class TestMappings
             @Override
             public String getVersionString()
             {
-                return "1.9.4";
+                return "1.13.2";
             }
             @Override
             public Set<String> getTags()
@@ -39,7 +39,7 @@ public class TestMappings
             @Override
             public File getMzLibJar()
             {
-                return new File("./out/MzLibMinecraft-10.0.1-beta-dev12.jar");
+                return new File("./out/MzLibMinecraft-10.0.1-beta-dev16.jar");
             }
             @Override
             public File getMzLibDataFolder()
@@ -81,6 +81,7 @@ public class TestMappings
             result.add(new MinecraftMappingsFetcherYarn().fetch(MinecraftPlatform.instance.getVersionString(), folder));
         }
         MappingsPipe mappings = new MappingsPipe(result);
+        System.out.println(mappings.inverse().mapMethod("net.minecraft.recipe.Ingredient", MappingMethod.parse("test", "(Lnet/minecraft/item/ItemStack;)Z")));
         Scanner scanner = new Scanner(System.in);
         //noinspection InfiniteLoopStatement
         while(true)

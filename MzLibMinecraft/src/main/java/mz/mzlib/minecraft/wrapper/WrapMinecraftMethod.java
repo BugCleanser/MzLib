@@ -56,6 +56,8 @@ public @interface WrapMinecraftMethod
             l1:
             for(VersionName name : annotation.value())
             {
+                if(!MinecraftPlatform.instance.inVersion(name))
+                    continue;
                 if(name.remap())
                 {
                     for(String className : WrapMinecraftClass.Handler.getName(wrapperClass))

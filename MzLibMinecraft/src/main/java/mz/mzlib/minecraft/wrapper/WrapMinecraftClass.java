@@ -75,20 +75,19 @@ public @interface WrapMinecraftClass
             ClassNotFoundException lastException = null;
             for(VersionName name : annotation.value())
             {
-                if(MinecraftPlatform.instance.inVersion(name))
+                if(!MinecraftPlatform.instance.inVersion(name))
+                    continue;
+                try
                 {
-                    try
-                    {
-                        return ClassUtil.classForName(
-                            name.remap() ?
-                                MinecraftPlatform.instance.getMappings().inverse().mapClass(name.name()) :
-                                name.name(), wrapperClass.getClassLoader()
-                        );
-                    }
-                    catch(ClassNotFoundException e)
-                    {
-                        lastException = e;
-                    }
+                    return ClassUtil.classForName(
+                        name.remap() ?
+                            MinecraftPlatform.instance.getMappings().inverse().mapClass(name.name()) :
+                            name.name(), wrapperClass.getClassLoader()
+                    );
+                }
+                catch(ClassNotFoundException e)
+                {
+                    lastException = e;
                 }
             }
             if(lastException != null)

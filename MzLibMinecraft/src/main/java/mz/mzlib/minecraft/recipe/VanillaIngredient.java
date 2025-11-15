@@ -37,8 +37,11 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
     @SpecificImpl("test")
     @VersionRange(begin = 1200)
     @WrapMinecraftMethod({
+        @VersionName(name = "apply", remap = false, end = 1300),
         @VersionName(name = "apply", end = 1300),
-        @VersionName(name = "test", begin = 1300)
+        @VersionName(name = "test", remap = false, begin = 1300),
+        @VersionName(name = "test", begin = 1300, end = 1400),
+        @VersionName(name = "method_8093", begin = 1400),
     })
     boolean testV1200(ItemStack itemStack);
 }
