@@ -10,10 +10,12 @@
 
 = 自定义数据
 
+使用数据键`Item.CUSTOM_DATA`
+
 - == 获得自定义数据
 
     ```java
-    Option<NbtCompound> customData = Item.getCustomData(itemStack);
+    Option<NbtCompound> customData = Item.CUSTOM_DATA.get(itemStack);
     ```
     不要修改得到的数据
 - == 修改自定义数据
@@ -25,7 +27,7 @@
 
     使用修订：
     ```java
-    for(NbtCompound customData: Item.reviseCustomData(itemStack))
+    for(NbtCompound customData: Item.CUSTOM_DATA.revise(itemStack))
     {
         // nbt的修订
         for(NbtCompound myData: customData.reviseNbtCompoundOrNew("myData"))
@@ -36,7 +38,7 @@
     ```
     修订的原理是浅克隆，永远不要修改get得到的数据，修改包括put和revise等
     ```java
-    for(NbtCompound customData: Item.reviseCustomData(itemStack))
+    for(NbtCompound customData: Item.CUSTOM_DATA.revise(itemStack))
     {
         customData.put("myData", NbtCompound.newInstance()); // 对于立即创建的实例
         customData.getNbtCompound("myData").put("value1", 114514); // 你可以修改它
@@ -51,7 +53,7 @@
 
         在修订的`for`中使用`continue`可以立即结束修订
         ```java
-        for(NbtCompound customData: Item.reviseCustomData(itemStack))
+        for(NbtCompound customData: Item.CUSTOM_DATA.revise(itemStack))
         {
             customData.put("myData1", 1919810);
             if(!customData.containsKey("myData"))
@@ -64,7 +66,7 @@
         ```
         如果把`continue`改为`break`，则直接取消修订，对`"myData1"`的修改也不会生效
         ```java
-        for(NbtCompound customData: Item.reviseCustomData(itemStack))
+        for(NbtCompound customData: Item.CUSTOM_DATA.revise(itemStack))
         {
             customData.put("myData1", 1919810);
             for(NbtCompound myData: customData.reviseNbtCompoundOrNew("myData"))
@@ -82,7 +84,7 @@
         ```java
         public static Editor<NbtCompound> reviseMyData(ItemStack is)
         {
-            for(NbtCompound customData: Item.reviseCustomData(itemStack))
+            for(NbtCompound customData: Item.CUSTOM_DATA.revise(itemStack))
             {
                 return customData.reviseNbtCompoundOrNew("myData")); // 错误，return
             }
@@ -96,7 +98,7 @@
         ```java
         public static Editor<NbtCompound> reviseMyData(ItemStack is)
         {
-            return Item.reviseCustomData(itemStack)
+            return Item.CUSTOM_DATA.revise(itemStack)
                     .then(nbt -> nbt.reviseNbtCompoundOrNew("myData"));
         }
         ```
