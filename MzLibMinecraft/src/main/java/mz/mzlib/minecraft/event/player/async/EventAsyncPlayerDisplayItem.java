@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.event.player.async;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
-import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
 
 public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends EventAsyncByPacket<P>
@@ -40,7 +39,7 @@ public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends Even
     public ItemStack modifyItemStack()
     {
         if(this.original.getWrapped() == this.getItemStack().getWrapped())
-            this.setItemStack(ItemStack.copy(this.getItemStack()));
+            this.setItemStack(this.getItemStack().copy());
         return this.getItemStack();
     }
 

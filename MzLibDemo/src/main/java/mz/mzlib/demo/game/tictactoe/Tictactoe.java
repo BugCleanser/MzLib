@@ -181,24 +181,30 @@ public class Tictactoe extends MzModule
                 if(index >= 0 && index < this.inventory.size())
                     window.sendSlotUpdate(player, index);
             }
-            else if(!this.finished &&
-                (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) &&
-                index >= 1 && index < 10 && ItemStack.isEmpty(this.inventory.getItemStack(index)))
+            else
             {
-                this.inventory.setItemStack(index, PLAYER);
-                if(checkWin())
+                if(!this.finished &&
+                    (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) &&
+                    index >= 1 && index < 10)
                 {
-                    this.finished = true;
-                    this.inventory.setItemStack(
-                        0, ItemStack.copy((ItemStack) Demo.instance.config.get("game.tictactoe.reward")));
-                    player.closeInterface();
-                    this.open(player);
-                }
-                else
-                {
-                    aiDrop();
-                    if(this.checkWin())
-                        this.finished = true;
+                    if(ItemStack.isEmpty(this.inventory.getItemStack(index)))
+                    {
+                        this.inventory.setItemStack(index, PLAYER);
+                        if(checkWin())
+                        {
+                            this.finished = true;
+                            this.inventory.setItemStack(
+                                0, ((ItemStack) Demo.instance.config.get("game.tictactoe.reward")).copy());
+                            player.closeInterface();
+                            this.open(player);
+                        }
+                        else
+                        {
+                            aiDrop();
+                            if(this.checkWin())
+                                this.finished = true;
+                        }
+                    }
                 }
             }
         }

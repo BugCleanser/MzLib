@@ -57,7 +57,7 @@ public class Inventory10Slots extends MzModule
             ItemStack is;
             if(!slot.isPresent() || ItemStack.isEmpty(is = slot.getItemStack()))
                 return ItemStack.empty();
-            ItemStack copy = ItemStack.copy(is);
+            ItemStack copy = is.copy();
             ItemStack result = ItemStack.empty();
             int upperSize = window.getSlots().size() - 36;
             if(index < upperSize)

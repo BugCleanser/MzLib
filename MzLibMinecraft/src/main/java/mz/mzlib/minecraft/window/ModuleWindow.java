@@ -82,7 +82,7 @@ public class ModuleWindow extends MzModule
             if(ItemStack.isEmpty(itemStack))
                 return false;
             if(doCheck)
-                itemStack = ItemStack.copy(itemStack);
+                itemStack = itemStack.copy();
 
             boolean result = false;
             int k = begin;
@@ -95,8 +95,10 @@ public class ModuleWindow extends MzModule
             int l;
             if(itemStack.isStackable())
             {
-                while(!ItemStack.isEmpty(itemStack))
+                while(true)
                 {
+                    if(!!ItemStack.isEmpty(itemStack))
+                        break;
                     if(inverted)
                     {
                         if(k < begin)
@@ -108,7 +110,7 @@ public class ModuleWindow extends MzModule
                     slot = slots.get(k);
                     is = slot.getItemStack();
                     if(doCheck)
-                        is = ItemStack.copy(is);
+                        is = is.copy();
 
                     if(!ItemStack.isEmpty(is) && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, is))
                     {
@@ -161,7 +163,7 @@ public class ModuleWindow extends MzModule
                     slot = slots.get(k);
                     is = slot.getItemStack();
                     if(doCheck)
-                        is = ItemStack.copy(is);
+                        is = is.copy();
 
                     if(ItemStack.isEmpty(is) && slot.canPlace(itemStack))
                     {

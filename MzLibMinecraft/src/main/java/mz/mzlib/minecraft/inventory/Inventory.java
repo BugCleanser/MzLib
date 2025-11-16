@@ -56,7 +56,7 @@ public interface Inventory extends WrapperObject
                 ItemStack is = this.getItemStack(i);
                 if(ItemStack.isEmpty(is))
                 {
-                    this.setItemStack(i, ItemStack.copy(itemStack));
+                    this.setItemStack(i, itemStack.copy());
                     itemStack.setCount(0);
                     result = true;
                     break;

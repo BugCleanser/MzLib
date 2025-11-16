@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.CommandContext;
-import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
@@ -42,8 +41,8 @@ public class CommandMzLibItemInfo extends MzModule
             return;
         if(context.doExecute)
         {
-            Result<Option<NbtCompound>, String> encode = ItemStack.encode(
-                context.getSource().getPlayer().unwrap().getHandItemStack());
+            Result<Option<NbtCompound>, String> encode = context.getSource().getPlayer().unwrap().getHandItemStack()
+                .encode();
             for(NbtCompound nbt : encode.getValue())
             {
                 context.getSource().sendMessage(Text.literal(nbt.toString()));

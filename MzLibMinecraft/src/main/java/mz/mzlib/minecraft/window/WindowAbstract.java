@@ -11,9 +11,7 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
 public interface WindowAbstract extends Window
@@ -39,7 +37,7 @@ public interface WindowAbstract extends Window
         if(!slot.isPresent() || ItemStack.isEmpty(slot.getItemStack()))
             return ItemStack.empty();
         ItemStack is = slot.getItemStack();
-        ItemStack original = ItemStack.copy(is);
+        ItemStack original = is.copy();
         int upperSize = this.getSlots().size() - 36;
         if(index < upperSize)
         {

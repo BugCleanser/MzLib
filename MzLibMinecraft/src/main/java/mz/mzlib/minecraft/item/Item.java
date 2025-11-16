@@ -68,6 +68,30 @@ public interface Item extends WrapperObject
 
 
     Identifier getId();
+
+    static Registry getRegistry()
+    {
+        return FACTORY.getStatic().static$getRegistry();
+    }
+    static SimpleRegistry getRegistryV_1300()
+    {
+        return FACTORY.getStatic().static$getRegistryV_1300();
+    }
+
+    @VersionRange(end = 1400)
+    @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
+    String getNameLocalizedV_1400(ItemStack itemStack);
+
+    String getTranslationKeyV_2102(ItemStack itemStack);
+
+    @VersionRange(begin = 1300)
+    @WrapMinecraftMethod({
+        @VersionName(name = "getDisplayName", end = 1400),
+        @VersionName(name = "getName", begin = 1400)
+    })
+    Text getNameV1300(ItemStack itemStack);
+
+
     @SpecificImpl("getId")
     @VersionRange(end = 1300)
     default Identifier getIdV_1300()
@@ -81,15 +105,7 @@ public interface Item extends WrapperObject
         return getRegistryV1300().getIdV1300(this);
     }
 
-    static Registry getRegistry()
-    {
-        return FACTORY.getStatic().static$getRegistry();
-    }
     Registry static$getRegistry();
-    static SimpleRegistry getRegistryV_1300()
-    {
-        return FACTORY.getStatic().static$getRegistryV_1300();
-    }
     @SpecificImpl("static$getRegistry")
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
@@ -105,11 +121,6 @@ public interface Item extends WrapperObject
         return RegistriesV1300.item();
     }
 
-    @VersionRange(end = 1400)
-    @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
-    String getNameLocalizedV_1400(ItemStack itemStack);
-
-    String getTranslationKeyV_2102(ItemStack itemStack);
     @SpecificImpl("getTranslationKeyV_2102")
     @VersionRange(end = 1300)
     default String getTranslationKeyV_1300(ItemStack itemStack)
@@ -129,13 +140,6 @@ public interface Item extends WrapperObject
     @VersionRange(begin = 1300, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "getTranslationKey"))
     String getTranslationKeyV1300_2102(ItemStack itemStack);
-
-    @VersionRange(begin = 1300)
-    @WrapMinecraftMethod({
-        @VersionName(name = "getDisplayName", end = 1400),
-        @VersionName(name = "getName", begin = 1400)
-    })
-    Text getNameV1300(ItemStack itemStack);
 
     class Module extends MzModule
     {
