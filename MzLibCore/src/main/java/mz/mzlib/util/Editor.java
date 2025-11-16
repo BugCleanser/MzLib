@@ -14,7 +14,7 @@ public class Editor<T> implements AutoCompletable<T, Object>
         this.delegate = delegate;
     }
 
-    public <T1> Editor<T1> map(InvertibleFunction<T, T1> action)
+    public <T1> Editor<T1> map(FunctionInvertible<T, T1> action)
     {
         return of(AutoCompletable.of(
             () ->
@@ -103,10 +103,10 @@ public class Editor<T> implements AutoCompletable<T, Object>
 
     public static <T> Editor<Ref<T>> ofRef(Supplier<? extends T> getter, Consumer<? super T> setter)
     {
-        return Editor.<T>of(getter, setter).map(InvertibleFunction.ref());
+        return Editor.<T>of(getter, setter).map(FunctionInvertible.ref());
     }
     public static <T, H> Editor<Ref<T>> ofRef(H holder, Function<H, T> getter, BiConsumer<H, T> setter)
     {
-        return Editor.of(holder, getter, setter).map(InvertibleFunction.ref());
+        return Editor.of(holder, getter, setter).map(FunctionInvertible.ref());
     }
 }

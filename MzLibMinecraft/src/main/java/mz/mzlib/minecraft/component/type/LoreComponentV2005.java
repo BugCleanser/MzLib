@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -32,7 +32,7 @@ public interface LoreComponentV2005 extends WrapperObject
     LoreComponentV2005 static$newInstance0(List<Object> lines);
     default LoreComponentV2005 static$newInstance(List<Text> lines)
     {
-        return static$newInstance0(new ListProxy<>(lines, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
+        return static$newInstance0(new ListProxy<>(lines, FunctionInvertible.wrapper(Text.FACTORY).inverse()));
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "comp_2400"))
@@ -40,6 +40,6 @@ public interface LoreComponentV2005 extends WrapperObject
 
     default List<Text> getLines()
     {
-        return new ListProxy<>(this.getLines0(), InvertibleFunction.wrapper(Text.FACTORY));
+        return new ListProxy<>(this.getLines0(), FunctionInvertible.wrapper(Text.FACTORY));
     }
 }

@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
@@ -12,14 +12,14 @@ import java.util.Set;
 public class MapProxy<K, V, K1, V1> implements Map<K, V>
 {
     Map<K1, V1> delegate;
-    InvertibleFunction<K1, K> functionKey;
-    InvertibleFunction<V1, V> functionValue;
+    FunctionInvertible<K1, K> functionKey;
+    FunctionInvertible<V1, V> functionValue;
     ModifyMonitor modifyMonitor;
 
     public MapProxy(
         Map<K1, V1> delegate,
-        InvertibleFunction<K1, K> functionKey,
-        InvertibleFunction<V1, V> functionValue,
+        FunctionInvertible<K1, K> functionKey,
+        FunctionInvertible<V1, V> functionValue,
         ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
@@ -29,8 +29,8 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
     }
     public MapProxy(
         Map<K1, V1> delegate,
-        InvertibleFunction<K1, K> functionKey,
-        InvertibleFunction<V1, V> functionValue)
+        FunctionInvertible<K1, K> functionKey,
+        FunctionInvertible<V1, V> functionValue)
     {
         this(delegate, functionKey, functionValue, ModifyMonitor.Empty.instance);
     }
@@ -166,7 +166,7 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
     public Set<Entry<K, V>> entrySet()
     {
         return new SetProxy<>(
-            this.delegate.entrySet(), InvertibleFunction.of(
+            this.delegate.entrySet(), FunctionInvertible.of(
             x -> new MapEntry<>(functionKey.apply(x.getKey()), functionValue.apply(x.getValue())),
             x -> new MapEntry<>(functionKey.inverse().apply(x.getKey()), functionValue.inverse().apply(x.getValue()))
         ), this.modifyMonitor

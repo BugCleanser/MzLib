@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextClickEvent;
@@ -44,12 +43,13 @@ public abstract class UIWrittenBook implements UI
     @Override
     public void open(EntityPlayer player)
     {
-        ItemStack book = new ItemStackBuilder("written_book").get();
-        ItemWrittenBook.setTitle(book, "UIWrittenBook");
-        ItemWrittenBook.setAuthor(book, "UIWrittenBook");
-        ItemWrittenBook.PAGES.set(book, this.getPages(player));
-        ItemWrittenBook.RESOLVED.set(book, true);
-        player.openBook(book);
+        player.openBook(ItemStack.factory()
+            .fromId("written_book")
+            .data(ItemWrittenBook.TITLE, "UIWrittenBook")
+            .data(ItemWrittenBook.AUTHOR, "UIWrittenBook")
+            .data(ItemWrittenBook.PAGES, this.getPages(player))
+            .data(ItemWrittenBook.RESOLVED, true)
+            .build());
     }
 
     @Deprecated

@@ -5,8 +5,8 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
+import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.window.UIWindow;
@@ -16,6 +16,7 @@ import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,11 +59,15 @@ public class Tictactoe extends MzModule
         {
             super(WindowType.CRAFTING, 10);
 
-            PLAYER = new ItemStackBuilder(
-                MinecraftPlatform.instance.getVersion() < 1000 ? "ender_eye" : "structure_void").setCustomName(
-                MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player")).get();
-            AI = new ItemStackBuilder("barrier").setCustomName(
-                MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai")).get();
+            PLAYER = ItemStack.factory().fromId(
+                MinecraftPlatform.instance.getVersion() < 1000 ? "ender_eye" : "structure_void").data(
+                Item.CUSTOM_NAME,
+                Option.some(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))
+            ).build();
+            AI = ItemStack.factory().fromId("barrier").data(
+                Item.CUSTOM_NAME,
+                Option.some(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))
+            ).build();
 
             this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i < 9; i++)
@@ -75,7 +80,7 @@ public class Tictactoe extends MzModule
 
         public boolean checkWin()
         {
-            if(!ItemStack.isEmpty(this.inventory.getItemStack(1 + 4)))
+            if(!this.inventory.getItemStack(1 + 4).isEmpty())
             {
                 if(this.inventory.getItemStack(1 + 4).equals(this.inventory.getItemStack(1)) &&
                     this.inventory.getItemStack(1 + 4).equals(this.inventory.getItemStack(1 + 8)))
@@ -86,13 +91,13 @@ public class Tictactoe extends MzModule
             }
             for(int i = 0; i < 3; i++)
             {
-                if(!ItemStack.isEmpty(this.inventory.getItemStack(1 + i * 3)))
+                if(!this.inventory.getItemStack(1 + i * 3).isEmpty())
                 {
                     if(this.inventory.getItemStack(1 + i * 3).equals(this.inventory.getItemStack(1 + i * 3 + 1)) &&
                         this.inventory.getItemStack(1 + i * 3).equals(this.inventory.getItemStack(1 + i * 3 + 2)))
                         return true;
                 }
-                if(!ItemStack.isEmpty(this.inventory.getItemStack(1 + i)))
+                if(!this.inventory.getItemStack(1 + i).isEmpty())
                 {
                     if(this.inventory.getItemStack(1 + i).equals(this.inventory.getItemStack(1 + 3 + i)) &&
                         this.inventory.getItemStack(1 + i).equals(this.inventory.getItemStack(1 + 6 + i)))
@@ -113,7 +118,7 @@ public class Tictactoe extends MzModule
             // 能赢直接下
             for(int i = 0; i < 9; i++)
             {
-                if(ItemStack.isEmpty(this.inventory.getItemStack(1 + i)))
+                if(this.inventory.getItemStack(1 + i).isEmpty())
                 {
                     this.inventory.setItemStack(1 + i, AI);
                     if(checkWin())
@@ -123,7 +128,7 @@ public class Tictactoe extends MzModule
             }
             for(int i = 0; i < 9; i++)
             {
-                if(ItemStack.isEmpty(this.inventory.getItemStack(1 + i)))
+                if(this.inventory.getItemStack(1 + i).isEmpty())
                 {
                     this.inventory.setItemStack(1 + i, PLAYER);
                     if(checkWin())
@@ -135,7 +140,7 @@ public class Tictactoe extends MzModule
                 }
             }
             // 抢中心位
-            if(ItemStack.isEmpty(this.inventory.getItemStack(1 + 4)))
+            if(this.inventory.getItemStack(1 + 4).isEmpty())
             {
                 this.inventory.setItemStack(1 + 4, AI);
                 return;
@@ -148,7 +153,7 @@ public class Tictactoe extends MzModule
             Collections.shuffle(list);
             for(int i : list)
             {
-                if(ItemStack.isEmpty(this.inventory.getItemStack(1 + i)))
+                if(this.inventory.getItemStack(1 + i).isEmpty())
                 {
                     this.inventory.setItemStack(1 + i, AI);
                     return;
@@ -160,7 +165,7 @@ public class Tictactoe extends MzModule
         {
             for(int i = 0; i < 9; i++)
             {
-                if(ItemStack.isEmpty(this.inventory.getItemStack(1 + i)))
+                if(this.inventory.getItemStack(1 + i).isEmpty())
                     return false;
             }
             return true;
@@ -175,36 +180,30 @@ public class Tictactoe extends MzModule
             EntityPlayer player)
         {
             super.onAction(window, index, data, actionType, player);
-            if(ItemStack.isEmpty(this.inventory.getItemStack(0)) && (this.finished || this.isFull()))
+            if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
             {
                 this.restart();
                 if(index >= 0 && index < this.inventory.size())
                     window.sendSlotUpdate(player, index);
             }
-            else
+            else if(!this.finished &&
+                (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) &&
+                index >= 1 && index < 10 && this.inventory.getItemStack(index).isEmpty())
             {
-                if(!this.finished &&
-                    (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) &&
-                    index >= 1 && index < 10)
+                this.inventory.setItemStack(index, PLAYER);
+                if(checkWin())
                 {
-                    if(ItemStack.isEmpty(this.inventory.getItemStack(index)))
-                    {
-                        this.inventory.setItemStack(index, PLAYER);
-                        if(checkWin())
-                        {
-                            this.finished = true;
-                            this.inventory.setItemStack(
-                                0, ((ItemStack) Demo.instance.config.get("game.tictactoe.reward")).copy());
-                            player.closeInterface();
-                            this.open(player);
-                        }
-                        else
-                        {
-                            aiDrop();
-                            if(this.checkWin())
-                                this.finished = true;
-                        }
-                    }
+                    this.finished = true;
+                    this.inventory.setItemStack(
+                        0, ((ItemStack) Demo.instance.config.get("game.tictactoe.reward")).copy());
+                    player.closeInterface();
+                    this.open(player);
+                }
+                else
+                {
+                    aiDrop();
+                    if(this.checkWin())
+                        this.finished = true;
                 }
             }
         }

@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
 
@@ -10,11 +10,11 @@ import java.util.ListIterator;
 
 public class ListProxy<T, U> extends CollectionProxy<T, U> implements List<T>
 {
-    public ListProxy(List<U> delegate, InvertibleFunction<U, T> function, ModifyMonitor modifyMonitor)
+    public ListProxy(List<U> delegate, FunctionInvertible<U, T> function, ModifyMonitor modifyMonitor)
     {
         super(delegate, function, modifyMonitor);
     }
-    public ListProxy(List<U> delegate, InvertibleFunction<U, T> function)
+    public ListProxy(List<U> delegate, FunctionInvertible<U, T> function)
     {
         super(delegate, function);
     }

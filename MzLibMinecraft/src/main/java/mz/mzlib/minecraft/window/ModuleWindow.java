@@ -72,14 +72,14 @@ public class ModuleWindow extends MzModule
             @LocalVar(3) int end,
             @LocalVar(4) boolean inverted)
         {
-            return WrapperBoolean.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
+            return WrapperBoolean.FACTORY.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
         }
 
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)
         {
             if(!itemStack.isPresent())
                 throw new NullPointerException("ItemStack is null");
-            if(ItemStack.isEmpty(itemStack))
+            if(itemStack.isEmpty())
                 return false;
             if(doCheck)
                 itemStack = itemStack.copy();
@@ -95,10 +95,8 @@ public class ModuleWindow extends MzModule
             int l;
             if(itemStack.isStackable())
             {
-                while(true)
+                while(!itemStack.isEmpty())
                 {
-                    if(!!ItemStack.isEmpty(itemStack))
-                        break;
                     if(inverted)
                     {
                         if(k < begin)
@@ -112,7 +110,7 @@ public class ModuleWindow extends MzModule
                     if(doCheck)
                         is = is.copy();
 
-                    if(!ItemStack.isEmpty(is) && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, is))
+                    if(!is.isEmpty() && slot.canPlace(itemStack) && ItemStack.isStackable(itemStack, is))
                     {
                         l = is.getCount() + itemStack.getCount();
                         int i1 = slot.getMaxStackCount(is);
@@ -143,7 +141,7 @@ public class ModuleWindow extends MzModule
                 }
             }
 
-            if(!ItemStack.isEmpty(itemStack))
+            if(!itemStack.isEmpty())
             {
                 if(inverted)
                     k = end - 1;
@@ -165,7 +163,7 @@ public class ModuleWindow extends MzModule
                     if(doCheck)
                         is = is.copy();
 
-                    if(ItemStack.isEmpty(is) && slot.canPlace(itemStack))
+                    if(is.isEmpty() && slot.canPlace(itemStack))
                     {
                         l = slot.getMaxStackCount(itemStack);
                         if(doCheck)

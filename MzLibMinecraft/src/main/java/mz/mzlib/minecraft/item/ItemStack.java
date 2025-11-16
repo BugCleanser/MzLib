@@ -56,6 +56,11 @@ public interface ItemStack extends WrapperObject
         return type.toItemStack(count);
     }
 
+    static ItemStackFactory factory()
+    {
+        return new ItemStackFactory();
+    }
+
     @VersionRange(begin = 1600)
     static CodecV1600.Wrapper<ItemStack> codecV1600()
     {
@@ -335,7 +340,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin = 1300)
     default ItemStack static$newInstanceV1300(Item item)
     {
-        return static$newInstanceV1300((ItemConvertibleV1300) item.castTo(ItemV1300.FACTORY));
+        return static$newInstanceV1300((ItemConvertibleV1300) item.castTo(Item.V1300.FACTORY));
     }
 
     static CodecV1600<?> codec0V1600()

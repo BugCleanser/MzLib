@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleMap;
+import mz.mzlib.util.MapInvertible;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -84,7 +84,7 @@ public interface PacketS2cEntitySpawn extends Packet
 
     class V_1400
     {
-        public static InvertibleMap<EntityType, Integer> typeIds = new InvertibleMap<>();
+        public static MapInvertible<EntityType, Integer> typeIds = new MapInvertible<>();
         public static void register(String type, int id)
         {
             typeIds.put(EntityType.fromId(type), id);

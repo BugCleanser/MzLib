@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.entity.data.EntityDataTracker;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RefStrong;
 import mz.mzlib.util.proxy.ListProxy;
@@ -113,14 +113,14 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @VersionRange(end = 1903)
     default List<EntityDataTracker.Entry> getDataListV_1903()
     {
-        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.Entry.FACTORY));
+        return new ListProxy<>(getDataList0(), FunctionInvertible.wrapper(EntityDataTracker.Entry.FACTORY));
     }
 
     @SpecificImpl("getDataList")
     @VersionRange(begin = 1903)
     default List<EntityDataTracker.EntityDataV1903> getDataListV1903()
     {
-        return new ListProxy<>(getDataList0(), InvertibleFunction.wrapper(EntityDataTracker.EntityDataV1903.FACTORY));
+        return new ListProxy<>(getDataList0(), FunctionInvertible.wrapper(EntityDataTracker.EntityDataV1903.FACTORY));
     }
 
     @Override

@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.entity.data.EntityDataKey;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -55,8 +55,8 @@ public interface EntityItem extends WrapperObject, Entity
     EntityDataAdapter<ItemStack> DATA_ADAPTER_ITEM = new EntityDataAdapter<>(
         dataKeyItem(), //
         MinecraftPlatform.instance.getVersion() >= 900 && MinecraftPlatform.instance.getVersion() < 1100 ? //
-            InvertibleFunction.wrapper(ItemStack.FACTORY).inverse().thenApply(Optional::fromNullable, Optional::orNull)
+            FunctionInvertible.wrapper(ItemStack.FACTORY).inverse().thenApply(Optional::fromNullable, Optional::orNull)
                 .thenCast() : //
-            InvertibleFunction.of(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast()
+            FunctionInvertible.of(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast()
     );
 }

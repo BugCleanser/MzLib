@@ -210,7 +210,7 @@ public interface Text extends WrapperObject
         List<Object> result = this.getExtra0();
         if(result == null)
             return null;
-        return new ListProxy<>(result, InvertibleFunction.wrapper(Text.FACTORY));
+        return new ListProxy<>(result, FunctionInvertible.wrapper(Text.FACTORY));
     }
 
     Text setExtra(List<Text> value);

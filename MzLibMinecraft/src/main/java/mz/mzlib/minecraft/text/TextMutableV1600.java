@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -31,7 +31,7 @@ public interface TextMutableV1600 extends Text
     @Override
     default Text setExtraV1900(List<Text> value)
     {
-        this.setExtra0V1900(new ListProxy<>(value, InvertibleFunction.wrapper(Text.FACTORY).inverse()));
+        this.setExtra0V1900(new ListProxy<>(value, FunctionInvertible.wrapper(Text.FACTORY).inverse()));
         return this;
     }
 

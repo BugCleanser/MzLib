@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -61,7 +61,7 @@ public interface Window extends WrapperObject
     }
     default List<WindowSlot> getSlots()
     {
-        return new ListProxy<>(getSlots0(), InvertibleFunction.wrapper(WindowSlot.FACTORY));
+        return new ListProxy<>(getSlots0(), FunctionInvertible.wrapper(WindowSlot.FACTORY));
     }
     default WindowSlot getSlot(int index)
     {

@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.world.WorldServer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -59,9 +59,9 @@ public interface Entity extends WrapperObject
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(
         dataKeyCustomName(), //
         MinecraftPlatform.instance.getVersion() < 1300 ?
-            new InvertibleFunction<>(Text::toLegacy, Text::fromLegacy).thenCast() :
+            new FunctionInvertible<>(Text::toLegacy, Text::fromLegacy).thenCast() :
             //
-            InvertibleFunction.wrapper(Text.FACTORY).invert().thenApply(InvertibleFunction.optional()).thenCast()
+            FunctionInvertible.wrapper(Text.FACTORY).invert().thenApply(FunctionInvertible.optional()).thenCast()
     );
 
     /**
@@ -90,9 +90,9 @@ public interface Entity extends WrapperObject
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(
         dataKeyCustomNameVisible(), //
         MinecraftPlatform.instance.getVersion() < 900 ?
-            new InvertibleFunction<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() :
+            new FunctionInvertible<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() :
             //
-            InvertibleFunction.cast()
+            FunctionInvertible.cast()
     );
 
     @WrapMinecraftFieldAccessor({

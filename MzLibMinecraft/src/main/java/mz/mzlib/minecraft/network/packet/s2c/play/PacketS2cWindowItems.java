@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -41,7 +41,7 @@ public interface PacketS2cWindowItems extends Packet
 
     default List<ItemStack> getContents()
     {
-        return new ListProxy<>(this.getContents0(), InvertibleFunction.wrapper(ItemStack.FACTORY));
+        return new ListProxy<>(this.getContents0(), FunctionInvertible.wrapper(ItemStack.FACTORY));
     }
 
     @VersionRange(end = 1100)
@@ -88,7 +88,7 @@ public interface PacketS2cWindowItems extends Packet
 
     default void setContents(List<ItemStack> value)
     {
-        this.setContents0(new ListProxy<>(value, InvertibleFunction.wrapper(ItemStack.FACTORY).inverse()));
+        this.setContents0(new ListProxy<>(value, FunctionInvertible.wrapper(ItemStack.FACTORY).inverse()));
     }
 
 

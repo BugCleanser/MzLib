@@ -8,6 +8,10 @@ import mz.mzlib.util.*;
 
 import java.util.*;
 
+/**
+ * @see ItemStack#factory()
+ */
+@Deprecated
 public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 {
     public static final Colored DYE = new ColoredReversed("dye");
@@ -126,14 +130,14 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 
     public static class Colored
     {
-        InvertibleMap<String, Integer> colorDamages;
+        MapInvertible<String, Integer> colorDamages;
         public String idV_1300;
         public String baseIdV1300;
         public Colored(String idV_1300, String baseIdV1300)
         {
             this.idV_1300 = idV_1300;
             this.baseIdV1300 = baseIdV1300;
-            this.colorDamages = new InvertibleMap<>();
+            this.colorDamages = new MapInvertible<>();
             this.colorDamages.put("white", 0);
             this.colorDamages.put("orange", 1);
             this.colorDamages.put("magenta", 2);

@@ -300,7 +300,7 @@ public interface NbtCompound extends NbtElement
     default Map<String, NbtElement> asMap()
     {
         return new MapProxy<>(
-            this.asMap0(), InvertibleFunction.identity(), InvertibleFunction.wrapper(NbtElement.FACTORY));
+            this.asMap0(), FunctionInvertible.identity(), FunctionInvertible.wrapper(NbtElement.FACTORY));
     }
 
     default boolean isEmpty()

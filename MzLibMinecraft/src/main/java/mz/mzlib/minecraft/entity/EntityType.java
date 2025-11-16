@@ -14,7 +14,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.InvertibleMap;
+import mz.mzlib.util.MapInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -170,7 +170,7 @@ public interface EntityType extends WrapperObject
      */
     class V_1100
     {
-        public static InvertibleMap<Identifier, String> names = new InvertibleMap<>();
+        public static MapInvertible<Identifier, String> names = new MapInvertible<>();
 
         public static void register(String id, String name)
         {

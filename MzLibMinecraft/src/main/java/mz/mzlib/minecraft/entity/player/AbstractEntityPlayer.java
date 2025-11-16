@@ -131,7 +131,7 @@ public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
     default void give(ItemStack is)
     {
         this.getInventory().addItemStack(is);
-        if(!ItemStack.isEmpty(is))
+        if(!is.isEmpty())
         {
             EntityItem ignored = this.drop(is, true);
         }

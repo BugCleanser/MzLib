@@ -15,7 +15,7 @@ import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.proxy.ListProxy;
@@ -159,7 +159,7 @@ public interface ItemWrittenBook extends Item
                     .register(this);
             if(MinecraftPlatform.instance.getVersion() < 2005)
             {
-                InvertibleFunction<NbtString, Text> functionPage = InvertibleFunction.of(
+                FunctionInvertible<NbtString, Text> functionPage = FunctionInvertible.of(
                     str -> Text.decode(str.getValue()),
                     text -> NbtString.newInstance(text.encode().toString())
                 );

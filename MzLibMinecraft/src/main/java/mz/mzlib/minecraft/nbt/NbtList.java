@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.AutoCompletable;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -65,7 +65,7 @@ public interface NbtList extends NbtElement
 
     default <T extends NbtElement> List<T> asList(WrapperFactory<T> factory)
     {
-        return new ListProxy<>(this.getValue0(), InvertibleFunction.wrapper(factory));
+        return new ListProxy<>(this.getValue0(), FunctionInvertible.wrapper(factory));
     }
     @Deprecated
     default <T extends NbtElement> List<T> asList(Function<Object, T> creator)

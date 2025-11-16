@@ -24,9 +24,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +139,13 @@ public interface Item extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "getTranslationKey"))
     String getTranslationKeyV1300_2102(ItemStack itemStack);
 
+    @VersionRange(begin = 1300)
+    @WrapSameClass(Item.class)
+    interface V1300 extends WrapperObject, Item, ItemConvertibleV1300
+    {
+        WrapperFactory<V1300> FACTORY = WrapperFactory.of(V1300.class);
+    }
+
     class Module extends MzModule
     {
         public static Module instance = new Module();
@@ -231,7 +236,7 @@ public interface Item extends WrapperObject
                     loreLineDecoder = Text::decode;
                     loreLineEncoder = ThrowableFunction.ofFunction(Text::encode).thenApply(JsonElement::toString);
                 }
-                InvertibleFunction<NbtString, Text> proxyFunction = InvertibleFunction.of(
+                FunctionInvertible<NbtString, Text> proxyFunction = FunctionInvertible.of(
                     ThrowableFunction.of(NbtString::getValue).thenApply(loreLineDecoder),
                     loreLineEncoder.andThen(NbtString::newInstance)
                 );
@@ -299,6 +304,7 @@ public interface Item extends WrapperObject
                     .register(this);
         }
     }
+
 
     /**
      * @see #CUSTOM_DATA

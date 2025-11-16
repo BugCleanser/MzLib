@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.ClientConnectionDataV2002;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -37,7 +37,7 @@ public interface PlayerManager extends WrapperObject
 
     default List<EntityPlayer> getPlayers()
     {
-        return new ListProxy<>(this.getPlayers0(), InvertibleFunction.wrapper(EntityPlayer.FACTORY));
+        return new ListProxy<>(this.getPlayers0(), FunctionInvertible.wrapper(EntityPlayer.FACTORY));
     }
 
     @WrapMinecraftMethod(@VersionName(name = "getPlayer"))

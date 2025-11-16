@@ -81,7 +81,7 @@ public interface GameProfile extends WrapperObject
     {
         return Option.some(getId0()).then(
             ThrowableFunction.switcher(NIL_UUID_V2002::equals, ThrowableSupplier.<UUID>nul().ignore())
-                .thenApply(InvertibleFunction.option()));
+                .thenApply(FunctionInvertible.option()));
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
@@ -99,7 +99,7 @@ public interface GameProfile extends WrapperObject
     {
         return Option.some(getName0()).then(
             ThrowableFunction.switcher(String::isEmpty, ThrowableSupplier.<String>nul().ignore())
-                .thenApply(InvertibleFunction.option()));
+                .thenApply(FunctionInvertible.option()));
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "properties"))

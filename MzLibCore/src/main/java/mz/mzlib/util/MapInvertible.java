@@ -4,29 +4,29 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> implements Map<K, V>
+public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> implements Map<K, V>
 {
     protected Map<K, V> delegate;
 
-    public InvertibleMap(InvertibleMap<V, K> inverse, Map<K, V> delegate)
+    public MapInvertible(MapInvertible<V, K> inverse, Map<K, V> delegate)
     {
         this.inverse = inverse;
         this.delegate = delegate;
     }
-    public InvertibleMap(Supplier<Map<?, ?>> generator)
+    public MapInvertible(Supplier<Map<?, ?>> generator)
     {
         this.delegate = RuntimeUtil.cast(generator.get());
-        this.inverse = new InvertibleMap<>(this, RuntimeUtil.cast(generator.get()));
+        this.inverse = new MapInvertible<>(this, RuntimeUtil.cast(generator.get()));
         if(!this.isEmpty() || !this.inverse.isEmpty())
             throw new IllegalArgumentException("The generated map is not empty");
     }
-    public InvertibleMap()
+    public MapInvertible()
     {
         this(HashMap::new);
     }
 
     @Override
-    protected InvertibleMap<V, K> invert()
+    protected MapInvertible<V, K> invert()
     {
         throw new UnsupportedOperationException();
     }
@@ -116,7 +116,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
     }
     public class Itr
     {
-        Iterator<Entry<K, V>> delegate = InvertibleMap.this.delegate.entrySet().iterator();
+        Iterator<Entry<K, V>> delegate = MapInvertible.this.delegate.entrySet().iterator();
         Entry<K, V> current;
         public boolean hasNext()
         {
@@ -140,15 +140,15 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
                 @Override
                 public V setValue(V value)
                 {
-                    InvertibleMap.this.inverse().delegate.remove(e.getValue());
-                    InvertibleMap.this.inverse().delegate.put(value, e.getKey());
+                    MapInvertible.this.inverse().delegate.remove(e.getValue());
+                    MapInvertible.this.inverse().delegate.put(value, e.getKey());
                     return e.setValue(value);
                 }
             };
         }
         public void remove()
         {
-            InvertibleMap.this.inverse().delegate.remove(current.getValue());
+            MapInvertible.this.inverse().delegate.remove(current.getValue());
             this.delegate.remove();
         }
     }
@@ -192,12 +192,12 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             @Override
             public int size()
             {
-                return InvertibleMap.this.size();
+                return MapInvertible.this.size();
             }
             @Override
             public void clear()
             {
-                InvertibleMap.this.clear();
+                MapInvertible.this.clear();
             }
             @Override
             public boolean contains(Object o)
@@ -205,7 +205,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
                 if(!(o instanceof Entry))
                     return false;
                 Entry<?, ?> e = (Entry<?, ?>) o;
-                return InvertibleMap.this.containsKey(e.getKey()) && InvertibleMap.this.get(e.getKey()) == e.getValue();
+                return MapInvertible.this.containsKey(e.getKey()) && MapInvertible.this.get(e.getKey()) == e.getValue();
             }
             @Override
             public boolean remove(Object o)
@@ -213,7 +213,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
                 if(!(o instanceof Entry))
                     return false;
                 Entry<?, ?> e = (Entry<?, ?>) o;
-                return InvertibleMap.this.remove(e.getKey(), e.getValue());
+                return MapInvertible.this.remove(e.getKey(), e.getValue());
             }
         };
     }
@@ -225,12 +225,12 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             @Override
             public int size()
             {
-                return InvertibleMap.this.size();
+                return MapInvertible.this.size();
             }
             @Override
             public void clear()
             {
-                InvertibleMap.this.clear();
+                MapInvertible.this.clear();
             }
             @Override
             public Iterator<K> iterator()
@@ -240,7 +240,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             @Override
             public boolean contains(Object o)
             {
-                return InvertibleMap.this.containsKey(o);
+                return MapInvertible.this.containsKey(o);
             }
         };
     }
@@ -252,12 +252,12 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             @Override
             public int size()
             {
-                return InvertibleMap.this.size();
+                return MapInvertible.this.size();
             }
             @Override
             public void clear()
             {
-                InvertibleMap.this.clear();
+                MapInvertible.this.clear();
             }
             @Override
             public Iterator<V> iterator()
@@ -267,7 +267,7 @@ public class InvertibleMap<K, V> extends Invertible<InvertibleMap<V, K>> impleme
             @Override
             public boolean contains(Object o)
             {
-                return InvertibleMap.this.containsValue(o);
+                return MapInvertible.this.containsValue(o);
             }
         };
     }

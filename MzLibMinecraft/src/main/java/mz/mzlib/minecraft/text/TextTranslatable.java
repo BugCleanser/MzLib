@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.InvertibleFunction;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -69,7 +69,7 @@ public interface TextTranslatable extends WrapperObject, Text
         return this.getContentV1900().castTo(TextContentTranslatableV1900.FACTORY).getKey();
     }
 
-    InvertibleFunction<Object, Object> FUNCTION_ARGS0 = InvertibleFunction.of(
+    FunctionInvertible<Object, Object> FUNCTION_ARGS0 = FunctionInvertible.of(
         a0 ->
         {
             if(WrapperObject.FACTORY.create(a0).isInstanceOf(Text.FACTORY))

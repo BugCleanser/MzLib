@@ -36,6 +36,7 @@ public class MinecraftJsUtil
     {
         JsUtil.put(scope, "Item", JsUtil.wrapClass(scope, Item.class));
         JsUtil.put(scope, "ItemStack", JsUtil.wrapClass(scope, ItemStack.class));
+        //noinspection deprecation
         JsUtil.put(scope, "ItemStackBuilder", JsUtil.wrapClass(scope, ItemStackBuilder.class));
     }
 

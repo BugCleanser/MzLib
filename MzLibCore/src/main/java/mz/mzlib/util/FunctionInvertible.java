@@ -6,23 +6,23 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T>> implements ThrowableFunction<T, U, RuntimeException>
+public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T>> implements ThrowableFunction<T, U, RuntimeException>
 {
     protected Function<? super T, ? extends U> forward;
     protected Function<? super U, ? extends T> backward;
-    public InvertibleFunction(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
+    public FunctionInvertible(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
     {
         this.forward = forward;
         this.backward = backward;
     }
 
-    public static <T, U> InvertibleFunction<T, U> of(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
+    public static <T, U> FunctionInvertible<T, U> of(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
     {
-        return new InvertibleFunction<>(forward, backward);
+        return new FunctionInvertible<>(forward, backward);
     }
 
     @Override
-    public InvertibleFunction<U, T> invert()
+    public FunctionInvertible<U, T> invert()
     {
         return of(this.backward, this.forward);
     }
@@ -33,67 +33,67 @@ public class InvertibleFunction<T, U> extends Invertible<InvertibleFunction<U, T
         return this.forward.apply(t);
     }
 
-    public <V> InvertibleFunction<T, V> thenApply(InvertibleFunction<U, V> after)
+    public <V> FunctionInvertible<T, V> thenApply(FunctionInvertible<U, V> after)
     {
         return of(this.andThen(after), after.inverse().andThen(this.inverse()));
     }
-    public <V> InvertibleFunction<T, V> thenApply(
+    public <V> FunctionInvertible<T, V> thenApply(
         Function<? super U, ? extends V> after,
         Function<? super V, ? extends U> afterInverse)
     {
         return this.thenApply(of(after, afterInverse));
     }
 
-    public static <T, U> InvertibleFunction<T, U> cast()
+    public static <T, U> FunctionInvertible<T, U> cast()
     {
         return of(RuntimeUtil::cast, RuntimeUtil::cast);
     }
 
-    public <V> InvertibleFunction<T, V> thenCast()
+    public <V> FunctionInvertible<T, V> thenCast()
     {
-        return this.thenApply(InvertibleFunction.cast());
+        return this.thenApply(FunctionInvertible.cast());
     }
 
-    public static <T> InvertibleFunction<T, Ref<T>> ref()
+    public static <T> FunctionInvertible<T, Ref<T>> ref()
     {
         return of(RefStrong::new, Ref::get);
     }
 
-    public static <T> InvertibleFunction<T, Option<T>> option()
+    public static <T> FunctionInvertible<T, Option<T>> option()
     {
         return of(Option::fromNullable, Option::toNullable);
     }
 
-    public static <T> InvertibleFunction<T, Optional<T>> optional()
+    public static <T> FunctionInvertible<T, Optional<T>> optional()
     {
         return of(Optional::ofNullable, RuntimeUtil::orNull);
     }
 
-    public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(WrapperFactory<T> factory)
+    public static <T extends WrapperObject> FunctionInvertible<Object, T> wrapper(WrapperFactory<T> factory)
     {
         return of(factory::create, WrapperObject::getWrapped);
     }
     @Deprecated
-    public static <T extends WrapperObject> InvertibleFunction<Object, T> wrapper(Function<Object, T> creator)
+    public static <T extends WrapperObject> FunctionInvertible<Object, T> wrapper(Function<Object, T> creator)
     {
         return of(creator, WrapperObject::getWrapped);
     }
 
-    public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(
+    public static <T extends WrapperObject, U extends WrapperObject> FunctionInvertible<T, U> wrapperCast(
         WrapperFactory<T> factory,
         WrapperFactory<U> factory1)
     {
         return wrapper(factory).inverse().thenApply(wrapper(factory1));
     }
     @Deprecated
-    public static <T extends WrapperObject, U extends WrapperObject> InvertibleFunction<T, U> wrapperCast(
+    public static <T extends WrapperObject, U extends WrapperObject> FunctionInvertible<T, U> wrapperCast(
         Function<Object, T> creator,
         Function<Object, U> creator1)
     {
         return wrapper(creator).inverse().thenApply(wrapper(creator1));
     }
 
-    public static <T> InvertibleFunction<T, T> identity()
+    public static <T> FunctionInvertible<T, T> identity()
     {
         return of(ThrowableFunction.identity(), ThrowableFunction.identity());
     }

@@ -4,11 +4,13 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
+import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.item.ItemStackBuilder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
+import mz.mzlib.util.Option;
 
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -29,20 +31,32 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
         this.text = initial;
 
         this.putButton(
-            0, player -> new ItemStackBuilder("name_tag").setCustomName(Text.literal(this.prefix + this.initial))
-                .setLore(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.reset.lore")).get(),
+            0, player -> ItemStack.factory().fromId("name_tag").data(
+                    Item.CUSTOM_NAME,
+                    Option.some(Text.literal(this.prefix + this.initial))
+                )
+                .data(
+                    Item.LORE, Option.some(
+                        Collections.singletonList(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.reset.lore")))
+                ).build(),
             (player, actionType, data) -> MinecraftServer.instance.execute(() ->
             {
                 player.getCurrentWindow().sendSlotUpdate(player, 0);
                 player.getCurrentWindow().sendSlotUpdate(player, 2);
             })
         );
-        this.putButton(1, player -> new ItemStackBuilder("torch").setCustomName(
-                MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back")).get(),
+        this.putButton(
+            1, player -> ItemStack.factory().fromId("torch").data(
+                Item.CUSTOM_NAME,
+                Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back"))
+            ).build(),
             (player, actionType, data) -> UIStack.get(player).back()
         );
-        this.putButton(2, player -> new ItemStackBuilder("slime_ball").setCustomName(
-                MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done")).get(),
+        this.putButton(
+            2, player -> ItemStack.factory().fromId("slime_ball").data(
+                Item.CUSTOM_NAME,
+                Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done"))
+            ).build(),
             (player, actionType, data) -> this.done(player, this.text)
         );
     }

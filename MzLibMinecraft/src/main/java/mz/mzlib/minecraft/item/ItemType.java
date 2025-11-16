@@ -10,12 +10,15 @@ public class ItemType
     ItemStack itemStack;
     public ItemType(ItemStack itemStack)
     {
-        this.itemStack = new ItemStackBuilder(itemStack.copy()).setCount(1).get();
+        this.itemStack = itemStack.copy();
+        this.itemStack.setCount(1);
     }
 
     public ItemStack toItemStack(int count)
     {
-        return new ItemStackBuilder(this.itemStack.copy()).setCount(count).get();
+        ItemStack result = this.itemStack.copy();
+        result.setCount(count);
+        return result;
     }
 
     @Override
