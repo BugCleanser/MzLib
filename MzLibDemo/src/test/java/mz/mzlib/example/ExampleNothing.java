@@ -10,7 +10,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.WrapperString;
 import org.junit.jupiter.api.Test;
 
-@Deprecated
 public class ExampleNothing
 {
     @WrapClass(Object.class)

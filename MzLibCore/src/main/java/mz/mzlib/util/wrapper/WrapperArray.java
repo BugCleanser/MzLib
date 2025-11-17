@@ -1,22 +1,31 @@
 package mz.mzlib.util.wrapper;
 
+import mz.mzlib.util.RuntimeUtil;
+
+import java.lang.reflect.Array;
+
 @WrapArrayClass(WrapperObject.class)
 public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 {
-    WrapperArray<T> static$newInstance(int length);
+    WrapperFactory<T> static$getElementFactory();
 
-    T get(int index);
+    default WrapperArray<T> static$newInstance(int length)
+    {
+        return RuntimeUtil.cast(this.static$create(Array.newInstance(this.static$getElementFactory().getStatic().static$getWrappedClass(), length)));
+    }
+
+    default T get(int index)
+    {
+        return this.static$getElementFactory().create(Array.get(this.getWrapped(), index));
+    }
 
     default void set(int index, T value)
     {
-        this.getWrapped()[index] = value.getWrapped();
+        Array.set(this.getWrapped(), index, value.getWrapped());
     }
-
-    @Override
-    Object[] getWrapped();
 
     default int length()
     {
-        return this.getWrapped().length;
+        return Array.getLength(this.getWrapped());
     }
 }

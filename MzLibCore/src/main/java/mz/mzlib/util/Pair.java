@@ -18,11 +18,11 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
 
     public F getFirst()
     {
-        return first;
+        return this.first;
     }
     public S getSecond()
     {
-        return second;
+        return this.second;
     }
 
     @Override

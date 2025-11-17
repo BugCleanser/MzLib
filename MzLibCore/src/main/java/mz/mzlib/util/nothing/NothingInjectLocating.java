@@ -1,9 +1,16 @@
 package mz.mzlib.util.nothing;
 
 import mz.mzlib.asm.tree.AbstractInsnNode;
+import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.asm.tree.VarInsnNode;
+import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
+import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Member;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -33,6 +40,37 @@ public class NothingInjectLocating
                 return Collections.singleton(result);
             else
                 return Collections.emptySet();
+        });
+    }
+
+    public void nextInvokeWrapped(Class<? extends WrapperObject> ownerWrapper, String name, Class<?>... parameterTypes)
+    {
+        try
+        {
+            this.nextInvoke(WrapperClassInfo.get(ownerWrapper).getWrappedMembers()
+                .get(ownerWrapper.getDeclaredMethod(name, parameterTypes)));
+        }
+        catch(NoSuchMethodException e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+    public void nextInvoke(Member member)
+    {
+        this.nextInvoke(member.getDeclaringClass(), member.getName(), ClassUtil.methodType(member));
+    }
+    public void nextInvoke(Class<?> owner, String name, MethodType methodType)
+    {
+        this.nextInvoke(AsmUtil.getType(owner), name, methodType.descriptorString());
+    }
+    public void nextInvoke(String owner, String name, String desc)
+    {
+        this.next(l ->
+        {
+            if(!(this.insns[l] instanceof MethodInsnNode))
+                return false;
+            MethodInsnNode insn = (MethodInsnNode) this.insns[l];
+            return insn.owner.equals(owner) && insn.name.equals(name) && insn.desc.equals(desc);
         });
     }
 

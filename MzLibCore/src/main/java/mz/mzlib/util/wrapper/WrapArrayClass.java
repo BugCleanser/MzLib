@@ -1,7 +1,6 @@
 package mz.mzlib.util.wrapper;
 
 import mz.mzlib.asm.Opcodes;
-import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.asm.AsmUtil;
@@ -10,6 +9,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 
 @Retention(RetentionPolicy.RUNTIME)
@@ -31,22 +31,12 @@ public @interface WrapArrayClass
         {
             Class<? extends WrapperObject> type = annotation.value();
             MethodNode mn = new MethodNode(
-                Opcodes.ACC_PUBLIC, "static$newInstance", AsmUtil.getDesc(WrapperArray.class, int.class), null,
+                Opcodes.ACC_PUBLIC, "static$getElementFactory",
+                AsmUtil.getDesc(MethodType.methodType(WrapperFactory.class)), null,
                 new String[0]
             );
-            mn.instructions.add(AsmUtil.insnVarLoad(int.class, 1));
-            mn.instructions.add(AsmUtil.insnArray(WrapperObject.getWrappedClass(type)));
-            mn.instructions.add(AsmUtil.insnCreateWrapper(Type.getType("L" + cn.name + ";")));
-            mn.instructions.add(AsmUtil.insnReturn(WrapperArray.class));
-            cn.methods.add(mn);
-            mn = new MethodNode(
-                Opcodes.ACC_PUBLIC, "get", AsmUtil.getDesc(Object.class, int.class), null, new String[0]);
-            mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-            mn.instructions.add(AsmUtil.insnGetWrapped());
-            mn.instructions.add(AsmUtil.insnCast(Object[].class, Object.class));
-            mn.instructions.add(AsmUtil.insnArrayLoad(Object.class, AsmUtil.toList(AsmUtil.insnVarLoad(int.class, 1))));
-            mn.instructions.add(AsmUtil.insnCreateWrapper(type));
-            mn.instructions.add(AsmUtil.insnReturn(type));
+            mn.instructions.add(AsmUtil.insnWrapperFactory(type));
+            mn.instructions.add(AsmUtil.insnReturn(WrapperFactory.class));
             mn.visitEnd();
             cn.methods.add(mn);
         }

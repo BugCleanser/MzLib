@@ -2,6 +2,8 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.item.Item;
+import mz.mzlib.minecraft.item.ItemConvertibleV1300;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
@@ -35,6 +37,17 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
 
     @Override
     boolean test(ItemStack itemStack);
+
+    static VanillaIngredient ofItem(ItemConvertibleV1300 item)
+    {
+        return FACTORY.getStatic().static$ofItem(item);
+    }
+    static VanillaIngredient ofItem(Item item)
+    {
+        return ofItem(item.as(ItemConvertibleV1300.FACTORY));
+    }
+    @WrapMinecraftMethod(@VersionName(name = "ofItem"))
+    VanillaIngredient static$ofItem(ItemConvertibleV1300 item);
 
 
     VanillaIngredient static$emptyV_2102();

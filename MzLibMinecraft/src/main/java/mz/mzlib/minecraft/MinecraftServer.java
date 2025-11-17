@@ -5,7 +5,9 @@ import mz.mzlib.minecraft.command.CommandOutput;
 import mz.mzlib.minecraft.datafixer.DataFixerV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdaterV900_1300;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.incomprehensible.SaveProperties;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
+import mz.mzlib.minecraft.recipe.RecipeManager;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -169,6 +171,12 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name = "getRegistryManager", begin = 1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
+
+    @WrapMinecraftMethod(@VersionName(name = "getRecipeManager"))
+    RecipeManager getRecipeManager();
+
+    @WrapMinecraftMethod(@VersionName(name = "getSaveProperties"))
+    SaveProperties getSaveProperties();
 
     @WrapMinecraftMethod({ @VersionName(name = "run", end = 1601), @VersionName(name = "method_29741", begin = 1601) })
     void run();

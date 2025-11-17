@@ -60,6 +60,24 @@ public class ClassUtil
         }
     }
 
+    public static MethodType methodType(Method method)
+    {
+        return MethodType.methodType(method.getReturnType(), method.getParameterTypes());
+    }
+    public static MethodType methodType(Constructor<?> constructor)
+    {
+        return MethodType.methodType(void.class, constructor.getParameterTypes());
+    }
+    public static MethodType methodType(Member member)
+    {
+        if(member instanceof Method)
+            return methodType((Method) member);
+        else if(member instanceof Constructor)
+            return methodType((Constructor<?>) member);
+        else
+            throw new IllegalArgumentException("Unsupported member type: " + member);
+    }
+
     public static Field getField(Class<?> clazz, String name) throws Throwable
     {
         try

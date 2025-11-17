@@ -52,10 +52,10 @@ public interface Window extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "slots", end = 1700))
     List<Object> getSlots0V_1700();
     @WrapMinecraftFieldAccessor(@VersionName(name = "slots", begin = 1700))
-    DefaultedListV1100 getSlots00V1700();
+    DefaultedListV1100<?> getSlots00V1700();
     @SpecificImpl("getSlots0")
     @VersionRange(begin = 1700)
-    default List<Object> getSlots0V1700()
+    default List<?> getSlots0V1700()
     {
         return getSlots00V1700().getWrapped();
     }

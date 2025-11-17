@@ -2,16 +2,24 @@ package mz.mzlib.demo;
 
 import mz.mzlib.demo.game.tictactoe.Tictactoe;
 import mz.mzlib.i18n.I18n;
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftJsUtil;
 import mz.mzlib.minecraft.command.Command;
+import mz.mzlib.minecraft.item.Item;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
+import mz.mzlib.minecraft.recipe.RecipeRegistration;
+import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
 import mz.mzlib.util.IOUtil;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
 
 public class Demo extends MzModule
 {
@@ -47,6 +55,15 @@ public class Demo extends MzModule
             this.register(DemoUIInput.instance);
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
+
+            this.register(RecipeRegistration.of(
+                Identifier.newInstance("mzlib:test"), RecipeVanillaShaped.builder()
+                    .id(Identifier.newInstance("mzlib:test"))
+                    .width(1).height(1).ingredients(
+                        Collections.singletonList(
+                            Option.some(VanillaIngredient.ofItem(Item.fromId("stick")))))
+                    .result(ItemStack.factory().fromId("apple").build()).build()
+            ));
         }
         catch(Throwable e)
         {

@@ -26,6 +26,7 @@ public interface Nothing
                 Opcodes.IRETURN, Opcodes.LRETURN, Opcodes.FRETURN, Opcodes.DRETURN, Opcodes.ARETURN,
                 Opcodes.RETURN
             ).contains(locating.insns[i].getOpcode()));
-        assert !locating.locations.isEmpty();
+        if(locating.locations.isEmpty())
+            throw new IllegalStateException();
     }
 }

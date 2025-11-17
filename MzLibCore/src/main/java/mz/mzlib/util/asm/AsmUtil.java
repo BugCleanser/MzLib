@@ -1,6 +1,5 @@
 package mz.mzlib.util.asm;
 
-import io.github.karlatemp.unsafeaccessor.Root;
 import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
@@ -11,10 +10,10 @@ import mz.mzlib.util.PublicValues;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.AbsWrapper;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.CallSite;
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
@@ -57,7 +56,7 @@ public class AsmUtil
             case '[':
                 return ClassUtil.classForName(desc.replace('/', '.'), cl);
             default:
-                throw RuntimeUtil.sneakilyThrow(new ClassNotFoundException(desc));
+                throw new ClassNotFoundException(desc);
         }
     }
 
@@ -219,6 +218,20 @@ public class AsmUtil
             "create", Type.getMethodType(type, Type.getType(Object.class)).getDescriptor(),
             new Handle(
                 Opcodes.H_INVOKESTATIC, getType(WrapperObject.class), "getConstructorCallSite",
+                getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), true
+            ), type
+        );
+    }
+    public static AbstractInsnNode insnWrapperFactory(Class<? extends WrapperObject> type)
+    {
+        return insnWrapperFactory(Type.getType(type));
+    }
+    public static AbstractInsnNode insnWrapperFactory(Type type)
+    {
+        return new InvokeDynamicInsnNode(
+            "factory", AsmUtil.getDesc(MethodType.methodType(WrapperFactory.class)),
+            new Handle(
+                Opcodes.H_INVOKESTATIC, getType(WrapperObject.class), "callSiteFactory",
                 getDesc(CallSite.class, MethodHandles.Lookup.class, String.class, MethodType.class, Class.class), true
             ), type
         );
@@ -798,25 +811,20 @@ public class AsmUtil
         throw new IllegalArgumentException("tar: " + tar + ", src:" + src);
     }
 
+    @Deprecated
     public static String getType(String className)
     {
         return className.replace('.', '/');
     }
-
-    private static final MethodHandle mhClass_getName = RuntimeUtil.sneakilyRun(
-        () -> Root.getTrusted(Class.class).findVirtual(Class.class, "getName", MethodType.methodType(String.class)));
     public static String getType(Class<?> clazz)
     {
-        try
-        {
-            return getType((String) mhClass_getName.invokeExact(clazz));
-        }
-        catch(Throwable e)
-        {
-            throw RuntimeUtil.sneakilyThrow(e);
-        }
+        String result = getDesc(clazz);
+        if(result.startsWith("L"))
+            result = result.substring(1, result.length() - 1);
+        return result;
     }
 
+    @Deprecated
     public static String getDesc(String type)
     {
         switch(type)
@@ -845,101 +853,37 @@ public class AsmUtil
     }
     public static String getDesc(Class<?> clazz)
     {
-        if(clazz.isArray())
-        {
-            return "[" + getDesc(clazz.getComponentType());
-        }
-        else if(!clazz.isPrimitive())
-        {
-            return "L" + getType(clazz) + ";";
-        }
-        else if(clazz == void.class)
-        {
-            return "V";
-        }
-        else if(clazz == byte.class)
-        {
-            return "B";
-        }
-        else if(clazz == short.class)
-        {
-            return "S";
-        }
-        else if(clazz == int.class)
-        {
-            return "I";
-        }
-        else if(clazz == long.class)
-        {
-            return "J";
-        }
-        else if(clazz == float.class)
-        {
-            return "F";
-        }
-        else if(clazz == double.class)
-        {
-            return "D";
-        }
-        else if(clazz == char.class)
-        {
-            return "C";
-        }
-        else if(clazz == boolean.class)
-        {
-            return "Z";
-        }
-        else
-        {
-            throw new IllegalArgumentException(clazz.getName());
-        }
+        return clazz.descriptorString();
     }
 
     public static String getDesc(Method method)
     {
-        return getDesc(method.getReturnType(), method.getParameterTypes());
+        return getDesc(ClassUtil.methodType(method));
     }
 
     public static String getDesc(Constructor<?> constructor)
     {
-        return getDesc(void.class, constructor.getParameterTypes());
+        return getDesc(ClassUtil.methodType(constructor));
     }
 
     public static String getDesc(Class<?> retType, Class<?>... argsTypes)
     {
-        StringBuilder r = new StringBuilder("(");
-        for(Class<?> a : argsTypes)
-        {
-            r.append(getDesc(a));
-        }
-        r.append(')');
-        r.append(getDesc(retType));
-        return r.toString();
+        return getDesc(MethodType.methodType(retType, argsTypes));
     }
 
     public static String getDesc(MethodType type)
     {
-        return getDesc(type.returnType(), type.parameterArray());
+        return type.descriptorString();
     }
 
     public static String getDesc(Member member)
     {
-        if(member instanceof Method)
-        {
-            return getDesc((Method) member);
-        }
-        else if(member instanceof Constructor)
-        {
-            return getDesc((Constructor<?>) member);
-        }
+        if(member instanceof Method || member instanceof Constructor)
+            return getDesc(ClassUtil.methodType(member));
         else if(member instanceof Field)
-        {
             return getDesc(((Field) member).getType());
-        }
         else
-        {
-            throw new IllegalArgumentException();
-        }
+            throw new IllegalArgumentException("Unsupported member type: " + member);
     }
 
     @Deprecated
