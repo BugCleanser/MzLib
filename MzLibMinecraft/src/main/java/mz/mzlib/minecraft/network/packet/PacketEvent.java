@@ -63,7 +63,8 @@ public class PacketEvent
     {
         if(this.syncTasks != null)
             this.syncTasks.schedule(task);
-        task.run();
+        else
+            task.run();
     }
 
     public void setCancelled(boolean cancelled)
