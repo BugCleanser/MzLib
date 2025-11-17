@@ -315,6 +315,17 @@ public interface ItemStack extends WrapperObject
         return FACTORY.getStatic().static$upgrade(nbt, from);
     }
 
+    @WrapArrayClass(ItemStack.class)
+    interface Array extends WrapperArray<ItemStack>
+    {
+        WrapperFactory<Array> FACTORY = WrapperFactory.of(Array.class);
+
+        static Array newInstance(int size)
+        {
+            return (Array) FACTORY.getStatic().static$newInstance(size);
+        }
+    }
+
 
     ItemStack static$empty();
     @SpecificImpl("static$empty")

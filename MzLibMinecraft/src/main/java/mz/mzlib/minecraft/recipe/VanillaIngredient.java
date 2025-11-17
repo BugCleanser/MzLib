@@ -6,7 +6,9 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -21,8 +23,32 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
 {
     WrapperFactory<VanillaIngredient> FACTORY = WrapperFactory.of(VanillaIngredient.class);
 
+    static VanillaIngredient emptyV_2102()
+    {
+        return FACTORY.getStatic().static$emptyV_2102();
+    }
+
+    static VanillaIngredient fromOptionV_2102(Option<VanillaIngredient> option)
+    {
+        return option.unwrapOrGet(VanillaIngredient::emptyV_2102);
+    }
+
     @Override
     boolean test(ItemStack itemStack);
+
+
+    VanillaIngredient static$emptyV_2102();
+    @SpecificImpl("static$emptyV_2102")
+    @VersionRange(end = 1200)
+    default VanillaIngredient static$emptyV_1200()
+    {
+        return ItemStack.empty().as(FACTORY);
+    }
+    @SpecificImpl("static$emptyV_2102")
+    @VersionRange(begin = 1200, end = 2102)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "EMPTY"))
+    VanillaIngredient static$emptyV1200_2102();
+
     @SpecificImpl("test")
     @VersionRange(end = 1200)
     default boolean testV_1200(ItemStack itemStack)
