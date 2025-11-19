@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
-import mz.mzlib.minecraft.recipe.RecipeRegistration;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
 import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.module.MzModule;
@@ -56,14 +55,12 @@ public class Demo extends MzModule
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
 
-            this.register(RecipeRegistration.of(
-                Identifier.newInstance("mzlib:test"), RecipeVanillaShaped.builder()
-                    .id(Identifier.newInstance("mzlib:test"))
-                    .width(1).height(1).ingredients(
-                        Collections.singletonList(
-                            Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
-                    .result(ItemStack.factory().fromId("apple").build()).build()
-            ));
+            this.register(RecipeVanillaShaped.builder()
+                .id(Identifier.newInstance("mzlib:test"))
+                .width(1).height(1).ingredients(
+                    Collections.singletonList(
+                        Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
+                .result(ItemStack.factory().fromId("apple").build()).buildRegistration());
         }
         catch(Throwable e)
         {

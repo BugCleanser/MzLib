@@ -7,19 +7,18 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin = 1300)
+@VersionRange(begin = 1400)
 @WrapMinecraftClass(
     {
         @VersionName(name = "net.minecraft.resource.ResourceReloadListener", end = 1400),
         @VersionName(name = "net.minecraft.class_4080", begin = 1400)
     }
 )
-public interface SinglePreparationResourceReloaderV1300<T> extends WrapperObject
+public interface SinglePreparationResourceReloaderV1400<T> extends ResourceReloaderV1300
 {
-    WrapperFactory<SinglePreparationResourceReloaderV1300<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(
-        SinglePreparationResourceReloaderV1300.class));
+    WrapperFactory<SinglePreparationResourceReloaderV1400<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(
+        SinglePreparationResourceReloaderV1400.class));
 
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "prepare"))

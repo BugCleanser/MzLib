@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Instance;
@@ -8,9 +9,10 @@ import mz.mzlib.util.Instance;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>, Instance
+@VersionRange(begin = 1400)
+public abstract class RegistrarRecipeV1300 implements IRegistrar<RecipeRegistration>, Instance
 {
-    public static RegistrarRecipe instance;
+    public static RegistrarRecipeV1300 instance;
 
     Set<RecipeRegistration> recipes = new HashSet<>();
 
@@ -30,7 +32,7 @@ public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>,
         this.isDirty = true;
         MinecraftServer.instance.schedule(() ->
         {
-            synchronized(RegistrarRecipe.this)
+            synchronized(RegistrarRecipeV1300.this)
             {
                 this.isDirty = false;
                 this.flush();

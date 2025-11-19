@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @VersionRange(begin = 2005, end = 2102)
-public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
+public class RegistrarRecipeV2005_2102 extends RegistrarRecipeV1300
 {
     public static RegistrarRecipeV2005_2102 instance;
 

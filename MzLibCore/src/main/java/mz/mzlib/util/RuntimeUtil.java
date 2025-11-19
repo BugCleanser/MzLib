@@ -27,6 +27,10 @@ public class RuntimeUtil
         }
     }
 
+    public static void nop()
+    {
+    }
+
     public static <T> T nul()
     {
         return RuntimeUtil.cast(null);

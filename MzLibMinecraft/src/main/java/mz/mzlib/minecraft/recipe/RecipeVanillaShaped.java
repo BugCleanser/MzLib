@@ -60,6 +60,10 @@ public interface RecipeVanillaShaped extends Recipe
                 throw new IllegalStateException("result is not set");
             return RecipeVanillaShaped.newInstance(this);
         }
+        public RecipeRegistration buildRegistration()
+        {
+            return RecipeRegistration.of(this.getId(), this.build());
+        }
 
         public Builder width(int value)
         {
@@ -109,7 +113,7 @@ public interface RecipeVanillaShaped extends Recipe
             return this;
         }
 
-        Identifier getIdV1300_2002()
+        public Identifier getId()
         {
             if(this.id == null)
                 throw new IllegalStateException("id is not set");
@@ -163,7 +167,7 @@ public interface RecipeVanillaShaped extends Recipe
     default RecipeVanillaShaped static$newInstanceV1300_1903(Builder builder)
     {
         return this.static$newInstance0V1300_1903(
-            builder.getIdV1300_2002(), builder.groupV1200, builder.width, builder.height,
+            builder.getId(), builder.groupV1200, builder.width, builder.height,
             builder.getIngredientsV1200_2003(), builder.result
         );
     }
@@ -182,7 +186,7 @@ public interface RecipeVanillaShaped extends Recipe
     default RecipeVanillaShaped static$newInstanceV1903_1904(Builder builder)
     {
         return this.static$newInstance0V1903_1904(
-            builder.getIdV1300_2002(), builder.groupV1200, builder.categoryV1903, builder.width, builder.height,
+            builder.getId(), builder.groupV1200, builder.categoryV1903, builder.width, builder.height,
             builder.getIngredientsV1200_2003(), builder.result
         );
     }
@@ -203,7 +207,7 @@ public interface RecipeVanillaShaped extends Recipe
     default RecipeVanillaShaped static$newInstanceV1904_2002(Builder builder)
     {
         return this.static$newInstance0V1904_2002(
-            builder.getIdV1300_2002(), builder.groupV1200, builder.categoryV1903, builder.width, builder.height,
+            builder.getId(), builder.groupV1200, builder.categoryV1903, builder.width, builder.height,
             builder.getIngredientsV1200_2003(), builder.result, builder.showNotificationV1904
         );
     }

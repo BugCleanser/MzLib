@@ -13,7 +13,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.Map;
 
 @WrapMinecraftClass({
-    @VersionName(name = "net.minecraft.recipe.RecipeManager", end = 2102),
+    @VersionName(name = "net.minecraft.recipe.RecipeDispatcher", end = 1400),
+    @VersionName(name = "net.minecraft.recipe.RecipeManager", begin = 1400, end = 2102),
     @VersionName(name = "net.minecraft.recipe.ServerRecipeManager", begin = 2102)
 })
 public interface RecipeManager extends WrapperObject

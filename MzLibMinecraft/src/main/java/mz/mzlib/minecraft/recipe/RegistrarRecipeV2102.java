@@ -2,13 +2,12 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.nothing.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @VersionRange(begin = 2102)
-public class RegistrarRecipeV2102 extends RegistrarRecipe
+public class RegistrarRecipeV2102 extends RegistrarRecipeV1300
 {
     public static RegistrarRecipeV2102 instance;
 

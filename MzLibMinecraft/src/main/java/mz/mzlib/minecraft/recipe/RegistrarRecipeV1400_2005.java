@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@VersionRange(end = 2005)
-public class RegistrarRecipeV_2005 extends RegistrarRecipe
+@VersionRange(begin = 1400, end = 2005)
+public class RegistrarRecipeV1400_2005 extends RegistrarRecipeV1300
 {
-    public static RegistrarRecipeV_2005 instance;
+    public static RegistrarRecipeV1400_2005 instance;
 
     Map<Object, Map<Object, Object>> rawRecipes0;
 
