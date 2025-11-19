@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.RuntimeUtil;
@@ -49,48 +50,45 @@ public @interface WrapMinecraftFieldAccessor
             Class<?>[] argTypes) throws NoSuchFieldException
         {
             NoSuchFieldException lastException = null;
-            l1:
             for(VersionName name : annotation.value())
             {
                 if(!MinecraftPlatform.instance.inVersion(name))
                     continue;
                 if(name.remap())
                 {
-                    for(String className : WrapMinecraftClass.Handler.getName(wrapperClass))
+                    try
                     {
-                        try
-                        {
-                            return WrapFieldAccessor.Handler.class.newInstance().find(
-                                wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
+                        return WrapFieldAccessor.Handler.class.newInstance().find(
+                            wrapperClass, wrappedClass, wrapperMethod, new WrapFieldAccessor()
+                            {
+                                @Override
+                                public Class<WrapFieldAccessor> annotationType()
                                 {
-                                    @Override
-                                    public Class<WrapFieldAccessor> annotationType()
-                                    {
-                                        return WrapFieldAccessor.class;
-                                    }
+                                    return WrapFieldAccessor.class;
+                                }
 
-                                    @Override
-                                    public String[] value()
-                                    {
-                                        return new String[]{
-                                            MinecraftPlatform.instance.getMappings().inverse().mapField(
-                                                className, name.name())
-                                        };
-                                    }
-                                }, returnType, argTypes
-                            );
-                        }
-                        catch(NoSuchFieldException e)
-                        {
-                            lastException = e;
-                            continue l1;
-                        }
-                        catch(InstantiationException | IllegalAccessException e)
-                        {
-                            throw RuntimeUtil.sneakilyThrow(e);
-                        }
+                                @Override
+                                public String[] value()
+                                {
+                                    return new String[]{
+                                        MinecraftPlatform.instance.getMappings().inverse().mapField(
+                                            MinecraftPlatform.instance.getMappings().mapClass(
+                                                ClassUtil.getName(WrapperObject.getWrappedClass(wrapperClass))),
+                                            name.name()
+                                        )
+                                    };
+                                }
+                            }, returnType, argTypes
+                        );
                     }
-                    assert false;
+                    catch(NoSuchFieldException e)
+                    {
+                        lastException = e;
+                    }
+                    catch(InstantiationException | IllegalAccessException e)
+                    {
+                        throw RuntimeUtil.sneakilyThrow(e);
+                    }
                 }
                 else
                 {

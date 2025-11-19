@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.wrapper;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.ElementSwitcherClass;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
@@ -51,19 +52,19 @@ public @interface WrapMinecraftInnerClass
                     continue;
                 if(inner.remap())
                 {
-                    for(String outer : WrapMinecraftClass.Handler.getName(annotation.outer()))
+                    try
                     {
-                        try
-                        {
-                            return Class.forName(
-                                MinecraftPlatform.instance.getMappings().inverse().mapClass(outer + "$" + inner.name()),
-                                false, classLoader
-                            );
-                        }
-                        catch(ClassNotFoundException e)
-                        {
-                            lastException = e;
-                        }
+                        return ClassUtil.classForName(
+                            MinecraftPlatform.instance.getMappings().inverse()
+                                .mapClass(MinecraftPlatform.instance.getMappings().mapClass(
+                                    ClassUtil.getName(WrapperObject.getWrappedClass(annotation.outer()))) + "$" +
+                                    inner.name()),
+                            classLoader
+                        );
+                    }
+                    catch(ClassNotFoundException e)
+                    {
+                        lastException = e;
                     }
                 }
                 else
@@ -72,7 +73,8 @@ public @interface WrapMinecraftInnerClass
                     {
                         return Class.forName(
                             MinecraftPlatform.instance.getMappings().inverse().mapClass(
-                                WrapperObject.getWrappedClass(annotation.outer()).getName() + "$" + inner.name()), false,
+                                WrapperObject.getWrappedClass(annotation.outer()).getName() + "$" + inner.name()),
+                            false,
                             classLoader
                         );
                     }

@@ -4,14 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.incomprehensible.profiler.Profiler;
-import mz.mzlib.minecraft.incomprehensible.resource.ResourceManager;
-import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloaderV1605;
-import mz.mzlib.util.nothing.Nothing;
-import mz.mzlib.util.nothing.NothingInject;
-import mz.mzlib.util.nothing.NothingInjectType;
-import mz.mzlib.util.wrapper.WrapMethodFromBridge;
-import mz.mzlib.util.wrapper.WrapSameClass;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,6 +38,14 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
     }
 
     @Override
+    protected void setRaw()
+    {
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
+        this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
+        this.rawTypeRecipes0 = recipeManager.getTypeRecipes0V2005_2102();
+    }
+
+    @Override
     public void flush()
     {
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
@@ -55,27 +55,5 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
             this.rawTypeRecipes0 = recipeManager.getTypeRecipes0V2005_2102();
         recipeManager.setIdRecipes0V1800_2102(this.applyIdRecipes0());
         recipeManager.setTypeRecipes0V2005_2102(this.applyTypeRecipes0());
-    }
-
-    @VersionRange(begin = 2005, end = 2102)
-    @WrapSameClass(RecipeManager.class)
-    public interface NothingRecipeManager extends Nothing, RecipeManager, SinglePreparationResourceReloaderV1605<Object>
-    {
-        @WrapMethodFromBridge(name = "apply", params = { Object.class, ResourceManager.class, Profiler.class })
-        void apply$impl(Map<?, ?> prepared, ResourceManager manager, Profiler profiler);
-
-        @NothingInject(
-            wrapperMethodName = "apply$impl",
-            wrapperMethodParams = { Map.class, ResourceManager.class, Profiler.class },
-            locateMethod = "locateAllReturn",
-            type = NothingInjectType.INSERT_BEFORE
-        )
-        default void apply$impl$inject()
-        {
-            RegistrarRecipeV2005_2102.instance.rawIdRecipes0 = this.getIdRecipes0V1800_2102();
-            RegistrarRecipeV2005_2102.instance.rawTypeRecipes0 = this.getTypeRecipes0V2005_2102();
-            this.setIdRecipes0V1800_2102(RegistrarRecipeV2005_2102.instance.applyIdRecipes0());
-            this.setTypeRecipes0V2005_2102(RegistrarRecipeV2005_2102.instance.applyTypeRecipes0());
-        }
     }
 }

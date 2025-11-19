@@ -38,6 +38,14 @@ public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>,
         });
     }
 
+    protected abstract void setRaw();
+
+    public void onReloadEnd()
+    {
+        this.setRaw();
+        this.flush();
+    }
+
     @Override
     public synchronized void register(MzModule module, RecipeRegistration object)
     {

@@ -4,14 +4,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.incomprehensible.profiler.Profiler;
-import mz.mzlib.minecraft.incomprehensible.resource.ResourceManager;
-import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloaderV1605;
-import mz.mzlib.util.nothing.Nothing;
-import mz.mzlib.util.nothing.NothingInject;
-import mz.mzlib.util.nothing.NothingInjectType;
-import mz.mzlib.util.wrapper.WrapMethodFromBridge;
-import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Collections;
@@ -45,31 +37,17 @@ public class RegistrarRecipeV_2005 extends RegistrarRecipe
     }
 
     @Override
+    protected void setRaw()
+    {
+        this.rawRecipes0 = MinecraftServer.instance.getRecipeManager().getRecipes0V_2005();
+    }
+
+    @Override
     public void flush()
     {
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
         if(this.rawRecipes0 == null)
             this.rawRecipes0 = recipeManager.getRecipes0V_2005();
         recipeManager.setRecipes0V_2005(this.applyRecipes0());
-    }
-
-    @VersionRange(end = 2005)
-    @WrapSameClass(RecipeManager.class)
-    public interface NothingRecipeManager extends Nothing, RecipeManager, SinglePreparationResourceReloaderV1605<Object>
-    {
-        @WrapMethodFromBridge(name = "apply", params = { Object.class, ResourceManager.class, Profiler.class })
-        void apply$impl(Map<?, ?> prepared, ResourceManager manager, Profiler profiler);
-
-        @NothingInject(
-            wrapperMethodName = "apply$impl",
-            wrapperMethodParams = { Map.class, ResourceManager.class, Profiler.class },
-            locateMethod = "locateAllReturn",
-            type = NothingInjectType.INSERT_BEFORE
-        )
-        default void apply$impl$inject()
-        {
-            RegistrarRecipeV_2005.instance.rawRecipes0 = this.getRecipes0V_2005();
-            this.setRecipes0V_2005(RegistrarRecipeV_2005.instance.applyRecipes0());
-        }
     }
 }
