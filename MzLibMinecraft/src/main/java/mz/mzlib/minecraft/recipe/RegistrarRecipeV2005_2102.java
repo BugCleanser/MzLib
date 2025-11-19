@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.profiler.Profiler;
 import mz.mzlib.minecraft.incomprehensible.resource.ResourceManager;
-import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloader;
+import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloaderV1605;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
@@ -59,7 +59,7 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
 
     @VersionRange(begin = 2005, end = 2102)
     @WrapSameClass(RecipeManager.class)
-    public interface NothingRecipeManager extends Nothing, RecipeManager, SinglePreparationResourceReloader<Object>
+    public interface NothingRecipeManager extends Nothing, RecipeManager, SinglePreparationResourceReloaderV1605<Object>
     {
         @WrapMethodFromBridge(name = "apply", params = { Object.class, ResourceManager.class, Profiler.class })
         void apply$impl(Map<?, ?> prepared, ResourceManager manager, Profiler profiler);

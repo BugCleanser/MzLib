@@ -61,7 +61,7 @@ public class NothingInjectLocating
     }
     public void nextInvoke(Class<?> owner, String name, MethodType methodType)
     {
-        this.nextInvoke(AsmUtil.getType(owner), name, methodType.descriptorString());
+        this.nextInvoke(AsmUtil.getType(owner), name, AsmUtil.getDesc(methodType));
     }
     public void nextInvoke(String owner, String name, String desc)
     {

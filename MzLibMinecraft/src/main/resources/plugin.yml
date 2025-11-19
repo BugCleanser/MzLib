@@ -9,5 +9,6 @@ authors:
   - "hpwriterkyle"
   - "pi_ka"
 main: mz.mzlib.minecraft.bukkit.MzLibBukkitPlugin
+load: STARTUP
 api-version: 1.13
 folia-supported: true

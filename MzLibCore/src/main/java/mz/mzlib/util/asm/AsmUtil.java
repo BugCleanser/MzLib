@@ -811,22 +811,15 @@ public class AsmUtil
         throw new IllegalArgumentException("tar: " + tar + ", src:" + src);
     }
 
-    @Deprecated
     public static String getType(String className)
     {
         return className.replace('.', '/');
     }
     public static String getType(Class<?> clazz)
     {
-        String result = getDesc(clazz);
-        if(result.startsWith("L"))
-            result = result.substring(1, result.length() - 1);
-        else if(!result.startsWith("["))
-            throw new IllegalArgumentException("Invalid class name: " + clazz.getName());
-        return result;
+        return getType(ClassUtil.getName(clazz));
     }
 
-    @Deprecated
     public static String getDesc(String type)
     {
         switch(type)
@@ -856,7 +849,30 @@ public class AsmUtil
 
     public static String getDesc(Class<?> clazz)
     {
-        return clazz.descriptorString();
+        if(clazz.isArray())
+            return "[" + getDesc(clazz.getComponentType());
+        else if(!clazz.isPrimitive())
+            return "L" + getType(clazz) + ";";
+        else if(clazz == void.class)
+            return "V";
+        else if(clazz == byte.class)
+            return "B";
+        else if(clazz == short.class)
+            return "S";
+        else if(clazz == int.class)
+            return "I";
+        else if(clazz == long.class)
+            return "J";
+        else if(clazz == float.class)
+            return "F";
+        else if(clazz == double.class)
+            return "D";
+        else if(clazz == char.class)
+            return "C";
+        else if(clazz == boolean.class)
+            return "Z";
+        else
+            throw new IllegalArgumentException(clazz.toString());
     }
 
     public static String getDesc(Method method)
@@ -868,15 +884,20 @@ public class AsmUtil
     {
         return getDesc(ClassUtil.methodType(constructor));
     }
-
     public static String getDesc(Class<?> retType, Class<?>... argsTypes)
     {
-        return getDesc(MethodType.methodType(retType, argsTypes));
+        StringBuilder r = new StringBuilder("(");
+        for(Class<?> a : argsTypes)
+        {
+            r.append(getDesc(a));
+        }
+        r.append(')');
+        r.append(getDesc(retType));
+        return r.toString();
     }
-
     public static String getDesc(MethodType type)
     {
-        return type.descriptorString();
+        return getDesc(type.returnType(), type.parameterArray());
     }
 
     public static String getDesc(Member member)
