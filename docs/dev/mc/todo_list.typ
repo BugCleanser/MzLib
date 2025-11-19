@@ -8,7 +8,15 @@
 
 #title()
 
+fix Nothing: redefine to transformer
+
+fix WrappedMemberFinderClass.inheritable
+
 = MzLibMinecraft还有非常多的功能待完成！
+
+- mappings
+
+    - 解析yarn legacy中间表
 
 - item
 

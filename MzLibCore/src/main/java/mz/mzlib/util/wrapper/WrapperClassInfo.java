@@ -168,10 +168,9 @@ public class WrapperClassInfo
                         argTypes
                     );
                     if(m != null)
-                        return Pair.of(m, finder.inheritable());
+                        return Pair.of(m, finder.inheritable() && !(m instanceof Constructor));
                 }
-                catch(NoSuchMethodException | NoSuchFieldException | InstantiationException |
-                      IllegalAccessException e)
+                catch(NoSuchMethodException | NoSuchFieldException | InstantiationException | IllegalAccessException e)
                 {
                     lastException1 = e;
                 }
@@ -665,7 +664,7 @@ public class WrapperClassInfo
             }
             catch(VerifyError e)
             {
-                try(FileOutputStream fos = new FileOutputStream("test"+UUID.randomUUID()+".class"))
+                try(FileOutputStream fos = new FileOutputStream("test" + UUID.randomUUID() + ".class"))
                 {
                     fos.write(cw.toByteArray());
                 }

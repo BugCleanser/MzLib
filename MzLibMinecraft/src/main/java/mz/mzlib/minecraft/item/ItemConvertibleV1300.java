@@ -4,9 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @VersionRange(begin = 1300)
 @WrapMinecraftClass({
@@ -25,4 +23,15 @@ public interface ItemConvertibleV1300 extends WrapperObject
 
     @WrapMinecraftMethod({ @VersionName(name = "getItem", end = 1400), @VersionName(name = "asItem", begin = 1400) })
     Item asItem();
+
+    @WrapArrayClass(ItemConvertibleV1300.class)
+    interface Array extends WrapperArray<ItemConvertibleV1300>
+    {
+        WrapperFactory<Array> FACTORY = WrapperFactory.of(Array.class);
+
+        static Array newInstance(int size)
+        {
+            return (Array) FACTORY.getStatic().static$newInstance(size);
+        }
+    }
 }

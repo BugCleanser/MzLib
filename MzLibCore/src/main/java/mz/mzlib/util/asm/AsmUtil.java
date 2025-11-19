@@ -821,6 +821,8 @@ public class AsmUtil
         String result = getDesc(clazz);
         if(result.startsWith("L"))
             result = result.substring(1, result.length() - 1);
+        else if(!result.startsWith("["))
+            throw new IllegalArgumentException("Invalid class name: " + clazz.getName());
         return result;
     }
 
@@ -851,6 +853,7 @@ public class AsmUtil
                 return "L" + type + ";";
         }
     }
+
     public static String getDesc(Class<?> clazz)
     {
         return clazz.descriptorString();

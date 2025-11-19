@@ -18,15 +18,15 @@ public interface RecipeCraftingCategoryV1903 extends WrapperObject
     RecipeCraftingCategoryV1903 EQUIPMENT = FACTORY.getStatic().static$EQUIPMENT();
     RecipeCraftingCategoryV1903 MISC = FACTORY.getStatic().static$MISC();
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "BUILDING"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_40248"))
     RecipeCraftingCategoryV1903 static$BUILDING();
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "REDSTONE"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_40249"))
     RecipeCraftingCategoryV1903 static$REDSTONE();
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "EQUIPMENT"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_40250"))
     RecipeCraftingCategoryV1903 static$EQUIPMENT();
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "MISC"))
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_40251"))
     RecipeCraftingCategoryV1903 static$MISC();
 }

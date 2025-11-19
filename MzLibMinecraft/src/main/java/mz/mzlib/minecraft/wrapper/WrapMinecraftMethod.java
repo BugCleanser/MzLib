@@ -3,10 +3,7 @@ package mz.mzlib.minecraft.wrapper;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.mappings.MappingMethod;
-import mz.mzlib.util.ElementSwitcher;
-import mz.mzlib.util.ElementSwitcherClass;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
@@ -84,12 +81,7 @@ public @interface WrapMinecraftMethod
                                                     {
                                                         if(!WrapperObject.class.isAssignableFrom(c))
                                                             return AsmUtil.getDesc(c);
-                                                        Option<String> name = WrapMinecraftClass.Handler.getName(
-                                                            RuntimeUtil.cast(c));
-                                                        if(name.isNone())
-                                                            return AsmUtil.getDesc(
-                                                                WrapperObject.getWrappedClass(RuntimeUtil.cast(c)));
-                                                        return AsmUtil.getDesc(AsmUtil.getType(name.unwrap()));
+                                                        return MinecraftPlatform.instance.getMappings().mapType(AsmUtil.getDesc(WrapperObject.getWrappedClass(RuntimeUtil.cast(c))));
                                                     }).toArray(String[]::new)
                                                 )
                                             )

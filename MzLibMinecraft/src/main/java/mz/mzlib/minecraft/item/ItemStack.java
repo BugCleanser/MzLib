@@ -231,7 +231,7 @@ public interface ItemStack extends WrapperObject
     boolean hasTagV1903(TagKeyV1903<?> tag);
 
     @VersionRange(begin = 2002)
-    @WrapMinecraftMethod(@VersionName(name = "isIn"))
+    @WrapMinecraftMethod(@VersionName(name = "method_53187"))
     boolean isInV2002(RegistryEntryListV1903 registryEntries);
 
     @VersionRange(end = 900)

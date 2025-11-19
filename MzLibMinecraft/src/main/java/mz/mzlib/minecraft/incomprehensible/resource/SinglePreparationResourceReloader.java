@@ -15,4 +15,7 @@ public interface SinglePreparationResourceReloader<T> extends WrapperObject
 
     @WrapMinecraftMethod(@VersionName(name = "prepare"))
     T prepare(ResourceManager manager, Profiler profiler);
+
+    @WrapMinecraftMethod(@VersionName(name = "apply"))
+    void apply(T prepared, ResourceManager manager, Profiler profiler);
 }

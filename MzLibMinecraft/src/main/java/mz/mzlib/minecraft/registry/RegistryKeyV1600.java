@@ -19,6 +19,15 @@ public interface RegistryKeyV1600 extends WrapperObject
     {
         return FACTORY.getStatic().static$of(registry, id);
     }
+    static RegistryKeyV1600 ofRegistry(Identifier id)
+    {
+        return FACTORY.getStatic().static$ofRegistry(id);
+    }
+
+
     @WrapMinecraftMethod(@VersionName(name = "of"))
     RegistryKeyV1600 static$of(RegistryKeyV1600 registry, Identifier id);
+
+    @WrapMinecraftMethod(@VersionName(name = "ofRegistry"))
+    RegistryKeyV1600 static$ofRegistry(Identifier id);
 }

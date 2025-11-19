@@ -11,8 +11,7 @@ import mz.mzlib.minecraft.item.ModuleItemDisplaySign;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
-import mz.mzlib.minecraft.recipe.NothingRecipeManager;
-import mz.mzlib.minecraft.recipe.RegistrarRecipe;
+import mz.mzlib.minecraft.recipe.ModuleRecipe;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UIStack;
 import mz.mzlib.minecraft.ui.book.UIWrittenBook;
@@ -62,8 +61,7 @@ public class MzLibMinecraft extends MzModule
 
             this.register(NothingMinecraftServer.class);
 
-            this.register(RegistrarRecipe.instance);
-            this.register(NothingRecipeManager.class);
+            this.register(ModuleRecipe.instance);
 
             this.register(MinecraftServer.instance.getCommandManager());
 

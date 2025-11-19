@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
@@ -11,25 +12,26 @@ import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Collection;
 
+@VersionRange(begin = 2102)
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.recipe.PreparedRecipes"))
-public interface PreparedRecipes extends WrapperObject
+public interface PreparedRecipesV2102 extends WrapperObject
 {
-    WrapperFactory<PreparedRecipes> FACTORY = WrapperFactory.of(PreparedRecipes.class);
+    WrapperFactory<PreparedRecipesV2102> FACTORY = WrapperFactory.of(PreparedRecipesV2102.class);
 
-    static PreparedRecipes of(Iterable<RecipeEntry> recipes)
+    static PreparedRecipesV2102 of(Iterable<RecipeEntryV2002> recipes)
     {
-        return FACTORY.getStatic().static$of0(IteratorProxy.iterable(recipes, RecipeEntry::getWrapped));
+        return FACTORY.getStatic().static$of0(IteratorProxy.iterable(recipes, RecipeEntryV2002::getWrapped));
     }
 
-    default Collection<RecipeEntry> recipes()
+    default Collection<RecipeEntryV2002> recipes()
     {
-        return new CollectionProxy<>(this.recipes0(), FunctionInvertible.wrapper(RecipeEntry.FACTORY));
+        return new CollectionProxy<>(this.recipes0(), FunctionInvertible.wrapper(RecipeEntryV2002.FACTORY));
     }
 
 
 
     @WrapMinecraftMethod(@VersionName(name = "of"))
-    PreparedRecipes static$of0(Iterable<Object> recipes0);
+    PreparedRecipesV2102 static$of0(Iterable<Object> recipes0);
 
     @WrapMinecraftMethod(@VersionName(name = "recipes"))
     Collection<Object> recipes0();

@@ -61,7 +61,7 @@ public class Demo extends MzModule
                     .id(Identifier.newInstance("mzlib:test"))
                     .width(1).height(1).ingredients(
                         Collections.singletonList(
-                            Option.some(VanillaIngredient.ofItem(Item.fromId("stick")))))
+                            Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
                     .result(ItemStack.factory().fromId("apple").build()).build()
             ));
         }

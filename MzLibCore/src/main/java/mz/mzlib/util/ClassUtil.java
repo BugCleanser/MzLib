@@ -33,6 +33,19 @@ public class ClassUtil
     public static ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
     public static ClassLoader extClassLoader = sysClassLoader.getParent();
 
+    private static final MethodHandle method$Class$getName = RuntimeUtil.sneakilyRun(
+        () -> Root.getTrusted(Class.class).findVirtual(Class.class, "getName", MethodType.methodType(String.class)));
+    public static String getName(Class<?> clazz)
+    {
+        try
+        {
+            return (String) method$Class$getName.invokeExact(clazz);
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
     public static Class<?> classForName(String name, ClassLoader cl) throws ClassNotFoundException
     {
         switch(name)
