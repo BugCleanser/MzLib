@@ -50,10 +50,10 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
     {
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
         if(this.rawIdRecipes0 == null)
-            this.rawIdRecipes0 = recipeManager.getIdRecipes0V_2102();
+            this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
         if(this.rawTypeRecipes0 == null)
             this.rawTypeRecipes0 = recipeManager.getTypeRecipes0V2005_2102();
-        recipeManager.setIdRecipes0V_2102(this.applyIdRecipes0());
+        recipeManager.setIdRecipes0V1800_2102(this.applyIdRecipes0());
         recipeManager.setTypeRecipes0V2005_2102(this.applyTypeRecipes0());
     }
 
@@ -72,9 +72,9 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
         )
         default void apply$impl$inject()
         {
-            RegistrarRecipeV2005_2102.instance.rawIdRecipes0 = this.getIdRecipes0V_2102();
+            RegistrarRecipeV2005_2102.instance.rawIdRecipes0 = this.getIdRecipes0V1800_2102();
             RegistrarRecipeV2005_2102.instance.rawTypeRecipes0 = this.getTypeRecipes0V2005_2102();
-            this.setIdRecipes0V_2102(RegistrarRecipeV2005_2102.instance.applyIdRecipes0());
+            this.setIdRecipes0V1800_2102(RegistrarRecipeV2005_2102.instance.applyIdRecipes0());
             this.setTypeRecipes0V2005_2102(RegistrarRecipeV2005_2102.instance.applyTypeRecipes0());
         }
     }

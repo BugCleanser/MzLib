@@ -23,15 +23,18 @@ public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>,
     public abstract void flush();
 
     boolean isDirty = false;
-    public void markDirty()
+    public synchronized void markDirty()
     {
         if(this.isDirty)
             return;
         this.isDirty = true;
         MinecraftServer.instance.schedule(() ->
         {
-            this.isDirty = false;
-            this.flush();
+            synchronized(RegistrarRecipe.this)
+            {
+                this.isDirty = false;
+                this.flush();
+            }
         });
     }
 

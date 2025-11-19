@@ -1,7 +1,5 @@
 package mz.mzlib.minecraft.recipe;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
-import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.profiler.Profiler;
@@ -12,34 +10,24 @@ import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapMethodFromBridge;
 import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
-@VersionRange(end = 2005)
-public class RegistrarRecipeV_2005 extends RegistrarRecipe
+@VersionRange(begin = 1800, end = 2005)
+public class RegistrarRecipeV1800_2005 extends RegistrarRecipeV_2005
 {
-    public static RegistrarRecipeV_2005 instance;
+    public static RegistrarRecipeV1800_2005 instance;
 
-    Map<Object, Map<Object, Object>> rawRecipes0;
+    Map<Object, Object> rawIdRecipes0;
 
-    Function<RecipeRegistration, WrapperObject> toData = MinecraftPlatform.instance.getVersion() < 2002 ?
-        RecipeRegistration::getRecipe : RecipeEntryV2002::of;
-
-    public Map<Object, Map<Object, Object>> applyRecipes0()
+    public Map<Object, Object> applyIdRecipes0()
     {
-        Map<Object, Map<Object, Object>> result = new HashMap<>(this.rawRecipes0);
-        for(Map.Entry<Object, Map<Object, Object>> entry : result.entrySet())
-        {
-            entry.setValue(new Object2ObjectLinkedOpenHashMap<>(entry.getValue())); // adapt for Bukkit
-        }
+        Map<Object, Object> result = new HashMap<>(this.rawIdRecipes0);
         for(RecipeRegistration recipe : this.recipes)
         {
-            result.computeIfAbsent(recipe.getRecipe().getType().getWrapped(), k -> new HashMap<>())
-                .put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
+            result.put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
         }
         return Collections.unmodifiableMap(result);
     }
@@ -47,13 +35,14 @@ public class RegistrarRecipeV_2005 extends RegistrarRecipe
     @Override
     public void flush()
     {
+        super.flush();
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
-        if(this.rawRecipes0 == null)
-            this.rawRecipes0 = recipeManager.getRecipes0V_2005();
-        recipeManager.setRecipes0V_2005(this.applyRecipes0());
+        if(this.rawIdRecipes0 == null)
+            this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
+        recipeManager.setIdRecipes0V1800_2102(this.applyIdRecipes0());
     }
 
-    @VersionRange(end = 2005)
+    @VersionRange(begin = 1800, end = 2005)
     @WrapSameClass(RecipeManager.class)
     public interface NothingRecipeManager extends Nothing, RecipeManager, SinglePreparationResourceReloader<Object>
     {
@@ -68,8 +57,8 @@ public class RegistrarRecipeV_2005 extends RegistrarRecipe
         )
         default void apply$impl$inject()
         {
-            RegistrarRecipeV_2005.instance.rawRecipes0 = this.getRecipes0V_2005();
-            this.setRecipes0V_2005(RegistrarRecipeV_2005.instance.applyRecipes0());
+            RegistrarRecipeV1800_2005.instance.rawIdRecipes0 = this.getIdRecipes0V1800_2102();
+            this.setIdRecipes0V1800_2102(RegistrarRecipeV1800_2005.instance.applyIdRecipes0());
         }
     }
 }

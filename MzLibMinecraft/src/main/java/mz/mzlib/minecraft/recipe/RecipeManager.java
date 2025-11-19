@@ -20,12 +20,12 @@ public interface RecipeManager extends WrapperObject
 {
     WrapperFactory<RecipeManager> FACTORY = WrapperFactory.of(RecipeManager.class);
 
-    @VersionRange(end = 2102)
+    @VersionRange(begin = 1800, end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
-    Map<Object, Object> getIdRecipes0V_2102();
-    @VersionRange(end = 2102)
+    Map<Object, Object> getIdRecipes0V1800_2102();
+    @VersionRange(begin = 1800, end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
-    void setIdRecipes0V_2102(Map<Object, Object> value);
+    void setIdRecipes0V1800_2102(Map<Object, Object> value);
 
 
     @VersionRange(end = 2005)

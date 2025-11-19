@@ -10,10 +10,16 @@ public class ModuleRecipe extends MzModule
     @Override
     public void onLoad()
     {
-        if(MinecraftPlatform.instance.getVersion() < 2005)
+        if(MinecraftPlatform.instance.getVersion() < 1800)
         {
             this.register(new RegistrarRecipeV_2005());
             this.register(RegistrarRecipeV_2005.NothingRecipeManager.class);
+        }
+        else if(MinecraftPlatform.instance.getVersion() < 2005)
+        {
+            this.register(new RegistrarRecipeV1800_2005());
+            this.register(RegistrarRecipeV_2005.NothingRecipeManager.class);
+            this.register(RegistrarRecipeV1800_2005.NothingRecipeManager.class);
         }
         else if(MinecraftPlatform.instance.getVersion() < 2102)
         {
