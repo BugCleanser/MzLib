@@ -21,7 +21,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipeV1300
     Function<RecipeRegistration, WrapperObject> toData = MinecraftPlatform.instance.getVersion() < 2002 ?
         RecipeRegistration::getRecipe : RecipeEntryV2002::of;
 
-    public Map<Object, Map<Object, Object>> applyRecipes0()
+    public Map<Object, Map<Object, Object>> apply()
     {
         Map<Object, Map<Object, Object>> result = new HashMap<>(this.rawRecipes0);
         for(Map.Entry<Object, Map<Object, Object>> entry : result.entrySet())
@@ -30,7 +30,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipeV1300
         }
         for(RecipeRegistration recipe : this.recipes)
         {
-            result.computeIfAbsent(recipe.getRecipe().getType().getWrapped(), k -> new HashMap<>())
+            result.computeIfAbsent(recipe.getRecipe().getTypeV1400().getWrapped(), k -> new HashMap<>())
                 .put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
         }
         return Collections.unmodifiableMap(result);
@@ -39,7 +39,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipeV1300
     @Override
     protected void setRaw()
     {
-        this.rawRecipes0 = MinecraftServer.instance.getRecipeManager().getRecipes0V_2005();
+        this.rawRecipes0 = MinecraftServer.instance.getRecipeManager().getRecipes0V1400_2005();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipeV1300
     {
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
         if(this.rawRecipes0 == null)
-            this.rawRecipes0 = recipeManager.getRecipes0V_2005();
-        recipeManager.setRecipes0V_2005(this.applyRecipes0());
+            this.rawRecipes0 = recipeManager.getRecipes0V1400_2005();
+        recipeManager.setRecipes0V1400_2005(this.apply());
     }
 }

@@ -83,7 +83,12 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
     }
     @SpecificImpl("static$emptyV_2102")
     @VersionRange(begin = 1200, end = 2102)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "EMPTY"))
+    @WrapMinecraftFieldAccessor(
+        {
+            @VersionName(name = "field_15680", end = 1400),
+            @VersionName(name = "EMPTY", begin = 1400)
+        }
+    )
     VanillaIngredient static$emptyV1200_2102();
 
     @SpecificImpl("test")

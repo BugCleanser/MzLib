@@ -22,8 +22,9 @@ public interface Recipe extends WrapperObject
 {
     WrapperFactory<Recipe> FACTORY = WrapperFactory.of(Recipe.class);
 
+    @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getType"))
-    RecipeType getType();
+    RecipeTypeV1400 getTypeV1400();
 
     @VersionRange(end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "matches"))

@@ -27,9 +27,7 @@ public class ModuleRecipe extends MzModule
             // TODO
         }
         else if(version < 1400)
-        {
-            // TODO
-        }
+            this.register(new RegistrarRecipeV1300_1400());
         else if(version < 1800)
             this.register(new RegistrarRecipeV1400_2005());
         else if(version < 2005)
@@ -42,9 +40,7 @@ public class ModuleRecipe extends MzModule
         if(version < 1300)
             RuntimeUtil.nop();
         else if(version < 1400)
-        {
-            // TODO
-        }
+            this.register(NothingRecipeManagerV1300_1400.class);
         else
             this.register(NothingRecipeManagerV1400.class);
     }

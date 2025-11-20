@@ -32,7 +32,7 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipeV1300
         builder.putAll(this.rawTypeRecipes0);
         for(RecipeRegistration recipe : this.recipes)
         {
-            builder.put(recipe.getRecipe().getType().getWrapped(), RecipeEntryV2002.of(recipe).getWrapped());
+            builder.put(recipe.getRecipe().getTypeV1400().getWrapped(), RecipeEntryV2002.of(recipe).getWrapped());
         }
         return builder.build();
     }

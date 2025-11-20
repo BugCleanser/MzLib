@@ -21,20 +21,19 @@ public interface RecipeManager extends WrapperObject
 {
     WrapperFactory<RecipeManager> FACTORY = WrapperFactory.of(RecipeManager.class);
 
-    @VersionRange(begin = 1800, end = 2102)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
-    Map<Object, Object> getIdRecipes0V1800_2102();
-    @VersionRange(begin = 1800, end = 2102)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
-    void setIdRecipes0V1800_2102(Map<Object, Object> value);
+    @VersionRange(begin = 1300, end = 1400)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_17445"))
+    Map<Object, Object> getRecipes0V1300_1400();
+    @VersionRange(begin = 1300, end = 1400)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_17445"))
+    void setRecipes0V1300_1400(Map<Object, Object> value);
 
-
-    @VersionRange(end = 2005)
+    @VersionRange(begin = 1400, end = 2005)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
-    Map<Object, Map<Object, Object>> getRecipes0V_2005();
-    @VersionRange(end = 2005)
+    Map<Object, Map<Object, Object>> getRecipes0V1400_2005();
+    @VersionRange(begin = 1400, end = 2005)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
-    void setRecipes0V_2005(Map<Object, Map<Object, Object>> value);
+    void setRecipes0V1400_2005(Map<Object, Map<Object, Object>> value);
 
     @VersionRange(begin = 2005, end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipesByType"))
@@ -43,6 +42,12 @@ public interface RecipeManager extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipesByType"))
     void setTypeRecipes0V2005_2102(Multimap<Object, Object> value);
 
+    @VersionRange(begin = 1800, end = 2102)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
+    Map<Object, Object> getIdRecipes0V1800_2102();
+    @VersionRange(begin = 1800, end = 2102)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipesById"))
+    void setIdRecipes0V1800_2102(Map<Object, Object> value);
 
     @VersionRange(begin = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "preparedRecipes"))

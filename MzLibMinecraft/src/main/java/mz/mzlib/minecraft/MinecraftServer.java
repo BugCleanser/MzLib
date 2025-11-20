@@ -54,11 +54,13 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name = "getPlayerManager"))
     PlayerManager getPlayerManager();
 
-    @WrapMinecraftMethod({
-        @VersionName(name = "getCommandManager", end = 1300),
-        @VersionName(name = "method_2971", begin = 1300, end = 1400),
-        @VersionName(name = "getCommandManager", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "getCommandManager", end = 1300),
+            @VersionName(name = "method_2971", begin = 1300, end = 1400),
+            @VersionName(name = "getCommandManager", begin = 1400)
+        }
+    )
     CommandManager getCommandManager();
 
     @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.FOLIA)
@@ -104,10 +106,12 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     DataUpdaterV900_1300 getDataUpdaterV900_1300();
 
     @VersionRange(begin = 1300)
-    @WrapMinecraftFieldAccessor({
-        @VersionName(name = "field_21612", end = 1400),
-        @VersionName(name = "dataFixer", begin = 1400)
-    })
+    @WrapMinecraftFieldAccessor(
+        {
+            @VersionName(name = "field_21612", end = 1400),
+            @VersionName(name = "dataFixer", begin = 1400)
+        }
+    )
     DataFixerV1300 getDataUpdaterV1300();
 
     /**
@@ -172,7 +176,12 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name = "getRegistryManager", begin = 1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
 
-    @WrapMinecraftMethod(@VersionName(name = "getRecipeManager"))
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_20331", end = 1400),
+            @VersionName(name = "getRecipeManager", begin = 1400)
+        }
+    )
     RecipeManager getRecipeManager();
 
     @VersionRange(begin = 1600)
@@ -183,19 +192,23 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     void run();
 
     @VersionRange(end = 1904)
-    @WrapMinecraftMethod({
-        @VersionName(name = "setServerMeta", end = 1400),
-        @VersionName(name = "setFavicon", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "setServerMeta", end = 1400),
+            @VersionName(name = "setFavicon", begin = 1400)
+        }
+    )
     void setFaviconV_1904(ServerMetadata metadata);
 
     @VersionRange(begin = 1904)
     @WrapMinecraftMethod(@VersionName(name = "createMetadata"))
     ServerMetadata createMetadataV1904();
 
-    @WrapMinecraftMethod({
-        @VersionName(name = "stopServer", end = 1400),
-        @VersionName(name = "shutdown", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "stopServer", end = 1400),
+            @VersionName(name = "shutdown", begin = 1400)
+        }
+    )
     void onStop();
 }
