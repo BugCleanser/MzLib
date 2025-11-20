@@ -22,7 +22,7 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
     }
 
     @Override
-    public FunctionInvertible<U, T> invert()
+    protected FunctionInvertible<U, T> invert()
     {
         return of(this.backward, this.forward);
     }

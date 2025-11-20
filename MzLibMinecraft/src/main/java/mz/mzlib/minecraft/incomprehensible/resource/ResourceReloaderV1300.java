@@ -20,5 +20,5 @@ public interface ResourceReloaderV1300 extends WrapperObject
 
     @VersionRange(end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "reload"))
-    void reloadV_1400(ResourceManager resourceManager);
+    void reloadV_1400(ResourceManagerV1300 resourceManager);
 }

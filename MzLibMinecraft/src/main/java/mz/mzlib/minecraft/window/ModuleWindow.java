@@ -78,7 +78,7 @@ public class ModuleWindow extends MzModule
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)
         {
             if(!itemStack.isPresent())
-                throw new NullPointerException("ItemStack is null");
+                throw new NullPointerException("ItemStack");
             if(itemStack.isEmpty())
                 return false;
             if(doCheck)

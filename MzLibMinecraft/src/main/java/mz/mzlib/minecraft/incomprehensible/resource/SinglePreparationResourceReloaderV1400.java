@@ -22,9 +22,9 @@ public interface SinglePreparationResourceReloaderV1400<T> extends ResourceReloa
 
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "prepare"))
-    T prepareV1400(ResourceManager manager, Profiler profiler);
+    T prepareV1400(ResourceManagerV1300 manager, Profiler profiler);
 
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "apply"))
-    void applyV1400(T prepared, ResourceManager manager, Profiler profiler);
+    void applyV1400(T prepared, ResourceManagerV1300 manager, Profiler profiler);
 }

@@ -134,6 +134,8 @@ public interface ItemStack extends WrapperObject
 
     default Option<NbtCompound> getTagV_2005()
     {
+        if(!this.isPresent())
+            return Option.none();
         return Option.fromWrapper(this.getTag0V_2005());
     }
 
@@ -465,7 +467,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1100)
     default boolean isEmptyV_1100()
     {
-        return !this.isPresent();
+        return !this.isPresent() || this.getItem().equals(Item.AIR) || this.getCount() <= 0;
     }
     @SpecificImpl("isEmpty")
     @VersionRange(begin = 1100)
@@ -529,11 +531,8 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1300)
     default boolean static$isStackableV_1300(ItemStack a, ItemStack b)
     {
-        if(isEmpty(a))
-        {
-            if(isEmpty(b))
-                return true;
-        }
+        if(isEmpty(a) && isEmpty(b))
+            return true;
         if(isEmpty(a) || isEmpty(b))
             return false;
         return a.getItem().equals(b.getItem()) && a.getDamageV_1300() == b.getDamageV_1300() &&
@@ -543,15 +542,13 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin = 1300, end = 1700)
     default boolean static$isStackableV1300_1700(ItemStack a, ItemStack b)
     {
-        if(isEmpty(a))
-        {
-            if(b.isEmpty())
-                return true;
-        }
+        if(isEmpty(a) && isEmpty(b))
+            return true;
         if(a.isEmpty() || b.isEmpty())
             return false;
         return a.getItem().equals(b.getItem()) && a.getTagV_2005().equals(b.getTagV_2005());
     }
+
     @SpecificImpl("static$isStackable")
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod({

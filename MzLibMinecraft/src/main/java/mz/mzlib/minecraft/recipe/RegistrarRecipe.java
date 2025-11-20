@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @VersionRange(begin = 1400)
-public abstract class RegistrarRecipeV1300 implements IRegistrar<RecipeRegistration>, Instance
+public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>, Instance
 {
-    public static RegistrarRecipeV1300 instance;
+    public static RegistrarRecipe instance;
 
     Set<RecipeRegistration> recipes = new HashSet<>();
 
@@ -32,7 +32,7 @@ public abstract class RegistrarRecipeV1300 implements IRegistrar<RecipeRegistrat
         this.isDirty = true;
         MinecraftServer.instance.schedule(() ->
         {
-            synchronized(RegistrarRecipeV1300.this)
+            synchronized(RegistrarRecipe.this)
             {
                 this.isDirty = false;
                 this.flush();

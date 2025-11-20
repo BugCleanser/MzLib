@@ -27,14 +27,14 @@ public class RegistrarRecipeV1800_2005 extends RegistrarRecipeV1400_2005
     @Override
     protected void setRaw()
     {
-        this.rawIdRecipes0 = MinecraftServer.instance.getRecipeManager().getIdRecipes0V1800_2102();
+        this.rawIdRecipes0 = MinecraftServer.instance.getRecipeManagerV1300().getIdRecipes0V1800_2102();
     }
 
     @Override
     public void flush()
     {
         super.flush();
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
         if(this.rawIdRecipes0 == null)
             this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
         recipeManager.setIdRecipes0V1800_2102(this.applyIdRecipes0());

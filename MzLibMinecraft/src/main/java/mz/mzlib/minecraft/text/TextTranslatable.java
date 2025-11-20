@@ -29,7 +29,7 @@ public interface TextTranslatable extends WrapperObject, Text
     }
     static TextTranslatable newInstance(String key, List<Object> args)
     {
-        return FACTORY.getStatic().static$newInstance0(key, args.stream().map(FUNCTION_ARGS0.invert()).toArray());
+        return FACTORY.getStatic().static$newInstance0(key, args.stream().map(FUNCTION_ARGS0.inverse()).toArray());
     }
     TextTranslatable static$newInstance0(String key, Object[] args);
     @SpecificImpl("static$newInstance0")
@@ -49,7 +49,7 @@ public interface TextTranslatable extends WrapperObject, Text
     }
     static TextTranslatable newInstanceV1904(String key, String fallback, List<Object> args)
     {
-        return newInstance0V1904(key, fallback, args.stream().map(FUNCTION_ARGS0.invert()).toArray());
+        return newInstance0V1904(key, fallback, args.stream().map(FUNCTION_ARGS0.inverse()).toArray());
     }
     static TextTranslatable newInstance0V1904(String key, String fallback, Object[] args)
     {

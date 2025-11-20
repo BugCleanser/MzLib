@@ -24,6 +24,7 @@ public interface ItemConvertibleV1300 extends WrapperObject
     @WrapMinecraftMethod({ @VersionName(name = "getItem", end = 1400), @VersionName(name = "asItem", begin = 1400) })
     Item asItem();
 
+    @VersionRange(begin = 1300)
     @WrapArrayClass(ItemConvertibleV1300.class)
     interface Array extends WrapperArray<ItemConvertibleV1300>
     {

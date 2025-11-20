@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @VersionRange(begin = 2102)
-public class RegistrarRecipeV2102 extends RegistrarRecipeV1300
+public class RegistrarRecipeV2102 extends RegistrarRecipe
 {
     public static RegistrarRecipeV2102 instance;
 
@@ -26,13 +26,13 @@ public class RegistrarRecipeV2102 extends RegistrarRecipeV1300
     @Override
     protected void setRaw()
     {
-        this.raw = MinecraftServer.instance.getRecipeManager().getPreparedRecipesV2102();
+        this.raw = MinecraftServer.instance.getRecipeManagerV1300().getPreparedRecipesV2102();
     }
 
     @Override
     public void flush()
     {
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
         if(this.raw == null)
             this.raw = recipeManager.getPreparedRecipesV2102();
         recipeManager.setPreparedRecipesV2102(this.apply());

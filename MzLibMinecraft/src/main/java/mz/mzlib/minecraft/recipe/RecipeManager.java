@@ -1,15 +1,21 @@
 package mz.mzlib.minecraft.recipe;
 
 import com.google.common.collect.Multimap;
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.resource.FeatureSetV1903;
+import mz.mzlib.minecraft.registry.SimpleRegistry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.proxy.ListProxy;
+import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.List;
 import java.util.Map;
 
 @WrapMinecraftClass({
@@ -56,7 +62,75 @@ public interface RecipeManager extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "preparedRecipes"))
     void setPreparedRecipesV2102(PreparedRecipesV2102 value);
 
+    @VersionRange(end = 1200)
+    static RecipeManager ofV_1200()
+    {
+        return FACTORY.getStatic().static$ofV_1200();
+    }
+
+    @VersionRange(end = 1200)
+    static RecipeManager getInstanceV_1200()
+    {
+        return FACTORY.getStatic().static$getInstanceV_1200();
+    }
+    default List<Recipe> getRecipesV_1200()
+    {
+        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(Recipe.FACTORY));
+    }
+    @VersionRange(end = 1200)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
+    List<Object> getRecipes0V_1200();
+    @VersionRange(end = 1200)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
+    void setRecipes0V_1200(List<Object> value);
+
+    @VersionRange(begin = 1200, end = 1300)
+    static SimpleRegistry getRegistryV1200_1300()
+    {
+        return FACTORY.getStatic().static$getRegistryV1200_1300();
+    }
+    @VersionRange(begin = 1200, end = 1300)
+    static void setRegistryV1200_1300(SimpleRegistry value)
+    {
+        FACTORY.getStatic().static$setRegistryV1200_1300(value);
+    }
+
+    @VersionRange(begin = 1200, end = 1300)
+    static boolean setupV1200_1300()
+    {
+        return FACTORY.getStatic().static$setupV1200_1300();
+    }
+    @VersionRange(begin = 1200, end = 1300)
+    static void registerV1200_1300(Identifier id, Recipe recipe)
+    {
+        FACTORY.getStatic().static$registerV1200_1300(id, recipe);
+    }
+
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "initialize"))
     void initializeV2102(FeatureSetV1903 features);
+
+
+    @VersionRange(end = 1200)
+    @WrapConstructor
+    RecipeManager static$ofV_1200();
+
+    @VersionRange(end = 1200)
+    @WrapMinecraftMethod(@VersionName(name = "getInstance"))
+    RecipeManager static$getInstanceV_1200();
+
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
+    SimpleRegistry static$getRegistryV1200_1300();
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
+    void static$setRegistryV1200_1300(SimpleRegistry value);
+
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "setup"))
+    boolean static$setupV1200_1300();
+
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "method_14260"))
+    void static$registerV1200_1300(Identifier id, Recipe recipe);
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @VersionRange(begin = 2005, end = 2102)
-public class RegistrarRecipeV2005_2102 extends RegistrarRecipeV1300
+public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
 {
     public static RegistrarRecipeV2005_2102 instance;
 
@@ -40,7 +40,7 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipeV1300
     @Override
     protected void setRaw()
     {
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
         this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
         this.rawTypeRecipes0 = recipeManager.getTypeRecipes0V2005_2102();
     }
@@ -48,7 +48,7 @@ public class RegistrarRecipeV2005_2102 extends RegistrarRecipeV1300
     @Override
     public void flush()
     {
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManager();
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
         if(this.rawIdRecipes0 == null)
             this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
         if(this.rawTypeRecipes0 == null)

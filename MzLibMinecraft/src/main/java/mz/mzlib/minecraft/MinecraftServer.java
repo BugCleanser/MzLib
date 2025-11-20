@@ -176,13 +176,14 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name = "getRegistryManager", begin = 1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
 
+    @VersionRange(begin = 1300)
     @WrapMinecraftMethod(
         {
             @VersionName(name = "method_20331", end = 1400),
             @VersionName(name = "getRecipeManager", begin = 1400)
         }
     )
-    RecipeManager getRecipeManager();
+    RecipeManager getRecipeManagerV1300();
 
     @VersionRange(begin = 1600)
     @WrapMinecraftMethod(@VersionName(name = "getSaveProperties"))
