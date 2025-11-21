@@ -47,6 +47,9 @@ public class ModuleRecipe extends MzModule
             this.register(NothingRecipeManagerV1300_1400.class);
         else
             this.register(NothingRecipeManagerV1400.class);
+
+        if(version < 1300)
+            this.register(ModuleFurnaceUpdateV_1300.instance);
     }
 
     @VersionRange(end = 1300)

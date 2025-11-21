@@ -54,6 +54,10 @@ public class MzLibMinecraft extends MzModule
 
             this.register(MinecraftI18n.instance);
 
+            this.register(ModulePacketListener.instance);
+
+            this.register(MinecraftEventModule.instance);
+
             this.register(Item.Module.instance);
 
             this.register(
@@ -66,10 +70,6 @@ public class MzLibMinecraft extends MzModule
             this.register(MinecraftServer.instance.getCommandManager());
 
             this.register(this.command = new Command("mzlib", "mz").setNamespace(this.MOD_ID));
-
-            this.register(ModulePacketListener.instance);
-
-            this.register(MinecraftEventModule.instance);
 
             this.register(DisplayEntityTracker.Module.instance);
 

@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 @VersionRange(begin = 1300)
 @WrapMinecraftClass(
     {
-        @VersionName(name = "class_3571", end = 1400),
+        @VersionName(name = "net.minecraft.class_3571", end = 1400),
         @VersionName(name = "net.minecraft.recipe.CraftingRecipe", begin = 1400)
     }
 )
