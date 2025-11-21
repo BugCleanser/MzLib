@@ -19,7 +19,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipe
     Map<Object, Map<Object, Object>> rawRecipes0;
 
     Function<RecipeRegistration, WrapperObject> toData = MinecraftPlatform.instance.getVersion() < 2002 ?
-        RecipeRegistration::getRecipe : RecipeEntryV2002::of;
+        RecipeRegistration::getRecipeV1300 : RecipeEntryV2002::of;
 
     public Map<Object, Map<Object, Object>> apply()
     {
@@ -30,7 +30,7 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipe
         }
         for(RecipeRegistration recipe : this.recipes)
         {
-            result.computeIfAbsent(recipe.getRecipe().getTypeV1400().getWrapped(), k -> new HashMap<>())
+            result.computeIfAbsent(recipe.getRecipeV1300().getTypeV1400().getWrapped(), k -> new HashMap<>())
                 .put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
         }
         return Collections.unmodifiableMap(result);

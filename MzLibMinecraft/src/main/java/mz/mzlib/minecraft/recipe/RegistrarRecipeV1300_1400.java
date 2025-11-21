@@ -18,7 +18,7 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
         Map<Object, Object> result = new Object2ObjectLinkedOpenHashMap<>(this.rawRecipes0); // adapt for Bukkit
         for(RecipeRegistration recipe : this.recipes)
         {
-            result.put(recipe.getId().getWrapped(), recipe.getRecipe().getWrapped());
+            result.put(recipe.getId().getWrapped(), recipe.getRecipeV1300().getWrapped());
         }
         return result;
     }

@@ -73,9 +73,9 @@ public interface RecipeManager extends WrapperObject
     {
         return FACTORY.getStatic().static$getInstanceV_1200();
     }
-    default List<Recipe> getRecipesV_1200()
+    default List<RecipeVanilla> getRecipesV_1200()
     {
-        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(Recipe.FACTORY));
+        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
     }
     @VersionRange(end = 1200)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
@@ -101,7 +101,7 @@ public interface RecipeManager extends WrapperObject
         return FACTORY.getStatic().static$setupV1200_1300();
     }
     @VersionRange(begin = 1200, end = 1300)
-    static void registerV1200_1300(Identifier id, Recipe recipe)
+    static void registerV1200_1300(Identifier id, RecipeVanilla recipe)
     {
         FACTORY.getStatic().static$registerV1200_1300(id, recipe);
     }
@@ -132,5 +132,5 @@ public interface RecipeManager extends WrapperObject
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "method_14260"))
-    void static$registerV1200_1300(Identifier id, Recipe recipe);
+    void static$registerV1200_1300(Identifier id, RecipeVanilla recipe);
 }

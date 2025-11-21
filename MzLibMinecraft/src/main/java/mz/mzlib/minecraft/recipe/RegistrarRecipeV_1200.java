@@ -5,14 +5,9 @@ import mz.mzlib.minecraft.VersionRange;
 import java.util.List;
 
 @VersionRange(end = 1200)
-public class RegistrarRecipeV_1200 extends RegistrarRecipe
+public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
 {
     public static RegistrarRecipeV_1200 instance;
-
-    @Override
-    protected void setRaw()
-    {
-    }
 
     @Override
     public void onReloadEnd()
@@ -23,14 +18,19 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipe
     @Override
     public void flush()
     {
+        super.flush();
         RecipeManager.getInstanceV_1200().setRecipes0V_1200(RecipeManager.ofV_1200().getRecipes0V_1200());
     }
     public void onReloadEnd(RecipeManager recipeManager)
     {
-        List<Recipe> recipes = recipeManager.getRecipesV_1200();
+        List<RecipeVanilla> recipes = recipeManager.getRecipesV_1200();
         for(RecipeRegistration recipe : this.recipes)
         {
-            recipes.add(recipe.getRecipe());
+            RecipeType type = recipe.getRecipe().getType();
+            if(type.equals(RecipeType.CRAFTING))
+                recipes.add((RecipeVanilla) recipe.getRecipe());
+            else if(!type.equals(RecipeType.SMELTING)) // process on super
+                throw new UnsupportedOperationException("Unknown recipe type: " + type);
         }
     }
 }

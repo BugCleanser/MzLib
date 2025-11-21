@@ -36,6 +36,9 @@ public class ModuleRecipe extends MzModule
         else
             this.register(new RegistrarRecipeV2102());
 
+        if(version < 1300)
+            this.register(NothingSmeltingManagerV_1300.class);
+
         if(version < 1200)
             this.register(NothingRecipeManagerV_1200.class);
         else if(version < 1300)
@@ -46,6 +49,21 @@ public class ModuleRecipe extends MzModule
             this.register(NothingRecipeManagerV1400.class);
     }
 
+    @VersionRange(end = 1300)
+    @WrapSameClass(SmeltingManagerV_1300.class)
+    public interface NothingSmeltingManagerV_1300 extends Nothing, SmeltingManagerV_1300
+    {
+        @NothingInject(
+            wrapperMethodName = "<init>",
+            wrapperMethodParams = {},
+            locateMethod = "locateAllReturn",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default void static$ofV_1200$end()
+        {
+            RegistrarRecipeV_1300.instance.onReloadEnd(this);
+        }
+    }
     @VersionRange(end = 1200)
     @WrapSameClass(RecipeManager.class)
     public interface NothingRecipeManagerV_1200 extends Nothing, RecipeManager

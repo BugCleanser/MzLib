@@ -8,6 +8,7 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
+import mz.mzlib.minecraft.recipe.RecipeSmelting;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
 import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.module.MzModule;
@@ -61,6 +62,12 @@ public class Demo extends MzModule
                     Collections.singletonList(
                         Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
                 .result(ItemStack.factory().fromId("apple").build()).buildRegistration());
+            this.register(RecipeSmelting.builder()
+                .id(Identifier.newInstance("mzlib:test_smelting"))
+                .ingredient(ItemStack.newInstance(Item.fromId("stick")))
+                .result(ItemStack.factory().fromId("apple").build())
+                .experience(100.f)
+                .buildRegistration());
         }
         catch(Throwable e)
         {

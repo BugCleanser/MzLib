@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
         @VersionName(name = "net.minecraft.recipe.ShapedRecipe", begin = 1400)
     }
 )
-public interface RecipeVanillaShaped extends Recipe
+public interface RecipeVanillaShaped extends RecipeVanilla, RecipeCrafting
 {
     WrapperFactory<RecipeVanillaShaped> FACTORY = WrapperFactory.of(RecipeVanillaShaped.class);
 

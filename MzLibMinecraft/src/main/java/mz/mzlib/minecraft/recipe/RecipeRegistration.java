@@ -27,4 +27,9 @@ public class RecipeRegistration
     {
         return this.recipe;
     }
+
+    RecipeVanilla getRecipeV1300()
+    {
+        return (RecipeVanilla) this.getRecipe();
+    }
 }
