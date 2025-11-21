@@ -14,29 +14,22 @@ public class RegistrarRecipeV1800_2005 extends RegistrarRecipeV1400_2005
 
     Map<Object, Object> rawIdRecipes0;
 
-    public Map<Object, Object> applyIdRecipes0()
-    {
-        Map<Object, Object> result = new HashMap<>(this.rawIdRecipes0);
-        for(RecipeRegistration recipe : this.recipes)
-        {
-            result.put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
-        }
-        return Collections.unmodifiableMap(result);
-    }
-
     @Override
-    protected void setRaw()
+    protected void updateOriginal()
     {
+        super.updateOriginal();
         this.rawIdRecipes0 = MinecraftServer.instance.getRecipeManagerV1300().getIdRecipes0V1800_2102();
     }
 
     @Override
-    public void flush()
+    public synchronized void flush()
     {
         super.flush();
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
-        if(this.rawIdRecipes0 == null)
-            this.rawIdRecipes0 = recipeManager.getIdRecipes0V1800_2102();
-        recipeManager.setIdRecipes0V1800_2102(this.applyIdRecipes0());
+        Map<Object, Object> result = new HashMap<>(this.rawIdRecipes0);
+        for(RecipeRegistration recipe : this.recipeRegistrations)
+        {
+            result.put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
+        }
+        MinecraftServer.instance.getRecipeManagerV1300().setIdRecipes0V1800_2102(Collections.unmodifiableMap(result));
     }
 }

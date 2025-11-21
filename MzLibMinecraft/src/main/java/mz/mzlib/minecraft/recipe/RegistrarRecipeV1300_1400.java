@@ -1,9 +1,12 @@
 package mz.mzlib.minecraft.recipe;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @VersionRange(begin = 1300, end = 1400)
@@ -13,28 +16,33 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
 
     Map<Object, Object> rawRecipes0;
 
-    public Map<Object, Object> apply()
+    @Override
+    protected void updateOriginal()
     {
+        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
+        this.rawRecipes0 = recipeManager.getRecipes0V1300_1400();
+        Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>();
+        for(Map.Entry<Identifier, RecipeVanilla> e : recipeManager.getRecipesV1300_1400().entrySet())
+        {
+            result.computeIfAbsent(e.getValue().getType(), k -> new HashMap<>())
+                .put(e.getKey(), e.getValue().autoCast());
+        }
+        for(Map.Entry<RecipeType, Map<Identifier, Recipe>> entry : result.entrySet())
+        {
+            entry.setValue(Collections.unmodifiableMap(result.get(entry.getKey())));
+        }
+        this.originalRecipes = Collections.unmodifiableMap(result);
+    }
+
+    @Override
+    public synchronized void flush()
+    {
+        super.flush();
         Map<Object, Object> result = new Object2ObjectLinkedOpenHashMap<>(this.rawRecipes0); // adapt for Bukkit
-        for(RecipeRegistration recipe : this.recipes)
+        for(RecipeRegistration recipe : this.recipeRegistrations)
         {
             result.put(recipe.getId().getWrapped(), recipe.getRecipeV1300().getWrapped());
         }
-        return result;
-    }
-
-    @Override
-    protected void setRaw()
-    {
-        this.rawRecipes0 = MinecraftServer.instance.getRecipeManagerV1300().getRecipes0V1300_1400();
-    }
-
-    @Override
-    public void flush()
-    {
-        RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
-        if(this.rawRecipes0 == null)
-            this.rawRecipes0 = recipeManager.getRecipes0V1300_1400();
-        recipeManager.setRecipes0V1300_1400(this.apply());
+        MinecraftServer.instance.getRecipeManagerV1300().setRecipes0V1300_1400(result);
     }
 }

@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.recipe;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
@@ -15,10 +16,12 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass({
-    @VersionName(name = "net.minecraft.recipe.RecipeType", end = 1400),
-    @VersionName(name = "net.minecraft.recipe.Recipe", begin = 1400)
-})
+@WrapMinecraftClass(
+    {
+        @VersionName(name = "net.minecraft.recipe.RecipeType", end = 1400),
+        @VersionName(name = "net.minecraft.recipe.Recipe", begin = 1400)
+    }
+)
 public interface RecipeVanilla extends WrapperObject, Recipe
 {
     WrapperFactory<RecipeVanilla> FACTORY = WrapperFactory.of(RecipeVanilla.class);
@@ -27,10 +30,12 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @WrapMinecraftMethod(@VersionName(name = "matches"))
     boolean matchesV_1300(InventoryCrafting inventory, World world);
     @VersionRange(begin = 1300, end = 2100)
-    @WrapMinecraftMethod({
-        @VersionName(name = "method_3500", end = 1400),
-        @VersionName(name = "matches", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_3500", end = 1400),
+            @VersionName(name = "matches", begin = 1400)
+        }
+    )
     boolean matchesV1300_2100(Inventory inventory, World world);
     @VersionRange(begin = 2100)
     @WrapMinecraftMethod(@VersionName(name = "matches"))
@@ -40,10 +45,12 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @WrapMinecraftMethod(@VersionName(name = "getResult"))
     ItemStack getResultV_1300(InventoryCrafting inventory);
     @VersionRange(begin = 1300, end = 1904)
-    @WrapMinecraftMethod({
-        @VersionName(name = "method_16201", end = 1400),
-        @VersionName(name = "craft", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_16201", end = 1400),
+            @VersionName(name = "craft", begin = 1400)
+        }
+    )
     ItemStack getResultV1300_1904(Inventory inventory);
     @VersionRange(begin = 1904, end = 2005)
     @WrapMinecraftMethod(@VersionName(name = "craft"))
@@ -78,4 +85,21 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getType"))
     RecipeTypeV1400 getTypeV1400();
+
+    default RecipeVanilla autoCast()
+    {
+        if(this.is(RecipeVanillaShaped.FACTORY))
+            return this.as(RecipeVanillaShaped.FACTORY);
+        if(this.is(RecipeVanillaShapeless.FACTORY))
+            return this.as(RecipeVanillaShapeless.FACTORY);
+        // TODO
+        return this;
+    }
+
+    @VersionRange(end = 1200)
+    default Identifier calcIdV_1200() // TODO
+    {
+        return Identifier.minecraft(
+            this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
+    }
 }

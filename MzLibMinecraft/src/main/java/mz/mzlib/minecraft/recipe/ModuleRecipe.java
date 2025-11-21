@@ -21,6 +21,7 @@ public class ModuleRecipe extends MzModule
     public void onLoad()
     {
         final int version = MinecraftPlatform.instance.getVersion();
+        // registrar
         if(version < 1200)
             this.register(new RegistrarRecipeV_1200());
         else if(version < 1300)
@@ -36,6 +37,7 @@ public class ModuleRecipe extends MzModule
         else
             this.register(new RegistrarRecipeV2102());
 
+        // nothing
         if(version < 1300)
             this.register(NothingSmeltingManagerV_1300.class);
 
@@ -48,6 +50,7 @@ public class ModuleRecipe extends MzModule
         else
             this.register(NothingRecipeManagerV1400.class);
 
+        // module
         if(version < 1300)
             this.register(ModuleFurnaceUpdateV_1300.instance);
     }

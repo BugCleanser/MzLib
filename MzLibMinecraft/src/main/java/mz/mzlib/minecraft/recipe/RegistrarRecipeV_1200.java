@@ -1,8 +1,12 @@
 package mz.mzlib.minecraft.recipe;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionRange;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @VersionRange(end = 1200)
 public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
@@ -10,21 +14,39 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
     public static RegistrarRecipeV_1200 instance;
 
     @Override
-    public void onReloadEnd()
+    protected void onReloadEnd()
     {
-        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void flush()
+    protected void updateOriginal()
+    {
+        this.updateOriginal(RecipeManager.getInstanceV_1200());
+    }
+    protected void updateOriginal(RecipeManager recipeManager)
+    {
+        super.updateOriginal();
+        Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>(this.originalRecipes);
+        HashMap<Identifier, Recipe> craftingRecipes = new HashMap<>();
+        for(RecipeVanilla recipe : recipeManager.getRecipesV_1200())
+        {
+            recipe = recipe.autoCast();
+            craftingRecipes.put(recipe.calcIdV_1200(),  recipe);
+        }
+        result.put(RecipeType.CRAFTING, Collections.unmodifiableMap(craftingRecipes));
+        this.originalRecipes = Collections.unmodifiableMap(result);
+    }
+    @Override
+    public synchronized void flush()
     {
         super.flush();
-        RecipeManager.getInstanceV_1200().setRecipes0V_1200(RecipeManager.ofV_1200().getRecipes0V_1200());
+        RecipeManager.getInstanceV_1200().setRecipes0V_1200(RecipeManager.ofV_1200().getRecipes0V_1200()); // reload
     }
-    public void onReloadEnd(RecipeManager recipeManager)
+    protected void onReloadEnd(RecipeManager recipeManager)
     {
+        this.updateOriginal(recipeManager);
         List<RecipeVanilla> recipes = recipeManager.getRecipesV_1200();
-        for(RecipeRegistration recipe : this.recipes)
+        for(RecipeRegistration recipe : this.recipeRegistrations)
         {
             RecipeType type = recipe.getRecipe().getType();
             if(type.equals(RecipeType.CRAFTING))

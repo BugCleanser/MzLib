@@ -34,9 +34,17 @@ public interface RecipeEntryV2002 extends WrapperObject
         return FACTORY.getStatic().static$newInstanceV2102(key, value);
     }
 
+    Identifier getId();
+    @SpecificImpl("getKey")
     @VersionRange(end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
     Identifier getKeyV_2102();
+    @SpecificImpl("getKey")
+    @VersionRange(begin = 2102)
+    default Identifier getIdV2102()
+    {
+        return this.getKeyV2102().getId();
+    }
 
     @VersionRange(begin = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))

@@ -10,6 +10,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.recipe.RecipeSmelting;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.RegistrarRecipe;
 import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
@@ -56,6 +57,7 @@ public class Demo extends MzModule
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
 
+            System.out.println(RegistrarRecipe.instance.getOriginalRecipes());
             this.register(RecipeVanillaShaped.builder()
                 .id(Identifier.newInstance("mzlib:test"))
                 .width(1).height(1).ingredients(

@@ -1,8 +1,14 @@
 package mz.mzlib.minecraft.recipe;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.nbt.NbtIo;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.UUID;
 
 public class RecipeSmeltingV_1300 implements RecipeSmelting
 {
@@ -34,6 +40,22 @@ public class RecipeSmeltingV_1300 implements RecipeSmelting
     public RecipeType getType()
     {
         return RecipeType.SMELTING;
+    }
+
+    public Identifier calcId()
+    {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        try(DataOutputStream dataOutput = new DataOutputStream(stream))
+        {
+            NbtIo.write(this.result.encode().getOrThrow(IllegalStateException::new).unwrap(), dataOutput);
+            NbtIo.write(this.ingredient.encode().getOrThrow(IllegalStateException::new).unwrap(), dataOutput);
+            dataOutput.writeFloat(this.experience);
+        }
+        catch(IOException e)
+        {
+            throw new IllegalStateException(e);
+        }
+        return Identifier.minecraft(UUID.nameUUIDFromBytes(stream.toByteArray()).toString());
     }
 
     public static class Builder extends RecipeSmelting.Builder

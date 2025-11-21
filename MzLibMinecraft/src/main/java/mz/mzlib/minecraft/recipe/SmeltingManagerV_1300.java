@@ -2,8 +2,11 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -21,6 +24,13 @@ public interface SmeltingManagerV_1300 extends WrapperObject
         return FACTORY.getStatic().static$getInstance();
     }
 
+    default Map<ItemStack, ItemStack> getResults()
+    {
+        return new MapProxy<>(
+            this.getResults0(),
+            FunctionInvertible.wrapper(ItemStack.FACTORY), FunctionInvertible.wrapper(ItemStack.FACTORY)
+        );
+    }
     @WrapMinecraftFieldAccessor(@VersionName(name = "ORIGINAL_PRODUCT_MAP"))
     Map<Object, Object> getResults0();
     @WrapMinecraftFieldAccessor(@VersionName(name = "ORIGINAL_PRODUCT_MAP"))
@@ -29,6 +39,13 @@ public interface SmeltingManagerV_1300 extends WrapperObject
     /**
      * product to xp
      */
+    default Map<ItemStack, Float> getExperiences()
+    {
+        return new MapProxy<>(
+            this.getExperiences0(),
+            FunctionInvertible.wrapper(ItemStack.FACTORY), FunctionInvertible.identity()
+        );
+    }
     @WrapMinecraftFieldAccessor(@VersionName(name = "PRODUCT_XP_MAP"))
     Map<Object, Float> getExperiences0();
     @WrapMinecraftFieldAccessor(@VersionName(name = "PRODUCT_XP_MAP"))

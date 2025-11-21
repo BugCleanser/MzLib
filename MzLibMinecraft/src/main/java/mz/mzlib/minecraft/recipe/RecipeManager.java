@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
+import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -27,6 +28,10 @@ public interface RecipeManager extends WrapperObject
 {
     WrapperFactory<RecipeManager> FACTORY = WrapperFactory.of(RecipeManager.class);
 
+    default Map<Identifier, RecipeVanilla> getRecipesV1300_1400()
+    {
+        return new MapProxy<>(this.getRecipes0V1300_1400(), FunctionInvertible.wrapper(Identifier.FACTORY), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
+    }
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftFieldAccessor(@VersionName(name = "field_17445"))
     Map<Object, Object> getRecipes0V1300_1400();
