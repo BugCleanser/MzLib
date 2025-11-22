@@ -11,9 +11,9 @@ import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextClickEvent;
 import mz.mzlib.minecraft.text.TextHoverEvent;
-import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.book.UIWrittenBook;
-import mz.mzlib.minecraft.ui.window.UIWindowAnvilInput;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.book.UiWrittenBook;
+import mz.mzlib.minecraft.ui.window.UiWindowAnvilInput;
 import mz.mzlib.util.MapBuilder;
 import mz.mzlib.util.RuntimeUtil;
 
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class LangEditor extends UIWrittenBook
+public class LangEditor extends UiWrittenBook
 {
     public String lang;
     public String node;
@@ -40,7 +40,7 @@ public class LangEditor extends UIWrittenBook
         if(this.node != null)
         {
             this.buttonSet = this.newButton(
-                player -> UIWindowAnvilInput.invoke(
+                player -> UiWindowAnvilInput.invoke(
                     player, escape(I18n.getSource(this.lang, this.node, "")),
                     MinecraftI18n.resolveText(
                         player, "mzlib.lang.editor.homepage.custom.set.title",
@@ -66,7 +66,7 @@ public class LangEditor extends UIWrittenBook
                     }
                     I18n.custom.map.computeIfAbsent(this.lang, k -> new ConcurrentHashMap<>()).put(this.node, u);
                     MinecraftI18n.saveCustomLanguage(this.lang);
-                    UIStack.get(player).back();
+                    UiStack.get(player).back();
                 }));
             this.buttonRemove = this.newButton(player ->
             {

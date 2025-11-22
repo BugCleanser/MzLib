@@ -8,10 +8,10 @@ import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.window.UIWindow;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.window.UiWindow;
 import mz.mzlib.minecraft.ui.window.WindowSlotButton;
-import mz.mzlib.minecraft.ui.window.WindowUIWindow;
+import mz.mzlib.minecraft.ui.window.WindowUiWindow;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.minecraft.window.WindowType;
@@ -39,8 +39,8 @@ public class Tictactoe extends MzModule
                         context.successful = false;
                     if(!context.successful || !context.doExecute)
                         return;
-                    UIStack.get(context.getSource().getPlayer().unwrap())
-                        .start(new UITictactoe(context.getSource().getPlayer().unwrap()));
+                    UiStack.get(context.getSource().getPlayer().unwrap())
+                        .start(new UiTictactoe(context.getSource().getPlayer().unwrap()));
                 }));
     }
 
@@ -50,12 +50,12 @@ public class Tictactoe extends MzModule
         Demo.instance.command.removeChild(this.command);
     }
 
-    public static class UITictactoe extends UIWindow
+    public static class UiTictactoe extends UiWindow
     {
         public ItemStack PLAYER;
         public ItemStack AI;
 
-        public UITictactoe(EntityPlayer player)
+        public UiTictactoe(EntityPlayer player)
         {
             super(WindowType.CRAFTING, 10);
 
@@ -173,7 +173,7 @@ public class Tictactoe extends MzModule
 
         @Override
         public void onAction(
-            WindowUIWindow window,
+            WindowUiWindow window,
             int index,
             int data,
             WindowActionType actionType,

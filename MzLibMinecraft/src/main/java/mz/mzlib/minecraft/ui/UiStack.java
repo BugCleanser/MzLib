@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class UIStack
+public class UiStack
 {
-    public static Map<EntityPlayer, UIStack> uiStacks = new ConcurrentHashMap<>();
+    public static Map<EntityPlayer, UiStack> uiStacks = new ConcurrentHashMap<>();
 
     public static class Module extends MzModule
     {
@@ -27,14 +27,14 @@ public class UIStack
             this.register(new EventListener<>(
                 EventPlayerJoin.class, Priority.VERY_VERY_HIGH, event ->
             {
-                uiStacks.put(event.getPlayer(), new UIStack(event.getPlayer()));
+                uiStacks.put(event.getPlayer(), new UiStack(event.getPlayer()));
                 if(event.isCancelled())
                     uiStacks.remove(event.getPlayer());
             }
             ));
             for(EntityPlayer player : MinecraftServer.instance.getPlayers())
             {
-                uiStacks.put(player, new UIStack(player));
+                uiStacks.put(player, new UiStack(player));
             }
             this.register(new EventListener<>(
                 EventPlayerQuit.class, Priority.VERY_VERY_LOW,
@@ -43,25 +43,25 @@ public class UIStack
         }
     }
 
-    public static UIStack get(EntityPlayer player)
+    public static UiStack get(EntityPlayer player)
     {
         return uiStacks.get(player);
     }
 
     public EntityPlayer player;
-    public List<UI> data = new ArrayList<>();
-    public UIStack(EntityPlayer player)
+    public List<Ui> data = new ArrayList<>();
+    public UiStack(EntityPlayer player)
     {
         this.player = player;
     }
 
-    public void start(UI ui)
+    public void start(Ui ui)
     {
         this.data.clear();
         this.go(ui);
     }
 
-    public void go(UI ui)
+    public void go(Ui ui)
     {
         this.data.add(ui);
         ui.open(this.player);
@@ -76,7 +76,7 @@ public class UIStack
             this.data.get(this.data.size() - 1).open(this.player);
     }
 
-    public UI top()
+    public Ui top()
     {
         if(this.data.isEmpty())
             return null;

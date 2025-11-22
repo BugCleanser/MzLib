@@ -11,7 +11,7 @@ import mz.mzlib.minecraft.i18n.LangEditor;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UIStack;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.module.MzModule;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,7 +74,7 @@ public class CommandMzLibLang extends MzModule
                     fork.getSource().sendMessage(check);
                     return;
                 }
-                UIStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang));
+                UiStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang));
             }
             return;
         }
@@ -93,7 +93,7 @@ public class CommandMzLibLang extends MzModule
                     fork.getSource().sendMessage(check);
                     return;
                 }
-                UIStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang, key));
+                UiStack.get(fork.getSource().getPlayer().unwrap()).start(new LangEditor(lang, key));
             }
             return;
         }

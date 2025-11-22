@@ -3,7 +3,7 @@ package mz.mzlib.demo;
 import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.window.UIWindowAnvilInput;
+import mz.mzlib.minecraft.ui.window.UiWindowAnvilInput;
 import mz.mzlib.module.MzModule;
 
 public class DemoUIInput extends MzModule
@@ -24,7 +24,7 @@ public class DemoUIInput extends MzModule
                     return;
                 if(!context.doExecute)
                     return;
-                UIWindowAnvilInput.invoke(context.getSource().getPlayer().unwrap(), "", Text.literal("Title"))
+                UiWindowAnvilInput.invoke(context.getSource().getPlayer().unwrap(), "", Text.literal("Title"))
                     .thenAccept(text -> context.getSource().sendMessage(Text.literal(text)));
             })
         ));

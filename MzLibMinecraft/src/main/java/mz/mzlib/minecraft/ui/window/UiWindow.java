@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UI;
+import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 
@@ -21,21 +21,21 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class UIWindow implements UI
+public abstract class UiWindow implements Ui
 {
     public WindowType windowType;
     public Inventory inventory;
 
-    public UIWindow(WindowType windowType, Inventory inventory)
+    public UiWindow(WindowType windowType, Inventory inventory)
     {
         this.windowType = windowType;
         this.inventory = inventory;
     }
-    public UIWindow(WindowType windowType, int size)
+    public UiWindow(WindowType windowType, int size)
     {
         this(windowType, InventorySimple.newInstance(size));
     }
-    public UIWindow(WindowType windowType)
+    public UiWindow(WindowType windowType)
     {
         this(windowType, windowType.upperSize);
     }
@@ -86,7 +86,7 @@ public abstract class UIWindow implements UI
 
     public abstract Text getTitle(EntityPlayer player);
 
-    public void initWindow(WindowUIWindow window, EntityPlayer player)
+    public void initWindow(WindowUiWindow window, EntityPlayer player)
     {
         for(int i = 0; i < this.windowType.upperSize; i++)
         {
@@ -97,7 +97,7 @@ public abstract class UIWindow implements UI
         this.addPlayerInventorySlots(window, player);
     }
 
-    public void addPlayerInventorySlots(WindowUIWindow window, EntityPlayer player)
+    public void addPlayerInventorySlots(WindowUiWindow window, EntityPlayer player)
     {
         for(int i = 0; i < 3; ++i)
         {
@@ -119,7 +119,7 @@ public abstract class UIWindow implements UI
         }
     }
 
-    public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
+    public ItemStack quickMove(WindowUiWindow window, EntityPlayer player, int index)
     {
         return window.quickMoveSuper(player, index);
     }
@@ -127,12 +127,12 @@ public abstract class UIWindow implements UI
     /**
      * @see WindowAbstract#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
      */
-    public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
+    public void onAction(WindowUiWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {
         window.onActionSuper(index, data, actionType, player);
     }
 
-    public void onClosed(WindowUIWindow window, EntityPlayer player)
+    public void onClosed(WindowUiWindow window, EntityPlayer player)
     {
         window.onClosedSuper(player);
     }
@@ -148,7 +148,7 @@ public abstract class UIWindow implements UI
     {
         WindowFactorySimple.newInstance(
             this.windowType, this.getTitle(player),
-            (syncId, inventoryPlayer) -> WindowUIWindow.newInstance(this, player, syncId)
+            (syncId, inventoryPlayer) -> WindowUiWindow.newInstance(this, player, syncId)
         ).open(player);
         player.updateWindow();
     }
@@ -166,9 +166,9 @@ public abstract class UIWindow implements UI
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
+                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
                     return;
-                window.castTo(WindowUIWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
+                window.castTo(WindowUiWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
             })
             ));
             this.register(new EventListener<>(
@@ -177,9 +177,9 @@ public abstract class UIWindow implements UI
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
+                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
                     return;
-                UIWindow ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
+                UiWindow ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
                 ButtonHandler button = ui.buttons.get(event.getSlotIndex());
                 if(button != null)
                     button.onClick(event.getPlayer(), event.getActionType(), event.getData());
@@ -191,9 +191,9 @@ public abstract class UIWindow implements UI
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
+                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
                     return;
-                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUIWindow.FACTORY)
+                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUiWindow.FACTORY)
                     .getUIWindow().icons.get(event.getSlotIndex());
                 if(icon != null)
                     icon.accept(event);

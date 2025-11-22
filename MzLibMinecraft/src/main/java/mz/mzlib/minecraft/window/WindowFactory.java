@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UI;
+import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -22,7 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         @VersionName(name = "net.minecraft.container.NameableContainerFactory", begin = 1502, end = 1600),
         @VersionName(name = "net.minecraft.screen.NamedScreenHandlerFactory", begin = 1600)
     })
-public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, UI
+public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
 {
     WrapperFactory<WindowFactory> FACTORY = WrapperFactory.of(WindowFactory.class);
     @Deprecated

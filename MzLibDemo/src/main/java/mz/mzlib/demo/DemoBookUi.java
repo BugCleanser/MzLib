@@ -5,8 +5,8 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextColor;
-import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.book.UIWrittenBook;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.book.UiWrittenBook;
 import mz.mzlib.module.MzModule;
 
 import java.util.ArrayList;
@@ -29,15 +29,15 @@ public class DemoBookUi extends MzModule
                         return;
                     if(!context.successful || !context.doExecute)
                         return;
-                    UIStack.get(context.getSource().getPlayer().unwrap()).start(new UIDemoBook());
+                    UiStack.get(context.getSource().getPlayer().unwrap()).start(new UiDemoBook());
                 }));
     }
 
-    public static class UIDemoBook extends UIWrittenBook
+    public static class UiDemoBook extends UiWrittenBook
     {
         int button0, button1;
 
-        public UIDemoBook()
+        public UiDemoBook()
         {
             this.button0 = this.newButton(
                 player -> player.sendMessage(Text.literal("Button 0").setBold(true).setColor(TextColor.DARK_BLUE)));

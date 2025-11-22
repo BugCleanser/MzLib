@@ -13,10 +13,10 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
 import mz.mzlib.minecraft.recipe.ModuleRecipe;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.book.UIWrittenBook;
-import mz.mzlib.minecraft.ui.window.UIWindow;
-import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.book.UiWrittenBook;
+import mz.mzlib.minecraft.ui.window.UiWindow;
+import mz.mzlib.minecraft.ui.window.UiWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
@@ -74,10 +74,10 @@ public class MzLibMinecraft extends MzModule
             this.register(DisplayEntityTracker.Module.instance);
 
             this.register(ModuleWindow.instance);
-            this.register(UIStack.Module.instance);
-            this.register(UIWrittenBook.Module.instance);
-            this.register(UIWindow.Module.instance);
-            this.register(UIWindowAnvil.Module.instance);
+            this.register(UiStack.Module.instance);
+            this.register(UiWrittenBook.Module.instance);
+            this.register(UiWindow.Module.instance);
+            this.register(UiWindowAnvil.Module.instance);
 
             this.register(NbtCompound.Module.instance);
             this.register(Text.Module.instance);
