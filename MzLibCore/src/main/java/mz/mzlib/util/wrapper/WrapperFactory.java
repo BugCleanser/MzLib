@@ -47,6 +47,9 @@ public class WrapperFactory<T extends WrapperObject>
         return new WrapperFactory<>(value);
     }
 
+    /**
+     * @see #of(Class) 
+     */
     @Deprecated
     public static <T extends WrapperObject> WrapperFactory<T> find(Class<T> wrapperClass)
     {

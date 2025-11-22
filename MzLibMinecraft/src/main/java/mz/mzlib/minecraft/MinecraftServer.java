@@ -8,15 +8,14 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.incomprehensible.SavePropertiesV1600;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.recipe.RecipeManager;
+import mz.mzlib.minecraft.world.WorldServer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Instance;
-import mz.mzlib.util.Pair;
-import mz.mzlib.util.RefStrong;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
+import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -45,6 +44,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "serverThread"))
     Thread getThread();
+
+    Iterable<WorldServer> getWorlds();
 
     default List<EntityPlayer> getPlayers()
     {
@@ -212,4 +213,29 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
         }
     )
     void onStop();
+
+
+    @SpecificImpl("getWorlds")
+    @VersionRange(end = 1300)
+    default Iterable<WorldServer> getWorlds$implV_1300()
+    {
+        return this.getWorldsV_1300().asList();
+    }
+    @VersionRange(end = 1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "worlds"))
+    WorldServer.Array getWorldsV_1300();
+    @SpecificImpl("getWorlds")
+    @VersionRange(begin = 1300)
+    default Iterable<WorldServer> getWorldsV1300()
+    {
+        return IteratorProxy.iterable(this.getWorlds0V1300(), FunctionInvertible.wrapper(WorldServer.FACTORY));
+    }
+    @VersionRange(begin = 1300)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_20351", end = 1400),
+            @VersionName(name = "getWorlds", begin = 1400)
+        }
+    )
+    Iterable<Object> getWorlds0V1300();
 }

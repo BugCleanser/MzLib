@@ -1,20 +1,30 @@
 package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.incomprehensible.context.MojangContextV2102;
+import mz.mzlib.minecraft.incomprehensible.context.SlotDisplayContextsV2102;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryCrafting;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.display.RecipeDisplayV2102;
 import mz.mzlib.minecraft.recipe.input.RecipeInputV2100;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @WrapMinecraftClass(
     {
@@ -92,9 +102,67 @@ public interface RecipeVanilla extends WrapperObject, Recipe
             return this.as(RecipeVanillaShaped.FACTORY);
         if(this.is(RecipeVanillaShapeless.FACTORY))
             return this.as(RecipeVanillaShapeless.FACTORY);
+        if(this.is(RecipeVanillaCraftingV1300.FACTORY))
+            return this.as(RecipeVanillaCraftingV1300.FACTORY);
         // TODO
         return this;
     }
+
+    @Override
+    List<ItemStack> getIcons(); // TODO
+
+    @SpecificImpl("getIcons")
+    @VersionRange(end = 2102)
+    default List<ItemStack> getIconsV_2102()
+    {
+        return Collections.singletonList(this.getIconV_2102());
+    }
+    @VersionRange(end = 2102)
+    ItemStack getIconV_2102();
+    @SpecificImpl("getIconV_2102")
+    @VersionRange(end = 1904)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "getOutput", end = 1400),
+            @VersionName(name = "method_8110", begin = 1400)
+        }
+    )
+    ItemStack getIconV_1904();
+    @SpecificImpl("getIconV_2102")
+    @VersionRange(begin = 1904, end = 2005)
+    default ItemStack getIconV1904_2005()
+    {
+        return this.getIconV1904_2005(MinecraftServer.instance.getRegistriesV1602());
+    }
+    @VersionRange(begin = 1904, end = 2005)
+    @WrapMinecraftMethod(@VersionName(name = "method_8110"))
+    ItemStack getIconV1904_2005(RegistryManagerV1602 registryManager);
+    @SpecificImpl("getIconV_2102")
+    @VersionRange(begin = 2005, end = 2102)
+    default ItemStack getIconV2005_2102()
+    {
+        return this.getIconV2005_2102(
+            MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
+    }
+    @VersionRange(begin = 2005, end = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "method_8110"))
+    ItemStack getIconV2005_2102(RegistryEntryLookupV1903.class_7874 registriesLookup);
+
+    @SpecificImpl("getIcons")
+    @VersionRange(begin = 2102)
+    default List<ItemStack> getIconsV2102()
+    {
+        MojangContextV2102 context = SlotDisplayContextsV2102.create();
+        return this.getDisplaysV2102().stream().map(RecipeDisplayV2102::getResult)
+            .map(it -> it.getItemStacks(context)).flatMap(List::stream).collect(Collectors.toList());
+    }
+    default List<RecipeDisplayV2102> getDisplaysV2102()
+    {
+        return new ListProxy<>(this.getDisplays0V2102(), FunctionInvertible.wrapper(RecipeDisplayV2102.FACTORY));
+    }
+    @VersionRange(begin = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "getDisplays"))
+    List<Object> getDisplays0V2102();
 
     @VersionRange(end = 1200)
     default Identifier calcIdV_1200() // TODO

@@ -11,10 +11,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapMethodFromBridge;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -50,22 +47,14 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
     @VersionRange(begin = 1200, end = 1300)
     static VanillaIngredient ofItemStacksV1200_1300(ItemStack... itemStacks)
     {
-        ItemStack.Array array = ItemStack.Array.newInstance(itemStacks.length);
-        for(int i = 0; i < itemStacks.length; i++)
-        {
-            array.set(i, itemStacks[i]);
-        }
-        return FACTORY.getStatic().static$ofItemStacksV1200_1300(array);
+        return FACTORY.getStatic().static$ofItemStacksV1200_1300(
+            Arrays.stream(itemStacks).collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
     }
     @VersionRange(begin = 1300)
     static VanillaIngredient ofItemsV1300(ItemConvertibleV1300... items)
     {
-        ItemConvertibleV1300.Array array = ItemConvertibleV1300.Array.newInstance(items.length);
-        for(int i = 0; i < items.length; i++)
-        {
-            array.set(i, items[i]);
-        }
-        return FACTORY.getStatic().static$ofItemsV1300(array);
+        return FACTORY.getStatic().static$ofItemsV1300(
+            Arrays.stream(items).collect(WrapperArray.collector(ItemConvertibleV1300.Array.FACTORY)));
     }
     @VersionRange(begin = 1200)
     static VanillaIngredient ofItemsV1200(Item... items)

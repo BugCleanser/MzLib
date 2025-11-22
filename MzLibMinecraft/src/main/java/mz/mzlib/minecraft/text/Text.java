@@ -743,7 +743,7 @@ public interface Text extends WrapperObject
         @VersionRange(begin = 2005)
         default JsonElement static$encodeV2005(Text text)
         {
-            return this.static$encodeV2005(text, MinecraftServer.instance.getRegistriesV1602());
+            return this.static$encodeV2005(text, MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
         }
 
         static Text decode(JsonElement json)
@@ -781,7 +781,7 @@ public interface Text extends WrapperObject
         @VersionRange(begin = 2005)
         default Text static$decodeV2005(JsonElement json)
         {
-            return this.static$decodeV2005(json, MinecraftServer.instance.getRegistriesV1602());
+            return this.static$decodeV2005(json, MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
         }
     }
 

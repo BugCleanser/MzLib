@@ -7,6 +7,8 @@ import mz.mzlib.minecraft.nbt.NbtIo;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -41,13 +43,17 @@ public class RecipeSmeltingV_1300 implements RecipeSmelting
     {
         return RecipeType.SMELTING;
     }
+    @Override
+    public List<ItemStack> getIcons()
+    {
+        return Collections.singletonList(this.getResult());
+    }
 
     public Identifier calcId()
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try(DataOutputStream dataOutput = new DataOutputStream(stream))
         {
-            NbtIo.write(this.result.encode().getOrThrow(IllegalStateException::new).unwrap(), dataOutput);
             NbtIo.write(this.ingredient.encode().getOrThrow(IllegalStateException::new).unwrap(), dataOutput);
             dataOutput.writeFloat(this.experience);
         }

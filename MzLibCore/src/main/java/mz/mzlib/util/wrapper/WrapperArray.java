@@ -1,8 +1,15 @@
 package mz.mzlib.util.wrapper;
 
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.proxy.ListProxy;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collector;
 
 @WrapArrayClass(WrapperObject.class)
 public interface WrapperArray<T extends WrapperObject> extends WrapperObject
@@ -11,7 +18,8 @@ public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 
     default WrapperArray<T> static$newInstance(int length)
     {
-        return RuntimeUtil.cast(this.static$create(Array.newInstance(this.static$getElementFactory().getStatic().static$getWrappedClass(), length)));
+        return RuntimeUtil.cast(this.static$create(
+            Array.newInstance(this.static$getElementFactory().getStatic().static$getWrappedClass(), length)));
     }
 
     default T get(int index)
@@ -27,5 +35,29 @@ public interface WrapperArray<T extends WrapperObject> extends WrapperObject
     default int length()
     {
         return Array.getLength(this.getWrapped());
+    }
+
+    default List<T> asList()
+    {
+        return new ListProxy<>(
+            Arrays.asList((Object[]) this.getWrapped()), // FIXME
+            FunctionInvertible.wrapper(this.static$getElementFactory())
+        );
+    }
+
+    static <T extends WrapperObject, A extends WrapperArray<T>> Collector<T, List<T>, A> collector(WrapperFactory<A> factory)
+    {
+        return Collector.of(
+            ArrayList::new, List::add, (left, right) ->
+            {
+                left.addAll(right);
+                return left;
+            }, list ->
+            {
+                A result = RuntimeUtil.cast(factory.getStatic().static$newInstance(list.size()));
+                Collections.copy(result.asList(), list);
+                return result;
+            }
+        );
     }
 }

@@ -12,6 +12,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperArray;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.List;
@@ -135,12 +136,10 @@ public interface RecipeVanillaShaped extends RecipeVanilla, RecipeCrafting
     @VersionRange(end = 1200)
     default RecipeVanillaShaped static$newInstanceV_1200(Builder builder)
     {
-        ItemStack.Array array = ItemStack.Array.newInstance(builder.ingredients.size());
-        for(int i = 0; i < builder.ingredients.size(); i++)
-        {
-            array.set(i, VanillaIngredient.fromOptionV_2102(builder.ingredients.get(i)).as(ItemStack.FACTORY));
-        }
-        return this.static$newInstanceV_1200(builder.width, builder.height, array, builder.result);
+        return this.static$newInstanceV_1200(builder.width, builder.height,
+            builder.ingredients.stream().map(VanillaIngredient::fromOptionV_2102).map(i -> i.as(ItemStack.FACTORY))
+                .collect(WrapperArray.collector(ItemStack.Array.FACTORY)), builder.result
+        );
     }
     @VersionRange(end = 1200)
     @WrapConstructor
