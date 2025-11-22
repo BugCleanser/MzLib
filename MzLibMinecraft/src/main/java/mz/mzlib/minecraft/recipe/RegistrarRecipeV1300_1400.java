@@ -24,8 +24,9 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
         Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>();
         for(Map.Entry<Identifier, RecipeVanilla> e : recipeManager.getRecipesV1300_1400().entrySet())
         {
-            result.computeIfAbsent(e.getValue().getType(), k -> new HashMap<>())
-                .put(e.getKey(), e.getValue().autoCast());
+            RecipeVanilla recipe = e.getValue().autoCast();
+            result.computeIfAbsent(recipe.getType(), k -> new HashMap<>())
+                .put(e.getKey(), recipe);
         }
         for(Map.Entry<RecipeType, Map<Identifier, Recipe>> entry : result.entrySet())
         {

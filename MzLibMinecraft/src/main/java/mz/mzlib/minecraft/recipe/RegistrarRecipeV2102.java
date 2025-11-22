@@ -20,8 +20,9 @@ public class RegistrarRecipeV2102 extends RegistrarRecipe
         Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>();
         for(RecipeEntryV2002 recipe : this.raw.recipes())
         {
-            result.computeIfAbsent(recipe.getValue().getType(), k -> new HashMap<>())
-                .put(recipe.getId(), recipe.getValue().autoCast());
+            RecipeVanilla r = recipe.getValue().autoCast();
+            result.computeIfAbsent(r.getType(), k -> new HashMap<>())
+                .put(recipe.getId(), r);
         }
         for(Map.Entry<RecipeType, Map<Identifier, Recipe>> entry : result.entrySet())
         {

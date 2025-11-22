@@ -37,9 +37,9 @@ public class WrapperFactory<T extends WrapperObject>
         return this.getStatic().static$isInstance(wrapper);
     }
 
-    @SuppressWarnings("deprecation")
     public static <T extends WrapperObject> WrapperFactory<T> of(Class<T> wrapperClass)
     {
+        //noinspection deprecation
         return new WrapperFactory<>(WrapperObject.create(wrapperClass, null));
     }
     public static <T extends WrapperObject> WrapperFactory<T> of(T value)

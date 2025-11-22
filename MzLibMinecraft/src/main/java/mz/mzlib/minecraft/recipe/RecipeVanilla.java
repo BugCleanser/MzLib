@@ -75,41 +75,83 @@ public interface RecipeVanilla extends WrapperObject, Recipe
 
     @Override
     RecipeType getType();
+
+    RecipeVanilla autoCast();
+
+    @Override
+    List<ItemStack> getIcons();
+
+    @SpecificImpl("getIcons")
+    @VersionRange(begin = 2102)
+    default List<ItemStack> getIconsV2102()
+    {
+        MojangContextV2102 context = SlotDisplayContextsV2102.create();
+        return this.getDisplaysV2102().stream().map(RecipeDisplayV2102::getResult)
+            .map(it -> it.getItemStacks(context)).flatMap(List::stream).collect(Collectors.toList());
+    }
+    default List<RecipeDisplayV2102> getDisplaysV2102()
+    {
+        return new ListProxy<>(this.getDisplays0V2102(), FunctionInvertible.wrapper(RecipeDisplayV2102.FACTORY));
+    }
+    @VersionRange(begin = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "getDisplays"))
+    List<Object> getDisplays0V2102();
+
+    @VersionRange(end = 1200)
+    default Identifier calcIdV_1200() // TODO
+    {
+        return Identifier.minecraft(
+            this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
+    }
+
+
     @SpecificImpl("getType")
     @VersionRange(end = 1300)
     default RecipeType getTypeV_1300()
     {
-        return RecipeType.V_1400.CRAFTING;
+        return RecipeType.CRAFTING;
     }
     @SpecificImpl("getType")
     @VersionRange(begin = 1300, end = 1400)
     default RecipeType getTypeV1300_1400()
     {
-        if(this.is(RecipeVanillaCraftingV1300.FACTORY))
-            return RecipeType.V_1400.CRAFTING;
         if(this.is(RecipeVanillaSmeltingV1300.FACTORY))
-            return RecipeType.V_1400.SMELTING;
-        throw new UnsupportedOperationException("Unsupported recipe type: " + this);
+            return RecipeType.SMELTING;
+        return RecipeType.CRAFTING;
     }
     @SpecificImpl("getType")
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getType"))
     RecipeTypeV1400 getTypeV1400();
 
-    default RecipeVanilla autoCast()
+    // TODO
+    @SpecificImpl("autoCast")
+    @VersionRange(end = 1300)
+    default RecipeVanilla autoCastV_1300()
     {
         if(this.is(RecipeVanillaShaped.FACTORY))
             return this.as(RecipeVanillaShaped.FACTORY);
         if(this.is(RecipeVanillaShapeless.FACTORY))
             return this.as(RecipeVanillaShapeless.FACTORY);
-        if(this.is(RecipeVanillaCraftingV1300.FACTORY))
-            return this.as(RecipeVanillaCraftingV1300.FACTORY);
-        // TODO
         return this;
     }
-
-    @Override
-    List<ItemStack> getIcons(); // TODO
+    @SpecificImpl("autoCast")
+    @VersionRange(begin = 1300, end = 1400)
+    default RecipeVanilla autoCastV1300_1400()
+    {
+        if(this.is(RecipeVanillaSmeltingV1300.FACTORY))
+            return this.as(RecipeVanillaSmeltingV1300.FACTORY);
+        return this.autoCastV_1300();
+    }
+    @SpecificImpl("autoCast")
+    @VersionRange(begin = 1400)
+    default RecipeVanilla autoCastV1400()
+    {
+        RecipeVanilla result = this;
+        if(result.is(RecipeVanillaCraftingV1400.FACTORY))
+            result = result.as(RecipeVanillaCraftingV1400.FACTORY);
+        return result.autoCastV1300_1400();
+    }
 
     @SpecificImpl("getIcons")
     @VersionRange(end = 2102)
@@ -147,27 +189,4 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @VersionRange(begin = 2005, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "method_8110"))
     ItemStack getIconV2005_2102(RegistryEntryLookupV1903.class_7874 registriesLookup);
-
-    @SpecificImpl("getIcons")
-    @VersionRange(begin = 2102)
-    default List<ItemStack> getIconsV2102()
-    {
-        MojangContextV2102 context = SlotDisplayContextsV2102.create();
-        return this.getDisplaysV2102().stream().map(RecipeDisplayV2102::getResult)
-            .map(it -> it.getItemStacks(context)).flatMap(List::stream).collect(Collectors.toList());
-    }
-    default List<RecipeDisplayV2102> getDisplaysV2102()
-    {
-        return new ListProxy<>(this.getDisplays0V2102(), FunctionInvertible.wrapper(RecipeDisplayV2102.FACTORY));
-    }
-    @VersionRange(begin = 2102)
-    @WrapMinecraftMethod(@VersionName(name = "getDisplays"))
-    List<Object> getDisplays0V2102();
-
-    @VersionRange(end = 1200)
-    default Identifier calcIdV_1200() // TODO
-    {
-        return Identifier.minecraft(
-            this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
-    }
 }

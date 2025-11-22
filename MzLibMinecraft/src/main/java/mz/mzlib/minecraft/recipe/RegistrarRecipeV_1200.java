@@ -31,7 +31,7 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
         for(RecipeVanilla recipe : recipeManager.getRecipesV_1200())
         {
             recipe = recipe.autoCast();
-            craftingRecipes.put(recipe.calcIdV_1200(),  recipe);
+            craftingRecipes.put(recipe.calcIdV_1200(), recipe);
         }
         result.put(RecipeType.CRAFTING, Collections.unmodifiableMap(craftingRecipes));
         this.originalRecipes = Collections.unmodifiableMap(result);
@@ -46,13 +46,10 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
     {
         this.updateOriginal(recipeManager);
         List<RecipeVanilla> recipes = recipeManager.getRecipesV_1200();
-        for(RecipeRegistration recipe : this.recipeRegistrations)
+        for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes()
+            .getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).entrySet())
         {
-            RecipeType type = recipe.getRecipe().getType();
-            if(type.equals(RecipeType.CRAFTING))
-                recipes.add((RecipeVanilla) recipe.getRecipe());
-            else if(!type.equals(RecipeType.SMELTING)) // process on super
-                throw new UnsupportedOperationException("Unknown recipe type: " + type);
+            recipes.add((RecipeVanilla) e.getValue());
         }
     }
 }

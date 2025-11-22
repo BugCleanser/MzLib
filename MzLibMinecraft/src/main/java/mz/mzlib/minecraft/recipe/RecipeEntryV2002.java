@@ -35,11 +35,11 @@ public interface RecipeEntryV2002 extends WrapperObject
     }
 
     Identifier getId();
-    @SpecificImpl("getKey")
+    @SpecificImpl("getId")
     @VersionRange(end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
     Identifier getKeyV_2102();
-    @SpecificImpl("getKey")
+    @SpecificImpl("getId")
     @VersionRange(begin = 2102)
     default Identifier getIdV2102()
     {
