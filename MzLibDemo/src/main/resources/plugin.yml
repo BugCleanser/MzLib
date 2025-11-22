@@ -2,6 +2,6 @@ name: MzLibDemo
 version: ${version}
 authors:
   - "mz"
-main: mz.mzlib.demo.DemoBukkit
+main: mz.mzlib.demo.entrypoint.DemoBukkit
 depend: [ MzLib ]
 api-version: 1.13

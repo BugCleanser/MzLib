@@ -1,5 +1,6 @@
-package mz.mzlib.demo;
+package mz.mzlib.demo.entrypoint;
 
+import mz.mzlib.demo.Demo;
 import mz.mzlib.minecraft.vanilla.MzLibMinecraftInitializer;
 import mz.mzlib.minecraft.vanilla.ServerModule;
 import mz.mzlib.module.MzModule;

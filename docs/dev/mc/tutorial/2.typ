@@ -14,7 +14,7 @@
 name: MzLibDemo
 version: 0.1
 authors: [ mz ]
-main: mz.mzlib.demo.DemoBukkit
+main: mz.mzlib.demo.entrypoint.DemoBukkit
 depend: [ MzLib ]
 api-version: 1.13
 ```
@@ -46,7 +46,7 @@ public class Demo extends MzModule
 法一：调用load与unload
 
 ```java
-public class DemoPlugin extends JavaPlugin
+public class DemoBukkit extends JavaPlugin
 {
     @Override
     public void onEnable()
@@ -67,7 +67,7 @@ public class DemoPlugin extends JavaPlugin
 在这种情况下，MzLib作为它的父模块，MzLib卸载时它也会被一起卸载
 
 ```java
-public class DemoPlugin extends JavaPlugin
+public class DemoBukkit extends JavaPlugin
 {
     @Override
     public void onEnable()
