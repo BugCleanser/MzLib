@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
@@ -45,12 +45,12 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
     @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
     Text getDisplayNameV1400();
 
-    Window createWindow(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
+    Window createWindow(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
     @WrapMinecraftMethod(@VersionName(name = "createScreenHandler", end = 1400))
-    Window createWindowV_1400(InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
+    Window createWindowV_1400(InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
     @SpecificImpl("createWindow")
     @VersionRange(end = 1400)
-    default Window createWindowV_1400(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player)
+    default Window createWindowV_1400(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player)
     {
         return createWindowV_1400(inventoryPlayer, player);
     }
@@ -59,7 +59,7 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
     default Window createWindowSpecificImplV1400(
         int syncId,
         InventoryPlayer inventoryPlayer,
-        AbstractEntityPlayer player)
+        EntityPlayerAbstract player)
     {
         return this.createWindowV1400(syncId, inventoryPlayer, player);
     }

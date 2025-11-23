@@ -21,7 +21,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
     @VersionName(end = 1400, name = "net.minecraft.entity.player.ServerPlayerEntity"),
     @VersionName(begin = 1400, name = "net.minecraft.server.network.ServerPlayerEntity")
 })
-public interface EntityPlayer extends WrapperObject, AbstractEntityPlayer
+public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
 {
     WrapperFactory<EntityPlayer> FACTORY = WrapperFactory.of(EntityPlayer.class);
     @Deprecated

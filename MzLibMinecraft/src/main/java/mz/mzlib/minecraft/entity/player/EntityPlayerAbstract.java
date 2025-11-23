@@ -22,14 +22,14 @@ import mz.mzlib.util.wrapper.WrapperObject;
 import java.util.OptionalInt;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.player.PlayerEntity"))
-public interface AbstractEntityPlayer extends WrapperObject, EntityLiving
+public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
 {
-    WrapperFactory<AbstractEntityPlayer> FACTORY = WrapperFactory.of(AbstractEntityPlayer.class);
+    WrapperFactory<EntityPlayerAbstract> FACTORY = WrapperFactory.of(EntityPlayerAbstract.class);
     @Deprecated
     @WrapperCreator
-    static AbstractEntityPlayer create(Object wrapped)
+    static EntityPlayerAbstract create(Object wrapped)
     {
-        return WrapperObject.create(AbstractEntityPlayer.class, wrapped);
+        return WrapperObject.create(EntityPlayerAbstract.class, wrapped);
     }
 
     @WrapMinecraftMethod(@VersionName(name = "getGameProfile"))

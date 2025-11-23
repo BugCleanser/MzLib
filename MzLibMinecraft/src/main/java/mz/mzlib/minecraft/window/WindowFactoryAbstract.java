@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -63,5 +63,5 @@ public interface WindowFactoryAbstract extends WrapperObject
     Text getDisplayNameV1300_1400();
 
     @WrapMinecraftMethod(@VersionName(name = "createMenu", begin = 1400))
-    Window createWindowV1400(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
+    Window createWindowV1400(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
 }

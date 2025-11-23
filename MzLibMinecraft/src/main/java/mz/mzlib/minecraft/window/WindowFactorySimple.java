@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
@@ -126,14 +126,14 @@ public interface WindowFactorySimple extends WindowFactory
 
     @CompoundOverride(parent = WindowFactory.class, method = "createWindowV_1400")
     @VersionRange(end = 1400)
-    default Window createWindowV_1400(InventoryPlayer inventoryPlayer, AbstractEntityPlayer player)
+    default Window createWindowV_1400(InventoryPlayer inventoryPlayer, EntityPlayerAbstract player)
     {
         return this.getWindowCreator().apply(-1, inventoryPlayer);
     }
 
     @CompoundOverride(parent = WindowFactory.class, method = "createWindowV1400")
     @VersionRange(begin = 1400)
-    default Window createWindowV1400(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player)
+    default Window createWindowV1400(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player)
     {
         return this.getWindowCreator().apply(syncId, inventoryPlayer);
     }

@@ -2,11 +2,12 @@ package mz.mzlib.minecraft.item;
 
 import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
@@ -27,6 +28,7 @@ import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.ItemStack"))
 public interface ItemStack extends WrapperObject
@@ -68,7 +70,7 @@ public interface ItemStack extends WrapperObject
         <T> Builder data(DataKey<ItemStack, T, ?> key, T value);
         StepLore lore();
 
-        Builder playerHead();
+        StepPlayerHead playerHead();
         Builder.StepColor colored(String idV_1300, String baseIdV1300);
         Builder.StepColor colored(String baseId);
         Builder.StepColor dye();
@@ -100,6 +102,31 @@ public interface ItemStack extends WrapperObject
             default ItemStack build()
             {
                 return this.finish().build();
+            }
+        }
+
+        interface StepPlayerHead
+        {
+            Builder gameProfile(GameProfile.Description description);
+            default Builder textures(Option<String> name, Option<UUID> uuid, String textures)
+            {
+                return this.gameProfile(GameProfile.Description.textures(name, uuid, textures));
+            }
+            default Builder texturesUrl(UUID uuid, String value)
+            {
+                return this.gameProfile(GameProfile.Description.texturesUrl(Option.none(), Option.some(uuid), value));
+            }
+            default Builder texturesUrl(String value)
+            {
+                return this.gameProfile(GameProfile.Description.texturesUrl(value));
+            }
+            default Builder textures(UUID uuid, String value)
+            {
+                return this.gameProfile(GameProfile.Description.textures(Option.none(), Option.some(uuid), value));
+            }
+            default Builder textures(String value)
+            {
+                return this.gameProfile(GameProfile.Description.textures(value));
             }
         }
 
@@ -355,13 +382,13 @@ public interface ItemStack extends WrapperObject
 
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "onStartUse"))
-    ItemStack useV_900(World world, AbstractEntityPlayer player);
+    ItemStack useV_900(World world, EntityPlayerAbstract player);
     @VersionRange(begin = 900, end = 2102)
     @WrapMinecraftMethod({ @VersionName(name = "method_11390", end = 1400), @VersionName(name = "use", begin = 1400) })
-    TypedActionResultV900_2102<?> use0V900_2102(World world, AbstractEntityPlayer player, Hand hand);
+    TypedActionResultV900_2102<?> use0V900_2102(World world, EntityPlayerAbstract player, Hand hand);
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "use"))
-    ActionResult useV2102(World world, AbstractEntityPlayer player, Hand hand);
+    ActionResult useV2102(World world, EntityPlayerAbstract player, Hand hand);
 
     /**
      * Shadow clone

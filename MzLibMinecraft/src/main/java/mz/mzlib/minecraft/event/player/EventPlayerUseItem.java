@@ -4,7 +4,7 @@ import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.TesterContextPlayer;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.entity.player.Hand;
@@ -109,7 +109,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
     {
         default boolean handleBegin(
             WrapperObject.Generic<EventPlayerUseItem> event,
-            AbstractEntityPlayer player,
+            EntityPlayerAbstract player,
             Hand hand)
         {
             event.setWrapped(new EventPlayerUseItem(player.as(EntityPlayer.FACTORY), hand, this));
@@ -129,11 +129,11 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(end = 900)
         @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class
+            EntityPlayerAbstract.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default ItemStack useV_900$begin(
             @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
-            @LocalVar(2) AbstractEntityPlayer player)
+            @LocalVar(2) EntityPlayerAbstract player)
         {
             if(handleBegin(event, player, Hand.mainHand()))
                 return Nothing.notReturn();
@@ -142,7 +142,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(end = 900)
         @NothingInject(wrapperMethodName = "useV_900", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class
+            EntityPlayerAbstract.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
         default ItemStack useV_900$end(
             @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
@@ -162,12 +162,12 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(begin = 900, end = 2102)
         @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class,
+            EntityPlayerAbstract.class,
             Hand.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default TypedActionResultV900_2102<?> use0V900_2102$begin(
             @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
-            @LocalVar(2) AbstractEntityPlayer player,
+            @LocalVar(2) EntityPlayerAbstract player,
             @LocalVar(3) Hand hand)
         {
             if(handleBegin(event, player, hand))
@@ -177,7 +177,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(begin = 900, end = 2102)
         @NothingInject(wrapperMethodName = "use0V900_2102", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class,
+            EntityPlayerAbstract.class,
             Hand.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
         default TypedActionResultV900_2102<?> use0V900_2102$end(
@@ -201,12 +201,12 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(begin = 2102)
         @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class,
+            EntityPlayerAbstract.class,
             Hand.class
         }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default ActionResult useV2102$begin(
             @CustomVar("eventUse") WrapperObject.Generic<EventPlayerUseItem> event,
-            @LocalVar(2) AbstractEntityPlayer player,
+            @LocalVar(2) EntityPlayerAbstract player,
             @LocalVar(3) Hand hand)
         {
             if(handleBegin(event, player, hand))
@@ -216,7 +216,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         @VersionRange(begin = 2102)
         @NothingInject(wrapperMethodName = "useV2102", wrapperMethodParams = {
             World.class,
-            AbstractEntityPlayer.class,
+            EntityPlayerAbstract.class,
             Hand.class
         }, locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE)
         default ActionResult useV2102$end(

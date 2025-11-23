@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -104,9 +104,9 @@ public interface WindowSlot extends WrapperObject
     void setItemStack(ItemStack itemStack);
 
     @WrapMinecraftMethod(@VersionName(name = "canTakeItems"))
-    boolean canTake(AbstractEntityPlayer player);
+    boolean canTake(EntityPlayerAbstract player);
     @WrapMinecraftMethod(@VersionName(name = "canTakePartial", begin = 1700))
-    boolean canTakePartialV1700(AbstractEntityPlayer player);
+    boolean canTakePartialV1700(EntityPlayerAbstract player);
 
     @WrapMinecraftMethod(@VersionName(name = "canInsert"))
     boolean canPlace(ItemStack itemStack);
@@ -125,7 +125,7 @@ public interface WindowSlot extends WrapperObject
     @VersionRange(end = 1100)
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod(@VersionName(name = "onTakeItem"))
-    void onTakeV_1100__1700(AbstractEntityPlayer player, ItemStack itemStack);
+    void onTakeV_1100__1700(EntityPlayerAbstract player, ItemStack itemStack);
     /**
      * @return the item stack in the parameters
      */
@@ -134,7 +134,7 @@ public interface WindowSlot extends WrapperObject
         @VersionName(name = "method_3298", end = 1400),
         @VersionName(name = "onTakeItem", begin = 1400)
     })
-    ItemStack onTakeV1100_1700(AbstractEntityPlayer player, ItemStack itemStack);
+    ItemStack onTakeV1100_1700(EntityPlayerAbstract player, ItemStack itemStack);
 
     default void setItemStackByPlayer(ItemStack itemStack)
     {

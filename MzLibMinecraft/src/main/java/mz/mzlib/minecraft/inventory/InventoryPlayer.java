@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.inventory;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -21,7 +21,7 @@ public interface InventoryPlayer extends WrapperObject, Inventory
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "player"))
-    AbstractEntityPlayer getPlayer();
+    EntityPlayerAbstract getPlayer();
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "selectedSlot"))
     int getHandIndex();

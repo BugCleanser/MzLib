@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.ui.window;
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindowAction;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
@@ -12,6 +13,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.Ui;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 
@@ -87,6 +89,10 @@ public abstract class UiWindow implements Ui
         this.putSlot(index, MzItemIconPlaceholder.slot);
         this.putIcon0(index, event -> event.setItemStack(icon.apply(event.getPlayer())));
     }
+    public void putIconEmpty(int index)
+    {
+        this.putIcon(index, player -> ItemStack.empty());
+    }
 
     public void putButton(int index, ButtonHandler handler)
     {
@@ -139,7 +145,7 @@ public abstract class UiWindow implements Ui
     }
 
     /**
-     * @see WindowAbstract#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
+     * @see WindowAbstract#onAction(int, int, WindowActionType, EntityPlayerAbstract)
      */
     public void onAction(WindowUiWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {
@@ -165,6 +171,10 @@ public abstract class UiWindow implements Ui
             (syncId, inventoryPlayer) -> WindowUiWindow.newInstance(this, player, syncId)
         ).open(player);
         player.updateWindow();
+    }
+    public void reopen()
+    {
+        UiStack.getViewers(this).forEach(this::open);
     }
 
     public static class Module extends MzModule

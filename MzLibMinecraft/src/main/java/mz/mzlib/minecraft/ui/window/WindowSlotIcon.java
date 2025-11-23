@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.ui.window;
 
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.WindowSlot;
@@ -43,7 +43,7 @@ public interface WindowSlotIcon extends WindowSlot
 
     @Override
     @CompoundOverride(parent = WindowSlot.class, method = "canTake")
-    default boolean canTake(AbstractEntityPlayer player)
+    default boolean canTake(EntityPlayerAbstract player)
     {
         return false;
     }

@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
@@ -79,7 +79,7 @@ public interface Window extends WrapperObject
     boolean placeIn(ItemStack itemStack, int begin, int end, boolean inverted);
 
     @WrapMinecraftMethod({ @VersionName(name = "close", end = 1904), @VersionName(name = "onClosed", begin = 1904) })
-    void onClosed(AbstractEntityPlayer player);
+    void onClosed(EntityPlayerAbstract player);
 
     @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
     @WrapMinecraftMethod(@VersionName(name = "getBukkitView"))
@@ -92,19 +92,19 @@ public interface Window extends WrapperObject
         @VersionName(name = "transferSlot", end = 1903),
         @VersionName(name = "quickMove", begin = 1903)
     })
-    ItemStack quickMove(AbstractEntityPlayer player, int index);
+    ItemStack quickMove(EntityPlayerAbstract player, int index);
 
     @WrapMinecraftMethod(@VersionName(name = "canUse"))
-    boolean checkReachable(AbstractEntityPlayer player);
+    boolean checkReachable(EntityPlayerAbstract player);
 
     @WrapMinecraftMethod({
         @VersionName(name = "onSlotClick", end = 900),
         @VersionName(name = "method_3252", begin = 900, end = 1400),
         @VersionName(name = "onSlotClick", begin = 1400, end = 1700)
     })
-    ItemStack onActionV_1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    ItemStack onActionV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
     @WrapMinecraftMethod(@VersionName(name = "onSlotClick", begin = 1700))
-    void onActionV1700(int index, int data, WindowActionType actionType, AbstractEntityPlayer player);
+    void onActionV1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
 
     @WrapMinecraftMethod(@VersionName(name = "nextRevision", begin = 1701))
     int nextRevisionV1701();

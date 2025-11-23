@@ -40,8 +40,13 @@ public interface PlayerManager extends WrapperObject
         return new ListProxy<>(this.getPlayers0(), FunctionInvertible.wrapper(EntityPlayer.FACTORY));
     }
 
+    default Option<EntityPlayer> getPlayer(String name)
+    {
+        return Option.fromWrapper(this.getPlayer0(name));
+    }
+
     @WrapMinecraftMethod(@VersionName(name = "getPlayer"))
-    EntityPlayer getPlayer(String name);
+    EntityPlayer getPlayer0(String name);
 
     @VersionRange(end = 2002)
     @WrapMinecraftMethod({

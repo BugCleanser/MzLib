@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
@@ -60,9 +61,9 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     }
 
     @Override
-    public ItemStackBuilderImpl playerHead()
+    public StepPlayerHead playerHead()
     {
-        return this.fromId("skull", 3, "player_head");
+        return new StepPlayerHead(this);
     }
 
     @Override
@@ -193,6 +194,20 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         public ItemStackBuilderImpl finish()
         {
             return this.base.data(Item.LORE, Option.some(this.lines));
+        }
+    }
+
+    static class StepPlayerHead implements ItemStack.Builder.StepPlayerHead
+    {
+        ItemStackBuilderImpl base;
+        StepPlayerHead(ItemStackBuilderImpl base)
+        {
+            this.base = base.fromId("skull", 3, "player_head");
+        }
+        @Override
+        public ItemStackBuilderImpl gameProfile(GameProfile.Description description)
+        {
+            return this.base.data(ItemPlayerHead.OWNER, Option.some(description));
         }
     }
 
