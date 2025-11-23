@@ -16,6 +16,7 @@ import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.minecraft.text.TextTranslatable;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -65,6 +66,7 @@ public interface ItemStack extends WrapperObject
         Builder fromId(String idV_1300, int damageV_1300, String idV1300);
 
         <T> Builder data(DataKey<ItemStack, T, ?> key, T value);
+        StepLore lore();
 
         Builder playerHead();
         Builder.StepColor colored(String idV_1300, String baseIdV1300);
@@ -81,6 +83,25 @@ public interface ItemStack extends WrapperObject
         Builder.StepColor concreteV1200();
         Builder.StepColor concretePowderV1200();
         Builder.StepColor glazedTerracottaV1200();
+
+        default Builder customName(Text value)
+        {
+            return this.data(Item.CUSTOM_NAME, Option.some(value));
+        }
+        default Builder emptyName()
+        {
+            return this.customName(Text.literal("").setColor(TextColor.BLACK));
+        }
+
+        interface StepLore
+        {
+            StepLore line(Text value);
+            Builder finish();
+            default ItemStack build()
+            {
+                return this.finish().build();
+            }
+        }
 
         interface StepColor
         {

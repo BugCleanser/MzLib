@@ -3,9 +3,13 @@ package mz.mzlib.minecraft.item;
 import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class ItemStackBuilderImpl implements ItemStack.Builder
@@ -49,6 +53,11 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         this.data.put(key, RuntimeUtil.cast(value));
         return this;
     }
+    @Override
+    public StepLore lore()
+    {
+        return new StepLore(this);
+    }
 
     @Override
     public ItemStackBuilderImpl playerHead()
@@ -66,7 +75,6 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     {
         return new StepColor(this, baseId);
     }
-
     @Override
     public StepColor dye()
     {
@@ -164,6 +172,27 @@ class ItemStackBuilderImpl implements ItemStack.Builder
             ItemStack result = super.build();
             result.setDamageV_1300(this.damage);
             return result;
+        }
+    }
+
+    static class StepLore implements ItemStack.Builder.StepLore
+    {
+        ItemStackBuilderImpl base;
+        List<Text> lines = new ArrayList<>();
+        StepLore(ItemStackBuilderImpl base)
+        {
+            this.base = base;
+        }
+        @Override
+        public ItemStack.Builder.StepLore line(Text value)
+        {
+            this.lines.add(value);
+            return this;
+        }
+        @Override
+        public ItemStackBuilderImpl finish()
+        {
+            return this.base.data(Item.LORE, Option.some(this.lines));
         }
     }
 
