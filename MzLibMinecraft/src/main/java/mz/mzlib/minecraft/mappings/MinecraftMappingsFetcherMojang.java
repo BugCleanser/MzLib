@@ -25,7 +25,7 @@ import java.util.stream.StreamSupport;
 public class MinecraftMappingsFetcherMojang implements MinecraftMappingsFetcher
 {
     /**
-     * 此答辩由mz拉
+     * 此答辩由 mz 拉
      *
      * @author MZ
      */

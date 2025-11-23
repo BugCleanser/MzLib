@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     button.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
-                console.error('复制失败:', err);
+                console.error('复制失败：', err);
             });
         });
     });

@@ -21,11 +21,11 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 > 本插件同时在 [Mcbbs](https://www.mcbbs.net/thread-1250793-1-1.html) 上发布。
 
 ## 特性
-- **多语言支持!** MzLib 将自动获取每个玩家客户端所设置的语言并用于显示！
-- **地图画支持!** MzLib 提供了地图画相关的 API，并支持从图片文件加载地图画！
-- **附魔支持!** MzLib 附魔指令支持多语言，且代理附魔显示，将原版乱码替代为罗马数字与阿拉伯数字！
-- **掉落物名称显示!** MzLib 通过网络数据包修改实时显示掉落物名称，不会影响实体本身的数据，且支持多语言！
-- **手持物品展示!** MzLib 通过网络数据包修改将聊天消息中的 `%i` 替换为手中物品信息，并支持修改更多命令参数！
+- **多语言支持！** MzLib 将自动获取每个玩家客户端所设置的语言并用于显示！
+- **地图画支持！** MzLib 提供了地图画相关的 API，并支持从图片文件加载地图画！
+- **附魔支持！** MzLib 附魔指令支持多语言，且代理附魔显示，将原版乱码替代为罗马数字与阿拉伯数字！
+- **掉落物名称显示！** MzLib 通过网络数据包修改实时显示掉落物名称，不会影响实体本身的数据，且支持多语言！
+- **手持物品展示！** MzLib 通过网络数据包修改将聊天消息中的 `%i` 替换为手中物品信息，并支持修改更多命令参数！
 
 更多特性、功能、效果展示及插件配置详见 [Wiki](https://github.com/BugCleanser/MzLib/wiki)。
 
@@ -56,7 +56,7 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 
 ### FAQ
 - Q: `PlugManX`依赖下载失败如何解决？
-- A: 请参考此教程: [CSDN](https://blog.csdn.net/cxxxxxxxxxxxxx/article/details/106152542)
+- A: 请参考此教程：[CSDN](https://blog.csdn.net/cxxxxxxxxxxxxx/article/details/106152542)
 
 ## 附属插件
 - (官方) LoginAUI 铁砧登录页面 [Mcbbs](https://www.mcbbs.net/thread-1324546-1-1.html)
@@ -116,4 +116,4 @@ MzLib 是一个基于 Bukkit 平台的开发类库，同时自带许多基础功
 </details>
 
 ## 鸣谢
-- https://gitlab.ow2.org/asm/asm （本项目中包含的部分代码来源）
+- https://gitlab.ow2.org/asm/asm（本项目中包含的部分代码来源）

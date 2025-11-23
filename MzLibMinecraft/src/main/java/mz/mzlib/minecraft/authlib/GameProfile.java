@@ -139,9 +139,9 @@ public interface GameProfile extends WrapperObject
     }
 
     /**
-     * 指定properties，或由id或name得到
-     * id比name优先
-     * 在低版本，至少要有name或id
+     * 指定 properties，或由 id 或 name 得到
+     * id 比 name 优先
+     * 在低版本，至少要有 name 或 id
      */
     class Description
     {
