@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.ui.book;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
+import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -43,7 +44,7 @@ public abstract class UiWrittenBook implements Ui
     @Override
     public void open(EntityPlayer player)
     {
-        player.openBook(ItemStack.factory()
+        player.openBook(ItemStack.builder()
             .fromId("written_book")
             .data(ItemWrittenBook.TITLE, "UIWrittenBook")
             .data(ItemWrittenBook.AUTHOR, "UIWrittenBook")
@@ -67,7 +68,8 @@ public abstract class UiWrittenBook implements Ui
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(
+            this.register(new ChildCommandRegistration(
+                MzLibMinecraft.instance.command,
                 this.command = new Command("book_click").setPermissionCheckers(
                     Command::checkPermissionSenderPlayer,
                     source -> UiStack.get(source.getPlayer().unwrap()).top() instanceof UiWrittenBook ?
@@ -93,13 +95,8 @@ public abstract class UiWrittenBook implements Ui
                         return;
                     }
                     buttons.get(button).accept(sender);
-                }));
-        }
-
-        @Override
-        public void onUnload()
-        {
-            MzLibMinecraft.instance.command.removeChild(this.command);
+                })
+            ));
         }
     }
 }

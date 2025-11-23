@@ -1,9 +1,7 @@
 package mz.mzlib.minecraft.item;
 
-import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.data.DataKey;
+import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
@@ -56,9 +54,107 @@ public interface ItemStack extends WrapperObject
         return type.toItemStack(count);
     }
 
-    static ItemStackFactory factory()
+    interface Builder
     {
-        return new ItemStackFactory();
+        ItemStack build();
+        Builder item(Item value);
+        Builder fromId(Identifier id);
+        Builder fromId(String id);
+
+        ItemStack.Builder damageV_1300(int value);
+        Builder fromId(String idV_1300, int damageV_1300, String idV1300);
+
+        <T> Builder data(DataKey<ItemStack, T, ?> key, T value);
+
+        Builder playerHead();
+        Builder.StepColor colored(String idV_1300, String baseIdV1300);
+        Builder.StepColor colored(String baseId);
+        Builder.StepColor dye();
+        Builder.StepColor wool();
+        Builder.StepColor stainedGlass();
+        Builder.StepColor stainedGlassPane();
+        Builder.StepColor terracotta();
+        Builder.StepColor carpet();
+        Builder.StepColor banner();
+        Builder.StepColor shulkerBoxV1100();
+        Builder.StepColor bedV1200();
+        Builder.StepColor concreteV1200();
+        Builder.StepColor concretePowderV1200();
+        Builder.StepColor glazedTerracottaV1200();
+
+        interface StepColor
+        {
+            StepColor reversed();
+            Builder color(String value);
+            default Builder white()
+            {
+                return this.color("white");
+            }
+            default Builder orange()
+            {
+                return this.color("orange");
+            }
+            default Builder magenta()
+            {
+                return this.color("magenta");
+            }
+            default Builder lightBlue()
+            {
+                return this.color("light_blue");
+            }
+            default Builder yellow()
+            {
+                return this.color("yellow");
+            }
+            default Builder lime()
+            {
+                return this.color("lime");
+            }
+            default Builder pink()
+            {
+                return this.color("pink");
+            }
+            default Builder gray()
+            {
+                return this.color("gray");
+            }
+            default Builder lightGray()
+            {
+                return this.color("light_gray");
+            }
+            default Builder cyan()
+            {
+                return this.color("cyan");
+            }
+            default Builder purple()
+            {
+                return this.color("purple");
+            }
+            default Builder blue()
+            {
+                return this.color("blue");
+            }
+            default Builder brown()
+            {
+                return this.color("brown");
+            }
+            default Builder green()
+            {
+                return this.color("green");
+            }
+            default Builder red()
+            {
+                return this.color("red");
+            }
+            default Builder black()
+            {
+                return this.color("black");
+            }
+        }
+    }
+    static Builder builder()
+    {
+        return FACTORY.getStatic().static$builder();
     }
 
     @VersionRange(begin = 1600)
@@ -354,6 +450,20 @@ public interface ItemStack extends WrapperObject
     default ItemStack static$newInstanceV1300(Item item)
     {
         return static$newInstanceV1300((ItemConvertibleV1300) item.castTo(Item.V1300.FACTORY));
+    }
+
+    ItemStack.Builder static$builder();
+    @SpecificImpl("static$builder")
+    @VersionRange(end = 1300)
+    default ItemStack.Builder static$builderV_1300()
+    {
+        return new ItemStackBuilderImpl.V_1300();
+    }
+    @SpecificImpl("static$builder")
+    @VersionRange(begin = 1300)
+    default ItemStack.Builder static$builderV1300()
+    {
+        return new ItemStackBuilderImpl();
     }
 
     static CodecV1600<?> codec0V1600()

@@ -44,6 +44,15 @@ public abstract class UiWindow implements Ui
     public Map<Integer, Consumer<EventAsyncPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
 
+    public WindowType getWindowType()
+    {
+        return this.windowType;
+    }
+    public Inventory getInventory()
+    {
+        return this.inventory;
+    }
+
     public void clear()
     {
         this.inventory.clear();

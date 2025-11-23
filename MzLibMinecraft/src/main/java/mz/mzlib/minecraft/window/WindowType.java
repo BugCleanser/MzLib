@@ -46,6 +46,11 @@ public class WindowType
         this.upperSize = upperSize;
     }
 
+    public int getSize()
+    {
+        return this.upperSize;
+    }
+
     public WindowType(String typeIdV_1400, String typeIdV1400, int upperSize)
     {
         this(

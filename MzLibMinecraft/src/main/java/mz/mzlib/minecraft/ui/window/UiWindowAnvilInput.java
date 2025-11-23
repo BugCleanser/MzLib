@@ -31,7 +31,7 @@ public abstract class UiWindowAnvilInput extends UiWindowAnvil
         this.text = initial;
 
         this.putButton(
-            0, player -> ItemStack.factory().fromId("name_tag").data(
+            0, player -> ItemStack.builder().fromId("name_tag").data(
                     Item.CUSTOM_NAME,
                     Option.some(Text.literal(this.prefix + this.initial))
                 )
@@ -46,14 +46,14 @@ public abstract class UiWindowAnvilInput extends UiWindowAnvil
             })
         );
         this.putButton(
-            1, player -> ItemStack.factory().fromId("torch").data(
+            1, player -> ItemStack.builder().fromId("torch").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back"))
             ).build(),
             (player, actionType, data) -> UiStack.get(player).back()
         );
         this.putButton(
-            2, player -> ItemStack.factory().fromId("slime_ball").data(
+            2, player -> ItemStack.builder().fromId("slime_ball").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done"))
             ).build(),

@@ -63,11 +63,11 @@ public class Demo extends MzModule
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
                         Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
-                .result(ItemStack.factory().fromId("apple").build()).buildRegistration());
+                .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
             this.register(RecipeSmelting.builder()
                 .id(Identifier.newInstance("mzlib:test_smelting"))
                 .ingredient(ItemStack.newInstance(Item.fromId("stick")))
-                .result(ItemStack.factory().fromId("apple").build())
+                .result(ItemStack.builder().fromId("apple").build())
                 .experience(100.f)
                 .buildRegistration());
         }

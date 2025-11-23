@@ -59,12 +59,12 @@ public class Tictactoe extends MzModule
         {
             super(WindowType.CRAFTING, 10);
 
-            PLAYER = ItemStack.factory().fromId(
+            PLAYER = ItemStack.builder().fromId(
                 MinecraftPlatform.instance.getVersion() < 1000 ? "ender_eye" : "structure_void").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.player"))
             ).build();
-            AI = ItemStack.factory().fromId("barrier").data(
+            AI = ItemStack.builder().fromId("barrier").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player.getLanguage(), "mzlibdemo.game.tictactoe.piece.ai"))
             ).build();

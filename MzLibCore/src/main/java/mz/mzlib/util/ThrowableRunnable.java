@@ -25,4 +25,11 @@ public interface ThrowableRunnable<E extends Throwable> extends Runnable
     {
         return value::run;
     }
+
+    static ThrowableRunnable<RuntimeException> nothing()
+    {
+        return () ->
+        {
+        };
+    }
 }

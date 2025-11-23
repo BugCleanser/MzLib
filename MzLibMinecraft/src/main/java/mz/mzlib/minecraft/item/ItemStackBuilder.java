@@ -9,7 +9,7 @@ import mz.mzlib.util.*;
 import java.util.*;
 
 /**
- * @see ItemStack#factory()
+ * @see ItemStack#builder()
  */
 @Deprecated
 public class ItemStackBuilder implements Copyable<ItemStackBuilder>
