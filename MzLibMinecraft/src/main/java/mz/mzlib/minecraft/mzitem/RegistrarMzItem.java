@@ -11,6 +11,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
@@ -18,7 +19,16 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     public static RegistrarMzItem instance = new RegistrarMzItem();
 
     public Map<Identifier, WrapperFactory<? extends MzItem>> factories = new ConcurrentHashMap<>();
+    Map<Class<? extends MzItem>, WrapperFactory<? extends MzItem>> cache = new WeakHashMap<>();
 
+    public <T extends MzItem> T newMzItem(Class<T> type)
+    {
+        return newMzItem(type, NbtCompound.newInstance());
+    }
+    public <T extends MzItem> T newMzItem(Class<T> type, NbtCompound data)
+    {
+        return newMzItem(RuntimeUtil.<WrapperFactory<T>>cast(cache.computeIfAbsent(type, WrapperFactory::of)), data);
+    }
     public MzItem newMzItem(Identifier id) throws IllegalArgumentException
     {
         return this.newMzItem(id, NbtCompound.newInstance());
@@ -28,7 +38,11 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
         WrapperFactory<? extends MzItem> factory = this.factories.get(id);
         if(factory == null)
             throw new IllegalArgumentException();
-        MzItem result = factory.getStatic().static$vanilla().as(factory);
+        return newMzItem(factory, data);
+    }
+    public <T extends MzItem> T newMzItem(WrapperFactory<T> factory, NbtCompound data)
+    {
+        T result = factory.getStatic().static$vanilla().as(factory);
         result.init(data);
         return result;
     }

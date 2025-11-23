@@ -9,6 +9,7 @@ import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.window.*;
@@ -61,6 +62,10 @@ public abstract class UiWindow implements Ui
         this.icons.clear();
     }
 
+    public void putSlot(int index, WindowSlot slot)
+    {
+        this.putSlot(index, (inv, i) -> slot);
+    }
     public void putSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
         this.slots.put(index, slotCreator);
@@ -79,12 +84,12 @@ public abstract class UiWindow implements Ui
 
     public void putIcon(int index, Function<EntityPlayer, ItemStack> icon)
     {
+        this.putSlot(index, MzItemIconPlaceholder.slot);
         this.putIcon0(index, event -> event.setItemStack(icon.apply(event.getPlayer())));
     }
 
     public void putButton(int index, ButtonHandler handler)
     {
-        this.putSlot(index, WindowSlotButton::newInstance);
         this.buttons.put(index, handler);
     }
     public void putButton(int index, Function<EntityPlayer, ItemStack> icon, ButtonHandler handler)
@@ -170,43 +175,46 @@ public abstract class UiWindow implements Ui
         public void onLoad()
         {
             this.register(new EventListener<>(
-                EventAsyncWindowClose.class, Priority.VERY_LOW, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
-                    return;
-                window.castTo(WindowUiWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
-            })
+                EventAsyncWindowClose.class, Priority.VERY_LOW,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    window.castTo(WindowUiWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
+                })
             ));
             this.register(new EventListener<>(
-                EventAsyncWindowAction.class, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
-                    return;
-                UiWindow ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
-                ButtonHandler button = ui.buttons.get(event.getSlotIndex());
-                if(button != null)
-                    button.onClick(event.getPlayer(), event.getActionType(), event.getData());
-            })
+                EventAsyncWindowAction.class,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    UiWindow ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                    ButtonHandler button = ui.buttons.get(event.getSlotIndex());
+                    if(button != null)
+                        button.onClick(event.getPlayer(), event.getActionType(), event.getData());
+                })
             ));
             this.register(new EventListener<>(
-                EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
-                    return;
-                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUiWindow.FACTORY)
-                    .getUIWindow().icons.get(event.getSlotIndex());
-                if(icon != null)
-                    icon.accept(event);
-            })
+                EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUiWindow.FACTORY)
+                        .getUIWindow().icons.get(event.getSlotIndex());
+                    if(icon != null)
+                        icon.accept(event);
+                })
             ));
         }
     }

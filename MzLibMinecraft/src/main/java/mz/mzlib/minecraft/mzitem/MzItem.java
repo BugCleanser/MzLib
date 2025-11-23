@@ -113,6 +113,7 @@ public interface MzItem extends ItemStack
             this.register(MzItemUsable.Module.instance);
 
             this.register(MzItemDebugStick.class);
+            this.register(MzItemIconPlaceholder.class);
         }
 
         public void onAsyncPlayerDisplayItem(EventAsyncPlayerDisplayItem<?> event)

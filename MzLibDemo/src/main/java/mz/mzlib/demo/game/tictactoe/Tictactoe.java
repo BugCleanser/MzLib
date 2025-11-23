@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.ui.window.UiWindow;
-import mz.mzlib.minecraft.ui.window.WindowSlotButton;
+import mz.mzlib.minecraft.ui.window.WindowSlotIcon;
 import mz.mzlib.minecraft.ui.window.WindowUiWindow;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
@@ -72,7 +72,7 @@ public class Tictactoe extends MzModule
             this.putSlot(0, WindowSlotOutput::newInstance);
             for(int i = 0; i < 9; i++)
             {
-                this.putSlot(1 + i, WindowSlotButton::newInstance);
+                this.putSlot(1 + i, WindowSlotIcon::newInstance);
             }
         }
 
