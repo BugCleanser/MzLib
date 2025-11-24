@@ -3,6 +3,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("application")
 }
 
 apply(from = "gradle/utils.gradle.kts")
@@ -10,7 +11,6 @@ apply(from = "gradle/utils.gradle.kts")
 // === 从 extra 取出函数和路径 ===
 val docsDir: File by extra
 val deployDir: File by extra
-val metaFile: File by extra
 
 val findTypstInPath = extra["findTypstInPath"] as () -> File?
 val copyFilesRecursively = extra["copyFilesRecursively"] as (File, File, String?) -> Unit
@@ -146,6 +146,28 @@ tasks.register("validateDeploy") {
         deployDir.walkTopDown().filter { it.isFile }.sortedBy { it.absolutePath }.forEach { println(it) }
         val htmlCount = deployDir.walkTopDown().count { it.extension == "html" }
         println("\n✅ HTML files found: $htmlCount")
+    }
+}
+
+// === 任务：启动 HTTP 预览服务器 ===
+tasks.register("serveDocs") {
+    group = "docs"
+    description = "启动 HTTP 服务器预览 deploy 目录"
+
+    dependsOn("buildDocs", ":MzLibDemo:build")
+
+    doLast {
+        val port = 8080
+
+        // 使用 JavaExec 任务运行 SimpleDocsServer
+        javaexec {
+            mainClass.set("mz.mzlib.demo.SimpleDocsServer")
+            classpath = project(":MzLibDemo").sourceSets["main"].output
+            args(deployDir.parent, port.toString())
+            standardInput = System.`in`
+            standardOutput = System.out
+            errorOutput = System.err
+        }
     }
 }
 
