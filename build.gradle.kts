@@ -162,7 +162,7 @@ tasks.register("serveDocs") {
         // 使用 JavaExec 任务运行 SimpleDocsServer
         javaexec {
             mainClass.set("mz.mzlib.demo.SimpleDocsServer")
-            classpath = project(":MzLibDemo").sourceSets["main"].output
+            classpath = project(":MzLibDemo").sourceSets["main"].runtimeClasspath
             args(deployDir.parent, port.toString())
             standardInput = System.`in`
             standardOutput = System.out

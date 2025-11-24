@@ -1,128 +1,129 @@
 package mz.mzlib.demo;
 
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpExchange;
-import java.io.*;
-import java.net.InetSocketAddress;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.RoutingContext;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SimpleDocsServer {
+    private static String deployDir;
+    private static Vertx vertx;
+    
     public static void main(String[] args) {
         if (args.length < 2) {
             System.err.println("Usage: java mz.mzlib.demo.SimpleDocsServer <deployDir> <port>");
             System.exit(1);
         }
         
-        String deployDir = args[0];
+        deployDir = args[0];
         int port = Integer.parseInt(args[1]);
         
-        try {
-            new SimpleDocsServer(deployDir, port);
-        } catch (IOException e) {
-            System.err.println("Failed to start server: " + e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
-        }
+        // 创建 Vert.x 实例
+        vertx = Vertx.vertx();
+        
+        // 部署服务器 Verticle
+        vertx.deployVerticle(new ServerVerticle(port)).onComplete(res -> {
+            if (res.succeeded()) {
+                System.out.println("✅ Server started successfully on port " + port);
+                System.out.println("📁 Serving deploy directory: " + deployDir);
+                System.out.println("🌐 Open http://localhost:" + port + "/MzLib/index.html in your browser");
+                System.out.println("⏹️  Press Ctrl+C to stop the server");
+            } else {
+                System.err.println("Failed to start server: " + res.cause().getMessage());
+                vertx.close();
+                System.exit(1);
+            }
+        });
+        
+        // 添加关闭钩子
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("\n⏹️  Shutting down server...");
+            vertx.close();
+        }));
     }
     
-    public SimpleDocsServer(String deployDir, int port) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+    private static class ServerVerticle extends AbstractVerticle {
+        private final int port;
         
-        // 创建文件服务处理器
-        HttpHandler fileHandler = exchange -> {
-            String path = exchange.getRequestURI().getPath();
+        public ServerVerticle(int port) {
+            this.port = port;
+        }
+        
+        @Override
+        public void start() {
+            HttpServer server = vertx.createHttpServer();
+            Router router = Router.router(vertx);
+            
+            // 处理所有请求
+            router.route().handler(this::handleRequest);
+            
+            server.requestHandler(router).listen(port);
+        }
+        
+        private void handleRequest(RoutingContext ctx) {
+            String path = ctx.request().path();
             if (path.equals("/")) {
                 path = "/index.html";
             }
-
+            
             Path filePath = Paths.get(deployDir + path);
-
+            
             if (Files.exists(filePath) && !Files.isDirectory(filePath)) {
+                // 文件存在，直接提供
                 String contentType = getContentType(filePath.toString());
-                exchange.getResponseHeaders().set("Content-Type", contentType);
-                exchange.sendResponseHeaders(200, Files.size(filePath));
-
-                try (OutputStream os = exchange.getResponseBody()) {
-                    Files.copy(filePath, os);
-                }
+                ctx.response()
+                    .putHeader("Content-Type", contentType)
+                    .sendFile(filePath.toString());
             } else {
                 // 尝试添加 .html 扩展名
                 Path htmlPath = Paths.get(deployDir + path + ".html");
                 if (Files.exists(htmlPath)) {
-                    exchange.getResponseHeaders().set("Content-Type", "text/html");
-                    exchange.sendResponseHeaders(200, Files.size(htmlPath));
-
-                    try (OutputStream os = exchange.getResponseBody()) {
-                        Files.copy(htmlPath, os);
-                    }
+                    ctx.response()
+                        .putHeader("Content-Type", "text/html")
+                        .sendFile(htmlPath.toString());
+                } else if (Files.exists(filePath) && Files.isDirectory(filePath)) {
+                    // 目录列表
+                    handleDirectoryListing(ctx, filePath, path);
                 } else {
                     // 404
-                    String response = "404 Not Found";
-                    exchange.sendResponseHeaders(404, response.length());
-                    try (OutputStream os = exchange.getResponseBody()) {
-                        os.write(response.getBytes());
-                    }
+                    ctx.response()
+                        .setStatusCode(404)
+                        .end("404 Not Found");
                 }
             }
-        };
+        }
         
-        // 创建目录列表处理器
-        HttpHandler dirHandler = new HttpHandler() {
-            @Override
-            public void handle(HttpExchange exchange) throws IOException {
-                String path = exchange.getRequestURI().getPath();
-                Path dirPath = Paths.get(deployDir + path);
+        private void handleDirectoryListing(RoutingContext ctx, Path dirPath, String requestPath) {
+            try {
+                StringBuilder html = new StringBuilder();
+                html.append("<!DOCTYPE html><html><head><title>Directory Listing</title></head><body>");
+                html.append("<h1>Directory Listing: ").append(requestPath).append("</h1>");
+                html.append("<ul>");
                 
-                if (Files.exists(dirPath) && Files.isDirectory(dirPath)) {
-                    StringBuilder html = new StringBuilder();
-                    html.append("<!DOCTYPE html><html><head><title>Directory Listing</title></head><body>");
-                    html.append("<h1>Directory Listing: ").append(path).append("</h1>");
-                    html.append("<ul>");
-                    
-                    Files.list(dirPath).sorted().forEach(p -> {
-                        String name = p.getFileName().toString();
-                        String href = path.endsWith("/") ? path + name : path + "/" + name;
-                        if (Files.isDirectory(p)) {
-                            html.append("<li><a href=\"").append(href).append("\">").append(name).append("/</a></li>");
-                        } else {
-                            html.append("<li><a href=\"").append(href).append("\">").append(name).append("</a></li>");
-                        }
-                    });
-                    
-                    html.append("</ul></body></html>");
-                    
-                    String response = html.toString();
-                    exchange.getResponseHeaders().set("Content-Type", "text/html");
-                    exchange.sendResponseHeaders(200, response.length());
-                    try (OutputStream os = exchange.getResponseBody()) {
-                        os.write(response.getBytes());
+                Files.list(dirPath).sorted().forEach(p -> {
+                    String name = p.getFileName().toString();
+                    String href = requestPath.endsWith("/") ? requestPath + name : requestPath + "/" + name;
+                    if (Files.isDirectory(p)) {
+                        html.append("<li><a href=\"").append(href).append("\">").append(name).append("/</a></li>");
+                    } else {
+                        html.append("<li><a href=\"").append(href).append("\">").append(name).append("</a></li>");
                     }
-                } else {
-                    fileHandler.handle(exchange);
-                }
+                });
+                
+                html.append("</ul></body></html>");
+                
+                ctx.response()
+                    .putHeader("Content-Type", "text/html")
+                    .end(html.toString());
+            } catch (Exception e) {
+                ctx.response()
+                    .setStatusCode(500)
+                    .end("Error listing directory: " + e.getMessage());
             }
-        };
-        
-        server.createContext("/", dirHandler);
-        server.setExecutor(null);
-        server.start();
-        
-        System.out.println("✅ Server started successfully on port " + port);
-        System.out.println("📁 Serving deploy directory: " + deployDir);
-        System.out.println("🌐 Open http://localhost:" + port + "/MzLib/index.html in your browser");
-        System.out.println("⏹️  Press Ctrl+C to stop the server");
-        
-        // 保持服务器运行
-        try {
-            Thread.sleep(Long.MAX_VALUE);
-        } catch (InterruptedException e) {
-            System.out.println("\n⏹️  Shutting down server...");
-            server.stop(0);
-            Thread.currentThread().interrupt();
-            return;
         }
     }
     
