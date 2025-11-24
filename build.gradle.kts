@@ -202,7 +202,9 @@ allprojects {
         plugin("java")
         plugin("com.github.johnrengelman.shadow")
     }
+}
 
+subprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
