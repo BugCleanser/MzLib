@@ -2,7 +2,9 @@
 
 #set raw(lang: "java");
 
-#let hides = ("lib",)
+#let hides = (
+    "lib",
+)
 #let aliases = (
     "index": "简介",
 
@@ -40,7 +42,7 @@
     "dev/mc/item/item": `Item`,
     "dev/mc/item/player_head": "玩家头颅与玩家档案描述",
 
-    "user": "用户手册"
+    "user": "用户手册",
 )
 
 #let stem(name) = {
@@ -62,22 +64,28 @@
     for (name, children) in content.pairs() {
         if children == none {
             name = stem(name);
+            if name == "index" and path != "" {
+                continue;
+            };
             if hides.contains(path+name) {
                 continue;
-            }
-            result.push(link(meta.root+path+name+".html", aliases.at(path+name, default: name)))
-        }
-        else {
+            };
+            result.push(link(meta.root+path+name, aliases.at(path+name, default: name)));
+        } else {
             if hides.contains(path+name) {
                 continue;
-            }
+            };
             result.push[
-                #aliases.at(path+name, default: name)
+                #if children.keys().map(stem).contains("index") {
+                    link(meta.root+path+name+"/index", aliases.at(path+name, default: name))
+                } else {
+                    aliases.at(path+name, default: name)
+                };
                 #html_elem("button", attrs: (class: "open"))[]
                 #gen(children, path: path+name+"/")
             ];
-        }
-    }
+        };
+    };
     return list(..result);
 }
 

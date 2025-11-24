@@ -60,7 +60,6 @@ public interface Entity extends WrapperObject
         dataKeyCustomName(), //
         MinecraftPlatform.instance.getVersion() < 1300 ?
             new FunctionInvertible<>(Text::toLegacy, Text::fromLegacy).thenCast() :
-            //
             FunctionInvertible.wrapper(Text.FACTORY).inverse().thenApply(FunctionInvertible.optional()).thenCast()
     );
 
