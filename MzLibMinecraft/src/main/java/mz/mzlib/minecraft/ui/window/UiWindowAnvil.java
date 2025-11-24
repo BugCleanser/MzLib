@@ -5,19 +5,19 @@ import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindowAnvilSetName;
 import mz.mzlib.minecraft.inventory.Inventory;
-import mz.mzlib.minecraft.ui.UI;
+import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
 
-public abstract class UIWindowAnvil extends UIWindow
+public abstract class UiWindowAnvil extends UiWindow
 {
-    public UIWindowAnvil(Inventory inventory)
+    public UiWindowAnvil(Inventory inventory)
     {
         super(WindowType.ANVIL, inventory);
     }
 
-    public UIWindowAnvil()
+    public UiWindowAnvil()
     {
         super(WindowType.ANVIL, 3);
     }
@@ -39,18 +39,18 @@ public abstract class UIWindowAnvil extends UIWindow
                 if(event.isCancelled())
                     return;
                 Window window = event.getPlayer().getCurrentWindow();
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
+                if(!window.isInstanceOf(WindowUiWindow.FACTORY))
                     return;
-                UI ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
-                if(ui instanceof UIWindowAnvil)
+                Ui ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                if(ui instanceof UiWindowAnvil)
                 {
                     event.sync(() ->
                     {
-                        if(window.isInstanceOf(WindowUIWindow.FACTORY))
+                        if(window.isInstanceOf(WindowUiWindow.FACTORY))
                         {
-                            UI ui1 = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
-                            if(ui1 instanceof UIWindowAnvil)
-                                ((UIWindowAnvil) ui1).onNameChanged(event.getPlayer(), event.getName());
+                            Ui ui1 = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                            if(ui1 instanceof UiWindowAnvil)
+                                ((UiWindowAnvil) ui1).onNameChanged(event.getPlayer(), event.getName());
                         }
                     });
                 }

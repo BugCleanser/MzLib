@@ -7,16 +7,16 @@ import mz.mzlib.minecraft.entity.display.DisplayEntityTracker;
 import mz.mzlib.minecraft.event.MinecraftEventModule;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.Item;
-import mz.mzlib.minecraft.item.ItemPlayerHead;
 import mz.mzlib.minecraft.item.ModuleItemDisplaySign;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.ModulePacketListener;
+import mz.mzlib.minecraft.recipe.ModuleRecipe;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UIStack;
-import mz.mzlib.minecraft.ui.book.UIWrittenBook;
-import mz.mzlib.minecraft.ui.window.UIWindow;
-import mz.mzlib.minecraft.ui.window.UIWindowAnvil;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.book.UiWrittenBook;
+import mz.mzlib.minecraft.ui.window.UiWindow;
+import mz.mzlib.minecraft.ui.window.UiWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Config;
@@ -54,6 +54,10 @@ public class MzLibMinecraft extends MzModule
 
             this.register(MinecraftI18n.instance);
 
+            this.register(ModulePacketListener.instance);
+
+            this.register(MinecraftEventModule.instance);
+
             this.register(Item.Module.instance);
 
             this.register(
@@ -61,21 +65,19 @@ public class MzLibMinecraft extends MzModule
 
             this.register(NothingMinecraftServer.class);
 
+            this.register(ModuleRecipe.instance);
+
             this.register(MinecraftServer.instance.getCommandManager());
 
             this.register(this.command = new Command("mzlib", "mz").setNamespace(this.MOD_ID));
 
-            this.register(ModulePacketListener.instance);
-
-            this.register(MinecraftEventModule.instance);
-
             this.register(DisplayEntityTracker.Module.instance);
 
             this.register(ModuleWindow.instance);
-            this.register(UIStack.Module.instance);
-            this.register(UIWrittenBook.Module.instance);
-            this.register(UIWindow.Module.instance);
-            this.register(UIWindowAnvil.Module.instance);
+            this.register(UiStack.Module.instance);
+            this.register(UiWrittenBook.Module.instance);
+            this.register(UiWindow.Module.instance);
+            this.register(UiWindowAnvil.Module.instance);
 
             this.register(NbtCompound.Module.instance);
             this.register(Text.Module.instance);

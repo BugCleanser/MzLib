@@ -33,6 +33,19 @@ public class ClassUtil
     public static ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
     public static ClassLoader extClassLoader = sysClassLoader.getParent();
 
+    private static final MethodHandle method$Class$getName = RuntimeUtil.sneakilyRun(
+        () -> Root.getTrusted(Class.class).findVirtual(Class.class, "getName", MethodType.methodType(String.class)));
+    public static String getName(Class<?> clazz)
+    {
+        try
+        {
+            return (String) method$Class$getName.invokeExact(clazz);
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
     public static Class<?> classForName(String name, ClassLoader cl) throws ClassNotFoundException
     {
         switch(name)
@@ -58,6 +71,24 @@ public class ClassUtil
             default:
                 return Class.forName(name, false, cl);
         }
+    }
+
+    public static MethodType methodType(Method method)
+    {
+        return MethodType.methodType(method.getReturnType(), method.getParameterTypes());
+    }
+    public static MethodType methodType(Constructor<?> constructor)
+    {
+        return MethodType.methodType(void.class, constructor.getParameterTypes());
+    }
+    public static MethodType methodType(Member member)
+    {
+        if(member instanceof Method)
+            return methodType((Method) member);
+        else if(member instanceof Constructor)
+            return methodType((Constructor<?>) member);
+        else
+            throw new IllegalArgumentException("Unsupported member type: " + member);
     }
 
     public static Field getField(Class<?> clazz, String name) throws Throwable

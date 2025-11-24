@@ -17,7 +17,6 @@ public class RuntimeUtil
     {
         try
         {
-            //noinspection JavaReflectionMemberAccess
             Object v = Runtime.class.getMethod("version").invoke(null);
             jvmVersion = (int) v.getClass().getMethod("major").invoke(v);
         }
@@ -25,6 +24,10 @@ public class RuntimeUtil
         {
             jvmVersion = 8;
         }
+    }
+
+    public static void nop()
+    {
     }
 
     public static <T> T nul()

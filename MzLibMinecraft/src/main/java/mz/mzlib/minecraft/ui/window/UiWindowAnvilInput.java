@@ -7,31 +7,31 @@ import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UIStack;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.util.Option;
 
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public abstract class UIWindowAnvilInput extends UIWindowAnvil
+public abstract class UiWindowAnvilInput extends UiWindowAnvil
 {
     public static String prefixDefault = " ";
     public String prefix;
     public String initial;
     public String text;
-    public UIWindowAnvilInput(String initial)
+    public UiWindowAnvilInput(String initial)
     {
         this(prefixDefault, initial);
     }
-    public UIWindowAnvilInput(String prefix, String initial)
+    public UiWindowAnvilInput(String prefix, String initial)
     {
         this.prefix = prefix;
         this.initial = initial;
         this.text = initial;
 
         this.putButton(
-            0, player -> ItemStack.factory().fromId("name_tag").data(
+            0, player -> ItemStack.builder().fromId("name_tag").data(
                     Item.CUSTOM_NAME,
                     Option.some(Text.literal(this.prefix + this.initial))
                 )
@@ -46,14 +46,14 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
             })
         );
         this.putButton(
-            1, player -> ItemStack.factory().fromId("torch").data(
+            1, player -> ItemStack.builder().fromId("torch").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.back"))
             ).build(),
-            (player, actionType, data) -> UIStack.get(player).back()
+            (player, actionType, data) -> UiStack.get(player).back()
         );
         this.putButton(
-            2, player -> ItemStack.factory().fromId("slime_ball").data(
+            2, player -> ItemStack.builder().fromId("slime_ball").data(
                 Item.CUSTOM_NAME,
                 Option.some(MinecraftI18n.resolveText(player, "mzlib.ui.anvil_input.done"))
             ).build(),
@@ -82,7 +82,7 @@ public abstract class UIWindowAnvilInput extends UIWindowAnvil
     public static CompletableFuture<String> invoke(EntityPlayer player, String initial, Text title)
     {
         CompletableFuture<String> result = new CompletableFuture<>();
-        UIStack.get(player).go(new UIWindowAnvilInput(initial)
+        UiStack.get(player).go(new UiWindowAnvilInput(initial)
         {
             @Override
             public void done(EntityPlayer player, String text)

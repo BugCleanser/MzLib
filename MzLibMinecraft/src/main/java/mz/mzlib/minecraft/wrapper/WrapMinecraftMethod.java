@@ -3,10 +3,7 @@ package mz.mzlib.minecraft.wrapper;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.mappings.MappingMethod;
-import mz.mzlib.util.ElementSwitcher;
-import mz.mzlib.util.ElementSwitcherClass;
-import mz.mzlib.util.Option;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
@@ -53,62 +50,55 @@ public @interface WrapMinecraftMethod
             Class<?>[] argTypes) throws NoSuchMethodException
         {
             NoSuchMethodException lastException = null;
-            l1:
             for(VersionName name : annotation.value())
             {
                 if(!MinecraftPlatform.instance.inVersion(name))
                     continue;
                 if(name.remap())
                 {
-                    for(String className : WrapMinecraftClass.Handler.getName(wrapperClass))
+                    try
                     {
-                        try
-                        {
-                            return WrapMethod.Handler.class.newInstance().find(
-                                wrapperClass, wrappedClass, wrapperMethod, new WrapMethod()
+                        return WrapMethod.Handler.class.newInstance().find(
+                            wrapperClass, wrappedClass, wrapperMethod, new WrapMethod()
+                            {
+                                @Override
+                                public Class<WrapMethod> annotationType()
                                 {
-                                    @Override
-                                    public Class<WrapMethod> annotationType()
-                                    {
-                                        return WrapMethod.class;
-                                    }
+                                    return WrapMethod.class;
+                                }
 
-                                    @Override
-                                    public String[] value()
-                                    {
-                                        return new String[]{
-                                            MinecraftPlatform.instance.getMappings().inverse().mapMethod(
-                                                className, new MappingMethod(
-                                                    name.name(),
-                                                    Arrays.stream(wrapperMethod.getParameterTypes()).map(c ->
-                                                    {
-                                                        if(!WrapperObject.class.isAssignableFrom(c))
-                                                            return AsmUtil.getDesc(c);
-                                                        Option<String> name = WrapMinecraftClass.Handler.getName(
-                                                            RuntimeUtil.cast(c));
-                                                        if(name.isNone())
-                                                            return AsmUtil.getDesc(
-                                                                WrapperObject.getWrappedClass(RuntimeUtil.cast(c)));
-                                                        return AsmUtil.getDesc(AsmUtil.getType(name.unwrap()));
-                                                    }).toArray(String[]::new)
-                                                )
+                                @Override
+                                public String[] value()
+                                {
+                                    return new String[]{
+                                        MinecraftPlatform.instance.getMappings().inverse().mapMethod(
+                                            MinecraftPlatform.instance.getMappings().mapClass(
+                                                ClassUtil.getName(WrapperObject.getWrappedClass(wrapperClass))),
+                                            new MappingMethod(
+                                                name.name(),
+                                                Arrays.stream(wrapperMethod.getParameterTypes()).map(c ->
+                                                {
+                                                    if(!WrapperObject.class.isAssignableFrom(c))
+                                                        return AsmUtil.getDesc(c);
+                                                    return MinecraftPlatform.instance.getMappings().mapType(
+                                                        AsmUtil.getDesc(
+                                                            WrapperObject.getWrappedClass(RuntimeUtil.cast(c))));
+                                                }).toArray(String[]::new)
                                             )
-                                        };
-                                    }
-                                }, returnType, argTypes
-                            );
-                        }
-                        catch(NoSuchMethodException e)
-                        {
-                            lastException = e;
-                            continue l1;
-                        }
-                        catch(InstantiationException | IllegalAccessException e)
-                        {
-                            throw RuntimeUtil.sneakilyThrow(e);
-                        }
+                                        )
+                                    };
+                                }
+                            }, returnType, argTypes
+                        );
                     }
-                    lastException = new NoSuchMethodException("Of wrapper " + wrapperMethod);
+                    catch(NoSuchMethodException e)
+                    {
+                        lastException = e;
+                    }
+                    catch(InstantiationException | IllegalAccessException e)
+                    {
+                        throw RuntimeUtil.sneakilyThrow(e);
+                    }
                 }
                 else
                 {

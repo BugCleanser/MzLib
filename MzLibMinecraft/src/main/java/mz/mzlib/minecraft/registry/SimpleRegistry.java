@@ -6,11 +6,9 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
-
-import java.util.function.Function;
 
 
 @WrapMinecraftClass({
@@ -20,11 +18,10 @@ import java.util.function.Function;
 public interface SimpleRegistry extends Registry
 {
     WrapperFactory<SimpleRegistry> FACTORY = WrapperFactory.of(SimpleRegistry.class);
-    @Deprecated
-    @WrapperCreator
-    static SimpleRegistry create(Object wrapped)
+
+    static SimpleRegistry ofV_1600()
     {
-        return WrapperObject.create(SimpleRegistry.class, wrapped);
+        return FACTORY.getStatic().static$ofV_1600();
     }
 
     @WrapMinecraftMethod(@VersionName(name = "getIdentifier", end = 1300))
@@ -34,13 +31,13 @@ public interface SimpleRegistry extends Registry
     {
         return factory.create(this.getKey0V_1300(value.getWrapped()));
     }
-    @Deprecated
-    default <K extends WrapperObject> K getKeyV_1300(WrapperObject value, Function<Object, K> idWrapperCreator)
-    {
-        return idWrapperCreator.apply(this.getKey0V_1300(value.getWrapped()));
-    }
 
     Identifier getId(WrapperObject value);
+
+
+    @VersionRange(end = 1600)
+    @WrapConstructor
+    SimpleRegistry static$ofV_1600();
 
     @SpecificImpl("getId")
     @VersionRange(end = 1300)
@@ -48,10 +45,9 @@ public interface SimpleRegistry extends Registry
     {
         return this.getKeyV_1300(value, Identifier.FACTORY);
     }
-
     @SpecificImpl("getId")
     @VersionRange(begin = 1300)
-    default Identifier getIdSpecificImplV1300(WrapperObject value)
+    default Identifier getId$implV1300(WrapperObject value)
     {
         return this.getIdV1300(value);
     }

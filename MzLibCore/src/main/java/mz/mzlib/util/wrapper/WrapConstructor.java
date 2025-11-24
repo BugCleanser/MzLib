@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@WrappedMemberFinderClass(WrapConstructor.Handler.class)
+@WrappedMemberFinderClass(value = WrapConstructor.Handler.class)
 public @interface WrapConstructor
 {
     class Handler implements WrappedMemberFinder<WrapConstructor>

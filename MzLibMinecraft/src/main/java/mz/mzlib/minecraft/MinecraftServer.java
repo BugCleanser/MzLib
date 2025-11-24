@@ -5,16 +5,17 @@ import mz.mzlib.minecraft.command.CommandOutput;
 import mz.mzlib.minecraft.datafixer.DataFixerV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdaterV900_1300;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.incomprehensible.SavePropertiesV1600;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
+import mz.mzlib.minecraft.recipe.RecipeManager;
+import mz.mzlib.minecraft.world.WorldServer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Instance;
-import mz.mzlib.util.Pair;
-import mz.mzlib.util.RefStrong;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
+import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -44,6 +45,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftFieldAccessor(@VersionName(name = "serverThread"))
     Thread getThread();
 
+    Iterable<WorldServer> getWorlds();
+
     default List<EntityPlayer> getPlayers()
     {
         return this.getPlayerManager().getPlayers();
@@ -52,11 +55,13 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name = "getPlayerManager"))
     PlayerManager getPlayerManager();
 
-    @WrapMinecraftMethod({
-        @VersionName(name = "getCommandManager", end = 1300),
-        @VersionName(name = "method_2971", begin = 1300, end = 1400),
-        @VersionName(name = "getCommandManager", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "getCommandManager", end = 1300),
+            @VersionName(name = "method_2971", begin = 1300, end = 1400),
+            @VersionName(name = "getCommandManager", begin = 1400)
+        }
+    )
     CommandManager getCommandManager();
 
     @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.FOLIA)
@@ -102,10 +107,12 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     DataUpdaterV900_1300 getDataUpdaterV900_1300();
 
     @VersionRange(begin = 1300)
-    @WrapMinecraftFieldAccessor({
-        @VersionName(name = "field_21612", end = 1400),
-        @VersionName(name = "dataFixer", begin = 1400)
-    })
+    @WrapMinecraftFieldAccessor(
+        {
+            @VersionName(name = "field_21612", end = 1400),
+            @VersionName(name = "dataFixer", begin = 1400)
+        }
+    )
     DataFixerV1300 getDataUpdaterV1300();
 
     /**
@@ -170,23 +177,65 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @WrapMinecraftMethod(@VersionName(name = "getRegistryManager", begin = 1802))
     RegistryManagerV1602.Immutable getRegistriesV1802();
 
+    @VersionRange(begin = 1300)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_20331", end = 1400),
+            @VersionName(name = "getRecipeManager", begin = 1400)
+        }
+    )
+    RecipeManager getRecipeManagerV1300();
+
+    @VersionRange(begin = 1600)
+    @WrapMinecraftMethod(@VersionName(name = "getSaveProperties"))
+    SavePropertiesV1600 getSavePropertiesV1600();
+
     @WrapMinecraftMethod({ @VersionName(name = "run", end = 1601), @VersionName(name = "method_29741", begin = 1601) })
     void run();
 
     @VersionRange(end = 1904)
-    @WrapMinecraftMethod({
-        @VersionName(name = "setServerMeta", end = 1400),
-        @VersionName(name = "setFavicon", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "setServerMeta", end = 1400),
+            @VersionName(name = "setFavicon", begin = 1400)
+        }
+    )
     void setFaviconV_1904(ServerMetadata metadata);
 
     @VersionRange(begin = 1904)
     @WrapMinecraftMethod(@VersionName(name = "createMetadata"))
     ServerMetadata createMetadataV1904();
 
-    @WrapMinecraftMethod({
-        @VersionName(name = "stopServer", end = 1400),
-        @VersionName(name = "shutdown", begin = 1400)
-    })
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "stopServer", end = 1400),
+            @VersionName(name = "shutdown", begin = 1400)
+        }
+    )
     void onStop();
+
+
+    @SpecificImpl("getWorlds")
+    @VersionRange(end = 1300)
+    default Iterable<WorldServer> getWorlds$implV_1300()
+    {
+        return this.getWorldsV_1300().asList();
+    }
+    @VersionRange(end = 1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "worlds"))
+    WorldServer.Array getWorldsV_1300();
+    @SpecificImpl("getWorlds")
+    @VersionRange(begin = 1300)
+    default Iterable<WorldServer> getWorldsV1300()
+    {
+        return IteratorProxy.iterable(this.getWorlds0V1300(), FunctionInvertible.wrapper(WorldServer.FACTORY));
+    }
+    @VersionRange(begin = 1300)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_20351", end = 1400),
+            @VersionName(name = "getWorlds", begin = 1400)
+        }
+    )
+    Iterable<Object> getWorlds0V1300();
 }

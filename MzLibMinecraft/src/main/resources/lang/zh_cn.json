@@ -50,6 +50,15 @@
   "mzlib.commands.mzlib.lang.loadmc.begin": "§a开始加载，请留意后台",
   "mzlib.commands.mzlib.lang.custom.arg.language": "语言",
 
+  "mzlib.ui.back": "§d返回",
+  "mzlib.ui.list.lore.view": "§7左键 §b查看",
+  "mzlib.ui.list.lore.remove": "§7Shift+左键 §c移除",
+  "mzlib.ui.list.lore.insert": "§7右键 §a在此前插入",
+  "mzlib.ui.list.new": "§a新建",
+  "mzlib.ui.list.append": "§a追加",
+  "mzlib.ui.list.prev": "§b上一页",
+  "mzlib.ui.list.next": "§b下一页",
+
   "mzlib.item_display_sign": "§7§o此物品由创造模式获取，仅供展示",
 
   "mzlib.item.debug_stick": "§d调试棒"

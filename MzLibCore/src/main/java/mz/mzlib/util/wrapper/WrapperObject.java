@@ -6,10 +6,7 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 
-import java.lang.invoke.CallSite;
-import java.lang.invoke.ConstantCallSite;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -59,6 +56,14 @@ public interface WrapperObject
         Class<? extends WrapperObject> wrapperClass)
     {
         return new ConstantCallSite(WrapperClassInfo.get(wrapperClass).getConstructor().asType(invokedType));
+    }
+    static CallSite callSiteFactory(
+        MethodHandles.Lookup caller,
+        String invokedName,
+        MethodType invokedType,
+        Class<? extends WrapperObject> wrapperClass)
+    {
+        return new ConstantCallSite(MethodHandles.constant(WrapperFactory.class, WrapperFactory.of(wrapperClass)).asType(invokedType));
     }
 
     /**

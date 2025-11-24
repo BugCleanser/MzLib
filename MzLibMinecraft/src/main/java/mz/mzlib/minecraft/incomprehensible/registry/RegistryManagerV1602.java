@@ -1,7 +1,6 @@
 package mz.mzlib.minecraft.incomprehensible.registry;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.util.wrapper.WrapperCreator;
@@ -13,7 +12,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
     @VersionName(name = "net.minecraft.util.registry.DynamicRegistryManager", begin = 1602, end = 1903),
     @VersionName(name = "net.minecraft.registry.DynamicRegistryManager", begin = 1903)
 })
-public interface RegistryManagerV1602 extends WrapperObject, RegistryEntryLookupV1903.class_7874
+public interface RegistryManagerV1602 extends WrapperObject
 {
     WrapperFactory<RegistryManagerV1602> FACTORY = WrapperFactory.of(RegistryManagerV1602.class);
     @Deprecated

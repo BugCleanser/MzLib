@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.bukkit.entity.BukkitHumanEntity;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -32,7 +32,7 @@ public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
         return FACTORY.getStatic().static$newInstance(player, inventory, window);
     }
 
-    static CraftInventoryView newInstance(AbstractEntityPlayer player, Inventory inventory, Window window)
+    static CraftInventoryView newInstance(EntityPlayerAbstract player, Inventory inventory, Window window)
     {
         BukkitInventory bukkitInventory = CraftInventory.newInstance(inventory);
         // TODO

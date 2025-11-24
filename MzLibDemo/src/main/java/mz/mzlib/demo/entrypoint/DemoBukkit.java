@@ -1,6 +1,7 @@
-package mz.mzlib.demo;
+package mz.mzlib.demo.entrypoint;
 
 import mz.mzlib.MzLib;
+import mz.mzlib.demo.Demo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DemoBukkit extends JavaPlugin

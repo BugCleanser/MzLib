@@ -3,14 +3,17 @@ package mz.mzlib.minecraft.ui.window;
 import mz.mzlib.Priority;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItemInWindow;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindowAction;
 import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UI;
+import mz.mzlib.minecraft.ui.Ui;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 
@@ -21,21 +24,21 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class UIWindow implements UI
+public abstract class UiWindow implements Ui
 {
     public WindowType windowType;
     public Inventory inventory;
 
-    public UIWindow(WindowType windowType, Inventory inventory)
+    public UiWindow(WindowType windowType, Inventory inventory)
     {
         this.windowType = windowType;
         this.inventory = inventory;
     }
-    public UIWindow(WindowType windowType, int size)
+    public UiWindow(WindowType windowType, int size)
     {
         this(windowType, InventorySimple.newInstance(size));
     }
-    public UIWindow(WindowType windowType)
+    public UiWindow(WindowType windowType)
     {
         this(windowType, windowType.upperSize);
     }
@@ -43,6 +46,15 @@ public abstract class UIWindow implements UI
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
     public Map<Integer, Consumer<EventAsyncPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
+
+    public WindowType getWindowType()
+    {
+        return this.windowType;
+    }
+    public Inventory getInventory()
+    {
+        return this.inventory;
+    }
 
     public void clear()
     {
@@ -52,6 +64,10 @@ public abstract class UIWindow implements UI
         this.icons.clear();
     }
 
+    public void putSlot(int index, WindowSlot slot)
+    {
+        this.putSlot(index, (inv, i) -> slot);
+    }
     public void putSlot(int index, BiFunction<Inventory, Integer, WindowSlot> slotCreator)
     {
         this.slots.put(index, slotCreator);
@@ -70,12 +86,16 @@ public abstract class UIWindow implements UI
 
     public void putIcon(int index, Function<EntityPlayer, ItemStack> icon)
     {
+        this.putSlot(index, MzItemIconPlaceholder.slot);
         this.putIcon0(index, event -> event.setItemStack(icon.apply(event.getPlayer())));
+    }
+    public void putIconEmpty(int index)
+    {
+        this.putIcon(index, player -> ItemStack.empty());
     }
 
     public void putButton(int index, ButtonHandler handler)
     {
-        this.putSlot(index, WindowSlotButton::newInstance);
         this.buttons.put(index, handler);
     }
     public void putButton(int index, Function<EntityPlayer, ItemStack> icon, ButtonHandler handler)
@@ -86,7 +106,7 @@ public abstract class UIWindow implements UI
 
     public abstract Text getTitle(EntityPlayer player);
 
-    public void initWindow(WindowUIWindow window, EntityPlayer player)
+    public void initWindow(WindowUiWindow window, EntityPlayer player)
     {
         for(int i = 0; i < this.windowType.upperSize; i++)
         {
@@ -97,7 +117,7 @@ public abstract class UIWindow implements UI
         this.addPlayerInventorySlots(window, player);
     }
 
-    public void addPlayerInventorySlots(WindowUIWindow window, EntityPlayer player)
+    public void addPlayerInventorySlots(WindowUiWindow window, EntityPlayer player)
     {
         for(int i = 0; i < 3; ++i)
         {
@@ -119,20 +139,20 @@ public abstract class UIWindow implements UI
         }
     }
 
-    public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
+    public ItemStack quickMove(WindowUiWindow window, EntityPlayer player, int index)
     {
         return window.quickMoveSuper(player, index);
     }
 
     /**
-     * @see WindowAbstract#onAction(int, int, WindowActionType, mz.mzlib.minecraft.entity.player.AbstractEntityPlayer)
+     * @see WindowAbstract#onAction(int, int, WindowActionType, EntityPlayerAbstract)
      */
-    public void onAction(WindowUIWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
+    public void onAction(WindowUiWindow window, int index, int data, WindowActionType actionType, EntityPlayer player)
     {
         window.onActionSuper(index, data, actionType, player);
     }
 
-    public void onClosed(WindowUIWindow window, EntityPlayer player)
+    public void onClosed(WindowUiWindow window, EntityPlayer player)
     {
         window.onClosedSuper(player);
     }
@@ -148,9 +168,13 @@ public abstract class UIWindow implements UI
     {
         WindowFactorySimple.newInstance(
             this.windowType, this.getTitle(player),
-            (syncId, inventoryPlayer) -> WindowUIWindow.newInstance(this, player, syncId)
+            (syncId, inventoryPlayer) -> WindowUiWindow.newInstance(this, player, syncId)
         ).open(player);
         player.updateWindow();
+    }
+    public void reopen()
+    {
+        UiStack.getViewers(this).forEach(this::open);
     }
 
     public static class Module extends MzModule
@@ -161,43 +185,46 @@ public abstract class UIWindow implements UI
         public void onLoad()
         {
             this.register(new EventListener<>(
-                EventAsyncWindowClose.class, Priority.VERY_LOW, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
-                    return;
-                window.castTo(WindowUIWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
-            })
+                EventAsyncWindowClose.class, Priority.VERY_LOW,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    window.castTo(WindowUiWindow.FACTORY).getUIWindow().onPlayerClose(event.getPlayer());
+                })
             ));
             this.register(new EventListener<>(
-                EventAsyncWindowAction.class, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
-                    return;
-                UIWindow ui = window.castTo(WindowUIWindow.FACTORY).getUIWindow();
-                ButtonHandler button = ui.buttons.get(event.getSlotIndex());
-                if(button != null)
-                    button.onClick(event.getPlayer(), event.getActionType(), event.getData());
-            })
+                EventAsyncWindowAction.class,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    UiWindow ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                    ButtonHandler button = ui.buttons.get(event.getSlotIndex());
+                    if(button != null)
+                        button.onClick(event.getPlayer(), event.getActionType(), event.getData());
+                })
             ));
             this.register(new EventListener<>(
-                EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW, event -> event.sync(() ->
-            {
-                if(event.isCancelled())
-                    return;
-                Window window = event.getPlayer().getWindow(event.getSyncId());
-                if(!window.isInstanceOf(WindowUIWindow.FACTORY))
-                    return;
-                Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUIWindow.FACTORY)
-                    .getUIWindow().icons.get(event.getSlotIndex());
-                if(icon != null)
-                    icon.accept(event);
-            })
+                EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW,
+                event -> event.sync(() ->
+                {
+                    if(event.isCancelled())
+                        return;
+                    Window window = event.getPlayer().getWindow(event.getSyncId());
+                    if(!window.isInstanceOf(WindowUiWindow.FACTORY))
+                        return;
+                    Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = window.castTo(WindowUiWindow.FACTORY)
+                        .getUIWindow().icons.get(event.getSlotIndex());
+                    if(icon != null)
+                        icon.accept(event);
+                })
             ));
         }
     }

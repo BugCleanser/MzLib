@@ -8,7 +8,7 @@ import mz.mzlib.util.wrapper.WrapperFactory;
     @VersionName(name = "net.minecraft.recipe.ShapelessRecipeType", end = 1400),
     @VersionName(name = "net.minecraft.recipe.ShapelessRecipe", begin = 1400)
 })
-public interface RecipeVanillaShapeless extends Recipe
+public interface RecipeVanillaShapeless extends RecipeVanilla, RecipeCrafting
 {
     WrapperFactory<RecipeVanillaShapeless> FACTORY = WrapperFactory.of(RecipeVanillaShapeless.class);
 }

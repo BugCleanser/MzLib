@@ -14,7 +14,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "mz.mzlib.demo.DemoFabric"
+      "mz.mzlib.demo.entrypoint.DemoFabric"
     ]
   },
   "depends": {

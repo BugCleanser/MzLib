@@ -3,6 +3,10 @@ package mz.mzlib.util;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * @see Pair
+ */
+@Deprecated
 public class MapEntry<K, V> implements Map.Entry<K, V>
 {
     public K key;

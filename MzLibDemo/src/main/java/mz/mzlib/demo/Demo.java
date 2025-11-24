@@ -2,16 +2,26 @@ package mz.mzlib.demo;
 
 import mz.mzlib.demo.game.tictactoe.Tictactoe;
 import mz.mzlib.i18n.I18n;
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftJsUtil;
+import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
+import mz.mzlib.minecraft.item.Item;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
+import mz.mzlib.minecraft.recipe.RecipeSmelting;
+import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.RegistrarRecipe;
+import mz.mzlib.minecraft.recipe.VanillaIngredient;
+import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.ui.UiStack;
+import mz.mzlib.minecraft.ui.window.UiWindowList;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Config;
-import mz.mzlib.util.IOUtil;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
 
 public class Demo extends MzModule
 {
@@ -37,8 +47,20 @@ public class Demo extends MzModule
 
             this.register(this.permission);
             this.register(I18n.load(this.jar, "lang", 0));
-            this.register(this.command = new Command("mzlibdemo").setNamespace("mzlibdemo")
+            this.register(this.command = new Command("mzlibdemo", "mzd").setNamespace("mzlibdemo")
                 .setPermissionChecker(sender -> Command.checkPermission(sender, this.permission)));
+            this.register(new ChildCommandRegistration(
+                this.command, new Command("list")
+                .setPermissionChecker(Command::checkPermissionSenderPlayer)
+                .setHandler(context -> UiStack.get(context.getSource().getPlayer().unwrap())
+                    .go(UiWindowList.builder(CollectionUtil.newArrayList("aaa", "bbb"))
+                        .iconGetter((value, player) -> ItemStack.builder().fromId("stick").customName(
+                            Text.literal(value)).build())
+                        .adder(() -> "new")
+                        .remover()
+                        .viewer(((ui, player, index) -> player.sendMessage(Text.literal(ui.getList().get(index)))))
+                        .build()))
+            ));
 
             this.register(DemoReload.instance);
             this.register(Tictactoe.instance);
@@ -47,6 +69,20 @@ public class Demo extends MzModule
             this.register(DemoUIInput.instance);
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
+
+            System.out.println(RegistrarRecipe.instance.getOriginalRecipes());
+            this.register(RecipeVanillaShaped.builder()
+                .id(Identifier.newInstance("mzlib:test"))
+                .width(1).height(1).ingredients(
+                    Collections.singletonList(
+                        Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
+                .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
+            this.register(RecipeSmelting.builder()
+                .id(Identifier.newInstance("mzlib:test_smelting"))
+                .ingredient(ItemStack.newInstance(Item.fromId("stick")))
+                .result(ItemStack.builder().fromId("apple").build())
+                .experience(100.f)
+                .buildRegistration());
         }
         catch(Throwable e)
         {

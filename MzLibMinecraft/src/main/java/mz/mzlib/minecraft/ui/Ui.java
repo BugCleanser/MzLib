@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.ui;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 
-public interface UI
+public interface Ui
 {
     void open(EntityPlayer player);
     default void close(EntityPlayer player)
@@ -11,6 +11,6 @@ public interface UI
     }
     default void onPlayerClose(EntityPlayer player)
     {
-        UIStack.get(player).clear();
+        UiStack.get(player).clear();
     }
 }

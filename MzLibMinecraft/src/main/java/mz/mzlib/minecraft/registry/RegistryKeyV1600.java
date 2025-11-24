@@ -1,8 +1,9 @@
 package mz.mzlib.minecraft.registry;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,10 +14,22 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface RegistryKeyV1600 extends WrapperObject
 {
     WrapperFactory<RegistryKeyV1600> FACTORY = WrapperFactory.of(RegistryKeyV1600.class);
-    @Deprecated
-    @WrapperCreator
-    static RegistryKeyV1600 create(Object wrapped)
+
+    static RegistryKeyV1600 of(RegistryKeyV1600 registry, Identifier id)
     {
-        return WrapperObject.create(RegistryKeyV1600.class, wrapped);
+        return FACTORY.getStatic().static$of(registry, id);
     }
+    static RegistryKeyV1600 ofRegistry(Identifier id)
+    {
+        return FACTORY.getStatic().static$ofRegistry(id);
+    }
+
+    @WrapMinecraftMethod(@VersionName(name = "getValue"))
+    Identifier getId();
+
+    @WrapMinecraftMethod(@VersionName(name = "of"))
+    RegistryKeyV1600 static$of(RegistryKeyV1600 registry, Identifier id);
+
+    @WrapMinecraftMethod(@VersionName(name = "ofRegistry"))
+    RegistryKeyV1600 static$ofRegistry(Identifier id);
 }

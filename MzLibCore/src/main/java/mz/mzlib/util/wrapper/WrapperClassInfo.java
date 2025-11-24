@@ -128,61 +128,14 @@ public class WrapperClassInfo
         {
             this.wrappedMembers = new ConcurrentHashMap<>();
             this.inheritableWrappedMembers = new ConcurrentHashMap<>();
-            for(Method i : this.wrapperClass.getMethods())
-            {
-                if(!Modifier.isAbstract(i.getModifiers()) || !ElementSwitcher.isEnabled(i))
-                    continue;
-                Class<?> returnType = i.getReturnType();
-                if(WrapperObject.class.isAssignableFrom(returnType))
-                {
-                    returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
-                }
-                Class<?>[] argTypes = toUnwrappedClasses(i.getParameterTypes());
-                Exception lastException1 = null;
-                for(Annotation j : i.getDeclaredAnnotations())
-                {
-                    WrappedMemberFinderClass finder = j.annotationType()
-                        .getDeclaredAnnotation(WrappedMemberFinderClass.class);
-                    if(finder != null && (i.getDeclaringClass() == this.getWrapperClass() || !finder.inheritable()))
-                    {
-                        try
-                        {
-                            Member m = finder.value().newInstance().find(
-                                this.getWrapperClass(), this.wrappedClass, i, RuntimeUtil.cast(j), returnType,
-                                argTypes
-                            );
-                            if(m != null)
-                            {
-                                this.wrappedMembers.put(i, m);
-                                if(finder.inheritable())
-                                    this.inheritableWrappedMembers.put(i, m);
-                            }
-                        }
-                        catch(NoSuchMethodException | NoSuchFieldException | InstantiationException |
-                              IllegalAccessException e)
-                        {
-                            lastException1 = e;
-                        }
-                    }
-                }
-                if(lastException1 != null)
-                    throw RuntimeUtil.sneakilyThrow(
-                        new NoSuchElementException("Of wrapper: " + i).initCause(lastException1));
-            }
             for(Method i : this.getWrapperClass().getMethods())
             {
-                if(Modifier.isAbstract(i.getModifiers()) && ElementSwitcher.isEnabled(i) &&
-                    i.getDeclaringClass() != this.getWrapperClass() &&
-                    WrapperObject.class.isAssignableFrom(i.getDeclaringClass()))
-                {
-                    Member tar = WrapperClassInfo.get(RuntimeUtil.cast(i.getDeclaringClass()))
-                        .getInheritableWrappedMembers().get(i);
-                    if(tar != null && !(tar instanceof Constructor))
-                    {
-                        this.wrappedMembers.put(i, tar);
-                        this.inheritableWrappedMembers.put(i, tar);
-                    }
-                }
+                Pair<Member, Boolean> result = analyseWrappedMember(i);
+                if(result == null)
+                    continue;
+                this.wrappedMembers.put(i, result.getFirst());
+                if(result.getSecond())
+                    this.inheritableWrappedMembers.put(i, result.getFirst());
             }
         }
         catch(Throwable e)
@@ -190,6 +143,53 @@ public class WrapperClassInfo
             throw new IllegalStateException(
                 "Field to analyze wrapped members, of Wrapper: " + this.getWrapperClass(), e);
         }
+    }
+    Pair<Member, Boolean> analyseWrappedMember(Method method)
+    {
+        if(!Modifier.isAbstract(method.getModifiers()) || !ElementSwitcher.isEnabled(method))
+            return null;
+        Class<?> returnType = method.getReturnType();
+        if(WrapperObject.class.isAssignableFrom(returnType))
+        {
+            returnType = WrapperClassInfo.get(RuntimeUtil.cast(returnType)).getWrappedClass();
+        }
+        Class<?>[] argTypes = toUnwrappedClasses(method.getParameterTypes());
+        Exception lastException1 = null;
+        for(Annotation j : method.getDeclaredAnnotations())
+        {
+            WrappedMemberFinderClass finder = j.annotationType()
+                .getDeclaredAnnotation(WrappedMemberFinderClass.class);
+            if(finder != null && (method.getDeclaringClass() == this.getWrapperClass() || !finder.inheritable()))
+            {
+                try
+                {
+                    Member m = finder.value().newInstance().find(
+                        this.getWrapperClass(), this.wrappedClass, method, RuntimeUtil.cast(j), returnType,
+                        argTypes
+                    );
+                    if(m != null)
+                        return Pair.of(m, finder.inheritable() && !(m instanceof Constructor));
+                }
+                catch(NoSuchMethodException | NoSuchFieldException | InstantiationException | IllegalAccessException e)
+                {
+                    lastException1 = e;
+                }
+            }
+        }
+        if(lastException1 != null)
+            throw RuntimeUtil.sneakilyThrow(
+                new NoSuchElementException("Of wrapper: " + method).initCause(lastException1));
+
+        if(Modifier.isAbstract(method.getModifiers()) && ElementSwitcher.isEnabled(method) &&
+            method.getDeclaringClass() != this.getWrapperClass() &&
+            WrapperObject.class.isAssignableFrom(method.getDeclaringClass()))
+        {
+            Member tar = WrapperClassInfo.get(RuntimeUtil.cast(method.getDeclaringClass()))
+                .getInheritableWrappedMembers().get(method);
+            if(tar != null)
+                return Pair.of(tar, true);
+        }
+        return null;
     }
 
     public MethodHandle constructorCache = null;
@@ -664,7 +664,7 @@ public class WrapperClassInfo
             }
             catch(VerifyError e)
             {
-                try(FileOutputStream fos = new FileOutputStream("test.class"))
+                try(FileOutputStream fos = new FileOutputStream("test" + UUID.randomUUID() + ".class"))
                 {
                     fos.write(cw.toByteArray());
                 }

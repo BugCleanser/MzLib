@@ -29,6 +29,15 @@ public abstract class Result<V, E>
     public abstract <V1> Result<V1, E> mapValue(Function<? super V, ? extends V1> action);
     public abstract <E1> Result<V, E1> mapError(Function<? super E, ? extends E1> action);
 
+    public <T extends Throwable> V getOrThrow(Function<? super E,? extends T> exceptionSupplier) throws T
+    {
+        for(E error : this.getError())
+        {
+            throw exceptionSupplier.apply(error);
+        }
+        return this.getValue();
+    }
+
     public static <V, E> Result<V, E> success(V value)
     {
         return new Success<>(value);

@@ -1,14 +1,13 @@
 package mz.mzlib.minecraft.item;
 
-import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.data.DataKey;
+import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.ActionResult;
 import mz.mzlib.minecraft.entity.player.Hand;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
@@ -18,6 +17,7 @@ import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.serialization.DynamicV1300;
 import mz.mzlib.minecraft.text.Text;
+import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.minecraft.text.TextTranslatable;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -28,6 +28,7 @@ import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.ItemStack"))
 public interface ItemStack extends WrapperObject
@@ -56,9 +57,152 @@ public interface ItemStack extends WrapperObject
         return type.toItemStack(count);
     }
 
-    static ItemStackFactory factory()
+    interface Builder
     {
-        return new ItemStackFactory();
+        ItemStack build();
+        Builder item(Item value);
+        Builder fromId(Identifier id);
+        Builder fromId(String id);
+
+        ItemStack.Builder damageV_1300(int value);
+        Builder fromId(String idV_1300, int damageV_1300, String idV1300);
+
+        <T> Builder data(DataKey<ItemStack, T, ?> key, T value);
+        StepLore lore();
+
+        StepPlayerHead playerHead();
+        Builder.StepColor colored(String idV_1300, String baseIdV1300);
+        Builder.StepColor colored(String baseId);
+        Builder.StepColor dye();
+        Builder.StepColor wool();
+        Builder.StepColor stainedGlass();
+        Builder.StepColor stainedGlassPane();
+        Builder.StepColor terracotta();
+        Builder.StepColor carpet();
+        Builder.StepColor banner();
+        Builder.StepColor shulkerBoxV1100();
+        Builder.StepColor bedV1200();
+        Builder.StepColor concreteV1200();
+        Builder.StepColor concretePowderV1200();
+        Builder.StepColor glazedTerracottaV1200();
+
+        default Builder customName(Text value)
+        {
+            return this.data(Item.CUSTOM_NAME, Option.some(value));
+        }
+        default Builder emptyName()
+        {
+            return this.customName(Text.literal("").setColor(TextColor.BLACK));
+        }
+
+        interface StepLore
+        {
+            StepLore line(Text value);
+            Builder finish();
+            default ItemStack build()
+            {
+                return this.finish().build();
+            }
+        }
+
+        interface StepPlayerHead
+        {
+            Builder gameProfile(GameProfile.Description description);
+            default Builder textures(Option<String> name, Option<UUID> uuid, String textures)
+            {
+                return this.gameProfile(GameProfile.Description.textures(name, uuid, textures));
+            }
+            default Builder texturesUrl(UUID uuid, String value)
+            {
+                return this.gameProfile(GameProfile.Description.texturesUrl(Option.none(), Option.some(uuid), value));
+            }
+            default Builder texturesUrl(String value)
+            {
+                return this.gameProfile(GameProfile.Description.texturesUrl(value));
+            }
+            default Builder textures(UUID uuid, String value)
+            {
+                return this.gameProfile(GameProfile.Description.textures(Option.none(), Option.some(uuid), value));
+            }
+            default Builder textures(String value)
+            {
+                return this.gameProfile(GameProfile.Description.textures(value));
+            }
+        }
+
+        interface StepColor
+        {
+            StepColor reversed();
+            Builder color(String value);
+            default Builder white()
+            {
+                return this.color("white");
+            }
+            default Builder orange()
+            {
+                return this.color("orange");
+            }
+            default Builder magenta()
+            {
+                return this.color("magenta");
+            }
+            default Builder lightBlue()
+            {
+                return this.color("light_blue");
+            }
+            default Builder yellow()
+            {
+                return this.color("yellow");
+            }
+            default Builder lime()
+            {
+                return this.color("lime");
+            }
+            default Builder pink()
+            {
+                return this.color("pink");
+            }
+            default Builder gray()
+            {
+                return this.color("gray");
+            }
+            default Builder lightGray()
+            {
+                return this.color("light_gray");
+            }
+            default Builder cyan()
+            {
+                return this.color("cyan");
+            }
+            default Builder purple()
+            {
+                return this.color("purple");
+            }
+            default Builder blue()
+            {
+                return this.color("blue");
+            }
+            default Builder brown()
+            {
+                return this.color("brown");
+            }
+            default Builder green()
+            {
+                return this.color("green");
+            }
+            default Builder red()
+            {
+                return this.color("red");
+            }
+            default Builder black()
+            {
+                return this.color("black");
+            }
+        }
+    }
+    static Builder builder()
+    {
+        return FACTORY.getStatic().static$builder();
     }
 
     @VersionRange(begin = 1600)
@@ -134,6 +278,8 @@ public interface ItemStack extends WrapperObject
 
     default Option<NbtCompound> getTagV_2005()
     {
+        if(!this.isPresent())
+            return Option.none();
         return Option.fromWrapper(this.getTag0V_2005());
     }
 
@@ -231,18 +377,18 @@ public interface ItemStack extends WrapperObject
     boolean hasTagV1903(TagKeyV1903<?> tag);
 
     @VersionRange(begin = 2002)
-    @WrapMinecraftMethod(@VersionName(name = "isIn"))
+    @WrapMinecraftMethod(@VersionName(name = "method_53187"))
     boolean isInV2002(RegistryEntryListV1903 registryEntries);
 
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "onStartUse"))
-    ItemStack useV_900(World world, AbstractEntityPlayer player);
+    ItemStack useV_900(World world, EntityPlayerAbstract player);
     @VersionRange(begin = 900, end = 2102)
     @WrapMinecraftMethod({ @VersionName(name = "method_11390", end = 1400), @VersionName(name = "use", begin = 1400) })
-    TypedActionResultV900_2102<?> use0V900_2102(World world, AbstractEntityPlayer player, Hand hand);
+    TypedActionResultV900_2102<?> use0V900_2102(World world, EntityPlayerAbstract player, Hand hand);
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "use"))
-    ActionResult useV2102(World world, AbstractEntityPlayer player, Hand hand);
+    ActionResult useV2102(World world, EntityPlayerAbstract player, Hand hand);
 
     /**
      * Shadow clone
@@ -315,6 +461,17 @@ public interface ItemStack extends WrapperObject
         return FACTORY.getStatic().static$upgrade(nbt, from);
     }
 
+    @WrapArrayClass(ItemStack.class)
+    interface Array extends WrapperArray<ItemStack>
+    {
+        WrapperFactory<Array> FACTORY = WrapperFactory.of(Array.class);
+
+        static Array newInstance(int size)
+        {
+            return (Array) FACTORY.getStatic().static$newInstance(size);
+        }
+    }
+
 
     ItemStack static$empty();
     @SpecificImpl("static$empty")
@@ -341,6 +498,20 @@ public interface ItemStack extends WrapperObject
     default ItemStack static$newInstanceV1300(Item item)
     {
         return static$newInstanceV1300((ItemConvertibleV1300) item.castTo(Item.V1300.FACTORY));
+    }
+
+    ItemStack.Builder static$builder();
+    @SpecificImpl("static$builder")
+    @VersionRange(end = 1300)
+    default ItemStack.Builder static$builderV_1300()
+    {
+        return new ItemStackBuilderImpl.V_1300();
+    }
+    @SpecificImpl("static$builder")
+    @VersionRange(begin = 1300)
+    default ItemStack.Builder static$builderV1300()
+    {
+        return new ItemStackBuilderImpl();
     }
 
     static CodecV1600<?> codec0V1600()
@@ -454,7 +625,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1100)
     default boolean isEmptyV_1100()
     {
-        return !this.isPresent();
+        return !this.isPresent() || this.getItem().equals(Item.AIR) || this.getCount() <= 0;
     }
     @SpecificImpl("isEmpty")
     @VersionRange(begin = 1100)
@@ -518,11 +689,8 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1300)
     default boolean static$isStackableV_1300(ItemStack a, ItemStack b)
     {
-        if(isEmpty(a))
-        {
-            if(isEmpty(b))
-                return true;
-        }
+        if(isEmpty(a) && isEmpty(b))
+            return true;
         if(isEmpty(a) || isEmpty(b))
             return false;
         return a.getItem().equals(b.getItem()) && a.getDamageV_1300() == b.getDamageV_1300() &&
@@ -532,15 +700,13 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin = 1300, end = 1700)
     default boolean static$isStackableV1300_1700(ItemStack a, ItemStack b)
     {
-        if(isEmpty(a))
-        {
-            if(b.isEmpty())
-                return true;
-        }
+        if(isEmpty(a) && isEmpty(b))
+            return true;
         if(a.isEmpty() || b.isEmpty())
             return false;
         return a.getItem().equals(b.getItem()) && a.getTagV_2005().equals(b.getTagV_2005());
     }
+
     @SpecificImpl("static$isStackable")
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod({

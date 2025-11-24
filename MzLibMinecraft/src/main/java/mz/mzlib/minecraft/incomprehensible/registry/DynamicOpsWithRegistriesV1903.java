@@ -22,7 +22,7 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         DynamicOpsV1300<T> ops,
         RegistryManagerV1602.Immutable registries)
     {
-        return newInstance(ops, class_9683V2005.newInstance(registries));
+        return newInstance(ops, class_9683V2005.newInstance(registries.as(RegistryEntryLookupV1903.class_7874.FACTORY)));
     }
     static <T> DynamicOpsWithRegistriesV1903<T> newInstance(DynamicOpsV1300<T> ops, class_7863 c2)
     {

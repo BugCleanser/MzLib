@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.ui.book;
 
 import mz.mzlib.minecraft.MzLibMinecraft;
+import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.command.argument.ArgumentParserInt;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -9,15 +10,15 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemWrittenBook;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextClickEvent;
-import mz.mzlib.minecraft.ui.UI;
-import mz.mzlib.minecraft.ui.UIStack;
+import mz.mzlib.minecraft.ui.Ui;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.module.MzModule;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class UIWrittenBook implements UI
+public abstract class UiWrittenBook implements Ui
 {
     public abstract List<Text> getPages(EntityPlayer player);
 
@@ -43,7 +44,7 @@ public abstract class UIWrittenBook implements UI
     @Override
     public void open(EntityPlayer player)
     {
-        player.openBook(ItemStack.factory()
+        player.openBook(ItemStack.builder()
             .fromId("written_book")
             .data(ItemWrittenBook.TITLE, "UIWrittenBook")
             .data(ItemWrittenBook.AUTHOR, "UIWrittenBook")
@@ -67,10 +68,11 @@ public abstract class UIWrittenBook implements UI
         @Override
         public void onLoad()
         {
-            MzLibMinecraft.instance.command.addChild(
+            this.register(new ChildCommandRegistration(
+                MzLibMinecraft.instance.command,
                 this.command = new Command("book_click").setPermissionCheckers(
                     Command::checkPermissionSenderPlayer,
-                    source -> UIStack.get(source.getPlayer().unwrap()).top() instanceof UIWrittenBook ?
+                    source -> UiStack.get(source.getPlayer().unwrap()).top() instanceof UiWrittenBook ?
                         null :
                         MinecraftI18n.resolveText(source, "mzlib.commands.mzlib.book_click.error.not_opening")
                 ).setHandler(context ->
@@ -81,7 +83,7 @@ public abstract class UIWrittenBook implements UI
                     if(!context.successful || !context.doExecute)
                         return;
                     EntityPlayer sender = context.getSource().getPlayer().unwrap();
-                    List<Consumer<EntityPlayer>> buttons = ((UIWrittenBook) UIStack.get(sender).top()).buttons;
+                    List<Consumer<EntityPlayer>> buttons = ((UiWrittenBook) UiStack.get(sender).top()).buttons;
                     if(button < 0 || button >= buttons.size())
                     {
                         context.successful = false;
@@ -89,17 +91,12 @@ public abstract class UIWrittenBook implements UI
                             context.getSource(),
                             "mzlib.commands.mzlib.book_click.error.invalid_button_index"
                         ));
-                        UIStack.get(sender).top().open(sender);
+                        UiStack.get(sender).top().open(sender);
                         return;
                     }
                     buttons.get(button).accept(sender);
-                }));
-        }
-
-        @Override
-        public void onUnload()
-        {
-            MzLibMinecraft.instance.command.removeChild(this.command);
+                })
+            ));
         }
     }
 }

@@ -2,11 +2,11 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.AbstractEntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UI;
+import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -22,7 +22,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
         @VersionName(name = "net.minecraft.container.NameableContainerFactory", begin = 1502, end = 1600),
         @VersionName(name = "net.minecraft.screen.NamedScreenHandlerFactory", begin = 1600)
     })
-public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, UI
+public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
 {
     WrapperFactory<WindowFactory> FACTORY = WrapperFactory.of(WindowFactory.class);
     @Deprecated
@@ -45,12 +45,12 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, UI
     @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
     Text getDisplayNameV1400();
 
-    Window createWindow(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
+    Window createWindow(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
     @WrapMinecraftMethod(@VersionName(name = "createScreenHandler", end = 1400))
-    Window createWindowV_1400(InventoryPlayer inventoryPlayer, AbstractEntityPlayer player);
+    Window createWindowV_1400(InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
     @SpecificImpl("createWindow")
     @VersionRange(end = 1400)
-    default Window createWindowV_1400(int syncId, InventoryPlayer inventoryPlayer, AbstractEntityPlayer player)
+    default Window createWindowV_1400(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player)
     {
         return createWindowV_1400(inventoryPlayer, player);
     }
@@ -59,7 +59,7 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, UI
     default Window createWindowSpecificImplV1400(
         int syncId,
         InventoryPlayer inventoryPlayer,
-        AbstractEntityPlayer player)
+        EntityPlayerAbstract player)
     {
         return this.createWindowV1400(syncId, inventoryPlayer, player);
     }

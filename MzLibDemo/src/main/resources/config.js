@@ -1,5 +1,5 @@
 var game = {
     tictactoe: {
-        reward: ItemStack.factory().fromId('apple').build()
+        reward: ItemStack.builder().fromId('apple').build()
     }
 }

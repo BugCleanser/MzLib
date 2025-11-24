@@ -5,8 +5,8 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.window.UIWindow;
-import mz.mzlib.minecraft.ui.window.WindowUIWindow;
+import mz.mzlib.minecraft.ui.window.UiWindow;
+import mz.mzlib.minecraft.ui.window.WindowUiWindow;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.minecraft.window.WindowType;
@@ -21,7 +21,7 @@ public class Inventory10Slots extends MzModule
     @Override
     public void onLoad()
     {
-        UIInventory10Slots ui = new UIInventory10Slots();
+        UiInventory10Slots ui = new UiInventory10Slots();
         Demo.instance.command.addChild(
             this.command = new Command("inventory10slots").setPermissionChecker(Command::checkPermissionSenderPlayer)
                 .setHandler(context ->
@@ -43,15 +43,15 @@ public class Inventory10Slots extends MzModule
         Demo.instance.command.removeChild(this.command);
     }
 
-    public static class UIInventory10Slots extends UIWindow
+    public static class UiInventory10Slots extends UiWindow
     {
-        public UIInventory10Slots()
+        public UiInventory10Slots()
         {
             super(WindowType.CRAFTING, 10);
         }
 
         @Override
-        public ItemStack quickMove(WindowUIWindow window, EntityPlayer player, int index)
+        public ItemStack quickMove(WindowUiWindow window, EntityPlayer player, int index)
         {
             WindowSlot slot = window.getSlot(index);
             ItemStack is;
@@ -84,7 +84,7 @@ public class Inventory10Slots extends MzModule
 
         @Override
         public void onAction(
-            WindowUIWindow window,
+            WindowUiWindow window,
             int index,
             int data,
             WindowActionType actionType,
