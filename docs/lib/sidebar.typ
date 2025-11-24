@@ -11,7 +11,6 @@
     "dev": "开发文档",
     "dev/core": "Core",
     "dev/core/tutorial": "指南",
-    "dev/core/tutorial/0": "快速开始",
     "dev/core/tutorial/1": "1.Hello World",
     "dev/core/tutorial/2": "2.Config",
     "dev/core/event": "事件",
@@ -24,7 +23,6 @@
 
     "dev/mc": "Minecraft",
     "dev/mc/tutorial": "指南",
-    "dev/mc/tutorial/0": "快速开始",
     "dev/mc/tutorial/1": "1.基本结构与约定",
     "dev/mc/tutorial/2": "2.创建插件和模块",
     "dev/mc/tutorial/3": "3.创建简单命令",
