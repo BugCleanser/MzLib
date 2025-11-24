@@ -6,6 +6,10 @@ plugins {
     id("application")
 }
 
+application {
+    mainClass.set("mz.mzlib.demo.SimpleDocsServer")
+}
+
 apply(from = "gradle/utils.gradle.kts")
 
 // === 从 extra 取出函数和路径 ===
