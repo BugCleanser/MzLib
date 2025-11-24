@@ -11,7 +11,6 @@ import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -297,16 +296,14 @@ public class UiWindowList<T> extends UiWindow
                     iconIndex, player ->
                     {
                         ItemStack icon = this.iconGetter.apply(this.getList().get(index), player).clone0();
-                        List<Text> extra = new ArrayList<>();
-                        if(this.viewer != null)
-                            extra.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.view"));
-                        if(this.remover != null)
-                            extra.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.remove"));
-                        if(this.adder != null && this.style.insertable)
-                            extra.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.insert"));
                         for(List<Text> lore : Item.LORE.revise(icon))
                         {
-                            lore.addAll(0, extra);
+                            if(this.viewer != null)
+                                lore.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.view"));
+                            if(this.remover != null)
+                                lore.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.remove"));
+                            if(this.adder != null && this.style.insertable)
+                                lore.add(MinecraftI18n.resolveText(player, "mzlib.ui.list.lore.insert"));
                         }
                         return icon;
                     },
@@ -322,7 +319,7 @@ public class UiWindowList<T> extends UiWindow
                                         visitor = this.viewer;
                                     break;
                                 case 1:
-                                    if(this.adder != null)
+                                    if(this.adder != null && this.style.insertable)
                                         visitor = this.adder;
                                     break;
                                 default:
@@ -351,7 +348,7 @@ public class UiWindowList<T> extends UiWindow
                     this.putIconEmpty(iconIndex);
             }
         }
-        if(this.style.buttonNew != null)
+        if(this.style.buttonNew != null && this.adder != null)
         {
             this.putButton(
                 this.style.buttonNewIndex, this.style.buttonNew,

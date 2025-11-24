@@ -19,7 +19,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     public static RegistrarMzItem instance = new RegistrarMzItem();
 
     public Map<Identifier, WrapperFactory<? extends MzItem>> factories = new ConcurrentHashMap<>();
-    Map<Class<? extends MzItem>, WrapperFactory<? extends MzItem>> cache = new WeakHashMap<>();
+    Map<Class<? extends MzItem>, WrapperFactory<? extends MzItem>> cache = new WeakHashMap<>(); // FIXME: WeakHashMap
 
     public <T extends MzItem> T newMzItem(Class<T> type)
     {

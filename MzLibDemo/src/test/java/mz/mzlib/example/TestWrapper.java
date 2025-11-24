@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated
-public class ExampleWrapper
+public class TestWrapper
 {
     public static class TestClass
     {
