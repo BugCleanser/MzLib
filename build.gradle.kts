@@ -16,20 +16,52 @@ val findTypstInPath = extra["findTypstInPath"] as () -> File?
 val copyFilesRecursively = extra["copyFilesRecursively"] as (File, File, String?) -> Unit
 val generateFileTree = extra["generateFileTree"] as (File, String, Boolean, Appendable) -> Unit
 
+// === 任务：清除 deploy 目录 ===
+tasks.register("cleanDeploy") {
+    group = "docs"
+    description = "清除 deploy 目录"
+
+    doLast {
+        if (deployDir.exists()) {
+            deployDir.deleteRecursively()
+            println("✅ Cleaned deploy directory: ${deployDir}")
+        } else {
+            println("ℹ️ Deploy directory does not exist: ${deployDir}")
+        }
+    }
+}
+
+// === 任务：拷贝 docs 到 deploy 目录 ===
+tasks.register("copyDocsToDeploy") {
+    group = "docs"
+    description = "拷贝 docs 目录到 deploy 目录"
+
+    dependsOn("cleanDeploy")
+
+    doLast {
+        deployDir.mkdirs()
+        copyFilesRecursively(docsDir, deployDir, null)
+        println("✅ Docs copied to: ${deployDir}")
+    }
+}
+
 // === 任务：生成 meta.typ ===
 tasks.register("generateMeta") {
     group = "docs"
     description = "生成 Typst 元信息文件"
 
+    dependsOn("copyDocsToDeploy")
+
     doLast {
-        metaFile.parentFile.mkdirs()
-        // TODO("坏文明")
-        metaFile.writeText("#let environment = \"production\";\n#let root = \"/MzLib/\";\n#let fileTree = ")
+        val deployMetaFile = deployDir.resolve("lib/meta.typ")
+        deployMetaFile.parentFile.mkdirs()
+
+        deployMetaFile.writeText("#let environment = \"production\";\n#let root = \"/MzLib/\";\n#let fileTree = ")
         val builder = StringBuilder()
-        generateFileTree(docsDir, "", true, builder)
-        metaFile.appendText(builder.toString())
-        metaFile.appendText(";")
-        println("✅ Generated meta file at: ${metaFile}")
+        generateFileTree(deployDir, "", true, builder)
+        deployMetaFile.appendText(builder.toString())
+        deployMetaFile.appendText(";")
+        println("✅ Generated meta file at: ${deployMetaFile}")
     }
 }
 
@@ -44,7 +76,7 @@ tasks.register("compileTypst") {
         val typst = findTypstInPath() ?: throw GradleException("❌ Typst CLI not found in PATH.")
         println("✅ Using Typst at: ${typst.absolutePath}")
 
-        docsDir.walkTopDown()
+        deployDir.walkTopDown()
             .filter { it.isFile && it.extension == "typ" }
             .forEach { file ->
                 val baseName = file.absolutePath.removeSuffix(".typ")
@@ -54,7 +86,7 @@ tasks.register("compileTypst") {
                     typst.absolutePath, "compile",
                     "--features", "html",
                     "--format", "html",
-                    "--root", docsDir.absolutePath,
+                    "--root", deployDir.absolutePath,
                     file.absolutePath, htmlFile.absolutePath
                 ).redirectErrorStream(true) // 合并 stdout + stderr
                     .start()
@@ -83,9 +115,22 @@ tasks.register("prepareDeploy") {
     dependsOn("compileTypst")
 
     doLast {
-        deployDir.mkdirs()
-        copyFilesRecursively(docsDir, deployDir, "typ")
-        println("✅ Deployed docs copied to: ${deployDir}")
+        // 删除所有 .typ 文件，因为已经编译成 HTML 了
+        deployDir.walkTopDown()
+            .filter { it.isFile && it.extension == "typ" }
+            .forEach { file ->
+                file.delete()
+                println("🗑️ Removed .typ file: ${file.relativeTo(deployDir)}")
+            }
+        
+        val typCount = deployDir.walkTopDown().count { it.extension == "typ" }
+        if (typCount == 0) {
+            println("✅ All .typ files removed successfully")
+        } else {
+            println("⚠️ Some .typ files may not have been removed")
+        }
+        
+        println("✅ Deploy directory ready at: ${deployDir}")
     }
 }
 
