@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -113,6 +114,14 @@ public class MinecraftI18n extends MzModule
 
     public static Text resolveText(String language, String key, Object args)
     {
+        return resolveTexts(language, key, args, Collections::singletonList).get(0);
+    }
+    public static List<Text> resolveTexts(String language, String key, Object args)
+    {
+        return resolveTexts(language, key, args, str -> Arrays.asList(str.split("\\R")));
+    }
+    public static List<Text> resolveTexts(String language, String key, Object args, Function<String, ? extends List<String>> splitter)
+    {
         StringBuilder sb = new StringBuilder();
         long l = random.nextLong();
         sb.append((char) ((l >>> 48) & 0xFFFF));
@@ -127,36 +136,39 @@ public class MinecraftI18n extends MzModule
                 settings, scope, Collections.singletonMap(
                     "toString", JsUtil.function((s, scope, thisObj, as) ->
                     {
+                        sb.setCharAt(4, (char) (sb.charAt(4) - 1));
                         String result = sb.toString();
                         map.put(result, (Text) JsUtil.toJvm(thisObj));
-                        sb.setCharAt(4, (char) (sb.charAt(4) + 1));
                         return result;
                     })
                 )
             )
         );
-        List<Object> result = CollectionUtil.newArrayList(I18n.resolve(settings, scope, language, key, args));
-        for(Map.Entry<String, Text> e : map.entrySet())
+        return splitter.apply(I18n.resolve(settings, scope, language, key, args)).stream().map(splitting ->
         {
-            result = result.stream().flatMap(o ->
+            List<Object> result = CollectionUtil.newArrayList(splitting);
+            for(Map.Entry<String, Text> e : map.entrySet())
             {
-                if(o instanceof Text)
-                    return Stream.of((Text) o);
-                return Stream.of(CollectionUtil.replace(o.toString(), e.getKey(), e.getValue()).toArray());
-            }).collect(Collectors.toList());
-        }
-        for(Ref<Object> i : CollectionUtil.each(result))
-        {
-            if(i.get() instanceof Text)
-                continue;
-            i.set(Text.literal(i.get().toString()));
-        }
-        if(result.isEmpty())
-            return Text.literal("");
-        else if(result.size() == 1)
-            return (Text) result.get(0);
-        else
-            return Text.literal("").setExtra(RuntimeUtil.cast(result));
+                result = result.stream().flatMap(o ->
+                {
+                    if(o instanceof Text)
+                        return Stream.of((Text) o);
+                    return Stream.of(CollectionUtil.replace(o.toString(), e.getKey(), e.getValue()).toArray());
+                }).collect(Collectors.toList());
+            }
+            for(Ref<Object> i : CollectionUtil.each(result))
+            {
+                if(i.get() instanceof Text)
+                    continue;
+                i.set(Text.literal(i.get().toString()));
+            }
+            if(result.isEmpty())
+                return Text.literal("");
+            else if(result.size() == 1)
+                return (Text) result.get(0);
+            else
+                return Text.literal("").setExtra(RuntimeUtil.cast(result));
+        }).collect(Collectors.toList());
     }
     public static Text resolveText(CommandSource commandSource, String key, Object args)
     {
@@ -177,6 +189,27 @@ public class MinecraftI18n extends MzModule
     public static Text resolveText(EntityPlayer player, String key)
     {
         return resolveText(player.getLanguage(), key);
+    }
+
+    public static List<Text> resolveTexts(CommandSource commandSource, String key, Object args)
+    {
+        return resolveTexts(getLanguage(commandSource), key, args);
+    }
+    public static List<Text> resolveTexts(EntityPlayer player, String key, Object args)
+    {
+        return resolveTexts(player.getLanguage(), key, args);
+    }
+    public static List<Text> resolveTexts(String language, String key)
+    {
+        return resolveTexts(language, key, Collections.emptyMap());
+    }
+    public static List<Text> resolveTexts(CommandSource commandSource, String key)
+    {
+        return resolveTexts(getLanguage(commandSource), key);
+    }
+    public static List<Text> resolveTexts(EntityPlayer player, String key)
+    {
+        return resolveTexts(player.getLanguage(), key);
     }
 
     public static void saveCustomLanguage(String lang)
