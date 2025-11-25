@@ -7,6 +7,7 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class RuntimeUtil
@@ -151,5 +152,10 @@ public class RuntimeUtil
     {
         assert con.test(object);
         return object;
+    }
+
+    public static <T> void consume(T value, Consumer<T> consumer)
+    {
+        consumer.accept(value);
     }
 }
