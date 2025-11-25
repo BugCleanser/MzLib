@@ -11,11 +11,10 @@ import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.Map;
+import java.util.function.*;
 
 public class UiWindowList<T> extends UiWindow
 {
@@ -33,7 +32,6 @@ public class UiWindowList<T> extends UiWindow
         Visitor<T> viewer;
         Visitor<T> remover;
         Visitor<T> adder;
-        Consumer<UiWindowList<T>> extra = ThrowableConsumer.nothing();
 
         public Builder(List<T> list)
         {
@@ -82,12 +80,6 @@ public class UiWindowList<T> extends UiWindow
             });
         }
 
-        public Builder<T> extra(Consumer<UiWindowList<T>> value)
-        {
-            this.extra = value;
-            return this;
-        }
-
         public Builder<T> rows(int value)
         {
             this.style.rows = value;
@@ -113,45 +105,29 @@ public class UiWindowList<T> extends UiWindow
             this.style.bottomBarBackground = value;
             return this;
         }
-        public Builder<T> buttonBack(Function<EntityPlayer, ItemStack> value)
+        public StepButton<T> button(String id)
         {
-            this.style.buttonBack = value;
-            return this;
+            return new StepButton<>(this, id);
         }
-        public Builder<T> buttonBackIndex(int value)
+        public StepButton<T> buttonBack()
         {
-            this.style.buttonBackIndex = value;
-            return this;
+            return this.button("back");
         }
-        public Builder<T> buttonNew(Function<EntityPlayer, ItemStack> value)
+        public StepButton<T> buttonNew()
         {
-            this.style.buttonNew = value;
-            return this;
+            return this.button("new");
         }
-        public Builder<T> buttonNewIndex(int value)
+        public StepButton<T> buttonPrev()
         {
-            this.style.buttonNewIndex = value;
-            return this;
+            return this.button("prev");
         }
-        public Builder<T> buttonPrev(Function<EntityPlayer, ItemStack> value)
+        public StepButton<T> buttonNext()
         {
-            this.style.buttonPrev = value;
-            return this;
+            return this.button("next");
         }
-        public Builder<T> buttonNext(Function<EntityPlayer, ItemStack> value)
+        public StepButton<T> buttonAppend()
         {
-            this.style.buttonNext = value;
-            return this;
-        }
-        public Builder<T> buttonPrevIndex(int value)
-        {
-            this.style.buttonPrevIndex = value;
-            return this;
-        }
-        public Builder<T> buttonNextIndex(int value)
-        {
-            this.style.buttonNextIndex = value;
-            return this;
+            return this.button("append");
         }
         public Builder<T> buttonPrevFirst(boolean value)
         {
@@ -161,11 +137,6 @@ public class UiWindowList<T> extends UiWindow
         public Builder<T> buttonNextLast(boolean value)
         {
             this.style.buttonNextLast = value;
-            return this;
-        }
-        public Builder<T> buttonAppend(Function<EntityPlayer, ItemStack> value)
-        {
-            this.style.buttonAppend = value;
             return this;
         }
         public Builder<T> insertable(boolean value)
@@ -178,52 +149,154 @@ public class UiWindowList<T> extends UiWindow
         {
             return new UiWindowList<>(this);
         }
+
+        public static class StepButton<T>
+        {
+            Builder<T> builder;
+            String id;
+            Style.Button data;
+            public StepButton(Builder<T> builder, String id)
+            {
+                this.builder = builder;
+                this.id = id;
+                this.data = this.builder.style.buttons.get(id);
+                if(this.data != null)
+                    this.data = this.data.clone();
+                else
+                    this.data = new Style.Button(false, 0, null, null);
+            }
+
+            public StepButton<T> inBottomBar(boolean value)
+            {
+                this.data.inButtonBar = value;
+                return this;
+            }
+            public StepButton<T> index(int value)
+            {
+                this.data.index = value;
+                return this;
+            }
+            public StepButton<T> iconGetter(Function<EntityPlayer, ItemStack> value)
+            {
+                this.data.iconGetter = value;
+                return this;
+            }
+            public StepButton<T> onClick(BiConsumer<UiWindowList<T>, EntityPlayer> value)
+            {
+                this.data.onClick = RuntimeUtil.cast(value);
+                return this;
+            }
+
+            public Builder<T> remove()
+            {
+                this.builder.style.buttons.remove(this.id);
+                return this.builder;
+            }
+            public Builder<T> finish()
+            {
+                if(this.data.iconGetter == null)
+                    throw new IllegalStateException("iconGetter is not set");
+                if(this.data.onClick == null)
+                    throw new IllegalStateException("onClick is not set");
+                this.builder.style.buttons.put(this.id, this.data);
+                return this.builder;
+            }
+        }
     }
     static class Style extends SimpleCloneable<Style>
     {
+        static Style DEFAULT;
+
         int rows;
         int topBar, bottomBar;
         Function<EntityPlayer, ItemStack> topBarBackground, bottomBarBackground;
-        Function<EntityPlayer, ItemStack> buttonBack;
-        int buttonBackIndex;
-        Function<EntityPlayer, ItemStack> buttonNew;
-        int buttonNewIndex;
-        Function<EntityPlayer, ItemStack> buttonPrev, buttonNext;
-        int buttonPrevIndex, buttonNextIndex;
         boolean buttonPrevFirst, buttonNextLast;
-        Function<EntityPlayer, ItemStack> buttonAppend;
         boolean insertable;
+        Map<String, Button> buttons;
 
-        static Style DEFAULT;
+        static class Button extends SimpleCloneable<Button>
+        {
+            boolean inButtonBar;
+            int index;
+            Function<EntityPlayer, ItemStack> iconGetter;
+            BiConsumer<UiWindowList<?>, EntityPlayer> onClick;
+            Button(
+                boolean inBottomBar,
+                int index,
+                Function<EntityPlayer, ItemStack> iconGetter,
+                BiConsumer<UiWindowList<?>, EntityPlayer> onClick)
+            {
+                this.inButtonBar = inBottomBar;
+                this.index = index;
+                this.iconGetter = iconGetter;
+                this.onClick = onClick;
+            }
+        }
 
+        @Override
+        public Style clone()
+        {
+            Style result = super.clone();
+            result.buttons = new HashMap<>(result.buttons);
+            return result;
+        }
         static
         {
             DEFAULT = new Style();
             DEFAULT.rows = 6;
             DEFAULT.topBar = DEFAULT.bottomBar = 1;
-            DEFAULT.buttonBackIndex = 0;
-            DEFAULT.buttonNewIndex = 7;
-            DEFAULT.buttonPrevIndex = 2;
-            DEFAULT.buttonNextIndex = 6;
+            DEFAULT.buttons = new HashMap<>();
+            DEFAULT.buttons.put(
+                "back", new Button(
+                    false, 0, player -> ItemStack.builder().playerHead().texturesUrl(
+                        "https://textures.minecraft.net/texture/47e50591f4118b9ae44755f7b485699b4b917f00d65f5ea8553ee48826d234c7")
+                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.back")).build(),
+                    (ui, player) -> UiStack.get(player).back()
+                )
+            );
+            DEFAULT.buttons.put(
+                "new", new Button(
+                    false, 7, player -> ItemStack.builder().fromId("nether_star")
+                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.new")).build(),
+                    (ui, player) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
+                )
+            );
+            DEFAULT.buttons.put(
+                "prev", new Button(
+                    true, 2, player -> ItemStack.builder().playerHead().texturesUrl(
+                        "https://textures.minecraft.net/texture/69ea1d86247f4af351ed1866bca6a3040a06c68177c78e42316a1098e60fb7d3")
+                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.prev")).build(),
+                    (ui, player) ->
+                    {
+                        if(ui.pageNumber > 0)
+                            ui.pageNumber--;
+                        ui.update();
+                    }
+                )
+            );
+            DEFAULT.buttons.put(
+                "next", new Button(
+                    true, 6, player -> ItemStack.builder().playerHead().texturesUrl(
+                        "https://textures.minecraft.net/texture/8271a47104495e357c3e8e80f511a9f102b0700ca9b88e88b795d33ff20105eb")
+                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.next")).build(),
+                    (ui, player) ->
+                    {
+                        if(ui.pageNumber < ui.getPageCount() - 1)
+                            ui.pageNumber++;
+                        ui.update();
+                    }
+                )
+            );
+            DEFAULT.buttons.put(
+                "append", new Button(
+                    false, -1, player -> ItemStack.builder().fromId("nether_star")
+                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.append")).build(),
+                    (ui, player) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
+                )
+            );
             DEFAULT.buttonPrevFirst = DEFAULT.buttonNextLast = true;
             DEFAULT.topBarBackground = DEFAULT.bottomBarBackground = it -> ItemStack.builder().stainedGlassPane().blue()
                 .emptyName().build();
-            DEFAULT.buttonBack = player -> ItemStack.builder().playerHead().texturesUrl(
-                    "https://textures.minecraft.net/texture/47e50591f4118b9ae44755f7b485699b4b917f00d65f5ea8553ee48826d234c7")
-                .customName(MinecraftI18n.resolveText(player, "mzlib.ui.back"))
-                .build();
-            DEFAULT.buttonPrev = player -> ItemStack.builder().playerHead().texturesUrl(
-                    "https://textures.minecraft.net/texture/69ea1d86247f4af351ed1866bca6a3040a06c68177c78e42316a1098e60fb7d3")
-                .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.prev"))
-                .build();
-            DEFAULT.buttonNext = player -> ItemStack.builder().playerHead().texturesUrl(
-                    "https://textures.minecraft.net/texture/8271a47104495e357c3e8e80f511a9f102b0700ca9b88e88b795d33ff20105eb")
-                .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.next"))
-                .build();
-            DEFAULT.buttonNew = player -> ItemStack.builder().fromId("nether_star")
-                .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.new")).build();
-            DEFAULT.buttonAppend = player -> ItemStack.builder().fromId("nether_star")
-                .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.append")).build();
             DEFAULT.insertable = true;
         }
     }
@@ -235,7 +308,6 @@ public class UiWindowList<T> extends UiWindow
     Visitor<T> viewer;
     Visitor<T> remover;
     Visitor<T> adder;
-    Consumer<UiWindowList<T>> extra;
     public UiWindowList(Builder<T> builder)
     {
         super(WindowType.generic9x(builder.style.rows));
@@ -248,7 +320,11 @@ public class UiWindowList<T> extends UiWindow
         this.viewer = builder.viewer;
         this.remover = builder.remover;
         this.adder = builder.adder;
-        this.extra = builder.extra;
+        if(this.adder == null)
+        {
+            this.style.buttons.remove("new");
+            this.style.buttons.remove("append");
+        }
         this.update();
     }
 
@@ -266,6 +342,14 @@ public class UiWindowList<T> extends UiWindow
     public List<T> getList()
     {
         return this.list;
+    }
+
+    void putButton(Style.Button value)
+    {
+        this.putButton(
+            (value.inButtonBar ? this.getWindowType().getSize() - this.style.bottomBar * 9 : 0) + value.index,
+            value.iconGetter, (player, action, arg) -> value.onClick.accept(this, player)
+        );
     }
 
     public void update()
@@ -339,56 +423,37 @@ public class UiWindowList<T> extends UiWindow
             }
             else
             {
-                if(index == this.getList().size() && this.adder != null && this.style.buttonAppend != null)
-                    this.putButton(
-                        iconIndex, this.style.buttonAppend,
-                        (player, action, arg) -> this.adder.visit(this, player, index)
-                    );
+                Style.Button buttonAppend;
+                if(index == this.getList().size() && (buttonAppend = this.style.buttons.get("append")) != null)
+                {
+                    buttonAppend = buttonAppend.clone();
+                    buttonAppend.inButtonBar = false;
+                    buttonAppend.index = iconIndex;
+                    this.putButton(buttonAppend);
+                }
                 else
                     this.putIconEmpty(iconIndex);
             }
         }
-        if(this.style.buttonNew != null && this.adder != null)
+        for(Map.Entry<String, Style.Button> entry : this.style.buttons.entrySet())
         {
-            this.putButton(
-                this.style.buttonNewIndex, this.style.buttonNew,
-                (player, action, arg) -> this.adder.visit(this, player, this.getList().size())
-            );
-        }
-        if(this.style.buttonBack != null)
-        {
-            this.putButton(
-                this.style.buttonBackIndex, this.style.buttonBack,
-                (player, action, arg) -> UiStack.get(player).back()
-            );
-        }
-        if(this.style.buttonPrev != null)
-            if(this.style.buttonPrevFirst || this.pageNumber > 0)
+            switch(entry.getKey())
             {
-                this.putButton(
-                    size - this.style.bottomBar * 9 + this.style.buttonPrevIndex, this.style.buttonPrev,
-                    (player, action, arg) ->
-                    {
-                        if(this.pageNumber > 0)
-                            this.pageNumber--;
-                        this.update();
-                    }
-                );
+                case "append":
+                    continue;
+                case "prev":
+                    if(!this.style.buttonPrevFirst && this.pageNumber <= 0)
+                        continue;
+                    break;
+                case "next":
+                    if(!this.style.buttonNextLast && this.pageNumber >= this.getPageCount() - 1)
+                        continue;
+                    break;
+                default:
+                    break;
             }
-        if(this.style.buttonNext != null)
-            if(this.style.buttonNextLast || this.pageNumber < this.getPageCount() - 1)
-            {
-                this.putButton(
-                    size - this.style.bottomBar * 9 + this.style.buttonNextIndex, this.style.buttonNext,
-                    (player, action, arg) ->
-                    {
-                        if(this.pageNumber < this.getPageCount() - 1)
-                            this.pageNumber++;
-                        this.update();
-                    }
-                );
-            }
-        this.extra.accept(this);
+            this.putButton(entry.getValue());
+        }
         this.reopen();
     }
 
