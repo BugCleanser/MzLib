@@ -7,7 +7,6 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class RuntimeUtil
@@ -154,8 +153,12 @@ public class RuntimeUtil
         return object;
     }
 
-    public static <T> void consume(T value, Consumer<T> consumer)
+    public static <T, R, E extends Throwable> R apply(T value, ThrowableFunction<T, R, E> function) throws E
     {
-        consumer.accept(value);
+        return function.applyOrThrow(value);
+    }
+    public static <T, E extends Throwable> void consume(T value, ThrowableConsumer<T, E> consumer) throws E
+    {
+        consumer.acceptOrThrow(value);
     }
 }
