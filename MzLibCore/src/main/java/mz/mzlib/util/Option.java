@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+// TODO Refactor
 public abstract class Option<T> implements Iterable<T>
 {
     public static <T> Option<T> some(T value)

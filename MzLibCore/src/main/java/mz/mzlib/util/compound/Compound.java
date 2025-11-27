@@ -4,10 +4,7 @@ import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
-import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.CollectionUtil;
-import mz.mzlib.util.ElementSwitcher;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
@@ -76,74 +73,71 @@ public @interface Compound
                     Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null, AsmUtil.getType(superclass),
                     interfaces.stream().map(AsmUtil::getType).toArray(String[]::new)
                 );
+                PriorityQueue<Pair<DelegateField, Class<?>>> delegates = new PriorityQueue<>(
+                    Pair.comparingByFirst(Comparator.comparing(DelegateField::priority)));
                 for(Method method : wrapperClass.getMethods())
                 {
                     if(Modifier.isStatic(method.getModifiers()) || !ElementSwitcher.isEnabled(method))
                         continue;
-                    PropAccessor propAccessor = method.getDeclaredAnnotation(PropAccessor.class);
-                    if(propAccessor != null)
+                    for(PropAccessor anno : Option.fromNullable(method.getDeclaredAnnotation(PropAccessor.class)))
                     {
-                        if(AsmUtil.getFieldNode(cn, propAccessor.value()) == null)
+                        if(AsmUtil.getFieldNode(cn, anno.value()) != null)
+                            continue;
+                        Class<?> type;
+                        switch(method.getParameterCount())
                         {
-                            Class<?> type;
-                            switch(method.getParameterCount())
-                            {
-                                case 0:
-                                    type = method.getReturnType();
-                                    break;
-                                case 1:
-                                    type = method.getParameterTypes()[0];
-                                    break;
-                                default:
-                                    throw new IllegalArgumentException("Too many args of " + method + ".");
-                            }
-                            if(WrapperObject.class.isAssignableFrom(type))
-                                type = WrapperObject.getWrappedClass(RuntimeUtil.cast(type));
-                            cn.visitField(Opcodes.ACC_PUBLIC, propAccessor.value(), AsmUtil.getDesc(type), null, null)
-                                .visitEnd();
+                            case 0:
+                                type = method.getReturnType();
+                                break;
+                            case 1:
+                                type = method.getParameterTypes()[0];
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Too many args of " + method + ".");
                         }
+                        if(WrapperObject.class.isAssignableFrom(type))
+                            type = WrapperObject.getWrappedClass(RuntimeUtil.cast(type));
+                        cn.visitField(Opcodes.ACC_PUBLIC, anno.value(), AsmUtil.getDesc(type), null, null)
+                            .visitEnd();
                     }
-                    CompoundSuper compoundSuper = method.getDeclaredAnnotation(CompoundSuper.class);
-                    if(compoundSuper != null)
+                    for(CompoundSuper anno : Option.fromNullable(method.getDeclaredAnnotation(CompoundSuper.class)))
                     {
                         Method wrapper;
                         try
                         {
-                            wrapper = compoundSuper.parent()
-                                .getMethod(compoundSuper.method(), method.getParameterTypes());
+                            wrapper = anno.parent().getMethod(anno.method(), method.getParameterTypes());
                         }
                         catch(NoSuchMethodException e)
                         {
                             throw new IllegalStateException("Wrapper method not found: " + method);
                         }
-                        if(ElementSwitcher.isEnabled(wrapper))
+                        if(!ElementSwitcher.isEnabled(wrapper))
+                            continue;
+                        Method tar = Objects.requireNonNull(
+                            (Method) WrapperClassInfo.get(anno.parent()).getWrappedMembers().get(wrapper),
+                            "Wrapped method of " + wrapper
+                        );
+                        MethodNode mn = new MethodNode(
+                            Opcodes.ACC_PUBLIC, CompoundSuper.Handler.getInnerMethodName(anno),
+                            AsmUtil.getDesc(tar), null, null
+                        );
+                        Class<?>[] tarParams = tar.getParameterTypes();
+                        mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                        for(int i = 0, j = 1; i < tarParams.length; i++)
                         {
-                            Method tar = Objects.requireNonNull(
-                                (Method) WrapperClassInfo.get(compoundSuper.parent()).getWrappedMembers().get(wrapper),
-                                "Wrapped method of " + wrapper
-                            );
-                            MethodNode mn = new MethodNode(
-                                Opcodes.ACC_PUBLIC, CompoundSuper.Handler.getInnerMethodName(compoundSuper),
-                                AsmUtil.getDesc(tar), null, null
-                            );
-                            Class<?>[] tarParams = tar.getParameterTypes();
-                            mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-                            for(int i = 0, j = 1; i < tarParams.length; i++)
-                            {
-                                mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
-                                j += AsmUtil.getCategory(tarParams[i]);
-                            }
-                            mn.visitMethodInsn(
-                                Opcodes.INVOKESPECIAL, AsmUtil.getType(tar.getDeclaringClass()), tar.getName(),
-                                AsmUtil.getDesc(tar), Modifier.isInterface(tar.getDeclaringClass().getModifiers())
-                            );
-                            mn.instructions.add(AsmUtil.insnReturn(tar.getReturnType()));
-                            mn.visitEnd();
-                            cn.methods.add(mn);
+                            mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
+                            j += AsmUtil.getCategory(tarParams[i]);
                         }
+                        mn.visitMethodInsn(
+                            Opcodes.INVOKESPECIAL, AsmUtil.getType(tar.getDeclaringClass()), tar.getName(),
+                            AsmUtil.getDesc(tar), Modifier.isInterface(tar.getDeclaringClass().getModifiers())
+                        );
+                        mn.instructions.add(AsmUtil.insnReturn(tar.getReturnType()));
+                        mn.visitEnd();
+                        cn.methods.add(mn);
                     }
-                    CompoundOverride compoundOverride = method.getDeclaredAnnotation(CompoundOverride.class);
-                    if(compoundOverride != null)
+                    for(CompoundOverride compoundOverride : Option.fromNullable(
+                        method.getDeclaredAnnotation(CompoundOverride.class)))
                     {
                         Method wrapper;
                         try
@@ -155,45 +149,56 @@ public @interface Compound
                         {
                             throw new IllegalStateException("Wrapper method not found: " + method);
                         }
-                        if(ElementSwitcher.isEnabled(wrapper))
+                        if(!ElementSwitcher.isEnabled(wrapper))
+                            continue;
+                        wrapper = Objects.requireNonNull(
+                            (Method) WrapperClassInfo.get(RuntimeUtil.cast(wrapper.getDeclaringClass()))
+                                .getWrappedMembers().get(wrapper), "Wrapped method of " + wrapper
+                        );
+                        MethodNode mn = new MethodNode(
+                            Opcodes.ACC_PUBLIC, wrapper.getName(), AsmUtil.getDesc(wrapper), null, null);
+                        mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                        mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
+                        Class<?>[] tarParams = wrapper.getParameterTypes(), srcParams = method.getParameterTypes();
+                        for(int i = 0, j = 1; i < tarParams.length; i++)
                         {
-                            wrapper = Objects.requireNonNull(
-                                (Method) WrapperClassInfo.get(RuntimeUtil.cast(wrapper.getDeclaringClass()))
-                                    .getWrappedMembers().get(wrapper), "Wrapped method of " + wrapper
-                            );
-                            MethodNode mn = new MethodNode(
-                                Opcodes.ACC_PUBLIC, wrapper.getName(), AsmUtil.getDesc(wrapper), null, null);
-                            mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-                            mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
-                            Class<?>[] tarParams = wrapper.getParameterTypes(), srcParams = method.getParameterTypes();
-                            for(int i = 0, j = 1; i < tarParams.length; i++)
+                            mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
+                            if(WrapperObject.class.isAssignableFrom(srcParams[i]))
                             {
-                                mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
-                                if(WrapperObject.class.isAssignableFrom(srcParams[i]))
-                                {
-                                    mn.instructions.add(AsmUtil.insnCast(Object.class, tarParams[i]));
-                                    mn.instructions.add(AsmUtil.insnCreateWrapper(
-                                        RuntimeUtil.<Class<? extends WrapperObject>>cast(srcParams[i])));
-                                }
-                                else
-                                    mn.instructions.add(AsmUtil.insnCast(srcParams[i], tarParams[i]));
-                                j += AsmUtil.getCategory(tarParams[i]);
-                            }
-                            mn.visitMethodInsn(
-                                Opcodes.INVOKEINTERFACE, AsmUtil.getType(wrapperClass), method.getName(),
-                                AsmUtil.getDesc(method), true
-                            );
-                            if(WrapperObject.class.isAssignableFrom(method.getReturnType()))
-                            {
-                                mn.instructions.add(AsmUtil.insnGetWrapped());
-                                mn.instructions.add(AsmUtil.insnCast(wrapper.getReturnType(), Object.class));
+                                mn.instructions.add(AsmUtil.insnCast(Object.class, tarParams[i]));
+                                mn.instructions.add(AsmUtil.insnCreateWrapper(
+                                    RuntimeUtil.<Class<? extends WrapperObject>>cast(srcParams[i])));
                             }
                             else
-                                mn.instructions.add(AsmUtil.insnCast(wrapper.getReturnType(), method.getReturnType()));
-                            mn.instructions.add(AsmUtil.insnReturn(wrapper.getReturnType()));
-                            mn.visitEnd();
-                            cn.methods.add(mn);
+                                mn.instructions.add(AsmUtil.insnCast(srcParams[i], tarParams[i]));
+                            j += AsmUtil.getCategory(tarParams[i]);
                         }
+                        mn.visitMethodInsn(
+                            Opcodes.INVOKEINTERFACE, AsmUtil.getType(wrapperClass), method.getName(),
+                            AsmUtil.getDesc(method), true
+                        );
+                        if(WrapperObject.class.isAssignableFrom(method.getReturnType()))
+                        {
+                            mn.instructions.add(AsmUtil.insnGetWrapped());
+                            mn.instructions.add(AsmUtil.insnCast(wrapper.getReturnType(), Object.class));
+                        }
+                        else
+                            mn.instructions.add(AsmUtil.insnCast(wrapper.getReturnType(), method.getReturnType()));
+                        mn.instructions.add(AsmUtil.insnReturn(wrapper.getReturnType()));
+                        mn.visitEnd();
+                        cn.methods.add(mn);
+                    }
+                    for(DelegateField anno : Option.fromNullable(method.getDeclaredAnnotation(DelegateField.class)))
+                    {
+                        Class<?>[] pts = method.getParameterTypes();
+                        if(pts.length != 1)
+                            throw new IllegalArgumentException("Method @DelegateField must be a setter: " + method);
+                        if(!WrapperObject.class.isAssignableFrom(pts[0]))
+                            throw new IllegalArgumentException(
+                                "Type of delegate field must be child of WrapperObject: " + method);
+                        Class<?> raw = WrapperObject.getWrappedClass(RuntimeUtil.cast(pts[0]));
+                        cn.visitField(Opcodes.ACC_PUBLIC, anno.value(), AsmUtil.getDesc(raw), null, null).visitEnd();
+                        delegates.offer(Pair.of(anno, raw));
                     }
                 }
                 for(Constructor<?> constructor : superclass.getDeclaredConstructors())
@@ -217,6 +222,40 @@ public @interface Compound
                     mn.visitEnd();
                     cn.methods.add(mn);
                 }
+                for(Pair<DelegateField, Class<?>> delegate : delegates)
+                {
+                    for(Method method : delegate.getSecond().getMethods())
+                    {
+                        String desc = AsmUtil.getDesc(method);
+                        if(Modifier.isStatic(method.getModifiers()) || Modifier.isPrivate(method.getModifiers()) ||
+                            Modifier.isFinal(method.getModifiers()) || cn.methods.stream()
+                            .anyMatch(it -> Objects.equals(desc, it.desc) && Objects.equals(method.getName(), it.name)))
+                            continue;
+                        MethodNode mn = new MethodNode(
+                            Opcodes.ACC_PUBLIC, method.getName(), AsmUtil.getDesc(method), null, new String[0]);
+                        mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                        mn.visitFieldInsn(
+                            Opcodes.GETFIELD, className, delegate.getFirst().value(),
+                            AsmUtil.getDesc(delegate.getSecond())
+                        );
+                        int i = 1;
+                        for(Class<?> param : method.getParameterTypes())
+                        {
+                            mn.instructions.add(AsmUtil.insnVarLoad(param, i));
+                            i += AsmUtil.getCategory(param);
+                        }
+                        boolean isInterface = Modifier.isInterface(delegate.getSecond().getModifiers());
+                        mn.visitMethodInsn(
+                            isInterface ? Opcodes.INVOKEINTERFACE : Opcodes.INVOKEVIRTUAL,
+                            AsmUtil.getType(delegate.getSecond()), method.getName(), AsmUtil.getDesc(method),
+                            isInterface
+                        );
+                        mn.instructions.add(AsmUtil.insnReturn(method.getReturnType()));
+                        mn.visitEnd();
+                        cn.methods.add(mn);
+                    }
+                }
+                //noinspection deprecation legacy
                 if(Delegator.class.isAssignableFrom(wrapperClass))
                 {
                     String delegateField = "mzlib$Delegate";
@@ -241,9 +280,10 @@ public @interface Compound
                     mn.instructions.add(AsmUtil.insnReturn(void.class));
                     mn.visitEnd();
                     cn.methods.add(mn);
-                    for(Method method : CollectionUtil.addAll(
-                            new HashSet<>(superclasses), interfaces.toArray(new Class[0])).stream().map(Class::getMethods)
-                        .flatMap(Arrays::stream).collect(Collectors.toSet()))
+                    for(Method method : CollectionUtil.addAll(new HashSet<>(interfaces), superclass).stream()
+                        .map(Class::getMethods)
+                        .flatMap(Arrays::stream)
+                        .collect(Collectors.toSet()))
                     {
                         String desc = AsmUtil.getDesc(method);
                         if(Modifier.isStatic(method.getModifiers()) || Modifier.isPrivate(method.getModifiers()) ||
@@ -262,8 +302,7 @@ public @interface Compound
                             i += AsmUtil.getCategory(param);
                         }
                         mn.visitMethodInsn(
-                            Modifier.isInterface(method.getDeclaringClass().getModifiers()) ?
-                                Opcodes.INVOKEINTERFACE :
+                            Modifier.isInterface(method.getDeclaringClass().getModifiers()) ? Opcodes.INVOKEINTERFACE :
                                 Opcodes.INVOKEVIRTUAL, AsmUtil.getType(method.getDeclaringClass()), method.getName(),
                             AsmUtil.getDesc(method), Modifier.isInterface(method.getDeclaringClass().getModifiers())
                         );

@@ -44,6 +44,7 @@ public class ExampleCompound
         void g();
     }
 
+    @SuppressWarnings("deprecation")
     @Compound
     public interface CompoundFoo extends WrapperFoo, Delegator
     {

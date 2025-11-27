@@ -6,6 +6,10 @@ import mz.mzlib.util.wrapper.*;
 
 import java.util.function.Function;
 
+/**
+ * @see DelegateField
+ */
+@Deprecated
 @WrapClass(IDelegator.class)
 public interface Delegator extends WrapperObject
 {

@@ -54,6 +54,12 @@ public class Pair<F, S> implements Comparable<Pair<F, S>>
             Objects.equals(second, ((Pair<?, ?>) o).second);
     }
 
+    @Override
+    public String toString()
+    {
+        return "("+this.getFirst()+", "+this.getSecond()+")";
+    }
+
     public static <F, S> Pair<F, S> of(F first, S second)
     {
         return new Pair<>(first, second);

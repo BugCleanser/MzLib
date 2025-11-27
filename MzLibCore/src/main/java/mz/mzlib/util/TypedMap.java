@@ -4,6 +4,9 @@ import mz.mzlib.util.proxy.SetProxy;
 
 import java.util.*;
 
+/**
+ * @see TypedMapClass
+ */
 public interface TypedMap<K extends TypedMap.Key<?, K>> extends Iterable<TypedMap.Entry<?, K, ?>>
 {
     boolean containsKey(K key);
@@ -83,6 +86,7 @@ public interface TypedMap<K extends TypedMap.Key<?, K>> extends Iterable<TypedMa
 
     static <K extends TypedMap.Key<?, K>> TypedMap<K> of()
     {
+        //noinspection Convert2Diamond: fuck javac
         return of(new HashMap<K, Object>());
     }
     static <K extends TypedMap.Key<?, K>> TypedMap<K> of(Map<K, Object> map)
