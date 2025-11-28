@@ -1,9 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import java.time.Instant
 
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
+
+val outputDir = File(rootProject.projectDir, "out")
 
 apply(from = "gradle/utils.gradle.kts")
 
@@ -121,14 +124,14 @@ tasks.register("prepareDeploy") {
                 file.delete()
                 println("🗑️ Removed .typ file: ${file.relativeTo(deployDir)}")
             }
-        
+
         val typCount = deployDir.walkTopDown().count { it.extension == "typ" }
         if (typCount == 0) {
             println("✅ All .typ files removed successfully")
         } else {
             println("⚠️ Some .typ files may not have been removed")
         }
-        
+
         println("✅ Deploy directory ready at: ${deployDir}")
     }
 }
@@ -177,6 +180,47 @@ tasks.register("buildDocs") {
     dependsOn("validateDeploy")
 }
 
+// === 任务：生成源代码jar包 ===
+tasks.register("createSourcesJar", Jar::class) {
+    group = "build"
+    description = "生成包含所有子项目源代码的jar包"
+
+    archiveClassifier.set("sources")
+    archiveBaseName.set("MzLib")
+    archiveVersion.set(version.toString())
+
+    // 设置输出目录
+    destinationDirectory.set(outputDir)
+
+    // 添加所有子项目的源代码
+    subprojects.forEach { subproject ->
+        // 添加主要源代码
+        subproject.sourceSets.forEach { sourceSet ->
+            from(sourceSet.allSource) {
+                // 保持原始目录结构
+                into("${subproject.name}/src/${sourceSet.name}")
+            }
+        }
+    }
+
+    // 确保manifest文件包含项目信息
+    manifest {
+        attributes(
+            "Implementation-Title" to "MzLib Sources",
+            "Implementation-Version" to version,
+            "Built-By" to System.getProperty("user.name"),
+            "Built-Date" to Instant.now().toString(),
+            "Build-Jdk" to System.getProperty("java.version"),
+            "Project-Name" to rootProject.name,
+            "Project-Version" to version
+        )
+    }
+}
+
+tasks.build {
+    dependsOn("createSourcesJar")
+}
+
 allprojects {
     group = "mz.mzlib"
     version = "10.0.1-beta-dev16"
@@ -209,8 +253,6 @@ subprojects {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
-    val outputDir = File(rootProject.projectDir, "out")
 
     tasks {
         jar {
