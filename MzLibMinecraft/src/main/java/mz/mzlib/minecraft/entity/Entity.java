@@ -57,7 +57,7 @@ public interface Entity extends WrapperObject
     EntityDataKey<?> static$dataKeyCustomNameV900();
 
     EntityDataAdapter<Text> DATA_ADAPTER_CUSTOM_NAME = new EntityDataAdapter<>(
-        dataKeyCustomName(), //
+        dataKeyCustomName(),
         MinecraftPlatform.instance.getVersion() < 1300 ?
             new FunctionInvertible<>(Text::toLegacy, Text::fromLegacy).thenCast() :
             FunctionInvertible.wrapper(Text.FACTORY).inverse().thenApply(FunctionInvertible.optional()).thenCast()
@@ -87,10 +87,9 @@ public interface Entity extends WrapperObject
     EntityDataKey<Boolean> static$dataKeyCustomNameVisibleV900();
 
     EntityDataAdapter<Boolean> DATA_ADAPTER_CUSTOM_NAME_VISIBLE = new EntityDataAdapter<>(
-        dataKeyCustomNameVisible(), //
+        dataKeyCustomNameVisible(),
         MinecraftPlatform.instance.getVersion() < 900 ?
             new FunctionInvertible<>(RuntimeUtil::castBooleanToByte, RuntimeUtil::castByteToBoolean).thenCast() :
-            //
             FunctionInvertible.cast()
     );
 

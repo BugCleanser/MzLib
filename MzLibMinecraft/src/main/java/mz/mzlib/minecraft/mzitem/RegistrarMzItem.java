@@ -71,7 +71,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     @Override
     public Class<Class<? extends MzItem>> getType()
     {
-        return RuntimeUtil.cast(Class.class);
+        return RuntimeUtil.castClass(Class.class);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class RegistrarPacketListener implements IRegistrar<PacketListener<?>>
 
     public Class<PacketListener<?>> getType()
     {
-        return RuntimeUtil.cast(PacketListener.class);
+        return RuntimeUtil.castClass(PacketListener.class);
     }
 
     public Map<Class<?>, Set<PacketListener<?>>> listeners = new HashMap<>();

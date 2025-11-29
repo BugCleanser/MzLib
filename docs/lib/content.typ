@@ -24,7 +24,10 @@
 #let html_elem(tag, attrs: (:), body) = {
     if isHtml {
         return html.elem(tag, body, attrs: attrs);
-    }
+    };
+    if ("script","style").contains(tag) {
+        return none;
+    };
     return body;
 };
 #let html_frame(body) = {

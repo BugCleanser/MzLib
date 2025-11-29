@@ -555,39 +555,39 @@ public class ClassUtil
     {
         if(src == Character.class)
         {
-            return RuntimeUtil.cast(char.class);
+            return RuntimeUtil.castClass(char.class);
         }
         else if(src == Boolean.class)
         {
-            return RuntimeUtil.cast(boolean.class);
+            return RuntimeUtil.castClass(boolean.class);
         }
         else if(src == Byte.class)
         {
-            return RuntimeUtil.cast(byte.class);
+            return RuntimeUtil.castClass(byte.class);
         }
         else if(src == Short.class)
         {
-            return RuntimeUtil.cast(short.class);
+            return RuntimeUtil.castClass(short.class);
         }
         else if(src == Integer.class)
         {
-            return RuntimeUtil.cast(int.class);
+            return RuntimeUtil.castClass(int.class);
         }
         else if(src == Long.class)
         {
-            return RuntimeUtil.cast(long.class);
+            return RuntimeUtil.castClass(long.class);
         }
         else if(src == Float.class)
         {
-            return RuntimeUtil.cast(float.class);
+            return RuntimeUtil.castClass(float.class);
         }
         else if(src == Double.class)
         {
-            return RuntimeUtil.cast(double.class);
+            return RuntimeUtil.castClass(double.class);
         }
         else if(src == Void.class)
         {
-            return RuntimeUtil.cast(void.class);
+            return RuntimeUtil.castClass(void.class);
         }
         else
         {
@@ -599,39 +599,39 @@ public class ClassUtil
     {
         if(src == char.class)
         {
-            return RuntimeUtil.cast(Character.class);
+            return RuntimeUtil.castClass(Character.class);
         }
         else if(src == boolean.class)
         {
-            return RuntimeUtil.cast(Boolean.class);
+            return RuntimeUtil.castClass(Boolean.class);
         }
         else if(src == byte.class)
         {
-            return RuntimeUtil.cast(Byte.class);
+            return RuntimeUtil.castClass(Byte.class);
         }
         else if(src == short.class)
         {
-            return RuntimeUtil.cast(Short.class);
+            return RuntimeUtil.castClass(Short.class);
         }
         else if(src == int.class)
         {
-            return RuntimeUtil.cast(Integer.class);
+            return RuntimeUtil.castClass(Integer.class);
         }
         else if(src == long.class)
         {
-            return RuntimeUtil.cast(Long.class);
+            return RuntimeUtil.castClass(Long.class);
         }
         else if(src == float.class)
         {
-            return RuntimeUtil.cast(Float.class);
+            return RuntimeUtil.castClass(Float.class);
         }
         else if(src == double.class)
         {
-            return RuntimeUtil.cast(Double.class);
+            return RuntimeUtil.castClass(Double.class);
         }
         else if(src == void.class)
         {
-            return RuntimeUtil.cast(Void.class);
+            return RuntimeUtil.castClass(Void.class);
         }
         else
         {

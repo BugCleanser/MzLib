@@ -24,7 +24,7 @@ public class RegistrarEventClass implements IRegistrar<Class<? extends Event>>
 
     public Class<Class<? extends Event>> getType()
     {
-        return RuntimeUtil.cast(Class.class);
+        return RuntimeUtil.castClass(Class.class);
     }
 
     public boolean isRegistrable(Class<? extends Event> object)

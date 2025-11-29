@@ -10,7 +10,7 @@ public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 
     public Class<EventListener<?>> getType()
     {
-        return RuntimeUtil.cast(EventListener.class);
+        return RuntimeUtil.castClass(EventListener.class);
     }
 
     public void register(MzModule module, EventListener<?> object)

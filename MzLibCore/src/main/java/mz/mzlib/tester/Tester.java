@@ -38,7 +38,7 @@ public interface Tester<C extends TesterContext>
         @Override
         public Class<Tester<?>> getType()
         {
-            return RuntimeUtil.cast(Tester.class);
+            return RuntimeUtil.castClass(Tester.class);
         }
 
         @Override

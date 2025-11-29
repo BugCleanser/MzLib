@@ -17,7 +17,7 @@ public class RegistrarNothingClass implements IRegistrar<Class<? extends Nothing
     @Override
     public Class<Class<? extends Nothing>> getType()
     {
-        return RuntimeUtil.cast(Class.class);
+        return RuntimeUtil.castClass(Class.class);
     }
 
     @Override

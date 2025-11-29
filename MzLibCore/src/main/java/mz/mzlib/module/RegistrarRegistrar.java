@@ -20,7 +20,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     @Override
     public Class<IRegistrar<?>> getType()
     {
-        return RuntimeUtil.cast(IRegistrar.class);
+        return RuntimeUtil.castClass(IRegistrar.class);
     }
 
     @Override

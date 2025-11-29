@@ -40,6 +40,10 @@ public class RuntimeUtil
     {
         return (T) object;
     }
+    public static <T> Class<T> castClass(Class<?> clazz)
+    {
+        return cast(clazz);
+    }
 
     public static byte castBooleanToByte(boolean value)
     {
