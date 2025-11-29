@@ -47,8 +47,7 @@ public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
         for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes().get(RecipeType.SMELTING).entrySet())
         {
             RecipeSmeltingV_1300 recipe = (RecipeSmeltingV_1300) e.getValue();
-            smeltingManager.getResults0().put(recipe.getIngredient().getWrapped(), recipe.getResult().getWrapped());
-            smeltingManager.getExperiences0().put(recipe.getResult().getWrapped(), recipe.getExperience());
+            smeltingManager.register(recipe.getIngredient(), recipe.getResult(), recipe.getExperience());
         }
     }
 }

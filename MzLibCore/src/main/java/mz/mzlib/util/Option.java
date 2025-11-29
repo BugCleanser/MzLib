@@ -95,6 +95,11 @@ public abstract class Option<T> implements Iterable<T>
         return this.filter(ThrowablePredicate.ofPredicate(predicate));
     }
 
+    public <U> Option<U> filter(Class<U> type)
+    {
+        return this.filter(type::isInstance).map(RuntimeUtil::cast);
+    }
+
     protected static class Some<T> extends Option<T>
     {
         T value;

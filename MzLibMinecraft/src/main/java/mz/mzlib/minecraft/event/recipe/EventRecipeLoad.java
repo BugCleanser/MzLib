@@ -4,11 +4,9 @@ import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.Event;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.recipe.Recipe;
-import mz.mzlib.minecraft.recipe.RegistrarRecipe;
 
-// TODO
 /**
- * @see RegistrarRecipe
+ * @see mz.mzlib.minecraft.recipe.RegistrarRecipe
  */
 public class EventRecipeLoad extends Event implements Cancellable
 {
@@ -19,6 +17,15 @@ public class EventRecipeLoad extends Event implements Cancellable
     {
         this.id = id;
         this.recipe = recipe;
+    }
+
+    public Identifier getId()
+    {
+        return this.id;
+    }
+    public Recipe getRecipe()
+    {
+        return this.recipe;
     }
 
     @Override

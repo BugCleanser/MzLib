@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -50,6 +51,9 @@ public interface SmeltingManagerV_1300 extends WrapperObject
     Map<Object, Float> getExperiences0();
     @WrapMinecraftFieldAccessor(@VersionName(name = "PRODUCT_XP_MAP"))
     void setExperiences0(Map<Object, Float> value);
+
+    @WrapMinecraftMethod(@VersionName(name = "addItemStack"))
+    void register(ItemStack ingredient, ItemStack result, float xp);
 
     static SmeltingManagerV_1300 of()
     {

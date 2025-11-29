@@ -28,6 +28,28 @@ public interface RecipeManager extends WrapperObject
 {
     WrapperFactory<RecipeManager> FACTORY = WrapperFactory.of(RecipeManager.class);
 
+    @VersionRange(end = 1200)
+    static RecipeManager ofV_1200()
+    {
+        return FACTORY.getStatic().static$ofV_1200();
+    }
+
+    @VersionRange(end = 1200)
+    static RecipeManager getInstanceV_1200()
+    {
+        return FACTORY.getStatic().static$getInstanceV_1200();
+    }
+    default List<RecipeVanilla> getRecipesV_1200()
+    {
+        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
+    }
+    @VersionRange(end = 1200)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
+    List<Object> getRecipes0V_1200();
+    @VersionRange(end = 1200)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
+    void setRecipes0V_1200(List<Object> value);
+
     default Map<Identifier, RecipeVanilla> getRecipesV1300_1400()
     {
         return new MapProxy<>(this.getRecipes0V1300_1400(), FunctionInvertible.wrapper(Identifier.FACTORY), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
@@ -66,28 +88,6 @@ public interface RecipeManager extends WrapperObject
     @VersionRange(begin = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "preparedRecipes"))
     void setPreparedRecipesV2102(PreparedRecipesV2102 value);
-
-    @VersionRange(end = 1200)
-    static RecipeManager ofV_1200()
-    {
-        return FACTORY.getStatic().static$ofV_1200();
-    }
-
-    @VersionRange(end = 1200)
-    static RecipeManager getInstanceV_1200()
-    {
-        return FACTORY.getStatic().static$getInstanceV_1200();
-    }
-    default List<RecipeVanilla> getRecipesV_1200()
-    {
-        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
-    }
-    @VersionRange(end = 1200)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
-    List<Object> getRecipes0V_1200();
-    @VersionRange(end = 1200)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
-    void setRecipes0V_1200(List<Object> value);
 
     @VersionRange(begin = 1200, end = 1300)
     static SimpleRegistry getRegistryV1200_1300()

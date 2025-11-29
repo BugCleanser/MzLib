@@ -2,16 +2,22 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.event.recipe.EventRecipeLoad;
 import mz.mzlib.minecraft.incomprehensible.profiler.Profiler;
 import mz.mzlib.minecraft.incomprehensible.resource.ResourceManagerV1300;
 import mz.mzlib.minecraft.incomprehensible.resource.ResourceReloaderV1300;
 import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloaderV1400;
+import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.nothing.Nothing;
-import mz.mzlib.util.nothing.NothingInject;
-import mz.mzlib.util.nothing.NothingInjectType;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.nothing.*;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapMethodFromBridge;
 import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.basic.Wrapper_void;
+
+import java.util.List;
 
 public class ModuleRecipe extends MzModule
 {
@@ -39,12 +45,10 @@ public class ModuleRecipe extends MzModule
 
         // nothing
         if(version < 1300)
+        {
+            this.register(NothingRecipeManagerV_1300.class);
             this.register(NothingSmeltingManagerV_1300.class);
-
-        if(version < 1200)
-            this.register(NothingRecipeManagerV_1200.class);
-        else if(version < 1300)
-            this.register(NothingRecipeManagerV1200_1300.class);
+        }
         else if(version < 1400)
             this.register(NothingRecipeManagerV1300_1400.class);
         else
@@ -60,20 +64,91 @@ public class ModuleRecipe extends MzModule
     public interface NothingSmeltingManagerV_1300 extends Nothing, SmeltingManagerV_1300
     {
         @NothingInject(
+            wrapperMethodName = "register",
+            wrapperMethodParams = { ItemStack.class, ItemStack.class, float.class },
+            locateMethod = "",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default Wrapper_void register$before(
+            @CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event,
+            @LocalVar(1) ItemStack ingredient,
+            @LocalVar(2) ItemStack result,
+            @LocalVar(3) float xp)
+        {
+            RecipeSmeltingV_1300 recipe = new RecipeSmeltingV_1300(ingredient, result, xp);
+            event.setWrapped(new EventRecipeLoad(recipe.calcId(), recipe));
+            event.getWrapped().call();
+            if(event.getWrapped().isCancelled())
+            {
+                event.getWrapped().finish();
+                return Wrapper_void.FACTORY.create(null);
+            }
+            return Nothing.notReturn();
+        }
+        @NothingInject(
+            wrapperMethodName = "register",
+            wrapperMethodParams = { ItemStack.class, ItemStack.class, float.class },
+            locateMethod = "locateAllReturn",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default void register$end(@CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event)
+        {
+            event.getWrapped().finish();
+        }
+
+        @NothingInject(
             wrapperMethodName = "<init>",
             wrapperMethodParams = {},
             locateMethod = "locateAllReturn",
             type = NothingInjectType.INSERT_BEFORE
         )
-        default void static$ofV_1200$end()
+        default void static$of$end()
         {
             RegistrarRecipeV_1300.instance.onReloadEnd(this);
         }
     }
-    @VersionRange(end = 1200)
+    @VersionRange(end = 1300)
     @WrapSameClass(RecipeManager.class)
-    public interface NothingRecipeManagerV_1200 extends Nothing, RecipeManager
+    public interface NothingRecipeManagerV_1300 extends Nothing, RecipeManager
     {
+        static void locate$static$ofV_1200$begin(NothingInjectLocating locating)
+        {
+            locating.nextAccessWrapped(RecipeManager.class, "setRecipes0V_1200", List.class);
+            locating.offset(1);
+            if(locating.locations.size() != 1)
+                throw new IllegalStateException();
+        }
+        @VersionRange(end = 1200)
+        @NothingInject(
+            wrapperMethodName = "<init>",
+            wrapperMethodParams = {},
+            locateMethod = "locate$static$ofV_1200$begin",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default void static$ofV_1200$begin()
+        {
+            this.setRecipes0V_1200(
+                new ListProxy<Object, Object>(this.getRecipes0V_1200(), FunctionInvertible.identity())
+                {
+                    @Override
+                    public boolean add(Object o)
+                    {
+                        this.add(this.size(), o);
+                        return true;
+                    }
+                    @Override
+                    public void add(int index, Object element)
+                    {
+                        RecipeVanilla recipe = RecipeVanilla.FACTORY.create(element).autoCast();
+                        EventRecipeLoad event = new EventRecipeLoad(recipe.calcIdV_1200(), recipe);
+                        event.call();
+                        if(!event.isCancelled())
+                            super.add(index, element);
+                        event.finish();
+                    }
+                });
+        }
+        @VersionRange(end = 1200)
         @NothingInject(
             wrapperMethodName = "<init>",
             wrapperMethodParams = {},
@@ -84,11 +159,8 @@ public class ModuleRecipe extends MzModule
         {
             RegistrarRecipeV_1200.instance.onReloadEnd(this);
         }
-    }
-    @VersionRange(begin = 1200, end = 1300)
-    @WrapSameClass(RecipeManager.class)
-    public interface NothingRecipeManagerV1200_1300 extends Nothing, RecipeManager
-    {
+
+        @VersionRange(begin = 1200)
         @NothingInject(
             wrapperMethodName = "static$setupV1200_1300",
             wrapperMethodParams = {},
@@ -119,7 +191,9 @@ public class ModuleRecipe extends MzModule
     @WrapSameClass(RecipeManager.class)
     public interface NothingRecipeManagerV1400 extends Nothing, RecipeManager, SinglePreparationResourceReloaderV1400<Object>
     {
-        @WrapMethodFromBridge(name = "applyV1400", params = { Object.class, ResourceManagerV1300.class, Profiler.class })
+        @WrapMethodFromBridge(
+            name = "applyV1400", params = { Object.class, ResourceManagerV1300.class, Profiler.class }
+        )
         void apply$impl(Object prepared, ResourceManagerV1300 manager, Profiler profiler);
 
         @NothingInject(

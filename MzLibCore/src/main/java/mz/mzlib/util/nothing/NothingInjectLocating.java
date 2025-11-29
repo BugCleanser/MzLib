@@ -1,9 +1,10 @@
 package mz.mzlib.util.nothing;
 
 import mz.mzlib.asm.tree.AbstractInsnNode;
+import mz.mzlib.asm.tree.FieldInsnNode;
 import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.asm.tree.VarInsnNode;
-import mz.mzlib.util.ClassUtil;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
@@ -43,11 +44,11 @@ public class NothingInjectLocating
         });
     }
 
-    public void nextInvokeWrapped(Class<? extends WrapperObject> ownerWrapper, String name, Class<?>... parameterTypes)
+    public void nextAccessWrapped(Class<? extends WrapperObject> ownerWrapper, String name, Class<?>... parameterTypes)
     {
         try
         {
-            this.nextInvoke(WrapperClassInfo.get(ownerWrapper).getWrappedMembers()
+            this.nextAccess(WrapperClassInfo.get(ownerWrapper).getWrappedMembers()
                 .get(ownerWrapper.getDeclaredMethod(name, parameterTypes)));
         }
         catch(NoSuchMethodException e)
@@ -55,22 +56,27 @@ public class NothingInjectLocating
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    public void nextInvoke(Member member)
+    public void nextAccess(Class<?> owner, String name, MethodType methodType)
     {
-        this.nextInvoke(member.getDeclaringClass(), member.getName(), ClassUtil.methodType(member));
+        this.nextAccess(AsmUtil.getType(owner), name, AsmUtil.getDesc(methodType));
     }
-    public void nextInvoke(Class<?> owner, String name, MethodType methodType)
+    public void nextAccess(Member member)
     {
-        this.nextInvoke(AsmUtil.getType(owner), name, AsmUtil.getDesc(methodType));
+        this.nextAccess(AsmUtil.getType(member.getDeclaringClass()), member.getName(), AsmUtil.getDesc(member));
     }
-    public void nextInvoke(String owner, String name, String desc)
+    public void nextAccess(String owner, String name, String desc)
     {
         this.next(l ->
         {
-            if(!(this.insns[l] instanceof MethodInsnNode))
-                return false;
-            MethodInsnNode insn = (MethodInsnNode) this.insns[l];
-            return insn.owner.equals(owner) && insn.name.equals(name) && insn.desc.equals(desc);
+            for(MethodInsnNode insn : Option.some(this.insns[l]).filter(MethodInsnNode.class))
+            {
+                return insn.owner.equals(owner) && insn.name.equals(name) && insn.desc.equals(desc);
+            }
+            for(FieldInsnNode insn : Option.some(this.insns[l]).filter(FieldInsnNode.class))
+            {
+                return insn.owner.equals(owner) && insn.name.equals(name) && insn.desc.equals(desc);
+            }
+            return false;
         });
     }
 

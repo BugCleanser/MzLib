@@ -2,14 +2,12 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Instance;
 
 import java.util.*;
 
-@VersionRange(begin = 1400)
 public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>, Instance
 {
     public static RegistrarRecipe instance;

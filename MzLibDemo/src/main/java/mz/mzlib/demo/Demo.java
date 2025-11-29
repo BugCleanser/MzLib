@@ -1,17 +1,18 @@
 package mz.mzlib.demo;
 
 import mz.mzlib.demo.game.tictactoe.Tictactoe;
+import mz.mzlib.event.EventListener;
 import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftJsUtil;
 import mz.mzlib.minecraft.command.ChildCommandRegistration;
 import mz.mzlib.minecraft.command.Command;
+import mz.mzlib.minecraft.event.recipe.EventRecipeLoad;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.recipe.RecipeSmelting;
 import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
-import mz.mzlib.minecraft.recipe.RegistrarRecipe;
 import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
@@ -70,7 +71,10 @@ public class Demo extends MzModule
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
 
-            System.out.println(RegistrarRecipe.instance.getOriginalRecipes());
+            this.register(new EventListener<>(
+                EventRecipeLoad.class,
+                event -> System.out.println("EventRecipeLoad: " + event.getId() + " " + event.getRecipe())
+            ));
             this.register(RecipeVanillaShaped.builder()
                 .id(Identifier.newInstance("mzlib:test"))
                 .width(1).height(1).ingredients(
