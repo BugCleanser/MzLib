@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.recipe;
 
+import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.event.recipe.EventRecipeLoad;
@@ -170,6 +171,39 @@ public class ModuleRecipe extends MzModule
         static void setupV1200_1300$end()
         {
             RegistrarRecipe.instance.onReloadEnd();
+        }
+
+        @VersionRange(begin = 1200)
+        @NothingInject(
+            wrapperMethodName = "static$registerV1200_1300",
+            wrapperMethodParams = { Identifier.class, RecipeVanilla.class },
+            locateMethod = "",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        static Wrapper_void registerV1200_1300$begin(
+            @CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event,
+            @LocalVar(0) Identifier id,
+            @LocalVar(1) RecipeVanilla recipe)
+        {
+            event.setWrapped(new EventRecipeLoad(id, recipe));
+            event.getWrapped().call();
+            if(event.getWrapped().isCancelled())
+            {
+                event.getWrapped().finish();
+                return Wrapper_void.FACTORY.create(null);
+            }
+            return Nothing.notReturn();
+        }
+        @VersionRange(begin = 1200)
+        @NothingInject(
+            wrapperMethodName = "static$registerV1200_1300",
+            wrapperMethodParams = { Identifier.class, RecipeVanilla.class },
+            locateMethod = "locateAllReturn",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        static void registerV1200_1300$end(@CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event)
+        {
+            event.getWrapped().finish();
         }
     }
     @VersionRange(begin = 1300, end = 1400)

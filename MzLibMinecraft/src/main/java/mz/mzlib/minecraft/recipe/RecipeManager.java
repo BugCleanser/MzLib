@@ -50,6 +50,28 @@ public interface RecipeManager extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
     void setRecipes0V_1200(List<Object> value);
 
+    @VersionRange(begin = 1200, end = 1300)
+    static SimpleRegistry getRegistryV1200_1300()
+    {
+        return FACTORY.getStatic().static$getRegistryV1200_1300();
+    }
+    @VersionRange(begin = 1200, end = 1300)
+    static void setRegistryV1200_1300(SimpleRegistry value)
+    {
+        FACTORY.getStatic().static$setRegistryV1200_1300(value);
+    }
+
+    @VersionRange(begin = 1200, end = 1300)
+    static boolean setupV1200_1300()
+    {
+        return FACTORY.getStatic().static$setupV1200_1300();
+    }
+    @VersionRange(begin = 1200, end = 1300)
+    static void registerV1200_1300(Identifier id, RecipeVanilla recipe)
+    {
+        FACTORY.getStatic().static$registerV1200_1300(id, recipe);
+    }
+
     default Map<Identifier, RecipeVanilla> getRecipesV1300_1400()
     {
         return new MapProxy<>(this.getRecipes0V1300_1400(), FunctionInvertible.wrapper(Identifier.FACTORY), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
@@ -88,28 +110,6 @@ public interface RecipeManager extends WrapperObject
     @VersionRange(begin = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "preparedRecipes"))
     void setPreparedRecipesV2102(PreparedRecipesV2102 value);
-
-    @VersionRange(begin = 1200, end = 1300)
-    static SimpleRegistry getRegistryV1200_1300()
-    {
-        return FACTORY.getStatic().static$getRegistryV1200_1300();
-    }
-    @VersionRange(begin = 1200, end = 1300)
-    static void setRegistryV1200_1300(SimpleRegistry value)
-    {
-        FACTORY.getStatic().static$setRegistryV1200_1300(value);
-    }
-
-    @VersionRange(begin = 1200, end = 1300)
-    static boolean setupV1200_1300()
-    {
-        return FACTORY.getStatic().static$setupV1200_1300();
-    }
-    @VersionRange(begin = 1200, end = 1300)
-    static void registerV1200_1300(Identifier id, RecipeVanilla recipe)
-    {
-        FACTORY.getStatic().static$registerV1200_1300(id, recipe);
-    }
 
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "initialize"))

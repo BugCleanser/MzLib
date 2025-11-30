@@ -191,5 +191,11 @@ public interface WrapperObject
 
         @Override
         T getWrapped();
+
+        @Override
+        default void setWrappedFrom(WrapperObject wrapper)
+        {
+            WrapperObject.super.setWrappedFrom(wrapper);
+        }
     }
 }
