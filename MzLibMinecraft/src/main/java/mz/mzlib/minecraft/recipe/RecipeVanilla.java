@@ -10,8 +10,12 @@ import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryCrafting;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaCraftingV1400;
+import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShapeless;
 import mz.mzlib.minecraft.recipe.display.RecipeDisplayV2102;
 import mz.mzlib.minecraft.recipe.input.RecipeInputV2100;
+import mz.mzlib.minecraft.recipe.smelting.RecipeVanillaFurnaceV1300;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
@@ -72,7 +76,6 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @WrapMinecraftMethod(@VersionName(name = "craft"))
     ItemStack getResultV2100(RecipeInputV2100 input, RegistryEntryLookupV1903.class_7874 lookup);
 
-
     @Override
     RecipeType getType();
 
@@ -104,6 +107,15 @@ public interface RecipeVanilla extends WrapperObject, Recipe
             this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
     }
 
+    @VersionRange(begin = 1300, end = 2002)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_16202", end = 1400),
+            @VersionName(name = "getId", begin = 1400)
+        }
+    )
+    Identifier getIdV1300_2002();
+
 
     @SpecificImpl("getType")
     @VersionRange(end = 1300)
@@ -115,8 +127,8 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @VersionRange(begin = 1300, end = 1400)
     default RecipeType getTypeV1300_1400()
     {
-        if(this.is(RecipeVanillaSmeltingV1300.FACTORY))
-            return RecipeType.SMELTING;
+        if(this.is(RecipeVanillaFurnaceV1300.FACTORY))
+            return RecipeType.FURNACE;
         return RecipeType.CRAFTING;
     }
     @SpecificImpl("getType")
@@ -139,8 +151,8 @@ public interface RecipeVanilla extends WrapperObject, Recipe
     @VersionRange(begin = 1300, end = 1400)
     default RecipeVanilla autoCastV1300_1400()
     {
-        if(this.is(RecipeVanillaSmeltingV1300.FACTORY))
-            return this.as(RecipeVanillaSmeltingV1300.FACTORY);
+        if(this.is(RecipeVanillaFurnaceV1300.FACTORY))
+            return this.as(RecipeVanillaFurnaceV1300.FACTORY);
         return this.autoCastV_1300();
     }
     @SpecificImpl("autoCast")

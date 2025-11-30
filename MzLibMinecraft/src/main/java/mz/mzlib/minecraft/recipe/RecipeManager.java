@@ -82,6 +82,9 @@ public interface RecipeManager extends WrapperObject
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftFieldAccessor(@VersionName(name = "field_17445"))
     void setRecipes0V1300_1400(Map<Object, Object> value);
+    @VersionRange(begin = 1300, end = 1400)
+    @WrapMinecraftMethod(@VersionName(name = "method_16205"))
+    void registerV1300_1400(RecipeVanilla recipe);
 
     @VersionRange(begin = 1400, end = 2005)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))

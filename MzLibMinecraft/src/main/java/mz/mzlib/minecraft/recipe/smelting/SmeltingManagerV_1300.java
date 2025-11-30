@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.smelting;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;

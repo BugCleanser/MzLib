@@ -14,7 +14,7 @@ public interface RecipeTypeV1400 extends WrapperObject, RecipeType
     WrapperFactory<RecipeTypeV1400> FACTORY = WrapperFactory.of(RecipeTypeV1400.class);
 
     RecipeTypeV1400 CRAFTING = FACTORY.getStatic().static$CRAFTING();
-    RecipeTypeV1400 SMELTING = FACTORY.getStatic().static$SMELTING();
+    RecipeTypeV1400 FURNACE = FACTORY.getStatic().static$SMELTING();
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "field_17545"))
     RecipeTypeV1400 static$CRAFTING();

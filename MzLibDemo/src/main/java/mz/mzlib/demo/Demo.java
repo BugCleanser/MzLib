@@ -11,8 +11,8 @@ import mz.mzlib.minecraft.event.recipe.EventRecipeLoad;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
-import mz.mzlib.minecraft.recipe.RecipeSmelting;
-import mz.mzlib.minecraft.recipe.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.smelting.RecipeFurnace;
+import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShaped;
 import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
@@ -81,7 +81,7 @@ public class Demo extends MzModule
                     Collections.singletonList(
                         Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
                 .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
-            this.register(RecipeSmelting.builder()
+            this.register(RecipeFurnace.builder()
                 .id(Identifier.newInstance("mzlib:test_smelting"))
                 .ingredient(ItemStack.newInstance(Item.fromId("stick")))
                 .result(ItemStack.builder().fromId("apple").build())

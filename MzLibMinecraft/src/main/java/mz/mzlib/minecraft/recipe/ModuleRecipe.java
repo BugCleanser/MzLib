@@ -9,6 +9,9 @@ import mz.mzlib.minecraft.incomprehensible.resource.ResourceManagerV1300;
 import mz.mzlib.minecraft.incomprehensible.resource.ResourceReloaderV1300;
 import mz.mzlib.minecraft.incomprehensible.resource.SinglePreparationResourceReloaderV1400;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.smelting.ModuleFurnaceUpdateV_1300;
+import mz.mzlib.minecraft.recipe.smelting.RecipeFurnaceV_1300;
+import mz.mzlib.minecraft.recipe.smelting.SmeltingManagerV_1300;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.nothing.*;
@@ -76,7 +79,7 @@ public class ModuleRecipe extends MzModule
             @LocalVar(2) ItemStack result,
             @LocalVar(3) float xp)
         {
-            RecipeSmeltingV_1300 recipe = new RecipeSmeltingV_1300(ingredient, result, xp);
+            RecipeFurnaceV_1300 recipe = new RecipeFurnaceV_1300(ingredient, result, xp);
             event.setWrapped(new EventRecipeLoad(recipe.calcId(), recipe));
             event.getWrapped().call();
             if(event.getWrapped().isCancelled())
@@ -219,6 +222,33 @@ public class ModuleRecipe extends MzModule
         default void reload$end()
         {
             RegistrarRecipe.instance.onReloadEnd();
+        }
+        @NothingInject(
+            wrapperMethodName = "registerV1300_1400",
+            wrapperMethodParams = { RecipeVanilla.class },
+            locateMethod = "",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default Wrapper_void registerV1300_1400$begin(@CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event, @LocalVar(1) RecipeVanilla recipe)
+        {
+            event.setWrapped(new EventRecipeLoad(recipe.getIdV1300_2002(), recipe));
+            event.getWrapped().call();
+            if(event.getWrapped().isCancelled())
+            {
+                event.getWrapped().finish();
+                return Wrapper_void.FACTORY.create(null);
+            }
+            return Nothing.notReturn();
+        }
+        @NothingInject(
+            wrapperMethodName = "registerV1300_1400",
+            wrapperMethodParams = { RecipeVanilla.class },
+            locateMethod = "locateAllReturn",
+            type = NothingInjectType.INSERT_BEFORE
+        )
+        default void registerV1300_1400$end(@CustomVar("eventRecipeLoad") WrapperObject.Generic<EventRecipeLoad> event)
+        {
+            event.getWrapped().finish();
         }
     }
     @VersionRange(begin = 1400)

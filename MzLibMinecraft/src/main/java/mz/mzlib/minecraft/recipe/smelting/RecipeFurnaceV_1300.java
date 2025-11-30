@@ -1,8 +1,9 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.smelting;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtIo;
+import mz.mzlib.minecraft.recipe.RecipeType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -12,13 +13,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class RecipeSmeltingV_1300 implements RecipeSmelting
+public class RecipeFurnaceV_1300 implements RecipeFurnace
 {
     ItemStack ingredient;
     ItemStack result;
     float experience;
 
-    public RecipeSmeltingV_1300(ItemStack ingredient, ItemStack result, float experience)
+    public RecipeFurnaceV_1300(ItemStack ingredient, ItemStack result, float experience)
     {
         this.ingredient = ingredient;
         this.result = result;
@@ -41,7 +42,7 @@ public class RecipeSmeltingV_1300 implements RecipeSmelting
     @Override
     public RecipeType getType()
     {
-        return RecipeType.SMELTING;
+        return RecipeType.FURNACE;
     }
     @Override
     public List<ItemStack> getIcons()
@@ -64,7 +65,7 @@ public class RecipeSmeltingV_1300 implements RecipeSmelting
         return Identifier.minecraft(UUID.nameUUIDFromBytes(stream.toByteArray()).toString());
     }
 
-    public static class Builder extends RecipeSmelting.Builder
+    public static class Builder extends RecipeFurnace.Builder
     {
         ItemStack ingredient;
 
@@ -81,9 +82,9 @@ public class RecipeSmeltingV_1300 implements RecipeSmelting
         }
 
         @Override
-        public RecipeSmeltingV_1300 build()
+        public RecipeFurnaceV_1300 build()
         {
-            return new RecipeSmeltingV_1300(this.getIngredient(), this.getResult(), this.experience);
+            return new RecipeFurnaceV_1300(this.getIngredient(), this.getResult(), this.experience);
         }
     }
 }

@@ -8,6 +8,9 @@ import mz.mzlib.util.Instance;
 
 import java.util.*;
 
+/**
+ * @see ModuleRecipe
+ */
 public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>, Instance
 {
     public static RegistrarRecipe instance;

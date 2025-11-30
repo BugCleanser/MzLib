@@ -1,14 +1,17 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.smelting;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.Recipe;
+import mz.mzlib.minecraft.recipe.RecipeRegistration;
+import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.minecraft.recipe.book.RecipeCookingCategoryV1903;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public interface RecipeSmelting extends Recipe
+public interface RecipeFurnace extends Recipe
 {
     abstract class Builder
     {
@@ -60,7 +63,7 @@ public interface RecipeSmelting extends Recipe
             return this;
         }
 
-        public abstract RecipeSmelting build();
+        public abstract RecipeFurnace build();
         public RecipeRegistration buildRegistration()
         {
             return RecipeRegistration.of(this.getId(), this.build());
@@ -82,8 +85,8 @@ public interface RecipeSmelting extends Recipe
 
     Supplier<Builder> BUILDER_FACTORY =
         MinecraftPlatform.instance.getVersion() < 1300 ?
-            RecipeSmeltingV_1300.Builder::new :
-            RecipeVanillaSmeltingV1300.Builder::new;
+            RecipeFurnaceV_1300.Builder::new :
+            RecipeVanillaFurnaceV1300.Builder::new;
     static Builder builder()
     {
         return BUILDER_FACTORY.get();

@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.event.recipe.EventRecipeLoad;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,7 +43,11 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
         Map<Object, Object> result = new Object2ObjectLinkedOpenHashMap<>(this.rawRecipes0); // adapt for Bukkit
         for(RecipeRegistration recipe : this.recipeRegistrations)
         {
-            result.put(recipe.getId().getWrapped(), recipe.getRecipeV1300().getWrapped());
+            EventRecipeLoad event = new EventRecipeLoad(recipe.getId(), recipe.getRecipe());
+            event.call();
+            if(!event.isCancelled())
+                result.put(recipe.getId().getWrapped(), recipe.getRecipeV1300().getWrapped());
+            event.finish();
         }
         MinecraftServer.instance.getRecipeManagerV1300().setRecipes0V1300_1400(result);
     }

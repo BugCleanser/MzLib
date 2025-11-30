@@ -1,7 +1,8 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.crafting;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.recipe.RecipeVanilla;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 

@@ -3,6 +3,9 @@ package mz.mzlib.minecraft.recipe;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.smelting.RecipeFurnace;
+import mz.mzlib.minecraft.recipe.smelting.RecipeFurnaceV_1300;
+import mz.mzlib.minecraft.recipe.smelting.SmeltingManagerV_1300;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,11 +29,11 @@ public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
         Map<ItemStack, Float> xps = smeltingManager.getExperiences();
         for(Map.Entry<ItemStack, ItemStack> e : smeltingManager.getResults().entrySet())
         {
-            RecipeSmeltingV_1300 recipe = (RecipeSmeltingV_1300) RecipeSmelting.builder().ingredient(e.getKey())
+            RecipeFurnaceV_1300 recipe = (RecipeFurnaceV_1300) RecipeFurnace.builder().ingredient(e.getKey())
                 .result(e.getValue()).experience(xps.get(e.getValue())).build();
             smeltingRecipes.put(recipe.calcId(), recipe);
         }
-        result.put(RecipeType.SMELTING, Collections.unmodifiableMap(smeltingRecipes));
+        result.put(RecipeType.FURNACE, Collections.unmodifiableMap(smeltingRecipes));
         this.originalRecipes = Collections.unmodifiableMap(result);
     }
     @Override
@@ -44,9 +47,9 @@ public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
     protected void onReloadEnd(SmeltingManagerV_1300 smeltingManager)
     {
         updateOriginal(smeltingManager);
-        for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes().get(RecipeType.SMELTING).entrySet())
+        for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes().get(RecipeType.FURNACE).entrySet())
         {
-            RecipeSmeltingV_1300 recipe = (RecipeSmeltingV_1300) e.getValue();
+            RecipeFurnaceV_1300 recipe = (RecipeFurnaceV_1300) e.getValue();
             smeltingManager.register(recipe.getIngredient(), recipe.getResult(), recipe.getExperience());
         }
     }

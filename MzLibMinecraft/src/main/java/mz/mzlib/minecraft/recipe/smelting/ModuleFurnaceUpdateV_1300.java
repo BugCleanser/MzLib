@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.smelting;
 
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;

@@ -1,4 +1,4 @@
-package mz.mzlib.minecraft.recipe;
+package mz.mzlib.minecraft.recipe.crafting;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MinecraftPlatform;
@@ -6,6 +6,9 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.recipe.RawShapedRecipeV2003;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.recipe.RecipeRegistration;
+import mz.mzlib.minecraft.recipe.RecipeVanilla;
+import mz.mzlib.minecraft.recipe.VanillaIngredient;
 import mz.mzlib.minecraft.recipe.book.RecipeCraftingCategoryV1903;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
