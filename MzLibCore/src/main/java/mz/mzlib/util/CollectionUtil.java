@@ -152,4 +152,9 @@ public class CollectionUtil
         }
         return result;
     }
+
+    public static <T> Iterable<T> asIterable(Iterator<T> iterator)
+    {
+        return () -> iterator;
+    }
 }

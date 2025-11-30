@@ -33,14 +33,8 @@ public class RegistrarRecipeV1200_1300 extends RegistrarRecipeV_1300
     {
         super.flush();
         RecipeManager.setRegistryV1200_1300(SimpleRegistry.ofV_1600());
-        boolean ignored = RecipeManager.setupV1200_1300(); // reload
-    }
-
-    @Override
-    protected void onReloadEnd()
-    {
-        this.updateOriginal();
-        for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes().get(RecipeType.CRAFTING).entrySet())
+        for(Map.Entry<Identifier, Recipe> e : this.getEnabledRecipes()
+            .getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).entrySet())
         {
             RecipeManager.registerV1200_1300(e.getKey(), (RecipeVanilla) e.getValue());
         }

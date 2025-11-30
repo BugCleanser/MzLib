@@ -3,10 +3,7 @@ package mz.mzlib.minecraft.recipe;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionRange;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @VersionRange(end = 1200)
 public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
@@ -36,20 +33,17 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
         result.put(RecipeType.CRAFTING, Collections.unmodifiableMap(craftingRecipes));
         this.originalRecipes = Collections.unmodifiableMap(result);
     }
+
     @Override
     public synchronized void flush()
     {
+        this.updateOriginal(RecipeManager.ofV_1200()); // dirty
         super.flush();
-        RecipeManager.getInstanceV_1200().setRecipes0V_1200(RecipeManager.ofV_1200().getRecipes0V_1200()); // reload
-    }
-    protected void onReloadEnd(RecipeManager recipeManager)
-    {
-        this.updateOriginal(recipeManager);
-        List<RecipeVanilla> recipes = recipeManager.getRecipesV_1200();
-        for(Map.Entry<Identifier, Recipe> e : this.getRegisteredRecipes()
-            .getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).entrySet())
+        List<Object> recipes0 = new ArrayList<>();
+        for(Recipe recipe : this.getEnabledRecipes().getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).values())
         {
-            recipes.add((RecipeVanilla) e.getValue());
+            recipes0.add(((RecipeVanilla)recipe).getWrapped());
         }
+        RecipeManager.getInstanceV_1200().setRecipes0V_1200(recipes0);
     }
 }

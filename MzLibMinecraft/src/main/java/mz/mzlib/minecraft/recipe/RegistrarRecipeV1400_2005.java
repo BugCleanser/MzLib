@@ -18,8 +18,6 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipe
 {
     public static RegistrarRecipeV1400_2005 instance;
 
-    Map<Object, Map<Object, Object>> rawRecipes0;
-
     Function<RecipeRegistration, WrapperObject> toData = MinecraftPlatform.instance.getVersion() < 2002 ?
         RecipeRegistration::getRecipeV1300 :
         RecipeEntryV2002::of;
@@ -30,30 +28,30 @@ public class RegistrarRecipeV1400_2005 extends RegistrarRecipe
     @Override
     protected void updateOriginal()
     {
-        this.rawRecipes0 = MinecraftServer.instance.getRecipeManagerV1300().getRecipes0V1400_2005();
-        this.originalRecipes = Collections.unmodifiableMap(this.rawRecipes0.entrySet().stream()
-            .collect(Collectors.toMap(
-                entry -> RecipeTypeV1400.FACTORY.create(entry.getKey()), entry -> Collections.unmodifiableMap(
-                    entry.getValue().entrySet().stream().collect(Collectors.toMap(
-                        e -> Identifier.FACTORY.create(e.getKey()),
-                        e -> toRecipe.apply(WrapperObject.FACTORY.create(e.getValue())).autoCast()
-                    )))
-            )));
+        this.originalRecipes = Collections.unmodifiableMap(
+            MinecraftServer.instance.getRecipeManagerV1300().getRecipes0V1400_2005().entrySet().stream()
+                .collect(Collectors.toMap(
+                    entry -> RecipeTypeV1400.FACTORY.create(entry.getKey()), entry -> Collections.unmodifiableMap(
+                        entry.getValue().entrySet().stream().collect(Collectors.toMap(
+                            e -> Identifier.FACTORY.create(e.getKey()),
+                            e -> toRecipe.apply(WrapperObject.FACTORY.create(e.getValue())).autoCast()
+                        )))
+                )));
     }
 
     @Override
     public synchronized void flush()
     {
         super.flush();
-        Map<Object, Map<Object, Object>> result = new HashMap<>(this.rawRecipes0);
-        for(Map.Entry<Object, Map<Object, Object>> entry : result.entrySet())
+        Map<Object, Map<Object, Object>> result = new HashMap<>();
+        for(Map.Entry<RecipeType, Map<Identifier, Recipe>> entry : this.getEnabledRecipes().entrySet())
         {
-            entry.setValue(new Object2ObjectLinkedOpenHashMap<>(entry.getValue())); // adapt for Bukkit
-        }
-        for(RecipeRegistration recipe : this.recipeRegistrations)
-        {
-            result.computeIfAbsent(recipe.getRecipeV1300().getTypeV1400().getWrapped(), k -> new HashMap<>())
-                .put(recipe.getId().getWrapped(), toData.apply(recipe).getWrapped());
+            Map<Object, Object> map = result.computeIfAbsent(
+                ((RecipeTypeV1400) entry.getKey()).getWrapped(), k -> new Object2ObjectLinkedOpenHashMap<>());
+            for(Map.Entry<Identifier, Recipe> e : entry.getValue().entrySet())
+            {
+                map.put(e.getKey().getWrapped(), toData.apply(RecipeRegistration.of(e.getKey(), e.getValue())).getWrapped());
+            }
         }
         MinecraftServer.instance.getRecipeManagerV1300().setRecipes0V1400_2005(Collections.unmodifiableMap(result));
     }
