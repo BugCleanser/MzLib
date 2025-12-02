@@ -43,7 +43,7 @@ tasks.register("copyDocsToDeploy") {
     doLast {
         deployDir.mkdirs()
         copyFilesRecursively(docsDir, deployDir, null)
-        println("✅ Docs copied to: ${deployDir}")
+        println("✅ Docs copied to: $deployDir")
     }
 }
 

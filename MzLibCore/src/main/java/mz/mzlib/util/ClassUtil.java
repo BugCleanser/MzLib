@@ -543,7 +543,7 @@ public class ClassUtil
                 attached = defineClass(classLoader, attachedName, cw.toByteArray());
                 attached.getDeclaredField("instance").set(null, ConcurrentHashMap.newKeySet());
             }
-            RuntimeUtil.<Set<Object>>cast(attached.getDeclaredField("instance").get(null)).add(target);
+            RuntimeUtil.<Set<Object>>cast(attached.getDeclaredField("instance").get(null)).add(new RefStrong<>(target));
         }
         catch(Throwable e)
         {

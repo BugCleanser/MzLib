@@ -206,9 +206,9 @@ public interface GameProfile extends WrapperObject
         {
             return textures(name, uuid, urlToTextures(texturesUrl));
         }
-        public static Description texturesUrl(String texturesUrl)
+        public static Description texturesUrl(String value)
         {
-            return textures(urlToTextures(texturesUrl));
+            return textures(urlToTextures(value));
         }
 
         public static String urlToTextures(String url)

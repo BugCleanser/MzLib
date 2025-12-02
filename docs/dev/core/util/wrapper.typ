@@ -1,4 +1,4 @@
-#import "../../lib/lib.typ": *
+#import "../../../lib/lib.typ": *;
 
 #set document(title: "包装类")
 

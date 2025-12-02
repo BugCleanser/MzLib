@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@Deprecated
 public class MapRefWeak<K, V> extends AbstractMap<K, V>
 {
     public Map<RefWeak<K>, V> delegate;

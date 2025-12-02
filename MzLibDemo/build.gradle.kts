@@ -6,8 +6,8 @@ dependencies {
     compileOnly(project(":MzLibMinecraft"))
     
     // Vert.x dependencies for SimpleDocsServer
-    compileOnly("io.vertx:vertx-core:5.0.5")
-    compileOnly("io.vertx:vertx-web:5.0.5")
+    implementation("io.vertx:vertx-core:5.0.5")
+    implementation("io.vertx:vertx-web:5.0.5")
 
     testImplementation("io.github.karlatemp:unsafe-accessor:1.6.0")
     testImplementation(project(":MzLibCore"))

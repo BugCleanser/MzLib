@@ -24,8 +24,8 @@ public class Demo extends MzModule
     {
         this.register(this.command=new Command("demo", "d").setHandler(context->
         {
-            // process arg0
-            String arg0=new ArgumentParserString("arg0", false, "enum1", "enum2").process(context);
+            // handle arg0
+            String arg0=new ArgumentParserString("arg0", false, "enum1", "enum2").handle(context);
             // 若arg0解析失败直接返回
             if(!context.successful)
                 return;
@@ -41,7 +41,7 @@ public class Demo extends MzModule
                     // 第二种用法
                     // 再读一个参数
                     // 后面没有其它参数，可以允许包含空格
-                    String arg1=new ArgumentParserString("arg1", true).process(context);
+                    String arg1=new ArgumentParserString("arg1", true).handle(context);
                     if(!context.successful || !context.doExecute)
                         return;
                     context.sender.sendMessage(Text.literal("Second: "+arg1));

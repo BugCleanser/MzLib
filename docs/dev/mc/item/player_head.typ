@@ -8,7 +8,7 @@
 
 = 构造物品
 
-通过`ItemStackBuilder.playerHead(url)`直接构造，其中`url`是贴图的链接，
+通过`ItemStack.builder().playerHead().texturesUrl(url).build()`或其重载方法，其中`url`是贴图的链接，
 一般在http://textures.minecraft.net下
 
 = 皮肤数据

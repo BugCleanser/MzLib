@@ -1,4 +1,4 @@
-package util;
+package mz.mzlib.util;
 
 import mz.mzlib.util.TypedMap;
 import mz.mzlib.util.TypedMapClass;

@@ -1,13 +1,14 @@
 package mz.mzlib.util.proxy;
 
 import mz.mzlib.util.FunctionInvertible;
-import mz.mzlib.util.MapEntry;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 public class MapProxy<K, V, K1, V1> implements Map<K, V>
 {
@@ -167,9 +168,62 @@ public class MapProxy<K, V, K1, V1> implements Map<K, V>
     {
         return new SetProxy<>(
             this.delegate.entrySet(), FunctionInvertible.of(
-            x -> new MapEntry<>(functionKey.apply(x.getKey()), functionValue.apply(x.getValue())),
-            x -> new MapEntry<>(functionKey.inverse().apply(x.getKey()), functionValue.inverse().apply(x.getValue()))
+            e -> new EntryProxy<>(e, functionKey, functionValue),
+            e -> new EntryProxy<>(e, functionKey.inverse(), functionValue.inverse())
         ), this.modifyMonitor
         );
+    }
+
+    public static class EntryProxy<K, V, K1, V1> implements Map.Entry<K, V>
+    {
+        Map.Entry<K1, V1> delegate;
+        Function<K1, K> functionKey;
+        FunctionInvertible<V1, V> functionValue;
+
+        public EntryProxy(
+            Map.Entry<K1, V1> delegate,
+            Function<K1, K> functionKey,
+            FunctionInvertible<V1, V> functionValue)
+        {
+            this.delegate = delegate;
+            this.functionKey = functionKey;
+            this.functionValue = functionValue;
+        }
+
+        @Override
+        public K getKey()
+        {
+            return this.functionKey.apply(this.delegate.getKey());
+        }
+
+        @Override
+        public V getValue()
+        {
+            return this.functionValue.apply(this.delegate.getValue());
+        }
+
+        @Override
+        public V setValue(V value)
+        {
+            this.delegate.setValue(this.functionValue.inverse().apply(value));
+            return null;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if(obj == this)
+                return true;
+            if(!(obj instanceof Map.Entry))
+                return false;
+            Map.Entry<?, ?> other = (Map.Entry<?, ?>) obj;
+            return Objects.equals(this.getKey(), other.getKey()) && Objects.equals(this.getValue(), other.getValue());
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(this.getKey(), this.getValue());
+        }
     }
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Deprecated
 public class ThreadLocalGrowingHashMap<K, V> extends ConcurrentHashMap<K, V>
 {
     public ThreadLocal<Map<K, Optional<V>>> threadLocal = ThreadLocal.withInitial(MapRefWeak::new);

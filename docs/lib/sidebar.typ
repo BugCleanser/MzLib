@@ -4,6 +4,7 @@
 
 #let hides = (
     "lib",
+    "res",
 )
 #let aliases = (
     "index": "简介",
@@ -14,12 +15,14 @@
     "dev/core/tutorial/1": "1.Hello World",
     "dev/core/tutorial/2": "2.Config",
     "dev/core/event": "事件",
-    "dev/core/wrapper": "包装类",
-    "dev/core/option": `Option`,
-    "dev/core/async_function": "异步函数",
-    "dev/core/auto_completable": `AutoCompletable`,
-    "dev/core/editor": `Editor`,
-    "dev/core/compound": `Compound`,
+    "dev/core/util/wrapper": "包装类",
+    "dev/core/util/option": `Option`,
+    "dev/core/util/async_function": "异步函数",
+    "dev/core/util/auto_completable": `AutoCompletable`,
+    "dev/core/util/editor": `Editor`,
+    "dev/core/util/compound": `Compound`,
+    "dev/core/util/module": "模块与注册",
+    "dev/core/util/class_cache": `ClassCache`,
 
     "dev/mc": "Minecraft",
     "dev/mc/tutorial": "指南",
