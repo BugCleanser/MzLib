@@ -31,7 +31,7 @@ System.gc();
 
 ```java
 ClassLoader cl = ...;
-ClassCache<Method> cache = new ClassCache<>(c -> c.getMethod("myMethod")); // 构造方法传入计算value的方法
+ClassCache<Class<?>, Method> cache = new ClassCache<>(c -> c.getMethod("myMethod")); // 构造方法传入计算value的方法
 System.out.println(cache.get(Class.forName("com.example.MyClass", false, cl))); // 第一次get时进行计算并缓存
 cl = null; // 去除所有外部强引用
 System.gc(); // gc后能正确释放缓存

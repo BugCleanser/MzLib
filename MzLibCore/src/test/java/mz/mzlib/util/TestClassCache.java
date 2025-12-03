@@ -36,7 +36,7 @@ public class TestClassCache
     @Test
     public void testClassCache()
     {
-        ClassCache<RefStrong<Class<?>>> cache = new ClassCache<>(RefStrong::new);
+        ClassCache<Class<?>, RefStrong<Class<?>>> cache = new ClassCache<>(RefStrong::new);
         Class<?> clazz = new SimpleClassLoader().defineClass1(Key.class.getName(), ClassUtil.getByteCode(Key.class));
         cache.get(clazz);
         System.gc();

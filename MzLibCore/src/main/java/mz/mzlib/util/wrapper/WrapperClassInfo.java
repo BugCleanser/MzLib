@@ -39,9 +39,7 @@ public class WrapperClassInfo
         return this.wrappedClass;
     }
 
-    public static Map<Class<? extends WrapperObject>, RefWeak<WrapperClassInfo>> cache = new WeakHashMap<>();
-
-    public void analyseWrappedClass()
+    void analyseWrappedClass()
     {
         Throwable lastException = null;
         for(Annotation i : this.wrapperClass.getDeclaredAnnotations())
@@ -68,28 +66,18 @@ public class WrapperClassInfo
             throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
     }
 
-    public synchronized static WrapperClassInfo get(Class<? extends WrapperObject> clazz)
+    static ClassCache<Class<? extends WrapperObject>, WrapperClassInfo> cache = ClassCache.sync(clazz ->
     {
-        return cache.computeIfAbsent(
-            clazz, k ->
-            {
-                WrapperClassInfo re = new WrapperClassInfo(clazz);
-                cache.put(clazz, new RefWeak<>(re));
-                if(ElementSwitcher.isEnabled(clazz))
-                {
-                    try
-                    {
-                        re.analyseWrappedClass();
-                    }
-                    catch(Throwable e)
-                    {
-                        throw RuntimeUtil.sneakilyThrow(e);
-                    }
-                }
-                ClassUtil.makeReference(clazz.getClassLoader(), re);
-                return new RefWeak<>(re);
-            }
-        ).get();
+        WrapperClassInfo result = new WrapperClassInfo(clazz);
+        if(ElementSwitcher.isEnabled(clazz))
+            result.analyseWrappedClass();
+        ClassUtil.makeReference(clazz.getClassLoader(), result);
+        return result;
+    });
+
+    public static WrapperClassInfo get(Class<? extends WrapperObject> clazz)
+    {
+        return cache.get(clazz);
     }
 
     public static Class<?>[] toUnwrappedClasses(Class<?>[] classes)
@@ -177,8 +165,11 @@ public class WrapperClassInfo
             }
         }
         if(lastException1 != null)
+        {
+            //noinspection UnnecessaryInitCause
             throw RuntimeUtil.sneakilyThrow(
                 new NoSuchElementException("Of wrapper: " + method).initCause(lastException1));
+        }
 
         if(Modifier.isAbstract(method.getModifiers()) && ElementSwitcher.isEnabled(method) &&
             method.getDeclaringClass() != this.getWrapperClass() &&

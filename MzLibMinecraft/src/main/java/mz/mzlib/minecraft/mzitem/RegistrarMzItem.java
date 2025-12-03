@@ -11,7 +11,6 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
@@ -19,7 +18,6 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     public static RegistrarMzItem instance = new RegistrarMzItem();
 
     public Map<Identifier, WrapperFactory<? extends MzItem>> factories = new ConcurrentHashMap<>();
-    Map<Class<? extends MzItem>, WrapperFactory<? extends MzItem>> cache = new WeakHashMap<>(); // FIXME: WeakHashMap
 
     public <T extends MzItem> T newMzItem(Class<T> type)
     {
@@ -27,7 +25,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
     }
     public <T extends MzItem> T newMzItem(Class<T> type, NbtCompound data)
     {
-        return newMzItem(RuntimeUtil.<WrapperFactory<T>>cast(cache.computeIfAbsent(type, WrapperFactory::of)), data);
+        return newMzItem(WrapperFactory.of(type), data);
     }
     public MzItem newMzItem(Identifier id) throws IllegalArgumentException
     {
