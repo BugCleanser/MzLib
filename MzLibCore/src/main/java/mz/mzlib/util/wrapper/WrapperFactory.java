@@ -40,11 +40,14 @@ public class WrapperFactory<T extends WrapperObject>
     public static <T extends WrapperObject> WrapperFactory<T> of(Class<T> wrapperClass)
     {
         //noinspection deprecation
-        return new WrapperFactory<>(WrapperObject.create(wrapperClass, null));
+        return of(WrapperObject.create(wrapperClass, null));
     }
     public static <T extends WrapperObject> WrapperFactory<T> of(T value)
     {
-        return new WrapperFactory<>(value);
+        WrapperFactory<T> result = new WrapperFactory<>(value);
+        if(value.isPresent())
+            result = new WrapperFactory<>(result.create(null));
+        return result;
     }
 
     /**

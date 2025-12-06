@@ -5,8 +5,8 @@ import java.util.Objects;
 
 public class RefWeak<T> implements Ref<T>
 {
-    public WeakReference<T> ref;
-    public int hashCode;
+    WeakReference<T> delegate;
+    int hashCode;
 
     public RefWeak(T value)
     {
@@ -16,20 +16,20 @@ public class RefWeak<T> implements Ref<T>
     @Override
     public T get()
     {
-        return this.ref.get();
+        return this.delegate.get();
     }
 
     @Override
     public void set(T value)
     {
-        this.ref = new WeakReference<>(value);
+        this.delegate = new WeakReference<>(value);
         this.hashCode = System.identityHashCode(value);
     }
 
     @Override
     public boolean equals(Object obj)
     {
-        return obj instanceof Ref && get() == ((Ref<?>) obj).get();
+        return obj instanceof Ref && this.get() == ((Ref<?>) obj).get();
     }
 
     @Override
@@ -41,6 +41,6 @@ public class RefWeak<T> implements Ref<T>
     @Override
     public String toString()
     {
-        return Objects.toString(get());
+        return Objects.toString(this.get());
     }
 }

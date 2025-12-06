@@ -50,7 +50,7 @@ public static class UIInventory10Slots extends UIWindow
 
 但由于0号槽位是成品槽，客户端认为物品会优先移动到从1开始的槽位，导致同步时出现一点问题（物品会在错误的位置闪一下）
 
-因此我们覆写quickMove方法，使得默认行为与客户端一致，即先考虑1~8，最后再考虑0号位
+因此我们覆写quickMove方法，使得默认行为与客户端一致，即先考虑1\~8，最后再考虑0号位
 
 ```java
 @Override
