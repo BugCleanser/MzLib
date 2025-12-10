@@ -11,9 +11,9 @@ import mz.mzlib.minecraft.inventory.InventoryCrafting;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
-import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShaped;
-import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShapeless;
-import mz.mzlib.minecraft.recipe.VanillaIngredient;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapeless;
+import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.world.World;
@@ -100,8 +100,8 @@ public interface MzItem extends ItemStack
         public void onLoad()
         {
             this.register(NothingItemStack.class);
-            this.register(NothingVanillaIngredient.class);
-            this.registerIfEnabled(NothingRecipeVanillaShapedV_1200.class);
+            this.register(NothingIngredientVanilla.class);
+            this.registerIfEnabled(NothingRecipeCraftingShapedV_1200.class);
 
             this.register(RegistrarMzItem.instance);
 
@@ -169,8 +169,8 @@ public interface MzItem extends ItemStack
                 return this.handleVanilla();
             }
         }
-        @WrapSameClass(VanillaIngredient.class)
-        public interface NothingVanillaIngredient extends Nothing, VanillaIngredient
+        @WrapSameClass(IngredientVanilla.class)
+        public interface NothingIngredientVanilla extends Nothing, IngredientVanilla
         {
             @VersionRange(begin = 1200)
             @NothingInject(
@@ -196,8 +196,8 @@ public interface MzItem extends ItemStack
             return Nothing.notReturn();
         }
         @VersionRange(end = 1200)
-        @WrapSameClass(RecipeVanillaShaped.class)
-        public interface NothingRecipeVanillaShapedV_1200 extends Nothing, RecipeVanillaShaped
+        @WrapSameClass(RecipeCraftingShaped.class)
+        public interface NothingRecipeCraftingShapedV_1200 extends Nothing, RecipeCraftingShaped
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",
@@ -211,8 +211,8 @@ public interface MzItem extends ItemStack
             }
         }
         @VersionRange(end = 1200)
-        @WrapSameClass(RecipeVanillaShapeless.class)
-        public interface NothingRecipeVanillaShapelessV_1200 extends Nothing, RecipeVanillaShapeless
+        @WrapSameClass(RecipeCraftingShapeless.class)
+        public interface NothingRecipeCraftingShapelessV_1200 extends Nothing, RecipeCraftingShapeless
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",

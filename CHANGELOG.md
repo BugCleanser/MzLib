@@ -1,6 +1,7 @@
 # Changelog
 
 - v10.0.1-beta-dev16
+  - 兼容至 1.21.11
   - 改进文本组件 API
   - 修复已知问题
 - v10.0.1-beta-dev15

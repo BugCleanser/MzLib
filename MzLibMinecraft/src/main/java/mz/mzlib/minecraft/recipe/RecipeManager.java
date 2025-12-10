@@ -39,9 +39,9 @@ public interface RecipeManager extends WrapperObject
     {
         return FACTORY.getStatic().static$getInstanceV_1200();
     }
-    default List<RecipeVanilla> getRecipesV_1200()
+    default List<RecipeMojang> getRecipesV_1200()
     {
-        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
+        return new ListProxy<>(this.getRecipes0V_1200(), FunctionInvertible.wrapper(RecipeMojang.FACTORY));
     }
     @VersionRange(end = 1200)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
@@ -67,14 +67,15 @@ public interface RecipeManager extends WrapperObject
         return FACTORY.getStatic().static$setupV1200_1300();
     }
     @VersionRange(begin = 1200, end = 1300)
-    static void registerV1200_1300(Identifier id, RecipeVanilla recipe)
+    static void registerV1200_1300(Identifier id, RecipeMojang recipe)
     {
         FACTORY.getStatic().static$registerV1200_1300(id, recipe);
     }
 
-    default Map<Identifier, RecipeVanilla> getRecipesV1300_1400()
+    default Map<Identifier, RecipeMojang> getRecipesV1300_1400()
     {
-        return new MapProxy<>(this.getRecipes0V1300_1400(), FunctionInvertible.wrapper(Identifier.FACTORY), FunctionInvertible.wrapper(RecipeVanilla.FACTORY));
+        return new MapProxy<>(this.getRecipes0V1300_1400(), FunctionInvertible.wrapper(Identifier.FACTORY), FunctionInvertible.wrapper(
+            RecipeMojang.FACTORY));
     }
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftFieldAccessor(@VersionName(name = "field_17445"))
@@ -84,7 +85,7 @@ public interface RecipeManager extends WrapperObject
     void setRecipes0V1300_1400(Map<Object, Object> value);
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "method_16205"))
-    void registerV1300_1400(RecipeVanilla recipe);
+    void registerV1300_1400(RecipeMojang recipe);
 
     @VersionRange(begin = 1400, end = 2005)
     @WrapMinecraftFieldAccessor(@VersionName(name = "recipes"))
@@ -140,5 +141,5 @@ public interface RecipeManager extends WrapperObject
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "method_14260"))
-    void static$registerV1200_1300(Identifier id, RecipeVanilla recipe);
+    void static$registerV1200_1300(Identifier id, RecipeMojang recipe);
 }

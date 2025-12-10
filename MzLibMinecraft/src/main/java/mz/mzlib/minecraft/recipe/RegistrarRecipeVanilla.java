@@ -12,9 +12,21 @@ import java.util.*;
 /**
  * @see ModuleRecipe
  */
-public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>, Instance
+public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistration>, Instance
 {
-    public static RegistrarRecipe instance;
+    public static RegistrarRecipeVanilla instance;
+
+    @Override
+    public Class<RecipeRegistration> getType()
+    {
+        return RecipeRegistration.class;
+    }
+
+    @Override
+    public boolean isRegistrable(RecipeRegistration object)
+    {
+        return object.getRecipe() instanceof RecipeVanilla;
+    }
 
     Set<RecipeRegistration> recipeRegistrations = new HashSet<>();
     Map<RecipeType, Map<Identifier, Recipe>> originalRecipes;
@@ -42,12 +54,6 @@ public abstract class RegistrarRecipe implements IRegistrar<RecipeRegistration>,
         if(this.originalRecipes == null)
             this.updateOriginal();
         return this.originalRecipes;
-    }
-
-    @Override
-    public Class<RecipeRegistration> getType()
-    {
-        return RecipeRegistration.class;
     }
 
     boolean isDirty = false;

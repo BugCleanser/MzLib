@@ -1,7 +1,5 @@
 package mz.mzlib.util.wrapper;
 
-import mz.mzlib.util.RuntimeUtil;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -46,6 +44,7 @@ public @interface WrapFieldAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
+            Throwable cause = null;
             for(String i : annotation.value())
             {
                 try
@@ -58,14 +57,21 @@ public @interface WrapFieldAccessor
                     }
                     else
                     {
-                        return RuntimeUtil.require(wrappedClass.getDeclaredField(i), f -> f.getType() == type);
+                        return wrappedClass.getDeclaredField(i);
                     }
                 }
                 catch(AssertionError | ArrayIndexOutOfBoundsException ignored)
                 {
                 }
+                catch(Throwable e)
+                {
+                    cause = e;
+                }
             }
-            throw new NoSuchFieldException("No such field: " + Arrays.toString(annotation.value()) + ".");
+            NoSuchFieldException e = new NoSuchFieldException("No such field: " + Arrays.toString(annotation.value()) + ".");
+            if(cause!= null)
+                e.initCause(cause);
+            throw e;
         }
     }
 }

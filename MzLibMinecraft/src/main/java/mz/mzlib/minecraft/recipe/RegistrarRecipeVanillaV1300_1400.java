@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 @VersionRange(begin = 1300, end = 1400)
-public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
+public class RegistrarRecipeVanillaV1300_1400 extends RegistrarRecipeVanilla
 {
-    public static RegistrarRecipeV1300_1400 instance;
+    public static RegistrarRecipeVanillaV1300_1400 instance;
 
     Map<Object, Object> rawRecipes0;
 
@@ -24,9 +24,9 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
         RecipeManager recipeManager = MinecraftServer.instance.getRecipeManagerV1300();
         this.rawRecipes0 = recipeManager.getRecipes0V1300_1400();
         Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>();
-        for(Map.Entry<Identifier, RecipeVanilla> e : recipeManager.getRecipesV1300_1400().entrySet())
+        for(Map.Entry<Identifier, RecipeMojang> e : recipeManager.getRecipesV1300_1400().entrySet())
         {
-            RecipeVanilla recipe = e.getValue().autoCast();
+            RecipeMojang recipe = e.getValue().autoCast();
             result.computeIfAbsent(recipe.getType(), k -> new HashMap<>())
                 .put(e.getKey(), recipe);
         }
@@ -45,7 +45,7 @@ public class RegistrarRecipeV1300_1400 extends RegistrarRecipe
         for(Map.Entry<Identifier, Recipe> entry : CollectionUtil.asIterable(
             this.getEnabledRecipes().values().stream().map(Map::entrySet).flatMap(Set::stream).iterator()))
         {
-            result.put(entry.getKey().getWrapped(), ((RecipeVanilla) entry.getValue()).getWrapped());
+            result.put(entry.getKey().getWrapped(), ((RecipeMojang) entry.getValue()).getWrapped());
         }
         MinecraftServer.instance.getRecipeManagerV1300().setRecipes0V1300_1400(result);
     }

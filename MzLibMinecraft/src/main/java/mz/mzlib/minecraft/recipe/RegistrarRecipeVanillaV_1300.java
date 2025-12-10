@@ -6,17 +6,15 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnace;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnaceV_1300;
 import mz.mzlib.minecraft.recipe.smelting.SmeltingManagerV_1300;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @VersionRange(end = 1300)
-public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
+public abstract class RegistrarRecipeVanillaV_1300 extends RegistrarRecipeVanilla
 {
-    public static RegistrarRecipeV_1300 instance;
+    public static RegistrarRecipeVanillaV_1300 instance;
 
     @Override
     protected void updateOriginal()
@@ -31,9 +29,18 @@ public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
         Map<ItemStack, Float> xps = smeltingManager.getExperiences();
         for(Map.Entry<ItemStack, ItemStack> e : smeltingManager.getResults().entrySet())
         {
-            RecipeFurnaceV_1300 recipe = (RecipeFurnaceV_1300) RecipeFurnace.builder().ingredient(e.getKey())
-                .result(e.getValue()).experience(xps.get(e.getValue())).build();
-            smeltingRecipes.put(recipe.calcId(), recipe);
+            RecipeFurnaceV_1300 recipe = (RecipeFurnaceV_1300) RecipeFurnace.builder()
+                .ingredient(e.getKey())
+                .result(e.getValue())
+                .experience(Option.fromNullable(xps.get(e.getValue())).unwrapOrGet(() ->
+                {
+                    System.err.println("Missing experience for " + e.getKey());
+                    return 0.f;
+                }))
+                .build();
+            Recipe last = smeltingRecipes.put(recipe.calcId(), recipe);
+            if(last != null)
+                System.err.println("Duplicate recipe: " + recipe.calcId() + " " + last);
         }
         result.put(RecipeType.FURNACE, Collections.unmodifiableMap(smeltingRecipes));
         this.originalRecipes = Collections.unmodifiableMap(result);
@@ -42,7 +49,7 @@ public abstract class RegistrarRecipeV_1300 extends RegistrarRecipe
     @Override
     public synchronized void flush()
     {
-        updateOriginal(SmeltingManagerV_1300.of()); // dirty
+        this.updateOriginal(SmeltingManagerV_1300.of()); // dirty
         super.flush();
         Map<Object, Object> results0 = new HashMap<>();
         Map<Object, Float> experiences0 = new HashMap<>();

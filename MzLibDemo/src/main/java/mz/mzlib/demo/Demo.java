@@ -10,9 +10,9 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
-import mz.mzlib.minecraft.recipe.RegistrarRecipe;
-import mz.mzlib.minecraft.recipe.VanillaIngredient;
-import mz.mzlib.minecraft.recipe.crafting.RecipeVanillaShaped;
+import mz.mzlib.minecraft.recipe.RegistrarRecipeVanilla;
+import mz.mzlib.minecraft.recipe.IngredientVanilla;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnace;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
@@ -71,11 +71,11 @@ public class Demo extends MzModule
             this.register(ExampleAsyncFunction.instance);
             this.register(DemoTest.instance);
 
-            this.register(RecipeVanillaShaped.builder()
+            this.register(RecipeCraftingShaped.builder()
                 .id(Identifier.newInstance("mzlib:test"))
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
-                        Option.some(VanillaIngredient.of(ItemStack.newInstance(Item.fromId("stick"))))))
+                        Option.some(IngredientVanilla.of(ItemStack.newInstance(Item.fromId("stick"))))))
                 .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
             this.register(RecipeFurnace.builder()
                 .id(Identifier.newInstance("mzlib:test_smelting"))
@@ -83,7 +83,7 @@ public class Demo extends MzModule
                 .result(ItemStack.builder().fromId("apple").build())
                 .experience(100.f)
                 .buildRegistration());
-            MinecraftServer.instance.schedule(() -> System.out.println(RegistrarRecipe.instance.getEnabledRecipes()));
+            MinecraftServer.instance.schedule(() -> System.out.println(RegistrarRecipeVanilla.instance.getEnabledRecipes()));
         }
         catch(Throwable e)
         {

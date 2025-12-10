@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.incomprehensible.recipe;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.recipe.VanillaIngredient;
+import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
@@ -25,7 +25,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     static RawShapedRecipeV2003 newInstance(
         int width,
         int height,
-        List<Option<VanillaIngredient>> ingredients,
+        List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
         return FACTORY.getStatic().static$newInstance(width, height, ingredients, data);
@@ -33,7 +33,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     static RawShapedRecipeV2003 newInstance(
         int width,
         int height,
-        List<Option<VanillaIngredient>> ingredients)
+        List<Option<IngredientVanilla>> ingredients)
     {
         return newInstance(width, height, ingredients, Option.none());
     }
@@ -42,20 +42,20 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     RawShapedRecipeV2003 static$newInstance(
         int width,
         int height,
-        List<Option<VanillaIngredient>> ingredients,
+        List<Option<IngredientVanilla>> ingredients,
         Option<Data> data);
     @SpecificImpl("static$newInstance")
     @VersionRange(end = 2102)
     default RawShapedRecipeV2003 static$newInstanceV_2102(
         int width,
         int height,
-        List<Option<VanillaIngredient>> ingredients,
+        List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
         return this.static$newInstanceV_2102(
             width, height, DefaultedListV1100.fromWrapper(
-                ingredients.stream().map(VanillaIngredient::fromOptionV_2102).collect(Collectors.toList()),
-                VanillaIngredient.emptyV_2102()
+                ingredients.stream().map(IngredientVanilla::fromOptionV_2102).collect(Collectors.toList()),
+                IngredientVanilla.emptyV_2102()
             ), data.map(Data::getWrapped).toOptional()
         );
     }
@@ -72,12 +72,12 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     default RawShapedRecipeV2003 static$newInstanceV2102(
         int width,
         int height,
-        List<Option<VanillaIngredient>> ingredients,
+        List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
         return this.static$newInstanceV2102(
             width, height,
-            ingredients.stream().map(it -> it.map(VanillaIngredient::getWrapped).toOptional())
+            ingredients.stream().map(it -> it.map(IngredientVanilla::getWrapped).toOptional())
                 .collect(Collectors.toList()), data.map(Data::getWrapped).toOptional()
         );
     }

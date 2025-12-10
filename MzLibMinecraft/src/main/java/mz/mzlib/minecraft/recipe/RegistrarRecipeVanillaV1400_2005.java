@@ -14,15 +14,15 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @VersionRange(begin = 1400, end = 2005)
-public class RegistrarRecipeV1400_2005 extends RegistrarRecipe
+public class RegistrarRecipeVanillaV1400_2005 extends RegistrarRecipeVanilla
 {
-    public static RegistrarRecipeV1400_2005 instance;
+    public static RegistrarRecipeVanillaV1400_2005 instance;
 
     Function<RecipeRegistration, WrapperObject> toData = MinecraftPlatform.instance.getVersion() < 2002 ?
         RecipeRegistration::getRecipeV1300 :
         RecipeEntryV2002::of;
-    Function<WrapperObject, RecipeVanilla> toRecipe = MinecraftPlatform.instance.getVersion() < 2002 ?
-        o -> o.as(RecipeVanilla.FACTORY) :
+    Function<WrapperObject, RecipeMojang> toRecipe = MinecraftPlatform.instance.getVersion() < 2002 ?
+        o -> o.as(RecipeMojang.FACTORY) :
         o -> o.as(RecipeEntryV2002.FACTORY).getValue();
 
     @Override

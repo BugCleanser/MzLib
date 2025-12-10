@@ -4,8 +4,8 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.recipe.RecipeVanilla;
-import mz.mzlib.minecraft.recipe.VanillaIngredient;
+import mz.mzlib.minecraft.recipe.RecipeMojang;
+import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.book.RecipeCookingCategoryV1903;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -19,11 +19,11 @@ import mz.mzlib.util.wrapper.WrapperFactory;
         @VersionName(name = "net.minecraft.recipe.SmeltingRecipe", begin = 1400)
     }
 )
-public interface RecipeVanillaFurnaceV1300 extends RecipeVanilla, RecipeFurnace
+public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
 {
-    WrapperFactory<RecipeVanillaFurnaceV1300> FACTORY = WrapperFactory.of(RecipeVanillaFurnaceV1300.class);
+    WrapperFactory<RecipeFurnaceV1300> FACTORY = WrapperFactory.of(RecipeFurnaceV1300.class);
 
-    static RecipeVanillaFurnaceV1300 of(Builder builder)
+    static RecipeFurnaceV1300 of(Builder builder)
     {
         return FACTORY.getStatic().static$of(builder);
     }
@@ -33,21 +33,21 @@ public interface RecipeVanillaFurnaceV1300 extends RecipeVanilla, RecipeFurnace
         @Override
         public Builder ingredient(ItemStack value)
         {
-            return (Builder) this.ingredientV1300(VanillaIngredient.of(value));
+            return (Builder) this.ingredientV1300(IngredientVanilla.of(value));
         }
 
         @Override
-        public RecipeVanillaFurnaceV1300 build()
+        public RecipeFurnaceV1300 build()
         {
-            return RecipeVanillaFurnaceV1300.of(this);
+            return RecipeFurnaceV1300.of(this);
         }
     }
 
-    RecipeVanillaFurnaceV1300 static$of(Builder builder);
+    RecipeFurnaceV1300 static$of(Builder builder);
 
     @SpecificImpl("static$of")
     @VersionRange(end = 1903)
-    default RecipeVanillaFurnaceV1300 static$ofV_1903(Builder builder)
+    default RecipeFurnaceV1300 static$ofV_1903(Builder builder)
     {
         return this.static$ofV_1903(
             builder.getId(), builder.groupV1300, builder.getIngredientV1300(), builder.getResult(), builder.experience,
@@ -56,17 +56,17 @@ public interface RecipeVanillaFurnaceV1300 extends RecipeVanilla, RecipeFurnace
     }
     @VersionRange(end = 1903)
     @WrapConstructor
-    RecipeVanillaFurnaceV1300 static$ofV_1903(
+    RecipeFurnaceV1300 static$ofV_1903(
         Identifier id,
         String group,
-        VanillaIngredient ingredient,
+        IngredientVanilla ingredient,
         ItemStack result,
         float experience,
         int cookingTime);
 
     @SpecificImpl("static$of")
     @VersionRange(begin = 1903, end = 2002)
-    default RecipeVanillaFurnaceV1300 static$ofV1903_2002(Builder builder)
+    default RecipeFurnaceV1300 static$ofV1903_2002(Builder builder)
     {
         return this.static$ofV1903_2002(
             builder.getId(), builder.groupV1300, builder.cookingCategoryV1903,
@@ -75,18 +75,18 @@ public interface RecipeVanillaFurnaceV1300 extends RecipeVanilla, RecipeFurnace
     }
     @VersionRange(begin = 1903, end = 2002)
     @WrapConstructor
-    RecipeVanillaFurnaceV1300 static$ofV1903_2002(
+    RecipeFurnaceV1300 static$ofV1903_2002(
         Identifier id,
         String group,
         RecipeCookingCategoryV1903 category,
-        VanillaIngredient ingredient,
+        IngredientVanilla ingredient,
         ItemStack result,
         float experience,
         int cookingTime);
 
     @SpecificImpl("static$of")
     @VersionRange(begin = 2002)
-    default RecipeVanillaFurnaceV1300 static$ofV2002(Builder builder)
+    default RecipeFurnaceV1300 static$ofV2002(Builder builder)
     {
         return this.static$ofV2002(
             builder.groupV1300, builder.cookingCategoryV1903,
@@ -95,10 +95,10 @@ public interface RecipeVanillaFurnaceV1300 extends RecipeVanilla, RecipeFurnace
     }
     @VersionRange(begin = 2002)
     @WrapConstructor
-    RecipeVanillaFurnaceV1300 static$ofV2002(
+    RecipeFurnaceV1300 static$ofV2002(
         String group,
         RecipeCookingCategoryV1903 category,
-        VanillaIngredient ingredient,
+        IngredientVanilla ingredient,
         ItemStack result,
         float experience,
         int cookingTime);

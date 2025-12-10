@@ -47,9 +47,7 @@ public interface NbtList extends NbtElement
     }
     static NbtList newInstance0(List<Object> elements0)
     {
-        NbtList result = newInstance();
-        result.setValue0(elements0);
-        return result;
+        return FACTORY.getStatic().static$newInstance0(elements0);
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
@@ -212,6 +210,27 @@ public interface NbtList extends NbtElement
         {
             result.add(i);
         }
+        return result;
+    }
+
+
+    NbtList static$newInstance0(List<Object> elements0);
+    @SpecificImpl("static$newInstance0")
+    @VersionRange(end = 2105)
+    default NbtList static$newInstance0V_2105(List<Object> elements0)
+    {
+        NbtList result = newInstance();
+        result.setValue0(elements0);
+        if(!elements0.isEmpty())
+            result.setElementTypeIdV_2105(NbtElement.FACTORY.create(elements0.get(0)).getTypeId());
+        return result;
+    }
+    @SpecificImpl("static$newInstance0")
+    @VersionRange(begin = 2105)
+    default NbtList static$newInstance0V2105(List<Object> elements0)
+    {
+        NbtList result = newInstance();
+        result.setValue0(elements0);
         return result;
     }
 }

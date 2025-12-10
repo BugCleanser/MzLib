@@ -13,9 +13,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @VersionRange(begin = 2005, end = 2102)
-public class RegistrarRecipeV2005_2102 extends RegistrarRecipe
+public class RegistrarRecipeVanillaV2005_2102 extends RegistrarRecipeVanilla
 {
-    public static RegistrarRecipeV2005_2102 instance;
+    public static RegistrarRecipeVanillaV2005_2102 instance;
 
     @Override
     protected void updateOriginal()

@@ -28,19 +28,19 @@ public class ModuleRecipe extends MzModule
         final int version = MinecraftPlatform.instance.getVersion();
         // registrar
         if(version < 1200)
-            this.register(new RegistrarRecipeV_1200());
+            this.register(new RegistrarRecipeVanillaV_1200());
         else if(version < 1300)
-            this.register(new RegistrarRecipeV1200_1300());
+            this.register(new RegistrarRecipeVanillaV1200_1300());
         else if(version < 1400)
-            this.register(new RegistrarRecipeV1300_1400());
+            this.register(new RegistrarRecipeVanillaV1300_1400());
         else if(version < 1800)
-            this.register(new RegistrarRecipeV1400_2005());
+            this.register(new RegistrarRecipeVanillaV1400_2005());
         else if(version < 2005)
-            this.register(new RegistrarRecipeV1800_2005());
+            this.register(new RegistrarRecipeVanillaV1800_2005());
         else if(version < 2102)
-            this.register(new RegistrarRecipeV2005_2102());
+            this.register(new RegistrarRecipeVanillaV2005_2102());
         else
-            this.register(new RegistrarRecipeV2102());
+            this.register(new RegistrarRecipeVanillaV2102());
 
         // nothing
         if(version < 1300)
@@ -70,7 +70,7 @@ public class ModuleRecipe extends MzModule
         )
         default void static$of$end()
         {
-            RegistrarRecipe.instance.markDirty();
+            RegistrarRecipeVanilla.instance.markDirty();
         }
     }
     @VersionRange(end = 1300)
@@ -93,7 +93,7 @@ public class ModuleRecipe extends MzModule
         )
         default void static$ofV_1200$end()
         {
-            RegistrarRecipe.instance.markDirty();
+            RegistrarRecipeVanilla.instance.markDirty();
         }
 
         @VersionRange(begin = 1200)
@@ -105,7 +105,7 @@ public class ModuleRecipe extends MzModule
         )
         static void setupV1200_1300$end()
         {
-            RegistrarRecipe.instance.onReloadEnd();
+            RegistrarRecipeVanilla.instance.markDirty();
         }
     }
     @VersionRange(begin = 1300, end = 1400)
@@ -120,7 +120,7 @@ public class ModuleRecipe extends MzModule
         )
         default void reload$end()
         {
-            RegistrarRecipe.instance.onReloadEnd();
+            RegistrarRecipeVanilla.instance.onReloadEnd();
         }
     }
     @VersionRange(begin = 1400)
@@ -140,7 +140,7 @@ public class ModuleRecipe extends MzModule
         )
         default void apply$impl$end()
         {
-            RegistrarRecipe.instance.onReloadEnd();
+            RegistrarRecipeVanilla.instance.onReloadEnd();
         }
     }
 }

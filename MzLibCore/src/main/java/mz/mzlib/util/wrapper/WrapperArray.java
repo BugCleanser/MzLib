@@ -14,6 +14,9 @@ import java.util.stream.Collector;
 @WrapArrayClass(WrapperObject.class)
 public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 {
+    @Override
+    Object[] getWrapped();
+
     WrapperFactory<T> static$getElementFactory();
 
     default WrapperArray<T> static$newInstance(int length)
@@ -24,23 +27,23 @@ public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 
     default T get(int index)
     {
-        return this.static$getElementFactory().create(Array.get(this.getWrapped(), index));
+        return this.static$getElementFactory().create(this.getWrapped()[index]);
     }
 
     default void set(int index, T value)
     {
-        Array.set(this.getWrapped(), index, value.getWrapped());
+        this.getWrapped()[index] = value.getWrapped();
     }
 
     default int length()
     {
-        return Array.getLength(this.getWrapped());
+        return this.getWrapped().length;
     }
 
     default List<T> asList()
     {
         return new ListProxy<>(
-            Arrays.asList((Object[]) this.getWrapped()), // FIXME
+            Arrays.asList(this.getWrapped()),
             FunctionInvertible.wrapper(this.static$getElementFactory())
         );
     }

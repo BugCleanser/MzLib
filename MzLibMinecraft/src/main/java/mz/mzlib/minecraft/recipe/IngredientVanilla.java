@@ -22,51 +22,62 @@ import java.util.function.Predicate;
         @VersionName(name = "net.minecraft.recipe.Ingredient", begin = 1200)
     }
 )
-public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
+public interface IngredientVanilla extends WrapperObject, Predicate<ItemStack>
 {
-    WrapperFactory<VanillaIngredient> FACTORY = WrapperFactory.of(VanillaIngredient.class);
+    WrapperFactory<IngredientVanilla> FACTORY = WrapperFactory.of(IngredientVanilla.class);
 
-    static VanillaIngredient emptyV_2102()
+    static IngredientVanilla emptyV_2102()
     {
         return FACTORY.getStatic().static$emptyV_2102();
     }
 
-    static VanillaIngredient fromOptionV_2102(Option<VanillaIngredient> option)
+    static IngredientVanilla fromOptionV_2102(Option<IngredientVanilla> option)
     {
-        return option.unwrapOrGet(VanillaIngredient::emptyV_2102);
+        return option.unwrapOrGet(IngredientVanilla::emptyV_2102);
     }
 
     @Override
     boolean test(ItemStack itemStack);
 
-    static VanillaIngredient of(ItemStack itemStack)
+    static IngredientVanilla of(ItemStack itemStack)
     {
         return FACTORY.getStatic().static$of(itemStack);
     }
 
     @VersionRange(begin = 1200, end = 1300)
-    static VanillaIngredient ofItemStacksV1200_1300(ItemStack... itemStacks)
+    static IngredientVanilla ofItemStacksV1200_1300(ItemStack... itemStacks)
     {
         return FACTORY.getStatic().static$ofItemStacksV1200_1300(
             Arrays.stream(itemStacks).collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
     }
     @VersionRange(begin = 1300)
-    static VanillaIngredient ofItemsV1300(ItemConvertibleV1300... items)
+    static IngredientVanilla ofItemsV1300(ItemConvertibleV1300... items)
     {
         return FACTORY.getStatic().static$ofItemsV1300(
             Arrays.stream(items).collect(WrapperArray.collector(ItemConvertibleV1300.Array.FACTORY)));
     }
     @VersionRange(begin = 1200)
-    static VanillaIngredient ofItemsV1200(Item... items)
+    static IngredientVanilla ofItemsV1200(Item... items)
     {
         return FACTORY.getStatic().static$ofItemsV1200(items);
     }
 
+    @WrapArrayClass(IngredientVanilla.class)
+    interface Array extends WrapperArray<IngredientVanilla>
+    {
+        WrapperFactory<Array> FACTORY = WrapperFactory.of(Array.class);
 
-    VanillaIngredient static$emptyV_2102();
+        static Array newInstance(int size)
+        {
+            return (Array) FACTORY.getStatic().static$newInstance(size);
+        }
+    }
+
+
+    IngredientVanilla static$emptyV_2102();
     @SpecificImpl("static$emptyV_2102")
     @VersionRange(end = 1200)
-    default VanillaIngredient static$emptyV_1200()
+    default IngredientVanilla static$emptyV_1200()
     {
         return ItemStack.empty().as(FACTORY);
     }
@@ -78,7 +89,7 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
             @VersionName(name = "EMPTY", begin = 1400)
         }
     )
-    VanillaIngredient static$emptyV1200_2102();
+    IngredientVanilla static$emptyV1200_2102();
 
     @SpecificImpl("test")
     @VersionRange(end = 1200)
@@ -109,36 +120,36 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
     @WrapMethodFromBridge(name = "testV1200$bridge", params = { Object.class })
     boolean testV1200(ItemStack itemStack);
 
-    VanillaIngredient static$of(ItemStack itemStack);
+    IngredientVanilla static$of(ItemStack itemStack);
     @SpecificImpl("static$of")
     @VersionRange(end = 1200)
-    default VanillaIngredient static$ofV_1200(ItemStack itemStack)
+    default IngredientVanilla static$ofV_1200(ItemStack itemStack)
     {
         return itemStack.as(FACTORY);
     }
     @SpecificImpl("static$of")
     @VersionRange(begin = 1200, end = 1300)
-    default VanillaIngredient static$ofV1200_1300(ItemStack itemStack)
+    default IngredientVanilla static$ofV1200_1300(ItemStack itemStack)
     {
         return ofItemStacksV1200_1300(itemStack);
     }
     @SpecificImpl("static$of")
     @VersionRange(begin = 1300)
-    default VanillaIngredient static$ofV1300(ItemStack itemStack)
+    default IngredientVanilla static$ofV1300(ItemStack itemStack)
     {
         return ofItemsV1300(itemStack.getItem().as(Item.V1300.FACTORY));
     }
 
-    VanillaIngredient static$ofItemsV1200(Item... items);
+    IngredientVanilla static$ofItemsV1200(Item... items);
     @SpecificImpl("static$ofItemsV1200")
     @VersionRange(begin = 1200, end = 1300)
-    default VanillaIngredient static$ofItemsV1200_1300(Item... items)
+    default IngredientVanilla static$ofItemsV1200_1300(Item... items)
     {
         return ofItemStacksV1200_1300(Arrays.stream(items).map(ItemStack::newInstance).toArray(ItemStack[]::new));
     }
     @SpecificImpl("static$ofItemsV1200")
     @VersionRange(begin = 1300)
-    default VanillaIngredient static$ofItemsV1300(Item... items)
+    default IngredientVanilla static$ofItemsV1300(Item... items)
     {
         return ofItemsV1300(Arrays.stream(items)
             .map(it -> it.as(Item.V1300.FACTORY)).toArray(ItemConvertibleV1300[]::new));
@@ -146,9 +157,9 @@ public interface VanillaIngredient extends WrapperObject, Predicate<ItemStack>
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "method_14248"))
-    VanillaIngredient static$ofItemStacksV1200_1300(ItemStack.Array itemStacks);
+    IngredientVanilla static$ofItemStacksV1200_1300(ItemStack.Array itemStacks);
 
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod(@VersionName(name = "ofItems"))
-    VanillaIngredient static$ofItemsV1300(ItemConvertibleV1300.Array items);
+    IngredientVanilla static$ofItemsV1300(ItemConvertibleV1300.Array items);
 }

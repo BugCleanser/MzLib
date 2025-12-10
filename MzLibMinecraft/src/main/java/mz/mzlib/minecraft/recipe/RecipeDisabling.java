@@ -35,11 +35,11 @@ public class RecipeDisabling implements Registrable
     @Override
     public void onRegister(MzModule module)
     {
-        RegistrarRecipe.instance.disable(this);
+        RegistrarRecipeVanilla.instance.disable(this);
     }
     @Override
     public void onUnregister(MzModule module)
     {
-        RegistrarRecipe.instance.enable(this);
+        RegistrarRecipeVanilla.instance.enable(this);
     }
 }

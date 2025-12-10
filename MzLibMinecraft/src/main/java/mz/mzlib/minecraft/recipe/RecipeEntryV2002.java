@@ -24,12 +24,12 @@ public interface RecipeEntryV2002 extends WrapperObject
     }
 
     @VersionRange(end = 2102)
-    static RecipeEntryV2002 newInstanceV_2102(Identifier key, RecipeVanilla value)
+    static RecipeEntryV2002 newInstanceV_2102(Identifier key, RecipeMojang value)
     {
         return FACTORY.getStatic().static$newInstanceV_2102(key, value);
     }
     @VersionRange(begin = 2102)
-    static RecipeEntryV2002 newInstanceV2102(RegistryKeyV1600 key, RecipeVanilla value)
+    static RecipeEntryV2002 newInstanceV2102(RegistryKeyV1600 key, RecipeMojang value)
     {
         return FACTORY.getStatic().static$newInstanceV2102(key, value);
     }
@@ -51,7 +51,7 @@ public interface RecipeEntryV2002 extends WrapperObject
     RegistryKeyV1600 getKeyV2102();
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "value"))
-    RecipeVanilla getValue();
+    RecipeMojang getValue();
 
 
     RecipeEntryV2002 static$of(RecipeRegistration recipe);
@@ -59,22 +59,22 @@ public interface RecipeEntryV2002 extends WrapperObject
     @VersionRange(end = 2102)
     default RecipeEntryV2002 static$ofV_2102(RecipeRegistration recipe)
     {
-        return newInstanceV_2102(recipe.getId(), (RecipeVanilla) recipe.getRecipe());
+        return newInstanceV_2102(recipe.getId(), (RecipeMojang) recipe.getRecipe());
     }
     @SpecificImpl("static$of")
     @VersionRange(begin = 2102)
     default RecipeEntryV2002 static$ofV2102(RecipeRegistration recipe)
     {
         return newInstanceV2102(RegistryKeyV1600.of(RegistryKeys.RECIPE, recipe.getId()),
-            (RecipeVanilla) recipe.getRecipe()
+            (RecipeMojang) recipe.getRecipe()
         );
     }
 
     @VersionRange(end = 2102)
     @WrapConstructor
-    RecipeEntryV2002 static$newInstanceV_2102(Identifier key, RecipeVanilla value);
+    RecipeEntryV2002 static$newInstanceV_2102(Identifier key, RecipeMojang value);
 
     @VersionRange(begin = 2102)
     @WrapConstructor
-    RecipeEntryV2002 static$newInstanceV2102(RegistryKeyV1600 key, RecipeVanilla value);
+    RecipeEntryV2002 static$newInstanceV2102(RegistryKeyV1600 key, RecipeMojang value);
 }

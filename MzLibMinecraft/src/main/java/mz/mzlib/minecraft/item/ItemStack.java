@@ -285,7 +285,7 @@ public interface ItemStack extends WrapperObject
 
     default void setTagV_2005(Option<NbtCompound> value)
     {
-        this.setTag0V_2005(value.toNullable());
+        this.setTag0V_2005(value.unwrapOrGet(NbtCompound.FACTORY::getStatic));
     }
 
     default NbtCompound tagV_2005()

@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 @VersionRange(begin = 1800, end = 2005)
-public class RegistrarRecipeV1800_2005 extends RegistrarRecipeV1400_2005
+public class RegistrarRecipeVanillaV1800_2005 extends RegistrarRecipeVanillaV1400_2005
 {
-    public static RegistrarRecipeV1800_2005 instance;
+    public static RegistrarRecipeVanillaV1800_2005 instance;
 
     @Override
     public synchronized void flush()

@@ -8,9 +8,9 @@ import mz.mzlib.util.CollectionUtil;
 import java.util.*;
 
 @VersionRange(begin = 2102)
-public class RegistrarRecipeV2102 extends RegistrarRecipe
+public class RegistrarRecipeVanillaV2102 extends RegistrarRecipeVanilla
 {
-    public static RegistrarRecipeV2102 instance;
+    public static RegistrarRecipeVanillaV2102 instance;
 
     @Override
     protected void updateOriginal()
@@ -19,7 +19,7 @@ public class RegistrarRecipeV2102 extends RegistrarRecipe
         for(RecipeEntryV2002 recipe : MinecraftServer.instance.getRecipeManagerV1300().getPreparedRecipesV2102()
             .recipes())
         {
-            RecipeVanilla r = recipe.getValue().autoCast();
+            RecipeMojang r = recipe.getValue().autoCast();
             result.computeIfAbsent(r.getType(), k -> new HashMap<>())
                 .put(recipe.getId(), r);
         }

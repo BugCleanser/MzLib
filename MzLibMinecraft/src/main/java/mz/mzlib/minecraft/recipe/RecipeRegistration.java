@@ -28,8 +28,8 @@ public class RecipeRegistration
         return this.recipe;
     }
 
-    RecipeVanilla getRecipeV1300()
+    RecipeMojang getRecipeV1300()
     {
-        return (RecipeVanilla) this.getRecipe();
+        return (RecipeMojang) this.getRecipe();
     }
 }

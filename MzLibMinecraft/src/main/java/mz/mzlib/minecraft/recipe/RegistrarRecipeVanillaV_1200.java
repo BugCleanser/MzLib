@@ -6,9 +6,9 @@ import mz.mzlib.minecraft.VersionRange;
 import java.util.*;
 
 @VersionRange(end = 1200)
-public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
+public class RegistrarRecipeVanillaV_1200 extends RegistrarRecipeVanillaV_1300
 {
-    public static RegistrarRecipeV_1200 instance;
+    public static RegistrarRecipeVanillaV_1200 instance;
 
     @Override
     protected void onReloadEnd()
@@ -18,17 +18,20 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
     @Override
     protected void updateOriginal()
     {
+        super.updateOriginal();
         this.updateOriginal(RecipeManager.getInstanceV_1200());
     }
     protected void updateOriginal(RecipeManager recipeManager)
     {
-        super.updateOriginal();
-        Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>(this.originalRecipes);
+        HashMap<RecipeType, Map<Identifier, Recipe>> result =
+            this.originalRecipes == null ? new HashMap<>() : new HashMap<>(this.originalRecipes);
         HashMap<Identifier, Recipe> craftingRecipes = new HashMap<>();
-        for(RecipeVanilla recipe : recipeManager.getRecipesV_1200())
+        for(RecipeMojang recipe : recipeManager.getRecipesV_1200())
         {
             recipe = recipe.autoCast();
-            craftingRecipes.put(recipe.calcIdV_1200(), recipe);
+            Recipe last = craftingRecipes.put(recipe.calcIdV_1200(), recipe);
+            if(last != null)
+                System.err.println("Duplicate recipe: " + recipe.calcIdV_1200() + " " + last);
         }
         result.put(RecipeType.CRAFTING, Collections.unmodifiableMap(craftingRecipes));
         this.originalRecipes = Collections.unmodifiableMap(result);
@@ -42,7 +45,7 @@ public class RegistrarRecipeV_1200 extends RegistrarRecipeV_1300
         List<Object> recipes0 = new ArrayList<>();
         for(Recipe recipe : this.getEnabledRecipes().getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).values())
         {
-            recipes0.add(((RecipeVanilla)recipe).getWrapped());
+            recipes0.add(((RecipeMojang)recipe).getWrapped());
         }
         RecipeManager.getInstanceV_1200().setRecipes0V_1200(recipes0);
     }
