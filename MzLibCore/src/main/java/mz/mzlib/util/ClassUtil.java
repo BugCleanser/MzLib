@@ -165,7 +165,8 @@ public class ClassUtil
         {
             return ((Method) m).getReturnType();
         }
-        assert m instanceof Constructor;
+        if(!(m instanceof Constructor))
+            throw new IllegalArgumentException(Objects.toString(m));
         return void.class;
     }
 
@@ -416,7 +417,8 @@ public class ClassUtil
                 System.err.println(
                     "You can also try installing ByteBuddyAgent manually (this is not a plugin, check the installation method on the MzLib official website)");
                 System.err.println("无法注入 JavaAgent");
-                System.err.println("请删除启动参数-XX:+DisableAttachMechanism 和-Djdk.attach.allowAttachSelf=false");
+                System.err.println(
+                    "请删除启动参数-XX:+DisableAttachMechanism 和 -D" + "jdk.attach.allowAttachSelf=false");
                 System.err.println("也可以尝试手动安装 ByteBuddyAgent（这不是一个插件，在 MzLib 官网查看安装方法）");
                 throw e;
             }

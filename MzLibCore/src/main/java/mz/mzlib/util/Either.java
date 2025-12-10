@@ -2,13 +2,14 @@ package mz.mzlib.util;
 
 import java.util.function.Function;
 
-public abstract class Either<F, S>
+public abstract class Either<F, S> extends Invertible<Either<S, F>>
 {
     public abstract boolean isFirst();
     public abstract boolean isSecond();
     public abstract Option<F> getFirst();
     public abstract Option<S> getSecond();
 
+    @Override
     public abstract Either<S, F> invert();
 
     public abstract <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action);
@@ -28,7 +29,8 @@ public abstract class Either<F, S>
 
     public static <F, S> Either<F, S> fromNullable(F first, S second)
     {
-        assert Boolean.logicalXor(first != null, second != null);
+        if((first != null) == (second != null))
+            throw new IllegalArgumentException(Pair.of(first, second).toString());
         if(first != null)
             return first(first);
         else

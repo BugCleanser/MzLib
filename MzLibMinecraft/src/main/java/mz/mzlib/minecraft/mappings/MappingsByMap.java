@@ -1,11 +1,14 @@
 package mz.mzlib.minecraft.mappings;
 
+import mz.mzlib.util.Option;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -195,7 +198,9 @@ public class MappingsByMap extends Mappings<MappingsByMap>
                     result.methods.computeIfAbsent(cl[0], it -> new HashMap<>()).put(
                         new MappingMethod(
                             c[0],
-                            Arrays.stream(c[1].substring(0, c[1].length() - 1).split(",")).map(MappingsByMap::type2desc)
+                            Option.some(c[1].substring(0, c[1].length() - 1)).filter(s -> !s.isEmpty())
+                                .map(s -> s.split(",")).map(Arrays::stream).unwrapOrGet(
+                                    Stream::empty).map(MappingsByMap::type2desc)
                                 .toArray(String[]::new)
                         ), to
                     );

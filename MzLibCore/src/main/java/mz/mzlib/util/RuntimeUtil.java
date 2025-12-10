@@ -6,6 +6,7 @@ import javax.management.NotificationListener;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -153,7 +154,8 @@ public class RuntimeUtil
 
     public static <T> T require(T object, Predicate<T> con)
     {
-        assert con.test(object);
+        if(!con.test(object))
+            throw new IllegalArgumentException(Objects.toString(object));
         return object;
     }
 
@@ -164,5 +166,21 @@ public class RuntimeUtil
     public static <T, E extends Throwable> void consume(T value, ThrowableConsumer<T, E> consumer) throws E
     {
         consumer.acceptOrThrow(value);
+    }
+
+    public static <T, E extends Throwable> T get(ThrowableSupplier<T, E> supplier) throws E
+    {
+        return supplier.getOrThrow();
+    }
+
+    @SafeVarargs
+    public static <T> T[] array(T... elements)
+    {
+        return elements;
+    }
+
+    public static <T> T second(Object first, T second)
+    {
+        return second;
     }
 }
