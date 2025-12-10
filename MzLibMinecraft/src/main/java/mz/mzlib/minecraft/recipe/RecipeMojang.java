@@ -21,6 +21,7 @@ import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -90,7 +91,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     }
 
     @VersionRange(end = 1200)
-    default Identifier calcIdV_1200() // TODO
+    default Identifier calcIdV_1200()
     {
         return Identifier.minecraft(
             this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
@@ -132,7 +133,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     {
         if(this.is(RecipeCraftingShaped.FACTORY))
             return this.as(RecipeCraftingShaped.FACTORY);
-        if(this.is(RecipeCraftingShapeless.FACTORY))
+        if(this.getWrapped().getClass() == RecipeCraftingShapeless.FACTORY.getWrappedClass()) // fuck Bukkit
             return this.as(RecipeCraftingShapeless.FACTORY);
         return this;
     }
@@ -158,7 +159,8 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(end = 2102)
     default List<ItemStack> getIconsV_2102()
     {
-        return Collections.singletonList(this.getIconV_2102());
+        return Option.some(this.getIconV_2102()).filter(it -> !it.isEmpty()).map(Collections::singletonList)
+            .unwrapOrGet(Collections::emptyList);
     }
     @VersionRange(end = 2102)
     ItemStack getIconV_2102();

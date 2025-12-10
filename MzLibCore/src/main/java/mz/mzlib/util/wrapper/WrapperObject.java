@@ -32,6 +32,11 @@ public interface WrapperObject
         this.setWrapped(wrapper.getWrapped());
     }
 
+    static String debugInfo(WrapperObject wrapper)
+    {
+        return wrapper.getClass().getName() + "{" + wrapper.getWrapped() + "}";
+    }
+
     /**
      * slow
      */
