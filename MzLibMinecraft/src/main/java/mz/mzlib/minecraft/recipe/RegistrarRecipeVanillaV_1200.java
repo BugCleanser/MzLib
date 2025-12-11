@@ -41,7 +41,6 @@ public class RegistrarRecipeVanillaV_1200 extends RegistrarRecipeVanillaV_1300
     @Override
     public synchronized void flush()
     {
-        this.updateOriginal(RecipeManager.ofV_1200()); // dirty
         super.flush();
         List<Object> recipes0 = new ArrayList<>();
         for(Recipe recipe : this.getEnabledRecipes().getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).values())

@@ -34,7 +34,7 @@ public abstract class RegistrarRecipeVanillaV_1300 extends RegistrarRecipeVanill
                 .result(e.getValue())
                 .experience(Option.fromNullable(xps.get(e.getValue())).unwrapOrGet(() ->
                 {
-                    System.err.println("Missing experience for " + e.getKey());
+                    new IllegalStateException("Missing experience for " + e.getKey()).printStackTrace(System.err);
                     return 0.f;
                 }))
                 .build();
@@ -49,7 +49,6 @@ public abstract class RegistrarRecipeVanillaV_1300 extends RegistrarRecipeVanill
     @Override
     public synchronized void flush()
     {
-        this.updateOriginal(SmeltingManagerV_1300.of()); // dirty
         super.flush();
         Map<Object, Object> results0 = new HashMap<>();
         Map<Object, Float> experiences0 = new HashMap<>();

@@ -31,11 +31,8 @@ public class RegistrarRecipeVanillaV1200_1300 extends RegistrarRecipeVanillaV_13
     @Override
     public synchronized void flush()
     {
-        RecipeManager.setRegistryV1200_1300(SimpleRegistry.ofV_1600());
-        RecipeManager.setupV1200_1300();
-        this.updateOriginal();
         super.flush();
-        RecipeManager.setRegistryV1200_1300(SimpleRegistry.ofV_1600());
+        RecipeManager.setRegistryV1200_1300(SimpleRegistry.ofV_1600()); // FIXME: 原始顺序（raw id）是重要的，对于配方书
         for(Map.Entry<Identifier, Recipe> e : this.getEnabledRecipes()
             .getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).entrySet())
         {
