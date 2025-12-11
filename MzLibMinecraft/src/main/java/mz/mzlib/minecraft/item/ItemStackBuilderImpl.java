@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.item;
 
 import mz.mzlib.data.DataKey;
 import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.Option;
@@ -76,6 +75,10 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     {
         return new StepColor(this, baseId);
     }
+    public StepColor coloredSpecific(String baseId)
+    {
+        return new StepColorSpecific(this, baseId);
+    }
     @Override
     public StepColor dye()
     {
@@ -114,7 +117,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     @Override
     public StepColor shulkerBoxV1100()
     {
-        return new ShulkerBoxV1100(this);
+        return this.coloredSpecific("shulker_box");
     }
     @Override
     public StepColor bedV1200()
@@ -134,7 +137,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     @Override
     public StepColor glazedTerracottaV1200()
     {
-        return this.colored("glazed_terracotta");
+        return this.coloredSpecific("glazed_terracotta");
     }
 
     @Override
@@ -271,19 +274,22 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         }
     }
 
-    static class ShulkerBoxV1100 extends StepColor
+    static class StepColorSpecific extends StepColor
     {
-        public ShulkerBoxV1100(ItemStackBuilderImpl base)
+        public StepColorSpecific(ItemStackBuilderImpl base, String baseId)
         {
-            super(base, "shulker_box");
+            super(base, baseId);
         }
 
         @Override
         public ItemStackBuilderImpl color(String value)
         {
-            if(MinecraftPlatform.instance.getVersion() < 1300 && "light_gray".equals(value))
-                value = "silver";
-            return this.base.fromId(value + "_" + this.baseIdV1300);
+            String valueV_1300;
+            if("light_gray".equals(value))
+                valueV_1300 = "silver";
+            else
+                valueV_1300 = value;
+            return this.base.fromId(valueV_1300 + "_" + this.baseIdV1300, 0, value + "_" + this.baseIdV1300);
         }
     }
 }
