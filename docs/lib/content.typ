@@ -62,4 +62,5 @@
 #let customElem(name, content, attrs: (:)) = html_elem("div", content, attrs: ("element-name": name)+attrs);
 
 #importScript("card.js", "lib/");
+#let cardInfo(content) = customElem("card-info", content);
 #let cardAttention(content) = customElem("card-attention", content);

@@ -3,6 +3,30 @@
     margin: 1rem 0;
 }
 
+.card-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background-color: #D1ECF1;  /* 浅蓝灰色背景 */
+    border: 1px solid #BEE5EB;  /* 稍深的蓝灰色边框 */
+    border-radius: 8px;
+    color: #0C5460;             /* 深蓝灰色文字 */
+    font-size: 16px;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+
+    & .icon-container {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: #17A2B8;
+    }
+}
+
 .card-attention {
     display: flex;
     align-items: flex-start;
@@ -15,21 +39,21 @@
     font-size: 16px;
     line-height: 1.5;
     transition: all 0.3s ease;
+
+    & .icon-container {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: #FFC107;
+    }
 }
 
-.card-attention:hover {
+:host > :hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
-}
-
-.icon-container {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    color: #FFC107;
 }
 
 .content {
