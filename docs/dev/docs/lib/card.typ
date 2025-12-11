@@ -17,6 +17,12 @@
     `cardInfo`
 ]
 
+#cardTip[
+    "提示"卡片
+
+    `cardTip`
+]
+
 #cardAttention[
     "注意"卡片
 

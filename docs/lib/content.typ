@@ -63,4 +63,5 @@
 
 #importScript("card.js", "lib/");
 #let cardInfo(content) = customElem("card-info", content);
+#let cardTip(content) = customElem("card-tip", content);
 #let cardAttention(content) = customElem("card-attention", content);

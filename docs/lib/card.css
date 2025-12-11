@@ -8,10 +8,10 @@
     align-items: flex-start;
     gap: 12px;
     padding: 16px;
-    background-color: #D1ECF1;  /* 浅蓝灰色背景 */
-    border: 1px solid #BEE5EB;  /* 稍深的蓝灰色边框 */
+    background-color: #D1ECF1;
+    border: 1px solid #BEE5EB;
     border-radius: 8px;
-    color: #0C5460;             /* 深蓝灰色文字 */
+    color: #0C5460;
     font-size: 16px;
     line-height: 1.5;
     transition: all 0.3s ease;
@@ -24,6 +24,30 @@
         width: 24px;
         height: 24px;
         color: #17A2B8;
+    }
+}
+
+.card-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background-color: #D4EDDA;
+    border: 1px solid #C3E6CB;
+    border-radius: 8px;
+    color: #155724;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+
+    & .icon-container {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: #28A745;
     }
 }
 
