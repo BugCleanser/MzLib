@@ -1,6 +1,11 @@
-#import "content.typ": *;
+#import "meta.typ";
+
+#import "content.typ";
+#import content: *;
 
 #let template(con) = [
+    #html_elem("meta", attrs: (name: "root", content: meta.root))[];
+    #content;
     #importStyle("template.css", "lib/");
     #import "style.typ";
     #show: style.templateStyle

@@ -54,6 +54,12 @@
     };
 };
 
-#let title() = html_elem("h1", context document.title)
+#let title() = html_elem("h1", context document.title);
 
-#let hr = html_elem("hr")[]
+#let hr = html_elem("hr")[];
+
+#importScript("content.js", "lib/");
+#let customElem(name, content, attrs: (:)) = html_elem("div", content, attrs: ("element-name": name)+attrs);
+
+#importScript("card.js", "lib/");
+#let cardAttention(content) = customElem("card-attention", content);

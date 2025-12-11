@@ -1,9 +1,6 @@
-#import "./../../lib/lib.typ": *;
-
+#import "/lib/lib.typ": *;
 #set document(title: [作为Minecraft插件使用]);
-
 #show: template;
-
 #title();
 
 / #[= 为什么要使用MzLibMinecraft]:

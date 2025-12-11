@@ -1,10 +1,7 @@
-#import "./lib/lib.typ": *
-
-#set document(title: "MzLib")
-
-#show: template
-
-#title()
+#import "/lib/lib.typ": *;
+#set document(title: "MzLib");
+#show: template;
+#title();
 
 / #[= 使用]:
 

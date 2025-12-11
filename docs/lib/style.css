@@ -13,4 +13,8 @@ dd {
 
 .stack {
     display: flex;
+
+    & > * {
+        flex: 1;
+    }
 }

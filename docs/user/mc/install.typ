@@ -1,9 +1,7 @@
-#import "./../../lib/lib.typ": *;
-
+#import "/lib/lib.typ": *;
+#set raw(lang: "command");
 #set document(title: [安装MzLibMinecraft]);
-
 #show: template;
-
 #title();
 
 首先在群内或#link("https://github.com/BugCleanser/MzLib/releases")[Github Release]中下载最新版MzLibMinecraft的jar
@@ -14,7 +12,7 @@
 
     作为Bukkit插件，只需丢进plugins文件夹然后重启你的服务端即可
 
-    若已安装PlugMan，则可以使用```command /plugman load MzLib```而无需重启服务端
+    若已安装PlugMan，则可以使用`/plugman load MzLib`而无需重启服务端
 
 / #[= 作为Fabric mod安装]:
 
@@ -33,3 +31,15 @@
     ```
 
     在控制台执行以进行主要测试，或玩家执行以进行全部测试
+
+/ #[= 热加载]:
+
+    Hey，说一个很酷的事：我们支持热加载（或卸载、重载）
+
+    使用`/bukkit:reload confirm`或`/plugman reload`等
+
+    #cardAttention[
+        PlugMan不会自动处理依赖关系，卸载（或重载）一个插件前请确保所有依赖它的插件已被卸载
+
+        并且PlugMan也不会处理版本，如果有同一个插件的两个版本都在plugins文件夹中，它经常会加载到旧的那一个
+    ];
