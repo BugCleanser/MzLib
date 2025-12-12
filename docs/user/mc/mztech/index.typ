@@ -1,10 +1,10 @@
 #import "./../../../lib/lib.typ": *;
 
-#set document(title: [MzTech]);
+#let title = [MzTech];
 
-#show: template;
+#show: template.with(title: title);
 
-#title();
+
 
 MzTech的文档暂置此处
 

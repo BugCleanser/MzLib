@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: `ClassCache`);
+#let title = `ClassCache`;
 
-#show: template;
+#show: template.with(title: title);
 
-#title();
+
 
 即使`Class`对象不常被销毁，资源的回收仍然是有必要的
 

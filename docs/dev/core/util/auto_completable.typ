@@ -2,10 +2,10 @@
 
 #set raw(lang: "java");
 
-#set document(title: `AutoCompletable`);
+#let title = `AutoCompletable`;
 
-#show: template;
+#show: template.with(title: title);
 
-#title();
+
 
 TODO

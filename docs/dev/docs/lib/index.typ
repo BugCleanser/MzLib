@@ -1,7 +1,7 @@
 #import "/lib/lib.typ": *;
-#set document(title: [lib]);
-#show: template;
-#title();
+#let title = [lib];
+#show: template.with(title: title);
+
 
 `docs/lib`存放了文档的基础设施，包括模板、组件声明、样式、脚本等
 

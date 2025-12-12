@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: `Editor`);
+#let title = `Editor`;
 
-#show: template;
+#show: template.with(title: title);
 
-#title();
+
 
 `Editor`是get/set的封装，基于#link("auto_completable")[`AutoCompletable`]
 

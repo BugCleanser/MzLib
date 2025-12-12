@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: [网络数据包])
+#let title = [网络数据包]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 = 发包
 

@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [Inventory10Slots])
+#let title = [Inventory10Slots]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 = 需求分析
 

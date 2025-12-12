@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *;
 
-#set document(title: "包装类")
+#let title = [包装类]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 包装类是MzLib中非常常用的对象
 

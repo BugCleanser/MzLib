@@ -1,7 +1,7 @@
 #import "/lib/lib.typ": *;
-#set document(title: [作为Minecraft插件使用]);
-#show: template;
-#title();
+#let title = [作为Minecraft插件使用];
+#show: template.with(title: title);
+
 
 / #[= 为什么要使用MzLibMinecraft]:
 

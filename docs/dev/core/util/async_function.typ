@@ -1,12 +1,12 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: "异步函数")
+#let title = [异步函数]
 
-#show: template
+#show: template.with(title: title)
 
 #set raw(lang: "java")
 
-#title()
+
 
 也许你常有这样的烦恼（实则不然）：你需要在主线程上处理一些事物，但是其中你想进行一些延迟，显然你不能睡在主线程上
 

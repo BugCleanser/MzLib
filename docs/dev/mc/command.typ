@@ -1,10 +1,10 @@
 #import "./../../lib/lib.typ": *
 
-#set document(title: [命令])
+#let title = [命令]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 = 处理命令参数
 

@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [创建简单命令])
+#let title = [3.创建简单命令]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 这是MzLib命令系统的入门教程
 

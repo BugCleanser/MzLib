@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "command");
-#set document(title: [安装MzLibMinecraft]);
-#show: template;
-#title();
+#let title = [安装MzLibMinecraft];
+#show: template.with(title: title);
+
 
 首先在群内或#link("https://github.com/BugCleanser/MzLib/releases")[Github Release]中下载最新版MzLibMinecraft的jar
 

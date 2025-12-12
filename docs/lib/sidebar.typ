@@ -9,39 +9,15 @@
 #let aliases = (
     "index": "简介",
 
-    "dev": "开发文档",
     "dev/core": "Core",
     "dev/core/tutorial": "指南",
-    "dev/core/tutorial/1": "1.Hello World",
-    "dev/core/tutorial/2": "2.Config",
     "dev/core/event": "事件",
-    "dev/core/util/wrapper": "包装类",
-    "dev/core/util/option": `Option`,
-    "dev/core/util/async_function": "异步函数",
-    "dev/core/util/auto_completable": `AutoCompletable`,
-    "dev/core/util/editor": `Editor`,
-    "dev/core/util/compound": `Compound`,
     "dev/core/util/module": "模块与注册",
-    "dev/core/util/class_cache": `ClassCache`,
 
     "dev/mc": "Minecraft",
     "dev/mc/tutorial": "指南",
-    "dev/mc/tutorial/1": "1.基本结构与约定",
-    "dev/mc/tutorial/2": "2.创建插件和模块",
-    "dev/mc/tutorial/3": "3.创建简单命令",
-    "dev/mc/tutorial/4": "4.监听事件",
-    "dev/mc/tutorial/5": "5.配置文件",
-    "dev/mc/command": "命令",
-    "dev/mc/window": "窗口",
-    "dev/mc/text": "文本组件",
-    "dev/mc/network_packet": "网络数据包",
-    "dev/mc/bukkit": "配合BukkitAPI使用",
-
-    "dev/mc/demo": "示例",
 
     "dev/mc/item": "物品",
-    "dev/mc/item/item": `Item`,
-    "dev/mc/item/player_head": "玩家头颅与玩家档案描述",
 
     "user": "用户手册",
 )
@@ -60,8 +36,23 @@
     return name.slice(0, index).sum();
 };
 
-#let alias(path, name) = {
+#let alias(path, name, isDir, exists) = {
     let result = aliases.at(path+name, default: none);
+    if result == none {
+        result = name;
+        if not exists {
+            return result;
+        };
+        let file = if isDir {
+            "/"+path+name+"/index.typ"
+        } else {
+            "/"+path+name+".typ"
+        };
+        import file as m;
+        if "title" in dictionary(m) {
+            result = m.title;
+        };
+    };
     return result;
 };
 
@@ -76,16 +67,16 @@
             if hides.contains(path+name) {
                 continue;
             };
-            result.push(link(meta.root+path+name, alias(path, name)));
+            result.push(link(meta.root+path+name, alias(path, name, false, true)));
         } else {
             if hides.contains(path+name) {
                 continue;
             };
             result.push[
                 #if children.keys().map(stem).contains("index") {
-                    link(meta.root+path+name+"/index", alias(path, name))
+                    link(meta.root+path+name+"/index", alias(path, name, true, true))
                 } else {
-                    alias(path, name)
+                    alias(path, name, true, false)
                 };
                 #html_elem("button", attrs: (class: "open"))[]
                 #gen(children, path: path+name+"/")

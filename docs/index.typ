@@ -1,7 +1,7 @@
 #import "/lib/lib.typ": *;
-#set document(title: "MzLib");
-#show: template;
-#title();
+#let title = [MzLib];
+#show: template.with(title: title);
+
 
 / #[= 使用]:
 

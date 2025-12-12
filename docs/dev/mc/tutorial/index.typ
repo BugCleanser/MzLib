@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [快速开始(Minecraft)])
+#let title = [快速开始(Minecraft)]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 *开始之前，您需要先学习#link("./../../core/tutorial/0")[MzLibCore的基本用法]*
 

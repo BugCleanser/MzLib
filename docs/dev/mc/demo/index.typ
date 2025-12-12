@@ -2,10 +2,10 @@
 
 #set raw(lang: "java");
 
-#set document(title: [demo]);
+#let title = [示例];
 
-#show: template;
+#show: template.with(title: title);
 
-#title()
+
 
 demo

@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [基本结构与约定])
+#let title = [1.基本结构与约定]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 我们的设计哲学与Fabric类似，但我们要支持热加卸载和多版本兼容
 

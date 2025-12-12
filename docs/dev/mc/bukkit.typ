@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "java");
-#set document(title: [配合BukkitAPI使用]);
-#show: template;
-#title();
+#let title = [配合BukkitAPI使用];
+#show: template.with(title: title);
+
 
 目前MzLib的功能并不完善，有时你可能需要监听Bukkit的事件
 

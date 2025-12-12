@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "typst");
-#set document(title: [卡片组件]);
-#show: template;
-#title();
+#let title = [卡片组件];
+#show: template.with(title: title);
+
 
 使用函数创建卡片，例如
 ```

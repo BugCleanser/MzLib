@@ -1,10 +1,10 @@
 #import "./../../lib/lib.typ": *
 
-#set document(title: [窗口])
+#let title = [窗口]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 在此之前，请确保你已经学习了#link("./../core/compound")[Compound类]
 

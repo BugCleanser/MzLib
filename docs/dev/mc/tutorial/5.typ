@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [配置文件])
+#let title = [5.配置文件]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 = 创建和加载
 

@@ -1,6 +1,6 @@
 #import "/lib/lib.typ": *;
-#set document(title: [命令]);
-#show: template;
-#title();
+#let title = [命令];
+#show: template.with(title: title);
+
 
 TODO

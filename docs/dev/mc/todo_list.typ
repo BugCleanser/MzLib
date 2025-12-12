@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: [Todo list])
+#let title = [Todo list]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 fix Nothing: redefine to transformer
 

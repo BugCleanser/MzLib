@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [Hello World])
+#let title = [1.Hello World]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 MzLib的架构是模块化的，一个程序至少需要一个主模块
 

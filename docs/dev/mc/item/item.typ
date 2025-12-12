@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: `Item`);
+#let title = `Item`;
 
-#show: template;
+#show: template.with(title: title);
 
-#title()
+
 
 = 自定义数据
 

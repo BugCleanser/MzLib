@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *;
 
-#set document(title: "Compound类")
+#let title = [Compound类]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 Compound类是基于包装类的，请确保你已经学习了#link("./wrapper")[包装类]
 

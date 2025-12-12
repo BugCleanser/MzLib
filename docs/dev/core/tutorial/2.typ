@@ -1,7 +1,7 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [Config])
+#let title = [2.Config]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+

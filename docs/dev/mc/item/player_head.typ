@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [玩家头颅与玩家档案描述])
+#let title = [玩家头颅与玩家档案描述]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 = 构造物品
 

@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [监听事件])
+#let title = [4.监听事件]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 对于一个已注册的事件，你可以直接在模块上创建监听器实例并注册
 

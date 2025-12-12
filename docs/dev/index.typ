@@ -2,11 +2,11 @@
 
 #set raw(lang: "java");
 
-#set document(title: [开发])
+#let title = [开发文档]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 这里是MzLib的开发文档
 

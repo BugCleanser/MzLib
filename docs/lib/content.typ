@@ -54,8 +54,6 @@
     };
 };
 
-#let title() = html_elem("h1", context document.title);
-
 #let hr = html_elem("hr")[];
 
 #importScript("content.js", "lib/");

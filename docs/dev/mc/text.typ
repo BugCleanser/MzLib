@@ -1,10 +1,10 @@
 #import "./../../lib/lib.typ": *
 
-#set document(title: [文本组件])
+#let title = [文本组件]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 文本组件`Text`是MC富文本的基本单元，包括样式、颜色、`hoverEvent`和`clickEvent`，文本组件的实例可以嵌套
 

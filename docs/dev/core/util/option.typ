@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *;
 
-#set document(title: "Option类")
+#let title = [Option类]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 表示一个可空对象，类似J8+的`Optional`，并且可与`Optional`相互转换，旨在减少lambda的使用
 

@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "java");
-#set document(title: [文档]);
-#show: template;
-#title();
+#let title = [文档];
+#show: template.with(title: title);
+
 
 这里是文档的文档（
 

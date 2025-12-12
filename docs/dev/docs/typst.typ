@@ -1,8 +1,7 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "typst");
 #let title = [Typst的简单教程];
-#show: template;
-#title;
+#show: template.with(title: title);
 
 #let codeWithResult(code) = stack(code, block(eval(code.text, mode: "markup"), stroke: 1pt, inset: 3pt), dir: ltr);
 
@@ -38,18 +37,16 @@ Typst的简单教程
     ```
     #import "/lib/lib.typ": *;
     #set raw(lang: "java");
-    #set document(title: [这里是标题]);
-    #show: template;
-    #title();
+    #let title = [这里是标题];
+    #show: template.with(title: title);
     ```
 
     以下是各语句的简单注释：
     ```
     #import "/lib/lib.typ": *; // 导入依赖，我们写了一些基础设施在这里
     #set raw(lang: "java"); // 设置代码块的默认语言，例如java
-    #set document(title: [这里是标题]); // 设置文档标题
-    #show: template; // 应用模板（样式），这个模板也在基础设施中
-    #title(); // 在此处插入标题以显示
+    #let title = [这里是标题]; // 设置文档标题
+    #show: template.with(title: title); // 应用模板（样式），这个模板也在基础设施中
     ```
 
 / #[= 标记模式]:

@@ -1,10 +1,10 @@
 #import "../../../lib/lib.typ": *
 
-#set document(title: [快速开始])
+#let title = [快速开始]
 
-#show: template
+#show: template.with(title: title)
 
-#title()
+
 
 这里是MzLibCore的基础教程
 

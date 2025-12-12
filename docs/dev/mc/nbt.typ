@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "java");
-#set document(title: [NBT]);
-#show: template;
-#title();
+#let title = [NBT];
+#show: template.with(title: title);
+
 
 #set enum(spacing: 2em);
 
