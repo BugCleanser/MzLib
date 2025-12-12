@@ -24,7 +24,7 @@
                 复制代码
             ]
         ]
-        #html_elem("div", attrs: (class: "code-content"), html.elem("pre", html.elem("code", attrs: (class: "language-"+r.lang), r.text)));
+        #html_elem("div", attrs: (class: "code-content"), html_elem("pre", html_elem("code", attrs: (class: "language-"+r.lang), r.text)));
     ];
     #html_elem("link", attrs: (href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css", rel: "stylesheet"))[];
     #html_elem("link", attrs: (href: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-light.min.css", rel: "stylesheet"))[];
