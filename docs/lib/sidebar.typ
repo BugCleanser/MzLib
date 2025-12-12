@@ -1,6 +1,6 @@
-#import "template.typ": *;
-
+#import "/lib/lib.typ": *;
 #set raw(lang: "java");
+#show: template.with(sidebar: false);
 
 #let hides = (
     "lib",
@@ -58,7 +58,12 @@
         return name.sum();
     }
     return name.slice(0, index).sum();
-}
+};
+
+#let alias(path, name) = {
+    let result = aliases.at(path+name, default: none);
+    return result;
+};
 
 #let gen(content, path: "") = {
     let result = ();
@@ -71,16 +76,16 @@
             if hides.contains(path+name) {
                 continue;
             };
-            result.push(link(meta.root+path+name, aliases.at(path+name, default: name)));
+            result.push(link(meta.root+path+name, alias(path, name)));
         } else {
             if hides.contains(path+name) {
                 continue;
             };
             result.push[
                 #if children.keys().map(stem).contains("index") {
-                    link(meta.root+path+name+"/index", aliases.at(path+name, default: name))
+                    link(meta.root+path+name+"/index", alias(path, name))
                 } else {
-                    aliases.at(path+name, default: name)
+                    alias(path, name)
                 };
                 #html_elem("button", attrs: (class: "open"))[]
                 #gen(children, path: path+name+"/")
@@ -90,6 +95,5 @@
     return list(..result);
 }
 
-#html_elem("aside", gen(meta.fileTree));
 #importStyle("sidebar.css", "lib/");
-#importScript("sidebar.js", "lib/");
+#gen(meta.fileTree);

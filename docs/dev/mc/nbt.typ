@@ -1,12 +1,8 @@
-#import "./../../lib/lib.typ": *
-
+#import "/lib/lib.typ": *;
 #set raw(lang: "java");
-
-#set document(title: [NBT])
-
-#show: template
-
-#title()
+#set document(title: [NBT]);
+#show: template;
+#title();
 
 #set enum(spacing: 2em);
 

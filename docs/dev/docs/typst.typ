@@ -1,8 +1,8 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "typst");
-#set document(title: [Typst的简单教程]);
+#let title = [Typst的简单教程];
 #show: template;
-#title();
+#title;
 
 #let codeWithResult(code) = stack(code, block(eval(code.text, mode: "markup"), stroke: 1pt, inset: 3pt), dir: ltr);
 
