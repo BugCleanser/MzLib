@@ -78,34 +78,41 @@ tasks.register("compileTypst") {
         val typst = findTypstInPath() ?: throw GradleException("❌ Typst CLI not found in PATH.")
         println("✅ Using Typst at: ${typst.absolutePath}")
 
-        deployDir.walkTopDown()
+        val files = deployDir.walkTopDown()
             .filter { it.isFile && it.extension == "typ" }
-            .forEach { file ->
-                val baseName = file.absolutePath.removeSuffix(".typ")
-                val htmlFile = File("$baseName.html")
-                println("📄 Compiling: ${file.name}")
-                val process = ProcessBuilder(
-                    typst.absolutePath, "compile",
-                    "--features", "html",
-                    "--format", "html",
-                    "--root", deployDir.absolutePath,
-                    file.absolutePath, htmlFile.absolutePath
-                ).redirectErrorStream(true) // 合并 stdout + stderr
-                    .start()
+            .toList()
 
-                val output = process.inputStream.bufferedReader().readText()
-                val exit = process.waitFor()
+        if (files.isEmpty()) {
+            println("ℹ️ No .typ files found in ${deployDir.absolutePath}")
+            return@doLast
+        }
 
-                if (exit != 0) {
-                    println("⚠️ Failed to compile ${file.name}")
-                    println("---- Typst Output ----")
-                    println(output.trim())
-                    println("----------------------")
-                } else {
-                    println("✅ Compiled: ${file.name}")
-                }
+        files.parallelStream().forEach { file ->
+            val baseName = file.absolutePath.removeSuffix(".typ")
+            val htmlFile = File("$baseName.html")
+            println("📄 Compiling: ${file.name}")
 
+            val process = ProcessBuilder(
+                typst.absolutePath, "compile",
+                "--features", "html",
+                "--format", "html",
+                "--root", deployDir.absolutePath,
+                file.absolutePath, htmlFile.absolutePath
+            ).redirectErrorStream(true)
+                .start()
+
+            val output = process.inputStream.bufferedReader().readText()
+            val exit = process.waitFor()
+
+            if (exit != 0) {
+                println("⚠️ Failed to compile ${file.name}")
+                println("---- Typst Output ----")
+                println(output.trim())
+                println("----------------------")
+            } else {
+                println("✅ Compiled: ${file.name}")
             }
+        }
     }
 }
 
