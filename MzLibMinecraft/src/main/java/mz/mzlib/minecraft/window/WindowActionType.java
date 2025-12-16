@@ -27,13 +27,13 @@ public interface WindowActionType extends WrapperObject
     }
 
     /**
-     * When finish dragging, There will be multiple actions
-     * Drag begins when data%4==0
-     * Drag a slot when data%4==1
-     * Drag ends when data%4==2
-     * Drag with left-button when data/4==0
-     * Drag with right-button when data/4==1
-     * Drag with middle-button when data/4==2
+     * When finish dragging, There will be multiple actions <br/>
+     * Drag begins when data%4==0 <br/>
+     * Drag a slot when data%4==1 <br/>
+     * Drag ends when data%4==2 <br/>
+     * Drag with left-button when data/4==0 <br/>
+     * Drag with right-button when data/4==1 <br/>
+     * Drag with middle-button when data/4==2 <br/>
      */
     static WindowActionType drag()
     {

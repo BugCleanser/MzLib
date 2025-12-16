@@ -50,6 +50,8 @@ public abstract class Option<T> implements Iterable<T>
 
     public abstract boolean isSome();
 
+    public abstract boolean isSome(Object value);
+
     public abstract boolean isNone();
 
     public abstract T unwrap();
@@ -112,6 +114,11 @@ public abstract class Option<T> implements Iterable<T>
         public boolean isSome()
         {
             return true;
+        }
+        @Override
+        public boolean isSome(Object value)
+        {
+            return this.unwrap().equals(value);
         }
         @Override
         public boolean isNone()
@@ -225,6 +232,11 @@ public abstract class Option<T> implements Iterable<T>
 
         @Override
         public boolean isSome()
+        {
+            return false;
+        }
+        @Override
+        public boolean isSome(Object value)
         {
             return false;
         }

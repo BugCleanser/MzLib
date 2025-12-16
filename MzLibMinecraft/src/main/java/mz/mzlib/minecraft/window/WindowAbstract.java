@@ -61,13 +61,19 @@ public interface WindowAbstract extends Window
         return true;
     }
 
+    default void onAction(WindowAction action)
+    {
+        this.onAction$super(action);
+    }
     /**
      * @param index the index of slot or -1 when click title bar with item or -999 when click outside
-     * @param data  see {@link WindowActionType}
+     * @param data see {@link WindowActionType}
+     * @see #onAction(WindowAction)
      */
-    default void onAction(int index, int data, WindowActionType actionType, EntityPlayerAbstract player)
+    @Deprecated
+    default void onAction(int index, int data, WindowActionType type, EntityPlayerAbstract player)
     {
-        this.onActionSuper(index, data, actionType, player);
+        this.onAction(new WindowAction(player.as(EntityPlayer.FACTORY), index, type, data));
     }
 
     @CompoundOverride(parent = Window.class, method = "onActionV_1700")
@@ -87,20 +93,24 @@ public interface WindowAbstract extends Window
         this.onAction(index, data, actionType, player);
     }
 
-    void onActionSuper(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
+    void onAction$super(WindowAction action);
 
-    @CompoundSuper(parent = Window.class, method = "onActionV_1700")
-    ItemStack onActionSuperV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
-
-    @SpecificImpl("onActionSuper")
+    @SpecificImpl("onAction$super")
     @VersionRange(end = 1700)
-    default void onActionSuperImplV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player)
+    default void onAction$superV_1700(WindowAction action)
     {
-        ItemStack ignored = this.onActionSuperV_1700(index, data, actionType, player);
+        ItemStack ignored = this.onAction$superV_1700(action.getIndex(), action.getData(), action.getType(), action.getPlayer());
     }
+    @CompoundSuper(parent = Window.class, method = "onActionV_1700")
+    ItemStack onAction$superV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
 
-    @SpecificImpl("onActionSuper")
+    @SpecificImpl("onAction$super")
+    @VersionRange(begin = 1700)
+    default void onAction$superV1700(WindowAction action)
+    {
+        this.onAction$superV1700(action.getIndex(), action.getData(), action.getType(), action.getPlayer());
+    }
     @VersionRange(begin = 1700)
     @CompoundSuper(parent = Window.class, method = "onActionV1700")
-    void onActionSuperV1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
+    void onAction$superV1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
 }

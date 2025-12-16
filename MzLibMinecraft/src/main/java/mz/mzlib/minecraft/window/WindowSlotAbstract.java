@@ -7,20 +7,12 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @Compound
 public interface WindowSlotAbstract extends WindowSlot
 {
     WrapperFactory<WindowSlotAbstract> FACTORY = WrapperFactory.of(WindowSlotAbstract.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowSlotAbstract create(Object wrapped)
-    {
-        return WrapperObject.create(WindowSlotAbstract.class, wrapped);
-    }
 
     default void onTake(EntityPlayerAbstract player, ItemStack itemStack)
     {

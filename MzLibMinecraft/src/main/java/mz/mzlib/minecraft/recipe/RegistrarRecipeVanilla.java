@@ -6,29 +6,66 @@ import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.util.*;
 
 /**
  * @see ModuleRecipe
  */
-public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistration>, Instance
+public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistration<?>>, Instance
 {
     public static RegistrarRecipeVanilla instance;
 
     @Override
-    public Class<RecipeRegistration> getType()
+    public Class<RecipeRegistration<?>> getType()
     {
-        return RecipeRegistration.class;
+        return RuntimeUtil.castClass(RecipeRegistration.class);
+    }
+
+
+    public boolean isRegistrable(RecipeType type)
+    {
+        return type instanceof RecipeType.V_1400 || type instanceof RecipeTypeV1400;
     }
 
     @Override
-    public boolean isRegistrable(RecipeRegistration object)
+    public boolean isRegistrable(RecipeRegistration<?> object)
     {
-        return object.getRecipe() instanceof RecipeVanilla;
+        return this.isRegistrable(object.getRecipe().getType());
     }
 
-    Set<RecipeRegistration> recipeRegistrations = new HashSet<>();
+    public RegistrarDisabling registrarDisabling = this.new RegistrarDisabling();
+    public class RegistrarDisabling implements IRegistrar<RecipeDisabling>
+    {
+        @Override
+        public Class<RecipeDisabling> getType()
+        {
+            return RecipeDisabling.class;
+        }
+        @Override
+        public boolean isRegistrable(RecipeDisabling object)
+        {
+            return RegistrarRecipeVanilla.this.isRegistrable(object.getType());
+        }
+
+        Map<RecipeType, Map<Identifier, RecipeDisabling>> disablings = new HashMap<>();
+
+        @Override
+        public void register(MzModule module, RecipeDisabling object)
+        {
+            this.disablings.computeIfAbsent(object.type, k -> new HashMap<>()).put(object.id, object);
+            RegistrarRecipeVanilla.this.markDirty();
+        }
+        @Override
+        public void unregister(MzModule module, RecipeDisabling object)
+        {
+            this.disablings.get(object.type).remove(object.id);
+            RegistrarRecipeVanilla.this.markDirty();
+        }
+    }
+
+    Set<RecipeRegistration<?>> recipeRegistrations = new HashSet<>();
     Map<RecipeType, Map<Identifier, Recipe>> originalRecipes;
     Map<RecipeType, Map<Identifier, Recipe>> enabledRecipes = Collections.emptyMap();
 
@@ -37,16 +74,9 @@ public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistr
         return this.enabledRecipes;
     }
 
-    Map<RecipeType, Map<Identifier, RecipeDisabling>> disabledRecipes = new HashMap<>();
-    public void disable(RecipeDisabling recipe)
+    public Map<RecipeType, Map<Identifier, RecipeDisabling>> getDisablings()
     {
-        this.disabledRecipes.computeIfAbsent(recipe.type, k -> new HashMap<>()).put(recipe.id, recipe);
-        this.markDirty();
-    }
-    public void enable(RecipeDisabling recipe)
-    {
-        this.disabledRecipes.get(recipe.type).remove(recipe.id);
-        this.markDirty();
+        return this.registrarDisabling.disablings;
     }
 
     public Map<RecipeType, Map<Identifier, Recipe>> getOriginalRecipes()
@@ -74,7 +104,7 @@ public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistr
         {
             entry.setValue(new HashMap<>(entry.getValue()));
         }
-        for(RecipeRegistration r : this.recipeRegistrations)
+        for(RecipeRegistration<?> r : this.recipeRegistrations)
         {
             enabledRecipes.computeIfAbsent(r.getRecipe().getType(), k -> new HashMap<>())
                 .put(r.getId(), r.getRecipe());
@@ -85,7 +115,7 @@ public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistr
             {
                 Map.Entry<Identifier, Recipe> e = i.next();
                 for(RecipeDisabling disabling : Option.fromNullable(
-                    this.disabledRecipes.getOrDefault(entry.getKey(), Collections.emptyMap()).get(e.getKey())))
+                    this.registrarDisabling.disablings.getOrDefault(entry.getKey(), Collections.emptyMap()).get(e.getKey())))
                 {
                     disabling.setRecipe(e.getValue());
                     i.remove();
@@ -108,13 +138,13 @@ public abstract class RegistrarRecipeVanilla implements IRegistrar<RecipeRegistr
     }
 
     @Override
-    public synchronized void register(MzModule module, RecipeRegistration object)
+    public synchronized void register(MzModule module, RecipeRegistration<?> object)
     {
         this.recipeRegistrations.add(object);
         this.markDirty();
     }
     @Override
-    public synchronized void unregister(MzModule module, RecipeRegistration object)
+    public synchronized void unregister(MzModule module, RecipeRegistration<?> object)
     {
         this.recipeRegistrations.remove(object);
         this.markDirty();

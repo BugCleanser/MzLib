@@ -46,11 +46,11 @@ public interface WindowUiWindow extends WindowAbstract
         return this.static$newInstance0V1400(type.typeV1400, syncId);
     }
 
-    @PropAccessor("uiWindow")
-    UiWindow getUIWindow();
+    @PropAccessor("ui")
+    UiWindow getUi();
 
-    @PropAccessor("uiWindow")
-    void setUIWindow(UiWindow value);
+    @PropAccessor("ui")
+    void setUi(UiWindow value);
 
     @PropAccessor("player")
     @Override
@@ -67,7 +67,7 @@ public interface WindowUiWindow extends WindowAbstract
     static WindowUiWindow newInstance(UiWindow uiWindow, EntityPlayerAbstract player, int syncId)
     {
         WindowUiWindow result = newInstance0(uiWindow.windowType, syncId);
-        result.setUIWindow(uiWindow);
+        result.setUi(uiWindow);
         result.setPlayer(player);
         uiWindow.initWindow(result, player.castTo(EntityPlayer.FACTORY));
         return result;
@@ -82,19 +82,19 @@ public interface WindowUiWindow extends WindowAbstract
     @CompoundOverride(parent = Window.class, method = "quickMove")
     default ItemStack quickMove(EntityPlayerAbstract player, int index)
     {
-        return this.getUIWindow().quickMove(this, player.castTo(EntityPlayer.FACTORY), index);
+        return this.getUi().quickMove(this, player.castTo(EntityPlayer.FACTORY), index);
     }
 
     @Override
     default Inventory getInventory()
     {
-        return this.getUIWindow().inventory;
+        return this.getUi().inventory;
     }
 
     @Override
-    default void onAction(int index, int data, WindowActionType actionType, EntityPlayerAbstract player)
+    default void onAction(WindowAction action)
     {
-        this.getUIWindow().onAction(this, index, data, actionType, player.castTo(EntityPlayer.FACTORY));
+        this.getUi().onAction(this, action);
     }
 
     @CompoundSuper(parent = Window.class, method = "onClosed")
@@ -104,6 +104,6 @@ public interface WindowUiWindow extends WindowAbstract
     @CompoundOverride(parent = Window.class, method = "onClosed")
     default void onClosed(EntityPlayerAbstract player)
     {
-        this.getUIWindow().onClosed(this, player.castTo(EntityPlayer.FACTORY));
+        this.getUi().onClosed(this, player.castTo(EntityPlayer.FACTORY));
     }
 }

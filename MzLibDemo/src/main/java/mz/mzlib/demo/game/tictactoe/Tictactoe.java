@@ -12,6 +12,7 @@ import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.ui.window.UiWindow;
 import mz.mzlib.minecraft.ui.window.WindowSlotIcon;
 import mz.mzlib.minecraft.ui.window.WindowUiWindow;
+import mz.mzlib.minecraft.window.WindowAction;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowSlotOutput;
 import mz.mzlib.minecraft.window.WindowType;
@@ -172,32 +173,27 @@ public class Tictactoe extends MzModule
         }
 
         @Override
-        public void onAction(
-            WindowUiWindow window,
-            int index,
-            int data,
-            WindowActionType actionType,
-            EntityPlayer player)
+        public void onAction(WindowUiWindow window, WindowAction action)
         {
-            super.onAction(window, index, data, actionType, player);
+            super.onAction(window, action);
             if(this.inventory.getItemStack(0).isEmpty() && (this.finished || this.isFull()))
             {
                 this.restart();
-                if(index >= 0 && index < this.inventory.size())
-                    window.sendSlotUpdate(player, index);
+                if(action.getIndex() >= 0 && action.getIndex() < this.inventory.size())
+                    window.sendSlotUpdate(action.getPlayer(), action.getIndex());
             }
             else if(!this.finished &&
-                (actionType.equals(WindowActionType.click()) || actionType.equals(WindowActionType.shiftClick())) &&
-                index >= 1 && index < 10 && this.inventory.getItemStack(index).isEmpty())
+                (action.getType().equals(WindowActionType.click()) || action.getType().equals(WindowActionType.shiftClick())) &&
+                action.getIndex() >= 1 && action.getIndex() < 10 && this.inventory.getItemStack(action.getIndex()).isEmpty())
             {
-                this.inventory.setItemStack(index, PLAYER);
+                this.inventory.setItemStack(action.getIndex(), PLAYER);
                 if(checkWin())
                 {
                     this.finished = true;
                     this.inventory.setItemStack(
                         0, ((ItemStack) Demo.instance.config.get("game.tictactoe.reward")).copy());
-                    player.closeInterface();
-                    this.open(player);
+                    action.getPlayer().closeInterface();
+                    this.open(action.getPlayer());
                 }
                 else
                 {

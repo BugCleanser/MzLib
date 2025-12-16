@@ -2,6 +2,8 @@ package mz.mzlib.util.async;
 
 import mz.mzlib.module.MzModule;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executor;
 
 public interface AsyncFunctionRunner extends Executor
@@ -37,6 +39,7 @@ public interface AsyncFunctionRunner extends Executor
         };
     }
 
+    @Deprecated
     class DelegatorModule implements AsyncFunctionRunner
     {
         public AsyncFunctionRunner delegate;
@@ -75,8 +78,52 @@ public interface AsyncFunctionRunner extends Executor
             );
         }
     }
+    /**
+     * @see #registrable()
+     */
+    @Deprecated
     default DelegatorModule asModule(MzModule module)
     {
         return new DelegatorModule(this, module);
+    }
+
+    class Registrable implements AsyncFunctionRunner, mz.mzlib.module.Registrable
+    {
+        AsyncFunctionRunner delegate;
+
+        public Registrable(AsyncFunctionRunner delegate)
+        {
+            this.delegate = delegate;
+        }
+
+        Set<MzModule> modules = new HashSet<>();
+        @Override
+        public void onRegister(MzModule module)
+        {
+            this.modules.add(module);
+        }
+        @Override
+        public void onUnregister(MzModule module)
+        {
+            this.modules.remove(module);
+        }
+        @Override
+        public void schedule(Runnable function)
+        {
+            if(this.modules.isEmpty())
+                return;
+            this.delegate.schedule(function);
+        }
+        @Override
+        public void schedule(Runnable function, BasicAwait await)
+        {
+            if(this.modules.isEmpty())
+                return;
+            this.delegate.schedule(function, await);
+        }
+    }
+    default AsyncFunctionRunner registrable()
+    {
+        return new Registrable(this);
     }
 }

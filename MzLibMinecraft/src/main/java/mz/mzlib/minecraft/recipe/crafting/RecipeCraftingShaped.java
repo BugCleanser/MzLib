@@ -7,14 +7,16 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.recipe.RawShapedRecipeV2003;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtIo;
-import mz.mzlib.minecraft.recipe.RecipeRegistration;
-import mz.mzlib.minecraft.recipe.RecipeMojang;
 import mz.mzlib.minecraft.recipe.IngredientVanilla;
+import mz.mzlib.minecraft.recipe.RecipeMojang;
+import mz.mzlib.minecraft.recipe.RecipeRegistration;
 import mz.mzlib.minecraft.recipe.book.RecipeCraftingCategoryV1903;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperArray;
@@ -70,7 +72,7 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
                 throw new IllegalStateException("result is not set");
             return RecipeCraftingShaped.newInstance(this);
         }
-        public RecipeRegistration buildRegistration()
+        public RecipeRegistration<RecipeCraftingShaped> buildRegistration()
         {
             return RecipeRegistration.of(this.getId(), this.build());
         }
@@ -138,21 +140,14 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
         }
     }
 
-    @VersionRange(end = 2003)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "width"))
-    int getWidthV_2003();
+    int getWidth();
+    int getHeight();
 
-    @VersionRange(end = 2003)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "height"))
-    int getHeightV_2003();
+    List<Option<IngredientVanilla>> getIngredients();
 
-    default List<IngredientVanilla> getIngredientsV_1200()
-    {
-        return this.getIngredients0V_1200().asList();
-    }
-    @VersionRange(end = 1200)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "ingredients"))
-    IngredientVanilla.Array getIngredients0V_1200();
+    @VersionRange(begin = 2003)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "raw"))
+    RawShapedRecipeV2003 getRawV2003();
 
     @Override
     default Identifier calcIdV_1200()
@@ -160,12 +155,13 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try(DataOutputStream dataOutput = new DataOutputStream(stream))
         {
-            dataOutput.writeInt(this.getWidthV_2003());
-            dataOutput.writeInt(this.getHeightV_2003());
-            for(IngredientVanilla ingredient : this.getIngredientsV_1200())
+            dataOutput.writeInt(this.getWidth());
+            dataOutput.writeInt(this.getHeight());
+            for(Option<IngredientVanilla> ingredient : this.getIngredients())
             {
                 NbtIo.write(
-                    ingredient.as(ItemStack.FACTORY).encode().getOrThrow(IllegalStateException::new).unwrap(),
+                    ingredient.map(i -> i.as(ItemStack.FACTORY)).unwrapOrGet(ItemStack::empty).encode()
+                        .getOrThrow(IllegalStateException::new).unwrap(),
                     dataOutput
                 );
             }
@@ -310,4 +306,60 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
         RawShapedRecipeV2003 raw,
         ItemStack result,
         boolean showNotification);
+
+    @SpecificImpl("getWidth")
+    @VersionRange(end = 2003)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "width"))
+    int getWidthV_2003();
+    @SpecificImpl("getHeight")
+    @VersionRange(end = 2003)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "height"))
+    int getHeightV_2003();
+
+    @SpecificImpl("getWidth")
+    @VersionRange(begin = 2003)
+    default int getWidthV2003()
+    {
+        return this.getRawV2003().getWidth();
+    }
+    @SpecificImpl("getHeight")
+    @VersionRange(begin = 2003)
+    default int getHeightV2003()
+    {
+        return this.getRawV2003().getHeight();
+    }
+
+    @SpecificImpl("getIngredients")
+    @VersionRange(end = 1200)
+    default List<Option<IngredientVanilla>> getIngredientsV_1200()
+    {
+        return new ListProxy<>(
+            this.getIngredients0V_1200().asList(),
+            FunctionInvertible.of(IngredientVanilla::toOptionV_2102, IngredientVanilla::fromOptionV_2102)
+        );
+    }
+    @VersionRange(end = 1200)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "ingredients"))
+    IngredientVanilla.Array getIngredients0V_1200();
+
+    @SpecificImpl("getIngredients")
+    @VersionRange(begin = 1200, end = 2003)
+    default List<Option<IngredientVanilla>> getIngredientsV1200_2003()
+    {
+        return new ListProxy<>(
+            this.getIngredients0V1200_2003().getWrapped(),
+            FunctionInvertible.wrapper(IngredientVanilla.FACTORY)
+                .thenApply(IngredientVanilla::toOptionV_2102, IngredientVanilla::fromOptionV_2102)
+        );
+    }
+    @VersionRange(begin = 1200, end = 2003)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "ingredients"))
+    DefaultedListV1100<Object> getIngredients0V1200_2003();
+
+    @SpecificImpl("getIngredients")
+    @VersionRange(begin = 2003)
+    default List<Option<IngredientVanilla>> getIngredientsV2003()
+    {
+        return this.getRawV2003().getIngredients();
+    }
 }

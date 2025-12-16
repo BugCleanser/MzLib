@@ -13,4 +13,9 @@ public interface Ui
     {
         UiStack.get(player).clear();
     }
+
+    default void reopen()
+    {
+        UiStack.getViewers(this).forEach(this::open);
+    }
 }

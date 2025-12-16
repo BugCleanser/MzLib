@@ -2,20 +2,20 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.Identifier;
 
-public class RecipeRegistration
+public class RecipeRegistration<T extends Recipe>
 {
     Identifier id;
-    Recipe recipe;
+    T recipe;
 
-    public RecipeRegistration(Identifier id, Recipe recipe)
+    public RecipeRegistration(Identifier id, T recipe)
     {
         this.id = id;
         this.recipe = recipe;
     }
 
-    public static RecipeRegistration of(Identifier id, Recipe recipe)
+    public static <T extends Recipe> RecipeRegistration<T> of(Identifier id, T recipe)
     {
-        return new RecipeRegistration(id, recipe);
+        return new RecipeRegistration<>(id, recipe);
     }
 
     public Identifier getId()
@@ -23,7 +23,7 @@ public class RecipeRegistration
         return this.id;
     }
 
-    public Recipe getRecipe()
+    public T getRecipe()
     {
         return this.recipe;
     }

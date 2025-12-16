@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
-import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.util.*;
@@ -14,8 +13,14 @@ import mz.mzlib.util.proxy.ListProxy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
+/**
+ * @see mz.mzlib.minecraft.ui.window.control.UiWindowList
+ */
+@Deprecated
 public class UiWindowList<T> extends UiWindow
 {
     public static <T> Builder<T> builder(List<T> list)
@@ -181,9 +186,9 @@ public class UiWindowList<T> extends UiWindow
                 this.data.iconGetter = value;
                 return this;
             }
-            public StepButton<T> onClick(BiConsumer<UiWindowList<T>, EntityPlayer> value)
+            public StepButton<T> onClick(ButtonHandler<T> value)
             {
-                this.data.onClick = RuntimeUtil.cast(value);
+                this.data.handler = RuntimeUtil.cast(value);
                 return this;
             }
 
@@ -196,7 +201,7 @@ public class UiWindowList<T> extends UiWindow
             {
                 if(this.data.iconGetter == null)
                     throw new IllegalStateException("iconGetter is not set");
-                if(this.data.onClick == null)
+                if(this.data.handler == null)
                     throw new IllegalStateException("onClick is not set");
                 this.builder.style.buttons.put(this.id, this.data);
                 return this.builder;
@@ -219,17 +224,17 @@ public class UiWindowList<T> extends UiWindow
             boolean inButtonBar;
             int index;
             Function<EntityPlayer, ItemStack> iconGetter;
-            BiConsumer<UiWindowList<?>, EntityPlayer> onClick;
+            ButtonHandler<?> handler;
             Button(
                 boolean inBottomBar,
                 int index,
                 Function<EntityPlayer, ItemStack> iconGetter,
-                BiConsumer<UiWindowList<?>, EntityPlayer> onClick)
+                ButtonHandler<?> handler)
             {
                 this.inButtonBar = inBottomBar;
                 this.index = index;
                 this.iconGetter = iconGetter;
-                this.onClick = onClick;
+                this.handler = handler;
             }
         }
 
@@ -247,18 +252,10 @@ public class UiWindowList<T> extends UiWindow
             DEFAULT.topBar = DEFAULT.bottomBar = 1;
             DEFAULT.buttons = new HashMap<>();
             DEFAULT.buttons.put(
-                "back", new Button(
-                    false, 0, player -> ItemStack.builder().playerHead().texturesUrl(
-                        "https://textures.minecraft.net/texture/47e50591f4118b9ae44755f7b485699b4b917f00d65f5ea8553ee48826d234c7")
-                    .customName(MinecraftI18n.resolveText(player, "mzlib.ui.back")).build(),
-                    (ui, player) -> UiStack.get(player).back()
-                )
-            );
-            DEFAULT.buttons.put(
                 "new", new Button(
                     false, 7, player -> ItemStack.builder().fromId("nether_star")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.new")).build(),
-                    (ui, player) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
+                    (ui, player, action, arg) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
                 )
             );
             DEFAULT.buttons.put(
@@ -266,7 +263,7 @@ public class UiWindowList<T> extends UiWindow
                     true, 2, player -> ItemStack.builder().playerHead().texturesUrl(
                         "https://textures.minecraft.net/texture/69ea1d86247f4af351ed1866bca6a3040a06c68177c78e42316a1098e60fb7d3")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.prev")).build(),
-                    (ui, player) ->
+                    (ui, player, action, arg) ->
                     {
                         if(ui.pageNumber > 0)
                             ui.pageNumber--;
@@ -279,7 +276,7 @@ public class UiWindowList<T> extends UiWindow
                     true, 6, player -> ItemStack.builder().playerHead().texturesUrl(
                         "https://textures.minecraft.net/texture/8271a47104495e357c3e8e80f511a9f102b0700ca9b88e88b795d33ff20105eb")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.next")).build(),
-                    (ui, player) ->
+                    (ui, player, action, arg) ->
                     {
                         if(ui.pageNumber < ui.getPageCount() - 1)
                             ui.pageNumber++;
@@ -291,7 +288,7 @@ public class UiWindowList<T> extends UiWindow
                 "append", new Button(
                     false, -1, player -> ItemStack.builder().fromId("nether_star")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.append")).build(),
-                    (ui, player) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
+                    (ui, player, action, arg) -> ui.adder.visit(RuntimeUtil.cast(ui), player, ui.getList().size())
                 )
             );
             DEFAULT.buttonPrevFirst = DEFAULT.buttonNextLast = true;
@@ -348,7 +345,8 @@ public class UiWindowList<T> extends UiWindow
     {
         this.putButton(
             (value.inButtonBar ? this.getWindowType().getSize() - this.style.bottomBar * 9 : 0) + value.index,
-            value.iconGetter, (player, action, arg) -> value.onClick.accept(this, player)
+            value.iconGetter,
+            (player, action, arg) -> value.handler.onClick(RuntimeUtil.cast(this), player, action, arg)
         );
     }
 
@@ -475,5 +473,16 @@ public class UiWindowList<T> extends UiWindow
     public interface Visitor<T>
     {
         void visit(UiWindowList<T> ui, EntityPlayer player, int index);
+    }
+
+    @FunctionalInterface
+    public interface ButtonHandler<T>
+    {
+        void onClick(UiWindowList<T> ui, EntityPlayer player, WindowActionType actionType, int arg);
+
+        static <T> ButtonHandler<T> of(UiWindow.ButtonHandler handler)
+        {
+            return (ui, player, actionType, arg) -> handler.onClick(player, actionType, arg);
+        }
     }
 }

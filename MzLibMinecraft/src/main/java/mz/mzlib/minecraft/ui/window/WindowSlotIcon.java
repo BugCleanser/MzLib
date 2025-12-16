@@ -7,9 +7,7 @@ import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 /**
  * This slot is just an icon.
@@ -19,17 +17,11 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface WindowSlotIcon extends WindowSlot
 {
     WrapperFactory<WindowSlotIcon> FACTORY = WrapperFactory.of(WindowSlotIcon.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowSlotIcon create(Object wrapped)
-    {
-        return WrapperObject.create(WindowSlotIcon.class, wrapped);
-    }
 
     @WrapConstructor
-    WindowSlot static$newInstance(Inventory inventory, int index, int x, int y);
+    WindowSlotIcon static$newInstance(Inventory inventory, int index, int x, int y);
 
-    static WindowSlot newInstance(Inventory inventory, int index)
+    static WindowSlotIcon newInstance(Inventory inventory, int index)
     {
         return FACTORY.getStatic().static$newInstance(inventory, index, 0, 0);
     }

@@ -24,7 +24,7 @@ public interface WindowSlotButton extends WindowSlotIcon
     }
 
     @WrapConstructor
-    WindowSlot static$newInstance(Inventory inventory, int index, int x, int y);
+    WindowSlotButton static$newInstance(Inventory inventory, int index, int x, int y);
 
     static WindowSlot newInstance(Inventory inventory, int index)
     {

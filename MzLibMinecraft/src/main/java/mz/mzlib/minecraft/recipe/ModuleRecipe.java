@@ -41,6 +41,7 @@ public class ModuleRecipe extends MzModule
             this.register(new RegistrarRecipeVanillaV2005_2102());
         else
             this.register(new RegistrarRecipeVanillaV2102());
+        this.register(RegistrarRecipeVanilla.instance.registrarDisabling);
 
         // nothing
         if(version < 1300)

@@ -15,7 +15,7 @@ import mz.mzlib.minecraft.recipe.ModuleRecipe;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.ui.book.UiWrittenBook;
-import mz.mzlib.minecraft.ui.window.UiWindow;
+import mz.mzlib.minecraft.ui.window.UiAbstractWindow;
 import mz.mzlib.minecraft.ui.window.UiWindowAnvil;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.module.MzModule;
@@ -76,7 +76,7 @@ public class MzLibMinecraft extends MzModule
             this.register(ModuleWindow.instance);
             this.register(UiStack.Module.instance);
             this.register(UiWrittenBook.Module.instance);
-            this.register(UiWindow.Module.instance);
+            this.register(UiAbstractWindow.Module.instance);
             this.register(UiWindowAnvil.Module.instance);
 
             this.register(NbtCompound.Module.instance);

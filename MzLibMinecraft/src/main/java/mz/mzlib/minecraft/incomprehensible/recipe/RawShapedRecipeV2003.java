@@ -6,7 +6,10 @@ import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -37,6 +40,23 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     {
         return newInstance(width, height, ingredients, Option.none());
     }
+
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "width", end = 2100),
+            @VersionName(name = "getWidth", begin = 2100)
+        }
+    )
+    int getWidth();
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "height", end = 2100),
+            @VersionName(name = "getHeight", begin = 2100)
+        }
+    )
+    int getHeight();
+
+    List<Option<IngredientVanilla>> getIngredients();
 
 
     RawShapedRecipeV2003 static$newInstance(
@@ -95,4 +115,37 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     {
         WrapperFactory<Data> FACTORY = WrapperFactory.of(Data.class);
     }
+
+    @SpecificImpl("getIngredients")
+    @VersionRange(end = 2102)
+    default List<Option<IngredientVanilla>> getIngredientsV_2102()
+    {
+        return new ListProxy<>(
+            this.getIngredients0V_2102().getWrapped(),
+            FunctionInvertible.wrapper(IngredientVanilla.FACTORY)
+                .thenApply(IngredientVanilla::toOptionV_2102, IngredientVanilla::fromOptionV_2102)
+        );
+    }
+    @VersionRange(end = 2102)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "ingredients", end = 2100),
+            @VersionName(name = "getIngredients", begin = 2100)
+        }
+    )
+    DefaultedListV1100<Object> getIngredients0V_2102();
+
+    @SpecificImpl("getIngredients")
+    @VersionRange(begin = 2102)
+    default List<Option<IngredientVanilla>> getIngredientsV2102()
+    {
+        return new ListProxy<>(
+            this.getIngredients0V2102(),
+            FunctionInvertible.option2optional().inverse()
+                .thenApply(FunctionInvertible.optionMap(FunctionInvertible.wrapper(IngredientVanilla.FACTORY)))
+        );
+    }
+    @VersionRange(begin = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "getIngredients"))
+    List<Optional<Object>> getIngredients0V2102();
 }

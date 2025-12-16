@@ -41,14 +41,14 @@ public abstract class UiWindowAnvil extends UiWindow
                 Window window = event.getPlayer().getCurrentWindow();
                 if(!window.isInstanceOf(WindowUiWindow.FACTORY))
                     return;
-                Ui ui = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                Ui ui = window.castTo(WindowUiWindow.FACTORY).getUi();
                 if(ui instanceof UiWindowAnvil)
                 {
                     event.sync(() ->
                     {
                         if(window.isInstanceOf(WindowUiWindow.FACTORY))
                         {
-                            Ui ui1 = window.castTo(WindowUiWindow.FACTORY).getUIWindow();
+                            Ui ui1 = window.castTo(WindowUiWindow.FACTORY).getUi();
                             if(ui1 instanceof UiWindowAnvil)
                                 ((UiWindowAnvil) ui1).onNameChanged(event.getPlayer(), event.getName());
                         }

@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.SleepTicks;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.async.AsyncFunction;
+import mz.mzlib.util.async.AsyncFunctionRunner;
 
 public class ExampleAsyncFunction extends MzModule
 {
@@ -12,7 +13,9 @@ public class ExampleAsyncFunction extends MzModule
     @Override
     public void onLoad()
     {
-        new Func1().start(MinecraftServer.instance.asModule(this));
+        AsyncFunctionRunner runner = MinecraftServer.instance.registrable();
+        this.register(runner);
+        new Func1().start(runner);
         System.out.println("ExampleAsyncFunction is Load");
     }
 

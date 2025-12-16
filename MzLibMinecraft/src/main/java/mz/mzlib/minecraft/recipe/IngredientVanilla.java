@@ -7,14 +7,20 @@ import mz.mzlib.minecraft.item.ItemConvertibleV1300;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
+import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @WrapMinecraftClass(
     {
@@ -34,6 +40,12 @@ public interface IngredientVanilla extends WrapperObject, Predicate<ItemStack>
     static IngredientVanilla fromOptionV_2102(Option<IngredientVanilla> option)
     {
         return option.unwrapOrGet(IngredientVanilla::emptyV_2102);
+    }
+    default Option<IngredientVanilla> toOptionV_2102()
+    {
+        if(this.equals(emptyV_2102()))
+            return Option.none();
+        return Option.some(this);
     }
 
     @Override
@@ -61,6 +73,8 @@ public interface IngredientVanilla extends WrapperObject, Predicate<ItemStack>
     {
         return FACTORY.getStatic().static$ofItemsV1200(items);
     }
+
+    List<ItemStack> getMatchingStacks();
 
     @WrapArrayClass(IngredientVanilla.class)
     interface Array extends WrapperArray<IngredientVanilla>
@@ -162,4 +176,80 @@ public interface IngredientVanilla extends WrapperObject, Predicate<ItemStack>
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod(@VersionName(name = "ofItems"))
     IngredientVanilla static$ofItemsV1300(ItemConvertibleV1300.Array items);
+
+    @SpecificImpl("getMatchingStacks")
+    @VersionRange(end = 1200)
+    default List<ItemStack> getMatchingStacksV_1200()
+    {
+        return Collections.singletonList(this.as(ItemStack.FACTORY));
+    }
+
+    @SpecificImpl("getMatchingStacks")
+    @VersionRange(begin = 1200, end = 1300)
+    default List<ItemStack> getMatchingStacksV1200_1300()
+    {
+        return this.getCachedMatchingStacks0V1200_2102().asList();
+    }
+
+    @SpecificImpl("getMatchingStacks")
+    @VersionRange(begin = 1300, end = 1701)
+    default List<ItemStack> getMatchingStacksV1300_1701()
+    {
+        this.cacheMatchingStacksV1300_1903();
+        return this.getCachedMatchingStacks0V1200_2102().asList();
+    }
+
+    @SpecificImpl("getMatchingStacks")
+    @VersionRange(begin = 1701, end = 2102)
+    default List<ItemStack> getMatchingStacksV1701_2102()
+    {
+        return this.getMatchingStacks0V1701_2102().asList();
+    }
+    @VersionRange(begin = 1701, end = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "getMatchingStacks"))
+    ItemStack.Array getMatchingStacks0V1701_2102();
+
+    @SpecificImpl("getMatchingStacks")
+    @VersionRange(begin = 2102)
+    default List<ItemStack> getMatchingStacksV2102()
+    {
+        return this.getMatchingItemsV2102().map(RegistryEntryV1802.Wrapper::getValue)
+            .map(ItemStack::newInstance).collect(Collectors.toList());
+    }
+    default Stream<RegistryEntryV1802.Wrapper<Item>> getMatchingItemsV2102()
+    {
+        return this.getMatchingItems0V2102().map(FunctionInvertible.wrapper(RegistryEntryV1802.FACTORY)
+            .thenApply(it -> new RegistryEntryV1802.Wrapper<>(it, Item.FACTORY), RegistryEntryV1802.Wrapper::getBase));
+    }
+    Stream<Object> getMatchingItems0V2102();
+    @SpecificImpl("getMatchingItems0V2102")
+    @VersionRange(begin = 2102, end = 2104)
+    default Stream<Object> getMatchingItems0V2102_2104()
+    {
+        return this.getMatchingItems00V2102_2104().stream();
+    }
+    @VersionRange(begin = 2102, end = 2104)
+    @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
+    List<Object> getMatchingItems00V2102_2104();
+    @SpecificImpl("getMatchingItems0V2102")
+    @VersionRange(begin = 2104)
+    @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
+    Stream<Object> getMatchingItems0V2104();
+
+    @VersionRange(end = 2102)
+    @WrapMinecraftFieldAccessor(
+        {
+            @VersionName(name = "field_15681", end = 1400),
+            @VersionName(name = "matchingStacks", begin = 1400)
+        }
+    )
+    ItemStack.Array getCachedMatchingStacks0V1200_2102();
+    @VersionRange(begin = 1300, end = 1903)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_16197", end = 1400),
+            @VersionName(name = "cacheMatchingStacks", begin = 1400)
+        }
+    )
+    void cacheMatchingStacksV1300_1903();
 }

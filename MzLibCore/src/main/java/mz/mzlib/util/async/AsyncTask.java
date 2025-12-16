@@ -2,6 +2,7 @@ package mz.mzlib.util.async;
 
 import java.util.concurrent.CompletableFuture;
 
+@Deprecated
 public class AsyncTask
 {
     public static class StopTask extends Throwable

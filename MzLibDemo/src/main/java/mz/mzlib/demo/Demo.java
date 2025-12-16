@@ -10,16 +10,18 @@ import mz.mzlib.minecraft.command.Command;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.permission.Permission;
-import mz.mzlib.minecraft.recipe.RegistrarRecipeVanilla;
 import mz.mzlib.minecraft.recipe.IngredientVanilla;
+import mz.mzlib.minecraft.recipe.RegistrarRecipeVanilla;
 import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnace;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
-import mz.mzlib.minecraft.ui.window.UiWindowList;
+import mz.mzlib.minecraft.ui.window.UiWindowRect;
+import mz.mzlib.minecraft.ui.window.control.UiWindowList;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 
+import java.awt.*;
 import java.io.File;
 import java.io.InputStream;
 import java.util.Collections;
@@ -53,14 +55,26 @@ public class Demo extends MzModule
             this.register(new ChildCommandRegistration(
                 this.command, new Command("list")
                 .setPermissionChecker(Command::checkPermissionSenderPlayer)
-                .setHandler(context -> UiStack.get(context.getSource().getPlayer().unwrap())
-                    .go(UiWindowList.builder(CollectionUtil.newArrayList("aaa", "bbb"))
-                        .iconGetter((value, player) -> ItemStack.builder().fromId("stick").customName(
-                            Text.literal(value)).build())
+                .setHandler(context ->
+                {
+                    UiWindowRect ui = new UiWindowRect(6);
+                    ui.region.addChild(UiWindowList.overlappedBuilder(CollectionUtil.newArrayList("aaa", "bbb"))
+                        .size(new Dimension(9, 10))
+                        .iconGetter(entry -> ItemStack.builder().fromId("stick").customName(
+                            Text.literal(entry.getElement())).build())
+                        .viewer((entry -> entry.getPlayer().sendMessage(Text.literal(entry.getElement()))))
                         .adder(() -> "new")
-                        .remover()
-                        .viewer(((ui, player, index) -> player.sendMessage(Text.literal(ui.getList().get(index)))))
-                        .build()))
+                        .build());
+                    UiStack.get(context.getSource().getPlayer().unwrap()).go(ui);
+//                    UiStack.get(context.getSource().getPlayer().unwrap())
+//                        .go(UiWindowList.builder(CollectionUtil.newArrayList("aaa", "bbb"))
+//                            .iconGetter((value, player) -> ItemStack.builder().fromId("stick").customName(
+//                                Text.literal(value)).build())
+//                            .adder(() -> "new")
+//                            .remover()
+//                            .viewer(((ui, player, index) -> player.sendMessage(Text.literal(ui.getList().get(index)))))
+//                            .build());
+                })
             ));
 
             this.register(DemoReload.instance);
@@ -83,7 +97,8 @@ public class Demo extends MzModule
                 .result(ItemStack.builder().fromId("apple").build())
                 .experience(100.f)
                 .buildRegistration());
-            MinecraftServer.instance.schedule(() -> System.out.println(RegistrarRecipeVanilla.instance.getEnabledRecipes()));
+            MinecraftServer.instance.schedule(
+                () -> System.out.println(RegistrarRecipeVanilla.instance.getEnabledRecipes()));
         }
         catch(Throwable e)
         {

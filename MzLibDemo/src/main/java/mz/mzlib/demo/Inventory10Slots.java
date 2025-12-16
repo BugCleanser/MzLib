@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.window.UiWindow;
 import mz.mzlib.minecraft.ui.window.WindowUiWindow;
-import mz.mzlib.minecraft.window.WindowActionType;
+import mz.mzlib.minecraft.window.WindowAction;
 import mz.mzlib.minecraft.window.WindowSlot;
 import mz.mzlib.minecraft.window.WindowType;
 import mz.mzlib.module.MzModule;
@@ -83,15 +83,10 @@ public class Inventory10Slots extends MzModule
         }
 
         @Override
-        public void onAction(
-            WindowUiWindow window,
-            int index,
-            int data,
-            WindowActionType actionType,
-            EntityPlayer player)
+        public void onAction(WindowUiWindow window, WindowAction action)
         {
-            super.onAction(window, index, data, actionType, player);
-            window.sendSlotUpdate(player, 0);
+            super.onAction(window, action);
+            window.sendSlotUpdate(action.getPlayer(), 0);
         }
 
         @Override

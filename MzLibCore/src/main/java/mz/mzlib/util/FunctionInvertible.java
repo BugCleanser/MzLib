@@ -16,7 +16,9 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
         this.backward = backward;
     }
 
-    public static <T, U> FunctionInvertible<T, U> of(Function<? super T, ? extends U> forward, Function<? super U, ? extends T> backward)
+    public static <T, U> FunctionInvertible<T, U> of(
+        Function<? super T, ? extends U> forward,
+        Function<? super U, ? extends T> backward)
     {
         return new FunctionInvertible<>(forward, backward);
     }
@@ -63,10 +65,22 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
     {
         return of(Option::fromNullable, Option::toNullable);
     }
+    public static <T, R> FunctionInvertible<Option<T>, Option<R>> optionMap(FunctionInvertible<T, R> mapper)
+    {
+        return of(it -> it.map(mapper), it -> it.map(mapper.inverse()));
+    }
+    public static <T extends WrapperObject> FunctionInvertible<T, Option<T>> wrapperOption(WrapperFactory<T> type)
+    {
+        return of(Option::fromWrapper, it -> it.unwrapOrGet(() -> type.create(null)));
+    }
 
     public static <T> FunctionInvertible<T, Optional<T>> optional()
     {
         return of(Optional::ofNullable, RuntimeUtil::orNull);
+    }
+    public static <T> FunctionInvertible<Option<T>, Optional<T>> option2optional()
+    {
+        return of(Option::toOptional, Option::fromOptional);
     }
 
     public static <T extends WrapperObject> FunctionInvertible<Object, T> wrapper(WrapperFactory<T> factory)

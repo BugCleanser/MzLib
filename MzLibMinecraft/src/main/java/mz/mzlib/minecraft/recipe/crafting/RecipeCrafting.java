@@ -1,5 +1,7 @@
 package mz.mzlib.minecraft.recipe.crafting;
 
-public interface RecipeCrafting
+import mz.mzlib.minecraft.recipe.Recipe;
+
+public interface RecipeCrafting extends Recipe
 {
 }

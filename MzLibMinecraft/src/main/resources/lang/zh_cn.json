@@ -50,7 +50,7 @@
   "mzlib.commands.mzlib.lang.loadmc.begin": "§a开始加载，请留意后台",
   "mzlib.commands.mzlib.lang.custom.arg.language": "语言",
 
-  "mzlib.ui.back": "§d返回",
+  "mzlib.ui.button.back": "§d返回",
   "mzlib.ui.list.lore.view": "§7左键 §b查看",
   "mzlib.ui.list.lore.remove": "§7Shift+左键 §c移除",
   "mzlib.ui.list.lore.insert": "§7右键 §a在此前插入",
