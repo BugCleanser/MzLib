@@ -9,9 +9,15 @@ import mz.mzlib.module.MzModule;
 
 public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowAction> implements EventAsyncByPacket.Cancellable
 {
-    public EventAsyncWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent, int syncId)
+    public EventAsyncWindowAction(PacketEvent.Specialized<PacketC2sWindowAction> packetEvent)
     {
-        super(packetEvent, syncId);
+        super(packetEvent);
+    }
+
+    @Override
+    public int getSyncId()
+    {
+        return this.getPacket().getSyncId();
     }
 
     public WindowActionType getActionType()
@@ -58,7 +64,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
 
             this.register(new PacketListener<>(
                 PacketC2sWindowAction.FACTORY,
-                packetEvent -> new EventAsyncWindowAction(packetEvent, packetEvent.getPacket().getSyncId()).call()
+                packetEvent -> new EventAsyncWindowAction(packetEvent).call()
             ));
         }
     }

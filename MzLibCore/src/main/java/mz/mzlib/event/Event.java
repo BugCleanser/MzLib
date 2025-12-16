@@ -10,11 +10,6 @@ public abstract class Event
     public TaskList futureTasks = new TaskList();
     boolean isCancelled = false;
 
-    public boolean isCancelled()
-    {
-        return this.isCancelled;
-    }
-
     /**
      * Execute when the operation corresponding to the event ends or is canceled.
      */

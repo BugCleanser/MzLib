@@ -5,21 +5,34 @@ import mz.mzlib.minecraft.entity.EntityItem;
 import mz.mzlib.minecraft.entity.display.DisplayEntity;
 import mz.mzlib.minecraft.event.player.async.displayentity.EventAsyncDisplayEntityData;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlayerDisplayItem<PacketS2cEntityData>
+public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlayerDisplayItem implements EventAsyncByPacket<PacketS2cEntityData>
 {
     public EventAsyncDisplayEntityData eventDisplayEntityData;
-    public EventAsyncPlayerDisplayItemInEntity(ItemStack original, EventAsyncDisplayEntityData eventDisplayEntityData)
+    public EventAsyncPlayerDisplayItemInEntity(EventAsyncDisplayEntityData eventDisplayEntityData, ItemStack original)
     {
-        super(eventDisplayEntityData.packetEvent, original);
+        super(eventDisplayEntityData.getPacketEvent().getPlayer().unwrap(), original);
         this.eventDisplayEntityData = eventDisplayEntityData;
     }
 
     public EventAsyncDisplayEntityData getEventDisplayEntityData()
     {
         return this.eventDisplayEntityData;
+    }
+
+    @Override
+    public PacketEvent.Specialized<? extends PacketS2cEntityData> getPacketEvent()
+    {
+        return this.getEventDisplayEntityData().getPacketEvent();
+    }
+
+    @Override
+    public void sync(Runnable task)
+    {
+        EventAsyncByPacket.super.sync(task);
     }
 
     public DisplayEntity getDisplayEntity()
@@ -43,7 +56,7 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
     {
         public InEntityItem(EventAsyncDisplayEntityData eventDisplayEntityData, ItemStack original)
         {
-            super(original, eventDisplayEntityData);
+            super(eventDisplayEntityData, original);
         }
         @Override
         public ItemStack getItemStack()
@@ -73,18 +86,19 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
             this.register(EventAsyncPlayerDisplayItemInEntity.class);
             this.register(InEntityItem.class);
             this.register(new EventListener<>(
-                EventAsyncDisplayEntityData.class, event ->
-            {
-                if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
-                    return;
-                for(ItemStack original : event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
+                EventAsyncDisplayEntityData.class,
+                event ->
                 {
-                    synchronized(event.getDisplayEntity())
+                    if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
+                        return;
+                    for(ItemStack original : event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
                     {
-                        new InEntityItem(event, original).call();
+                        synchronized(event.getDisplayEntity())
+                        {
+                            new InEntityItem(event, original).call();
+                        }
                     }
                 }
-            }
             ));
         }
     }

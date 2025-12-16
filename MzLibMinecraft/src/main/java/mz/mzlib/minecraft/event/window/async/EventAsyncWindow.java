@@ -1,23 +1,27 @@
 package mz.mzlib.minecraft.event.window.async;
 
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncWindow<P extends Packet> extends EventAsyncByPacket<P>
+public abstract class EventAsyncWindow<P extends Packet> extends EventPlayer implements EventAsyncByPacket<P>
 {
-    protected int syncId;
-    public EventAsyncWindow(PacketEvent.Specialized<P> packetEvent, int syncId)
+    PacketEvent.Specialized<P> packetEvent;
+    public EventAsyncWindow(PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent);
-        this.syncId = syncId;
+        super(packetEvent.getPlayer().unwrap());
+        this.packetEvent = packetEvent;
     }
 
-    public int getSyncId()
+    @Override
+    public PacketEvent.Specialized<P> getPacketEvent()
     {
-        return this.syncId;
+        return this.packetEvent;
     }
+
+    public abstract int getSyncId();
 
     @Override
     public void call()

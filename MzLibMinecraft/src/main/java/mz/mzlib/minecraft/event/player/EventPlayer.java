@@ -43,8 +43,6 @@ public abstract class EventPlayer extends EventEntity
 
             this.register(EventPlayerUseItem.Module.instance);
 
-            this.register(EventAsyncByPacket.class);
-
             this.register(EventAsyncPlayerChat.Module.instance);
             this.register(EventAsyncPlayerMove.Module.instance);
 
@@ -52,6 +50,7 @@ public abstract class EventPlayer extends EventEntity
             this.register(EventAsyncPlayerDisplayItemInWindow.Module.instance);
             this.register(EventAsyncPlayerDisplayItemInEntity.Module.instance);
             this.register(EventAsyncPlayerDisplayItemInCursorV2102.Module.instance);
+            this.register(EventAsyncPlayerDisplayItemSync.Module.instance);
         }
     }
 }

@@ -1,15 +1,24 @@
 package mz.mzlib.minecraft.event.player.async;
 
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sChatMessage;
 import mz.mzlib.module.MzModule;
 
-public class EventAsyncPlayerChat extends EventAsyncByPacket<PacketC2sChatMessage> implements EventAsyncByPacket.Cancellable
+public class EventAsyncPlayerChat extends EventPlayer implements EventAsyncByPacket<PacketC2sChatMessage>, EventAsyncByPacket.Cancellable
 {
+    PacketEvent.Specialized<PacketC2sChatMessage> packetEvent;
     public EventAsyncPlayerChat(PacketEvent.Specialized<PacketC2sChatMessage> packetEvent)
     {
-        super(packetEvent);
+        super(packetEvent.getPlayer().unwrap());
+        this.packetEvent = packetEvent;
+    }
+
+    @Override
+    public PacketEvent.Specialized<PacketC2sChatMessage> getPacketEvent()
+    {
+        return this.packetEvent;
     }
 
     public String getMessage()

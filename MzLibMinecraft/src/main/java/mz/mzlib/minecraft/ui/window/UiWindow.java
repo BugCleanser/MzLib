@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.Priority;
+import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
@@ -223,7 +224,7 @@ public class UiWindow extends UiAbstractWindow
                 EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_LOW,
                 event -> event.sync(() ->
                 {
-                    if(event.isCancelled())
+                    if(Option.some(event).filter(Cancellable.class).map(Cancellable::isCancelled).unwrapOr(false))
                         return;
                     for(WindowUiWindow window : event.getPlayer().getWindow(event.getSyncId())
                         .asOption(WindowUiWindow.FACTORY))

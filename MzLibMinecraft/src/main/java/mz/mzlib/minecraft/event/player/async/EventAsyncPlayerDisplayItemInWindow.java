@@ -9,8 +9,9 @@ import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowItems;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> extends EventAsyncPlayerDisplayItem<P>
+public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> extends EventAsyncPlayerDisplayItem implements EventAsyncByPacket<P>
 {
+    public PacketEvent.Specialized<P> packetEvent;
     public int syncId;
     public int slotIndex;
     public EventAsyncPlayerDisplayItemInWindow(
@@ -19,9 +20,22 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
         int syncId,
         int slotIndex)
     {
-        super(packetEvent, original);
+        super(packetEvent.getPlayer().unwrap(), original);
+        this.packetEvent = packetEvent;
         this.syncId = syncId;
         this.slotIndex = slotIndex;
+    }
+
+    @Override
+    public PacketEvent.Specialized<P> getPacketEvent()
+    {
+        return this.packetEvent;
+    }
+
+    @Override
+    public void sync(Runnable task)
+    {
+        EventAsyncByPacket.super.sync(task);
     }
 
     public int getSyncId()

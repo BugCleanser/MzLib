@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.event.player.async;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
@@ -9,11 +10,19 @@ import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sVehicleMoveV900;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.module.MzModule;
 
-public abstract class EventAsyncPlayerMove<P extends Packet> extends EventAsyncByPacket<P> implements EventAsyncByPacket.Cancellable
+public abstract class EventAsyncPlayerMove<P extends Packet> extends EventPlayer implements EventAsyncByPacket<P>, EventAsyncByPacket.Cancellable
 {
+    PacketEvent.Specialized<? extends P> packetEvent;
     public EventAsyncPlayerMove(PacketEvent.Specialized<? extends P> packetEvent)
     {
-        super(packetEvent);
+        super(packetEvent.getPlayer().unwrap());
+        this.packetEvent = packetEvent;
+    }
+
+    @Override
+    public PacketEvent.Specialized<? extends P> getPacketEvent()
+    {
+        return this.packetEvent;
     }
 
     public abstract boolean isLocationChanged();

@@ -1,24 +1,21 @@
 package mz.mzlib.minecraft.event.player.async;
 
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.event.player.EventPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.network.packet.Packet;
-import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.util.Editor;
 
-public abstract class EventAsyncPlayerDisplayItem<P extends Packet> extends EventAsyncByPacket<P>
+public abstract class EventAsyncPlayerDisplayItem extends EventPlayer
 {
     public ItemStack original;
 
-    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<? extends P> packetEvent, ItemStack original)
+    public EventAsyncPlayerDisplayItem(EntityPlayer player, ItemStack original)
     {
-        super(packetEvent);
+        super(player);
         this.original = original;
     }
-    public EventAsyncPlayerDisplayItem(PacketEvent.Specialized<? extends P> packetEvent)
-    {
-        super(packetEvent);
-        this.original = this.getItemStack();
-    }
+
+    public abstract void sync(Runnable task);
 
     public abstract ItemStack getItemStack();
     public abstract void setItemStack(ItemStack value);

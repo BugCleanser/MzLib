@@ -116,7 +116,7 @@ public interface MzItem extends ItemStack
             this.register(MzItemIconPlaceholder.class);
         }
 
-        public void onAsyncPlayerDisplayItem(EventAsyncPlayerDisplayItem<?> event)
+        public void onAsyncPlayerDisplayItem(EventAsyncPlayerDisplayItem event)
         {
             event.sync(() ->
             {

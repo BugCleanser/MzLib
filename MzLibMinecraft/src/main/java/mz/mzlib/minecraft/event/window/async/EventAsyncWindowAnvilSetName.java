@@ -13,7 +13,7 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
 {
     public EventAsyncWindowAnvilSetName(PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent, 0);
+        super(packetEvent);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class ModuleItemDisplaySign extends MzModule
         this.register(new EventListener<>(EventAsyncPlayerDisplayItem.class, Priority.LOWEST, this::handle));
     }
 
-    public void handle(EventAsyncPlayerDisplayItem<?> event)
+    public void handle(EventAsyncPlayerDisplayItem event)
     {
         for(NbtCompound customData : Item.CUSTOM_DATA.get(event.getItemStack()))
         {

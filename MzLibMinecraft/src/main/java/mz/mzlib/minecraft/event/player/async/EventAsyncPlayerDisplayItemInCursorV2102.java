@@ -7,11 +7,25 @@ import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cCursorItemV2102;
 import mz.mzlib.module.MzModule;
 
-public class EventAsyncPlayerDisplayItemInCursorV2102 extends EventAsyncPlayerDisplayItem<PacketS2cCursorItemV2102>
+public class EventAsyncPlayerDisplayItemInCursorV2102 extends EventAsyncPlayerDisplayItem implements EventAsyncByPacket<PacketS2cCursorItemV2102>
 {
+    PacketEvent.Specialized<PacketS2cCursorItemV2102> packetEvent;
     public EventAsyncPlayerDisplayItemInCursorV2102(PacketEvent.Specialized<PacketS2cCursorItemV2102> packetEvent)
     {
-        super(packetEvent);
+        super(packetEvent.getPlayer().unwrap(), packetEvent.getPacket().getValue());
+        this.packetEvent = packetEvent;
+    }
+
+    @Override
+    public PacketEvent.Specialized<PacketS2cCursorItemV2102> getPacketEvent()
+    {
+        return this.packetEvent;
+    }
+
+    @Override
+    public void sync(Runnable task)
+    {
+        EventAsyncByPacket.super.sync(task);
     }
 
     @Override

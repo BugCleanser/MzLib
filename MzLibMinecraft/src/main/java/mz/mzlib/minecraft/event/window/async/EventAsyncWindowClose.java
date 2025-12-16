@@ -8,9 +8,15 @@ import mz.mzlib.module.MzModule;
 
 public class EventAsyncWindowClose extends EventAsyncWindow<PacketC2sWindowClose> implements EventAsyncByPacket.Cancellable
 {
-    public EventAsyncWindowClose(PacketEvent.Specialized<PacketC2sWindowClose> packetEvent, int syncId)
+    public EventAsyncWindowClose(PacketEvent.Specialized<PacketC2sWindowClose> packetEvent)
     {
-        super(packetEvent, syncId);
+        super(packetEvent);
+    }
+
+    @Override
+    public int getSyncId()
+    {
+        return this.getPacket().getSyncId();
     }
 
     @Override
@@ -30,7 +36,7 @@ public class EventAsyncWindowClose extends EventAsyncWindow<PacketC2sWindowClose
 
             this.register(new PacketListener<>(
                 PacketC2sWindowClose.FACTORY,
-                packetEvent -> new EventAsyncWindowClose(packetEvent, packetEvent.getPacket().getSyncId()).call()
+                packetEvent -> new EventAsyncWindowClose(packetEvent).call()
             ));
         }
     }
