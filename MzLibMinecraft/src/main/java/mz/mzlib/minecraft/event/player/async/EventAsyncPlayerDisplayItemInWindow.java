@@ -1,47 +1,48 @@
 package mz.mzlib.minecraft.event.player.async;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import mz.mzlib.Priority;
+import mz.mzlib.event.Cancellable;
+import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftPlatform;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.network.packet.Packet;
+import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
+import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAction;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowItems;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
+import mz.mzlib.minecraft.window.sync.ComponentChangesHashV2105;
+import mz.mzlib.minecraft.window.sync.ItemStackHashV2105;
+import mz.mzlib.minecraft.window.sync.TrackedSlotV2105;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Pair;
+import mz.mzlib.util.proxy.MapProxy;
+import mz.mzlib.util.wrapper.WrapperObject;
 
-public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> extends EventAsyncPlayerDisplayItem implements EventAsyncByPacket<P>
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.WeakHashMap;
+import java.util.function.Function;
+
+public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlayerDisplayItem
 {
-    public PacketEvent.Specialized<P> packetEvent;
-    public int syncId;
     public int slotIndex;
     public EventAsyncPlayerDisplayItemInWindow(
-        PacketEvent.Specialized<P> packetEvent,
+        EntityPlayer player,
         ItemStack original,
-        int syncId,
         int slotIndex)
     {
-        super(packetEvent.getPlayer().unwrap(), original);
-        this.packetEvent = packetEvent;
-        this.syncId = syncId;
+        super(player, original);
         this.slotIndex = slotIndex;
     }
 
-    @Override
-    public PacketEvent.Specialized<P> getPacketEvent()
-    {
-        return this.packetEvent;
-    }
-
-    @Override
-    public void sync(Runnable task)
-    {
-        EventAsyncByPacket.super.sync(task);
-    }
-
-    public int getSyncId()
-    {
-        return this.syncId;
-    }
+    public abstract int getSyncId();
     /**
      * The slot index of the item
      * or -1 if it's the cursor V1701
@@ -57,16 +58,33 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
         super.call();
     }
 
-    public static class ByPacketS2cWindowSlotUpdate extends EventAsyncPlayerDisplayItemInWindow<PacketS2cWindowSlotUpdate> implements EventAsyncByPacket.Cancellable
+    public static class ByPacketS2cWindowSlotUpdate extends EventAsyncPlayerDisplayItemInWindow implements EventAsyncByPacket<PacketS2cWindowSlotUpdate>, EventAsyncByPacket.Cancellable
     {
+        PacketEvent.Specialized<PacketS2cWindowSlotUpdate> packetEvent;
         public ByPacketS2cWindowSlotUpdate(
             PacketEvent.Specialized<PacketS2cWindowSlotUpdate> packetEvent,
-            ItemStack original,
-            int syncId)
+            ItemStack original)
         {
-            super(packetEvent, original, syncId, packetEvent.getPacket().getSlotIndex());
+            super(packetEvent.getPlayer().unwrap(), original, packetEvent.getPacket().getSlotIndex());
+            this.packetEvent = packetEvent;
         }
 
+        @Override
+        public PacketEvent.Specialized<PacketS2cWindowSlotUpdate> getPacketEvent()
+        {
+            return this.packetEvent;
+        }
+        @Override
+        public void sync(Runnable task)
+        {
+            EventAsyncByPacket.super.sync(task);
+        }
+
+        @Override
+        public int getSyncId()
+        {
+            return this.getPacket().getSyncId();
+        }
         @Override
         public ItemStack getItemStack()
         {
@@ -80,17 +98,34 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
         }
     }
 
-    public static class ByPacketS2cWindowItems extends EventAsyncPlayerDisplayItemInWindow<PacketS2cWindowItems>
+    public static class ByPacketS2cWindowItems extends EventAsyncPlayerDisplayItemInWindow implements EventAsyncByPacket<PacketS2cWindowItems>
     {
+        PacketEvent.Specialized<PacketS2cWindowItems> packetEvent;
         public ByPacketS2cWindowItems(
             PacketEvent.Specialized<PacketS2cWindowItems> packetEvent,
             ItemStack original,
-            int syncId,
             int slotIndex)
         {
-            super(packetEvent, original, syncId, slotIndex);
+            super(packetEvent.getPlayer().unwrap(), original, slotIndex);
+            this.packetEvent = packetEvent;
         }
 
+        @Override
+        public PacketEvent.Specialized<PacketS2cWindowItems> getPacketEvent()
+        {
+            return this.packetEvent;
+        }
+        @Override
+        public void sync(Runnable task)
+        {
+            EventAsyncByPacket.super.sync(task);
+        }
+
+        @Override
+        public int getSyncId()
+        {
+            return this.getPacket().getSyncId();
+        }
         @Override
         public ItemStack getItemStack()
         {
@@ -121,30 +156,157 @@ public abstract class EventAsyncPlayerDisplayItemInWindow<P extends Packet> exte
             this.register(new PacketListener<>(
                 PacketS2cWindowSlotUpdate.FACTORY,
                 packetEvent -> new ByPacketS2cWindowSlotUpdate(
-                    packetEvent, packetEvent.getPacket().getItemStack(),
-                    packetEvent.getPacket().getSyncId()
+                    packetEvent, packetEvent.getPacket().getItemStack()
                 ).call()
             ));
             this.register(new PacketListener<>(
-                PacketS2cWindowItems.FACTORY, packetEvent ->
-            {
-                for(int i = 0; i < packetEvent.getPacket().getContents().size(); i++)
+                PacketS2cWindowItems.FACTORY,
+                packetEvent ->
                 {
-                    new ByPacketS2cWindowItems(
-                        packetEvent, packetEvent.getPacket().getContents().get(i), packetEvent.getPacket().getSyncId(),
-                        i
-                    ).call();
+                    for(int i = 0; i < packetEvent.getPacket().getContents().size(); i++)
+                    {
+                        new ByPacketS2cWindowItems(
+                            packetEvent, packetEvent.getPacket().getContents().get(i),
+                            i
+                        ).call();
+                    }
                 }
-            }
             ));
             if(MinecraftPlatform.instance.getVersion() >= 1701)
                 this.register(new PacketListener<>(
                     PacketS2cWindowItems.FACTORY,
                     packetEvent -> new ByPacketS2cWindowItems(
-                        packetEvent, packetEvent.getPacket().getCursorV1701(),
-                        packetEvent.getPacket().getSyncId(), -1
+                        packetEvent, packetEvent.getPacket().getCursorV1701(), -1
                     ).call()
                 ));
+
+            if(MinecraftPlatform.instance.getVersion() >= 1700)
+                this.register(ModuleSyncV1700.instance);
+        }
+    }
+
+    public static class ModuleSyncV1700 extends MzModule
+    {
+        public static ModuleSyncV1700 instance = new ModuleSyncV1700();
+
+        Map<EntityPlayer, Integer> cacheSyncId = new MapProxy<>(
+            new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
+        Map<EntityPlayer, Map<Integer, Pair</*original*/ItemStack, ItemStack>>> cache = new MapProxy<>(
+            new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
+        Map<EntityPlayer, Map<Integer, Pair</*original*/ItemStack, ItemStack>>> cachePlayer = new MapProxy<>(
+            new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
+
+        @Override
+        public void onLoad()
+        {
+            this.register(new EventListener<>(
+                EventAsyncPlayerDisplayItemInWindow.class, Priority.LOWEST,
+                event ->
+                {
+                    if(Option.some(event).filter(Cancellable.class).map(Cancellable::isCancelled).unwrapOr(false))
+                        return;
+                    synchronized(ModuleSyncV1700.this)
+                    {
+                        if(event.getSyncId() > 0)
+                            if(!Objects.equals(
+                                this.cacheSyncId.put(event.getPlayer(), event.getSyncId()), event.getSyncId()))
+                                this.cache.remove(event.getPlayer());
+                        (event.getSyncId() > 0 ? this.cache : this.cachePlayer).computeIfAbsent(
+                                event.getPlayer(), k -> new HashMap<>())
+                            .put(event.getSlotIndex(), Pair.of(event.getOriginal(), event.getItemStack().clone0()));
+                    }
+                }
+            ));
+            // TODO
+            abstract class Handler
+            {
+                abstract WrapperObject identifier(ItemStack itemStack);
+                abstract WrapperObject identifierNone();
+                abstract boolean identify(WrapperObject identifier, ItemStack itemStack);
+            }
+            Function<EntityPlayer, Handler> handlerFactory;
+            if(MinecraftPlatform.instance.getVersion() < 2105)
+                handlerFactory = player -> new Handler()
+                {
+                    @Override
+                    ItemStack identifier(ItemStack itemStack)
+                    {
+                        return itemStack;
+                    }
+                    @Override
+                    WrapperObject identifierNone()
+                    {
+                        return MzItemIconPlaceholder.instance; // TODO
+                    }
+                    @Override
+                    boolean identify(WrapperObject identifier, ItemStack itemStack)
+                    {
+                        return itemStack.equals0(identifier);
+                    }
+                };
+            else
+                handlerFactory = player -> new Handler()
+                {
+                    final ComponentChangesHashV2105.ComponentHasher hasher = player
+                        .getWindowSyncHandlerV1700()
+                        .createTrackedSlotV2105().as(TrackedSlotV2105.Impl.FACTORY).getHasher();
+                    final ItemStackHashV2105 identifier = ItemStackHashV2105.of(
+                        MzItemIconPlaceholder.instance, this.hasher); // FIXME
+                    @Override
+                    ItemStackHashV2105 identifier(ItemStack itemStack)
+                    {
+                        return ItemStackHashV2105.of(itemStack, this.hasher);
+                    }
+                    @Override
+                    public ItemStackHashV2105 identifierNone()
+                    {
+                        return this.identifier;
+                    }
+                    @Override
+                    boolean identify(WrapperObject identifier, ItemStack itemStack)
+                    {
+                        return ((ItemStackHashV2105) identifier).hashEquals(itemStack, this.hasher);
+                    }
+                };
+            this.register(new PacketListener<>(
+                PacketC2sWindowAction.FACTORY, Priority.VERY_VERY_HIGH,
+                packetEvent ->
+                {
+                    synchronized(ModuleSyncV1700.this)
+                    {
+                        if(packetEvent.getPacket().getSyncId() > 0)
+                            if(!Objects.equals(
+                                this.cacheSyncId.get(packetEvent.getPlayer().unwrap()),
+                                packetEvent.getPacket().getSyncId()
+                            ))
+                                return;
+                        Handler handler = handlerFactory.apply(packetEvent.getPlayer().unwrap());
+                        Map<Integer, Pair<ItemStack, ItemStack>> map = (packetEvent.getPacket().getSyncId() > 0 ?
+                            this.cache :
+                            this.cachePlayer).get(packetEvent.getPlayer().unwrap());
+                        if(map == null)
+                            return;
+                        Int2ObjectMap<Object> modified0 = new Int2ObjectOpenHashMap<>();
+                        Map<Integer, WrapperObject> modified = new MapProxy<>(
+                            modified0, FunctionInvertible.identity(),
+                            FunctionInvertible.wrapper(WrapperObject.FACTORY)
+                        );
+                        for(Map.Entry<Integer, ? extends WrapperObject> entry : packetEvent.getPacket()
+                            .getModifiedV1700()
+                            .entrySet())
+                        {
+                            Pair<ItemStack, ItemStack> pair = map.get(entry.getKey());
+                            if(pair != null && handler.identify(entry.getValue(), pair.getSecond()))
+                                modified.put(entry.getKey(), handler.identifier(pair.getFirst()));
+                            else
+                                modified.put(entry.getKey(), handler.identifierNone());
+                        }
+                        packetEvent.setPacket(PacketC2sWindowAction.builder().from(packetEvent.getPacket())
+                            .modified0V1700(modified0)
+                            .build());
+                    }
+                }
+            ));
         }
     }
 }

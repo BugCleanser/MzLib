@@ -14,11 +14,12 @@ import java.util.function.Supplier;
 @MzItemClass
 public interface MzItemIconPlaceholder extends MzItem
 {
+    MzItemIconPlaceholder instance = RegistrarMzItem.instance.newMzItem(MzItemIconPlaceholder.class);
     @SuppressWarnings("TrivialFunctionalExpressionUsage")
     Inventory inventory = ((Supplier<Inventory>)()->
     {
         InventorySimple result = InventorySimple.newInstance(1);
-        result.setItemStack(0, RegistrarMzItem.instance.newMzItem(MzItemIconPlaceholder.class));
+        result.setItemStack(0, instance);
         return result;
     }).get();
     WindowSlot slot = WindowSlotIcon.newInstance(inventory, 0);

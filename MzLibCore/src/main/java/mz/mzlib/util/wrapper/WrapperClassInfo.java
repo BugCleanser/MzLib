@@ -215,6 +215,7 @@ public class WrapperClassInfo
     {
         try
         {
+            List<ThrowableConsumer<Class<?>, Throwable>> tasksLater = new ArrayList<>();
             ClassNode cn = new ClassNode();
             cn.visit(
                 Opcodes.V1_8, Opcodes.ACC_PUBLIC, AsmUtil.getType(this.getWrapperClass()) + "$0WrapperImpl", null,
@@ -275,7 +276,17 @@ public class WrapperClassInfo
                 Opcodes.ACC_PUBLIC, "static$getWrappedClass", AsmUtil.getDesc(Class.class, new Class[0]), null,
                 new String[0]
             );
-            mn.instructions.add(AsmUtil.insnConst(getWrappedClass()));
+            if(this.hasAccessTo(this.getWrappedClass()))
+                mn.instructions.add(AsmUtil.insnConst(this.getWrappedClass()));
+            else
+            {
+                String fieldName = "0wrappedClass";
+                cn.visitField(
+                        Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, fieldName, AsmUtil.getDesc(Class.class), null, null)
+                    .visitEnd();
+                mn.visitFieldInsn(Opcodes.GETSTATIC, cn.name, fieldName, AsmUtil.getDesc(Class.class));
+                tasksLater.add(c -> c.getDeclaredField(fieldName).set(null, this.getWrappedClass()));
+            }
             mn.instructions.add(AsmUtil.insnReturn(Class.class));
             cn.methods.add(mn);
             //noinspection RedundantArrayCreation
@@ -392,7 +403,8 @@ public class WrapperClassInfo
                                 Modifier.isInterface(i.getValue().getDeclaringClass().getModifiers()) ?
                                     Opcodes.INVOKEINTERFACE :
                                     Opcodes.INVOKEVIRTUAL, AsmUtil.getType(i.getValue().getDeclaringClass()),
-                            i.getValue().getName(), AsmUtil.getDesc((Method) i.getValue())
+                            i.getValue().getName(), AsmUtil.getDesc((Method) i.getValue()),
+                            Modifier.isInterface(i.getValue().getDeclaringClass().getModifiers())
                         ));
                     }
                     else
@@ -648,6 +660,10 @@ public class WrapperClassInfo
             cn.accept(cw);
             Class<?> c = ClassUtil.defineClass(
                 new SimpleClassLoader(this.wrapperClass.getClassLoader()), cn.name, cw.toByteArray());
+            for(ThrowableConsumer<Class<?>, Throwable> task : tasksLater)
+            {
+                task.acceptOrThrow(c);
+            }
             try
             {
                 constructorCache = ClassUtil.unreflect(c.getDeclaredConstructor(Object.class))

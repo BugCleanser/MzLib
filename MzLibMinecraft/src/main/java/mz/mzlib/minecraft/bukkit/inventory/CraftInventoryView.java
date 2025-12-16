@@ -36,6 +36,6 @@ public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
     {
         BukkitInventory bukkitInventory = CraftInventory.newInstance(inventory);
         // TODO
-        return newInstance(BukkitHumanEntity.create(BukkitEntityUtil.toBukkit(player)), bukkitInventory, window);
+        return newInstance(BukkitHumanEntity.FACTORY.create(BukkitEntityUtil.toBukkit(player)), bukkitInventory, window);
     }
 }

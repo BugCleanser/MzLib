@@ -353,7 +353,12 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
         );
     }
     @VersionRange(begin = 1200, end = 2003)
-    @WrapMinecraftFieldAccessor(@VersionName(name = "ingredients"))
+    @WrapMinecraftFieldAccessor(
+        {
+            @VersionName(name = "field_15686", end = 1400),
+            @VersionName(name = "field_9052", begin = 1400)
+        }
+    )
     DefaultedListV1100<Object> getIngredients0V1200_2003();
 
     @SpecificImpl("getIngredients")

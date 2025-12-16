@@ -4,13 +4,10 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
-public class MapProxy<K, V, K1, V1> implements Map<K, V>
+public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
 {
     Map<K1, V1> delegate;
     FunctionInvertible<K1, K> functionKey;

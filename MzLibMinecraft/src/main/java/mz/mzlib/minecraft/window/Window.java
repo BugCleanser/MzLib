@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
 import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.incomprehensible.network.WindowSyncHandlerV1700;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
@@ -13,10 +14,12 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.screen.ScreenHandler", end = 1400),
@@ -75,6 +78,10 @@ public interface Window extends WrapperObject
         this.getSlots().set(index, slot);
     }
 
+    @VersionRange(begin = 1700)
+    @WrapMinecraftMethod(@VersionName(name = "getCursorStack"))
+    ItemStack getCursorV1700();
+
     @WrapMinecraftMethod(@VersionName(name = "insertItem"))
     boolean placeIn(ItemStack itemStack, int begin, int end, boolean inverted);
 
@@ -127,4 +134,26 @@ public interface Window extends WrapperObject
         player.sendPacket(
             PacketS2cWindowSlotUpdate.newInstanceV1701(this.getSyncId(), this.nextRevisionV1701(), slot, itemStack));
     }
+
+    @VersionRange(begin = 1700)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "syncHandler"))
+    WindowSyncHandlerV1700 getSyncHandler0V1700();
+
+    @VersionRange(begin = 1700)
+    default Option<EntityPlayer> getPlayerV1700()
+    {
+        for(WindowSyncHandlerV1700 syncHandler : Option.fromWrapper(this.getSyncHandler0V1700()))
+        {
+            return syncHandler.asOption(WindowSyncHandlerV1700.Impl.FACTORY).map(WindowSyncHandlerV1700.Impl::getPlayer);
+        }
+        return Option.none();
+    }
+
+    @VersionRange(begin = 1700)
+    @WrapMinecraftMethod(@VersionName(name = "checkSlotUpdates"))
+    void syncSlot0V1700(int slot, ItemStack stack, Supplier<?> copySupplier);
+
+    @VersionRange(begin = 1700)
+    @WrapMinecraftMethod(@VersionName(name = "checkCursorStackUpdates"))
+    void syncCursorV1700();
 }

@@ -423,8 +423,8 @@ public class NothingRegistration
                                         caller.add(AsmUtil.insnReturn(ClassUtil.getReturnType(m)));
                                         caller.add(later);
                                         caller.add(AsmUtil.insnPop(Object.class));
-                                        caller.add(afterPop);
                                     }
+                                    caller.add(afterPop);
                                 }
                                 switch(ni.type())
                                 {
@@ -477,7 +477,16 @@ public class NothingRegistration
         }
         defineMetafactory(callSites.toArray(new CallSite[0]));
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-        cn.accept(cw);
+        try
+        {
+            cn.accept(cw);
+        }
+        catch(Throwable e)
+        {
+            e.printStackTrace(System.err);
+            cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            cn.accept(cw);
+        }
         ClassUtil.defineClass(target.getClassLoader(), cn.name, cw.toByteArray());
     }
 }

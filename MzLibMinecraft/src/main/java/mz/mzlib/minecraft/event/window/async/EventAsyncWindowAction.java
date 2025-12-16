@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.PacketListener;
 import mz.mzlib.minecraft.network.packet.c2s.play.PacketC2sWindowAction;
+import mz.mzlib.minecraft.window.WindowAction;
 import mz.mzlib.minecraft.window.WindowActionType;
 import mz.mzlib.module.MzModule;
 
@@ -26,7 +27,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     }
     public void setActionType(WindowActionType value)
     {
-        this.getPacket().setActionType(value);
+        this.getPacketEvent().setPacket(PacketC2sWindowAction.builder().from(this.getPacket()).actionType(value).build());
     }
 
     public int getSlotIndex()
@@ -35,7 +36,7 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     }
     public void setSlotIndex(int value)
     {
-        this.getPacket().setSlotIndex(value);
+        this.getPacketEvent().setPacket(PacketC2sWindowAction.builder().from(this.getPacket()).slotIndex(value).build());
     }
 
     public int getData()
@@ -44,7 +45,12 @@ public class EventAsyncWindowAction extends EventAsyncWindow<PacketC2sWindowActi
     }
     public void setData(int value)
     {
-        this.getPacket().setData(value);
+        this.getPacketEvent().setPacket(PacketC2sWindowAction.builder().from(this.getPacket()).data(value).build());
+    }
+
+    public WindowAction getAction()
+    {
+        return new WindowAction(this.getPlayer(), this.getSlotIndex(), this.getActionType(), this.getData());
     }
 
     @Override

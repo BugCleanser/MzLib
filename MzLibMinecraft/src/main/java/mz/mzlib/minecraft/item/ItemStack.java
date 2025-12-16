@@ -405,6 +405,8 @@ public interface ItemStack extends WrapperObject
         if(!(object instanceof ItemStack))
             return false;
         ItemStack that = (ItemStack) object;
+        if(this.getWrapped() == that.getWrapped())
+            return true;
         if(this.isEmpty() && that.isEmpty())
             return true;
         if(this.isEmpty() || that.isEmpty())

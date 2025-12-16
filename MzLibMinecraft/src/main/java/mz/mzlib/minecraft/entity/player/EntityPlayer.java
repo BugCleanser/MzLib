@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.entity.player;
 
 import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
+import mz.mzlib.minecraft.incomprehensible.network.WindowSyncHandlerV1700;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.MessageTypeV1200_1900;
 import mz.mzlib.minecraft.network.ServerCommonNetworkHandlerV2002;
@@ -135,4 +136,8 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     {
         this.getCurrentWindow().updateV1700();
     }
+
+    @VersionRange(begin = 1700)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "screenHandlerSyncHandler"))
+    WindowSyncHandlerV1700 getWindowSyncHandlerV1700();
 }

@@ -44,7 +44,7 @@ public class UiWindow extends UiAbstractWindow
     }
 
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
-    public Map<Integer, Consumer<EventAsyncPlayerDisplayItemInWindow<?>>> icons = new ConcurrentHashMap<>();
+    public Map<Integer, Consumer<EventAsyncPlayerDisplayItemInWindow>> icons = new ConcurrentHashMap<>();
     public Map<Integer, ButtonHandler> buttons = new HashMap<>();
 
     public WindowType getWindowType()
@@ -79,7 +79,7 @@ public class UiWindow extends UiAbstractWindow
         this.inventory.setItemStack(index, itemStack);
     }
 
-    public void putIcon0(int index, Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon)
+    public void putIcon0(int index, Consumer<EventAsyncPlayerDisplayItemInWindow> icon)
     {
         this.icons.put(index, icon);
     }
@@ -146,11 +146,6 @@ public class UiWindow extends UiAbstractWindow
 
     public void onAction(WindowUiWindow window, WindowAction action)
     {
-        for(ControlHit hit : slot2point(action.getIndex()))
-        {
-            if(hit.enabled)
-                hit.control.onAction(action, hit.point);
-        }
         this.onAction(window, action.getIndex(), action.getData(), action.getType(), action.getPlayer());
     }
     /**
@@ -205,7 +200,7 @@ public class UiWindow extends UiAbstractWindow
                     window.castTo(WindowUiWindow.FACTORY).getUi().onPlayerClose(event.getPlayer());
                 })
             ));
-            this.register(new EventListener<>(
+            this.register(new EventListener<>( // fuck V_1700
                 EventAsyncWindowAction.class,
                 event -> event.sync(() ->
                 {
@@ -218,6 +213,11 @@ public class UiWindow extends UiAbstractWindow
                     ButtonHandler button = ui.buttons.get(event.getSlotIndex());
                     if(button != null)
                         button.onClick(event.getPlayer(), event.getActionType(), event.getData());
+                    for(ControlHit hit : ui.slot2point(event.getSlotIndex()))
+                    {
+                        if(hit.enabled)
+                            hit.control.onAction(event.getAction(), hit.point);
+                    }
                 })
             ));
             this.register(new EventListener<>(
@@ -229,7 +229,7 @@ public class UiWindow extends UiAbstractWindow
                     for(WindowUiWindow window : event.getPlayer().getWindow(event.getSyncId())
                         .asOption(WindowUiWindow.FACTORY))
                     {
-                        for(Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon : Option.fromNullable(
+                        for(Consumer<EventAsyncPlayerDisplayItemInWindow> icon : Option.fromNullable(
                             window.getUi().icons.get(event.getSlotIndex())))
                         {
                             icon.accept(event);

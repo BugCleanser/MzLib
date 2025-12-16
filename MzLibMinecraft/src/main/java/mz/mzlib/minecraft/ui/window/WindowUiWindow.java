@@ -57,14 +57,14 @@ public interface WindowUiWindow extends WindowAbstract
     EntityPlayerAbstract getPlayer();
 
     @PropAccessor("player")
-    void setPlayer(EntityPlayerAbstract value);
+    void setPlayer(EntityPlayerAbstract value); // TODO: cast to EntityPlayer
 
     static WindowUiWindow newInstance0(WindowType type, int syncId)
     {
         return FACTORY.getStatic().static$newInstance0(type, syncId);
     }
 
-    static WindowUiWindow newInstance(UiWindow uiWindow, EntityPlayerAbstract player, int syncId)
+    static WindowUiWindow newInstance(UiWindow uiWindow, EntityPlayer player, int syncId)
     {
         WindowUiWindow result = newInstance0(uiWindow.windowType, syncId);
         result.setUi(uiWindow);

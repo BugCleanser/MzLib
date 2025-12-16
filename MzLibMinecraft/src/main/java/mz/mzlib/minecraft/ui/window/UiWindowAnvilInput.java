@@ -68,7 +68,7 @@ public abstract class UiWindowAnvilInput extends UiWindowAnvil
             this.text = name.substring(this.prefix.length());
         else
         {
-            Consumer<EventAsyncPlayerDisplayItemInWindow<?>> icon = this.icons.get(0);
+            Consumer<EventAsyncPlayerDisplayItemInWindow> icon = this.icons.get(0);
             this.putIcon(0, p -> ItemStack.empty());
             player.getCurrentWindow().sendSlotUpdate(player, 0);
             this.putIcon0(0, icon);
