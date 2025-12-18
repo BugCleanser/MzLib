@@ -1,12 +1,11 @@
 package mz.mzlib.minecraft.event.player.async;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import mz.mzlib.Priority;
 import mz.mzlib.event.Cancellable;
 import mz.mzlib.event.EventListener;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.fastutil.Int2ObjectMapV900;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
@@ -286,9 +285,9 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                             this.cachePlayer).get(packetEvent.getPlayer().unwrap());
                         if(map == null)
                             return;
-                        Int2ObjectMap<Object> modified0 = new Int2ObjectOpenHashMap<>();
+                        Int2ObjectMapV900<Object> modified0 = Int2ObjectMapV900.openHash();
                         Map<Integer, WrapperObject> modified = new MapProxy<>(
-                            modified0, FunctionInvertible.identity(),
+                            modified0.getWrapped(), FunctionInvertible.identity(),
                             FunctionInvertible.wrapper(WrapperObject.FACTORY)
                         );
                         for(Map.Entry<Integer, ? extends WrapperObject> entry : packetEvent.getPacket()
@@ -301,8 +300,18 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                             else
                                 modified.put(entry.getKey(), handler.identifierNone());
                         }
+                        WrapperObject cursor;
+                        {
+                            Pair<ItemStack, ItemStack> pair = map.get(-1);
+                            if(pair != null &&
+                                handler.identify(packetEvent.getPacket().getCursorV1700(), pair.getSecond()))
+                                cursor = handler.identifier(pair.getFirst());
+                            else
+                                cursor = handler.identifierNone();
+                        }
                         packetEvent.setPacket(PacketC2sWindowAction.builder().from(packetEvent.getPacket())
                             .modified0V1700(modified0)
+                            .cursorV1700(cursor)
                             .build());
                     }
                 }

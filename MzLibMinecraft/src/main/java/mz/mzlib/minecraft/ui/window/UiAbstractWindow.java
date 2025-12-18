@@ -68,7 +68,7 @@ public abstract class UiAbstractWindow implements Ui
         enabled &= base.isEnabled();
         for(UiWindowControl child : base.getChildren())
         {
-            if(!base.isVisible())
+            if(!child.isVisible())
                 continue;
             Rectangle bounds = child.getBounds();
             if(bounds.contains(point))

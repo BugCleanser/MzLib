@@ -22,6 +22,8 @@ public class ModuleItemDisplaySign extends MzModule
 
     public void handle(EventAsyncPlayerDisplayItem event)
     {
+        if(event.getItemStack().isEmpty())
+            return;
         for(NbtCompound customData : Item.CUSTOM_DATA.get(event.getItemStack()))
         {
             if(customData.getByte("mz_display").unwrapOr((byte) 0) != 1)

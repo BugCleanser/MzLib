@@ -150,9 +150,11 @@ public interface WindowSlotButton extends WindowSlot
 
 = 内部细节
 
-== 客户端
+== TODO
 
-1.17前，打开一个窗口始终会使鼠标移动到客户端中央，即使鼠标未被锁定
+在版本[1.14, 1.17)，打开一个窗口始终会使鼠标移动到客户端中央，即使鼠标未被锁定
+
+此为服务端特性导致，我们暂未修复
 
 == action
 

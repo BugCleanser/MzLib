@@ -1,8 +1,8 @@
 package mz.mzlib.minecraft.network.packet.c2s.play;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.fastutil.Int2ObjectMapV900;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.window.WindowActionType;
@@ -84,6 +84,9 @@ public interface PacketC2sWindowAction extends Packet
     @VersionRange(begin = 1700)
     Map<Integer, ? extends WrapperObject> getModifiedV1700();
 
+    WrapperObject getCursorV1700();
+
+    @SpecificImpl("getCursorV1700")
     @VersionRange(begin = 1700, end = 2105)
     @WrapMinecraftMethod(@VersionName(name = "method_12190"/*getStack*/))
     ItemStack getCursorV1700_2105();
@@ -93,14 +96,14 @@ public interface PacketC2sWindowAction extends Packet
     default Map<Integer, ItemStack> getModifiedV1700_2105()
     {
         return new MapProxy<>(
-            this.getModified0V1700(), FunctionInvertible.identity(), FunctionInvertible.wrapper(ItemStack.FACTORY));
+            this.getModified0V1700().getWrapped(), FunctionInvertible.identity(), FunctionInvertible.wrapper(ItemStack.FACTORY));
     }
     @SpecificImpl("getModifiedV1700")
     @VersionRange(begin = 2105)
     default Map<Integer, ItemStackHashV2105> getModifiedV2105()
     {
         return new MapProxy<>(
-            this.getModified0V1700(), FunctionInvertible.identity(),
+            this.getModified0V1700().getWrapped(), FunctionInvertible.identity(),
             FunctionInvertible.wrapper(ItemStackHashV2105.FACTORY)
         );
     }
@@ -108,8 +111,9 @@ public interface PacketC2sWindowAction extends Packet
     @WrapMinecraftMethod(
         { @VersionName(name = "method_34678", end = 2105), @VersionName(name = "comp_3847", begin = 2105) }
     )
-    Int2ObjectMap<Object> getModified0V1700();
+    Int2ObjectMapV900<Object> getModified0V1700();
 
+    @SpecificImpl("getCursorV1700")
     @VersionRange(begin = 2105)
     @WrapMinecraftMethod(@VersionName(name = "cursor"))
     ItemStackHashV2105 getCursorV2105();
@@ -118,6 +122,7 @@ public interface PacketC2sWindowAction extends Packet
     {
         return new Builder();
     }
+    @SuppressWarnings("UnusedReturnValue")
     class Builder
     {
         public Builder()
@@ -134,10 +139,9 @@ public interface PacketC2sWindowAction extends Packet
         int data;
         short actionIdV_1700;
         ItemStack itemStackV_1700;
-        Int2ObjectMap<Object> modified0V1700;
+        Int2ObjectMapV900<Object> modified0V1700;
         int revisionV1701;
-        ItemStack cursorV1700_2105;
-        ItemStackHashV2105 cursorV2105;
+        WrapperObject cursorV1700;
         public Builder syncId(int value)
         {
             this.syncId = value;
@@ -168,7 +172,7 @@ public interface PacketC2sWindowAction extends Packet
             this.itemStackV_1700 = value;
             return this;
         }
-        public Builder modified0V1700(Int2ObjectMap<Object> value)
+        public Builder modified0V1700(Int2ObjectMapV900<Object> value)
         {
             this.modified0V1700 = value;
             return this;
@@ -178,15 +182,26 @@ public interface PacketC2sWindowAction extends Packet
             this.revisionV1701 = value;
             return this;
         }
+        public Builder cursorV1700(WrapperObject value)
+        {
+            this.cursorV1700 = value;
+            return this;
+        }
         public Builder cursorV1700_2105(ItemStack value)
         {
-            this.cursorV1700_2105 = value;
-            return this;
+            return this.cursorV1700(value);
         }
         public Builder cursorV2105(ItemStackHashV2105 value)
         {
-            this.cursorV2105 = value;
-            return this;
+            return this.cursorV1700(value);
+        }
+        public ItemStack getCursorV1700_2105()
+        {
+            return (ItemStack) this.cursorV1700;
+        }
+        public ItemStackHashV2105 getCursorV2105()
+        {
+            return (ItemStackHashV2105) this.cursorV1700;
         }
         public PacketC2sWindowAction build()
         {
@@ -276,7 +291,7 @@ public interface PacketC2sWindowAction extends Packet
     {
         return this.static$of0V1700_1701(
             builder.syncId, builder.slotIndex, builder.data, builder.actionType,
-            builder.cursorV1700_2105, builder.modified0V1700
+            builder.getCursorV1700_2105(), builder.modified0V1700
         );
     }
     @VersionRange(begin = 1700, end = 1701)
@@ -287,7 +302,7 @@ public interface PacketC2sWindowAction extends Packet
         int data,
         WindowActionType actionType,
         ItemStack cursor,
-        Int2ObjectMap<Object> modified0);
+        Int2ObjectMapV900<Object> modified0);
     @SpecificImpl("accept")
     @VersionRange(begin = 1700, end = 1701)
     default void acceptV1700_1701(Builder builder)
@@ -297,7 +312,7 @@ public interface PacketC2sWindowAction extends Packet
         builder.data = this.getData();
         builder.actionType = this.getActionType();
         builder.modified0V1700 = this.getModified0V1700();
-        builder.cursorV1700_2105 = this.getCursorV1700_2105();
+        builder.cursorV1700_2105(this.getCursorV1700_2105());
     }
 
     @SpecificImpl("static$of")
@@ -306,7 +321,7 @@ public interface PacketC2sWindowAction extends Packet
     {
         return this.static$of0V1701_2105(
             builder.syncId, builder.revisionV1701, builder.slotIndex, builder.data, builder.actionType,
-            builder.cursorV1700_2105, builder.modified0V1700
+            builder.getCursorV1700_2105(), builder.modified0V1700
         );
     }
     @VersionRange(begin = 1701, end = 2105)
@@ -318,7 +333,7 @@ public interface PacketC2sWindowAction extends Packet
         int data,
         WindowActionType actionType,
         ItemStack cursor,
-        Int2ObjectMap<Object> modified0);
+        Int2ObjectMapV900<Object> modified0);
     @SpecificImpl("accept")
     @VersionRange(begin = 1701, end = 2105)
     default void acceptV1701_2105(Builder builder)
@@ -329,7 +344,7 @@ public interface PacketC2sWindowAction extends Packet
         builder.data = this.getData();
         builder.actionType = this.getActionType();
         builder.modified0V1700 = this.getModified0V1700();
-        builder.cursorV1700_2105 = this.getCursorV1700_2105();
+        builder.cursorV1700_2105(this.getCursorV1700_2105());
     }
 
     @SpecificImpl("static$of")
@@ -338,7 +353,7 @@ public interface PacketC2sWindowAction extends Packet
     {
         return this.static$of0V2105(
             builder.syncId, builder.revisionV1701, (short) builder.slotIndex,
-            (byte) builder.data, builder.actionType, builder.modified0V1700, builder.cursorV2105
+            (byte) builder.data, builder.actionType, builder.modified0V1700, builder.getCursorV2105()
         );
     }
     @VersionRange(begin = 2105)
@@ -349,7 +364,7 @@ public interface PacketC2sWindowAction extends Packet
         short slotIndex,
         byte data,
         WindowActionType actionType,
-        Int2ObjectMap<Object> modified0,
+        Int2ObjectMapV900<Object> modified0,
         ItemStackHashV2105 cursor);
     @SpecificImpl("accept")
     @VersionRange(begin = 2105)
@@ -361,6 +376,6 @@ public interface PacketC2sWindowAction extends Packet
         builder.data = (byte) this.getData();
         builder.actionType = this.getActionType();
         builder.modified0V1700 = this.getModified0V1700();
-        builder.cursorV2105 = this.getCursorV2105();
+        builder.cursorV2105(this.getCursorV2105());
     }
 }

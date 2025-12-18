@@ -236,7 +236,7 @@ public interface IngredientVanilla extends WrapperObject, Predicate<ItemStack>
     @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
     Stream<Object> getMatchingItems0V2104();
 
-    @VersionRange(end = 2102)
+    @VersionRange(begin = 1200, end = 2102)
     @WrapMinecraftFieldAccessor(
         {
             @VersionName(name = "field_15681", end = 1400),

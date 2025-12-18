@@ -254,35 +254,42 @@ public class UiWindowList<T> extends UiWindowControlReadOnly
             this.buttonNextLast = value;
             return this;
         }
-        public UiWindowControl build()
+        public Overlapped<T> build()
         {
-            this.controlBuilder.bounds(new Rectangle(0, 1, this.bounds.width, this.bounds.height - 2));
-            UiWindowControl result = new UiWindowControlReadOnly(this.bounds);
-            result.setBackground(this.background);
-            result.addChild(UiWindowUtil.buttonBack(new Point(0, 0)));
-            UiWindowControl buttonPrev, buttonNext;
-            UiWindowList<T> controlList = this.controlBuilder.build();
-            result.addChild(buttonPrev = new UiWindowButton(
-                new Point(2, this.bounds.height - 1),
+            return new Overlapped<>(this);
+        }
+    }
+    public static class Overlapped<T> extends UiWindowControlReadOnly
+    {
+        public UiWindowButton buttonBack, buttonPrev, buttonNext;
+        public UiWindowList<T> controlList;
+        public Overlapped(OverlappedBuilder<T> builder)
+        {
+            super(builder.bounds);
+            this.setBackground(builder.background);
+            this.addChild(this.buttonBack = UiWindowUtil.buttonBack(new Point(0, 0)));
+            builder.controlBuilder.bounds(new Rectangle(0, 1, builder.bounds.width, builder.bounds.height - 2));
+            this.addChild(this.buttonPrev = new UiWindowButton(
+                new Point(2, builder.bounds.height - 1),
                 player -> ItemStack.builder().playerHead().texturesUrl(
                         "https://textures.minecraft.net/texture/69ea1d86247f4af351ed1866bca6a3040a06c68177c78e42316a1098e60fb7d3")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.prev")).build(),
                 action -> controlList.setPage(Math.max(0, controlList.getPage() - 1))
             ));
-            result.addChild(buttonNext = new UiWindowButton(
-                new Point(6, this.bounds.height - 1),
+            this.addChild(this.buttonNext = new UiWindowButton(
+                new Point(6, builder.bounds.height - 1),
                 player -> ItemStack.builder().playerHead().texturesUrl(
                         "https://textures.minecraft.net/texture/8271a47104495e357c3e8e80f511a9f102b0700ca9b88e88b795d33ff20105eb")
                     .customName(MinecraftI18n.resolveText(player, "mzlib.ui.list.next")).build(),
                 action -> controlList.setPage(Math.min(controlList.getPageCount() - 1, controlList.getPage() + 1))
             ));
-            if(!this.buttonPrevFirst)
-                controlList.listenPageChanged(control -> buttonPrev.setVisible(control.getPage() > 0));
-            if(!this.buttonNextLast)
-                controlList.listenPageChanged(
-                    control -> buttonNext.setVisible(control.getPage() < control.getPageCount() - 1));
-            result.addChild(controlList);
-            return result;
+            if(!builder.buttonPrevFirst)
+                builder.controlBuilder.listenerPageChanged(
+                    control -> this.buttonPrev.setVisible(control.getPage() > 0));
+            if(!builder.buttonNextLast)
+                builder.controlBuilder.listenerPageChanged(
+                    control -> this.buttonNext.setVisible(control.getPage() < control.getPageCount() - 1));
+            this.addChild(this.controlList = builder.controlBuilder.build());
         }
     }
 
