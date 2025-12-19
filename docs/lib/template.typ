@@ -1,6 +1,6 @@
-#import "meta.typ";
+#import "./meta.typ";
 
-#import "content.typ";
+#import "./content.typ";
 #import content: *;
 
 #let template(con, sidebar: true, title: none) = [
@@ -17,7 +17,7 @@
     };
     #if sidebar {
         importScript("sidebar.js", "lib/");
-        customElem("sidebar-component")[];
+        html_elem("sidebar-component")[];
     };
     #import "catalogue.typ";
     #html_elem("main")[

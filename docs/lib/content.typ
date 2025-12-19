@@ -56,10 +56,7 @@
 
 #let hr = html_elem("hr")[];
 
-#importScript("content.js", "lib/");
-#let customElem(name, content, attrs: (:)) = html_elem("div", content, attrs: ("element-name": name)+attrs);
-
 #importScript("card.js", "lib/");
-#let cardInfo(content) = customElem("card-info", content);
-#let cardTip(content) = customElem("card-tip", content);
-#let cardAttention(content) = customElem("card-attention", content);
+#let cardInfo(content) = html_elem("card-info", content);
+#let cardTip(content) = html_elem("card-tip", content);
+#let cardAttention(content) = html_elem("card-attention", content);
