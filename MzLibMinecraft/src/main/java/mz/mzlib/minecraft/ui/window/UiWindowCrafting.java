@@ -16,9 +16,9 @@ public class UiWindowCrafting extends UiWindow
     public UiWindowCrafting(Inventory inventory)
     {
         super(WindowType.CRAFTING, inventory);
-        this.registerRegion(this.regionInput = UiWindowRegion.rect(new Dimension(3, 3), 1));
-        this.registerRegion(this.regionOutput = UiWindowRegion.rect(new Dimension(1, 1), 0));
-        this.registerRegion(this.regionPlayer = UiWindowRegion.rect(new Dimension(9, 4), 10));
+        this.addRegion(this.regionInput = UiWindowRegion.rect(new Dimension(3, 3), 1));
+        this.addRegion(this.regionOutput = UiWindowRegion.rect(new Dimension(1, 1), 0));
+        this.addRegion(this.regionPlayer = UiWindowRegion.rect(new Dimension(9, 4), 10));
     }
     public UiWindowCrafting()
     {

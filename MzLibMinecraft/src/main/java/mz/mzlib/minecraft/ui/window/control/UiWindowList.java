@@ -33,6 +33,11 @@ public class UiWindowList<T> extends UiWindowControlReadOnly
         this.adder = builder.adder;
         this.setBackground(builder.background);
         this.listenersPageChanged = builder.listenersPageChanged;
+    }
+
+    @Override
+    public void init()
+    {
         this.setPage(0);
     }
 

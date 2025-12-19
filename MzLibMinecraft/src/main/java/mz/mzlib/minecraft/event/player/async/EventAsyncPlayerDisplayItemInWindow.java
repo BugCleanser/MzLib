@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlayerDisplayItem
@@ -285,6 +286,15 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                             this.cachePlayer).get(packetEvent.getPlayer().unwrap());
                         if(map == null)
                             return;
+                        BiFunction<Integer, WrapperObject, WrapperObject> compute = (i, value) ->
+                        {
+                            Pair<ItemStack, ItemStack> pair = map.get(i);
+                            // FIXME: always sync
+//                            if(pair != null && handler.identify(value, pair.getSecond()))
+//                                return handler.identifier(pair.getFirst());
+//                            else
+                                return handler.identifierNone();
+                        };
                         Int2ObjectMapV900<Object> modified0 = Int2ObjectMapV900.openHash();
                         Map<Integer, WrapperObject> modified = new MapProxy<>(
                             modified0.getWrapped(), FunctionInvertible.identity(),
@@ -294,21 +304,9 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                             .getModifiedV1700()
                             .entrySet())
                         {
-                            Pair<ItemStack, ItemStack> pair = map.get(entry.getKey());
-                            if(pair != null && handler.identify(entry.getValue(), pair.getSecond()))
-                                modified.put(entry.getKey(), handler.identifier(pair.getFirst()));
-                            else
-                                modified.put(entry.getKey(), handler.identifierNone());
+                            modified.put(entry.getKey(), compute.apply(entry.getKey(), entry.getValue()));
                         }
-                        WrapperObject cursor;
-                        {
-                            Pair<ItemStack, ItemStack> pair = map.get(-1);
-                            if(pair != null &&
-                                handler.identify(packetEvent.getPacket().getCursorV1700(), pair.getSecond()))
-                                cursor = handler.identifier(pair.getFirst());
-                            else
-                                cursor = handler.identifierNone();
-                        }
+                        WrapperObject cursor = compute.apply(-1, packetEvent.getPacket().getCursorV1700());
                         packetEvent.setPacket(PacketC2sWindowAction.builder().from(packetEvent.getPacket())
                             .modified0V1700(modified0)
                             .cursorV1700(cursor)

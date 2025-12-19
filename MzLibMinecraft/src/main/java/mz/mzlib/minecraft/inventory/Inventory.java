@@ -8,6 +8,8 @@ import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.Objects;
+
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.inventory.Inventory"))
 public interface Inventory extends WrapperObject
 {
@@ -71,6 +73,56 @@ public interface Inventory extends WrapperObject
         for(int i = 0; i < size; i++)
         {
             this.setItemStack(i, ItemStack.empty());
+        }
+    }
+
+    default Slot slot(int index)
+    {
+        return new Slot(this, index);
+    }
+    class Slot
+    {
+        Inventory inventory;
+        int index;
+
+        public Slot(Inventory inventory, int index)
+        {
+            this.inventory = inventory;
+            this.index = index;
+        }
+
+        public Inventory getInventory()
+        {
+            return this.inventory;
+        }
+        public int getIndex()
+        {
+            return this.index;
+        }
+
+        public ItemStack get()
+        {
+            return this.getInventory().getItemStack(this.getIndex());
+        }
+        public void set(ItemStack itemStack)
+        {
+            this.getInventory().setItemStack(this.getIndex(), itemStack);
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(this.getInventory(), this.getIndex());
+        }
+        @Override
+        public boolean equals(Object o)
+        {
+            if(this == o)
+                return true;
+            if(!(o instanceof Slot))
+                return false;
+            Slot slot = (Slot) o;
+            return Objects.equals(this.getInventory(), slot.getInventory()) && this.getIndex() == slot.getIndex();
         }
     }
 }

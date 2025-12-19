@@ -12,7 +12,6 @@ import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.mzitem.MzItemIconPlaceholder;
 import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
@@ -86,7 +85,7 @@ public class UiWindow extends UiAbstractWindow
 
     public void putIcon(int index, Function<EntityPlayer, ItemStack> icon)
     {
-        this.putSlot(index, MzItemIconPlaceholder.slot);
+        this.putSlot(index, WindowSlotIcon::newInstance);
         this.putIcon0(index, event -> event.setItemStack(icon.apply(event.getPlayer())));
     }
     public void putIconEmpty(int index)

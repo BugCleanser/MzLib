@@ -32,10 +32,10 @@ public abstract class UiAbstractWindow implements Ui
     }
 
     List<UiWindowRegion> regions = new ArrayList<>();
-    public void registerRegion(UiWindowRegion region)
+    public void addRegion(UiWindowRegion region)
     {
-        region.setUi(this);
         this.regions.add(region);
+        region.init(this);
     }
 
     static class ControlHit

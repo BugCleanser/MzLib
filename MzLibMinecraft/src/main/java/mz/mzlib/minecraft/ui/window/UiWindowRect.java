@@ -14,7 +14,7 @@ public class UiWindowRect extends UiWindow
     public UiWindowRect(int rowsUpper, Inventory inventory)
     {
         super(WindowType.generic9x(rowsUpper), inventory);
-        this.registerRegion(this.region = UiWindowRegion.rect(new Dimension(9, rowsUpper + 4), 0));
+        this.addRegion(this.region = UiWindowRegion.rect(new Dimension(9, rowsUpper + 4), 0));
     }
     public UiWindowRect(int rowsUpper)
     {

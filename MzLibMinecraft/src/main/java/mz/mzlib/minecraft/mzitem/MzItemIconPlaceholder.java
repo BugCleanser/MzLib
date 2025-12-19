@@ -2,27 +2,13 @@ package mz.mzlib.minecraft.mzitem;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.MzLibMinecraft;
-import mz.mzlib.minecraft.inventory.Inventory;
-import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.ui.window.WindowSlotIcon;
-import mz.mzlib.minecraft.window.WindowSlot;
-
-import java.util.function.Supplier;
 
 @MzItemClass
 public interface MzItemIconPlaceholder extends MzItem
 {
     MzItemIconPlaceholder instance = RegistrarMzItem.instance.newMzItem(MzItemIconPlaceholder.class);
-    @SuppressWarnings("TrivialFunctionalExpressionUsage")
-    Inventory inventory = ((Supplier<Inventory>)()->
-    {
-        InventorySimple result = InventorySimple.newInstance(1);
-        result.setItemStack(0, instance);
-        return result;
-    }).get();
-    WindowSlot slot = WindowSlotIcon.newInstance(inventory, 0);
 
     @Override
     default ItemStack static$vanilla()

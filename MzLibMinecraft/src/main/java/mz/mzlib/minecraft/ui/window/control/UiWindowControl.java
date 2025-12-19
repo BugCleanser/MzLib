@@ -49,19 +49,46 @@ public class UiWindowControl
         this.setBounds(new Rectangle(this.getLocation(), size));
     }
 
-    Option<UiWindowControl> parent = Option.none();
+    public Point point2parent(Point point)
+    {
+        return new Point(point.x + this.getLocation().x, point.y + this.getLocation().y);
+    }
 
-    public Option<UiWindowControl> getParent()
+    UiAbstractWindow ui;
+    Option<? extends UiWindowControl> parent = Option.none();
+    public boolean isInitialized()
+    {
+        return this.ui != null;
+    }
+    public void init(UiAbstractWindow ui)
+    {
+        if(this.isInitialized())
+            throw new IllegalStateException("Already initialized");
+        this.ui = ui;
+        this.init();
+        for(UiWindowControl child : this.getChildren())
+        {
+            child.init(ui);
+        }
+    }
+    public void init()
+    {
+    }
+    public Option<? extends UiWindowControl> getParent()
     {
         return this.parent;
     }
-    public Option<? extends UiAbstractWindow> getUi()
+    public UiAbstractWindow getUi()
     {
-        for(UiWindowControl parent : this.getParent())
-        {
-            return parent.getUi();
-        }
-        return Option.none();
+        if(!this.isInitialized())
+            throw new IllegalStateException("Not initialized");
+        return this.ui;
+    }
+    public int getIndex(Point point)
+    {
+        if(!this.isInitialized())
+            throw new IllegalStateException("Not initialized");
+        return this.getParent().unwrap().getIndex(point2parent(point));
     }
 
     LinkedList<UiWindowControl> children = new LinkedList<>();
@@ -79,6 +106,8 @@ public class UiWindowControl
         }
         child.parent = Option.some(this);
         this.children.add(child);
+        if(this.isInitialized())
+            child.init(this.getUi());
     }
     public Iterable<UiWindowControl> getChildren()
     {
@@ -116,10 +145,7 @@ public class UiWindowControl
     Option<Rectangle> invalidRect = Option.none();
     public void invalidate(Rectangle rect)
     {
-        for(UiAbstractWindow ui : this.getUi())
-        {
-            ui.markDirty();
-        }
+        this.getUi().markDirty();
         for(Rectangle last : this.invalidRect)
         {
             this.invalidRect = Option.some(last.union(rect));
