@@ -143,6 +143,10 @@ public class UiWindowControl
     }
 
     Option<Rectangle> invalidRect = Option.none();
+    public Option<Rectangle> getInvalidRect()
+    {
+        return this.invalidRect;
+    }
     public void invalidate(Rectangle rect)
     {
         this.getUi().markDirty();

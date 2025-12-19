@@ -51,9 +51,7 @@
   "mzlib.commands.mzlib.lang.custom.arg.language": "语言",
 
   "mzlib.ui.button.back": "§d返回",
-  "mzlib.ui.list.lore.view": "§7左键 §b查看",
-  "mzlib.ui.list.lore.remove": "§7Shift+左键 §c移除",
-  "mzlib.ui.list.lore.insert": "§7右键 §a在此前插入",
+  "mzlib.ui.list.lore": "${view?'§7左键 §b查看\\n':''}${remove?'§7Shift+左键 §c移除\\n':''}${insert?'§7右键 §a在此前插入\\n':''}",
   "mzlib.ui.list.new": "§a新建",
   "mzlib.ui.list.append": "§a追加",
   "mzlib.ui.list.prev": "§b上一页",

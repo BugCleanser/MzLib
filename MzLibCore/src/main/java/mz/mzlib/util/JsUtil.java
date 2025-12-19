@@ -246,6 +246,7 @@ public class JsUtil
         public WF(Settings settings)
         {
             this.settings = settings;
+            this.setJavaPrimitiveWrap(false);
         }
 
         @Override

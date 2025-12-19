@@ -62,8 +62,9 @@ public class Demo extends MzModule
                         .size(new Dimension(9, 10))
                         .iconGetter(entry -> ItemStack.builder().fromId("stick").customName(
                             Text.literal(entry.getElement())).build())
-                        .viewer((entry -> entry.getPlayer().sendMessage(Text.literal(entry.getElement()))))
                         .adder(() -> "new")
+                        .remover()
+                        .viewer((entry -> entry.getPlayer().sendMessage(Text.literal(entry.getElement()))))
                         .build());
                     UiStack.get(context.getSource().getPlayer().unwrap()).go(ui);
 //                    UiStack.get(context.getSource().getPlayer().unwrap())

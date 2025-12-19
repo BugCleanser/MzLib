@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public abstract class UiAbstractWindow implements Ui
@@ -77,7 +78,7 @@ public abstract class UiAbstractWindow implements Ui
         return new ControlHit(base, point, enabled);
     }
 
-    static Set<UiAbstractWindow> uisDirty = new HashSet<>();
+    static Set<UiAbstractWindow> uisDirty = ConcurrentHashMap.newKeySet();
 
     public void markDirty()
     {
@@ -103,8 +104,52 @@ public abstract class UiAbstractWindow implements Ui
     @Override
     public void reopen()
     {
+        if(uisDirty.remove(this))
+            this.validate();
         Ui.super.reopen();
-        this.validate();
+    }
+
+    public void update(Set<Integer> indexes)
+    {
+        this.reopen();
+    }
+    Set<Integer> getInvalidIndexes()
+    {
+        Set<Integer> result = new HashSet<>();
+        for(UiWindowRegion region : this.regions)
+        {
+            for(Rectangle rect : getInvalidRect(region))
+            {
+                for(int i = 0; i < rect.width; i++)
+                {
+                    for(int j = 0; j < rect.height; j++)
+                    {
+                        result.add(region.getIndex(new Point(rect.x + i, rect.y + j)));
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    static Option<Rectangle> getInvalidRect(UiWindowControl control)
+    {
+        Option<Rectangle> result = control.getInvalidRect();
+        for(UiWindowControl child : control.getChildren())
+        {
+            Option<Rectangle> c = getInvalidRect(child);
+            for(Rectangle o : c)
+            {
+                Point loc = child.getLocation();
+                c = Option.some(new Rectangle(loc.x + o.x, loc.y + o.y, o.width, o.height));
+                for(Rectangle r : result)
+                {
+                    result = Option.some(r.union(o));
+                }
+                if(result.isNone())
+                    result = c;
+            }
+        }
+        return result;
     }
 
     public static class Module extends MzModule
@@ -119,23 +164,23 @@ public abstract class UiAbstractWindow implements Ui
             new AsyncFunction<Void>()
             {
                 @Override
-                public void run()
+                protected Void template()
                 {
                     for(;;)
                     {
                         for(UiAbstractWindow ui : uisDirty.toArray(new UiAbstractWindow[0]))
                         {
+                            Set<Integer> indexes = ui.getInvalidIndexes();
                             ui.validate();
                             uisDirty.remove(ui);
-                            ui.reopen(); // TODO
+                            ui.update(indexes);
                         }
                         await(new SleepTicks(1L));
                     }
                 }
                 @Override
-                protected Void template()
+                public void run()
                 {
-                    return null;
                 }
             }.start(runner);
 

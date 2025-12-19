@@ -12,12 +12,14 @@ import mz.mzlib.minecraft.event.window.async.EventAsyncWindowClose;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventorySimple;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.minecraft.window.*;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -40,6 +42,18 @@ public class UiWindow extends UiAbstractWindow
     public UiWindow(WindowType windowType)
     {
         this(windowType, windowType.upperSize);
+    }
+
+    @Override
+    public void update(Set<Integer> indexes)
+    {
+        for(EntityPlayer viewer : UiStack.getViewers(this))
+        {
+            for(int index : indexes)
+            {
+                viewer.getCurrentWindow().sendSlotUpdate(viewer, index);
+            }
+        }
     }
 
     public Map<Integer, BiFunction<Inventory, Integer, WindowSlot>> slots = new HashMap<>();
