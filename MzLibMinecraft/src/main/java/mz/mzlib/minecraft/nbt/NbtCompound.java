@@ -20,9 +20,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 @WrapMinecraftClass({
-    @VersionName(end = 1400, name = "net.minecraft.nbt.NbtCompound"),
-    @VersionName(begin = 1400, end = 1605, name = "net.minecraft.nbt.CompoundTag"),
-    @VersionName(begin = 1605, name = "net.minecraft.nbt.NbtCompound")
+    @VersionName(name = "net.minecraft.nbt.NbtCompound", end = 1400),
+    @VersionName(name = "net.minecraft.nbt.CompoundTag", begin = 1400, end = 1605),
+    @VersionName(name = "net.minecraft.nbt.NbtCompound", begin = 1605)
 })
 public interface NbtCompound extends NbtElement
 {

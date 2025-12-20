@@ -1,6 +1,6 @@
 #import "meta.typ";
 
-#let isHtml = "html" in dictionary(std);
+#let isHtml = "html" in std;
 #let sequence = [].func();
 
 #let contentToString(con) = {
@@ -57,6 +57,7 @@
 #let hr = html_elem("hr")[];
 
 #importScript("card.js", "lib/");
-#let cardInfo(content) = html_elem("card-info", content);
-#let cardTip(content) = html_elem("card-tip", content);
-#let cardAttention(content) = html_elem("card-attention", content);
+#let card(kind, con) = if isHtml {html_elem("card-"+kind, con)} else [/ [#kind]: #con];
+#let cardInfo = card.with("info");
+#let cardTip = card.with("tip");
+#let cardAttention = card.with("attention");

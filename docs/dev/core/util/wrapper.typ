@@ -1,8 +1,7 @@
-#import "../../../lib/lib.typ": *;
-
-#let title = [包装类]
-
-#show: template.with(title: title)
+#import "/lib/lib.typ": *;
+#set raw(lang: "java");
+#let title = [包装器];
+#show: template.with(title: title);
 
 
 
@@ -186,3 +185,19 @@ ExampleWrapper staticNewInstance();
 ```
 
 构造器如此，静态方法和静态字段的访问器也是同理
+
+= 为何它能高效运行
+
+几乎每次使用包装器都要拆装箱，这看起来很糟糕，但实际上系统能够高效运行
+
+- *JIT逃逸分析*
+
+    包装器全程没有使用反射或native等黑箱操作。对于简单生命周期的对象，JIT很可能分析出它没有逃逸，并至少优化为栈上分配内存
+
+- *年轻代GC*
+
+    对于短周期对象，GC器有特殊优化并能及时回收内存
+
+- *无锁内存分配*
+
+    JVM会预先给每个线程分配一块内存，以便随时快速地分配给小对象

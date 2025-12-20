@@ -54,6 +54,8 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     @WrapMinecraftFieldAccessor(@VersionName(name = "networkHandler"))
     ServerPlayNetworkHandler getNetworkHandler();
 
+    @VersionRange(end = 1600)
+    @VersionRange(begin = 2002)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "language", end = 1400),
         @VersionName(name = "clientLanguage", begin = 1400, end = 1600),

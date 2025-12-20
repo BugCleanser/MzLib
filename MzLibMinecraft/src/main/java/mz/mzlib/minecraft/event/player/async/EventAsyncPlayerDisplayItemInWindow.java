@@ -19,14 +19,10 @@ import mz.mzlib.minecraft.window.sync.TrackedSlotV2105;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.Pair;
 import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -191,9 +187,9 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
 
         Map<EntityPlayer, Integer> cacheSyncId = new MapProxy<>(
             new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
-        Map<EntityPlayer, Map<Integer, Pair</*original*/ItemStack, ItemStack>>> cache = new MapProxy<>(
+        Map<EntityPlayer, Set<Integer>> cache = new MapProxy<>(
             new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
-        Map<EntityPlayer, Map<Integer, Pair</*original*/ItemStack, ItemStack>>> cachePlayer = new MapProxy<>(
+        Map<EntityPlayer, Set<Integer>> cachePlayer = new MapProxy<>(
             new WeakHashMap<>(), FunctionInvertible.wrapper(EntityPlayer.FACTORY), FunctionInvertible.identity());
 
         @Override
@@ -205,6 +201,8 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                 {
                     if(Option.some(event).filter(Cancellable.class).map(Cancellable::isCancelled).unwrapOr(false))
                         return;
+                    if(event.getItemStack().getWrapped() == event.getOriginal().getWrapped())
+                        return;
                     synchronized(ModuleSyncV1700.this)
                     {
                         if(event.getSyncId() > 0)
@@ -212,8 +210,8 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                                 this.cacheSyncId.put(event.getPlayer(), event.getSyncId()), event.getSyncId()))
                                 this.cache.remove(event.getPlayer());
                         (event.getSyncId() > 0 ? this.cache : this.cachePlayer).computeIfAbsent(
-                                event.getPlayer(), k -> new HashMap<>())
-                            .put(event.getSlotIndex(), Pair.of(event.getOriginal(), event.getItemStack().clone0()));
+                                event.getPlayer(), k -> new HashSet<>())
+                            .add(event.getSlotIndex());
                     }
                 }
             ));
@@ -281,19 +279,17 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                             ))
                                 return;
                         Handler handler = handlerFactory.apply(packetEvent.getPlayer().unwrap());
-                        Map<Integer, Pair<ItemStack, ItemStack>> map = (packetEvent.getPacket().getSyncId() > 0 ?
+                        Set<Integer> set = (packetEvent.getPacket().getSyncId() > 0 ?
                             this.cache :
                             this.cachePlayer).get(packetEvent.getPlayer().unwrap());
-                        if(map == null)
+                        if(set == null)
                             return;
                         BiFunction<Integer, WrapperObject, WrapperObject> compute = (i, value) ->
                         {
-                            Pair<ItemStack, ItemStack> pair = map.get(i);
-                            // FIXME: always sync
-//                            if(pair != null && handler.identify(value, pair.getSecond()))
-//                                return handler.identifier(pair.getFirst());
-//                            else
+                            if(set.contains(i))
                                 return handler.identifierNone();
+                            else
+                                return value;
                         };
                         Int2ObjectMapV900<Object> modified0 = Int2ObjectMapV900.openHash();
                         Map<Integer, WrapperObject> modified = new MapProxy<>(

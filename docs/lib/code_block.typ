@@ -11,7 +11,7 @@
     "vue": "vuejs"
 );
 
-#let template(content) = [
+#let template(con) = if not isHtml {con} else [
     #show raw.where(block: false): r => html_elem("code", attrs: (class: "language-"+r.lang), r.text);
     #show raw.where(block: true): r => html_elem("div", attrs: (class: "code-block"))[
         #html_elem("div", attrs: (class: "code-header"))[
@@ -31,5 +31,5 @@
     #html_elem("script", attrs: (src: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"))[];
     #importStyle("code_block.css", "lib/");
     #importScript("code_block.js", "lib/");
-    #content;
+    #con;
 ];
