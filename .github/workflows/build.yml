@@ -35,9 +35,24 @@ jobs:
           path: out/*.jar
           retention-days: 90
 
-      - name: Release
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: out/
+      - name: Prerelease
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        if:  contains(github.ref_name, '-beta')
         with:
           prerelease: true
+          files: out/*.jar
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: !contains(github.ref_name, '-beta')
+        with:
+          prerelease: false
           files: out/*.jar
