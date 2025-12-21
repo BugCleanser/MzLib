@@ -1,9 +1,7 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import java.time.Instant
-
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    `maven-publish`
 }
 
 val outputDir = File(rootProject.projectDir, "out")
@@ -63,7 +61,7 @@ tasks.register("generateMeta") {
         generateFileTree(deployDir, "", true, builder)
         deployMetaFile.appendText(builder.toString())
         deployMetaFile.appendText(";")
-        println("✅ Generated meta file at: ${deployMetaFile}")
+        println("✅ Generated meta file at: $deployMetaFile")
     }
 }
 
@@ -187,50 +185,9 @@ tasks.register("buildDocs") {
     dependsOn("validateDeploy")
 }
 
-// === 任务：生成源代码jar包 ===
-tasks.register("createSourcesJar", Jar::class) {
-    group = "build"
-    description = "生成包含所有子项目源代码的jar包"
-
-    archiveClassifier.set("sources")
-    archiveBaseName.set("MzLib")
-    archiveVersion.set(version.toString())
-
-    // 设置输出目录
-    destinationDirectory.set(outputDir)
-
-    // 添加所有子项目的源代码
-    subprojects.forEach { subproject ->
-        // 添加主要源代码
-        subproject.sourceSets.forEach { sourceSet ->
-            from(sourceSet.allSource) {
-                // 保持原始目录结构
-                into("${subproject.name}/src/${sourceSet.name}")
-            }
-        }
-    }
-
-    // 确保manifest文件包含项目信息
-    manifest {
-        attributes(
-            "Implementation-Title" to "MzLib Sources",
-            "Implementation-Version" to version,
-            "Built-By" to System.getProperty("user.name"),
-            "Built-Date" to Instant.now().toString(),
-            "Build-Jdk" to System.getProperty("java.version"),
-            "Project-Name" to rootProject.name,
-            "Project-Version" to version
-        )
-    }
-}
-
-tasks.build {
-    dependsOn("createSourcesJar")
-}
-
 allprojects {
-    group = "mz.mzlib"
-    version = "10.0.1-beta-dev16"
+    group = "org.mzverse"
+    version = "10.0.1-beta.17"
 
     repositories {
         mavenCentral()
@@ -247,11 +204,15 @@ allprojects {
         //    maven("https://maven.fastmirror.net/repositories/minecraft/")
         //    maven("https://oss.sonatype.org/content/repositories/snapshots")
         //    maven("https://repo.maven.apache.org/maven2/")
+        maven {
+            url = uri(layout.buildDirectory.dir("repos"))
+        }
     }
 
     apply {
         plugin("java")
         plugin("com.github.johnrengelman.shadow")
+        plugin("maven-publish")
     }
 }
 
@@ -259,14 +220,13 @@ subprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        withSourcesJar()
     }
 
     tasks {
-        jar {
-            archiveClassifier.set("original")
-        }
         shadowJar {
-            archiveClassifier.set("")
+            archiveClassifier.set("all")
+            destinationDirectory.set(outputDir)
         }
         register<Copy>("copyBinaryResources") {
             from("src/main/resources") {
@@ -288,15 +248,45 @@ subprojects {
         withType<JavaCompile> {
             options.encoding = "UTF-8"
         }
-        register<Copy>("moveJarToOutputDir") {
-            val shadowJarTask = project.tasks.findByPath("shadowJar") as ShadowJar
-            from(shadowJarTask.outputs.files)
-            into(outputDir)
-        }
 
         build {
             dependsOn(shadowJar)
-            dependsOn("moveJarToOutputDir")
+        }
+    }
+    afterEvaluate {
+        if(extra.has("publishing")) {
+            publishing {
+                publications {
+                    create<MavenPublication>("release") {
+                        groupId = project.group.toString()
+                        artifactId = project.name
+                        version = project.version.toString()
+
+                        artifact(tasks["jar"])
+
+                        pom {
+
+                        }
+                    }
+                    create<MavenPublication>("snapshot") {
+                        groupId = project.group.toString()
+                        artifactId = project.name
+                        version = project.version.toString() + "-SNAPSHOT"
+
+                        artifact(tasks["jar"])
+
+                        pom {
+
+                        }
+                    }
+                }
+            }
+            tasks {
+                register("publishSnapshot") {
+                    group = "publishing"
+                    dependsOn(filterIsInstance<PublishToMavenRepository>().filter { it.publication.name == "snapshot" })
+                }
+            }
         }
     }
 }

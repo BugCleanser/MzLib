@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(":MzLibCore"))
+    implementation(project(":mzlib-core"))
     implementation("io.github.karlatemp:unsafe-accessor:1.6.0")
     implementation("org.mozilla:rhino:1.7.15")
     implementation("com.google.code.gson:gson:2.8.9")
@@ -12,3 +12,5 @@ dependencies {
     compileOnly("io.netty:netty-all:4.1.76.Final")
     compileOnly("net.luckperms:api:5.4")
 }
+
+ext["publishing"] = true

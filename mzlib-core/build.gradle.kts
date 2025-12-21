@@ -19,3 +19,5 @@ testing {
         }
     }
 }
+
+ext["publishing"] = true
