@@ -36,7 +36,14 @@ jobs:
           path: out/*.jar
           retention-days: 90
 
-      - name: Publish Package
+      - name: Publish Snapshot
+        run: ./gradlew publishSnapshot --no-daemon
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish
+        if: |
+          startsWith(github.ref, 'refs/tags/')
         run: ./gradlew publish --no-daemon
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -155,5 +155,5 @@ MzLibMinecraft/mappings
 /book
 /.run/
 
-deploy/
+/deploy/
 docs/lib/meta.typ

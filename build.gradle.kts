@@ -204,9 +204,6 @@ allprojects {
         //    maven("https://maven.fastmirror.net/repositories/minecraft/")
         //    maven("https://oss.sonatype.org/content/repositories/snapshots")
         //    maven("https://repo.maven.apache.org/maven2/")
-        maven {
-            url = uri(layout.buildDirectory.dir("repos"))
-        }
     }
 
     apply {
@@ -257,7 +254,7 @@ subprojects {
         if(extra.has("publishing")) {
             publishing {
                 publications {
-                    create<MavenPublication>("release") {
+                    var configuration: MavenPublication.() -> Unit = {
                         groupId = project.group.toString()
                         artifactId = project.name
                         version = project.version.toString()
@@ -268,15 +265,21 @@ subprojects {
 
                         }
                     }
+                    create<MavenPublication>("release", configuration)
                     create<MavenPublication>("snapshot") {
-                        groupId = project.group.toString()
-                        artifactId = project.name
+                        configuration.invoke(this)
                         version = project.version.toString() + "-SNAPSHOT"
-
-                        artifact(tasks["jar"])
-
-                        pom {
-
+                    }
+                }
+                repositories {
+                    if(System.getenv("CI") != null) {
+                        maven {
+                            name = "GitHubPackages"
+                            url = uri("https://maven.pkg.github.com/BugCleanser/MzLib")
+                            credentials {
+                                username = System.getenv("GITHUB_ACTOR")
+                                password = System.getenv("GITHUB_TOKEN")
+                            }
                         }
                     }
                 }
