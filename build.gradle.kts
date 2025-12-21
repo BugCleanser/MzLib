@@ -254,6 +254,7 @@ subprojects {
         }
         build {
             dependsOn(shadowJar)
+            dependsOn(publishToMavenLocal)
         }
     }
 
