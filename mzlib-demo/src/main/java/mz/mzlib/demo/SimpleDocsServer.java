@@ -30,7 +30,7 @@ public class SimpleDocsServer {
             if (res.succeeded()) {
                 System.out.println("✅ Server started successfully on port " + port);
                 System.out.println("📁 Serving deploy directory: " + deployDir);
-                System.out.println("🌐 Open http://localhost:" + port + "/MzLib/index.html in your browser");
+                System.out.println("🌐 Open http://localhost:" + port + "/mzlib/index.html in your browser");
                 System.out.println("⏹️  Press Ctrl+C to stop the server");
             } else {
                 System.err.println("Failed to start server: " + res.cause().getMessage());

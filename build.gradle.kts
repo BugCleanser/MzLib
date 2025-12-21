@@ -56,7 +56,7 @@ tasks.register("generateMeta") {
         val deployMetaFile = deployDir.resolve("lib/meta.typ")
         deployMetaFile.parentFile.mkdirs()
 
-        deployMetaFile.writeText("#let environment = \"production\";\n#let root = \"/MzLib/\";\n#let fileTree = ")
+        deployMetaFile.writeText("#let environment = \"production\";\n#let root = \"/mzlib/\";\n#let fileTree = ")
         val builder = StringBuilder()
         generateFileTree(deployDir, "", true, builder)
         deployMetaFile.appendText(builder.toString())
@@ -161,7 +161,7 @@ tasks.register("serveDocs") {
     group = "docs"
     description = "启动 HTTP 服务器预览 deploy 目录"
 
-    dependsOn("buildDocs", ":MzLibDemo:build")
+    dependsOn("buildDocs", ":mzlib-demo:build")
 
     doLast {
         val port = 8080
@@ -169,7 +169,7 @@ tasks.register("serveDocs") {
         // 使用 JavaExec 任务运行 SimpleDocsServer
         javaexec {
             mainClass.set("mz.mzlib.demo.SimpleDocsServer")
-            classpath = project(":MzLibDemo").sourceSets["main"].runtimeClasspath
+            classpath = project(":mzlib-demo").sourceSets["main"].runtimeClasspath
             args(deployDir.parent, port.toString())
             standardInput = System.`in`
             standardOutput = System.out
@@ -271,7 +271,7 @@ subprojects {
                         from(components["java"])
 
                         pom {
-                            url = "https://github.com/BugCleanser/MzLib"
+                            url = "https://github.com/mzverse/mzlib"
                             licenses {
                                 license {
                                     name.set("Mozilla Public License Version 2.0")
@@ -279,14 +279,14 @@ subprojects {
                                 }
                             }
                             scm {
-                                connection.set("scm:git:git://github.com/BugCleanser/MzLib.git")
-                                developerConnection.set("scm:git:ssh://github.com/BugCleanser/MzLib.git")
-                                url.set("https://github.com/BugCleanser/MzLib")
+                                connection.set("scm:git:git://github.com/mzverse/mzlib.git")
+                                developerConnection.set("scm:git:ssh://github.com/mzverse/mzlib.git")
+                                url.set("https://github.com/mzverse/mzlib")
                                 tag.set("v"+project.version)
                             }
                             issueManagement {
                                 system.set("GitHub Issues")
-                                url.set("https://github.com/BugCleanser/MzLib/issues")
+                                url.set("https://github.com/mzverse/mzlib/issues")
                             }
                         }
                     }
@@ -295,7 +295,7 @@ subprojects {
                     if(System.getenv("CI") != null) {
                         maven {
                             name = "GitHubPackages"
-                            url = uri("https://maven.pkg.github.com/BugCleanser/MzLib")
+                            url = uri("https://maven.pkg.github.com/mzverse/mzlib")
                             credentials {
                                 username = System.getenv("GITHUB_ACTOR")
                                 password = System.getenv("GITHUB_TOKEN")

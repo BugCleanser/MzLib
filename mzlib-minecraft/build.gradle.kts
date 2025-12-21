@@ -1,7 +1,7 @@
 dependencies {
     api(project(":mzlib-core"))
-    api("io.github.karlatemp:unsafe-accessor:1.6.0")
-    api("org.mozilla:rhino:1.7.15")
+    api("io.github.karlatemp:unsafe-accessor:1.7.0")
+    api("org.mozilla:rhino:1.7.15.1")
     api("com.google.code.gson:gson:2.8.9")
 
     compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")

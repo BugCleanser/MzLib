@@ -5,7 +5,7 @@ import java.nio.file.StandardCopyOption
 // === 定义基础路径 ===
 val docsDir = project.file("docs")
 // TODO("坏文明")
-val deployDir = project.file("deploy/MzLib")
+val deployDir = project.file("deploy/mzlib")
 val metaFile = project.file("docs/lib/meta.typ")
 
 // === 文件工具函数 ===
