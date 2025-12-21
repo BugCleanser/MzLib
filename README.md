@@ -15,13 +15,13 @@
 
 # 参见文档：https://mzverse.github.io/mzlib/
 
-依赖此项目
+# 依赖此项目
 
 确保你的环境变量中有GITHUB_USERNAME和GITHUB_TOKEN，并且token具有read:packages权限。
 
 [创建Token](https://github.com/settings/tokens/new)
 
-build.gradle:
+build.gradle.kts:
 ```kts
 repositories {
     maven("https://maven.pkg.github.com/mzverse/mzlib") {
@@ -36,13 +36,13 @@ repositories {
 依赖mzlib-minecraft：
 ```kts
 dependencies {
-    compileOnly("org.mzverse:mzlib-minecraft:10.0.1-beta.17-SNAPSHOT")
+    compileOnly("org.mzverse:mzlib-minecraft:latest.integration")
 }
 ```
 仅依赖mzlib-core：
 ```kts
 dependencies {
-    compileOnly("org.mzverse:mzlib-core:10.0.1-beta.17-SNAPSHOT")
+    compileOnly("org.mzverse:mzlib-core:latest.integration")
 }
 ```
 

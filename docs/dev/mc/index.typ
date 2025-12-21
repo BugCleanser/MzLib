@@ -5,6 +5,32 @@
 
 这里是MzLib-Minecraft的开发文档
 
+= 依赖mzlib-minecraft
+
+如果你要写mzlib-minecraft的下游程序（附属插件），依赖它
+
+对于初学者，直接下载-all.jar然后导入
+
+高手，请使用gradle(kts)导入，在build.gradle.kts中添加：
+
+```kts
+repositories {
+    maven("https://maven.pkg.github.com/mzverse/mzlib") {
+        credentials {
+            username = System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+dependencies {
+    compileOnly("org.mzverse:mzlib-minecraft:latest.integration")
+}
+```
+
+确保你的环境变量中有GITHUB_USERNAME和GITHUB_TOKEN，并且token具有read:packages权限。
+
+以上步骤依赖了最新快照版，仅依赖最新版请将"latest.integration"改为"latest.release"
+
 = 版本表示和名称约定
 
 为了简单起见，我们使用一个整数表示一个MC版本，即第二位版本号乘100加上第三位版本号

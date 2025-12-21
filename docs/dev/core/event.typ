@@ -1,12 +1,7 @@
-#import "../../lib/lib.typ": *
-
+#import "/lib/lib.typ": *
 #let title = [事件];
-
 #set raw(lang: "java");
-
 #show: template.with(title: title);
-
-
 
 = 注册事件类
 
