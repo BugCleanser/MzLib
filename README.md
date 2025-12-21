@@ -13,7 +13,38 @@
 
 <br>
 
-# 参见文档：https://bugcleanser.github.io/MzLib/
+# 参见文档：https://mzverse.github.io/mzlib/
+
+依赖此项目
+
+确保你的环境变量中有GITHUB_USERNAME和GITHUB_TOKEN，并且token具有read:packages权限。
+
+[创建Token](https://github.com/settings/tokens/new)
+
+build.gradle:
+```kts
+repositories {
+    maven("https://maven.pkg.github.com/mzverse/mzlib") {
+        credentials {
+            username = System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+```
+
+依赖mzlib-minecraft：
+```kts
+dependencies {
+    compileOnly("org.mzverse:mzlib-minecraft:10.0.1-beta.17-SNAPSHOT")
+}
+```
+仅依赖mzlib-core：
+```kts
+dependencies {
+    compileOnly("org.mzverse:mzlib-core:10.0.1-beta.17-SNAPSHOT")
+}
+```
 
 # 以下页面已过时
 ## 概述
