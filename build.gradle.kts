@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -220,11 +222,15 @@ subprojects {
         withSourcesJar()
     }
 
-    tasks {
-        shadowJar {
-            archiveClassifier.set("all")
-            destinationDirectory.set(outputDir)
+    components {
+        withType<AdhocComponentWithVariants> {
+            withVariantsFromConfiguration(configurations.shadowRuntimeElements.get()) {
+                skip() // 避免shadowJar被publish
+            }
         }
+    }
+
+    tasks {
         register<Copy>("copyBinaryResources") {
             from("src/main/resources") {
                 include("**/*.js")
@@ -245,30 +251,46 @@ subprojects {
         withType<JavaCompile> {
             options.encoding = "UTF-8"
         }
-
+        shadowJar {
+            destinationDirectory = outputDir
+        }
         build {
             dependsOn(shadowJar)
         }
     }
+
     afterEvaluate {
         if(extra.has("publishing")) {
             publishing {
                 publications {
-                    var configuration: MavenPublication.() -> Unit = {
+                    create<MavenPublication>("maven") {
                         groupId = project.group.toString()
                         artifactId = project.name
                         version = project.version.toString()
+                        if(System.getenv("RELEASE_TYPE") != "release")
+                            version += "-SNAPSHOT"
 
-                        artifact(tasks["jar"])
+                        from(components["java"])
 
                         pom {
-
+                            url = "https://github.com/BugCleanser/MzLib"
+                            licenses {
+                                license {
+                                    name.set("Mozilla Public License Version 2.0")
+                                    url.set("https://www.mozilla.org/en-US/MPL/2.0/")
+                                }
+                            }
+                            scm {
+                                connection.set("scm:git:git://github.com/BugCleanser/MzLib.git")
+                                developerConnection.set("scm:git:ssh://github.com/BugCleanser/MzLib.git")
+                                url.set("https://github.com/BugCleanser/MzLib")
+                                tag.set("v"+project.version)
+                            }
+                            issueManagement {
+                                system.set("GitHub Issues")
+                                url.set("https://github.com/BugCleanser/MzLib/issues")
+                            }
                         }
-                    }
-                    create<MavenPublication>("release", configuration)
-                    create<MavenPublication>("snapshot") {
-                        configuration.invoke(this)
-                        version = project.version.toString() + "-SNAPSHOT"
                     }
                 }
                 repositories {
@@ -282,12 +304,6 @@ subprojects {
                             }
                         }
                     }
-                }
-            }
-            tasks {
-                register("publishSnapshot") {
-                    group = "publishing"
-                    dependsOn(filterIsInstance<PublishToMavenRepository>().filter { it.publication.name == "snapshot" })
                 }
             }
         }
