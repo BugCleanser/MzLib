@@ -1,7 +1,5 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
-    id("java")
+    id("java-library")
     id("com.github.johnrengelman.shadow") version "8.1.1"
     `maven-publish`
 }
@@ -209,7 +207,7 @@ allprojects {
     }
 
     apply {
-        plugin("java")
+        plugin("java-library")
         plugin("com.github.johnrengelman.shadow")
         plugin("maven-publish")
     }
