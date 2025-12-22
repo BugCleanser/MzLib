@@ -1,15 +1,21 @@
 package mz.mzlib.minecraft.item;
 
 import mz.mzlib.data.DataKey;
-import mz.mzlib.minecraft.*;
+import mz.mzlib.i18n.I18n;
+import mz.mzlib.minecraft.Identifier;
+import mz.mzlib.minecraft.MinecraftServer;
+import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.ComponentMapDefaultedV2005;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV1300;
 import mz.mzlib.minecraft.datafixer.DataUpdateTypesV900_1300;
-import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.ActionResult;
+import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.Hand;
+import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.incomprehensible.TypedActionResultV900_2102;
 import mz.mzlib.minecraft.nbt.*;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
@@ -27,6 +33,8 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -68,7 +76,6 @@ public interface ItemStack extends WrapperObject
         Builder fromId(String idV_1300, int damageV_1300, String idV1300);
 
         <T> Builder data(DataKey<ItemStack, T, ?> key, T value);
-        StepLore lore();
 
         StepPlayerHead playerHead();
         Builder.StepColor colored(String idV_1300, String baseIdV1300);
@@ -94,10 +101,30 @@ public interface ItemStack extends WrapperObject
         {
             return this.customName(Text.literal("").setColor(TextColor.BLACK));
         }
+        StepLore lore();
+        default Builder i18n(String lang, String key)
+        {
+            this.customName(MinecraftI18n.resolveText(lang, key));
+            key += ".lore";
+            if(I18n.getSource(lang, key, null) != null)
+                this.lore()
+                    .lines(MinecraftI18n.resolveTexts(lang, key))
+                    .finish();
+            return this;
+        }
+        default Builder i18n(EntityPlayer player, String key)
+        {
+            return this.i18n(player.getLanguage(), key);
+        }
 
         interface StepLore
         {
             StepLore line(Text value);
+            StepLore lines(List<Text> values);
+            default StepLore lines(Text... values)
+            {
+                return this.lines(Arrays.asList(values));
+            }
             Builder finish();
             default ItemStack build()
             {

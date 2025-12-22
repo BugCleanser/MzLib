@@ -194,6 +194,12 @@ class ItemStackBuilderImpl implements ItemStack.Builder
             return this;
         }
         @Override
+        public ItemStack.Builder.StepLore lines(List<Text> values)
+        {
+            this.lines.addAll(values);
+            return this;
+        }
+        @Override
         public ItemStackBuilderImpl finish()
         {
             return this.base.data(Item.LORE, Option.some(this.lines));

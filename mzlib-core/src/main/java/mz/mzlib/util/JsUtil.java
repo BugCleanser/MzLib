@@ -3,10 +3,7 @@ package mz.mzlib.util;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.json.JsonParser;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,11 +50,16 @@ public class JsUtil
         return new NativeJavaFunction(function);
     }
 
+    static Map<String, Script> cache = Collections.synchronizedMap(new WeakHashMap<>());
     public static Object eval(Settings settings, Object scope, String script)
     {
         try(Context context = settings.enterContext())
         {
-            return context.evaluateString((Scriptable) scope, script, "js", 1, null);
+            return cache.computeIfAbsent(script, s ->
+            {
+                context.setOptimizationLevel(9);
+                return context.compileString(s, "js", 1, null);
+            }).exec(context, (Scriptable) scope);
         }
     }
     public static Object eval(Object scope, String script)
