@@ -75,7 +75,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
         return this.static$newInstanceV_2102(
             width, height, DefaultedListV1100.fromWrapper(
                 ingredients.stream().map(IngredientVanilla::fromOptionV_2102).collect(Collectors.toList()),
-                IngredientVanilla.emptyV_2102()
+                IngredientVanilla.EMPTY_V_2102
             ), data.map(Data::getWrapped).toOptional()
         );
     }

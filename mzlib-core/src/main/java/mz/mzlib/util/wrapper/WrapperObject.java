@@ -156,6 +156,14 @@ public interface WrapperObject
     String toString0();
     @WrapMethod("hashCode")
     int hashCode0();
+    default boolean equals0(Object object)
+    {
+        if(this == object)
+            return true;
+        if(!(object instanceof WrapperObject))
+            return false;
+        return this.equals0((WrapperObject) object);
+    }
     @WrapMethod("equals")
     boolean equals0(WrapperObject object);
     @WrapMethod("clone")

@@ -135,7 +135,7 @@ public interface RecipeCraftingShaped extends RecipeMojang, RecipeCrafting
         {
             return DefaultedListV1100.fromWrapper(
                 this.ingredients.stream().map(IngredientVanilla::fromOptionV_2102).collect(Collectors.toList()),
-                IngredientVanilla.emptyV_2102()
+                IngredientVanilla.EMPTY_V_2102
             );
         }
     }

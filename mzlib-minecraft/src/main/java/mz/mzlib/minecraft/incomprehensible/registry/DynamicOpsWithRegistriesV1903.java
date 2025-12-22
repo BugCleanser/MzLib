@@ -1,7 +1,7 @@
 package mz.mzlib.minecraft.incomprehensible.registry;
 
 import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
+import mz.mzlib.minecraft.registry.entry.RegistryWrapperV1903;
 import mz.mzlib.minecraft.serialization.DynamicOpsV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
@@ -22,7 +22,7 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         DynamicOpsV1300<T> ops,
         RegistryManagerV1602.Immutable registries)
     {
-        return newInstance(ops, class_9683V2005.newInstance(registries.as(RegistryEntryLookupV1903.class_7874.FACTORY)));
+        return newInstance(ops, class_9683V2005.newInstance(registries.as(RegistryWrapperV1903.class_7874.FACTORY)));
     }
     static <T> DynamicOpsWithRegistriesV1903<T> newInstance(DynamicOpsV1300<T> ops, class_7863 c2)
     {
@@ -62,11 +62,11 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
             return WrapperObject.create(class_9683V2005.class, wrapped);
         }
 
-        static class_9683V2005 newInstance(RegistryEntryLookupV1903.class_7874 registries)
+        static class_9683V2005 newInstance(RegistryWrapperV1903.class_7874 registries)
         {
             return class_9683V2005.FACTORY.getStatic().static$newInstance(registries);
         }
         @WrapConstructor
-        class_9683V2005 static$newInstance(RegistryEntryLookupV1903.class_7874 registries);
+        class_9683V2005 static$newInstance(RegistryWrapperV1903.class_7874 registries);
     }
 }

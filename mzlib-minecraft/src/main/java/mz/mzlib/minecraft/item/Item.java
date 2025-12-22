@@ -64,6 +64,11 @@ public interface Item extends WrapperObject
             null :
             ComponentKeyV2005.fromId("lore", LoreComponentV2005.FACTORY);
 
+    @VersionRange(begin = 1300)
+    default ItemConvertibleV1300 asItemConvertibleV1300()
+    {
+        return this.as(ItemConvertibleV1300.FACTORY);
+    }
 
     Identifier getId();
 
@@ -157,11 +162,11 @@ public interface Item extends WrapperObject
             this.register(ItemWrittenBook.Module.instance);
 
             (MinecraftPlatform.instance.getVersion() < 2005 ?
-                DataHandler.factory(CUSTOM_DATA)
+                DataHandler.builder(CUSTOM_DATA)
                     .getter(ItemStack::getTagV_2005)
                     .setter(ItemStack::setTagV_2005)
                 :
-                DataHandler.factory(CUSTOM_DATA)
+                DataHandler.builder(CUSTOM_DATA)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
                         .map(NbtCompoundComponentV2005::getNbtCompound))
                     .setter((is, value) -> is.getComponentsV2005()
@@ -186,7 +191,7 @@ public interface Item extends WrapperObject
                     customNameDecoder = Text::decode;
                     customNameEncoder = ThrowableFunction.ofFunction(Text::encode).thenApply(JsonElement::toString);
                 }
-                DataHandler.factory(CUSTOM_NAME)
+                DataHandler.builder(CUSTOM_NAME)
                     .getter(is ->
                     {
                         for(NbtCompound nbt : is.getTagV_2005())
@@ -217,7 +222,7 @@ public interface Item extends WrapperObject
                     .register(this);
             }
             else
-                DataHandler.factory(CUSTOM_NAME)
+                DataHandler.builder(CUSTOM_NAME)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_NAME_V2005))
                     .setter((is, value) -> is.getComponentsV2005().set(COMPONENT_KEY_CUSTOM_NAME_V2005, value))
                     .register(this);
@@ -240,7 +245,7 @@ public interface Item extends WrapperObject
                     ThrowableFunction.of(NbtString::getValue).thenApply(loreLineDecoder),
                     loreLineEncoder.andThen(NbtString::newInstance)
                 );
-                DataHandler.factory(LORE)
+                DataHandler.builder(LORE)
                     .getter(is ->
                     {
                         for(NbtCompound tag : is.getTagV_2005())
@@ -293,7 +298,7 @@ public interface Item extends WrapperObject
                     .register(this);
             }
             else
-                DataHandler.factory(LORE)
+                DataHandler.builder(LORE)
                     .getter(is -> is.getComponentsV2005()
                         .get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines))
                     .setter((is, value) -> is.getComponentsV2005()

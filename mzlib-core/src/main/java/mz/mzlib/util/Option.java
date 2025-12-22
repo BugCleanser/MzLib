@@ -56,6 +56,11 @@ public abstract class Option<T> implements Iterable<T>
 
     public abstract T unwrap();
 
+    public <E extends Throwable> T unwrap(Supplier<E> supplier) throws E
+    {
+        return this.unwrapOrGet(() -> RuntimeUtil.valueThrow(supplier.get()));
+    }
+
     public abstract T unwrapOr(T defaultValue);
 
     public abstract <E extends Throwable> T unwrapOrGet(ThrowableSupplier<? extends T, E> supplier) throws E;

@@ -239,7 +239,7 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                     @Override
                     boolean identify(WrapperObject identifier, ItemStack itemStack)
                     {
-                        return itemStack.equals0(identifier);
+                        return itemStack.equals(identifier);
                     }
                 };
             else

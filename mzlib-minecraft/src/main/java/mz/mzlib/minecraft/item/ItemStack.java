@@ -421,14 +421,20 @@ public interface ItemStack extends WrapperObject
      * Shadow clone
      */
     @Override
-    ItemStack clone0();
+    default ItemStack clone0()
+    {
+        return this.clone(this.getItem());
+    }
+    ItemStack clone(Item newItem);
 
     @Override
     int hashCode0();
 
     @Override
-    default boolean equals0(WrapperObject object)
+    default boolean equals0(Object object)
     {
+        if(this == object)
+            return true;
         if(!(object instanceof ItemStack))
             return false;
         ItemStack that = (ItemStack) object;
@@ -744,36 +750,39 @@ public interface ItemStack extends WrapperObject
     })
     boolean static$isStackableV1700(ItemStack a, ItemStack b);
 
-    @SpecificImpl("clone0")
+    @SpecificImpl("clone")
     @VersionRange(end = 1100)
-    default ItemStack clone0V_1100()
+    default ItemStack cloneV_1100(Item newItem)
     {
         if(this.isEmpty())
             return empty();
-        return this.clone0V1100_1300();
+        return this.cloneV1100_1300(newItem);
     }
-    @SpecificImpl("clone0")
+    @SpecificImpl("clone")
     @VersionRange(begin = 1100, end = 1300)
-    default ItemStack clone0V1100_1300()
+    default ItemStack cloneV1100_1300(Item newItem)
     {
-        ItemStack result = this.clone0V1300_2005();
+        ItemStack result = this.cloneV1300_2005(newItem);
         result.setDamageV_1300(this.getDamageV_1300());
         return result;
     }
-    @SpecificImpl("clone0")
+    @SpecificImpl("clone")
     @VersionRange(begin = 1300, end = 2005)
-    default ItemStack clone0V1300_2005()
+    default ItemStack cloneV1300_2005(Item newItem)
     {
-        ItemStack result = newInstance(this.getItem(), this.getCount());
+        ItemStack result = newInstance(newItem, this.getCount());
         result.setTagV_2005(this.getTagV_2005());
         return result;
     }
-    @SpecificImpl("clone0")
+    @SpecificImpl("clone")
     @VersionRange(begin = 2005)
-    default ItemStack clone0V2005()
+    default ItemStack cloneV2005(Item newItem)
     {
-        return this.copy();
+        return this.cloneV2005(newItem.asItemConvertibleV1300(), this.getCount());
     }
+    @VersionRange(begin = 2005)
+    @WrapMinecraftMethod(@VersionName(name = "method_56701"))
+    ItemStack cloneV2005(ItemConvertibleV1300 newItem, int count);
 
     @SpecificImpl("hashCode0")
     @VersionRange(end = 1300)

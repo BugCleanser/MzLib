@@ -21,27 +21,28 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
 
     public <T extends MzItem> T newMzItem(Class<T> type)
     {
-        return newMzItem(type, NbtCompound.newInstance());
+        return newMzItem(type, Option.none());
     }
-    public <T extends MzItem> T newMzItem(Class<T> type, NbtCompound data)
+    public <T extends MzItem> T newMzItem(Class<T> type, Option<NbtCompound> data)
     {
         return newMzItem(WrapperFactory.of(type), data);
     }
     public MzItem newMzItem(Identifier id) throws IllegalArgumentException
     {
-        return this.newMzItem(id, NbtCompound.newInstance());
+        return this.newMzItem(id, Option.none());
     }
-    public MzItem newMzItem(Identifier id, NbtCompound data) throws IllegalArgumentException
+    public MzItem newMzItem(Identifier id, Option<NbtCompound> data) throws IllegalArgumentException
     {
         WrapperFactory<? extends MzItem> factory = this.factories.get(id);
         if(factory == null)
             throw new IllegalArgumentException();
         return newMzItem(factory, data);
     }
-    public <T extends MzItem> T newMzItem(WrapperFactory<T> factory, NbtCompound data)
+    public <T extends MzItem> T newMzItem(WrapperFactory<T> factory, Option<NbtCompound> data)
     {
         T result = factory.getStatic().static$vanilla().as(factory);
-        result.init(data);
+        MzItem.MZ_DATA.set(result, data);
+        result.init();
         return result;
     }
 

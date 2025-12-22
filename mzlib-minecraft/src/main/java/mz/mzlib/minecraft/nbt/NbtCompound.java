@@ -136,7 +136,7 @@ public interface NbtCompound extends NbtElement
 
     default void remove(String key)
     {
-        this.put(key, NbtElement.FACTORY.getStatic());
+        this.asMap0().remove(key);
     }
 
     default <T extends NbtElement> T getOr(String key, WrapperFactory<T> factory, Supplier<T> newer)

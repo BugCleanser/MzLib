@@ -58,7 +58,7 @@ public interface ItemPlayerHead extends Item
             else
                 checker = is -> is.getItem().equals(PLAYER_HEAD_V1300);
             if(MinecraftPlatform.instance.getVersion() < 2005)
-                DataHandler.factory(OWNER)
+                DataHandler.builder(OWNER)
                     .checker(checker)
                     .getter(is ->
                     {
@@ -83,7 +83,7 @@ public interface ItemPlayerHead extends Item
                     })
                     .register(this);
             else
-                DataHandler.factory(OWNER)
+                DataHandler.builder(OWNER)
                     .checker(checker)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005)
                             .map(GameProfileComponentV2005::toDescription))

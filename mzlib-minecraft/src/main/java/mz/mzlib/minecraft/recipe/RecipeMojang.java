@@ -16,7 +16,7 @@ import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapeless;
 import mz.mzlib.minecraft.recipe.display.RecipeDisplayV2102;
 import mz.mzlib.minecraft.recipe.input.RecipeInputV2100;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnaceV1300;
-import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
+import mz.mzlib.minecraft.registry.entry.RegistryWrapperV1903;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -72,10 +72,10 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     ItemStack getResultV1904_2005(Inventory inventory, RegistryManagerV1602 registryManager);
     @VersionRange(begin = 2005, end = 2100)
     @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV2005_2100(Inventory inventory, RegistryEntryLookupV1903.class_7874 lookup);
+    ItemStack getResultV2005_2100(Inventory inventory, RegistryWrapperV1903.class_7874 lookup);
     @VersionRange(begin = 2100)
     @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV2100(RecipeInputV2100 input, RegistryEntryLookupV1903.class_7874 lookup);
+    ItemStack getResultV2100(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup);
 
     @Override
     RecipeType getType();
@@ -187,11 +187,11 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     default ItemStack getIconV2005_2102()
     {
         return this.getIconV2005_2102(
-            MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
+            MinecraftServer.instance.getRegistriesV1602().as(RegistryWrapperV1903.class_7874.FACTORY));
     }
     @VersionRange(begin = 2005, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "method_8110"))
-    ItemStack getIconV2005_2102(RegistryEntryLookupV1903.class_7874 registriesLookup);
+    ItemStack getIconV2005_2102(RegistryWrapperV1903.class_7874 registriesLookup);
     @SpecificImpl("getIcons")
     @VersionRange(begin = 2102)
     default List<ItemStack> getIconsV2102()

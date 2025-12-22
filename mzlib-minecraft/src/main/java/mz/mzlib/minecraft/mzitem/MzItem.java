@@ -1,25 +1,29 @@
 package mz.mzlib.minecraft.mzitem;
 
 import mz.mzlib.Priority;
+import mz.mzlib.data.DataHandler;
+import mz.mzlib.data.DataKey;
 import mz.mzlib.event.EventListener;
+import mz.mzlib.i18n.I18n;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.event.player.async.EventAsyncPlayerDisplayItem;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.inventory.InventoryCrafting;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
+import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
 import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapeless;
-import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
+import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.Option;
+import mz.mzlib.util.ThrowablePredicate;
 import mz.mzlib.util.nothing.LocalVar;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
@@ -29,8 +33,11 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 
+import java.util.List;
+
 @WrapSameClass(ItemStack.class)
-public interface MzItem extends ItemStack
+public interface
+MzItem extends ItemStack
 {
     Identifier static$getMzId();
 
@@ -43,7 +50,7 @@ public interface MzItem extends ItemStack
     }
 
     @CallOnce
-    default void init(NbtCompound data)
+    default void init()
     {
         for(NbtCompound customData : Item.CUSTOM_DATA.revise(this))
         {
@@ -55,17 +62,33 @@ public interface MzItem extends ItemStack
     }
 
     @CallOnce
-    default void onDisplay(EntityPlayer player, ItemStack itemStack)
+    default void onDisplay(EventAsyncPlayerDisplayItem event)
     {
-        this.onDisplay$MzItem(player, itemStack);
+        this.onDisplay$MzItem(event);
     }
-    default void onDisplay$MzItem(EntityPlayer player, ItemStack itemStack)
+    default void onDisplay$MzItem(EventAsyncPlayerDisplayItem event)
     {
         Identifier id = this.getMzId();
         String key = id.getNamespace() + ".item." + id.getName();
-        if(Item.CUSTOM_NAME.get(itemStack).isNone())
-            Item.CUSTOM_NAME.set(itemStack, Option.some(MinecraftI18n.resolveText(player, key)));
-        // TODO lore
+        String lang = event.getPlayer().getLanguage();
+        if(Item.CUSTOM_NAME.get(event.getItemStack()).isNone())
+        {
+            for(ItemStack itemStack : event.reviseItemStack())
+            {
+                Item.CUSTOM_NAME.set(itemStack, Option.some(MinecraftI18n.resolveText(lang, key)));
+            }
+        }
+        key += ".lore";
+        if(I18n.getSource(lang, key, null) != null)
+        {
+            for(ItemStack itemStack : event.reviseItemStack())
+            {
+                for(List<Text> lore : Item.LORE.revise(itemStack))
+                {
+                    lore.addAll(0, MinecraftI18n.resolveTexts(lang, key));
+                }
+            }
+        }
     }
 
     default Identifier getMzId()
@@ -73,23 +96,18 @@ public interface MzItem extends ItemStack
         return this.static$getMzId();
     }
 
+    DataKey<MzItem, Option<NbtCompound>, NbtCompound> MZ_DATA = new DataKey<>("mz_data");
+
+    @Deprecated
     default Option<NbtCompound> getMzData()
     {
-        for(NbtCompound customData : Item.CUSTOM_DATA.get(this))
-        {
-            for(NbtCompound mz : customData.getNbtCompound("mz"))
-            {
-                return mz.getNbtCompound("data");
-            }
-        }
-        return Option.none();
+        return MZ_DATA.get(this);
     }
 
+    @Deprecated
     default Editor<NbtCompound> reviseMzData()
     {
-        return Item.CUSTOM_DATA.revise(this)
-            .then(nbt -> nbt.reviseNbtCompoundOrNew("mz"))
-            .then(nbt -> nbt.reviseNbtCompoundOrNew("data"));
+        return MZ_DATA.revise(this);
     }
 
     class Module extends MzModule
@@ -99,6 +117,32 @@ public interface MzItem extends ItemStack
         @Override
         public void onLoad()
         {
+            DataHandler.builder(MZ_DATA)
+                .getter(is ->
+                {
+                    for(NbtCompound customData : Item.CUSTOM_DATA.get(is))
+                        for(NbtCompound mz : customData.getNbtCompound("mz"))
+                            return mz.getNbtCompound("data");
+                    return Option.none();
+                })
+                .setter((is, data) ->
+                {
+                    for(NbtCompound customData : Item.CUSTOM_DATA.revise(is))
+                    {
+                        for(NbtCompound mz : customData.reviseNbtCompoundOrNew("mz"))
+                        {
+                            for(NbtCompound d : data)
+                            {
+                                mz.put("data", d);
+                            }
+                            if(data.isNone())
+                                mz.remove("data");
+                        }
+                    }
+                })
+                .reviserGetter(o -> o.map(NbtCompound::clone0).unwrapOrGet(NbtCompound::newInstance))
+                .reviserApplier(data -> Option.some(data).filter(ThrowablePredicate.of(NbtCompound::isEmpty).negate()))
+                .register(this);
             this.register(NothingItemStack.class);
             this.register(NothingIngredientVanilla.class);
             this.registerIfEnabled(NothingRecipeCraftingShapedV_1200.class);
@@ -118,16 +162,10 @@ public interface MzItem extends ItemStack
 
         public void onAsyncPlayerDisplayItem(EventAsyncPlayerDisplayItem event)
         {
-            event.sync(() ->
+            for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(event.getOriginal()))
             {
-                for(MzItem mzItem : RegistrarMzItem.instance.toMzItem(event.getOriginal()))
-                {
-                    for(ItemStack itemStack : event.reviseItemStack())
-                    {
-                        mzItem.onDisplay(event.getPlayer(), itemStack);
-                    }
-                }
-            });
+                mzItem.onDisplay(event);
+            }
         }
 
         @WrapSameClass(ItemStack.class)

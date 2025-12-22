@@ -80,12 +80,12 @@ public class DataHandler<H, T, R> implements Registrable
         }
     }
 
-    public static <H, T, R> Factory<H, T, R> factory(DataKey<H, T, ? super R> key)
+    public static <H, T, R> Builder<H, T, R> builder(DataKey<H, T, ? super R> key)
     {
-        return new Factory<>(key);
+        return new Builder<>(key);
     }
 
-    public static class Factory<H, T, R>
+    public static class Builder<H, T, R>
     {
         DataKey<H, T, ? super R> key;
         Predicate<H> checker;
@@ -94,52 +94,38 @@ public class DataHandler<H, T, R> implements Registrable
         Function<T, R> reviserGetter;
         Function<R, T> reviserApplier;
 
-        public Factory(DataKey<H, T, ? super R> key)
+        public Builder(DataKey<H, T, ? super R> key)
         {
             this.key = key;
             this.checker = ThrowablePredicate.always();
             this.reviserGetter = x -> RuntimeUtil.valueThrow(new UnsupportedOperationException());
             this.reviserApplier = x -> null;
         }
-        public Factory(Factory<H, T, R> other)
-        {
-            this.key = other.key;
-            this.checker = other.checker;
-            this.getter = other.getter;
-            this.setter = other.setter;
-            this.reviserGetter = other.reviserGetter;
-            this.reviserApplier = other.reviserApplier;
-        }
 
-        public Factory<H, T, R> checker(Predicate<H> checker)
+        public Builder<H, T, R> checker(Predicate<H> checker)
         {
-            Factory<H, T, R> result = new Factory<>(this);
-            result.checker = checker;
-            return result;
+            this.checker = checker;
+            return this;
         }
-        public Factory<H, T, R> getter(Function<H, T> getter)
+        public Builder<H, T, R> getter(Function<H, T> getter)
         {
-            Factory<H, T, R> result = new Factory<>(this);
-            result.getter = getter;
-            return result;
+            this.getter = getter;
+            return this;
         }
-        public Factory<H, T, R> setter(BiConsumer<H, T> setter)
+        public Builder<H, T, R> setter(BiConsumer<H, T> setter)
         {
-            Factory<H, T, R> result = new Factory<>(this);
-            result.setter = setter;
-            return result;
+            this.setter = setter;
+            return this;
         }
-        public Factory<H, T, R> reviserGetter(Function<T, R> value)
+        public Builder<H, T, R> reviserGetter(Function<T, R> value)
         {
-            Factory<H, T, R> result = new Factory<>(this);
-            result.reviserGetter = value;
-            return result;
+            this.reviserGetter = value;
+            return this;
         }
-        public Factory<H, T, R> reviserApplier(Function<R, T> value)
+        public Builder<H, T, R> reviserApplier(Function<R, T> value)
         {
-            Factory<H, T, R> result = new Factory<>(this);
-            result.reviserApplier = value;
-            return result;
+            this.reviserApplier = value;
+            return this;
         }
 
         public DataHandler<H, T, R> build()

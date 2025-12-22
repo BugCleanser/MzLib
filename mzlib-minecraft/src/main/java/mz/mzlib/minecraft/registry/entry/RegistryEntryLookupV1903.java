@@ -1,32 +1,47 @@
 package mz.mzlib.minecraft.registry.entry;
 
+import mz.mzlib.minecraft.TagV1300;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.registry.RegistryKeyV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
+import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@WrapMinecraftClass(@VersionName(name = "net.minecraft.registry.RegistryWrapper", begin = 1903))
+import java.util.Optional;
+
+@VersionRange(begin = 1903)
+@WrapMinecraftClass(@VersionName(name = "net.minecraft.registry.RegistryEntryLookup"))
 public interface RegistryEntryLookupV1903 extends WrapperObject
 {
     WrapperFactory<RegistryEntryLookupV1903> FACTORY = WrapperFactory.of(RegistryEntryLookupV1903.class);
-    @Deprecated
-    @WrapperCreator
-    static RegistryEntryLookupV1903 create(Object wrapped)
+
+    default Option<RegistryEntryListV1903> get(TagV1300<?> tag)
     {
-        return WrapperObject.create(RegistryEntryLookupV1903.class, wrapped);
+        return Option.fromOptional(this.get0(tag)).map(RegistryEntryListV1903.FACTORY::create);
     }
 
-    @WrapMinecraftInnerClass(outer = RegistryEntryLookupV1903.class, name = @VersionName(name = "WrapperLookup"))
-    interface class_7874 extends WrapperObject
+
+    @WrapMinecraftMethod(@VersionName(name = "getOptional"))
+    Optional<?> get0(TagV1300<?> tag);
+
+
+    @VersionRange(begin = 1903)
+    @WrapMinecraftInnerClass(outer = RegistryEntryLookupV1903.class, name = @VersionName(name = "RegistryLookup"))
+    interface RegistryLookup extends WrapperObject
     {
-        WrapperFactory<class_7874> FACTORY = WrapperFactory.of(class_7874.class);
-        @Deprecated
-        @WrapperCreator
-        static class_7874 create(Object wrapped)
+        WrapperFactory<RegistryLookup> FACTORY = WrapperFactory.of(RegistryLookup.class);
+
+        default Option<RegistryWrapperV1903> get(RegistryKeyV1600 key)
         {
-            return WrapperObject.create(class_7874.class, wrapped);
+            return Option.fromOptional(this.get0(key)).map(RegistryWrapperV1903.FACTORY::create);
         }
+
+
+        @WrapMinecraftMethod(@VersionName(name = "getOptional"))
+        Optional<?> get0(RegistryKeyV1600 key);
     }
 }

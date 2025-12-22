@@ -7,6 +7,7 @@ import mz.mzlib.util.RuntimeUtil;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class CollectionProxy<T, U> extends AbstractCollection<T>
 {
@@ -124,10 +125,13 @@ public class CollectionProxy<T, U> extends AbstractCollection<T>
         return this.getDelegate().hashCode();
     }
 
-    @SuppressWarnings("EqualsDoesntCheckParameterClass")
     @Override
     public boolean equals(Object obj)
     {
+        if(this == obj)
+            return true;
+        if(obj instanceof CollectionProxy)
+            return Objects.equals(this.getDelegate(), ((CollectionProxy<?, ?>) obj).getDelegate());
         return this.getDelegate().equals(obj);
     }
 }

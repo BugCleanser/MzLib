@@ -38,7 +38,7 @@ public abstract class AbsWrapper
             return false;
         if(this.getWrapped() == null)
             return ((WrapperObject) obj).getWrapped() == null;
-        return ((WrapperObject) this).equals0((WrapperObject) obj);
+        return ((WrapperObject) this).equals0(obj);
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")

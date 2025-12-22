@@ -13,6 +13,7 @@ import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
 
 public class CommandMzLibGive extends MzModule
 {
@@ -39,7 +40,7 @@ public class CommandMzLibGive extends MzModule
     {
         EntityPlayer player;
         Identifier id;
-        NbtCompound data;
+        Option<NbtCompound> data;
 
         ArgumentParserIdentifier idParser = new ArgumentParserIdentifier(RegistrarMzItem.instance.factories.keySet());
 
@@ -48,11 +49,11 @@ public class CommandMzLibGive extends MzModule
         id = idParser.handle(fork);
 
         CommandContext fork1 = fork.fork();
-        data = new ArgumentParserNbtCompound().handle(fork1);
+        data = Option.fromNullable(new ArgumentParserNbtCompound().handle(fork1));
         if(fork1.successful)
             fork = fork1;
         else
-            data = NbtCompound.newInstance();
+            data = Option.none();
 
         if(fork.argsReader.hasNext())
             fork.successful = false;
@@ -63,11 +64,11 @@ public class CommandMzLibGive extends MzModule
             player = context.getSource().getPlayer().unwrap();
             id = idParser.handle(context);
             fork = context.fork();
-            data = new ArgumentParserNbtCompound().handle(fork);
+            data = Option.fromNullable(new ArgumentParserNbtCompound().handle(fork));
             if(fork.successful)
                 context = fork;
             else
-                data = NbtCompound.newInstance();
+                data = Option.none();
         }
 
         if(!context.successful || !context.doExecute)

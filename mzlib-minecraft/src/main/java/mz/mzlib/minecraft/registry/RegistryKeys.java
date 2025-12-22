@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.Identifier;
 
 public interface RegistryKeys
 {
+    RegistryKeyV1600 ITEM = of("item");
     RegistryKeyV1600 RECIPE = of("recipe");
 
     static RegistryKeyV1600 of(String id)

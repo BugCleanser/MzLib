@@ -75,7 +75,7 @@ public interface ItemWrittenBook extends Item
         {
             Predicate<ItemStack> checker = is -> is.getItem().equals(WRITTEN_BOOK);
             if(MinecraftPlatform.instance.getVersion() < 2005)
-                DataHandler.factory(TITLE)
+                DataHandler.builder(TITLE)
                     .checker(checker)
                     .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getString("title")).unwrapOr(""))
                     .setter((is, value) ->
@@ -87,7 +87,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             else
-                DataHandler.factory(TITLE)
+                DataHandler.builder(TITLE)
                     .checker(checker)
                     .getter(is ->
                         is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
@@ -103,7 +103,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             if(MinecraftPlatform.instance.getVersion() < 2005)
-                DataHandler.factory(AUTHOR)
+                DataHandler.builder(AUTHOR)
                     .checker(checker)
                     .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getString("author")).unwrapOr(""))
                     .setter((is, value) ->
@@ -115,7 +115,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             else
-                DataHandler.factory(AUTHOR)
+                DataHandler.builder(AUTHOR)
                     .checker(checker)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
                         .unwrapOrGet(WrittenBookContentComponentV2005::def).getAuthor())
@@ -130,7 +130,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             if(MinecraftPlatform.instance.getVersion() < 2005)
-                DataHandler.factory(GENERATION)
+                DataHandler.builder(GENERATION)
                     .checker(checker)
                     .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getInt("generation")).unwrapOr(0))
                     .setter((is, value) ->
@@ -142,7 +142,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             else
-                DataHandler.factory(GENERATION)
+                DataHandler.builder(GENERATION)
                     .checker(checker)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
                         .unwrapOrGet(WrittenBookContentComponentV2005::def).getGeneration())
@@ -163,7 +163,7 @@ public interface ItemWrittenBook extends Item
                     str -> Text.decode(str.getValue()),
                     text -> NbtString.newInstance(text.encode().toString())
                 );
-                DataHandler.factory(PAGES)
+                DataHandler.builder(PAGES)
                     .checker(checker)
                     .getter(is -> new ListProxy<>(
                         is.tagV_2005().getNbtList("pages").map(pages -> pages.asList(NbtString.FACTORY))
@@ -192,7 +192,7 @@ public interface ItemWrittenBook extends Item
                     .register(this);
             }
             else
-                DataHandler.factory(PAGES)
+                DataHandler.builder(PAGES)
                     .checker(checker)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
                         .unwrapOrGet(WrittenBookContentComponentV2005::def).getPages())
@@ -209,7 +209,7 @@ public interface ItemWrittenBook extends Item
                     .reviserApplier(Function.identity())
                     .register(this);
             if(MinecraftPlatform.instance.getVersion() < 2005)
-                DataHandler.factory(RESOLVED)
+                DataHandler.builder(RESOLVED)
                     .checker(checker)
                     .getter(is -> is.getTagV_2005().flatMap(tag -> tag.getBoolean("resolved")).unwrapOr(false))
                     .setter((is, value) ->
@@ -221,7 +221,7 @@ public interface ItemWrittenBook extends Item
                     })
                     .register(this);
             else
-                DataHandler.factory(RESOLVED)
+                DataHandler.builder(RESOLVED)
                     .checker(checker)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_WRITTEN_BOOK_CONTENT_V2005)
                         .unwrapOrGet(WrittenBookContentComponentV2005::def).isResolved())

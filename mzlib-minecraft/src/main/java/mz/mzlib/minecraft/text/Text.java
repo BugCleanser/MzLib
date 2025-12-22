@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.authlib.GameProfile;
-import mz.mzlib.minecraft.registry.entry.RegistryEntryLookupV1903;
+import mz.mzlib.minecraft.registry.entry.RegistryWrapperV1903;
 import mz.mzlib.minecraft.serialization.JsonOpsV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -737,13 +737,13 @@ public interface Text extends WrapperObject
 
         @VersionRange(begin = 2005)
         @WrapMinecraftMethod(@VersionName(name = "toJson"))
-        JsonElement static$encodeV2005(Text text, RegistryEntryLookupV1903.class_7874 registries);
+        JsonElement static$encodeV2005(Text text, RegistryWrapperV1903.class_7874 registries);
 
         @SpecificImpl("static$encode")
         @VersionRange(begin = 2005)
         default JsonElement static$encodeV2005(Text text)
         {
-            return this.static$encodeV2005(text, MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
+            return this.static$encodeV2005(text, MinecraftServer.instance.getRegistriesV1602().as(RegistryWrapperV1903.class_7874.FACTORY));
         }
 
         static Text decode(JsonElement json)
@@ -775,13 +775,13 @@ public interface Text extends WrapperObject
 
         @VersionRange(begin = 2005)
         @WrapMinecraftMethod(@VersionName(name = "fromJson"))
-        TextMutableV1600 static$decodeV2005(JsonElement json, RegistryEntryLookupV1903.class_7874 registries);
+        TextMutableV1600 static$decodeV2005(JsonElement json, RegistryWrapperV1903.class_7874 registries);
 
         @SpecificImpl("static$decode")
         @VersionRange(begin = 2005)
         default Text static$decodeV2005(JsonElement json)
         {
-            return this.static$decodeV2005(json, MinecraftServer.instance.getRegistriesV1602().as(RegistryEntryLookupV1903.class_7874.FACTORY));
+            return this.static$decodeV2005(json, MinecraftServer.instance.getRegistriesV1602().as(RegistryWrapperV1903.class_7874.FACTORY));
         }
     }
 
