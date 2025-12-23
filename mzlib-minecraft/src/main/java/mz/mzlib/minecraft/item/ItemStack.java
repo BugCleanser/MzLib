@@ -65,12 +65,22 @@ public interface ItemStack extends WrapperObject
         return type.toItemStack(count);
     }
 
+    static Builder builder()
+    {
+        return FACTORY.getStatic().static$builder();
+    }
+    static Builder builder(ItemStack from)
+    {
+        return FACTORY.getStatic().static$builder(from);
+    }
     interface Builder
     {
         ItemStack build();
         Builder item(Item value);
         Builder fromId(Identifier id);
         Builder fromId(String id);
+
+        Builder count(int value);
 
         ItemStack.Builder damageV_1300(int value);
         Builder fromId(String idV_1300, int damageV_1300, String idV1300);
@@ -226,10 +236,6 @@ public interface ItemStack extends WrapperObject
                 return this.color("black");
             }
         }
-    }
-    static Builder builder()
-    {
-        return FACTORY.getStatic().static$builder();
     }
 
     @VersionRange(begin = 1600)
@@ -547,6 +553,20 @@ public interface ItemStack extends WrapperObject
     default ItemStack.Builder static$builderV1300()
     {
         return new ItemStackBuilderImpl();
+    }
+
+    ItemStack.Builder static$builder(ItemStack from);
+    @SpecificImpl("static$builder")
+    @VersionRange(end = 1300)
+    default ItemStack.Builder static$builderV_1300(ItemStack from)
+    {
+        return new ItemStackBuilderImpl.V_1300(from);
+    }
+    @SpecificImpl("static$builder")
+    @VersionRange(begin = 1300)
+    default ItemStack.Builder static$builderV1300(ItemStack from)
+    {
+        return new ItemStackBuilderImpl(from);
     }
 
     static CodecV1600<?> codec0V1600()

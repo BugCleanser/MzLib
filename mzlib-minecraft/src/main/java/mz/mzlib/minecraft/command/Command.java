@@ -1,5 +1,6 @@
 package mz.mzlib.minecraft.command;
 
+import jakarta.annotation.Nullable;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;
@@ -7,7 +8,6 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.MapBuilder;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

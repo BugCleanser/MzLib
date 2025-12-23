@@ -33,6 +33,7 @@ import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 
+import java.util.Collections;
 import java.util.List;
 
 @WrapSameClass(ItemStack.class)
@@ -71,11 +72,12 @@ MzItem extends ItemStack
         Identifier id = this.getMzId();
         String key = id.getNamespace() + ".item." + id.getName();
         String lang = event.getPlayer().getLanguage();
+        Object args = getDisplayArgs();
         if(Item.CUSTOM_NAME.get(event.getItemStack()).isNone())
         {
             for(ItemStack itemStack : event.reviseItemStack())
             {
-                Item.CUSTOM_NAME.set(itemStack, Option.some(MinecraftI18n.resolveText(lang, key)));
+                Item.CUSTOM_NAME.set(itemStack, Option.some(MinecraftI18n.resolveText(lang, key, args)));
             }
         }
         key += ".lore";
@@ -85,10 +87,14 @@ MzItem extends ItemStack
             {
                 for(List<Text> lore : Item.LORE.revise(itemStack))
                 {
-                    lore.addAll(0, MinecraftI18n.resolveTexts(lang, key));
+                    lore.addAll(0, MinecraftI18n.resolveTexts(lang, key, args));
                 }
             }
         }
+    }
+    default Object getDisplayArgs()
+    {
+        return Collections.emptyMap();
     }
 
     default Identifier getMzId()

@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.TypedMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +15,18 @@ import java.util.Map;
 
 class ItemStackBuilderImpl implements ItemStack.Builder
 {
+    ItemStack from;
     Item item;
-    int amount = 1;
-    Map<DataKey<ItemStack, ?, ?>, ?> data = new HashMap<>();
+    Integer count;
+    TypedMap<DataKey<ItemStack, ?, ?>> data = TypedMap.of();
+
+    public ItemStackBuilderImpl()
+    {
+    }
+    public ItemStackBuilderImpl(ItemStack from)
+    {
+        this.from = from;
+    }
 
     @Override
     public ItemStackBuilderImpl item(Item value)
@@ -36,6 +46,13 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     }
 
     @Override
+    public ItemStackBuilderImpl count(int value)
+    {
+        this.count = value;
+        return this;
+    }
+
+    @Override
     public ItemStackBuilderImpl damageV_1300(int value)
     {
         throw new UnsupportedOperationException();
@@ -50,7 +67,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     @Override
     public <T> ItemStackBuilderImpl data(DataKey<ItemStack, T, ?> key, T value)
     {
-        this.data.put(key, RuntimeUtil.cast(value));
+        this.data.put(key, value);
         return this;
     }
     @Override
@@ -143,10 +160,18 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     @Override
     public ItemStack build()
     {
-        if(this.item == null)
-            throw new IllegalStateException("item is not set");
-        ItemStack result = ItemStack.newInstance(this.item, this.amount);
-        for(Map.Entry<DataKey<ItemStack, ?,?>, ?> entry : this.data.entrySet())
+        ItemStack result;
+        if(this.from != null)
+            result = this.from.clone(this.item != null ? this.item : this.from.getItem());
+        else
+        {
+            if(this.item == null)
+                throw new IllegalStateException("item is not set");
+            result = ItemStack.newInstance(this.item);
+        }
+        if(this.count != null)
+            result.setCount(this.count);
+        for(Map.Entry<DataKey<ItemStack, ?,?>, ?> entry : this.data.asMap().entrySet())
         {
             entry.getKey().set(result, RuntimeUtil.cast(entry.getValue()));
         }
@@ -155,7 +180,16 @@ class ItemStackBuilderImpl implements ItemStack.Builder
 
     static class V_1300 extends ItemStackBuilderImpl
     {
-        int damage = 0;
+        Integer damage;
+
+        public V_1300()
+        {
+            super();
+        }
+        public V_1300(ItemStack from)
+        {
+            super(from);
+        }
 
         @Override
         public ItemStackBuilderImpl damageV_1300(int value)
@@ -174,7 +208,8 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         public ItemStack build()
         {
             ItemStack result = super.build();
-            result.setDamageV_1300(this.damage);
+            if(this.damage != null)
+                result.setDamageV_1300(this.damage);
             return result;
         }
     }
@@ -182,10 +217,21 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     static class StepLore implements ItemStack.Builder.StepLore
     {
         ItemStackBuilderImpl base;
-        List<Text> lines = new ArrayList<>();
-        StepLore(ItemStackBuilderImpl base)
+        List<Text> lines;
+        public StepLore(ItemStackBuilderImpl base)
         {
             this.base = base;
+            for(Option<List<Text>> lore : base.data.get(Item.LORE))
+            {
+                this.lines = lore.unwrapOrGet(ArrayList::new);
+                return;
+            }
+            for(List<Text> lore : Item.LORE.get(base.from))
+            {
+                this.lines = lore;
+                return;
+            }
+            lines = new ArrayList<>();
         }
         @Override
         public ItemStack.Builder.StepLore line(Text value)

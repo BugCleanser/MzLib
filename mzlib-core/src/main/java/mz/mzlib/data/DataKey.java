@@ -2,11 +2,12 @@ package mz.mzlib.data;
 
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.TypedMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataKey<H, T, R>
+public class DataKey<H, T, R> implements TypedMap.Key<T, DataKey<H, ?, ?>>
 {
     String name;
     public DataKey(String name)
