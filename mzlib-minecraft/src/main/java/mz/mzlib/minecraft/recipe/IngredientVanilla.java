@@ -339,16 +339,34 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             return false;
         return Objects.equals(this.asItemStackV_1200(), ((IngredientVanilla) object).asItemStackV_1200());
     }
-
     @SpecificImpl("hashCode0")
-    @VersionRange(begin = 1200)
-    default int hashCode0V1200()
+    @VersionRange(begin = 1200, end = 1300)
+    default int hashCode0V1200_1300()
+    {
+        return this.getDataV1200_1300().hashCode();
+    }
+    @SpecificImpl("equals0")
+    @VersionRange(begin = 1200, end = 1300)
+    default boolean equals0V1200_1300(Object object)
+    {
+        if(this == object)
+            return true;
+        if(!(object instanceof IngredientVanilla))
+            return false;
+        IngredientVanilla o = (IngredientVanilla) object;
+        if(this.getWrapped() == o.getWrapped())
+            return true;
+        return Objects.equals(this.getDataV1200_1300(), o.getDataV1200_1300());
+    }
+    @SpecificImpl("hashCode0")
+    @VersionRange(begin = 1300)
+    default int hashCode0V1300()
     {
         return this.getMatchingStacksV1300().hashCode();
     }
     @SpecificImpl("equals0")
-    @VersionRange(begin = 1200)
-    default boolean equals0V1200(Object object)
+    @VersionRange(begin = 1300)
+    default boolean equals0V1300(Object object)
     {
         if(this == object)
             return true;
