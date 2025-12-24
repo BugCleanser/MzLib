@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.item;
 
 import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.registry.RegistryKeysV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.ClassUtil;
@@ -14,6 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * yarn V_1903: net.minecraft.tag.ItemTags
@@ -33,21 +35,28 @@ public interface ItemTagsV1300 extends WrapperObject
 
     static TagV1300<Item> of(String id)
     {
+        return of(Identifier.of(id));
+    }
+    static TagV1300<Item> of(Identifier id)
+    {
         return FACTORY.getStatic().static$of(id);
     }
 
 
-    TagV1300<Item> static$of(String id);
+    TagV1300<Item> static$of(Identifier id);
     @SpecificImpl("static$of")
     @VersionRange(end = 1802)
-    default TagV1300<Item> static$ofV_1802(String id)
+    default TagV1300<Item> static$ofV_1802(Identifier id)
     {
-        return Option.fromNullable(Private.cacheV_1802.get(Identifier.newInstance(id))).unwrap(() -> new IllegalArgumentException(id));
+        return Option.fromNullable(Private.cacheV_1802.get(id)).unwrap(() -> new IllegalArgumentException(Objects.toString(id)));
     }
     @SpecificImpl("static$of")
     @VersionRange(begin = 1802)
     @WrapMinecraftMethod(@VersionName(name = "method_15102"))
-    TagV1300<Item> static$ofV1802(String id);
+    default TagV1300<Item> static$ofV1802(Identifier id)
+    {
+        return TagV1300.ofV1802(RegistryKeysV1600.ITEM, id);
+    }
 
     class Private
     {

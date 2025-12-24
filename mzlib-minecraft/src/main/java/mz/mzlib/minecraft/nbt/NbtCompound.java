@@ -16,6 +16,7 @@ import mz.mzlib.util.wrapper.*;
 import java.io.DataInput;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.WeakHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -37,6 +38,11 @@ public interface NbtCompound extends NbtElement
     int TYPE_ID = newInstance().getTypeId();
     NbtElementTypeV1500 TYPE_V1500 =
         MinecraftPlatform.instance.getVersion() < 1500 ? null : newInstance().getTypeV1500();
+
+    static <T> Map<NbtCompound, T> cache()
+    {
+        return new MapProxy<>(new WeakHashMap<>(), FunctionInvertible.wrapper(FACTORY), FunctionInvertible.identity());
+    }
 
     @Deprecated
     static NbtCompound load(DataInput input)

@@ -48,6 +48,6 @@ public class ArgumentParserIdentifier extends ArgumentParser<Identifier>
                     context.suggestions.add(i.toString());
             }
         }
-        return Identifier.newInstance(str);
+        return Identifier.of(str);
     }
 }

@@ -8,74 +8,85 @@ import mz.mzlib.util.wrapper.*;
 public interface Identifier extends WrapperObject
 {
     WrapperFactory<Identifier> FACTORY = WrapperFactory.of(Identifier.class);
-    @Deprecated
-    @WrapperCreator
-    static Identifier create(Object wrapped)
-    {
-        return WrapperObject.create(Identifier.class, wrapped);
-    }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "namespace"))
     String getNamespace();
 
-    @Deprecated
-    @WrapMinecraftFieldAccessor(@VersionName(name = "namespace"))
-    @SuppressWarnings("DeprecatedIsStillUsed")
-    void setNamespace(String value);
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "path"))
     String getName();
 
-    @Deprecated
-    @WrapMinecraftFieldAccessor(@VersionName(name = "path"))
-    void setName(String value);
-
-    static Identifier newInstance(String namespace, String name)
+    static Identifier of(String namespace, String name)
     {
-        return FACTORY.getStatic().static$newInstance(namespace, name);
+        return FACTORY.getStatic().static$of(namespace, name);
     }
-
-    Identifier static$newInstance(String namespace, String name);
-
-    @VersionRange(end = 900)
-    @WrapConstructor
-    Identifier static$newInstanceV_900(String name);
-
-    @SpecificImpl("static$newInstance")
-    @VersionRange(end = 900)
-    default Identifier static$newInstanceV_900(String namespace, String name)
-    {
-        Identifier result = static$newInstanceV_900("");
-        result.setNamespace(namespace);
-        result.setName(name);
-        return result;
-    }
-
-    @SpecificImpl("static$newInstance")
-    @VersionRange(begin = 900)
-    @WrapConstructor
-    Identifier static$newInstanceV900(String namespace, String name);
-
-    static Identifier minecraft(String name)
-    {
-        return newInstance("minecraft", name);
-    }
-    static Identifier ofMinecraft(String name)
-    {
-        return minecraft(name);
-    }
-
-    static Identifier newInstance(String str)
+    static Identifier of(String str)
     {
         String[] result = str.split(":", 2);
         if(result.length == 2)
-            return newInstance(result[0], result[1]);
+            return of(result[0], result[1]);
         else
-            return minecraft(str);
+            return ofMinecraft(str);
+    }
+    static Identifier ofMinecraft(String name)
+    {
+        return of("minecraft", name);
     }
 
     default boolean isMinecraft()
     {
         return "minecraft".equals(this.getNamespace());
     }
+
+
+    Identifier static$of(String namespace, String name);
+    @SpecificImpl("static$of")
+    @VersionRange(end = 900)
+    default Identifier static$ofV_900(String namespace, String name)
+    {
+        Identifier result = static$ofV_900("");
+        result.setNamespace(namespace);
+        result.setName(name);
+        return result;
+    }
+    @VersionRange(end = 900)
+    @WrapConstructor
+    Identifier static$ofV_900(String name);
+    @SpecificImpl("static$of")
+    @VersionRange(begin = 900)
+    @WrapConstructor
+    Identifier static$ofV900(String namespace, String name);
+
+
+    /**
+     * @see #of(String)
+     */
+    @Deprecated
+    static Identifier newInstance(String str)
+    {
+        return of(str);
+    }
+    /**
+     * @see #of(String, String)
+     */
+    @Deprecated
+    static Identifier newInstance(String namespace, String name)
+    {
+        return of(namespace, name);
+    }
+    /**
+     * @see #ofMinecraft(String)
+     */
+    @Deprecated
+    static Identifier minecraft(String name)
+    {
+        return ofMinecraft(name);
+    }
+
+    @Deprecated
+    @WrapMinecraftFieldAccessor(@VersionName(name = "namespace"))
+    @SuppressWarnings("DeprecatedIsStillUsed")
+    void setNamespace(String value);
+    @Deprecated
+    @WrapMinecraftFieldAccessor(@VersionName(name = "path"))
+    void setName(String value);
 }

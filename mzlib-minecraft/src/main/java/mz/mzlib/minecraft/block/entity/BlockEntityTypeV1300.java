@@ -29,7 +29,7 @@ public interface BlockEntityTypeV1300 extends WrapperObject
 
     static BlockEntityTypeV1300 fromId(String id)
     {
-        return fromId(Identifier.newInstance(id));
+        return fromId(Identifier.of(id));
     }
 
     static BlockEntityTypeV1300 fromId(Identifier id)

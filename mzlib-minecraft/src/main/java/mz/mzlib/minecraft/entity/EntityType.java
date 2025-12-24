@@ -44,7 +44,7 @@ public interface EntityType extends WrapperObject
 
     static EntityType fromId(String id)
     {
-        return fromId(Identifier.newInstance(id));
+        return fromId(Identifier.of(id));
     }
 
     static EntityType fromId(Identifier id)
@@ -174,7 +174,7 @@ public interface EntityType extends WrapperObject
 
         public static void register(String id, String name)
         {
-            names.put(Identifier.newInstance(id), name);
+            names.put(Identifier.of(id), name);
         }
 
         static

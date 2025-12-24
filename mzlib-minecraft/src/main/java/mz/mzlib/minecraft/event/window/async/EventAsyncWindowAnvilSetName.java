@@ -45,7 +45,7 @@ public abstract class EventAsyncWindowAnvilSetName<P extends Packet> extends Eve
             this.getPacket().getPayload().getWrapped().markReaderIndex();
             try
             {
-                return this.getPacket().getPayload().readString(32767);
+                return this.getPacket().getPayload().readString(Short.MAX_VALUE);
             }
             finally
             {

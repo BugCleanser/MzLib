@@ -39,7 +39,7 @@ public class RegistrarRecipeVanillaV2102 extends RegistrarRecipeVanilla
         for(Map.Entry<Identifier, Recipe> entry : CollectionUtil.asIterable(
             this.getEnabledRecipes().values().stream().map(Map::entrySet).flatMap(Set::stream).iterator()))
         {
-            result.add(RecipeEntryV2002.of(RecipeRegistration.of(entry.getKey(), entry.getValue())));
+            result.add(RecipeEntryV2002.of(RecipeRegistration.of(entry.getKey(), (RecipeMojang) entry.getValue())));
         }
         recipeManager.setPreparedRecipesV2102(PreparedRecipesV2102.of(result));
         recipeManager.initializeV2102(MinecraftServer.instance.getSavePropertiesV1600().getEnabledFeaturesV1903());

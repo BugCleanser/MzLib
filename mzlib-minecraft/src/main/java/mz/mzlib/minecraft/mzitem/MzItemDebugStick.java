@@ -20,7 +20,7 @@ public interface MzItemDebugStick extends MzItem, MzItemUsable
     @Override
     default Identifier static$getMzId()
     {
-        return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "debug_stick");
+        return Identifier.of(MzLibMinecraft.instance.MOD_ID, "debug_stick");
     }
 
     @Override

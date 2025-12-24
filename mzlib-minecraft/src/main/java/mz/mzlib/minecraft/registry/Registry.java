@@ -6,9 +6,9 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.SetProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,15 +21,9 @@ import java.util.Set;
         @VersionName(name = "net.minecraft.registry.Registry", begin = 1903)
     }
 )
-public interface Registry extends WrapperObject
+public interface Registry<T> extends WrapperObject
 {
-    WrapperFactory<Registry> FACTORY = WrapperFactory.of(Registry.class);
-    @Deprecated
-    @WrapperCreator
-    static Registry create(Object wrapped)
-    {
-        return WrapperObject.create(Registry.class, wrapped);
-    }
+    WrapperFactory<Registry<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(Registry.class));
 
     @WrapMinecraftMethod(@VersionName(name = "getId", begin = 1300))
     Identifier getIdV1300(WrapperObject value);
@@ -70,4 +64,15 @@ public interface Registry extends WrapperObject
     @VersionRange(end = 1300)
     @WrapMinecraftMethod({ @VersionName(name = "keySet"), @VersionName(name = "getKeySet") })
     Set<Object> getIds0V_1300();
+
+    class Wrapper<T extends WrapperObject>
+    {
+        Registry<?> base;
+        WrapperFactory<T> type;
+        public Wrapper(Registry<?> base, WrapperFactory<T> type)
+        {
+            this.base = base;
+            this.type = type;
+        }
+    }
 }

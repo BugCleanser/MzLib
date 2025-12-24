@@ -14,13 +14,13 @@ public interface MzItemUnknown extends MzItem
     @Override
     default Identifier static$getMzId()
     {
-        return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "unknown");
+        return Identifier.of(MzLibMinecraft.instance.MOD_ID, "unknown");
     }
 
     @Override
     default Identifier getMzId()
     {
-        return Identifier.newInstance(
+        return Identifier.of(
             Item.CUSTOM_DATA.get(this).unwrap().getNbtCompound("mz").unwrap().getString("id").unwrap());
     }
 }

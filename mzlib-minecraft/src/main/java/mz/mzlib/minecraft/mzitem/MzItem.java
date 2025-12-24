@@ -37,8 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 @WrapSameClass(ItemStack.class)
-public interface
-MzItem extends ItemStack
+public interface MzItem extends ItemStack
 {
     Identifier static$getMzId();
 
@@ -72,7 +71,7 @@ MzItem extends ItemStack
         Identifier id = this.getMzId();
         String key = id.getNamespace() + ".item." + id.getName();
         String lang = event.getPlayer().getLanguage();
-        Object args = getDisplayArgs();
+        Object args = getDisplayArgs(lang);
         if(Item.CUSTOM_NAME.get(event.getItemStack()).isNone())
         {
             for(ItemStack itemStack : event.reviseItemStack())
@@ -92,7 +91,10 @@ MzItem extends ItemStack
             }
         }
     }
-    default Object getDisplayArgs()
+    /**
+     * called async
+     */
+    default Object getDisplayArgs(String lang)
     {
         return Collections.emptyMap();
     }

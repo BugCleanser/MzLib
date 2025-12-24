@@ -42,7 +42,7 @@ public interface Item extends WrapperObject
 
     static Item fromId(String id)
     {
-        return fromId(Identifier.newInstance(id));
+        return fromId(Identifier.of(id));
     }
 
     Item AIR = fromId(Identifier.minecraft("air"));

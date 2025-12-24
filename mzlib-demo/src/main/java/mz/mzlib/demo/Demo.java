@@ -87,19 +87,19 @@ public class Demo extends MzModule
             this.register(DemoTest.instance);
 
             this.register(RecipeCraftingShaped.builder()
-                .id(Identifier.newInstance("mzlib:test"))
+                .id(Identifier.of("mzlib:test"))
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
                         Option.some(IngredientVanilla.of(ItemStack.newInstance(Item.fromId("stick"))))))
                 .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
             this.register(RecipeCraftingShaped.builder()
-                .id(Identifier.newInstance("mzlib:test1"))
+                .id(Identifier.of("mzlib:test1"))
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
                         Option.some(IngredientVanilla.WOOL)))
                 .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
             this.register(RecipeFurnace.builder()
-                .id(Identifier.newInstance("mzlib:test_smelting"))
+                .id(Identifier.of("mzlib:test_smelting"))
                 .ingredient(ItemStack.newInstance(Item.fromId("stick")))
                 .result(ItemStack.builder().fromId("apple").build())
                 .experience(100.f)

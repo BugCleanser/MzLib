@@ -262,7 +262,7 @@ public interface ItemStack extends WrapperObject
     {
         for(String id : nbt.getString("id"))
         {
-            if(!Identifier.newInstance(id).equals(Identifier.minecraft("air"))) // legacy
+            if(!Identifier.of(id).equals(Identifier.minecraft("air"))) // legacy
                 return decode0(upgrade(nbt));
         }
         return Result.success(Option.some(ItemStack.empty()));

@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.item.ItemTagsV1300;
 import mz.mzlib.minecraft.mzitem.MzItem;
 import mz.mzlib.minecraft.mzitem.RegistrarMzItem;
-import mz.mzlib.minecraft.registry.RegistryKeys;
+import mz.mzlib.minecraft.registry.RegistryKeysV1600;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
 import mz.mzlib.minecraft.registry.entry.RegistryWrapperV1903;
@@ -60,22 +60,21 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         return FACTORY.getStatic().static$of(itemStack);
     }
 
-    @VersionRange(begin = 1200, end = 1300)
-    static IngredientVanilla ofItemStacksV1200_1300(ItemStack... itemStacks)
+    @VersionRange(begin = 1200)
+    static IngredientVanilla ofV1200(ItemStack... itemStacks)
     {
-        return FACTORY.getStatic().static$ofItemStacksV1200_1300(
-            Arrays.stream(itemStacks).collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
-    }
-    @VersionRange(begin = 1300)
-    static IngredientVanilla ofItemsV1300(ItemConvertibleV1300... items)
-    {
-        return FACTORY.getStatic().static$ofItemsV1300(
-            Arrays.stream(items).collect(WrapperArray.collector(ItemConvertibleV1300.Array.FACTORY)));
+        return FACTORY.getStatic().static$ofV1200(itemStacks);
     }
     @VersionRange(begin = 1200)
-    static IngredientVanilla ofItemsV1200(Item... items)
+    static IngredientVanilla ofV1200(Item... items)
     {
-        return FACTORY.getStatic().static$ofItemsV1200(items);
+        return FACTORY.getStatic().static$ofV1200(items);
+    }
+    @VersionRange(begin = 1300)
+    static IngredientVanilla ofV1300(ItemConvertibleV1300... items)
+    {
+        return FACTORY.getStatic().static$ofV1300(
+            Arrays.stream(items).collect(WrapperArray.collector(ItemConvertibleV1300.Array.FACTORY)));
     }
 
     @VersionRange(end = 1200)
@@ -84,7 +83,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         return this.as(ItemStack.FACTORY);
     }
 
-    List<ItemStack> getMatchingStacksV1200();
+    @VersionRange(begin = 1200, end = 1300)
+    default List<ItemStack> getDataV1200_1300()
+    {
+        return this.getData0V1200_1300().asList();
+    }
+    @VersionRange(begin = 1300)
+    List<ItemStack> getMatchingStacksV1300();
 
     @WrapArrayClass(IngredientVanilla.class)
     interface Array extends WrapperArray<IngredientVanilla>
@@ -99,9 +104,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
 
     static IngredientVanilla ofCategory(String id)
     {
+        return ofCategory(Identifier.of(id));
+    }
+    static IngredientVanilla ofCategory(Identifier id)
+    {
         return ofCategory(id, id);
     }
-    static IngredientVanilla ofCategory(String itemV_1300, String tagV1300)
+    static IngredientVanilla ofCategory(Identifier itemV_1300, Identifier tagV1300)
     {
         return FACTORY.getStatic().static$ofCategory(itemV_1300, tagV1300);
     }
@@ -165,51 +174,61 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         return itemStack.as(FACTORY);
     }
     @SpecificImpl("static$of")
-    @VersionRange(begin = 1200, end = 1300)
-    default IngredientVanilla static$ofV1200_1300(ItemStack itemStack)
+    @VersionRange(begin = 1200)
+    default IngredientVanilla static$ofV1200(ItemStack itemStack)
     {
-        return ofItemStacksV1200_1300(itemStack);
-    }
-    @SpecificImpl("static$of")
-    @VersionRange(begin = 1300)
-    default IngredientVanilla static$ofV1300(ItemStack itemStack)
-    {
-        return ofItemsV1300(itemStack.getItem().as(Item.V1300.FACTORY));
+        return ofV1200(itemStack);
     }
 
-    IngredientVanilla static$ofItemsV1200(Item... items);
-    @SpecificImpl("static$ofItemsV1200")
+    @VersionRange(begin = 1200)
+    IngredientVanilla static$ofV1200(ItemStack... itemStacks);
+    @SpecificImpl("static$ofV1200")
     @VersionRange(begin = 1200, end = 1300)
-    default IngredientVanilla static$ofItemsV1200_1300(Item... items)
+    default IngredientVanilla static$ofV1200_1300(ItemStack... itemStacks)
     {
-        return ofItemStacksV1200_1300(Arrays.stream(items).map(ItemStack::newInstance).toArray(ItemStack[]::new));
+        return FACTORY.getStatic().static$ofV1200_1300(
+            Arrays.stream(itemStacks).collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
     }
-    @SpecificImpl("static$ofItemsV1200")
+    @SpecificImpl("static$ofV1200")
     @VersionRange(begin = 1300)
-    default IngredientVanilla static$ofItemsV1300(Item... items)
+    default IngredientVanilla static$ofV1300(ItemStack... itemStacks)
     {
-        return ofItemsV1300(Arrays.stream(items)
+        return ofV1200(Arrays.stream(itemStacks).map(ItemStack::getItem).toArray(Item[]::new));
+    }
+
+    IngredientVanilla static$ofV1200(Item... items);
+    @SpecificImpl("static$ofV1200")
+    @VersionRange(begin = 1200, end = 1300)
+    default IngredientVanilla static$ofV1200_1300(Item... items)
+    {
+        return ofV1200(Arrays.stream(items).map(ItemStack::newInstance).toArray(ItemStack[]::new));
+    }
+    @SpecificImpl("static$ofV1200")
+    @VersionRange(begin = 1300)
+    default IngredientVanilla static$ofV1300(Item... items)
+    {
+        return ofV1300(Arrays.stream(items)
             .map(it -> it.as(Item.V1300.FACTORY)).toArray(ItemConvertibleV1300[]::new));
     }
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "method_14248"))
-    IngredientVanilla static$ofItemStacksV1200_1300(ItemStack.Array itemStacks);
+    IngredientVanilla static$ofV1200_1300(ItemStack.Array itemStacks);
 
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod(@VersionName(name = "ofItems"))
-    IngredientVanilla static$ofItemsV1300(ItemConvertibleV1300.Array items);
+    IngredientVanilla static$ofV1300(ItemConvertibleV1300.Array items);
 
-    IngredientVanilla static$ofCategory(String itemV_1300, String tagV1300);
+    IngredientVanilla static$ofCategory(Identifier itemV_1300, Identifier tagV1300);
     @SpecificImpl("static$ofCategory")
     @VersionRange(end = 1300)
-    default IngredientVanilla static$ofCategoryV_1300(String itemV_1300, String tagV1300)
+    default IngredientVanilla static$ofCategoryV_1300(Identifier itemV_1300, Identifier tagV1300)
     {
         return of(ItemStack.builder().fromId(itemV_1300).damageV_1300(32767).build());
     }
     @SpecificImpl("static$ofCategory")
     @VersionRange(begin = 1300)
-    default IngredientVanilla static$ofCategoryV1300(String itemV_1300, String tagV1300)
+    default IngredientVanilla static$ofCategoryV1300(Identifier itemV_1300, Identifier tagV1300)
     {
         return ofV1300(ItemTagsV1300.of(tagV1300));
     }
@@ -224,7 +243,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     default IngredientVanilla static$ofV2102(TagV1300<Item> tag)
     {
         return MinecraftServer.instance.getRegistriesV1802().as(RegistryWrapperV1903.class_7874.FACTORY)
-            .get(RegistryKeys.ITEM)
+            .get(RegistryKeysV1600.ITEM)
             .unwrap(IllegalStateException::new)
             .get(tag)
             .map(this::static$ofV2102)
@@ -234,22 +253,15 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @WrapConstructor
     IngredientVanilla static$ofV2102(RegistryEntryListV1903 list);
 
-    @SpecificImpl("getMatchingStacksV1200")
-    @VersionRange(begin = 1200, end = 1300)
-    default List<ItemStack> getMatchingStacksV1200_1300()
-    {
-        return this.getCachedMatchingStacks0V1200_2102().asList();
-    }
-
-    @SpecificImpl("getMatchingStacksV1200")
+    @SpecificImpl("getMatchingStacksV1300")
     @VersionRange(begin = 1300, end = 1701)
     default List<ItemStack> getMatchingStacksV1300_1701()
     {
         this.cacheMatchingStacksV1300_1903();
-        return this.getCachedMatchingStacks0V1200_2102().asList();
+        return this.getCachedMatchingStacks0V1300_2102().asList();
     }
 
-    @SpecificImpl("getMatchingStacksV1200")
+    @SpecificImpl("getMatchingStacksV1300")
     @VersionRange(begin = 1701, end = 2102)
     default List<ItemStack> getMatchingStacksV1701_2102()
     {
@@ -259,7 +271,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @WrapMinecraftMethod(@VersionName(name = "getMatchingStacks"))
     ItemStack.Array getMatchingStacks0V1701_2102();
 
-    @SpecificImpl("getMatchingStacksV1200")
+    @SpecificImpl("getMatchingStacksV1300")
     @VersionRange(begin = 2102)
     default List<ItemStack> getMatchingStacksV2102()
     {
@@ -286,14 +298,17 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
     Stream<Object> getMatchingItems0V2104();
 
-    @VersionRange(begin = 1200, end = 2102)
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMinecraftFieldAccessor(@VersionName(name = "field_15681"))
+    ItemStack.Array getData0V1200_1300();
+    @VersionRange(begin = 1300, end = 2102)
     @WrapMinecraftFieldAccessor(
         {
             @VersionName(name = "field_15681", end = 1400),
             @VersionName(name = "matchingStacks", begin = 1400)
         }
     )
-    ItemStack.Array getCachedMatchingStacks0V1200_2102();
+    ItemStack.Array getCachedMatchingStacks0V1300_2102();
     @VersionRange(begin = 1300, end = 1903)
     @WrapMinecraftMethod(
         {
@@ -329,7 +344,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @VersionRange(begin = 1200)
     default int hashCode0V1200()
     {
-        return this.getMatchingStacksV1200().hashCode();
+        return this.getMatchingStacksV1300().hashCode();
     }
     @SpecificImpl("equals0")
     @VersionRange(begin = 1200)
@@ -342,6 +357,6 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         IngredientVanilla o = (IngredientVanilla) object;
         if(this.getWrapped() == o.getWrapped())
             return true;
-        return Objects.equals(this.getMatchingStacksV1200(), o.getMatchingStacksV1200());
+        return Objects.equals(this.getMatchingStacksV1300(), o.getMatchingStacksV1300());
     }
 }

@@ -87,7 +87,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
 
     public ItemStackBuilder(String item, int count)
     {
-        this(Identifier.newInstance(item), count);
+        this(Identifier.of(item), count);
     }
     public ItemStackBuilder(String item)
     {

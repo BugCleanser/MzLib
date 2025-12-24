@@ -40,7 +40,7 @@ public class RegistrarRecipeVanillaV2005_2102 extends RegistrarRecipeVanilla
         {
             result.put(
                 entry.getKey().getWrapped(),
-                RecipeEntryV2002.of(RecipeRegistration.of(entry.getKey(), entry.getValue())).getWrapped()
+                RecipeEntryV2002.of(RecipeRegistration.of(entry.getKey(), (RecipeMojang) entry.getValue())).getWrapped()
             );
         }
         recipeManager.setIdRecipes0V1800_2102(Collections.unmodifiableMap(result));
@@ -52,7 +52,7 @@ public class RegistrarRecipeVanillaV2005_2102 extends RegistrarRecipeVanilla
             {
                 builder.put(
                     ((RecipeTypeV1400) entry.getKey()).getWrapped(),
-                    RecipeEntryV2002.of(RecipeRegistration.of(e.getKey(), e.getValue())).getWrapped()
+                    RecipeEntryV2002.of(RecipeRegistration.of(e.getKey(), (RecipeMojang) e.getValue())).getWrapped()
                 );
             }
         }

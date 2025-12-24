@@ -19,6 +19,6 @@ public interface MzItemIconPlaceholder extends MzItem
     @Override
     default Identifier static$getMzId()
     {
-        return Identifier.newInstance(MzLibMinecraft.instance.MOD_ID, "icon_placeholder");
+        return Identifier.of(MzLibMinecraft.instance.MOD_ID, "icon_placeholder");
     }
 }

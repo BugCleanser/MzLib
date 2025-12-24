@@ -59,7 +59,7 @@ public class RegistrarMzItem implements IRegistrar<Class<? extends MzItem>>
                 for(String id : mz.getString("id"))
                 {
                     return Option.some(itemStack.as(Option.<WrapperFactory<? extends MzItem>>fromNullable(
-                            this.factories.get(Identifier.newInstance(id)))
+                            this.factories.get(Identifier.of(id)))
                         .unwrapOr(MzItemUnknown.FACTORY)));
                 }
             }

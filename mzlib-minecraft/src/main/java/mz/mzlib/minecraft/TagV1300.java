@@ -1,5 +1,7 @@
 package mz.mzlib.minecraft;
 
+import mz.mzlib.minecraft.registry.Registry;
+import mz.mzlib.minecraft.registry.RegistryKeyV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -33,6 +35,11 @@ public interface TagV1300<T extends WrapperObject> extends WrapperObject
         return this.as(class_5123V1600_1802.FACTORY).getId();
     }
 
+    static <T extends WrapperObject> TagV1300<T> ofV1802(RegistryKeyV1600<Registry.Wrapper<T>> type, Identifier id)
+    {
+        return FACTORY.getStatic().static$ofV1802(type, id);
+    }
+
 
     @VersionRange(begin = 1600, end = 1802)
     @WrapMinecraftInnerClass(outer = TagV1300.class, name = @VersionName(name = "class_5123"))
@@ -43,4 +50,8 @@ public interface TagV1300<T extends WrapperObject> extends WrapperObject
         @WrapMinecraftMethod(@VersionName(name = "getId"))
         Identifier getId();
     }
+
+    @VersionRange(begin = 1802)
+    @WrapMinecraftMethod(@VersionName(name = "of"))
+    <T1 extends WrapperObject> TagV1300<T1> static$ofV1802(RegistryKeyV1600<Registry.Wrapper<T1>> type, Identifier id);
 }

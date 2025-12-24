@@ -28,7 +28,7 @@ public interface ComponentKeyV2005<T> extends WrapperObject
     }
     static ComponentKeyV2005<?> fromId(String id)
     {
-        return fromId(Identifier.newInstance(id));
+        return fromId(Identifier.of(id));
     }
 
     static <T extends WrapperObject> Wrapper<T> fromId(Identifier id, WrapperFactory<T> type)

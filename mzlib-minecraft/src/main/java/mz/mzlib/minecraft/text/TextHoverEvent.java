@@ -296,7 +296,7 @@ public interface TextHoverEvent extends WrapperObject
         @Override
         public Option<Identifier> getType()
         {
-            return this.nbt.getString("type").map(Identifier::newInstance);
+            return this.nbt.getString("type").map(Identifier::of);
         }
         @Override
         public Option<UUID> getId()

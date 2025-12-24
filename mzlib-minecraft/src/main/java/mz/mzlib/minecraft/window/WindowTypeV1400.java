@@ -37,6 +37,6 @@ public interface WindowTypeV1400 extends WrapperObject
 
     static WindowTypeV1400 fromId(String id)
     {
-        return fromId(Identifier.newInstance(id));
+        return fromId(Identifier.of(id));
     }
 }

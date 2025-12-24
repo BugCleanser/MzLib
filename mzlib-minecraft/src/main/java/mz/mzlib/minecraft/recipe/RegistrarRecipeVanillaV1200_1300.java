@@ -19,7 +19,7 @@ public class RegistrarRecipeVanillaV1200_1300 extends RegistrarRecipeVanillaV_13
         super.updateOriginal();
         Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>(this.originalRecipes);
         HashMap<Identifier, Recipe> craftingRecipes = new HashMap<>();
-        SimpleRegistry registry = RecipeManager.getRegistryV1200_1300();
+        SimpleRegistry<?> registry = RecipeManager.getRegistryV1200_1300();
         for(Identifier id : registry.getIdsV_1300())
         {
             craftingRecipes.put(id, registry.get(id).as(RecipeMojang.FACTORY).autoCast());
