@@ -1,5 +1,6 @@
 package mz.mzlib.util.proxy;
 
+import jakarta.annotation.Nonnull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
@@ -128,7 +129,6 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
         return functionValue.apply(result);
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     public void putAll(Map<? extends K, ? extends V> m)
     {
@@ -145,8 +145,8 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
         this.modifyMonitor.markDirty();
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
+    @Nonnull
     public Set<K> keySet()
     {
         return new SetProxy<>(this.delegate.keySet(), this.functionKey, this.modifyMonitor);
@@ -156,7 +156,7 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     @Override
     public Collection<V> values()
     {
-        return new CollectionProxy<>(this.delegate.values(), this.functionValue, this.modifyMonitor);
+        return CollectionProxy.of(this.delegate.values(), this.functionValue, this.modifyMonitor);
     }
 
     @SuppressWarnings("NullableProblems")

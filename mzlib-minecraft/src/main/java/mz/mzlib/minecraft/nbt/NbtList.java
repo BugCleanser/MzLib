@@ -71,6 +71,11 @@ public interface NbtList extends NbtElement
         return this.asList(new WrapperFactory<>(creator));
     }
 
+    default int size()
+    {
+        return this.getValue0().size();
+    }
+
     @VersionRange(end = 2105)
     @WrapMinecraftFieldAccessor(@VersionName(name = "type"))
     byte getElementTypeIdV_2105();

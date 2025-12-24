@@ -64,10 +64,6 @@ public interface MzItem extends ItemStack
     @CallOnce
     default void onDisplay(EventAsyncPlayerDisplayItem event)
     {
-        this.onDisplay$MzItem(event);
-    }
-    default void onDisplay$MzItem(EventAsyncPlayerDisplayItem event)
-    {
         Identifier id = this.getMzId();
         String key = id.getNamespace() + ".item." + id.getName();
         String lang = event.getPlayer().getLanguage();

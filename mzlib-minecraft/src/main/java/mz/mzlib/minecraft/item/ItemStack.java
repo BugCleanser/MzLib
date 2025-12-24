@@ -798,7 +798,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(begin = 2005)
     default ItemStack cloneV2005(Item newItem)
     {
-        return this.cloneV2005(newItem.asItemConvertibleV1300(), this.getCount());
+        return this.cloneV2005(newItem.v1300(), this.getCount());
     }
     @VersionRange(begin = 2005)
     @WrapMinecraftMethod(@VersionName(name = "method_56701"))

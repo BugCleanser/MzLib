@@ -25,9 +25,8 @@ public interface PreparedRecipesV2102 extends WrapperObject
 
     default Collection<RecipeEntryV2002> recipes()
     {
-        return new CollectionProxy<>(this.recipes0(), FunctionInvertible.wrapper(RecipeEntryV2002.FACTORY));
+        return CollectionProxy.of(this.recipes0(), FunctionInvertible.wrapper(RecipeEntryV2002.FACTORY));
     }
-
 
 
     @WrapMinecraftMethod(@VersionName(name = "of"))

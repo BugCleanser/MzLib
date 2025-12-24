@@ -3,10 +3,7 @@ package mz.mzlib.minecraft.item;
 import com.google.gson.JsonElement;
 import mz.mzlib.data.DataHandler;
 import mz.mzlib.data.DataKey;
-import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftPlatform;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.*;
 import mz.mzlib.minecraft.component.ComponentKeyV2005;
 import mz.mzlib.minecraft.component.type.LoreComponentV2005;
 import mz.mzlib.minecraft.component.type.NbtCompoundComponentV2005;
@@ -29,6 +26,7 @@ import mz.mzlib.util.wrapper.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.item.Item"))
 public interface Item extends WrapperObject
@@ -45,38 +43,33 @@ public interface Item extends WrapperObject
         return fromId(Identifier.of(id));
     }
 
-    Item AIR = fromId(Identifier.minecraft("air"));
+    Item AIR = fromId(Identifier.ofMinecraft("air"));
 
     DataKey<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey<>("custom_data");
     DataKey<ItemStack, Option<Text>, Void> CUSTOM_NAME = new DataKey<>("custom_name");
     DataKey<ItemStack, Option<List<Text>>, List<Text>> LORE = new DataKey<>("lore");
 
-    ComponentKeyV2005.Wrapper<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 =
-        MinecraftPlatform.instance.getVersion() < 2005 ?
-            null :
-            ComponentKeyV2005.fromId("custom_data", NbtCompoundComponentV2005.FACTORY);
+    String TAG_KEY_ENCHANTMENTS_V_2005 = MinecraftPlatform.instance.getVersion() < 1300 ? "ench" : "Enchantments";
+    String TAG_KEY_HIDE_FLAGS_V_2005 = "HideFlags";
 
-    ComponentKeyV2005.Wrapper<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 =
-        MinecraftPlatform.instance.getVersion() < 2005 ? null : ComponentKeyV2005.fromId("custom_name", Text.FACTORY);
-
-    ComponentKeyV2005.Wrapper<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 =
-        MinecraftPlatform.instance.getVersion() < 2005 ?
-            null :
-            ComponentKeyV2005.fromId("lore", LoreComponentV2005.FACTORY);
+    ComponentKeyV2005.Wrapper<NbtCompoundComponentV2005> COMPONENT_KEY_CUSTOM_DATA_V2005 = componentKeyOrNull("custom_data", () -> NbtCompoundComponentV2005.FACTORY);
+    ComponentKeyV2005.Wrapper<Text> COMPONENT_KEY_CUSTOM_NAME_V2005 = componentKeyOrNull("custom_name", Text.FACTORY);
+    ComponentKeyV2005.Wrapper<LoreComponentV2005> COMPONENT_KEY_LORE_V2005 = componentKeyOrNull("lore", () -> LoreComponentV2005.FACTORY);
+    ComponentKeyV2005<Boolean> COMPONENT_KEY_ENCHANTMENT_GLINT_OVERRIDE_V2005 = componentKeyOrNull("enchantment_glint_override");
 
     @VersionRange(begin = 1300)
-    default ItemConvertibleV1300 asItemConvertibleV1300()
+    default V1300 v1300()
     {
-        return this.as(ItemConvertibleV1300.FACTORY);
+        return this.as(V1300.FACTORY);
     }
 
     Identifier getId();
 
-    static Registry getRegistry()
+    static Registry<Item> getRegistry()
     {
         return FACTORY.getStatic().static$getRegistry();
     }
-    static SimpleRegistry getRegistryV_1300()
+    static SimpleRegistry<Item> getRegistryV_1300()
     {
         return FACTORY.getStatic().static$getRegistryV_1300();
     }
@@ -94,6 +87,28 @@ public interface Item extends WrapperObject
     })
     Text getNameV1300(ItemStack itemStack);
 
+    static void makeEnchantmentGlint(ItemStack is)
+    {
+        FACTORY.getStatic().static$makeEnchantmentGlint(is);
+    }
+
+    static <T> ComponentKeyV2005<T> componentKeyOrNull(String id)
+    {
+        if(MinecraftPlatform.instance.getVersion() < 2005)
+            return RuntimeUtil.nul();
+        return ComponentKeyV2005.fromId(id);
+    }
+    static <T extends WrapperObject> ComponentKeyV2005.Wrapper<T> componentKeyOrNull(String id, WrapperFactory<T> type)
+    {
+        return componentKeyOrNull(id, ThrowableSupplier.constant(type));
+    }
+    static <T extends WrapperObject> ComponentKeyV2005.Wrapper<T> componentKeyOrNull(String id, Supplier<WrapperFactory<T>> typeSupplier)
+    {
+        if(MinecraftPlatform.instance.getVersion() < 2005)
+            return RuntimeUtil.nul();
+        return ComponentKeyV2005.fromId(id, typeSupplier.get());
+    }
+
 
     @SpecificImpl("getId")
     @VersionRange(end = 1300)
@@ -108,18 +123,18 @@ public interface Item extends WrapperObject
         return getRegistryV1300().getIdV1300(this);
     }
 
-    Registry static$getRegistry();
+    Registry<Item> static$getRegistry();
     @SpecificImpl("static$getRegistry")
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
-    SimpleRegistry static$getRegistryV_1300();
-    static Registry getRegistryV1300()
+    SimpleRegistry<Item> static$getRegistryV_1300();
+    static Registry<Item> getRegistryV1300()
     {
         return FACTORY.getStatic().static$getRegistryV1300();
     }
     @SpecificImpl("static$getRegistry")
     @VersionRange(begin = 1300)
-    default Registry static$getRegistryV1300()
+    default Registry<Item> static$getRegistryV1300()
     {
         return RegistriesV1300.item();
     }
@@ -143,6 +158,38 @@ public interface Item extends WrapperObject
     @VersionRange(begin = 1300, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "getTranslationKey"))
     String getTranslationKeyV1300_2102(ItemStack itemStack);
+
+    void static$makeEnchantmentGlint(ItemStack is);
+    @SpecificImpl("static$makeEnchantmentGlint")
+    @VersionRange(end = 2005)
+    default void static$makeEnchantmentGlintV_2005(ItemStack is)
+    {
+        for(NbtCompound tag : CUSTOM_DATA.get(is))
+        {
+            for(NbtList enchantments : tag.getNbtList(TAG_KEY_ENCHANTMENTS_V_2005))
+            {
+                if(enchantments.size()>0)
+                    return;
+            }
+            for(NbtList enchantments : tag.getNbtList("StoredEnchantments"))
+            {
+                if(enchantments.size()>0)
+                    return;
+            }
+        }
+        for(NbtCompound tag : CUSTOM_DATA.revise(is))
+        {
+            // 不同时设置id和lvl，否则升级到1.20.5+会报错
+            tag.put(TAG_KEY_ENCHANTMENTS_V_2005, NbtList.newInstance(NbtCompound.newInstance()));
+            tag.put(TAG_KEY_HIDE_FLAGS_V_2005, tag.getInt(TAG_KEY_HIDE_FLAGS_V_2005).unwrapOr(0) | 1);
+        }
+    }
+    @SpecificImpl("static$makeEnchantmentGlint")
+    @VersionRange(begin = 2005)
+    default void static$makeEnchantmentGlintV2005(ItemStack is)
+    {
+        is.getComponentsV2005().put(COMPONENT_KEY_ENCHANTMENT_GLINT_OVERRIDE_V2005, true);
+    }
 
     @VersionRange(begin = 1300)
     @WrapSameClass(Item.class)

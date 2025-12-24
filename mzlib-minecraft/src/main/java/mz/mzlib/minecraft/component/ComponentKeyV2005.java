@@ -2,6 +2,7 @@ package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.nbt.NbtOpsV1300;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
@@ -14,19 +15,20 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+@VersionRange(begin = 2005)
 @WrapMinecraftClass({
-    @VersionName(name = "net.minecraft.component.DataComponentType", begin = 2005, end = 2100),
+    @VersionName(name = "net.minecraft.component.DataComponentType", end = 2100),
     @VersionName(name = "net.minecraft.component.ComponentType", begin = 2100)
 })
 public interface ComponentKeyV2005<T> extends WrapperObject
 {
     WrapperFactory<ComponentKeyV2005<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(ComponentKeyV2005.class));
 
-    static ComponentKeyV2005<?> fromId(Identifier id)
+    static <T> ComponentKeyV2005<T> fromId(Identifier id)
     {
-        return RegistriesV1300.componentKeyV2005().get(id).as(FACTORY);
+        return RuntimeUtil.cast(RegistriesV1300.componentKeyV2005().get(id).as(FACTORY));
     }
-    static ComponentKeyV2005<?> fromId(String id)
+    static <T> ComponentKeyV2005<T> fromId(String id)
     {
         return fromId(Identifier.of(id));
     }
