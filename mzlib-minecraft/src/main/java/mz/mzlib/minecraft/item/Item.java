@@ -35,7 +35,7 @@ public interface Item extends WrapperObject
 
     static Item fromId(Identifier id)
     {
-        return getRegistry().get(id).castTo(Item.FACTORY);
+        return Option.fromWrapper(getRegistry().get(id)).unwrap(() -> new IllegalArgumentException("Unknown item id: " + id)).as(Item.FACTORY);
     }
 
     static Item fromId(String id)
