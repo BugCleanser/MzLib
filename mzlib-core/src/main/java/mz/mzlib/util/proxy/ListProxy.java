@@ -64,7 +64,7 @@ public class ListProxy<T, U> extends AbstractList<T> implements CollectionProxy<
         return CollectionProxy.super.remove(o);
     }
     @Override
-    public boolean addAll(Collection<? extends T> c)
+    public boolean addAll(@Nonnull Collection<? extends T> c)
     {
         return CollectionProxy.super.addAll(c);
     }

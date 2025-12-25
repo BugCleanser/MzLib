@@ -131,11 +131,11 @@ public interface GameProfileComponentV2005 extends WrapperObject
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         DataV2109 static$newInstance0(Optional<String> name, Optional<UUID> id, PropertyMap properties);
 
-        @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
+        @WrapMinecraftMethod(@VersionName(name = "comp_4625")) // Mojang: name
         Optional<String> getName0();
-        @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
+        @WrapMinecraftMethod(@VersionName(name = "comp_4626")) // Mojang: id
         Optional<UUID> getId0();
-        @WrapMinecraftFieldAccessor(@VersionName(name = "properties"))
+        @WrapMinecraftMethod(@VersionName(name = "comp_4627")) // Mojang: properties
         PropertyMap getProperties();
 
         default Option<String> getName()

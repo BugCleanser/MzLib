@@ -22,6 +22,6 @@ public interface TextContentObjectV2109 extends WrapperObject, TextContentV1900
     @WrapConstructor
     TextContentObjectV2109 static$newInstance(TextObjectContentsV2109 contents);
 
-    @WrapMinecraftMethod(@VersionName(name = "contents"))
+    @WrapMinecraftMethod(@VersionName(name = "comp_4591")) // Mojang: contents
     TextObjectContentsV2109 getContents();
 }

@@ -28,7 +28,7 @@ public interface FontDescriptionV2109 extends WrapperObject
         @WrapConstructor
         Resource static$newInstance(Identifier id);
 
-        @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
+        @WrapMinecraftFieldAccessor(@VersionName(name = "comp_4590")) // Mojang: id
         Identifier getId();
     }
 }

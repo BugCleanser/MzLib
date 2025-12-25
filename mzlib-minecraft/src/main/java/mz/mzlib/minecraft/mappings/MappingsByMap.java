@@ -292,7 +292,7 @@ public class MappingsByMap extends Mappings<MappingsByMap>
     }
 
     @Override
-    public MappingsByMap invert()
+    protected MappingsByMap invert()
     {
         MappingsByMap result = new MappingsByMap();
         for(Map.Entry<String, String> e : this.classes.entrySet())

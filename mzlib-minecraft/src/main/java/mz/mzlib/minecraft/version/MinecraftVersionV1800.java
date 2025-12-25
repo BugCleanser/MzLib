@@ -19,8 +19,8 @@ public interface MinecraftVersionV1800 extends WrapperObject
     }
 
     @WrapMinecraftMethod({
-        @VersionName(name = "getSaveVersion", end = 2106),
-        @VersionName(name = "dataVersion", begin = 2106)
+        @VersionName(name = "method_37912", end = 2106), // Mojang: getSaveVersion
+        @VersionName(name = "comp_4026", begin = 2106) // Mojang: dataVersion
     })
     DataVersionV1800 getDataVersion();
 }

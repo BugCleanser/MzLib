@@ -3,8 +3,7 @@ package mz.mzlib.minecraft.fabric;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.mappings.Mappings;
-import mz.mzlib.minecraft.mappings.MinecraftMappingsFetcherYarn;
+import mz.mzlib.minecraft.mappings.*;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
@@ -70,7 +69,7 @@ public class MinecraftPlatformFabric implements MinecraftPlatform
     {
         if(this.mappings != null)
             return this.mappings;
-        return this.mappings = new MinecraftMappingsFetcherYarn().fetch(
-            getVersionString(), new File(getMzLibDataFolder(), "mappings"));
+        File folder = new File(getMzLibDataFolder(), "mappings");
+        return this.mappings = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder);
     }
 }
