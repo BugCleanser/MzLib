@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 // TODO Refactor
 public abstract class Option<T> implements Iterable<T>
@@ -105,6 +106,13 @@ public abstract class Option<T> implements Iterable<T>
     public <U> Option<U> filter(Class<U> type)
     {
         return this.filter(type::isInstance).map(RuntimeUtil::cast);
+    }
+
+    public Stream<T> stream()
+    {
+        for(T t : this)
+            return Stream.of(t);
+        return Stream.empty();
     }
 
     protected static class Some<T> extends Option<T>
