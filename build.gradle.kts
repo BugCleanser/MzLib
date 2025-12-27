@@ -1,3 +1,5 @@
+import org.gradle.internal.extensions.stdlib.toDefaultLowerCase
+
 plugins {
     id("java-library")
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -187,7 +189,12 @@ tasks.register("buildDocs") {
 
 allprojects {
     group = "org.mzverse"
-    version = "10.0.1-beta.17"
+    val baseVersion = "10.0.1-beta.17"
+    version = if (System.getenv("BUILD_TYPE")?.equals("release", ignoreCase = true) ?: false) {
+        baseVersion
+    } else {
+        "$baseVersion-SNAPSHOT"
+    }
 
     repositories {
         mavenCentral()
@@ -266,8 +273,6 @@ subprojects {
                         groupId = project.group.toString()
                         artifactId = project.name
                         version = project.version.toString()
-                        if(System.getenv("RELEASE_TYPE") != "release")
-                            version += "-SNAPSHOT"
 
                         from(components["java"])
 

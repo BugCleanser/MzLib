@@ -23,6 +23,11 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      - name: check build type
+        if: |
+          startsWith(github.ref, 'refs/tags/')
+        run: echo "BUILD_TYPE=release" >> $GITHUB_ENV
+
       - name: Make gradle wrapper executable
         run: chmod +x ./gradlew
 
@@ -36,18 +41,9 @@ jobs:
           path: out/*.jar
           retention-days: 90
 
-      - name: Publish Snapshot
+      - name: Publish
         run: ./gradlew publish
         env:
-          RELEASE_TYPE: snapshot
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish Release
-        if: |
-          startsWith(github.ref, 'refs/tags/')
-        run: ./gradlew publish
-        env:
-          RELEASE_TYPE: release
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release:
