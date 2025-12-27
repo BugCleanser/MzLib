@@ -179,6 +179,28 @@ public interface RecipeMojangAbstract<I extends RecipeMojangAbstract.Input> exte
     }
 
     @Override
+    @VersionRange(end = 1904)
+    @CompoundOverride(parent = RecipeMojang.class, method = "getIconV_1904")
+    default ItemStack getIconV_1904()
+    {
+        return this.getDisplay().getIconV_1904();
+    }
+    @Override
+    @VersionRange(begin = 1904, end = 2005)
+    @CompoundOverride(parent = RecipeMojang.class, method = "getIconV1904_2005")
+    default ItemStack getIconV1904_2005(RegistryManagerV1602 registryManager)
+    {
+        return this.getDisplay().getIconV1904_2005(registryManager);
+    }
+    @Override
+    @VersionRange(begin = 2005, end = 2102)
+    @CompoundOverride(parent = RecipeMojang.class, method = "getIconV2005_2102")
+    default ItemStack getIconV2005_2102(RegistryWrapperV1903.class_7874 registriesLookup)
+    {
+        return this.getDisplay().getIconV2005_2102(registriesLookup);
+    }
+
+    @Override
     @VersionRange(end = 1300)
     @CompoundOverride(parent = RecipeMojang.class, method = "getResultV_1300")
     default ItemStack getResultV_1300(InventoryCrafting inventory)

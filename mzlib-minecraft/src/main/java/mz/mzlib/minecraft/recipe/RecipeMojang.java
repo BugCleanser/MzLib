@@ -45,58 +45,6 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
 {
     WrapperFactory<RecipeMojang> FACTORY = WrapperFactory.of(RecipeMojang.class);
 
-    @VersionRange(end = 1300)
-    @WrapMinecraftMethod(@VersionName(name = "matches"))
-    boolean matchesV_1300(InventoryCrafting inventory, World world);
-    @VersionRange(begin = 1300, end = 2100)
-    @WrapMinecraftMethod(
-        {
-            @VersionName(name = "method_3500", end = 1400),
-            @VersionName(name = "matches", begin = 1400)
-        }
-    )
-    boolean matchesV1300_2100(Inventory inventory, World world);
-    @VersionRange(begin = 2100)
-    @WrapMinecraftMethod(@VersionName(name = "matches"))
-    boolean matchesV2100(RecipeInputV2100 input, World world);
-
-    @VersionRange(end = 1100)
-    @WrapMinecraftMethod(@VersionName(name = "getRemainders"))
-    ItemStack.Array getRemainders0V_1100(InventoryCrafting inventory);
-    @VersionRange(begin = 1100, end = 1300)
-    @WrapMinecraftMethod(@VersionName(name = "method_13670"))
-    DefaultedListV1100<?> getRemainders0V1100_1300(InventoryCrafting inventory);
-    @VersionRange(begin = 1300, end = 2100)
-    @WrapMinecraftMethod({
-        @VersionName(name = "method_16203", end = 1400),
-        @VersionName(name = "method_8111", begin = 1400)
-    })
-    DefaultedListV1100<?> getRemainders0V1300_2100(Inventory inventory);
-    @VersionRange(begin = 2100, end = 2102)
-    @WrapMinecraftMethod(@VersionName(name = "method_8111"))
-    DefaultedListV1100<?> getRemainders0V2100_2102(RecipeInputV2100 input);
-
-    @VersionRange(end = 1300)
-    @WrapMinecraftMethod(@VersionName(name = "getResult"))
-    ItemStack getResultV_1300(InventoryCrafting inventory);
-    @VersionRange(begin = 1300, end = 1904)
-    @WrapMinecraftMethod(
-        {
-            @VersionName(name = "method_16201", end = 1400),
-            @VersionName(name = "craft", begin = 1400)
-        }
-    )
-    ItemStack getResultV1300_1904(Inventory inventory);
-    @VersionRange(begin = 1904, end = 2005)
-    @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV1904_2005(Inventory inventory, RegistryManagerV1602 registryManager);
-    @VersionRange(begin = 2005, end = 2100)
-    @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV2005_2100(Inventory inventory, RegistryWrapperV1903.class_7874 lookup);
-    @VersionRange(begin = 2100)
-    @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV2100(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup);
-
     @Override
     RecipeType getType();
 
@@ -188,6 +136,11 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     ItemStack getIconV_2102();
     @SpecificImpl("getIconV_2102")
     @VersionRange(end = 1904)
+    default ItemStack getIconV_2102$implV_1904()
+    {
+        return this.getIconV_1904();
+    }
+    @VersionRange(end = 1904)
     @WrapMinecraftMethod(
         {
             @VersionName(name = "getOutput", end = 1400),
@@ -222,6 +175,58 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
         return this.getDisplaysV2102().stream().map(RecipeDisplayV2102::getResult)
             .map(it -> it.getItemStacks(context)).flatMap(List::stream).collect(Collectors.toList());
     }
+
+    @VersionRange(end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "matches"))
+    boolean matchesV_1300(InventoryCrafting inventory, World world);
+    @VersionRange(begin = 1300, end = 2100)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_3500", end = 1400),
+            @VersionName(name = "matches", begin = 1400)
+        }
+    )
+    boolean matchesV1300_2100(Inventory inventory, World world);
+    @VersionRange(begin = 2100)
+    @WrapMinecraftMethod(@VersionName(name = "matches"))
+    boolean matchesV2100(RecipeInputV2100 input, World world);
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftMethod(@VersionName(name = "getRemainders"))
+    ItemStack.Array getRemainders0V_1100(InventoryCrafting inventory);
+    @VersionRange(begin = 1100, end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "method_13670"))
+    DefaultedListV1100<?> getRemainders0V1100_1300(InventoryCrafting inventory);
+    @VersionRange(begin = 1300, end = 2100)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_16203", end = 1400),
+        @VersionName(name = "method_8111", begin = 1400)
+    })
+    DefaultedListV1100<?> getRemainders0V1300_2100(Inventory inventory);
+    @VersionRange(begin = 2100, end = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "method_8111"))
+    DefaultedListV1100<?> getRemainders0V2100_2102(RecipeInputV2100 input);
+
+    @VersionRange(end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "getResult"))
+    ItemStack getResultV_1300(InventoryCrafting inventory);
+    @VersionRange(begin = 1300, end = 1904)
+    @WrapMinecraftMethod(
+        {
+            @VersionName(name = "method_16201", end = 1400),
+            @VersionName(name = "craft", begin = 1400)
+        }
+    )
+    ItemStack getResultV1300_1904(Inventory inventory);
+    @VersionRange(begin = 1904, end = 2005)
+    @WrapMinecraftMethod(@VersionName(name = "craft"))
+    ItemStack getResultV1904_2005(Inventory inventory, RegistryManagerV1602 registryManager);
+    @VersionRange(begin = 2005, end = 2100)
+    @WrapMinecraftMethod(@VersionName(name = "craft"))
+    ItemStack getResultV2005_2100(Inventory inventory, RegistryWrapperV1903.class_7874 lookup);
+    @VersionRange(begin = 2100)
+    @WrapMinecraftMethod(@VersionName(name = "craft"))
+    ItemStack getResultV2100(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup);
 
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({
