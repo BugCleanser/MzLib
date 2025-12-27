@@ -23,14 +23,19 @@ public interface MinecraftPlatform extends Instance
 
     Set<String> getTags();
 
-    default boolean inVersion(VersionRange name)
+    default boolean inVersion(int begin, int end)
     {
-        return this.getVersion() >= name.begin() && this.getVersion() < name.end();
+        return this.getVersion() >= begin && this.getVersion() < end;
+    }
+
+    default boolean inVersion(VersionRange range)
+    {
+        return this.inVersion(range.begin(), range.end());
     }
 
     default boolean inVersion(VersionName name)
     {
-        return this.getVersion() >= name.begin() && this.getVersion() < name.end();
+        return this.inVersion(name.begin(), name.end());
     }
 
     String getLanguage(EntityPlayer player);

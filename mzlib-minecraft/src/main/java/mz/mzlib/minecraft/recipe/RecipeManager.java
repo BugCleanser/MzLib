@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.resource.FeatureSetV1903;
-import mz.mzlib.minecraft.registry.SimpleRegistry;
+import mz.mzlib.minecraft.registry.RegistrySimple;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -51,12 +51,12 @@ public interface RecipeManager extends WrapperObject
     void setRecipes0V_1200(List<Object> value);
 
     @VersionRange(begin = 1200, end = 1300)
-    static SimpleRegistry<?> getRegistryV1200_1300()
+    static RegistrySimple<?> getRegistryV1200_1300()
     {
         return FACTORY.getStatic().static$getRegistryV1200_1300();
     }
     @VersionRange(begin = 1200, end = 1300)
-    static void setRegistryV1200_1300(SimpleRegistry<?> value)
+    static void setRegistryV1200_1300(RegistrySimple<?> value)
     {
         FACTORY.getStatic().static$setRegistryV1200_1300(value);
     }
@@ -130,10 +130,10 @@ public interface RecipeManager extends WrapperObject
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
-    SimpleRegistry<?> static$getRegistryV1200_1300();
+    RegistrySimple<?> static$getRegistryV1200_1300();
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
-    void static$setRegistryV1200_1300(SimpleRegistry<?> value);
+    void static$setRegistryV1200_1300(RegistrySimple<?> value);
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "setup"))

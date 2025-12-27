@@ -23,9 +23,9 @@ import java.util.UUID;
     @VersionName(name = "net.minecraft.recipe.ShapelessRecipeType", end = 1400),
     @VersionName(name = "net.minecraft.recipe.ShapelessRecipe", begin = 1400)
 })
-public interface RecipeCraftingShapeless extends RecipeMojang, RecipeCrafting
+public interface RecipeCraftingShapelessVanilla extends RecipeMojang, RecipeCrafting
 {
-    WrapperFactory<RecipeCraftingShapeless> FACTORY = WrapperFactory.of(RecipeCraftingShapeless.class);
+    WrapperFactory<RecipeCraftingShapelessVanilla> FACTORY = WrapperFactory.of(RecipeCraftingShapelessVanilla.class);
 
     @VersionRange(end = 1200)
     default List<IngredientVanilla> getIngredientsV_1200()

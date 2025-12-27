@@ -25,20 +25,20 @@ public interface RawShapedRecipeV2003 extends WrapperObject
 {
     WrapperFactory<RawShapedRecipeV2003> FACTORY = WrapperFactory.of(RawShapedRecipeV2003.class);
 
-    static RawShapedRecipeV2003 newInstance(
+    static RawShapedRecipeV2003 of(
         int width,
         int height,
         List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
-        return FACTORY.getStatic().static$newInstance(width, height, ingredients, data);
+        return FACTORY.getStatic().static$of(width, height, ingredients, data);
     }
-    static RawShapedRecipeV2003 newInstance(
+    static RawShapedRecipeV2003 of(
         int width,
         int height,
         List<Option<IngredientVanilla>> ingredients)
     {
-        return newInstance(width, height, ingredients, Option.none());
+        return of(width, height, ingredients, Option.none());
     }
 
     @WrapMinecraftMethod(
@@ -59,20 +59,20 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     List<Option<IngredientVanilla>> getIngredients();
 
 
-    RawShapedRecipeV2003 static$newInstance(
+    RawShapedRecipeV2003 static$of(
         int width,
         int height,
         List<Option<IngredientVanilla>> ingredients,
         Option<Data> data);
-    @SpecificImpl("static$newInstance")
+    @SpecificImpl("static$of")
     @VersionRange(end = 2102)
-    default RawShapedRecipeV2003 static$newInstanceV_2102(
+    default RawShapedRecipeV2003 static$ofV_2102(
         int width,
         int height,
         List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
-        return this.static$newInstanceV_2102(
+        return this.static$ofV_2102(
             width, height, DefaultedListV1100.fromWrapper(
                 ingredients.stream().map(IngredientVanilla::fromOptionV_2102).collect(Collectors.toList()),
                 IngredientVanilla.EMPTY_V_2102
@@ -82,20 +82,20 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     @VersionRange(end = 2102)
     @WrapConstructor
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    RawShapedRecipeV2003 static$newInstanceV_2102(
+    RawShapedRecipeV2003 static$ofV_2102(
         int width,
         int height,
         DefaultedListV1100<?> ingredients,
         Optional<?> data);
-    @SpecificImpl("static$newInstance")
+    @SpecificImpl("static$of")
     @VersionRange(begin = 2102)
-    default RawShapedRecipeV2003 static$newInstanceV2102(
+    default RawShapedRecipeV2003 static$ofV2102(
         int width,
         int height,
         List<Option<IngredientVanilla>> ingredients,
         Option<Data> data)
     {
-        return this.static$newInstanceV2102(
+        return this.static$ofV2102(
             width, height,
             ingredients.stream().map(it -> it.map(IngredientVanilla::getWrapped).toOptional())
                 .collect(Collectors.toList()), data.map(Data::getWrapped).toOptional()
@@ -104,7 +104,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     @VersionRange(begin = 2102)
     @WrapConstructor
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    RawShapedRecipeV2003 static$newInstanceV2102(
+    RawShapedRecipeV2003 static$ofV2102(
         int width,
         int height,
         List<Optional<?>> ingredients,

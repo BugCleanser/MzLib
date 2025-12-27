@@ -35,20 +35,20 @@ public interface WindowAbstract extends Window
     {
         WindowSlot slot = this.getSlot(index);
         if(!slot.isPresent() || slot.getItemStack().isEmpty())
-            return ItemStack.empty();
+            return ItemStack.EMPTY;
         ItemStack is = slot.getItemStack();
         ItemStack original = is.copy();
         int upperSize = this.getSlots().size() - 36;
         if(index < upperSize)
         {
             if(!this.placeIn(is, upperSize, this.getSlots().size(), true))
-                return ItemStack.empty();
+                return ItemStack.EMPTY;
         }
         else if(!this.placeIn(is, 0, upperSize, false))
-            return ItemStack.empty();
+            return ItemStack.EMPTY;
 
         if(is.isEmpty())
-            slot.setItemStackByPlayer(ItemStack.empty());
+            slot.setItemStackByPlayer(ItemStack.EMPTY);
         else
             slot.markDirty();
         return original;
@@ -83,7 +83,7 @@ public interface WindowAbstract extends Window
         this.onAction(index, data, actionType, player);
         if(player.isInstanceOf(EntityPlayer.FACTORY))
             player.castTo(EntityPlayer.FACTORY).updateWindowV_1700(this);
-        return ItemStack.empty();
+        return ItemStack.EMPTY;
     }
 
     @CompoundOverride(parent = Window.class, method = "onActionV1700")

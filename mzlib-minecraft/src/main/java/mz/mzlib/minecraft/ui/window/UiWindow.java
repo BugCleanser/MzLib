@@ -104,7 +104,7 @@ public class UiWindow extends UiAbstractWindow
     }
     public void putIconEmpty(int index)
     {
-        this.putIcon(index, player -> ItemStack.empty());
+        this.putIcon(index, player -> ItemStack.EMPTY);
     }
 
     public void putButton(int index, ButtonHandler handler)

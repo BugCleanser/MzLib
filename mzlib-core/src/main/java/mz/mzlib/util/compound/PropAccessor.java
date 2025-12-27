@@ -1,6 +1,5 @@
 package mz.mzlib.util.compound;
 
-import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrappedMemberFinder;
 import mz.mzlib.util.wrapper.WrappedMemberFinderClass;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -9,6 +8,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -43,7 +43,10 @@ public @interface PropAccessor
                 default:
                     throw new IllegalArgumentException("Too many args: " + Arrays.toString(argTypes) + ".");
             }
-            return RuntimeUtil.require(wrappedClass.getDeclaredField(annotation.value()), f -> f.getType() == type);
+            Field result = wrappedClass.getDeclaredField(annotation.value());
+            if(result.getType() != type)
+                throw new IllegalStateException(String.format("Field type(%s) is not prop type(%s)", result.getType(), type));
+            return result;
         }
     }
 }

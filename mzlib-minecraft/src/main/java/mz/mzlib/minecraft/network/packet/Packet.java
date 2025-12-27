@@ -13,7 +13,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -28,13 +27,6 @@ import java.util.Objects;
 public interface Packet extends WrapperObject
 {
     WrapperFactory<Packet> FACTORY = WrapperFactory.of(Packet.class);
-
-    @Deprecated
-    @WrapperCreator
-    static Packet create(Object wrapped)
-    {
-        return WrapperObject.create(Packet.class, wrapped);
-    }
 
     boolean isBundle();
 

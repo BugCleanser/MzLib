@@ -15,6 +15,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -35,7 +36,7 @@ public @interface Compound
         {
             synchronized(wrapperClass)
             {
-                String className = wrapperClass.getName() + "$0mzCompoundFinal";
+                String className = wrapperClass.getName() + "$0CompoundImpl";
                 try
                 {
                     return Class.forName(className, true, wrapperClass.getClassLoader());
@@ -47,6 +48,7 @@ public @interface Compound
                 ClassNode cn = new ClassNode();
                 Set<Class<?>> superclasses = getSuperclasses(wrapperClass);
                 Set<Class<?>> interfaces = superclasses.stream().filter(Class::isInterface).collect(Collectors.toSet());
+                interfaces.add(ICompoundImpl.class);
                 superclasses = superclasses.stream().filter(i -> !i.isInterface()).collect(Collectors.toSet());
                 Class<?> superclass = superclasses.stream().findFirst().orElse(Object.class);
                 boolean flag = true;
@@ -73,10 +75,21 @@ public @interface Compound
                     Opcodes.V1_8, Opcodes.ACC_PUBLIC, className, null, AsmUtil.getType(superclass),
                     interfaces.stream().map(AsmUtil::getType).toArray(String[]::new)
                 );
+                {
+                    MethodNode mn = new MethodNode(
+                        Opcodes.ACC_PUBLIC, "compound$getWrapper", AsmUtil.getDesc(MethodType.methodType(WrapperObject.class)), null, null);
+                    mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
+                    mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
+                    mn.instructions.add(AsmUtil.insnReturn(WrapperObject.class));
+                    mn.visitEnd();
+                    cn.methods.add(mn);
+                }
                 PriorityQueue<Pair<DelegateField, Class<?>>> delegates = new PriorityQueue<>(
                     Pair.comparingByFirst(Comparator.comparing(DelegateField::priority)));
                 for(Method method : wrapperClass.getMethods())
                 {
+                    if(method.isBridge() || method.isSynthetic())
+                        continue;
                     if(Modifier.isStatic(method.getModifiers()) || !ElementSwitcher.isEnabled(method))
                         continue;
                     for(PropAccessor anno : Option.fromNullable(method.getDeclaredAnnotation(PropAccessor.class)))

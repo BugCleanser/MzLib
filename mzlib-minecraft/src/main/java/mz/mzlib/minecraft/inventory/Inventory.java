@@ -1,6 +1,7 @@
 package mz.mzlib.minecraft.inventory;
 
 import mz.mzlib.minecraft.VersionName;
+import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -72,7 +73,7 @@ public interface Inventory extends WrapperObject
         int size = this.size();
         for(int i = 0; i < size; i++)
         {
-            this.setItemStack(i, ItemStack.empty());
+            this.setItemStack(i, ItemStack.EMPTY);
         }
     }
 
@@ -125,4 +126,12 @@ public interface Inventory extends WrapperObject
             return Objects.equals(this.getInventory(), slot.getInventory()) && this.getIndex() == slot.getIndex();
         }
     }
+
+
+    @VersionRange(begin = 1300, end = 1400)
+    @WrapMinecraftMethod(@VersionName(name = "method_11260"))
+    int getWidthV1300_1400();
+    @VersionRange(begin = 1300, end = 1400)
+    @WrapMinecraftMethod(@VersionName(name = "method_11259"))
+    int getHeightV1300_1400();
 }

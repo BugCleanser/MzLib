@@ -14,8 +14,8 @@ import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.recipe.IngredientVanilla;
-import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
-import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapeless;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapedVanilla;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapelessVanilla;
 import mz.mzlib.minecraft.registry.entry.RegistryEntryListV1903;
 import mz.mzlib.minecraft.registry.tag.TagKeyV1903;
 import mz.mzlib.minecraft.text.Text;
@@ -149,7 +149,7 @@ public interface MzItem extends ItemStack
                 .register(this);
             this.register(NothingItemStack.class);
             this.register(NothingIngredientVanilla.class);
-            this.registerIfEnabled(NothingRecipeCraftingShapedV_1200.class);
+            this.registerIfEnabled(NothingRecipeCraftingShapedVanillaV_1200.class);
 
             this.register(RegistrarMzItem.instance);
 
@@ -238,8 +238,8 @@ public interface MzItem extends ItemStack
             return Nothing.notReturn();
         }
         @VersionRange(end = 1200)
-        @WrapSameClass(RecipeCraftingShaped.class)
-        public interface NothingRecipeCraftingShapedV_1200 extends Nothing, RecipeCraftingShaped
+        @WrapSameClass(RecipeCraftingShapedVanilla.class)
+        public interface NothingRecipeCraftingShapedVanillaV_1200 extends Nothing, RecipeCraftingShapedVanilla
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",
@@ -253,8 +253,8 @@ public interface MzItem extends ItemStack
             }
         }
         @VersionRange(end = 1200)
-        @WrapSameClass(RecipeCraftingShapeless.class)
-        public interface NothingRecipeCraftingShapelessV_1200 extends Nothing, RecipeCraftingShapeless
+        @WrapSameClass(RecipeCraftingShapelessVanilla.class)
+        public interface NothingRecipeCraftingShapelessVanillaV_1200 extends Nothing, RecipeCraftingShapelessVanilla
         {
             @NothingInject(
                 wrapperMethodName = "matchesV_1300",

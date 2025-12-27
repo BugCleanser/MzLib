@@ -13,7 +13,7 @@ import mz.mzlib.minecraft.nbt.NbtList;
 import mz.mzlib.minecraft.nbt.NbtString;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
-import mz.mzlib.minecraft.registry.SimpleRegistry;
+import mz.mzlib.minecraft.registry.RegistrySimple;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -43,7 +43,7 @@ public interface Item extends WrapperObject
         return fromId(Identifier.of(id));
     }
 
-    Item AIR = fromId(Identifier.ofMinecraft("air"));
+    Item AIR_V1100 = MinecraftPlatform.instance.getVersion() < 1100 ? null : fromId(Identifier.ofMinecraft("air"));
 
     DataKey<ItemStack, Option<NbtCompound>, NbtCompound> CUSTOM_DATA = new DataKey<>("custom_data");
     DataKey<ItemStack, Option<Text>, Void> CUSTOM_NAME = new DataKey<>("custom_name");
@@ -69,7 +69,7 @@ public interface Item extends WrapperObject
     {
         return FACTORY.getStatic().static$getRegistry();
     }
-    static SimpleRegistry<Item> getRegistryV_1300()
+    static RegistrySimple<Item> getRegistryV_1300()
     {
         return FACTORY.getStatic().static$getRegistryV_1300();
     }
@@ -127,7 +127,7 @@ public interface Item extends WrapperObject
     @SpecificImpl("static$getRegistry")
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
-    SimpleRegistry<Item> static$getRegistryV_1300();
+    RegistrySimple<Item> static$getRegistryV_1300();
     static Registry<Item> getRegistryV1300()
     {
         return FACTORY.getStatic().static$getRegistryV1300();

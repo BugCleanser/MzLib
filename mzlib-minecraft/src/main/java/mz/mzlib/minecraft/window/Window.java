@@ -93,7 +93,7 @@ public interface Window extends WrapperObject
     BukkitInventoryView getBukkitView();
 
     /**
-     * @return {@link ItemStack#empty()} when no item stack can be transferred, otherwise the original item stack
+     * @return {@link ItemStack#EMPTY} when no item stack can be transferred, otherwise the original item stack
      */
     @WrapMinecraftMethod({
         @VersionName(name = "transferSlot", end = 1903),

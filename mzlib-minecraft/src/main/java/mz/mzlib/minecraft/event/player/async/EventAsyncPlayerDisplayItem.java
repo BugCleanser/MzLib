@@ -27,7 +27,7 @@ public abstract class EventAsyncPlayerDisplayItem extends EventPlayer
 
     public Editor<ItemStack> reviseItemStack()
     {
-        return Editor.ofClone(this::getItemStack, ItemStack::clone0, this::setItemStack);
+        return Editor.ofClone(this::getItemStack, ItemStack::clone, this::setItemStack);
     }
     /**
      * @see #reviseItemStack

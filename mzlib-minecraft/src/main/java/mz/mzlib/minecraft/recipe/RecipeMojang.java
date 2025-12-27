@@ -1,22 +1,25 @@
 package mz.mzlib.minecraft.recipe;
 
-import mz.mzlib.minecraft.Identifier;
-import mz.mzlib.minecraft.MinecraftServer;
-import mz.mzlib.minecraft.VersionName;
-import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.*;
+import mz.mzlib.minecraft.bukkit.BukkitNamespacedKeyV1200;
+import mz.mzlib.minecraft.bukkit.inventory.BukkitRecipe;
 import mz.mzlib.minecraft.incomprehensible.context.MojangContextV2102;
 import mz.mzlib.minecraft.incomprehensible.context.SlotDisplayContextsV2102;
+import mz.mzlib.minecraft.incomprehensible.recipe.IngredientPlacementV2102;
+import mz.mzlib.minecraft.incomprehensible.recipe.RecipeSerializerV1300;
 import mz.mzlib.minecraft.incomprehensible.registry.RegistryManagerV1602;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryCrafting;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingV1400;
-import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShaped;
-import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapeless;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCrafting;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapedImpl;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapedVanilla;
+import mz.mzlib.minecraft.recipe.crafting.RecipeCraftingShapelessVanilla;
 import mz.mzlib.minecraft.recipe.display.RecipeDisplayV2102;
 import mz.mzlib.minecraft.recipe.input.RecipeInputV2100;
 import mz.mzlib.minecraft.recipe.smelting.RecipeFurnaceV1300;
 import mz.mzlib.minecraft.registry.entry.RegistryWrapperV1903;
+import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.world.World;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
@@ -24,6 +27,7 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -55,6 +59,22 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(begin = 2100)
     @WrapMinecraftMethod(@VersionName(name = "matches"))
     boolean matchesV2100(RecipeInputV2100 input, World world);
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftMethod(@VersionName(name = "getRemainders"))
+    ItemStack.Array getRemainders0V_1100(InventoryCrafting inventory);
+    @VersionRange(begin = 1100, end = 1300)
+    @WrapMinecraftMethod(@VersionName(name = "method_13670"))
+    DefaultedListV1100<?> getRemainders0V1100_1300(InventoryCrafting inventory);
+    @VersionRange(begin = 1300, end = 2100)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_16203", end = 1400),
+        @VersionName(name = "method_8111", begin = 1400)
+    })
+    DefaultedListV1100<?> getRemainders0V1300_2100(Inventory inventory);
+    @VersionRange(begin = 2100, end = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "method_8111"))
+    DefaultedListV1100<?> getRemainders0V2100_2102(RecipeInputV2100 input);
 
     @VersionRange(end = 1300)
     @WrapMinecraftMethod(@VersionName(name = "getResult"))
@@ -93,7 +113,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(end = 1200)
     default Identifier calcIdV_1200()
     {
-        return Identifier.minecraft(
+        return Identifier.ofMinecraft(
             this.getWrapped().getClass().getSimpleName().replaceAll("([a-z])([A-Z])", "$1_$2").toLowerCase());
     }
 
@@ -131,10 +151,12 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(end = 1300)
     default RecipeMojang autoCastV_1300()
     {
-        if(this.is(RecipeCraftingShaped.FACTORY))
-            return this.as(RecipeCraftingShaped.FACTORY);
-        if(this.getWrapped().getClass() == RecipeCraftingShapeless.FACTORY.getWrappedClass()) // fuck Bukkit
-            return this.as(RecipeCraftingShapeless.FACTORY);
+        if(this.is(RecipeCraftingShapedVanilla.FACTORY))
+            return this.as(RecipeCraftingShapedVanilla.FACTORY);
+        if(this.is(RecipeCraftingShapedImpl.FACTORY))
+            return this.as(RecipeCraftingShapedImpl.FACTORY);
+        if(this.getWrapped().getClass() == RecipeCraftingShapelessVanilla.FACTORY.getWrappedClass()) // fuck Bukkit
+            return this.as(RecipeCraftingShapelessVanilla.FACTORY);
         return this;
     }
     @SpecificImpl("autoCast")
@@ -150,8 +172,8 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     default RecipeMojang autoCastV1400()
     {
         RecipeMojang result = this;
-        if(result.is(RecipeCraftingV1400.FACTORY))
-            result = result.as(RecipeCraftingV1400.FACTORY);
+        if(result.is(RecipeCrafting.FACTORY))
+            result = result.as(RecipeCrafting.FACTORY);
         return result.autoCastV1300_1400();
     }
 
@@ -201,7 +223,46 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
             .map(it -> it.getItemStacks(context)).flatMap(List::stream).collect(Collectors.toList());
     }
 
+    @VersionRange(begin = 1300)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_16200", end = 1400),
+        @VersionName(name = "getSerializer", begin = 1400)
+    })
+    RecipeSerializerV1300 getSerializerV1300();
+
+    @VersionRange(begin = 1200, end = 2102)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_14252", end = 1400),
+        @VersionName(name = "method_8117", begin = 1400) // getPreviewInputs; getIngredients
+    })
+    DefaultedListV1100<?> getIngredients0V1200_2102();
+
+    @VersionRange(begin = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "getIngredientPlacement"))
+    IngredientPlacementV2102 getIngredientPlacementV2102();
+
+    /**
+     * Usually client only: V1200_2102
+     */
+    @VersionRange(begin = 1700, end = 2102)
+    @WrapMinecraftMethod(@VersionName(name = "fits"))
+    boolean fitsV1700_2102(int width, int height);
+
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "getDisplays"))
     List<Object> getDisplays0V2102();
+
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
+    @VersionRange(begin = 1200, end = 1300)
+    @WrapMethod("setKey")
+    void setKeyBukkitV1200_1300(Identifier id);
+
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
+    @VersionRange(end = 2002)
+    @WrapMethod("toBukkitRecipe")
+    BukkitRecipe toBukkitV_2002();
+    @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
+    @VersionRange(begin = 2002)
+    @WrapMethod("toBukkitRecipe")
+    BukkitRecipe toBukkitV2002(BukkitNamespacedKeyV1200 id);
 }

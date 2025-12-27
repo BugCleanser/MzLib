@@ -43,12 +43,7 @@ public interface ItemStack extends WrapperObject
 {
     WrapperFactory<ItemStack> FACTORY = WrapperFactory.of(ItemStack.class);
 
-    ItemStack AIR = newInstance(Item.AIR, 0);
-
-    static ItemStack empty()
-    {
-        return FACTORY.getStatic().static$empty();
-    }
+    ItemStack EMPTY = FACTORY.getStatic().static$empty();
 
     static ItemStack newInstance(Item item)
     {
@@ -262,10 +257,10 @@ public interface ItemStack extends WrapperObject
     {
         for(String id : nbt.getString("id"))
         {
-            if(!Identifier.of(id).equals(Identifier.minecraft("air"))) // legacy
+            if(!Identifier.of(id).equals(Identifier.ofMinecraft("air"))) // legacy
                 return decode0(upgrade(nbt));
         }
-        return Result.success(Option.some(ItemStack.empty()));
+        return Result.success(Option.some(EMPTY));
     }
 
     default Result<Option<NbtCompound>, String> encode()
@@ -281,12 +276,8 @@ public interface ItemStack extends WrapperObject
     }
     Result<Option<NbtCompound>, String> encode0();
 
-    default Item getItem()
-    {
-        if(!this.isPresent())
-            return Item.AIR;
-        return Option.fromWrapper(this.getItem0()).unwrapOr(Item.AIR);
-    }
+    @WrapMinecraftFieldAccessor(@VersionName(name = "item")) // cannot replace with wrapping method
+    Item getItem();
 
     @Deprecated
     @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
@@ -389,7 +380,10 @@ public interface ItemStack extends WrapperObject
     String getTranslationKey();
     @SpecificImpl("getTranslationKey")
     @VersionRange(end = 2102)
-    String getTranslationKeyV_2102();
+    default String getTranslationKeyV_2102()
+    {
+        return this.getItem().getTranslationKeyV_2102(this);
+    }
 
     default ItemType getType()
     {
@@ -426,10 +420,17 @@ public interface ItemStack extends WrapperObject
     /**
      * Shadow clone
      */
+    ItemStack clone();
+    @SpecificImpl("clone")
+    default ItemStack clone$impl()
+    {
+        return this.clone(this.getItem());
+    }
+    @Deprecated
     @Override
     default ItemStack clone0()
     {
-        return this.clone(this.getItem());
+        return this.clone();
     }
     ItemStack clone(Item newItem);
 
@@ -634,9 +635,6 @@ public interface ItemStack extends WrapperObject
         return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this).toResult();
     }
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "item")) // cannot replace with wrapping method
-    Item getItem0();
-
     @SpecificImpl("getCount")
     @VersionRange(end = 1100)
     default int getCount_V1100()
@@ -680,7 +678,7 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1100)
     default boolean isEmptyV_1100()
     {
-        return !this.isPresent() || this.getItem().equals(Item.AIR) || this.getCount() <= 0;
+        return !this.isPresent() || this.getCount() <= 0;
     }
     @SpecificImpl("isEmpty")
     @VersionRange(begin = 1100)
@@ -692,7 +690,7 @@ public interface ItemStack extends WrapperObject
     default ItemStack copyV_1100()
     {
         if(this.isEmpty())
-            return empty();
+            return EMPTY;
         return this.copy0();
     }
     @SpecificImpl("copy")
@@ -717,20 +715,6 @@ public interface ItemStack extends WrapperObject
         return this.getItem().getNameV1300(this);
     }
 
-    @SpecificImpl("getTranslationKeyV_2102")
-    @VersionRange(end = 1100)
-    default String getTranslationKeyV_1100()
-    {
-        if(this.isEmpty())
-            return AIR.getTranslationKeyV_1100();
-        return this.getItem().getTranslationKeyV_2102(this);
-    }
-    @SpecificImpl("getTranslationKeyV_2102")
-    @VersionRange(begin = 1100, end = 2102)
-    default String getTranslationKeyV1100_2102()
-    {
-        return this.getItem().getTranslationKeyV_2102(this);
-    }
     @Deprecated
     @SpecificImpl("getTranslationKey")
     @VersionRange(begin = 2102)
@@ -775,7 +759,7 @@ public interface ItemStack extends WrapperObject
     default ItemStack cloneV_1100(Item newItem)
     {
         if(this.isEmpty())
-            return empty();
+            return EMPTY;
         return this.cloneV1100_1300(newItem);
     }
     @SpecificImpl("clone")
@@ -853,6 +837,15 @@ public interface ItemStack extends WrapperObject
     static ItemStack create(Object wrapped)
     {
         return WrapperObject.create(ItemStack.class, wrapped);
+    }
+
+    /**
+     * @see #EMPTY
+     */
+    @Deprecated
+    static ItemStack empty()
+    {
+        return EMPTY;
     }
 
     /**

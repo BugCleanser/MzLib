@@ -8,20 +8,11 @@ import java.util.function.Function;
 
 public class ClassCache<K extends Class<?>, V> implements Iterable<Map.Entry<K, V>>
 {
-    Map<K, RefWeak<V>> delegate;
+    Map<K, RefWeak<V>> delegate = new MapConcurrentWeakHash<>();
     Function<? super K, ? extends V> initializer;
-    ClassCache(Map<K, RefWeak<V>> delegate, Function<? super K, ? extends V> initializer)
+    public ClassCache(Function<? super K, ? extends V> initializer)
     {
-        this.delegate = delegate;
         this.initializer = initializer;
-    }
-    public ClassCache(Function<Class<?>, V> initializer)
-    {
-        this(new WeakHashMap<>(), initializer);
-    }
-    public static <K extends Class<?>, V> ClassCache<K, V> sync(Function<? super K, ? extends V> initializer)
-    {
-        return new ClassCache<>(Collections.synchronizedMap(new WeakHashMap<>()), initializer);
     }
 
     RefWeak<V> value(K clazz, V value)

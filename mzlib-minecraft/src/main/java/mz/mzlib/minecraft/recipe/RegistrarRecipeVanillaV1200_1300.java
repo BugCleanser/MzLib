@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.registry.SimpleRegistry;
+import mz.mzlib.minecraft.registry.RegistrySimple;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class RegistrarRecipeVanillaV1200_1300 extends RegistrarRecipeVanillaV_13
         super.updateOriginal();
         Map<RecipeType, Map<Identifier, Recipe>> result = new HashMap<>(this.originalRecipes);
         HashMap<Identifier, Recipe> craftingRecipes = new HashMap<>();
-        SimpleRegistry<?> registry = RecipeManager.getRegistryV1200_1300();
+        RegistrySimple<?> registry = RecipeManager.getRegistryV1200_1300();
         for(Identifier id : registry.getIdsV_1300())
         {
             craftingRecipes.put(id, registry.get(id).as(RecipeMojang.FACTORY).autoCast());
@@ -32,7 +32,7 @@ public class RegistrarRecipeVanillaV1200_1300 extends RegistrarRecipeVanillaV_13
     public synchronized void flush()
     {
         super.flush();
-        RecipeManager.setRegistryV1200_1300(SimpleRegistry.ofV_1600()); // FIXME: 原始顺序（raw id）是重要的，对于配方书
+        RecipeManager.setRegistryV1200_1300(RegistrySimple.ofV_1600()); // FIXME: 原始顺序（raw id）是重要的，对于配方书
         for(Map.Entry<Identifier, Recipe> e : this.getEnabledRecipes()
             .getOrDefault(RecipeType.CRAFTING, Collections.emptyMap()).entrySet())
         {

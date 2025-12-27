@@ -91,12 +91,12 @@ public class Demo extends MzModule
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
                         Option.some(IngredientVanilla.of(ItemStack.newInstance(Item.fromId("stick"))))))
-                .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
+                .result(ItemStack.builder().fromId("apple").build()).buildVanillaRegistration());
             this.register(RecipeCraftingShaped.builder()
-                .id(Identifier.of("mzlib:test1"))
+                .id(Identifier.of("mzlib:test11"))
                 .width(1).height(1).ingredients(
                     Collections.singletonList(
-                        Option.some(IngredientVanilla.WOOL)))
+                        Option.some(is -> !is.isEmpty())))
                 .result(ItemStack.builder().fromId("apple").build()).buildRegistration());
             this.register(RecipeFurnace.builder()
                 .id(Identifier.of("mzlib:test_smelting"))

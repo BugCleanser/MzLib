@@ -108,7 +108,7 @@ public class UiWindowList<T> extends UiWindowControlReadOnly
         {
             for(int index : indexOrNone)
             {
-                ItemStack icon = this.iconGetter.apply(new Entry<>(this, player, index)).clone0();
+                ItemStack icon = this.iconGetter.apply(new Entry<>(this, player, index)).clone();
                 for(List<Text> lore : Item.LORE.revise(icon))
                 {
                     lore.addAll(MinecraftI18n.resolveTexts(
@@ -169,7 +169,7 @@ public class UiWindowList<T> extends UiWindowControlReadOnly
         List<T> list;
         Function<? super Entry<T>, ? extends ItemStack> iconGetter;
         Option<Consumer<Entry<T>>> viewer = Option.none(), remover = Option.none(), adder = Option.none();
-        Function<EntityPlayer, ItemStack> background = player -> ItemStack.empty();
+        Function<EntityPlayer, ItemStack> background = player -> ItemStack.EMPTY;
         List<Consumer<UiWindowList<T>>> listenersPageChanged = new ArrayList<>();
         boolean insertable = true, appendable = true;
         public Builder(List<T> list)

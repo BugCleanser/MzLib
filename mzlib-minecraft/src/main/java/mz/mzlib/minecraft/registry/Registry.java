@@ -3,12 +3,14 @@ package mz.mzlib.minecraft.registry;
 import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
+import mz.mzlib.minecraft.util.collection.IndexedIterableV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.SetProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -55,9 +57,23 @@ public interface Registry<T> extends WrapperObject
     )
     WrapperObject getV1300(Identifier id);
 
-    default WrapperObject get(int rawId)
+    WrapperObject get(int rawId);
+    @SpecificImpl("get")
+    @VersionRange(end = 1400)
+    default WrapperObject getV_1400(int rawId)
     {
-        return this.castTo(SimpleRegistry.FACTORY).get(rawId);
+        return this.castTo(RegistrySimple.FACTORY).get(rawId);
+    }
+    @SpecificImpl("get")
+    @VersionRange(begin = 1400)
+    default WrapperObject getV1400(int rawId)
+    {
+        return this.v1400().get(rawId);
+    }
+
+    default V1400<T> v1400()
+    {
+        return RuntimeUtil.cast(this.as(V1400.FACTORY));
     }
 
 
@@ -73,6 +89,18 @@ public interface Registry<T> extends WrapperObject
         {
             this.base = base;
             this.type = type;
+        }
+    }
+
+    @WrapSameClass(Registry.class)
+    interface V1400<T> extends Registry<T>, IndexedIterableV1400<T>
+    {
+        WrapperFactory<V1400<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(V1400.class));
+
+        @Override
+        default WrapperObject get(int rawId)
+        {
+            return this.as(IndexedIterableV1400.FACTORY).get(rawId);
         }
     }
 }

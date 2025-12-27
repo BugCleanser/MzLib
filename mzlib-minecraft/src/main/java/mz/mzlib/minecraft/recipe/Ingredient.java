@@ -2,6 +2,8 @@ package mz.mzlib.minecraft.recipe;
 
 import mz.mzlib.minecraft.item.ItemStack;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Predicate;
 
 public interface Ingredient extends Predicate<ItemStack>
@@ -12,6 +14,11 @@ public interface Ingredient extends Predicate<ItemStack>
     default int getCount()
     {
         return 1;
+    }
+
+    default Collection<ItemStack> getExamples()
+    {
+        return Collections.emptyList();
     }
 
     default Ingredient withCount(int count)

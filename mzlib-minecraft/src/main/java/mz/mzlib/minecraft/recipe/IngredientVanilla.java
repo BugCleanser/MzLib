@@ -17,11 +17,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -61,9 +60,14 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     }
 
     @VersionRange(begin = 1200)
-    static IngredientVanilla ofV1200(ItemStack... itemStacks)
+    static IngredientVanilla ofV1200(List<ItemStack> itemStacks)
     {
         return FACTORY.getStatic().static$ofV1200(itemStacks);
+    }
+    @VersionRange(begin = 1200)
+    static IngredientVanilla ofV1200(ItemStack... itemStacks)
+    {
+        return ofV1200(Arrays.asList(itemStacks));
     }
     @VersionRange(begin = 1200)
     static IngredientVanilla ofV1200(Item... items)
@@ -76,6 +80,9 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         return FACTORY.getStatic().static$ofV1300(
             Arrays.stream(items).collect(WrapperArray.collector(ItemConvertibleV1300.Array.FACTORY)));
     }
+
+    @Override
+    Collection<ItemStack> getExamples();
 
     @VersionRange(end = 1200)
     default ItemStack asItemStackV_1200()
@@ -125,7 +132,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @VersionRange(end = 1200)
     default IngredientVanilla static$emptyV_1200()
     {
-        return ItemStack.empty().as(FACTORY);
+        return ItemStack.EMPTY.as(FACTORY);
     }
     @SpecificImpl("static$emptyV_2102")
     @VersionRange(begin = 1200, end = 2102)
@@ -181,19 +188,19 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     }
 
     @VersionRange(begin = 1200)
-    IngredientVanilla static$ofV1200(ItemStack... itemStacks);
+    IngredientVanilla static$ofV1200(List<ItemStack> itemStacks);
     @SpecificImpl("static$ofV1200")
     @VersionRange(begin = 1200, end = 1300)
-    default IngredientVanilla static$ofV1200_1300(ItemStack... itemStacks)
+    default IngredientVanilla static$ofV1200_1300(List<ItemStack> itemStacks)
     {
         return FACTORY.getStatic().static$ofV1200_1300(
-            Arrays.stream(itemStacks).collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
+            itemStacks.stream().collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
     }
     @SpecificImpl("static$ofV1200")
     @VersionRange(begin = 1300)
-    default IngredientVanilla static$ofV1300(ItemStack... itemStacks)
+    default IngredientVanilla static$ofV1300(List<ItemStack> itemStacks)
     {
-        return ofV1200(Arrays.stream(itemStacks).map(ItemStack::getItem).toArray(Item[]::new));
+        return ofV1200(itemStacks.stream().map(ItemStack::getItem).toArray(Item[]::new));
     }
 
     IngredientVanilla static$ofV1200(Item... items);
@@ -297,6 +304,39 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @VersionRange(begin = 2104)
     @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
     Stream<Object> getMatchingItems0V2104();
+
+    @SpecificImpl("getExamples")
+    @VersionRange(end = 1200)
+    default Collection<ItemStack> getExamplesV_1200()
+    {
+        ItemStack result = this.asItemStackV_1200();
+        if(result.getDamageV_1300() == Short.MAX_VALUE)
+        {
+            result = result.clone();
+            result.setDamageV_1300(0);
+        }
+        return Collections.singletonList(result);
+    }
+    @SpecificImpl("getExamples")
+    @VersionRange(begin = 1200, end = 1300)
+    default Collection<ItemStack> getExamplesV1200_1300()
+    {
+        return new ListProxy<>(this.getDataV1200_1300(), FunctionInvertible.of(is ->
+        {
+            if(is.getDamageV_1300() == Short.MAX_VALUE)
+            {
+                is = is.clone();
+                is.setDamageV_1300(0);
+            }
+            return is;
+        }, is -> RuntimeUtil.valueThrow(new UnsupportedOperationException())));
+    }
+    @SpecificImpl("getExamples")
+    @VersionRange(begin = 1300)
+    default Collection<ItemStack> getExamplesV1300()
+    {
+        return this.getMatchingStacksV1300();
+    }
 
     @VersionRange(begin = 1200, end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "field_15681"))

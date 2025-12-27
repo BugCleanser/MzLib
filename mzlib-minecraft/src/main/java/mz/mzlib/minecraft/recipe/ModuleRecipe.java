@@ -57,6 +57,8 @@ public class ModuleRecipe extends MzModule
         // module
         if(version < 1300)
             this.register(ModuleFurnaceUpdateV_1300.instance);
+
+        this.register(RecipeMojangAbstract.Module.instance);
     }
 
     @VersionRange(end = 1300)

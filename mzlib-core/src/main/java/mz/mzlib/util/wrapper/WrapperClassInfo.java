@@ -66,7 +66,7 @@ public class WrapperClassInfo
             throw new IllegalStateException("Wrapped class not found: " + this.wrapperClass, lastException);
     }
 
-    static ClassCache<Class<? extends WrapperObject>, WrapperClassInfo> cache = ClassCache.sync(clazz ->
+    static ClassCache<Class<? extends WrapperObject>, WrapperClassInfo> cache = new ClassCache<>(clazz ->
     {
         WrapperClassInfo result = new WrapperClassInfo(clazz);
         if(ElementSwitcher.isEnabled(clazz))
@@ -129,12 +129,14 @@ public class WrapperClassInfo
         catch(Throwable e)
         {
             throw new IllegalStateException(
-                "Field to analyze wrapped members, of Wrapper: " + this.getWrapperClass(), e);
+                "Failed to analyze wrapped members, of Wrapper: " + this.getWrapperClass(), e);
         }
     }
     Pair<Member, Boolean> analyseWrappedMember(Method method)
     {
         if(!Modifier.isAbstract(method.getModifiers()) || !ElementSwitcher.isEnabled(method))
+            return null;
+        if(method.isBridge() || method.isSynthetic())
             return null;
         Class<?> returnType = method.getReturnType();
         if(WrapperObject.class.isAssignableFrom(returnType))
@@ -233,6 +235,8 @@ public class WrapperClassInfo
             for(Method m : this.getWrapperClass().getMethods())
             {
                 if(!ElementSwitcher.isEnabled(m))
+                    continue;
+                if(m.isSynthetic() || m.isBridge())
                     continue;
                 if(m.getName().equals("getWrapped") && m.getParameterCount() == 0 &&
                     !Modifier.isStatic(m.getModifiers()))

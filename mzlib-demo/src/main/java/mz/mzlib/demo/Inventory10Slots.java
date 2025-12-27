@@ -56,9 +56,9 @@ public class Inventory10Slots extends MzModule
             WindowSlot slot = window.getSlot(index);
             ItemStack is;
             if(!slot.isPresent() || (is = slot.getItemStack()).isEmpty())
-                return ItemStack.empty();
+                return ItemStack.EMPTY;
             ItemStack copy = is.copy();
-            ItemStack result = ItemStack.empty();
+            ItemStack result = ItemStack.EMPTY;
             int upperSize = window.getSlots().size() - 36;
             if(index < upperSize)
             {
@@ -75,7 +75,7 @@ public class Inventory10Slots extends MzModule
             if(!result.isEmpty())
             {
                 if(is.isEmpty())
-                    slot.setItemStackByPlayer(ItemStack.empty());
+                    slot.setItemStackByPlayer(ItemStack.EMPTY);
                 else
                     slot.markDirty();
             }

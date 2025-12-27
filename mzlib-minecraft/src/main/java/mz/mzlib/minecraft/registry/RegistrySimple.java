@@ -16,11 +16,11 @@ import mz.mzlib.util.wrapper.WrapperObject;
     @VersionName(name = "net.minecraft.util.registry.SimpleRegistry", end = 1903),
     @VersionName(name = "net.minecraft.registry.SimpleRegistry", begin = 1903)
 })
-public interface SimpleRegistry<T> extends Registry<T>
+public interface RegistrySimple<T> extends Registry<T>
 {
-    WrapperFactory<SimpleRegistry<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(SimpleRegistry.class));
+    WrapperFactory<RegistrySimple<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(RegistrySimple.class));
 
-    static <T> SimpleRegistry<T> ofV_1600()
+    static <T> RegistrySimple<T> ofV_1600()
     {
         return FACTORY.getStatic().static$ofV_1600();
     }
@@ -38,7 +38,7 @@ public interface SimpleRegistry<T> extends Registry<T>
 
     @VersionRange(end = 1600)
     @WrapConstructor
-    <T1> SimpleRegistry<T1> static$ofV_1600();
+    <T1> RegistrySimple<T1> static$ofV_1600();
 
     @SpecificImpl("getId")
     @VersionRange(end = 1300)

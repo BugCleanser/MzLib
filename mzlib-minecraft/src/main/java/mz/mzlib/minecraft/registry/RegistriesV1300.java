@@ -39,7 +39,7 @@ public interface RegistriesV1300 extends WrapperObject
     @SpecificImpl("static$item")
     @VersionRange(end = 1903)
     @WrapMinecraftFieldAccessor(@VersionName(name = "ITEM"))
-    SimpleRegistry<Item> static$itemV_1903();
+    RegistrySimple<Item> static$itemV_1903();
 
     @SpecificImpl("static$item")
     @VersionRange(begin = 1903)

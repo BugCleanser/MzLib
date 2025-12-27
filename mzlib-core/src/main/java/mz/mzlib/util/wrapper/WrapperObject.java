@@ -5,6 +5,7 @@ import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
+import mz.mzlib.util.compound.ICompoundImpl;
 
 import java.lang.invoke.*;
 import java.lang.reflect.Constructor;
@@ -105,6 +106,13 @@ public interface WrapperObject
             return Option.some(this.as(factory));
         else
             return Option.none();
+    }
+
+    default Option<WrapperObject> asCompound()
+    {
+        if(!(this.getWrapped() instanceof ICompoundImpl))
+            return Option.none();
+        return Option.some(((ICompoundImpl) this.getWrapped()).compound$getWrapper());
     }
 
 

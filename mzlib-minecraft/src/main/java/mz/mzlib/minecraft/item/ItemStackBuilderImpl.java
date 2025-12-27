@@ -162,7 +162,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
     {
         ItemStack result;
         if(this.from != null)
-            result = this.from.clone(this.item != null ? this.item : this.from.getItem());
+            result = this.from.clone(this.item != null ? this.item : this.from.getItem()).copy();
         else
         {
             if(this.item == null)

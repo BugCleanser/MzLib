@@ -20,18 +20,11 @@ public interface RecipeEntryV2002 extends WrapperObject
 
     static RecipeEntryV2002 of(RecipeRegistration<? extends RecipeMojang> recipe)
     {
-        return FACTORY.getStatic().static$of(recipe);
+        return of(recipe.getId(), recipe.getRecipe());
     }
-
-    @VersionRange(end = 2102)
-    static RecipeEntryV2002 newInstanceV_2102(Identifier key, RecipeMojang value)
+    static RecipeEntryV2002 of(Identifier key, RecipeMojang value)
     {
-        return FACTORY.getStatic().static$newInstanceV_2102(key, value);
-    }
-    @VersionRange(begin = 2102)
-    static RecipeEntryV2002 newInstanceV2102(RegistryKeyV1600<RecipeMojang> key, RecipeMojang value)
-    {
-        return FACTORY.getStatic().static$newInstanceV2102(key, value);
+        return FACTORY.getStatic().static$of(key, value);
     }
 
     Identifier getId();
@@ -54,25 +47,18 @@ public interface RecipeEntryV2002 extends WrapperObject
     RecipeMojang getValue();
 
 
-    RecipeEntryV2002 static$of(RecipeRegistration<? extends RecipeMojang> recipe);
+    RecipeEntryV2002 static$of(Identifier key, RecipeMojang value);
     @SpecificImpl("static$of")
     @VersionRange(end = 2102)
-    default RecipeEntryV2002 static$ofV_2102(RecipeRegistration<? extends RecipeMojang> recipe)
-    {
-        return newInstanceV_2102(recipe.getId(), recipe.getRecipe());
-    }
+    @WrapConstructor
+    RecipeEntryV2002 static$ofV_2102(Identifier key, RecipeMojang value);
     @SpecificImpl("static$of")
     @VersionRange(begin = 2102)
-    default RecipeEntryV2002 static$ofV2102(RecipeRegistration<? extends RecipeMojang> recipe)
+    default RecipeEntryV2002 static$ofV2102(Identifier key, RecipeMojang value)
     {
-        return newInstanceV2102(RegistryKeyV1600.of(RegistryKeysV1600.RECIPE, recipe.getId()), recipe.getRecipe());
+        return this.static$ofV2102(RegistryKeyV1600.of(RegistryKeysV1600.RECIPE, key), value);
     }
-
-    @VersionRange(end = 2102)
-    @WrapConstructor
-    RecipeEntryV2002 static$newInstanceV_2102(Identifier key, RecipeMojang value);
-
     @VersionRange(begin = 2102)
     @WrapConstructor
-    RecipeEntryV2002 static$newInstanceV2102(RegistryKeyV1600<RecipeMojang> key, RecipeMojang value);
+    RecipeEntryV2002 static$ofV2102(RegistryKeyV1600<RecipeMojang> key, RecipeMojang value);
 }

@@ -124,7 +124,7 @@ public class Tictactoe extends MzModule
                     this.inventory.setItemStack(1 + i, AI);
                     if(checkWin())
                         return;
-                    this.inventory.setItemStack(1 + i, ItemStack.empty());
+                    this.inventory.setItemStack(1 + i, ItemStack.EMPTY);
                 }
             }
             for(int i = 0; i < 9; i++)
@@ -137,7 +137,7 @@ public class Tictactoe extends MzModule
                         this.inventory.setItemStack(1 + i, AI);
                         return;
                     }
-                    this.inventory.setItemStack(1 + i, ItemStack.empty());
+                    this.inventory.setItemStack(1 + i, ItemStack.EMPTY);
                 }
             }
             // 抢中心位
