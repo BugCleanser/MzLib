@@ -432,11 +432,10 @@ public interface ItemStack extends WrapperObject
     {
         int dataVersion;
         l1:
-        do
         {
-            for(NbtInt nbtVersion : nbt.get("DataVersion", NbtInt.FACTORY))
+            for(int it : nbt.getInt("DataVersion"))
             {
-                dataVersion = nbtVersion.getValue();
+                dataVersion = it;
                 break l1;
             }
             if(nbt.containsKey("Damage"))
@@ -468,7 +467,7 @@ public interface ItemStack extends WrapperObject
                     }
                 }
             }
-        } while(false);
+        }
         return upgrade(nbt, dataVersion);
     }
 

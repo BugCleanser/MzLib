@@ -8,7 +8,7 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
 {
     protected Map<K, V> delegate;
 
-    public MapInvertible(MapInvertible<V, K> inverse, Map<K, V> delegate)
+    MapInvertible(MapInvertible<V, K> inverse, Map<K, V> delegate)
     {
         this.inverse = inverse;
         this.delegate = delegate;

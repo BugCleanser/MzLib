@@ -32,7 +32,7 @@ public class ListMerged<T> extends AbstractList<T>
             return lists.get(0);
         if(lists.size() == 2)
             return of(lists.get(0), lists.get(1));
-        return of(lists.get(0), of(lists.subList(1, lists.size())));
+        return of(lists.get(0), of(lists.subList(1, lists.size()))); // FIXME: may stack overflow
     }
 
     public List<T> getChild0()

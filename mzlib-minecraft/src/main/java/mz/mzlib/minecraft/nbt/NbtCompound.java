@@ -96,7 +96,7 @@ public interface NbtCompound extends NbtElement
 
     default <T extends NbtElement> Option<T> get(String key, WrapperFactory<T> factory)
     {
-        return this.get(key).filter(factory::isInstance).map(ThrowableFunction.wrapperCast(factory));
+        return this.get(key).filter(factory);
     }
     @Deprecated
     default <T extends NbtElement> Option<T> get(String key, Function<Object, T> creator)
