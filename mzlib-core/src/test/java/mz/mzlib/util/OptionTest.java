@@ -183,12 +183,12 @@ class OptionTest {
         Option<String> option = Option.some("test");
         Function<String, Integer> mapper = String::length;
 
-        assertTrue(option.map(mapper).isSome());
-        assertEquals(4, option.map(mapper).unwrap());
+        assertTrue(option.mapNullable(mapper).isSome());
+        assertEquals(4, option.mapNullable(mapper).unwrap());
 
         // Test edge case with none value
         Option<String> noneOption = Option.none();
-        assertTrue(noneOption.map(mapper).isNone());
+        assertTrue(noneOption.mapNullable(mapper).isNone());
     }
 
     @Test

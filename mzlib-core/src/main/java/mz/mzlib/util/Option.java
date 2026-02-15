@@ -1,9 +1,9 @@
 package mz.mzlib.util;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
@@ -11,10 +11,9 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-@Nonnull
 public final class Option<T> implements Iterable<T>
 {
-    public static <T> Option<T> some(@Nonnull T value)
+    public static <T> Option<T> some(@NotNull T value)
     {
         return new Option<>(Objects.requireNonNull(value));
     }
@@ -48,7 +47,7 @@ public final class Option<T> implements Iterable<T>
     }
     public Optional<T> toOptional()
     {
-        return this.map(Optional::of).unwrapOrGet(Optional::empty);
+        return this.mapNullable(Optional::of).unwrapOrGet(Optional::empty);
     }
 
     public static <T extends WrapperObject> Option<T> fromWrapper(T wrapper)
@@ -61,7 +60,7 @@ public final class Option<T> implements Iterable<T>
 
     public Either<T, Void> toEither()
     {
-        return this.map(Either::<T, Void>first).unwrapOrGet(() -> Either.second(null));
+        return this.mapNullable(Either::<T, Void>first).unwrapOrGet(() -> Either.second(null));
     }
 
     public boolean isSome()
@@ -80,12 +79,12 @@ public final class Option<T> implements Iterable<T>
         return this.toNullable() == null;
     }
 
-    @Nonnull
+    @NotNull
     public T unwrap() throws NoSuchElementException
     {
         return this.unwrap(NoSuchElementException::new);
     }
-    @Nonnull
+    @NotNull
     public <E extends Throwable> T unwrap(Supplier<E> supplier) throws E
     {
         return this.unwrapOrGet(() -> RuntimeUtil.valueThrow(supplier.get()));
@@ -133,14 +132,19 @@ public final class Option<T> implements Iterable<T>
         return this.flatMap(ThrowableFunction.ofFunction(mapper));
     }
 
-    public <U, E extends Throwable> Option<U> map(ThrowableFunction<? super T, ? extends U, E> mapper)
+    public <U> Option<U> map(Function<? super T, ? extends U> mapper)
+    {
+        return this.flatMap(it -> Option.some(mapper.apply(it)));
+    }
+
+    public <U, E extends Throwable> Option<U> mapNullable(ThrowableFunction<? super T, ? extends U, E> mapper)
         throws E
     {
         return this.flatMap(it -> Option.fromNullable(mapper.applyOrThrow(it)));
     }
-    public <U> Option<U> map(Function<? super T, ? extends U> mapper)
+    public <U> Option<U> mapNullable(Function<? super T, ? extends U> mapper)
     {
-        return this.map(ThrowableFunction.ofFunction(mapper));
+        return this.mapNullable(ThrowableFunction.ofFunction(mapper));
     }
 
     public static <T extends U, U> Option<U> upcast(Option<T> value)
@@ -181,23 +185,23 @@ public final class Option<T> implements Iterable<T>
 
     public <U> Option<U> filter(Class<U> type)
     {
-        return this.filter(type::isInstance).map(type::cast);
+        return this.filter(type::isInstance).mapNullable(type::cast);
     }
     public <U extends WrapperObject> Option<U> filter(WrapperFactory<U> type)
     {
-        return this.filter(WrapperObject.class).filter(type::isInstance).map(type::cast);
+        return this.filter(WrapperObject.class).filter(type::isInstance).mapNullable(type::cast);
     }
 
     public Stream<T> stream()
     {
-        return this.map(Stream::of).unwrapOrGet(Stream::empty);
+        return this.mapNullable(Stream::of).unwrapOrGet(Stream::empty);
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Iterator<T> iterator()
     {
-        return this.map(Collections::singleton).map(Set::iterator).unwrapOrGet(Collections::emptyIterator);
+        return this.mapNullable(Collections::singleton).mapNullable(Set::iterator).unwrapOrGet(Collections::emptyIterator);
     }
 
     @Override

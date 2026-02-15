@@ -192,6 +192,6 @@ public class UiWindowControl
 
     public Option<ItemStack> getIcon(EntityPlayer player, Point point)
     {
-        return this.background.map(f -> f.apply(player));
+        return this.background.mapNullable(f -> f.apply(player));
     }
 }

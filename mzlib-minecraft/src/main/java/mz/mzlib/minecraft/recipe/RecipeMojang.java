@@ -27,10 +27,7 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.ThrowablePredicate;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,6 +76,26 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     default Option<?> getGroup()
     {
         return RecipeVanilla.super.getGroup();
+    }
+
+    @VersionRange(begin = 2610)
+    @WrapMethod("group")
+    String getGroup0V2610(); // FIXME
+
+    @VersionRange(begin = 2610)
+    @WrapInnerClass(outer = RecipeMojang.class, name = "CommonInfo")
+    interface CommonInfoV2610 extends WrapperObject
+    {
+        WrapperFactory<CommonInfoV2610> FACTORY = WrapperFactory.of(CommonInfoV2610.class);
+
+        static CommonInfoV2610 of(boolean showNotification)
+        {
+            return FACTORY.getStatic().static$of(showNotification);
+        }
+
+
+        @WrapConstructor
+        CommonInfoV2610 static$of(boolean showNotification);
     }
 
 
@@ -136,7 +153,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(end = 2102)
     default List<ItemStack> getIconsV_2102()
     {
-        return Option.some(this.getIconV_2102()).filter(it -> !it.isEmpty()).map(Collections::singletonList)
+        return Option.some(this.getIconV_2102()).filter(it -> !it.isEmpty()).mapNullable(Collections::singletonList)
             .unwrapOrGet(Collections::emptyList);
     }
     @VersionRange(end = 2102)
@@ -231,9 +248,12 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(begin = 2005, end = 2100)
     @WrapMinecraftMethod(@VersionName(name = "craft"))
     ItemStack getResultV2005_2100(Inventory inventory, RegistryWrapperV1903.class_7874 lookup);
-    @VersionRange(begin = 2100)
+    @VersionRange(begin = 2100, end = 2610)
     @WrapMinecraftMethod(@VersionName(name = "craft"))
-    ItemStack getResultV2100(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup);
+    ItemStack getResultV2100_2610(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup);
+    @VersionRange(begin = 2610)
+    @WrapMethod("assemble")
+    ItemStack getResultV2610(RecipeInputV2100 input);
 
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({

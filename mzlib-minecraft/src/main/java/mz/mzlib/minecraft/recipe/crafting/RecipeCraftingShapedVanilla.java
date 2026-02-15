@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.incomprehensible.recipe.RawShapedRecipeV2003;
 import mz.mzlib.minecraft.incomprehensible.recipe.RecipeSerializerV1300;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.item.ItemStackTemplateV2610;
 import mz.mzlib.minecraft.nbt.NbtIo;
 import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.RecipeMojang;
@@ -67,7 +68,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
             for(Option<IngredientVanilla> ingredient : this.getIngredients())
             {
                 NbtIo.write(
-                    ingredient.map(i -> i.as(ItemStack.FACTORY)).unwrapOrGet(() -> ItemStack.EMPTY).encode()
+                    ingredient.mapNullable(i -> i.as(ItemStack.FACTORY)).unwrapOrGet(() -> ItemStack.EMPTY).encode()
                         .getOrThrow(IllegalStateException::new).unwrap(),
                     dataOutput
                 );
@@ -92,14 +93,14 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         return Option.some(this.getGroup0V1200()).filter(ThrowablePredicate.of(String::isEmpty).negate());
     }
 
-    @VersionRange(begin = 1300)
+    @VersionRange(begin = 1300, end = 2610)
     @WrapMinecraftInnerClass(outer = RecipeCraftingShapedVanilla.class, name = {
         @VersionName(name = "class_3581", end = 1400),
         @VersionName(name = "Serializer", begin = 1400)
     })
-    interface SerializerV1300 extends RecipeSerializerV1300
+    interface SerializerV1300_2610 extends RecipeSerializerV1300
     {
-        WrapperFactory<SerializerV1300> FACTORY = WrapperFactory.of(SerializerV1300.class);
+        WrapperFactory<SerializerV1300_2610> FACTORY = WrapperFactory.of(SerializerV1300_2610.class);
     }
 
 
@@ -218,23 +219,42 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         boolean showNotification);
 
     @SpecificImpl("static$of")
-    @VersionRange(begin = 2003)
-    default RecipeCraftingShapedVanilla static$ofV2003(Builder builder)
+    @VersionRange(begin = 2003, end = 2610)
+    default RecipeCraftingShapedVanilla static$ofV2003_2610(Builder builder)
     {
-        return this.static$ofV2003(
+        return this.static$ofV2003_2610(
             builder.getGroup0V1200(), builder.categoryV1903,
             RawShapedRecipeV2003.of(builder.width, builder.height, builder.getIngredientsVanilla(), Option.none()),
             builder.result, builder.notificationEnabledV1904
         );
     }
-    @VersionRange(begin = 2003)
+    @VersionRange(begin = 2003, end = 2610)
     @WrapConstructor
-    RecipeCraftingShapedVanilla static$ofV2003(
+    RecipeCraftingShapedVanilla static$ofV2003_2610(
         String group,
         RecipeCraftingCategoryV1903 category,
         RawShapedRecipeV2003 raw,
         ItemStack result,
         boolean showNotification);
+
+    @SpecificImpl("static$of")
+    @VersionRange(begin = 2610)
+    default RecipeCraftingShapedVanilla static$ofV2610(Builder builder)
+    {
+        return this.static$ofV2610(
+            RecipeMojang.CommonInfoV2610.of(builder.notificationEnabledV1904),
+            RecipeCrafting.CraftingBookInfoV2610.of(builder.categoryV1903, builder.getGroup0V1200()),
+            RawShapedRecipeV2003.of(builder.width, builder.height, builder.getIngredientsVanilla(), Option.none()),
+            ItemStackTemplateV2610.of(builder.result)
+        );
+    }
+    @VersionRange(begin = 2610)
+    @WrapConstructor
+    RecipeCraftingShapedVanilla static$ofV2610(
+        RecipeMojang.CommonInfoV2610 commonInfo,
+        RecipeCrafting.CraftingBookInfoV2610 bookInfo,
+        RawShapedRecipeV2003 raw,
+        ItemStackTemplateV2610 result);
 
     @SpecificImpl("getWidth")
     @VersionRange(end = 2003)
@@ -298,9 +318,20 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     }
 
     @VersionRange(begin = 1200)
+    String getGroup0V1200();
+
+
+    @SpecificImpl("getGroup0V1200")
+    @VersionRange(begin = 1200, end = 2610)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_15687", end = 1400),
         @VersionName(name = "group", begin = 1400)
     })
-    String getGroup0V1200();
+    String getGroup0V1200$implV_2610();
+    @SpecificImpl("getGroup0V1200")
+    @VersionRange(begin = 2610)
+    default String getGroup0V1200$implV2610()
+    {
+        return this.getGroup0V2610();
+    }
 }

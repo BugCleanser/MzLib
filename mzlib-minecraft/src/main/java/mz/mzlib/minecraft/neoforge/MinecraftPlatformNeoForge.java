@@ -67,8 +67,8 @@ public class MinecraftPlatformNeoForge implements MinecraftPlatform
         if(this.mappings != null)
             return this.mappings;
         File folder = new File(getMzLibDataFolder(), "mappings");
-        if(this.getVersion() >= 2601)
-            return this.mappings = MinecraftPlatform.getMappingsV2601(folder);
+        if(this.getVersion() >= 2610)
+            return this.mappings = MinecraftPlatform.getMappingsV2610(folder);
         try
         {
             String versionString = this.getVersionString();

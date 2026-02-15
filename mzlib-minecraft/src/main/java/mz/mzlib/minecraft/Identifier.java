@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
@@ -47,7 +47,7 @@ public interface Identifier extends WrapperObject, Comparable<Identifier>
     }
 
     @Override
-    default int compareTo(@Nonnull Identifier o)
+    default int compareTo(@NotNull Identifier o)
     {
         int result = Boolean.compare(o.isMinecraft(), this.isMinecraft());
         if(result != 0)

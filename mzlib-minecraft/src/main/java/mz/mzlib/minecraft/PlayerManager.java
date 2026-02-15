@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.UUID;
 
 @WrapMinecraftClass({
-    @VersionName(name = "net.minecraft.server.PlayerManager", end = 2601),
-    @VersionName(name = "net.minecraft.server.players.PlayerList", begin = 2601)
+    @VersionName(name = "net.minecraft.server.PlayerManager", end = 2610),
+    @VersionName(name = "net.minecraft.server.players.PlayerList", begin = 2610)
 })
 public interface PlayerManager extends WrapperObject
 {
@@ -45,14 +45,14 @@ public interface PlayerManager extends WrapperObject
 
     @WrapMinecraftMethod({
         @VersionName(name = "getPlayers", end = 1400),
-        @VersionName(name = "method_14571", begin = 1400, end = 2601),
-        @VersionName(name = "getPlayers", remap = false, begin = 2601)
+        @VersionName(name = "method_14571", begin = 1400, end = 2610),
+        @VersionName(name = "getPlayers", remap = false, begin = 2610)
     })
     List<Object> getPlayers0();
 
     @WrapMinecraftMethod({
-        @VersionName(name = "getPlayer", end = 2601),
-        @VersionName(name = "getPlayerByName", remap = false, begin = 2601)
+        @VersionName(name = "getPlayer", end = 2610),
+        @VersionName(name = "getPlayerByName", remap = false, begin = 2610)
     })
     EntityPlayer getPlayer0(String name);
 
@@ -73,15 +73,15 @@ public interface PlayerManager extends WrapperObject
     @VersionRange(end = 2109)
     boolean isOpV_2109(GameProfile playerProfile);
     @WrapMinecraftMethod({
-        @VersionName(name = "isOperator", end = 2601),
-        @VersionName(name = "isOp", remap = false, begin = 2601)
+        @VersionName(name = "isOperator", end = 2610),
+        @VersionName(name = "isOp", remap = false, begin = 2610)
     })
     @VersionRange(begin = 2109)
     boolean isOpV2109(PlayerConfigEntryV2109 key);
 
     @WrapMinecraftMethod({
-        @VersionName(name = "getPlayer", end = 2601),
-        @VersionName(name = "getPlayer", remap = false, begin = 2601)
+        @VersionName(name = "getPlayer", end = 2610),
+        @VersionName(name = "getPlayer", remap = false, begin = 2610)
     })
     EntityPlayer getPlayer0(UUID uuid);
 
@@ -95,8 +95,8 @@ public interface PlayerManager extends WrapperObject
 
     @VersionRange(begin = 2002)
     @WrapMinecraftMethod({
-        @VersionName(name = "onPlayerConnect", end = 2601),
-        @VersionName(name = "placeNewPlayer", remap = false, begin = 2601)
+        @VersionName(name = "onPlayerConnect", end = 2610),
+        @VersionName(name = "placeNewPlayer", remap = false, begin = 2610)
     })
     void addPlayerV2002(ClientConnection connection, EntityPlayer player, ClientConnectionDataV2002 connectionData);
 }

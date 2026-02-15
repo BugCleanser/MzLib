@@ -14,10 +14,7 @@ import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 import java.util.OptionalInt;
 
@@ -82,20 +79,14 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
             return Window.FACTORY.getStatic();
     }
 
-    void sendMessage(Text message);
-
     @VersionRange(begin = 1100, end = 1300)
-    @VersionRange(begin = 1600)
+    @VersionRange(begin = 1600, end = 2610)
     @WrapMinecraftMethod(@VersionName(name = "sendMessage"))
-    void sendMessageV1100_1300__1600(Text message, boolean actionBar);
+    void sendMessageV1100_1300__1600_2610(Text message, boolean actionBar);
 
-    @VersionRange(begin = 1100, end = 1300)
-    @VersionRange(begin = 1600)
-    @SpecificImpl("sendMessage")
-    default void sendMessageV1100_1300__1600(Text message)
-    {
-        this.sendMessageV1100_1300__1600(message, false);
-    }
+    @VersionRange(begin = 2610)
+    @WrapMethod("sendSystemMessage")
+    void sendMessageV2610(Text message);
 
     void openWindow(WindowFactory windowFactory);
 

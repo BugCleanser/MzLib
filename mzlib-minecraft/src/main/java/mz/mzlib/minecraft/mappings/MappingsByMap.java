@@ -199,7 +199,7 @@ public class MappingsByMap extends Mappings<MappingsByMap>
                         new MappingMethod(
                             c[0],
                             Option.some(c[1].substring(0, c[1].length() - 1)).filter(s -> !s.isEmpty())
-                                .map(s -> s.split(",")).map(Arrays::stream).unwrapOrGet(
+                                .mapNullable(s -> s.split(",")).mapNullable(Arrays::stream).unwrapOrGet(
                                     Stream::empty).map(MappingsByMap::type2desc)
                                 .toArray(String[]::new)
                         ), to

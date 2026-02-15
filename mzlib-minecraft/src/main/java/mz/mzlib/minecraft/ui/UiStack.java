@@ -49,7 +49,7 @@ public class UiStack
     }
     public static synchronized Set<EntityPlayer> getViewers(Ui ui)
     {
-        return Option.fromNullable(viewersMap.get(ui)).map(HashSet::new).unwrapOrGet(HashSet::new);
+        return Option.fromNullable(viewersMap.get(ui)).mapNullable(HashSet::new).unwrapOrGet(HashSet::new);
     }
 
     public EntityPlayer player;

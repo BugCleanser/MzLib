@@ -132,8 +132,8 @@ public class MinecraftPlatformBukkit implements MinecraftPlatform
         if(this.mappings != null)
             return this.mappings;
         File folder = new File(getMzLibDataFolder(), "mappings");
-        if(this.getVersion() >= 2601)
-            return this.mappings = MinecraftPlatform.getMappingsV2601(folder);
+        if(this.getVersion() >= 2610)
+            return this.mappings = MinecraftPlatform.getMappingsV2610(folder);
         try
         {
             List<Mappings<?>> result = new ArrayList<>();

@@ -113,8 +113,8 @@ public interface Window extends WrapperObject
     ItemStack onActionV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod({
-        @VersionName(name = "onSlotClick", end = 2601),
-        @VersionName(name = "clicked", remap = false, begin = 2601)
+        @VersionName(name = "onSlotClick", end = 2610),
+        @VersionName(name = "clicked", remap = false, begin = 2610)
     })
     void onActionV1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
 
@@ -149,7 +149,7 @@ public interface Window extends WrapperObject
     {
         for(WindowSyncHandlerV1700 syncHandler : Option.fromWrapper(this.getSyncHandler0V1700()))
         {
-            return syncHandler.asOption(WindowSyncHandlerV1700.Impl.FACTORY).map(WindowSyncHandlerV1700.Impl::getPlayer);
+            return syncHandler.asOption(WindowSyncHandlerV1700.Impl.FACTORY).mapNullable(WindowSyncHandlerV1700.Impl::getPlayer);
         }
         return Option.none();
     }

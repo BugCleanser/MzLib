@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.entity.EntityType;
 import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.item.ItemStackTemplateV2610;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
@@ -91,7 +92,7 @@ public interface TextHoverEvent extends WrapperObject
     @VersionRange(begin = 2105)
     default TextHoverEvent static$showItemV2105(ItemStack is)
     {
-        return ShowItem2105.newInstance(is);
+        return ShowItem2105.of(is);
     }
 
     static TextHoverEvent showEntity(Identifier type, UUID uuid, Text name)
@@ -296,17 +297,17 @@ public interface TextHoverEvent extends WrapperObject
         @Override
         public Option<Identifier> getType()
         {
-            return this.nbt.getString("type").map(Identifier::of);
+            return this.nbt.getString("type").mapNullable(Identifier::of);
         }
         @Override
         public Option<UUID> getId()
         {
-            return this.nbt.getString("id").map(UUID::fromString);
+            return this.nbt.getString("id").mapNullable(UUID::fromString);
         }
         @Override
         public Option<Text> getName()
         {
-            return this.nbt.getString("name").map(Text::decode);
+            return this.nbt.getString("name").mapNullable(Text::decode);
         }
     }
 
@@ -377,15 +378,30 @@ public interface TextHoverEvent extends WrapperObject
     {
         WrapperFactory<ShowItem2105> FACTORY = WrapperFactory.of(ShowItem2105.class);
 
-        static ShowItem2105 newInstance(ItemStack value)
+        static ShowItem2105 of(ItemStack value)
         {
-            return FACTORY.getStatic().static$newInstance(value);
+            return FACTORY.getStatic().static$of(value);
         }
-        @WrapConstructor
-        ShowItem2105 static$newInstance(ItemStack value);
 
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_3509"))
         ItemStack getValue();
+
+
+        ShowItem2105 static$of(ItemStack value);
+        @SpecificImpl("static$of")
+        @VersionRange(end = 2610)
+        @WrapConstructor
+        ShowItem2105 static$of$implV_2610(ItemStack value);
+        @SpecificImpl("static$of")
+        @VersionRange(begin = 2610)
+        default ShowItem2105 static$of$implV2610(ItemStack value)
+        {
+            return this.static$ofV2610(ItemStackTemplateV2610.of(value));
+        }
+
+        @VersionRange(begin = 2610)
+        @WrapConstructor
+        ShowItem2105 static$ofV2610(ItemStackTemplateV2610 value);
     }
 
     @VersionRange(begin = 2105)

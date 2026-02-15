@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
@@ -146,7 +146,7 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Set<K> keySet()
     {
         return new SetProxy<>(this.delegate.keySet(), this.functionKey, this.modifyMonitor);

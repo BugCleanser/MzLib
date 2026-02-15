@@ -30,6 +30,6 @@ public class ClassCache<K extends Class<?>, V>
 
     public Option<V> put(K clazz, V value)
     {
-        return Option.fromNullable(this.delegate.put(clazz, this.value(clazz, value))).map(Ref::get);
+        return Option.fromNullable(this.delegate.put(clazz, this.value(clazz, value))).mapNullable(Ref::get);
     }
 }

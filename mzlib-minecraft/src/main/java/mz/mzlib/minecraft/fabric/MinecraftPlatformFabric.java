@@ -76,10 +76,10 @@ public class MinecraftPlatformFabric implements MinecraftPlatform
         if(this.mappings != null)
             return this.mappings;
         File folder = new File(getMzLibDataFolder(), "mappings");
-        if(this.getVersion() < 2601)
+        if(this.getVersion() < 2610)
             this.mappings = new MinecraftMappingsFetcherYarn().fetch(getVersionString(), folder);
         else
-            this.mappings = MinecraftPlatform.getMappingsV2601(folder);
+            this.mappings = MinecraftPlatform.getMappingsV2610(folder);
         return this.mappings;
     }
 }

@@ -36,7 +36,7 @@ public class EventPlayerUseItem extends EventPlayer implements Cancellable
         super(player);
         this.hand = hand;
         this.resultItemStack = this.itemStack = RegistrarMzItem.instance.toMzItem(itemStack)
-            .map(Function.<ItemStack>identity()).unwrapOr(itemStack);
+            .mapNullable(Function.<ItemStack>identity()).unwrapOr(itemStack);
     }
 
     public Hand getHand()

@@ -35,8 +35,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     MinecraftServer instance = RuntimeUtil.nul();
 
     @WrapMinecraftFieldAccessor({
-        @VersionName(name = "serverThread", end = 2601),
-        @VersionName(name = "serverThread", remap = false, begin = 2601)
+        @VersionName(name = "serverThread", end = 2610),
+        @VersionName(name = "serverThread", remap = false, begin = 2610)
     })
     Thread getThread();
 
@@ -48,8 +48,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     }
 
     @WrapMinecraftMethod({
-        @VersionName(name = "getPlayerManager", end = 2601),
-        @VersionName(name = "getPlayerList", remap = false, begin = 2601)
+        @VersionName(name = "getPlayerManager", end = 2610),
+        @VersionName(name = "getPlayerList", remap = false, begin = 2610)
     })
     PlayerManager getPlayerManager();
 
@@ -57,8 +57,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
         {
             @VersionName(name = "getCommandManager", end = 1300),
             @VersionName(name = "method_2971", begin = 1300, end = 1400),
-            @VersionName(name = "getCommandManager", begin = 1400, end = 2601),
-            @VersionName(name = "getCommands", remap = false, begin = 2601)
+            @VersionName(name = "getCommandManager", begin = 1400, end = 2610),
+            @VersionName(name = "getCommands", remap = false, begin = 2610)
         }
     )
     CommandManager getCommandManager();
@@ -72,8 +72,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({
         @VersionName(name = "method_20324", end = 1400),
-        @VersionName(name = "tick", begin = 1400, end = 2601),
-        @VersionName(name = "tickServer", remap = false, begin = 2601)
+        @VersionName(name = "tick", begin = 1400, end = 2610),
+        @VersionName(name = "tickServer", remap = false, begin = 2610)
     })
     void tickV1300(BooleanSupplier booleanSupplier);
 
@@ -111,8 +111,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(begin = 1300)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_21612", end = 1400),
-        @VersionName(name = "dataFixer", begin = 1400, end = 2601),
-        @VersionName(name = "fixerUpper", remap = false, begin = 2601)
+        @VersionName(name = "dataFixer", begin = 1400, end = 2610),
+        @VersionName(name = "fixerUpper", remap = false, begin = 2610)
     })
     DataFixerV1300 getDataUpdaterV1300();
 
@@ -176,30 +176,30 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
 
     @SpecificImpl("getRegistriesV1602")
     @WrapMinecraftMethod({
-        @VersionName(name = "getRegistryManager", begin = 1802, end = 2601),
-        @VersionName(name = "registryAccess", remap = false, begin = 2601)
+        @VersionName(name = "getRegistryManager", begin = 1802, end = 2610),
+        @VersionName(name = "registryAccess", remap = false, begin = 2610)
     })
     RegistryManagerV1602.Immutable getRegistriesV1802();
 
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({
         @VersionName(name = "method_20331", end = 1400),
-        @VersionName(name = "getRecipeManager", begin = 1400, end = 2601),
-        @VersionName(name = "getRecipeManager", remap = false, begin = 2601)
+        @VersionName(name = "getRecipeManager", begin = 1400, end = 2610),
+        @VersionName(name = "getRecipeManager", remap = false, begin = 2610)
     })
     RecipeManager getRecipeManagerV1300();
 
     @VersionRange(begin = 1600)
     @WrapMinecraftMethod({
-        @VersionName(name = "getSaveProperties", end = 2601),
-        @VersionName(name = "getWorldData", remap = false, begin = 2601)
+        @VersionName(name = "getSaveProperties", end = 2610),
+        @VersionName(name = "getWorldData", remap = false, begin = 2610)
     })
     SavePropertiesV1600 getSavePropertiesV1600();
 
     @WrapMinecraftMethod({
         @VersionName(name = "run", end = 1601),
-        @VersionName(name = "method_29741", begin = 1601, end = 2601),
-        @VersionName(name = "runServer", remap = false, begin = 2601)
+        @VersionName(name = "method_29741", begin = 1601, end = 2610),
+        @VersionName(name = "runServer", remap = false, begin = 2610)
     })
     void run();
 
@@ -214,15 +214,15 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
 
     @VersionRange(begin = 1904)
     @WrapMinecraftMethod({
-        @VersionName(name = "createMetadata", end = 2601),
-        @VersionName(name = "buildServerStatus", remap = false, begin = 2601)
+        @VersionName(name = "createMetadata", end = 2610),
+        @VersionName(name = "buildServerStatus", remap = false, begin = 2610)
     })
     ServerMetadata createMetadataV1904();
 
     @WrapMinecraftMethod({
         @VersionName(name = "stopServer", end = 1400),
-        @VersionName(name = "shutdown", begin = 1400, end = 2601),
-        @VersionName(name = "stopServer", remap = false, begin = 2601)
+        @VersionName(name = "shutdown", begin = 1400, end = 2610),
+        @VersionName(name = "stopServer", remap = false, begin = 2610)
     })
     void onStop();
 
@@ -245,8 +245,8 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod({
         @VersionName(name = "method_20351", end = 1400),
-        @VersionName(name = "getWorlds", begin = 1400, end = 2601),
-        @VersionName(name = "getAllLevels", remap = false, begin = 2601)
+        @VersionName(name = "getWorlds", begin = 1400, end = 2610),
+        @VersionName(name = "getAllLevels", remap = false, begin = 2610)
     })
     Iterable<Object> getWorlds0V1300();
 }

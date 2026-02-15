@@ -67,7 +67,7 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
     }
     public static <T, R> FunctionInvertible<Option<T>, Option<R>> optionMap(FunctionInvertible<T, R> mapper)
     {
-        return of(it -> it.map(mapper), it -> it.map(mapper.inverse()));
+        return of(it -> it.mapNullable(mapper), it -> it.mapNullable(mapper.inverse()));
     }
     public static <T extends WrapperObject> FunctionInvertible<T, Option<T>> wrapperOption(WrapperFactory<T> type)
     {

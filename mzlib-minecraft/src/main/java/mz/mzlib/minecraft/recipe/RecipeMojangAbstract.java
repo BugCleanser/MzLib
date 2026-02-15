@@ -232,9 +232,16 @@ public interface RecipeMojangAbstract<I extends RecipeMojangAbstract.Input> exte
         return this.getResult(this.inputV_2100(inventory));
     }
     @Override
-    @VersionRange(begin = 2100)
+    @VersionRange(begin = 2100, end = 2610)
     @CompoundOverride(parent = RecipeMojang.class, method = "getResultV2100")
-    default ItemStack getResultV2100(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup)
+    default ItemStack getResultV2100_2610(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup)
+    {
+        return this.getResult(this.inputV2100(input));
+    }
+    @Override
+    @VersionRange(begin = 2610)
+    @CompoundOverride(parent = RecipeMojang.class, method = "getResultV2610")
+    default ItemStack getResultV2610(RecipeInputV2100 input)
     {
         return this.getResult(this.inputV2100(input));
     }

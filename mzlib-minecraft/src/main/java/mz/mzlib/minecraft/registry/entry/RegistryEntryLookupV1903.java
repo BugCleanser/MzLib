@@ -21,7 +21,7 @@ public interface RegistryEntryLookupV1903 extends WrapperObject
 
     default Option<RegistryEntryListV1903> get(TagV1300<?> tag)
     {
-        return Option.fromOptional(this.get0(tag)).map(RegistryEntryListV1903.FACTORY::create);
+        return Option.fromOptional(this.get0(tag)).mapNullable(RegistryEntryListV1903.FACTORY::create);
     }
 
 
@@ -37,7 +37,7 @@ public interface RegistryEntryLookupV1903 extends WrapperObject
 
         default Option<RegistryWrapperV1903> get(RegistryKeyV1600 key)
         {
-            return Option.fromOptional(this.get0(key)).map(RegistryWrapperV1903.FACTORY::create);
+            return Option.fromOptional(this.get0(key)).mapNullable(RegistryWrapperV1903.FACTORY::create);
         }
 
 

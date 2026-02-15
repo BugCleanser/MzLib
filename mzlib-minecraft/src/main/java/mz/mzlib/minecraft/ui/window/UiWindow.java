@@ -237,7 +237,7 @@ public class UiWindow extends UiAbstractWindow
                 EventAsyncPlayerDisplayItemInWindow.class, Priority.VERY_HIGH,
                 event -> event.sync(() ->
                 {
-                    if(Option.some(event).filter(Cancellable.class).map(Cancellable::isCancelled).unwrapOr(false))
+                    if(Option.some(event).filter(Cancellable.class).mapNullable(Cancellable::isCancelled).unwrapOr(false))
                         return;
                     for(WindowUiWindow window : event.getPlayer().getWindow(event.getSyncId())
                         .asOption(WindowUiWindow.FACTORY))

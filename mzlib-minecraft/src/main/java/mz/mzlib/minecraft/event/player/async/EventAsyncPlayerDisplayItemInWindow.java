@@ -199,7 +199,7 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                 EventAsyncPlayerDisplayItemInWindow.class, Priority.LOWEST,
                 event ->
                 {
-                    if(Option.some(event).filter(Cancellable.class).map(Cancellable::isCancelled).unwrapOr(false))
+                    if(Option.some(event).filter(Cancellable.class).mapNullable(Cancellable::isCancelled).unwrapOr(false))
                         return;
                     if(event.getItemStack().getWrapped() == event.getOriginal().getWrapped())
                         return;

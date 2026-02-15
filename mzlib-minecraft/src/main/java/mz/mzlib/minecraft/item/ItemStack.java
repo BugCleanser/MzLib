@@ -281,12 +281,8 @@ public interface ItemStack extends WrapperObject
     }
     Result<Option<NbtCompound>, String> encode0();
 
-    @WrapMinecraftFieldAccessor(@VersionName(name = "item")) // cannot replace with wrapping method
+    @WrapMinecraftMethod(@VersionName(name = "getItem"))
     Item getItem();
-
-    @Deprecated
-    @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
-    void setItem(Item item);
 
     default Identifier getId()
     {
@@ -373,8 +369,11 @@ public interface ItemStack extends WrapperObject
         return result;
     }
 
-    @WrapMinecraftMethod(@VersionName(name = "getMaxCount"))
     int getMaxStackCount();
+
+    @VersionRange(end = 2610)
+    @WrapMinecraftMethod(@VersionName(name = "getMaxCount"))
+    int getMaxStackCountV_2610();
 
     Text getName();
 
@@ -694,6 +693,19 @@ public interface ItemStack extends WrapperObject
     default String getTranslationKeyV2102()
     {
         return this.getItem().getNameV1300(this).castTo(TextTranslatable.FACTORY).getKey();
+    }
+
+    @SpecificImpl("getMaxStackCount")
+    @VersionRange(end = 2610)
+    default int getMaxStackCount$implV_2610()
+    {
+        return this.getMaxStackCountV_2610();
+    }
+    @SpecificImpl("getMaxStackCount")
+    @VersionRange(begin = 2610)
+    default int getMaxStackCount$implV2610()
+    {
+        return this.as(ItemInstanceV2610.FACTORY).getMaxStackCount();
     }
 
     boolean static$isStackable(ItemStack a, ItemStack b);

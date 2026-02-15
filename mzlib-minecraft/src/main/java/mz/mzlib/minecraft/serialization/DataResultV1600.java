@@ -63,7 +63,7 @@ public interface DataResultV1600<T> extends WrapperObject
             {
                 return Result.failure(Option.none(), msg);
             }
-            return Result.success(this.base.resultOrPartial(ThrowableConsumer.nothing()).map(type::create));
+            return Result.success(this.base.resultOrPartial(ThrowableConsumer.nothing()).mapNullable(type::create));
         }
     }
 }

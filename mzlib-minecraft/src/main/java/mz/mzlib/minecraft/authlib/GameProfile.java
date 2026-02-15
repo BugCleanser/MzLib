@@ -133,8 +133,8 @@ public interface GameProfile extends WrapperObject
     default GameProfile.Description toDescriptionV2002_2005()
     {
         return new Description(
-            this.getName().map(name -> name.isEmpty() ? null : name),
-            this.getId().map(id -> id.equals(NIL_UUID_V2002) ? null : id), this.getProperties()
+            this.getName().mapNullable(name -> name.isEmpty() ? null : name),
+            this.getId().mapNullable(id -> id.equals(NIL_UUID_V2002) ? null : id), this.getProperties()
         );
     }
 

@@ -223,7 +223,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
             this.base = base;
             for(Option<List<Text>> lore : base.data.get(Item.LORE))
             {
-                this.lines = lore.map(ArrayList::new).unwrapOrGet(ArrayList::new);
+                this.lines = lore.mapNullable(ArrayList::new).unwrapOrGet(ArrayList::new);
                 return;
             }
             if(base.from != null)

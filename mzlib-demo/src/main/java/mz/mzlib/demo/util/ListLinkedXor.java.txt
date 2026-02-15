@@ -1,6 +1,6 @@
 package mz.mzlib.demo.util;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.IndexAllocator;
 
 import java.util.AbstractList;
@@ -37,13 +37,13 @@ public class ListLinkedXor<T> extends AbstractList<T>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ListIterator<T> listIterator()
     {
         return this.new Itr(0, -1, this.begin);
     }
     @Override
-    @Nonnull
+    @NotNull
     public ListIterator<T> listIterator(int index)
     {
         ListIterator<T> result = this.listIterator();
@@ -52,7 +52,7 @@ public class ListLinkedXor<T> extends AbstractList<T>
         return result;
     }
     @Override
-    @Nonnull
+    @NotNull
     public Iterator<T> iterator()
     {
         return this.listIterator();

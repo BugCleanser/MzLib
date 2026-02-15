@@ -144,7 +144,7 @@ public interface TextStyle extends WrapperObject
     {
         return this.static$newInstanceV2109(
             color, shadowColorV2104, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent,
-            insertion, Option.fromWrapper(font).map(FontDescriptionV2109.Resource::newInstance)
+            insertion, Option.fromWrapper(font).mapNullable(FontDescriptionV2109.Resource::newInstance)
                 .unwrapOrGet(FontDescriptionV2109.Resource.FACTORY::getStatic)
         );
     }
@@ -436,7 +436,7 @@ public interface TextStyle extends WrapperObject
     default String toLegacy()
     {
         StringBuilder sb = new StringBuilder("§r");
-        for(TextFormatLegacy c : Option.fromNullable(this.getColor()).map(TextColor::getLegacy))
+        for(TextFormatLegacy c : Option.fromNullable(this.getColor()).mapNullable(TextColor::getLegacy))
         {
             sb = new StringBuilder();
             sb.append('§');

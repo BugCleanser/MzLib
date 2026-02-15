@@ -1,6 +1,6 @@
 package mz.mzlib.util;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -78,7 +78,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Collection<V> values()
     {
         this.clean();
@@ -86,7 +86,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Set<Map.Entry<K, V>> entrySet()
     {
         return this.new SetEntry();
@@ -110,7 +110,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
             return MapConcurrentWeakHash.this.remove(e.getKey(), e.getValue());
         }
         @Override
-        @Nonnull
+        @NotNull
         public Iterator<Map.Entry<K, V>> iterator()
         {
             return MapConcurrentWeakHash.this.new IteratorEntry();
@@ -118,7 +118,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Set<K> keySet()
     {
         return this.new SetKey();
@@ -136,7 +136,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
             return MapConcurrentWeakHash.this.remove(o) != null;
         }
         @Override
-        @Nonnull
+        @NotNull
         public Iterator<K> iterator()
         {
             return MapConcurrentWeakHash.this.new IteratorKey();

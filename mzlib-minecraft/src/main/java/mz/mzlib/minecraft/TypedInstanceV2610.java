@@ -6,30 +6,30 @@ import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
-@VersionRange(begin = 2601)
+@VersionRange(begin = 2610)
 @WrapClassForName("net.minecraft.core.TypedInstance")
-public interface TypedInstanceV2601<T> extends WrapperObject
+public interface TypedInstanceV2610<T> extends WrapperObject
 {
-    WrapperFactory<TypedInstanceV2601<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(TypedInstanceV2601.class));
+    WrapperFactory<TypedInstanceV2610<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(TypedInstanceV2610.class));
 
     @WrapMethod("is")
     boolean isType(T type);
 
     class Wrapper<T extends WrapperObject>
     {
-        TypedInstanceV2601<?> base;
+        TypedInstanceV2610<?> base;
         WrapperFactory<T> type;
-        public Wrapper(TypedInstanceV2601<?> base, WrapperFactory<T> type)
+        public Wrapper(TypedInstanceV2610<?> base, WrapperFactory<T> type)
         {
             this.base = base;
             this.type = type;
         }
-        public static <T extends WrapperObject> Wrapper<T> of(TypedInstanceV2601<?> base, WrapperFactory<T> type)
+        public static <T extends WrapperObject> Wrapper<T> of(TypedInstanceV2610<?> base, WrapperFactory<T> type)
         {
             return new Wrapper<>(base, type);
         }
 
-        public TypedInstanceV2601<?> getBase()
+        public TypedInstanceV2610<?> getBase()
         {
             return this.base;
         }

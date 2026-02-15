@@ -166,8 +166,8 @@ public interface ItemWrittenBook extends Item
                 DataHandler.builder(PAGES)
                     .checker(checker)
                     .getter(is -> new ListProxy<>(
-                        is.tagV_2005().getNbtList("pages").map(pages -> pages.asList(NbtString.FACTORY))
-                            .map(ArrayList::new).unwrapOrGet(ArrayList::new), // clone
+                        is.tagV_2005().getNbtList("pages").mapNullable(pages -> pages.asList(NbtString.FACTORY))
+                            .mapNullable(ArrayList::new).unwrapOrGet(ArrayList::new), // clone
                         functionPage
                     ))
                     .setter((is, value) ->

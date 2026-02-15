@@ -13,10 +13,7 @@ import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
-import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.entity.player.ServerPlayerEntity"),
@@ -68,24 +65,7 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
         return MinecraftPlatform.instance.getLanguage(this);
     }
 
-    @SpecificImpl("sendMessage")
-    @VersionRange(end = 1100)
-    @WrapMinecraftMethod(@VersionName(name = "sendMessage"))
-    void sendMessageV_1100(Text message);
-
-    @VersionRange(begin = 1300, end = 1600)
-    @WrapMinecraftMethod({
-        @VersionName(name = "method_21277", end = 1400),
-        @VersionName(name = "sendChatMessage", begin = 1400)
-    })
-    void sendMessageV1300_1600(Text message, MessageTypeV1200_1900 type);
-
-    @VersionRange(begin = 1300, end = 1600)
-    @SpecificImpl("sendMessage")
-    default void sendMessageV1300_1600(Text message)
-    {
-        this.sendMessageV1300_1600(message, MessageTypeV1200_1900.system());
-    }
+    void sendMessage(Text message);
 
     void sendPacket(Packet packet);
 
@@ -142,4 +122,41 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     @VersionRange(begin = 1700)
     @WrapMinecraftFieldAccessor(@VersionName(name = "screenHandlerSyncHandler"))
     WindowSyncHandlerV1700 getWindowSyncHandlerV1700();
+
+
+    @SpecificImpl("sendMessage")
+    @VersionRange(end = 1100)
+    default void sendMessage$implV_1100(Text message)
+    {
+        sendMessageV_1100(message);
+    }
+    @SpecificImpl("sendMessage")
+    @VersionRange(begin = 1100, end = 1300)
+    @VersionRange(begin = 1600, end = 2610)
+    default void sendMessage$implV1100_1300__1600_2610(Text message)
+    {
+        this.sendMessageV1100_1300__1600_2610(message, false);
+    }
+    @SpecificImpl("sendMessage")
+    @VersionRange(begin = 1300, end = 1600)
+    default void sendMessage$implV1300_1600(Text message)
+    {
+        this.sendMessageV1300_1600(message, MessageTypeV1200_1900.system());
+    }
+    @SpecificImpl("sendMessage")
+    @VersionRange(begin = 2610)
+    default void sendMessage$implV2610(Text message)
+    {
+        this.sendMessageV2610(message);
+    }
+
+    @VersionRange(end = 1100)
+    @WrapMinecraftMethod(@VersionName(name = "sendMessage"))
+    void sendMessageV_1100(Text message);
+    @VersionRange(begin = 1300, end = 1600)
+    @WrapMinecraftMethod({
+        @VersionName(name = "method_21277", end = 1400),
+        @VersionName(name = "sendChatMessage", begin = 1400)
+    })
+    void sendMessageV1300_1600(Text message, MessageTypeV1200_1900 type);
 }

@@ -42,7 +42,7 @@ public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV
 
     default <T extends WrapperObject> Option<T> get(ComponentKeyV2005.Wrapper<T> key)
     {
-        return Option.fromNullable(this.get0(key.getBase())).map(key.getType()::create);
+        return Option.fromNullable(this.get0(key.getBase())).mapNullable(key.getType()::create);
     }
 
     @Deprecated
@@ -53,7 +53,7 @@ public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV
 
     default <T extends WrapperObject> Option<T> copy(ComponentKeyV2005.Wrapper<T> key)
     {
-        return this.get(key).map(key::copy);
+        return this.get(key).mapNullable(key::copy);
     }
 
     @SuppressWarnings("NullableProblems")

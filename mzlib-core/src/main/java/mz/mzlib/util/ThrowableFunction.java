@@ -95,7 +95,7 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
 
     static <T, U, E extends Throwable> ThrowableFunction<Option<T>, Option<U>, E> optionMap(ThrowableFunction<? super T, ? extends U, E> action)
     {
-        return o -> o.map(action);
+        return o -> o.mapNullable(action);
     }
 
     static <T, E extends Throwable> ThrowableFunction<T, T, E> identity()

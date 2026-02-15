@@ -7,8 +7,8 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
-    @VersionName(name = "net.minecraft.server.PlayerConfigEntry", end = 2601),
-    @VersionName(name = "net.minecraft.server.players.NameAndId", begin = 2601)
+    @VersionName(name = "net.minecraft.server.PlayerConfigEntry", end = 2610),
+    @VersionName(name = "net.minecraft.server.players.NameAndId", begin = 2610)
 })
 @VersionRange(begin = 2109)
 public interface PlayerConfigEntryV2109 extends WrapperObject

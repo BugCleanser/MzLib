@@ -60,7 +60,7 @@ public @interface WrapMinecraftClass
             {
                 for(Option<String> result : Option.fromOptional(
                     Arrays.stream(annotation.name()).filter(MinecraftPlatform.instance::inVersion)
-                        .map(n -> getName(annotation.outer()).map(o -> o + "$" + n.name())).findAny()))
+                        .map(n -> getName(annotation.outer()).mapNullable(o -> o + "$" + n.name())).findAny()))
                 {
                     return result;
                 }

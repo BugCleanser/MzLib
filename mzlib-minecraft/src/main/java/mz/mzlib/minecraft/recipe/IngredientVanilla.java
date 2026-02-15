@@ -259,7 +259,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             .get(RegistryKeysV1600.ITEM)
             .unwrap(IllegalStateException::new)
             .get(tag)
-            .map(this::static$ofV2102)
+            .mapNullable(this::static$ofV2102)
             .unwrap(() -> new IllegalArgumentException(Objects.toString(tag)));
     }
     @VersionRange(begin = 2102)

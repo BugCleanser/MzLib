@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
@@ -64,7 +64,7 @@ public class ListProxy<T, U> extends AbstractList<T> implements CollectionProxy<
         return CollectionProxy.super.remove(o);
     }
     @Override
-    public boolean addAll(@Nonnull Collection<? extends T> c)
+    public boolean addAll(@NotNull Collection<? extends T> c)
     {
         return CollectionProxy.super.addAll(c);
     }
@@ -74,7 +74,7 @@ public class ListProxy<T, U> extends AbstractList<T> implements CollectionProxy<
         CollectionProxy.super.clear();
     }
     @Override
-    @Nonnull
+    @NotNull
     public Iterator<T> iterator()
     {
         return CollectionProxy.super.iterator();
@@ -156,21 +156,21 @@ public class ListProxy<T, U> extends AbstractList<T> implements CollectionProxy<
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ListIterator<T> listIterator()
     {
         return this.listIterator(0);
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ListIterator<T> listIterator(int index)
     {
         return new ListIteratorProxy<>(this.getDelegate().listIterator(index), this.getFunction(), this.getModifyMonitor());
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public List<T> subList(int fromIndex, int toIndex)
     {
         return new ListProxy<>(this.getDelegate().subList(fromIndex, toIndex), this.getFunction(), this.getModifyMonitor());

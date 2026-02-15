@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 
@@ -73,7 +73,7 @@ public class SetProxy<T, U> extends AbstractSet<T> implements CollectionProxy<T,
         CollectionProxy.super.clear();
     }
     @Override
-    @Nonnull
+    @NotNull
     public Iterator<T> iterator()
     {
         return CollectionProxy.super.iterator();

@@ -25,7 +25,7 @@ public interface RawFilteredPairV2005 extends WrapperObject
 
     static RawFilteredPairV2005 newInstance(WrapperObject raw, Option<? extends WrapperObject> filtered)
     {
-        return newInstance0(raw.getWrapped(), filtered.map(WrapperObject::getWrapped).toOptional());
+        return newInstance0(raw.getWrapped(), filtered.mapNullable(WrapperObject::getWrapped).toOptional());
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

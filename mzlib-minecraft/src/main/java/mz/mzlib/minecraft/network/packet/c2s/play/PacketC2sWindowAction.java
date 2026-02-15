@@ -38,8 +38,8 @@ public interface PacketC2sWindowAction extends Packet
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "actionType", end = 900),
         @VersionName(name = "field_13798", begin = 900, end = 1400),
-        @VersionName(name = "actionType", begin = 1400, end = 2601),
-        @VersionName(name = "containerInput", remap = false, begin = 2601)
+        @VersionName(name = "actionType", begin = 1400, end = 2610),
+        @VersionName(name = "containerInput", remap = false, begin = 2610)
     })
     WindowActionType getActionType();
 

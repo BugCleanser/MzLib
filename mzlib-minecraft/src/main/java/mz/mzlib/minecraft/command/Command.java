@@ -1,6 +1,6 @@
 package mz.mzlib.minecraft.command;
 
-import jakarta.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.permission.PermissionHelp;

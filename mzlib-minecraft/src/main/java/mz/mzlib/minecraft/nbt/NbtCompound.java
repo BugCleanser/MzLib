@@ -198,37 +198,37 @@ public interface NbtCompound extends NbtElement
 
     default Option<Byte> getByte(String key)
     {
-        return this.get(key, NbtByte.FACTORY).map(NbtByte::getValue);
+        return this.get(key, NbtByte.FACTORY).mapNullable(NbtByte::getValue);
     }
 
     default Option<Boolean> getBoolean(String key)
     {
-        return this.getByte(key).map(RuntimeUtil::castByteToBoolean);
+        return this.getByte(key).mapNullable(RuntimeUtil::castByteToBoolean);
     }
 
     default Option<Integer> getInt(String key)
     {
-        return this.get(key, NbtInt.FACTORY).map(NbtInt::getValue);
+        return this.get(key, NbtInt.FACTORY).mapNullable(NbtInt::getValue);
     }
 
     default Option<Long> getLong(String key)
     {
-        return this.get(key, NbtLong.FACTORY).map(NbtLong::getValue);
+        return this.get(key, NbtLong.FACTORY).mapNullable(NbtLong::getValue);
     }
 
     default Option<Float> getFloat(String key)
     {
-        return this.get(key, NbtFloat.FACTORY).map(NbtFloat::getValue);
+        return this.get(key, NbtFloat.FACTORY).mapNullable(NbtFloat::getValue);
     }
 
     default Option<Double> getDouble(String key)
     {
-        return this.get(key, NbtDouble.FACTORY).map(NbtDouble::getValue);
+        return this.get(key, NbtDouble.FACTORY).mapNullable(NbtDouble::getValue);
     }
 
     default Option<String> getString(String key)
     {
-        return this.get(key, NbtString.FACTORY).map(NbtString::getValue);
+        return this.get(key, NbtString.FACTORY).mapNullable(NbtString::getValue);
     }
 
     default Option<NbtList> getNbtList(String key)
@@ -277,7 +277,7 @@ public interface NbtCompound extends NbtElement
     default Editor<NbtCompound> reviseNbtCompoundOr(String key, Supplier<NbtCompound> supplier)
     {
         return Editor.of(
-            () -> this.getNbtCompound(key).map(NbtCompound::clone).unwrapOrGet(supplier),
+            () -> this.getNbtCompound(key).mapNullable(NbtCompound::clone).unwrapOrGet(supplier),
             child -> this.put(key, child)
         );
     }
@@ -293,7 +293,7 @@ public interface NbtCompound extends NbtElement
     default Editor<NbtList> reviseNbtListOr(String key, Supplier<NbtList> supplier)
     {
         return Editor.of(
-            () -> this.getNbtList(key).map(NbtList::clone).unwrapOrGet(supplier), child -> this.put(key, child));
+            () -> this.getNbtList(key).mapNullable(NbtList::clone).unwrapOrGet(supplier), child -> this.put(key, child));
     }
 
     @WrapMinecraftFieldAccessor(

@@ -213,11 +213,11 @@ public interface Item extends WrapperObject
                 :
                 DataHandler.builder(CUSTOM_DATA)
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_CUSTOM_DATA_V2005)
-                        .map(NbtCompoundComponentV2005::getNbtCompound))
+                        .mapNullable(NbtCompoundComponentV2005::getNbtCompound))
                     .setter((is, value) -> is.getComponentsV2005()
-                        .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.map(NbtCompoundComponentV2005::newInstance)))
+                        .set(COMPONENT_KEY_CUSTOM_DATA_V2005, value.mapNullable(NbtCompoundComponentV2005::newInstance)))
             )
-                .reviserGetter(data -> data.map(NbtCompound::clone).unwrapOrGet(NbtCompound::newInstance))
+                .reviserGetter(data -> data.mapNullable(NbtCompound::clone).unwrapOrGet(NbtCompound::newInstance))
                 .reviserApplier(reviser -> Option.some(reviser)
                     .filter(ThrowablePredicate.ofPredicate(NbtCompound::isEmpty).negate()))
                 .register(this);
@@ -345,10 +345,10 @@ public interface Item extends WrapperObject
             else
                 DataHandler.builder(LORE)
                     .getter(is -> is.getComponentsV2005()
-                        .get(COMPONENT_KEY_LORE_V2005).map(LoreComponentV2005::getLines))
+                        .get(COMPONENT_KEY_LORE_V2005).mapNullable(LoreComponentV2005::getLines))
                     .setter((is, value) -> is.getComponentsV2005()
-                        .set(COMPONENT_KEY_LORE_V2005, value.map(LoreComponentV2005::newInstance)))
-                    .reviserGetter(lore -> lore.map(ArrayList::new).unwrapOrGet(ArrayList::new))
+                        .set(COMPONENT_KEY_LORE_V2005, value.mapNullable(LoreComponentV2005::newInstance)))
+                    .reviserGetter(lore -> lore.mapNullable(ArrayList::new).unwrapOrGet(ArrayList::new))
                     .reviserApplier(reviser -> Option.some(reviser)
                         .filter(ThrowablePredicate.ofPredicate(List<Text>::isEmpty).negate()))
                     .register(this);
@@ -474,7 +474,7 @@ public interface Item extends WrapperObject
     @VersionRange(begin = 2005)
     default Option<List<Text>> static$copyLoreV2005(ItemStack itemStack)
     {
-        return LORE.get(itemStack).map(ArrayList::new);
+        return LORE.get(itemStack).mapNullable(ArrayList::new);
     }
 
     /**

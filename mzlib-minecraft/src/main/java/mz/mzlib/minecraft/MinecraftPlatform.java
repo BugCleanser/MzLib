@@ -46,7 +46,7 @@ public interface MinecraftPlatform extends Instance
 
     Mappings<?> getMappings();
 
-    static Mappings<?> getMappingsV2601(File folder)
+    static Mappings<?> getMappingsV2610(File folder)
     {
         return new MappingsPipe(
             new MinecraftMappingsFetcherMojang().fetch("1.21.11", folder),
@@ -62,7 +62,7 @@ public interface MinecraftPlatform extends Instance
         if(versions[0].equals("1"))
             return Integer.parseInt(versions[1]) * 100 + (versions.length > 2 ? Integer.parseInt(versions[2]) : 0);
         else
-            return Integer.parseInt(versions[0]) * 100 + Integer.parseInt(versions[1]);
+            return Integer.parseInt(versions[0]) * 100 + Integer.parseInt(versions[1]) * 10 + (versions.length > 2 ? Integer.parseInt(versions[2]) : 0);
     }
 
     class Tag

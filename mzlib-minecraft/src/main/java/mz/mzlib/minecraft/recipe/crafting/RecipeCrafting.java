@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.recipe.input.RecipeInputCraftingV2100;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.*;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.recipe.RecipeType", end = 1400),
@@ -25,4 +25,20 @@ public interface RecipeCrafting extends RecipeMojang
     @VersionRange(begin = 2102)
     @WrapMinecraftMethod(@VersionName(name = "method_17704"))
     DefaultedListV1100<?> getRemainders0V2102(RecipeInputCraftingV2100 input);
+
+    @VersionRange(begin = 2610)
+    @WrapInnerClass(outer = RecipeCrafting.class, name = "CraftingBookInfo")
+    interface CraftingBookInfoV2610 extends WrapperObject
+    {
+        WrapperFactory<CraftingBookInfoV2610> FACTORY = WrapperFactory.of(CraftingBookInfoV2610.class);
+
+        static CraftingBookInfoV2610 of(RecipeCraftingCategoryV1903 category, String group)
+        {
+            return FACTORY.getStatic().static$of(category, group);
+        }
+
+
+        @WrapConstructor
+        CraftingBookInfoV2610 static$of(RecipeCraftingCategoryV1903 category, String group);
+    }
 }

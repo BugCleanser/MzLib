@@ -1,6 +1,6 @@
 package mz.mzlib.util;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -96,14 +96,14 @@ public class ListMerged<T> extends AbstractList<T>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public Iterator<T> iterator()
     {
         return new Itr<>(this.getChild0().iterator(), this.getChild1().iterator());
     }
 
     @Override
-    @Nonnull
+    @NotNull
     public ListIterator<T> listIterator(int index)
     {
         int child0Size = this.getChild0().size();

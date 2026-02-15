@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.RecipeRegistration;
 import mz.mzlib.minecraft.recipe.RecipeVanilla;
 import mz.mzlib.minecraft.recipe.book.RecipeCookingCategoryV1903;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -25,6 +26,7 @@ public interface RecipeFurnace extends RecipeVanilla
         RecipeCookingCategoryV1903 cookingCategoryV1903 = RECIPE_COOKING_CATEGORY_V1903;
         static RecipeCookingCategoryV1903 RECIPE_COOKING_CATEGORY_V1903 =
             MinecraftPlatform.instance.getVersion() < 1903 ? null : RecipeCookingCategoryV1903.MISC;
+        boolean notificationEnabledV2610 = true;
 
         public Builder id(Identifier value)
         {
@@ -41,9 +43,9 @@ public interface RecipeFurnace extends RecipeVanilla
             this.experience = value;
             return this;
         }
-        public Builder groupV1300(String value)
+        public Builder groupV1300(@Nullable String value)
         {
-            this.groupV1300 = value;
+            this.groupV1300 = value != null ? value : "";
             return this;
         }
         public abstract Builder ingredient(ItemStack value);

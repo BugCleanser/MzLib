@@ -1,6 +1,6 @@
 package mz.mzlib.util.proxy;
 
-import jakarta.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
@@ -92,7 +92,7 @@ public interface CollectionProxy<T, U> extends Collection<T>
     }
 
     @Override
-    @Nonnull
+    @NotNull
     default Iterator<T> iterator()
     {
         return new IteratorProxy<>(this.getDelegate().iterator(), this.getFunction(), this.getModifyMonitor());
@@ -163,7 +163,7 @@ public interface CollectionProxy<T, U> extends Collection<T>
             return CollectionProxy.super.remove(o);
         }
         @Override
-        public boolean addAll(@Nonnull Collection<? extends T> c)
+        public boolean addAll(@NotNull Collection<? extends T> c)
         {
             return CollectionProxy.super.addAll(c);
         }
@@ -173,7 +173,7 @@ public interface CollectionProxy<T, U> extends Collection<T>
             CollectionProxy.super.clear();
         }
         @Override
-        @Nonnull
+        @NotNull
         public Iterator<T> iterator()
         {
             return CollectionProxy.super.iterator();

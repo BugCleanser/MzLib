@@ -49,7 +49,7 @@ public interface TextSelector extends WrapperObject, Text
     @VersionRange(begin = 1700, end = 1900)
     default TextSelector static$newInstanceV1700_1900(String selector, Option<Text> separator)
     {
-        return this.static$newInstance0V1700_1900(selector, separator.map(Text::getWrapped).toOptional());
+        return this.static$newInstance0V1700_1900(selector, separator.mapNullable(Text::getWrapped).toOptional());
     }
     @VersionRange(begin = 1700, end = 1900)
     @WrapConstructor
@@ -93,7 +93,7 @@ public interface TextSelector extends WrapperObject, Text
     @VersionRange(begin = 1700, end = 1900)
     default Option<Text> getSeparatorV1700_1900()
     {
-        return Option.fromOptional(this.getSeparator0V1700_1900()).map(Text.FACTORY::create);
+        return Option.fromOptional(this.getSeparator0V1700_1900()).mapNullable(Text.FACTORY::create);
     }
     @VersionRange(begin = 1700, end = 1900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "separator"))

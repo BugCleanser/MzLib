@@ -22,14 +22,14 @@ public class EntityDataAdapter<T>
 
     public Option<T> get(EntityDataHolder holder)
     {
-        return holder.getData(this.key).map(this.function.inverse());
+        return holder.getData(this.key).mapNullable(this.function.inverse());
     }
     public Option<T> put(EntityDataHolder holder, T value)
     {
-        return holder.putData(this.key, this.function.apply(value)).map(this.function.inverse());
+        return holder.putData(this.key, this.function.apply(value)).mapNullable(this.function.inverse());
     }
     public Option<T> remove(EntityDataHolder holder)
     {
-        return holder.removeData(this.key).map(this.function.inverse());
+        return holder.removeData(this.key).mapNullable(this.function.inverse());
     }
 }

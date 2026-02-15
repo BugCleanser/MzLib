@@ -20,9 +20,9 @@ public interface RegistryEntryV1802<T> extends WrapperObject
 {
     WrapperFactory<RegistryEntryV1802<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(RegistryEntryV1802.class));
 
-    default Option<RegistryKeyV1600> getKey()
+    default Option<RegistryKeyV1600<?>> getKey()
     {
-        return Option.fromOptional(this.getKey0()).map(RegistryKeyV1600.FACTORY::create);
+        return Option.fromOptional(this.getKey0()).mapNullable(RegistryKeyV1600.FACTORY::create);
     }
 
     @WrapMinecraftMethod(@VersionName(name = "comp_349"))
@@ -47,7 +47,7 @@ public interface RegistryEntryV1802<T> extends WrapperObject
             return this.base;
         }
 
-        public Option<RegistryKeyV1600> getKey()
+        public Option<RegistryKeyV1600<?>> getKey()
         {
             return this.base.getKey();
         }

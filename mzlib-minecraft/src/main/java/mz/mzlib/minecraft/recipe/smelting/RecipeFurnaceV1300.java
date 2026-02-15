@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.Identifier;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
+import mz.mzlib.minecraft.item.ItemStackTemplateV2610;
 import mz.mzlib.minecraft.recipe.RecipeMojang;
 import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.book.RecipeCookingCategoryV1903;
@@ -85,21 +86,44 @@ public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
         int cookingTime);
 
     @SpecificImpl("static$of")
-    @VersionRange(begin = 2002)
-    default RecipeFurnaceV1300 static$ofV2002(Builder builder)
+    @VersionRange(begin = 2002, end = 2610)
+    default RecipeFurnaceV1300 static$ofV2002_2610(Builder builder)
     {
-        return this.static$ofV2002(
+        return this.static$ofV2002_2610(
             builder.groupV1300, builder.cookingCategoryV1903,
             builder.getIngredientV1300(), builder.getResult(), builder.experience, builder.cookingTimeV1300
         );
     }
-    @VersionRange(begin = 2002)
+    @VersionRange(begin = 2002, end = 2610)
     @WrapConstructor
-    RecipeFurnaceV1300 static$ofV2002(
+    RecipeFurnaceV1300 static$ofV2002_2610(
         String group,
         RecipeCookingCategoryV1903 category,
         IngredientVanilla ingredient,
         ItemStack result,
+        float experience,
+        int cookingTime);
+
+
+    @SpecificImpl("static$of")
+    @VersionRange(begin = 2610)
+    default RecipeFurnaceV1300 static$ofV2610(Builder builder)
+    {
+        return this.static$ofV2610(
+            RecipeMojang.CommonInfoV2610.of(builder.notificationEnabledV2610),
+            RecipeSmeltingV1400.CookingBookInfoV2610.of(builder.cookingCategoryV1903, builder.groupV1300),
+            builder.getIngredientV1300(),
+            ItemStackTemplateV2610.of(builder.getResult()),
+            builder.experience, builder.cookingTimeV1300
+        );
+    }
+    @VersionRange(begin = 2610)
+    @WrapConstructor
+    RecipeFurnaceV1300 static$ofV2610(
+        RecipeMojang.CommonInfoV2610 commonInfo,
+        RecipeSmeltingV1400.CookingBookInfoV2610 bookInfo,
+        IngredientVanilla ingredient,
+        ItemStackTemplateV2610 result,
         float experience,
         int cookingTime);
 }

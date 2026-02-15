@@ -13,8 +13,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
     @VersionName(name = "int", remap = false, end = 900),
     @VersionName(name = "net.minecraft.util.ItemAction", begin = 900, end = 1400),
     @VersionName(name = "net.minecraft.container.SlotActionType", begin = 1400, end = 1600),
-    @VersionName(name = "net.minecraft.screen.slot.SlotActionType", begin = 1600, end = 2601),
-    @VersionName(name = "net.minecraft.world.inventory.ContainerInput", begin = 2601, remap = false)
+    @VersionName(name = "net.minecraft.screen.slot.SlotActionType", begin = 1600, end = 2610),
+    @VersionName(name = "net.minecraft.world.inventory.ContainerInput", begin = 2610, remap = false)
 })
 public interface WindowActionType extends WrapperObject
 {
@@ -84,8 +84,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12268", end = 1400),
-        @VersionName(name = "field_7789", begin = 1400, end = 2601),
-        @VersionName(name = "QUICK_CRAFT", remap = false, begin = 2601)
+        @VersionName(name = "field_7789", begin = 1400, end = 2610),
+        @VersionName(name = "QUICK_CRAFT", remap = false, begin = 2610)
     })
     WindowActionType static$DRAG_V900();
 
@@ -100,8 +100,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12263", end = 1400),
-        @VersionName(name = "field_7790", begin = 1400, end = 2601),
-        @VersionName(name = "PICKUP", remap = false, begin = 2601)
+        @VersionName(name = "field_7790", begin = 1400, end = 2610),
+        @VersionName(name = "PICKUP", remap = false, begin = 2610)
     })
     WindowActionType static$CLICK_V900();
 
@@ -116,8 +116,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12265", end = 1400),
-        @VersionName(name = "field_7791", begin = 1400, end = 2601),
-        @VersionName(name = "SWAP", remap = false, begin = 2601)
+        @VersionName(name = "field_7791", begin = 1400, end = 2610),
+        @VersionName(name = "SWAP", remap = false, begin = 2610)
     })
     WindowActionType static$SWAP_V900();
 
@@ -132,8 +132,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12269", end = 1400),
-        @VersionName(name = "field_7793", begin = 1400, end = 2601),
-        @VersionName(name = "PICKUP_ALL", remap = false, begin = 2601)
+        @VersionName(name = "field_7793", begin = 1400, end = 2610),
+        @VersionName(name = "PICKUP_ALL", remap = false, begin = 2610)
     })
     WindowActionType static$PICKUP_ALL_V900();
 
@@ -148,8 +148,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12264", end = 1400),
-        @VersionName(name = "field_7794", begin = 1400, end = 2601),
-        @VersionName(name = "QUICK_MOVE", remap = false, begin = 2601)
+        @VersionName(name = "field_7794", begin = 1400, end = 2610),
+        @VersionName(name = "QUICK_MOVE", remap = false, begin = 2610)
     })
     WindowActionType static$SHIFT_CLICK_V900();
 
@@ -164,8 +164,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12267", end = 1400),
-        @VersionName(name = "field_7795", begin = 1400, end = 2601),
-        @VersionName(name = "THROW", remap = false, begin = 2601)
+        @VersionName(name = "field_7795", begin = 1400, end = 2610),
+        @VersionName(name = "THROW", remap = false, begin = 2610)
     })
     WindowActionType static$DROP_V900();
 
@@ -180,8 +180,8 @@ public interface WindowActionType extends WrapperObject
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12266", end = 1400),
-        @VersionName(name = "field_7796", begin = 1400, end = 2601),
-        @VersionName(name = "CLONE", remap = false, begin = 2601)
+        @VersionName(name = "field_7796", begin = 1400, end = 2610),
+        @VersionName(name = "CLONE", remap = false, begin = 2610)
     })
     WindowActionType static$CLONE_V900();
 

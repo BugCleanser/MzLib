@@ -11,7 +11,7 @@ dependencies {
 //    api("com.google.guava:guava:32.0.0-jre")
 //    api("org.graalvm.polyglot:polyglot:latest.release")
 //    api("org.graalvm.polyglot:js:latest.release")
-    compileOnlyApi("jakarta.annotation:jakarta.annotation-api:latest.release")
+    compileOnlyApi("org.jetbrains:annotations:latest.release")
 }
 
 ext["publishing"] = true
