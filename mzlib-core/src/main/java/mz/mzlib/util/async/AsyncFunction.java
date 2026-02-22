@@ -1,6 +1,8 @@
 package mz.mzlib.util.async;
 
-import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -40,8 +42,7 @@ public abstract class AsyncFunction<R> implements Runnable
     @SuppressWarnings("all")
     public static void await(BasicAwait await)
     {
-        if(RuntimeUtil.nul() == null)
-            throw new UnsupportedOperationException("Must be invoked by async function.");
+        throw new UnsupportedOperationException("Must be invoked by async function.");
     }
 
     /**
@@ -50,14 +51,16 @@ public abstract class AsyncFunction<R> implements Runnable
      */
     public static void await0(CompletableFuture<?> future)
     {
-        await(null);
+        throw new UnsupportedOperationException("Must be invoked by async function.");
     }
 
-    protected AsyncFunctionRunner runner;
+    protected @UnknownNullability AsyncFunctionRunner runner;
 
     public AsyncFunctionRunner getRunner()
     {
-        return runner;
+        if(this.runner == null)
+            throw new IllegalStateException();
+        return this.runner;
     }
 
     public CompletableFuture<R> start(AsyncFunctionRunner runner)
@@ -75,9 +78,10 @@ public abstract class AsyncFunction<R> implements Runnable
     }
 
 
-    protected AsyncFunctionContext<R> context;
+    protected @UnknownNullability AsyncFunctionContext<R> context;
 
-    public void run(Object result, Throwable e)
+    @ApiStatus.Internal
+    public void run(Object result, @Nullable Throwable e)
     {
         if(e != null)
             this.context.future.completeExceptionally(e);

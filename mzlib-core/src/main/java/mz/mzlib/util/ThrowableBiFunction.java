@@ -1,11 +1,15 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface ThrowableBiFunction<F, S, R, E extends Throwable> extends BiFunction<F, S, R>
+@ApiStatus.Experimental
+public interface ThrowableBiFunction<F extends @Nullable Object, S extends @Nullable Object, R extends @Nullable Object, E extends Throwable> extends BiFunction<F, S, R>
 {
     R applyOrThrow(F first, S second) throws E;
 

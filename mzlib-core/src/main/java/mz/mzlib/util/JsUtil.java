@@ -1,15 +1,15 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.json.JsonParser;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@ApiStatus.Experimental
 public class JsUtil
 {
     public static Object newObject(Settings settings, Object scope)
@@ -142,7 +142,8 @@ public class JsUtil
     {
         try(Context context = settings.enterContext())
         {
-            return (String) toJvm(NativeJSON.stringify(context, (Scriptable) scope, obj, null, null));
+            return (String) Objects.requireNonNull(
+                toJvm(NativeJSON.stringify(context, (Scriptable) scope, obj, null, null)));
         }
     }
     public static String toJson(Object scope, Object obj)
@@ -150,7 +151,7 @@ public class JsUtil
         return toJson(Settings.def, scope, obj);
     }
 
-    public static Object toJvm(Object obj)
+    public static @Nullable Object toJvm(Object obj)
     {
         if(obj instanceof ConsString)
             return ((ConsString) obj).toString();
@@ -163,8 +164,8 @@ public class JsUtil
         else if(obj instanceof NativeArray)
             return RuntimeUtil.<List<Object>>cast(obj).stream().map(JsUtil::toJvm).collect(Collectors.toList());
         else if(obj instanceof NativeObject)
-            return RuntimeUtil.<Map<String, Object>>cast(obj).entrySet().stream()
-                .map(e -> new Pair<>(e.getKey(), toJvm(e.getValue())))
+            return RuntimeUtil.<Map<@Nullable String, Object>>cast(obj).entrySet().stream()
+                .map(e -> Pair.of(e.getKey(), toJvm(e.getValue())))
                 .filter(p -> p.getFirst() != null && p.getSecond() != null)
                 .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
         else if(obj instanceof Callable)

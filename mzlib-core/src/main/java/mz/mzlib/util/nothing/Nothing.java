@@ -2,17 +2,18 @@ package mz.mzlib.util.nothing;
 
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
 public interface Nothing
 {
-    static <T extends WrapperObject> T notReturn()
+    static <T extends WrapperObject> @Nullable T notReturn()
     {
         return null;
     }
 
-    static boolean isReturn(WrapperObject result)
+    static boolean isReturn(@Nullable WrapperObject result)
     {
         return result!=null;
     }

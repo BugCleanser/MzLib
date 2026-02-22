@@ -3,7 +3,7 @@ package mz.mzlib.util.async;
 import mz.mzlib.asm.*;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.MapEntry;
+import mz.mzlib.util.Pair;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.asm.CastChecker;
@@ -84,7 +84,7 @@ public abstract class AsyncFunctionContext<T>
                 mn.instructions.add(AsmUtil.insnReturn(void.class));
                 mn.visitLabel(label1);
 
-                Map<MapEntry<Integer, String>, Integer> vars = new HashMap<>();
+                Map<Pair<Integer, String>, Integer> vars = new HashMap<>();
                 mn.tryCatchBlocks = template.tryCatchBlocks;
                 Label try1 = new Label(), try2 = new Label();
                 mn.visitTryCatchBlock(try1, try2, try2, AsmUtil.getType(Throwable.class));
@@ -137,10 +137,10 @@ public abstract class AsyncFunctionContext<T>
                         {
                             mn.instructions.add(AsmUtil.insnVarLoad(AsyncFunctionContext.class, varContext));
                             int index = vars.computeIfAbsent(
-                                new MapEntry<>(var, type), k1 ->
+                                Pair.of(var, type), k1 ->
                                 {
                                     cnContext.visitField(
-                                        Opcodes.ACC_PUBLIC, "$var" + vars.size(), k1.getValue(), null, null);
+                                        Opcodes.ACC_PUBLIC, "$var" + vars.size(), k1.getSecond(), null, null);
                                     return vars.size();
                                 }
                             );
@@ -278,7 +278,7 @@ public abstract class AsyncFunctionContext<T>
 
                 ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
                 cnContext.accept(cw);
-                Class<?> c = ClassUtil.defineClass(
+                ClassUtil.defineClass(
                     function.getClass().getClassLoader(), cnContext.name, cw.toByteArray());
 
                 cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);

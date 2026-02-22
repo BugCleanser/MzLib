@@ -3,10 +3,11 @@ package mz.mzlib.util.proxy;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ListIterator;
 
-public class ListIteratorProxy<T, U> extends IteratorProxy<T, U> implements ListIterator<T>
+public class ListIteratorProxy<T extends @Nullable Object, U extends @Nullable Object> extends IteratorProxy<T, U> implements ListIterator<T>
 {
     public ListIteratorProxy(ListIterator<U> delegate, FunctionInvertible<U, T> function, ModifyMonitor modifyMonitor)
     {

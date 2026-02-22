@@ -1,19 +1,21 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
-public class RefStrong<T> implements Ref<T>
+public class RefStrong<T extends @Nullable Object> implements Ref<T>
 {
-    public T target;
+    public @Nullable T target;
 
-    public RefStrong(T value)
+    public RefStrong(@Nullable T value)
     {
-        set(value);
+        this.set(value);
     }
 
-    public static <T> RefStrong<T> of(T value)
+    public static <T> RefStrong<T> of(@Nullable T value)
     {
-        return new RefStrong<T>(value);
+        return new RefStrong<>(value);
     }
     public static <T> RefStrong<T> ofNull()
     {
@@ -21,13 +23,13 @@ public class RefStrong<T> implements Ref<T>
     }
 
     @Override
-    public T get()
+    public @Nullable T get()
     {
         return target;
     }
 
     @Override
-    public void set(T value)
+    public void set(@Nullable T value)
     {
         target = value;
     }

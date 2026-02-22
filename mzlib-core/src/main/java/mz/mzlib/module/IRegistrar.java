@@ -10,7 +10,7 @@ public interface IRegistrar<T>
         return new HashSet<>();
     }
 
-    Class<T> getType();
+    Class<? super T> getType();
 
     default boolean isRegistrable(T object)
     {

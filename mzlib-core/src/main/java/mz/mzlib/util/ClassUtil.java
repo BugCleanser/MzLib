@@ -10,6 +10,7 @@ import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
 import mz.mzlib.util.wrapper.WrapperObject;
 import net.bytebuddy.agent.ByteBuddyAgent;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileOutputStream;
 import java.lang.instrument.ClassDefinition;
@@ -252,7 +253,7 @@ public class ClassUtil
         }
     }
     public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name)
-        throws NoSuchFieldException, IllegalAccessException
+        throws NoSuchFieldException
     {
         return findFieldGetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
     }
@@ -277,7 +278,7 @@ public class ClassUtil
         }
     }
     public static MethodHandle findFieldSetter(Class<?> declaringClass, boolean isStatic, String name)
-        throws NoSuchFieldException, IllegalAccessException
+        throws NoSuchFieldException
     {
         return findFieldSetter(declaringClass, isStatic, name, declaringClass.getDeclaredField(name).getType());
     }
@@ -351,7 +352,7 @@ public class ClassUtil
 
     public static <E extends Throwable> void forEachSuper(Class<?> clazz, ThrowableConsumer<Class<?>, E> proc) throws E
     {
-        proc.accept(clazz);
+        proc.acceptOrThrow(clazz);
         if(clazz != Object.class)
             forEachSuper(getSuperclass(clazz), proc);
         for(Class<?> i : clazz.getInterfaces())
@@ -419,7 +420,7 @@ public class ClassUtil
         }
     }
 
-    public static Instrumentation instrumentation;
+    static @Nullable Instrumentation instrumentation;
 
     public static Instrumentation getInstrumentation()
     {
@@ -451,13 +452,13 @@ public class ClassUtil
     {
         try
         {
-            RefStrong<byte[]> result = new RefStrong<>(null);
+            Box.Mut<byte @Nullable[]> result = Box.Mut.of(null);
             while(result.get() == null)
             {
                 ClassFileTransformer tr = new ClassFileTransformer()
                 {
                     @Override
-                    public byte[] transform(
+                    public byte @Nullable[] transform(
                         ClassLoader cl,
                         String name,
                         Class<?> c,
@@ -473,7 +474,7 @@ public class ClassUtil
                 getInstrumentation().addTransformer(tr, true);
                 getInstrumentation().retransformClasses(clazz);
             }
-            return result.get();
+            return Objects.requireNonNull(result.get());
         }
         catch(Throwable e)
         {
@@ -676,7 +677,7 @@ public class ClassUtil
         String invokedName,
         MethodType invokedType,
         String ownerName,
-        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+        MethodType methodType) throws NoSuchMethodException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findConstructor(
@@ -691,7 +692,7 @@ public class ClassUtil
         MethodType invokedType,
         String ownerName,
         MethodType methodType,
-        int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+        int isStatic) throws NoSuchMethodException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findMethod(
@@ -705,7 +706,7 @@ public class ClassUtil
         String invokedName,
         MethodType invokedType,
         String ownerName,
-        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+        MethodType methodType) throws NoSuchMethodException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findMethodSpecial(
@@ -719,7 +720,7 @@ public class ClassUtil
         String invokedName,
         MethodType invokedType,
         String ownerName,
-        MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+        MethodType methodType) throws NoSuchFieldException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findFieldGetter(
@@ -733,7 +734,7 @@ public class ClassUtil
         String invokedName,
         MethodType invokedType,
         String ownerName,
-        MethodType methodType) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+        MethodType methodType) throws NoSuchFieldException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findFieldSetter(
@@ -762,7 +763,7 @@ public class ClassUtil
         String invokedName,
         MethodType invokedType,
         String ownerName,
-        MethodType methodType) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+        MethodType methodType) throws NoSuchMethodException, ClassNotFoundException
     {
         return getConstructorCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType));
     }
@@ -773,7 +774,7 @@ public class ClassUtil
         MethodType invokedType,
         String ownerName,
         MethodType methodType,
-        int isStatic) throws NoSuchMethodException, IllegalAccessException, ClassNotFoundException
+        int isStatic) throws NoSuchMethodException, ClassNotFoundException
     {
         return getMethodCallSite(caller, invokedName, invokedType, ownerName, getWrappedType(methodType), isStatic);
     }
@@ -782,7 +783,7 @@ public class ClassUtil
         MethodHandles.Lookup caller,
         String invokedName,
         MethodType invokedType,
-        String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+        String ownerName) throws NoSuchFieldException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findFieldGetter(
@@ -795,7 +796,7 @@ public class ClassUtil
         MethodHandles.Lookup caller,
         String invokedName,
         MethodType invokedType,
-        String ownerName) throws IllegalAccessException, NoSuchFieldException, ClassNotFoundException
+        String ownerName) throws NoSuchFieldException, ClassNotFoundException
     {
         return new ConstantCallSite(
             findFieldSetter(

@@ -1,8 +1,12 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 
-public interface ThrowableConsumer<T, E extends Throwable> extends Consumer<T>
+@ApiStatus.Experimental
+public interface ThrowableConsumer<T extends @Nullable Object, E extends Throwable> extends Consumer<T>
 {
     void acceptOrThrow(T arg) throws E;
 

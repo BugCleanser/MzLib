@@ -10,7 +10,6 @@ import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.text.RawFilteredPair", begin = 2005))
 public interface RawFilteredPairV2005 extends WrapperObject
@@ -43,10 +42,5 @@ public interface RawFilteredPairV2005 extends WrapperObject
     default <T extends WrapperObject> T get(boolean shouldFilter, WrapperFactory<T> factory)
     {
         return factory.create(this.get0(shouldFilter));
-    }
-    @Deprecated
-    default <T extends WrapperObject> T get(boolean shouldFilter, Function<Object, T> creator)
-    {
-        return this.get(shouldFilter, new WrapperFactory<>(creator));
     }
 }

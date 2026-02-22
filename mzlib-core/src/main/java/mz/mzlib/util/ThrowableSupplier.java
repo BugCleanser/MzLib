@@ -1,10 +1,14 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
+@ApiStatus.Experimental
+public interface ThrowableSupplier<T extends @Nullable Object, E extends Throwable> extends Supplier<T>
 {
     T getOrThrow() throws E;
 
@@ -65,11 +69,11 @@ public interface ThrowableSupplier<T, E extends Throwable> extends Supplier<T>
         return ofSupplier(value);
     }
 
-    static <T> ThrowableSupplier<T, RuntimeException> constant(T value)
+    static <T extends @Nullable Object> ThrowableSupplier<T, RuntimeException> constant(T value)
     {
         return () -> value;
     }
-    static <T> ThrowableSupplier<T, RuntimeException> nul()
+    static <T> ThrowableSupplier<@Nullable T, RuntimeException> nul()
     {
         return constant(null);
     }

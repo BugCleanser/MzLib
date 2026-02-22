@@ -3,6 +3,7 @@ package mz.mzlib.plugin;
 import mz.mzlib.MzLib;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.UnionClassLoader;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.net.URL;
@@ -37,28 +38,27 @@ public class PluginManager
         plugins.remove(plugin.getName(), plugin);
     }
 
-    public Plugin getPlugin(String name)
+    public @Nullable Plugin getPlugin(String name)
     {
         return plugins.get(name);
     }
 
     public void unloadPlugin(String name)
     {
-        unloadPlugin(getPlugin(name));
+        Plugin plugin = getPlugin(name);
+        if(plugin == null)
+            throw new NoSuchElementException(name);
+        unloadPlugin(plugin);
     }
 
-    public Set<Plugin> loadingPlugins;
+    @Nullable Set<Plugin> loadingPlugins;
 
     public void registerPlugin(Plugin plugin)
     {
         if(loadingPlugins == null)
-        {
             loadPlugin(plugin);
-        }
         else
-        {
             loadingPlugins.add(plugin);
-        }
     }
 
     public boolean checkDepends(Plugin plugin)
@@ -66,9 +66,7 @@ public class PluginManager
         for(String i : plugin.getDepends())
         {
             if(getPlugin(i) == null)
-            {
                 return false;
-            }
         }
         return true;
     }

@@ -2,10 +2,9 @@ package mz.mzlib.i18n;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import mz.mzlib.util.IOUtil;
-import mz.mzlib.util.JsUtil;
-import mz.mzlib.util.MapEntry;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +23,9 @@ public class I18n
     public static I18n custom = new I18n(new ConcurrentHashMap<>(), Float.NaN);
     public static String defaultLanguage = "zh_cn";
 
+    @ApiStatus.Internal
     public Map<String, Map<String, String>> map;
-    public float priority;
+    float priority;
 
     public I18n(Map<String, Map<String, String>> map, float priority)
     {
@@ -37,9 +37,9 @@ public class I18n
     {
         return this.priority;
     }
-    public String get(String language, String key)
+    public @Nullable String get(String language, String key)
     {
-        Map<String, String> result = this.map.get(language);
+        @Nullable Map<String, String> result = this.map.get(language);
         if(result == null)
             return null;
         return result.get(key);
@@ -48,7 +48,7 @@ public class I18n
     {
         return defaultLanguage;
     }
-    public static String getDefaultSource(String language, String key)
+    public static @Nullable String getDefaultSource(String language, String key)
     {
         language = language.toLowerCase();
         for(I18n i : RegistrarI18n.instance.sortedI18ns)
@@ -60,21 +60,23 @@ public class I18n
         return null;
     }
     @Deprecated
-    public static String getTranslationDefault(String language, String key)
+    public static @Nullable String getTranslationDefault(String language, String key)
     {
         return getDefaultSource(language, key);
     }
-    public static String getSource(String language, String key, String def)
+    public static <T extends @Nullable String> T getSource(String language, String key, T def)
     {
         language = language.toLowerCase();
-        String result = custom.get(language, key);
+        //noinspection unchecked
+        T result = (T) custom.get(language, key);
         if(result != null)
             return result;
-        result = getDefaultSource(language, key);
+        //noinspection unchecked
+        result = (T) getDefaultSource(language, key);
         if(result != null)
             return result;
         if(!Objects.equals(language, defaultLanguage.toLowerCase()))
-            return getTranslation(defaultLanguage, key, def);
+            return getSource(defaultLanguage, key, def);
         return def;
     }
     @Deprecated
@@ -85,13 +87,13 @@ public class I18n
     @Deprecated
     public static String getTranslation(String language, String key)
     {
-        return getTranslation(language, key, key);
+        return getSource(language, key, key);
     }
 
     public static Object scopeDefault = JsUtil.initSafeScope();
     public static String resolve(JsUtil.Settings settings, Object scope, String language, String key, Object args)
     {
-        String translation = getTranslation(language, key, null);
+        String translation = getSource(language, key, null);
         if(translation == null)
             return key + args;
         try
@@ -127,14 +129,15 @@ public class I18n
         return json.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getAsString()));
     }
 
-    public static Map.Entry<String, Map<String, String>> load(String fileName, InputStream is) throws IOException
+    @ApiStatus.Internal
+    public static @Nullable Pair<String, Map<String, String>> load(String fileName, InputStream is) throws IOException
     {
         fileName = fileName.toLowerCase();
         if(fileName.endsWith(".lang"))
-            return new MapEntry<>(
+            return Pair.of(
                 fileName.substring(0, fileName.length() - ".lang".length()), load(IOUtil.readProperties(is)));
         else if(fileName.endsWith(".json"))
-            return new MapEntry<>(
+            return Pair.of(
                 fileName.substring(0, fileName.length() - ".json".length()),
                 load(new Gson().fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), JsonObject.class))
             );
@@ -149,9 +152,9 @@ public class I18n
         {
             try(InputStream is = Files.newInputStream(file.toPath()))
             {
-                Map.Entry<String, Map<String, String>> result = load(file.getName(), is);
+                Pair<String, Map<String, String>> result = load(file.getName(), is);
                 if(result != null)
-                    map.put(result.getKey(), result.getValue());
+                    map.put(result.getFirst(), result.getSecond());
             }
         }
         return new I18n(map, priority);
@@ -171,9 +174,9 @@ public class I18n
                 {
                     try(InputStream is = zip.getInputStream(e))
                     {
-                        Map.Entry<String, Map<String, String>> result = load(e.getName().substring(path.length()), is);
+                        Pair<String, Map<String, String>> result = load(e.getName().substring(path.length()), is);
                         if(result != null)
-                            map.put(result.getKey(), result.getValue());
+                            map.put(result.getFirst(), result.getSecond());
                     }
                 }
             }

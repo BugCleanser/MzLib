@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Arrays;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -33,7 +34,7 @@ public @interface WrapClassForName
             }
             if(lastException != null)
                 throw lastException;
-            return null;
+            throw new ClassNotFoundException(Arrays.toString(annotation.value()));
         }
     }
 }

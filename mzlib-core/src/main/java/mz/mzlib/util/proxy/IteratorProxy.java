@@ -1,11 +1,12 @@
 package mz.mzlib.util.proxy;
 
 import mz.mzlib.util.ModifyMonitor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.function.Function;
 
-public class IteratorProxy<T, U> implements Iterator<T>
+public class IteratorProxy<T extends @Nullable Object, U extends @Nullable Object> implements Iterator<T>
 {
     Iterator<U> delegate;
     Function<? super U, ? extends T> function;

@@ -4,9 +4,9 @@ import java.util.function.Consumer;
 
 public class EventListener<T extends Event>
 {
-    public Class<T> eventClass;
-    public float priority;
-    public Consumer<T> handler;
+    Class<T> eventClass;
+    float priority;
+    Consumer<T> handler;
 
     public EventListener(Class<T> eventClass, float priority, Consumer<T> handler)
     {

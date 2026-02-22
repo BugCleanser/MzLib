@@ -3,6 +3,8 @@ package mz.mzlib.util.wrapper;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.ListProxy;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.stream.Collector;
 public interface WrapperArray<T extends WrapperObject> extends WrapperObject
 {
     @Override
-    Object[] getWrapped();
+    @Nullable Object @UnknownNullability [] getWrapped();
 
     WrapperFactory<T> static$getElementFactory();
 
@@ -43,7 +45,7 @@ public interface WrapperArray<T extends WrapperObject> extends WrapperObject
     default List<T> asList()
     {
         return new ListProxy<>(
-            Arrays.asList(this.getWrapped()),
+            Arrays.<@Nullable Object>asList(this.getWrapped()),
             FunctionInvertible.wrapper(this.static$getElementFactory())
         );
     }

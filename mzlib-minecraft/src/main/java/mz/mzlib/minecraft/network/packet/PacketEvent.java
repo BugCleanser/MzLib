@@ -6,8 +6,6 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.TaskQueue;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
-import java.util.function.Function;
-
 public class PacketEvent
 {
     public Channel channel;
@@ -33,11 +31,6 @@ public class PacketEvent
     public Packet getPacket()
     {
         return this.getPacket(Packet.FACTORY);
-    }
-    @Deprecated
-    public <T extends Packet> T getPacket(Function<Object, T> creator)
-    {
-        return this.getPacket(new WrapperFactory<>(creator));
     }
     public void setPacket(Packet value)
     {

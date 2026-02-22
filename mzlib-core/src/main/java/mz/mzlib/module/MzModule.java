@@ -4,6 +4,7 @@ import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.ElementSwitcher;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.AnnotatedElement;
 import java.util.*;
@@ -12,11 +13,11 @@ import java.util.stream.Collectors;
 
 public class MzModule
 {
-    public Set<MzModule> submodules = new HashSet<>();
-    public Map<Object, Stack<IRegistrar<?>>> registeredObjects = new LinkedHashMap<>();
+    Set<MzModule> submodules = new HashSet<>();
+    Map<Object, Stack<IRegistrar<?>>> registeredObjects = new LinkedHashMap<>();
 
-    public boolean isLoaded = false;
-    public CompletableFuture<Void> future = new CompletableFuture<>();
+    boolean isLoaded = false;
+    public CompletableFuture<@Nullable Void> future = new CompletableFuture<>();
     public boolean isLoaded()
     {
         return this.isLoaded;

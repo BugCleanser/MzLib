@@ -6,7 +6,6 @@ import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
-import mz.mzlib.util.PublicValues;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.AbsWrapper;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
@@ -908,18 +907,6 @@ public class AsmUtil
             return getDesc(((Field) member).getType());
         else
             throw new IllegalArgumentException("Unsupported member type: " + member);
-    }
-
-    @Deprecated
-    public static InsnList insnGetPublicValue(int index)
-    {
-        InsnList result = new InsnList();
-        result.add(AsmUtil.insnConst(index));
-        result.add(new MethodInsnNode(
-            Opcodes.INVOKESTATIC, AsmUtil.getType(PublicValues.class), "get",
-            AsmUtil.getDesc(Object.class, int.class), false
-        ));
-        return result;
     }
 
     public static boolean isVisitingWrapped(

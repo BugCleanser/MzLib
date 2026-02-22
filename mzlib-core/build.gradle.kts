@@ -1,7 +1,6 @@
 description = "A Java Library"
 
 dependencies {
-    @Suppress("VulnerableLibrariesLocal", "RedundantSuppression")
     api("moe.karla.unsafe:unsafe-accessor-root:1.2.0")
     api("moe.karla.unsafe:unsafe-accessor-unsafe:1.2.0")
     api("moe.karla.unsafe:unsafe-accessor-unsafe-java9:1.2.0")
@@ -11,7 +10,7 @@ dependencies {
 //    api("com.google.guava:guava:32.0.0-jre")
 //    api("org.graalvm.polyglot:polyglot:latest.release")
 //    api("org.graalvm.polyglot:js:latest.release")
-    compileOnlyApi("org.jetbrains:annotations:latest.release")
+    compileOnly("org.jetbrains:annotations:latest.release")
 }
 
 ext["publishing"] = true

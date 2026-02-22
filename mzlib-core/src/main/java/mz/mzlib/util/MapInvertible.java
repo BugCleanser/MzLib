@@ -1,10 +1,12 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> implements Map<K, V>
+public class MapInvertible<K extends @Nullable Object, V extends @Nullable Object> extends Invertible<MapInvertible<V, K>> implements Map<K, V>
 {
     protected Map<K, V> delegate;
 
@@ -42,7 +44,7 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
         return this.delegate.isEmpty();
     }
     @Override
-    public boolean containsKey(Object key)
+    public boolean containsKey(@Nullable Object key)
     {
         return this.delegate.containsKey(key);
     }
@@ -52,7 +54,7 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
         return this.inverse().containsKey(RuntimeUtil.<V>cast(value));
     }
     @Override
-    public V get(Object key)
+    public V get(@Nullable Object key)
     {
         return this.delegate.get(key);
     }
@@ -65,7 +67,7 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
         return this.delegate.put(key, value);
     }
     @Override
-    public V remove(Object key)
+    public @Nullable V remove(Object key)
     {
         if(!this.containsKey(key))
             return null;
@@ -117,7 +119,7 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
     public class Itr
     {
         Iterator<Entry<K, V>> delegate = MapInvertible.this.delegate.entrySet().iterator();
-        Entry<K, V> current;
+        @Nullable Entry<K, V> current;
         public boolean hasNext()
         {
             return this.delegate.hasNext();
@@ -148,6 +150,8 @@ public class MapInvertible<K, V> extends Invertible<MapInvertible<V, K>> impleme
         }
         public void remove()
         {
+            if(current == null)
+                throw new IllegalStateException();
             MapInvertible.this.inverse().delegate.remove(current.getValue());
             this.delegate.remove();
         }

@@ -1,15 +1,18 @@
 package mz.mzlib.util.async;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.concurrent.CompletableFuture;
 
-@Deprecated
+@ApiStatus.Experimental
 public class AsyncTask
 {
     public static class StopTask extends Throwable
     {
     }
 
-    public CompletableFuture<Void> step = CompletableFuture.completedFuture(null);
+    public CompletableFuture<@Nullable Void> step = CompletableFuture.completedFuture(null);
     public void pause()
     {
         this.step = new CompletableFuture<>();

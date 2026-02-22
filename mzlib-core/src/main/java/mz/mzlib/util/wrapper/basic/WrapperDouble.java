@@ -6,12 +6,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WrapperDouble extends WrapperObject
 {
     WrapperFactory<WrapperDouble> FACTORY = WrapperFactory.of(WrapperDouble.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperDouble create(Double wrapped)
-    {
-        return WrapperObject.create(WrapperDouble.class, wrapped);
-    }
 
     @Override
     Double getWrapped();

@@ -3,6 +3,7 @@ package mz.mzlib.data;
 import mz.mzlib.util.Editor;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.TypedMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class DataKey<H, T, R> implements TypedMap.Key<T, DataKey<H, ?, ?>>
         this.name = name;
     }
     List<DataHandler<H, T, ? extends R>> handlers = new ArrayList<>();
-    DataHandler<H, T, ? extends R> handler;
+    @Nullable DataHandler<H, T, ? extends R> handler;
 
     DataHandler<H, T, ? extends R> getHandler()
     {

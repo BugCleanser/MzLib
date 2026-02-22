@@ -1,15 +1,19 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface Ref<T>
+@ApiStatus.Experimental
+public interface Ref<T extends @Nullable Object>
 {
     T get();
 
     void set(T value);
 
-    static <T> T getOrSet(Ref<Option<T>> ref, Supplier<T> supplier)
+    static <T extends @Nullable Object> T getOrSet(Ref<Option<T>> ref, Supplier<T> supplier)
     {
         for(T value : ref.get())
         {

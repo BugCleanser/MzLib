@@ -1,9 +1,11 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class Result<V, E>
+public abstract class Result<V extends @Nullable Object, E extends @Nullable Object>
 {
     protected V value;
 

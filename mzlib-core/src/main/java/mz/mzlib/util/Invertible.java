@@ -1,8 +1,10 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 public abstract class Invertible<U extends Invertible<? extends Invertible<U>>>
 {
-    protected U inverse;
+    protected @Nullable U inverse;
 
     protected abstract U invert();
     public U inverse()

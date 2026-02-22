@@ -2,9 +2,10 @@ package mz.mzlib.util.compound;
 
 import moe.karla.usf.unsafe.Unsafe;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.*;
-
-import java.util.function.Function;
+import mz.mzlib.util.wrapper.WrapClass;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 /**
  * @see DelegateField
@@ -14,12 +15,6 @@ import java.util.function.Function;
 public interface Delegator extends WrapperObject
 {
     WrapperFactory<Delegator> FACTORY = WrapperFactory.of(Delegator.class);
-    @Deprecated
-    @WrapperCreator
-    static Delegator create(Object wrapped)
-    {
-        return WrapperObject.create(Delegator.class, wrapped);
-    }
 
     static <T extends Delegator> T newInstance(WrapperFactory<T> factory, Object delegate)
     {
@@ -33,11 +28,6 @@ public interface Delegator extends WrapperObject
         {
             throw RuntimeUtil.sneakilyThrow(e);
         }
-    }
-    @Deprecated
-    static <T extends Delegator> T newInstance(Function<Object, T> creator, Object delegate)
-    {
-        return newInstance(new WrapperFactory<>(creator), delegate);
     }
 
     @WrapMethod("getDelegate")

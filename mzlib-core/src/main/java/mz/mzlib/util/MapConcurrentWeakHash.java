@@ -1,6 +1,6 @@
 package mz.mzlib.util;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -78,7 +78,6 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @NotNull
     public Collection<V> values()
     {
         this.clean();
@@ -86,7 +85,6 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @NotNull
     public Set<Map.Entry<K, V>> entrySet()
     {
         return this.new SetEntry();
@@ -110,7 +108,6 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
             return MapConcurrentWeakHash.this.remove(e.getKey(), e.getValue());
         }
         @Override
-        @NotNull
         public Iterator<Map.Entry<K, V>> iterator()
         {
             return MapConcurrentWeakHash.this.new IteratorEntry();
@@ -118,7 +115,6 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     }
 
     @Override
-    @NotNull
     public Set<K> keySet()
     {
         return this.new SetKey();
@@ -136,7 +132,6 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
             return MapConcurrentWeakHash.this.remove(o) != null;
         }
         @Override
-        @NotNull
         public Iterator<K> iterator()
         {
             return MapConcurrentWeakHash.this.new IteratorKey();
@@ -224,8 +219,8 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
     abstract class IteratorBase<T> implements Iterator<T>
     {
         Iterator<Map.Entry<Key<K>, V>> delegate = MapConcurrentWeakHash.this.delegate.entrySet().iterator();
-        K last;
-        Entry next;
+        @Nullable K last;
+        @Nullable Entry next;
         @Override
         public boolean hasNext()
         {
@@ -249,7 +244,7 @@ public class MapConcurrentWeakHash<K, V> extends AbstractMap<K, V>
         {
             if(!this.hasNext())
                 throw new NoSuchElementException();
-            Entry result = this.next;
+            Entry result = Objects.requireNonNull(this.next);
             this.next = null;
             this.last = result.getKey();
             return result;

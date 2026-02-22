@@ -1,12 +1,17 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.ref.SoftReference;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface Cache<K, V>
+@ApiStatus.Experimental
+public interface Cache<K, V extends @Nullable Object>
 {
     V get(K key);
     V get(K key, Supplier<V> supplier);
@@ -20,7 +25,7 @@ public interface Cache<K, V>
     class Builder<K, V>
     {
         boolean weakKey = false;
-        Function<K, V> defaultSupplier = ThrowableSupplier.constant((V) null).ignore();
+        Function<K, @Nullable V> defaultSupplier = ThrowableSupplier.constant((@Nullable V) null).ignore();
         public Builder<K, V> weakKey(boolean value)
         {
             this.weakKey = value;
@@ -43,10 +48,10 @@ public interface Cache<K, V>
 
     class Impl<K, V> implements Cache<K, V>
     {
-        Map<K, SoftReference<V>> data;
+        Map<K, SoftReference<Box<V>>> data;
         Function<K, V> defaultSupplier;
 
-        Impl(Map<K, SoftReference<V>> data, Function<K, V> defaultSupplier)
+        Impl(Map<K, SoftReference<Box<V>>> data, Function<K, V> defaultSupplier)
         {
             this.data = data;
             this.defaultSupplier = defaultSupplier;
@@ -61,7 +66,7 @@ public interface Cache<K, V>
         @Override
         public V get(K key, Supplier<V> supplier)
         {
-            Ref<V> result = new RefStrong<>(null);
+            Box.Mut<@Nullable Box<V>> result = Box.Mut.of(null);
             this.data.compute(key, (k, v) ->
             {
                 if(v != null)
@@ -70,16 +75,17 @@ public interface Cache<K, V>
                     if(result.get() != null)
                         return v;
                 }
-                result.set(supplier.get());
-                return new SoftReference<>(result.get());
+                Box<V> value = Box.of(supplier.get());
+                result.set(value);
+                return new SoftReference<>(value);
             });
-            return result.get();
+            return Objects.requireNonNull(result.get()).get();
         }
 
         @Override
         public void put(K key, V value)
         {
-            this.data.put(key, new SoftReference<>(value));
+            this.data.put(key, new SoftReference<>(Box.of(value)));
         }
 
         @Override

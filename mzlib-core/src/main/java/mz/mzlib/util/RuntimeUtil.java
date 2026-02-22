@@ -1,5 +1,7 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import javax.management.ListenerNotFoundException;
 import javax.management.NotificationEmitter;
 import javax.management.NotificationListener;
@@ -31,13 +33,13 @@ public class RuntimeUtil
     {
     }
 
-    public static <T> T nul()
+    public static <T> @Nullable T nul()
     {
         return RuntimeUtil.cast(null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T cast(Object object)
+    public static <T extends @Nullable Object> T cast(@Nullable Object object)
     {
         return (T) object;
     }
@@ -56,7 +58,7 @@ public class RuntimeUtil
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <T> T orNull(Optional<T> optional)
+    public static <T> @Nullable T orNull(Optional<T> optional)
     {
         return optional.orElse(null);
     }
@@ -139,7 +141,7 @@ public class RuntimeUtil
         }
     }
 
-    public static Throwable runAndCatch(ThrowableRunnable<?> runnable)
+    public static @Nullable Throwable runAndCatch(ThrowableRunnable<?> runnable)
     {
         try
         {

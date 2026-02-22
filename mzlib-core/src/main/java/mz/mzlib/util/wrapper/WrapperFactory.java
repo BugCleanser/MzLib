@@ -1,8 +1,7 @@
 package mz.mzlib.util.wrapper;
 
 import mz.mzlib.util.RuntimeUtil;
-
-import java.util.function.Function;
+import org.jetbrains.annotations.Nullable;
 
 public class WrapperFactory<T extends WrapperObject>
 {
@@ -12,12 +11,8 @@ public class WrapperFactory<T extends WrapperObject>
     {
         this.wrapperStatic = wrapperStatic;
     }
-    public WrapperFactory(Function<Object, T> creator)
-    {
-        this(creator.apply(null));
-    }
 
-    public T create(Object wrapped)
+    public T create(@Nullable Object wrapped)
     {
         return RuntimeUtil.cast(this.wrapperStatic.static$create(wrapped));
     }

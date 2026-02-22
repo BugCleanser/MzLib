@@ -1,9 +1,11 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
-public class RefWeak<T> implements Ref<T>
+public class RefWeak<T extends @Nullable Object> implements Ref<T>
 {
     WeakReference<T> delegate;
     int hashCode;

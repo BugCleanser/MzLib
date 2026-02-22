@@ -11,7 +11,6 @@ import mz.mzlib.util.wrapper.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @WrapMinecraftClass({
@@ -65,11 +64,6 @@ public interface NbtList extends NbtElement
     {
         return new ListProxy<>(this.getValue0(), FunctionInvertible.wrapper(factory));
     }
-    @Deprecated
-    default <T extends NbtElement> List<T> asList(Function<Object, T> creator)
-    {
-        return this.asList(new WrapperFactory<>(creator));
-    }
 
     default int size()
     {
@@ -92,11 +86,6 @@ public interface NbtList extends NbtElement
     default <T extends NbtElement> T get(int index, WrapperFactory<T> factory)
     {
         return this.get(index).castTo(factory);
-    }
-    @Deprecated
-    default <T extends NbtElement> T get(int index, Function<Object, T> creator)
-    {
-        return this.get(index, new WrapperFactory<>(creator));
     }
 
     default void set(int index, NbtElement value)

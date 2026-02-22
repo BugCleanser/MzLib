@@ -1,5 +1,8 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -8,11 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@ApiStatus.Experimental
 public class UnionClassLoader extends ClassLoader
 {
     public static class MemberDelegator extends ClassLoader
     {
-        public ClassLoader member;
+        @Nullable ClassLoader member;
 
         public MemberDelegator(UnionClassLoader parent)
         {
@@ -24,7 +28,7 @@ public class UnionClassLoader extends ClassLoader
         {
             try
             {
-                WrapperClassLoader wrapper = WrapperClassLoader.create(member);
+                WrapperClassLoader wrapper = WrapperClassLoader.FACTORY.create(member);
                 Class<?> result = wrapper.findClass(name);
                 if(resolve)
                     wrapper.resolveClass(result);
@@ -88,7 +92,7 @@ public class UnionClassLoader extends ClassLoader
     public Set<String> loadingClasses = ConcurrentHashMap.newKeySet();
 
     @Override
-    public Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
+    public @Nullable Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
     {
         Class<?> result = null;
         try
@@ -148,7 +152,7 @@ public class UnionClassLoader extends ClassLoader
     public Set<String> gettingResources = ConcurrentHashMap.newKeySet();
 
     @Override
-    public URL getResource(String name)
+    public @Nullable URL getResource(String name)
     {
         URL result = super.getResource(name);
         if(result == null)
@@ -185,7 +189,7 @@ public class UnionClassLoader extends ClassLoader
     }
 
     @Override
-    public InputStream getResourceAsStream(String name)
+    public @Nullable InputStream getResourceAsStream(String name)
     {
         InputStream result = super.getResourceAsStream(name);
         if(result == null)

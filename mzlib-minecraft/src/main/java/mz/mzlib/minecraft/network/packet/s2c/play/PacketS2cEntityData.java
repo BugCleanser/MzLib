@@ -10,11 +10,12 @@ import mz.mzlib.minecraft.entity.data.EntityDataTracker;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
+import mz.mzlib.util.Box;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.RefStrong;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +165,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @Override
     default Option<Object> getData(EntityDataKey type)
     {
-        RefStrong<Object> result = new RefStrong<>(null);
+        Box.Mut<@Nullable Object> result = Box.Mut.of(null);
         this.forEachData((t, value) ->
         {
             if(t.equals(type))

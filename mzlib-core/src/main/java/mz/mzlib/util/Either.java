@@ -1,8 +1,10 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Function;
 
-public abstract class Either<F, S> extends Invertible<Either<S, F>>
+public abstract class Either<F extends @Nullable Object, S extends @Nullable Object> extends Invertible<Either<S, F>>
 {
     public abstract boolean isFirst();
     public abstract boolean isSecond();
@@ -18,16 +20,16 @@ public abstract class Either<F, S> extends Invertible<Either<S, F>>
         Function<? super F, ? extends T> actionFirst,
         Function<? super S, ? extends T> actionSecond);
 
-    public static <F, S> Either<F, S> first(F value)
+    public static <F extends @Nullable Object, S extends @Nullable Object> Either<F, S> first(F value)
     {
         return new First<>(value);
     }
-    public static <F, S> Either<F, S> second(S value)
+    public static <F extends @Nullable Object, S extends @Nullable Object> Either<F, S> second(S value)
     {
         return new Second<>(value);
     }
 
-    public static <F, S> Either<F, S> fromNullable(F first, S second)
+    public static <F extends @Nullable Object, S extends @Nullable Object> Either<F, S> fromNullable(F first, S second)
     {
         if((first != null) == (second != null))
             throw new IllegalArgumentException(Pair.of(first, second).toString());
@@ -37,7 +39,7 @@ public abstract class Either<F, S> extends Invertible<Either<S, F>>
             return second(second);
     }
 
-    static class First<F, S> extends Either<F, S>
+    static class First<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
     {
         protected F value;
         public First(F value)
@@ -82,7 +84,7 @@ public abstract class Either<F, S> extends Invertible<Either<S, F>>
         }
     }
 
-    static class Second<F, S> extends Either<F, S>
+    static class Second<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
     {
         protected S value;
         public Second(S value)

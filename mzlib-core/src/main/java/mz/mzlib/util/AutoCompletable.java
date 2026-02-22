@@ -1,12 +1,16 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public interface AutoCompletable<T, D> extends Iterable<T>
+@ApiStatus.Experimental
+public interface AutoCompletable<T extends @Nullable Object, D extends @Nullable Object> extends Iterable<T>
 {
     Pair<T, D> start();
     void complete(T element, D data);
@@ -19,7 +23,7 @@ public interface AutoCompletable<T, D> extends Iterable<T>
         }
     }
 
-    static <T, D> AutoCompletable<T, D> of(Supplier<Pair<T, D>> start, BiConsumer<T, D> complete)
+    static <T extends @Nullable Object, D extends @Nullable Object> AutoCompletable<T, D> of(Supplier<Pair<T, D>> start, BiConsumer<T, D> complete)
     {
         return new AutoCompletable<T, D>()
         {
@@ -35,7 +39,7 @@ public interface AutoCompletable<T, D> extends Iterable<T>
             }
         };
     }
-    static <T> AutoCompletable<T, Void> of(Supplier<? extends T> start, Consumer<? super T> complete)
+    static <T> AutoCompletable<T, @Nullable Void> of(Supplier<? extends T> start, Consumer<? super T> complete)
     {
         return of(() -> Pair.of(start.get(), null), (e, d) -> complete.accept(e));
     }

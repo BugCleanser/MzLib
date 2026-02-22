@@ -1,11 +1,12 @@
 package mz.mzlib.util;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Executor;
 
+@ApiStatus.Experimental
 public class TaskQueue implements Executor
 {
     Queue<Runnable> tasks = new ArrayDeque<>();
@@ -16,7 +17,7 @@ public class TaskQueue implements Executor
     }
 
     @Override
-    public void execute(@NotNull Runnable command)
+    public void execute(Runnable command)
     {
         this.schedule(command);
     }

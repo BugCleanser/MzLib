@@ -1,10 +1,14 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public interface ThrowableBiConsumer<F, S, E extends Throwable> extends BiConsumer<F, S>
+@ApiStatus.Experimental
+public interface ThrowableBiConsumer<F extends @Nullable Object, S extends @Nullable Object, E extends Throwable> extends BiConsumer<F, S>
 {
     void acceptOrThrow(F first, S second) throws E;
 

@@ -1,14 +1,14 @@
 package mz.mzlib.util.proxy;
 
-import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
 
-public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
+public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1 extends @Nullable Object, V1 extends @Nullable Object> extends AbstractMap<K, V>
 {
     Map<K1, V1> delegate;
     FunctionInvertible<K1, K> functionKey;
@@ -35,7 +35,7 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     }
     public static <K, V> MapProxy<K, V, K, V> of(Map<K, V> delegate, ModifyMonitor modifyMonitor)
     {
-        return new MapProxy<>(delegate, null, null, modifyMonitor);
+        return new MapProxy<>(delegate, FunctionInvertible.identity(), FunctionInvertible.identity(), modifyMonitor);
     }
 
     @Override
@@ -146,20 +146,17 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     }
 
     @Override
-    @NotNull
     public Set<K> keySet()
     {
         return new SetProxy<>(this.delegate.keySet(), this.functionKey, this.modifyMonitor);
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     public Collection<V> values()
     {
         return CollectionProxy.of(this.delegate.values(), this.functionValue, this.modifyMonitor);
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     public Set<Entry<K, V>> entrySet()
     {
@@ -202,8 +199,7 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
         @Override
         public V setValue(V value)
         {
-            this.delegate.setValue(this.functionValue.inverse().apply(value));
-            return null;
+            return this.functionValue.apply(this.delegate.setValue(this.functionValue.inverse().apply(value)));
         }
 
         @Override

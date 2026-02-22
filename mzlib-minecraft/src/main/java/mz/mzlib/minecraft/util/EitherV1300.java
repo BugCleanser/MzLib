@@ -97,9 +97,9 @@ public interface EitherV1300<F, S> extends WrapperObject
     default <T> T map(Function<F, T> first, Function<S, T> second)
     {
         if(this.isFirst())
-            return first.apply(this.getFirst().unwrapOr(null));
+            return first.apply(this.getFirst().toNullable());
         else
-            return second.apply(this.getSecond().unwrapOr(null));
+            return second.apply(this.getSecond().toNullable());
     }
 
     default <F1 extends WrapperObject, S1 extends WrapperObject> EitherV1300<F1, S1> toWrapper(

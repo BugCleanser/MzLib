@@ -5,6 +5,7 @@ import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileOutputStream;
 import java.lang.annotation.Annotation;
@@ -19,8 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WrapperClassInfo
 {
     public Class<? extends WrapperObject> wrapperClass;
-    public Annotation wrapperClassAnnotation;
-    public Class<?> wrappedClass;
+    @Nullable Annotation wrapperClassAnnotation;
+    @Nullable Class<?> wrappedClass;
 
     public WrapperClassInfo(Class<? extends WrapperObject> wrapperClass)
     {
@@ -96,8 +97,8 @@ public class WrapperClassInfo
         return result;
     }
 
-    public Map<Method, Member> wrappedMembers;
-    public Map<Method, Member> inheritableWrappedMembers;
+    @Nullable Map<Method, Member> wrappedMembers;
+    @Nullable Map<Method, Member> inheritableWrappedMembers;
     public synchronized Map<Method, Member> getWrappedMembers()
     {
         if(this.wrappedMembers == null)
@@ -118,7 +119,7 @@ public class WrapperClassInfo
             this.inheritableWrappedMembers = new ConcurrentHashMap<>();
             for(Method i : this.getWrapperClass().getMethods())
             {
-                Pair<Member, Boolean> result = analyseWrappedMember(i);
+                @Nullable Pair<Member, Boolean> result = analyseWrappedMember(i);
                 if(result == null)
                     continue;
                 this.wrappedMembers.put(i, result.getFirst());
@@ -132,7 +133,7 @@ public class WrapperClassInfo
                 "Failed to analyze wrapped members, of Wrapper: " + this.getWrapperClass(), e);
         }
     }
-    Pair<Member, Boolean> analyseWrappedMember(Method method)
+    @Nullable Pair<Member, Boolean> analyseWrappedMember(Method method)
     {
         if(!Modifier.isAbstract(method.getModifiers()) || !ElementSwitcher.isEnabled(method))
             return null;
@@ -153,7 +154,7 @@ public class WrapperClassInfo
             {
                 try
                 {
-                    Member m = finder.value().newInstance().find(
+                    @Nullable Member m = finder.value().newInstance().find(
                         this.getWrapperClass(), this.wrappedClass, method, RuntimeUtil.cast(j), returnType,
                         argTypes
                     );
@@ -185,7 +186,7 @@ public class WrapperClassInfo
         return null;
     }
 
-    public MethodHandle constructorCache = null;
+    @Nullable MethodHandle constructorCache = null;
 
     public synchronized MethodHandle getConstructor()
     {

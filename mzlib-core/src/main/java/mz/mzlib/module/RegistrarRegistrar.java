@@ -1,6 +1,7 @@
 package mz.mzlib.module;
 
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +25,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     }
 
     @Override
-    public void register(MzModule module, IRegistrar<?> object)
+    public void register(@Nullable MzModule module, IRegistrar<?> object)
     {
         synchronized(registrars)
         {
@@ -33,7 +34,7 @@ public class RegistrarRegistrar implements IRegistrar<IRegistrar<?>>
     }
 
     @Override
-    public void unregister(MzModule module, IRegistrar<?> object)
+    public void unregister(@Nullable MzModule module, IRegistrar<?> object)
     {
         synchronized(registrars)
         {

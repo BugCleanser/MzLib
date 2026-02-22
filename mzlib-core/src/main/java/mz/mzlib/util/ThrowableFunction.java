@@ -2,12 +2,15 @@ package mz.mzlib.util;
 
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T, R>
+@ApiStatus.Experimental
+public interface ThrowableFunction<T extends @Nullable Object, R extends @Nullable Object, E extends Throwable> extends Function<T, R>
 {
     R applyOrThrow(T arg) throws E;
 
@@ -72,11 +75,6 @@ public interface ThrowableFunction<T, R, E extends Throwable> extends Function<T
     static <T extends WrapperObject> ThrowableFunction<WrapperObject, T, RuntimeException> wrapperCast(WrapperFactory<T> factory)
     {
         return of(FunctionInvertible.wrapperCast(WrapperObject.FACTORY, factory));
-    }
-    @Deprecated
-    static <T extends WrapperObject> ThrowableFunction<WrapperObject, T, RuntimeException> wrapperCast(Function<Object, T> creator)
-    {
-        return of(FunctionInvertible.wrapperCast(WrapperObject::create, creator));
     }
 
     static <T, R, E extends Throwable> ThrowableFunction<T, R, E> switcher(

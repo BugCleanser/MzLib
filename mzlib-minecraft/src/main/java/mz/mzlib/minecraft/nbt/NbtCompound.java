@@ -9,7 +9,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.tester.SimpleTester;
 import mz.mzlib.tester.TesterContext;
-import mz.mzlib.util.*;
+import mz.mzlib.util.Editor;
+import mz.mzlib.util.FunctionInvertible;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.MapProxy;
 import mz.mzlib.util.wrapper.*;
 
@@ -17,7 +20,6 @@ import java.io.DataInput;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.WeakHashMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 @WrapMinecraftClass({
@@ -98,11 +100,6 @@ public interface NbtCompound extends NbtElement
     {
         return this.get(key).filter(factory);
     }
-    @Deprecated
-    default <T extends NbtElement> Option<T> get(String key, Function<Object, T> creator)
-    {
-        return this.get(key, new WrapperFactory<>(creator));
-    }
 
     @WrapMinecraftMethod(@VersionName(name = "put"))
     void put(String key, NbtElement value);
@@ -162,11 +159,6 @@ public interface NbtCompound extends NbtElement
     default <T extends NbtElement> T getOrPut(String key, WrapperFactory<T> factory, Supplier<T> newer)
     {
         return this.getOr(key, factory, newer);
-    }
-    @Deprecated
-    default <T extends NbtElement> T getOrPut(String key, Function<Object, T> creator, Supplier<T> newer)
-    {
-        return this.getOr(key, new WrapperFactory<>(creator), newer);
     }
 
     default NbtCompound getNbtCompoundOrNew(String key)

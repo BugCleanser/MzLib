@@ -3,6 +3,8 @@ package mz.mzlib.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
+@ApiStatus.Experimental
 public class Config
 {
     public Object data;
@@ -20,56 +23,58 @@ public class Config
         this.data = data;
     }
 
-    public Object get(String path, Object def)
+    public <T extends @Nullable Object> T get(String path, T def)
     {
-        Object result = this.data;
+        //noinspection unchecked
+        T result = (T) this.data;
         for(String key : path.split("\\."))
         {
-            result = RuntimeUtil.<Map<String, Object>>cast(result).get(key);
+            //noinspection unchecked
+            result = (T) RuntimeUtil.<Map<String, Object>>cast(result).get(key);
             if(result == null)
                 return def;
         }
         return result;
     }
-    public Object get(String path)
+    public @Nullable Object get(String path)
     {
         return this.get(path, null);
     }
-    public String getString(String path, String def)
+    public <T extends @Nullable String> T getString(String path, T def)
     {
-        return (String) this.get(path, def);
+        return this.get(path, def);
     }
-    public String getString(String path)
+    public @Nullable String getString(String path)
     {
-        return this.getString(path, null);
+        return this.get(path, null);
     }
-    public Number getNumber(String path, Number def)
+    public <T extends @Nullable Number> T getNumber(String path, T def)
     {
-        return (Number) this.get(path, def);
+        return this.get(path, def);
     }
-    public Number getNumber(String path)
+    public @Nullable Number getNumber(String path)
     {
-        return this.getNumber(path, null);
+        return this.get(path, null);
     }
     public boolean getBoolean(String path, boolean def)
     {
-        return (boolean) this.get(path, def);
+        return this.<Boolean>get(path, def);
     }
     public boolean getBoolean(String path)
     {
-        return (boolean) this.get(path, null);
+        return this.getBoolean(path, false);
     }
-    public List<Object> getList(String path)
+    public @Nullable List<Object> getList(String path)
     {
-        return RuntimeUtil.cast(this.get(path, null));
+        return this.get(path, null);
     }
-    public List<String> getStringList(String path)
+    public @Nullable List<String> getStringList(String path)
     {
-        return RuntimeUtil.cast(this.getList(path));
+        return this.get(path, null);
     }
-    public Map<String, Object> getMap(String path)
+    public @Nullable Map<String, Object> getMap(String path)
     {
-        return RuntimeUtil.cast(this.get(path, null));
+        return this.get(path, null);
     }
 
     public static Config loadJson(InputStream def, File file) throws Exception
@@ -118,11 +123,6 @@ public class Config
             boolean ignored2 = file.createNewFile();
         }
         return new Config(JsUtil.toJvm(scope));
-    }
-    @Deprecated
-    public static Config load(InputStream def, File file) throws Exception
-    {
-        return loadJson(def, file);
     }
 
     private static void merge(Object data, Object def)

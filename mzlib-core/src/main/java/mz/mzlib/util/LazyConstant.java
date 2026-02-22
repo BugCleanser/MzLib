@@ -1,11 +1,13 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.Supplier;
 
 public class LazyConstant<T> implements Supplier<T>
 {
-    public Option<T> value;
-    public Supplier<T> initizer;
+    @Nullable Option<T> value;
+    Supplier<T> initizer;
     public LazyConstant(Supplier<T> initizer)
     {
         this.initizer = initizer;

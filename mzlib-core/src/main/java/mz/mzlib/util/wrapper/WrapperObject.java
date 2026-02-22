@@ -7,25 +7,20 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.compound.ICompoundImpl;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.invoke.*;
 import java.lang.reflect.*;
-import java.util.function.Function;
 
 @WrapClass(Object.class)
 public interface WrapperObject
 {
     WrapperFactory<WrapperObject> FACTORY = WrapperFactory.of(WrapperObject.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperObject create(Object wrapped)
-    {
-        return WrapperObject.create(WrapperObject.class, wrapped);
-    }
 
-    Object getWrapped();
+    @UnknownNullability Object getWrapped();
 
-    void setWrapped(Object wrapped);
+    void setWrapped(@Nullable Object wrapped);
 
     default void setWrappedFrom(WrapperObject wrapper)
     {
@@ -35,23 +30,6 @@ public interface WrapperObject
     static String debugInfo(WrapperObject wrapper)
     {
         return wrapper.getClass().getName() + "{" + wrapper.getWrapped() + "}";
-    }
-
-    /**
-     * slow
-     */
-    @Deprecated
-    static <T extends WrapperObject> T create(Class<T> type, Object wrapped)
-    {
-        try
-        {
-            return RuntimeUtil.cast(
-                (WrapperObject) WrapperClassInfo.get(type).getConstructor().invokeExact((Object) wrapped));
-        }
-        catch(Throwable e)
-        {
-            throw RuntimeUtil.sneakilyThrow(e);
-        }
     }
 
     static CallSite getConstructorCallSite(
@@ -79,9 +57,26 @@ public interface WrapperObject
         return WrapperClassInfo.get(wrapperClass).getWrappedClass();
     }
 
+    /**
+     * slow
+     */
+    @Deprecated
+    static <T extends WrapperObject> T create(Class<T> type, @Nullable Object wrapped)
+    {
+        try
+        {
+            return RuntimeUtil.cast(
+                (WrapperObject) WrapperClassInfo.get(type).getConstructor().invokeExact((Object) wrapped));
+        }
+        catch(Throwable e)
+        {
+            throw RuntimeUtil.sneakilyThrow(e);
+        }
+    }
+
     Class<?> static$getWrappedClass();
 
-    WrapperObject static$create(Object wrapped);
+    WrapperObject static$create(@Nullable Object wrapped);
 
     default boolean static$isInstance(WrapperObject wrapper)
     {
@@ -95,7 +90,7 @@ public interface WrapperObject
     default <T extends WrapperObject> T as(WrapperFactory<T> factory)
     {
         if(this.isPresent() && !this.is(factory))
-            throw new ClassCastException("Try to cast an object of " + this.getWrapped().getClass() + " to " +
+            throw new ClassCastException("Try to cast an object of " + this.getWrapped() + " to " +
                 factory.getStatic().static$getWrappedClass());
         return factory.create(this.getWrapped());
     }
@@ -128,32 +123,6 @@ public interface WrapperObject
         return this.asOption(factory);
     }
 
-    @Deprecated
-    default boolean isInstanceOf(Function<Object, ? extends WrapperObject> creator)
-    {
-        return this.isInstanceOf(new WrapperFactory<>(creator));
-    }
-    @Deprecated
-    default <T extends WrapperObject> T castTo(Function<Object, T> creator)
-    {
-        return this.castTo(new WrapperFactory<>(creator));
-    }
-    @Deprecated
-    default <T extends WrapperObject> Option<T> tryCast(Function<Object, T> creator)
-    {
-        return this.tryCast(new WrapperFactory<>(creator));
-    }
-
-    /**
-     * @see #isPresent()
-     * @deprecated wrapper shouldn't be null, please invoke wrapper.isPresent()
-     */
-    @Deprecated
-    static boolean isPresent(WrapperObject wrapper)
-    {
-        return wrapper != null && wrapper.getWrapped() != null;
-    }
-
     default boolean isPresent()
     {
         return this.getWrapped() != null;
@@ -166,9 +135,9 @@ public interface WrapperObject
     @WrapMethod("hashCode")
     int hashCode();
     @Override
-    boolean equals(Object object);
+    boolean equals(@Nullable Object object);
     @SpecificImpl("equals")
-    default boolean equals$impl(Object object)
+    default boolean equals$impl(@Nullable Object object)
     {
         if(this == object)
             return true;

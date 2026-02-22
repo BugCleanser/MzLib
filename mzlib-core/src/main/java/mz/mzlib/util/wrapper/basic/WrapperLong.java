@@ -6,12 +6,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WrapperLong extends WrapperObject
 {
     WrapperFactory<WrapperLong> FACTORY = WrapperFactory.of(WrapperLong.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperLong create(Long wrapped)
-    {
-        return WrapperObject.create(WrapperLong.class, wrapped);
-    }
 
     @Override
     Long getWrapped();

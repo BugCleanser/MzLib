@@ -1,5 +1,7 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,12 +13,10 @@ public class MergedClassLoader extends ClassLoader
     public Set<String> loadingClasses = new HashSet<>();
 
     @Override
-    protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
+    protected synchronized @Nullable Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException
     {
         if(!loadingClasses.add(name))
-        {
             return null;
-        }
         try
         {
             for(ClassLoader i : classLoaders)

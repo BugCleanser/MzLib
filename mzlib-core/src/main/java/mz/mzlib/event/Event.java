@@ -1,13 +1,14 @@
 package mz.mzlib.event;
 
 import mz.mzlib.util.TaskQueue;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Every child class must implement {@link #call()} and be registered
  */
 public abstract class Event
 {
-    public TaskQueue futureTasks = new TaskQueue();
+    private @Nullable TaskQueue futureTasks = new TaskQueue();
     boolean isCancelled = false;
 
     /**
@@ -15,13 +16,15 @@ public abstract class Event
      */
     public void runLater(Runnable runnable)
     {
-        if(this.isFinished())
+        if(this.futureTasks == null)
             throw new IllegalStateException("Event finished");
         this.futureTasks.schedule(runnable);
     }
 
     public void finish()
     {
+        if(this.futureTasks == null)
+            throw new IllegalStateException();
         this.futureTasks.run();
         this.futureTasks = null;
     }

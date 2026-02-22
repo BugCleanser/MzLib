@@ -6,14 +6,12 @@ import mz.mzlib.asm.ClassWriter;
 import mz.mzlib.asm.Handle;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
-import mz.mzlib.util.ClassUtil;
-import mz.mzlib.util.ElementSwitcher;
-import mz.mzlib.util.MapEntry;
-import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrapperClassInfo;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.annotation.Annotation;
 import java.lang.invoke.CallSite;
@@ -67,7 +65,7 @@ public class NothingRegistration
         return nothings.isEmpty();
     }
 
-    public String metafactory;
+    public @UnknownNullability String metafactory;
 
     public void defineMetafactory(CallSite[] callSites)
     {
@@ -141,7 +139,7 @@ public class NothingRegistration
             raws.put(m, m.instructions.toArray());
         }
         Map<MethodNode, Map<String, Integer>> customVars = new HashMap<>();
-        PriorityQueue<MapEntry<Float, Runnable>> operations = new PriorityQueue<>(Map.Entry.comparingByKey());
+        PriorityQueue<Pair<Float, Runnable>> operations = new PriorityQueue<>(Pair.comparingByFirst());
         for(Class<? extends Nothing> nothing : nothings)
         {
             if(!ElementSwitcher.isEnabled(nothing))
@@ -173,7 +171,7 @@ public class NothingRegistration
                     {
                         throw RuntimeUtil.sneakilyThrow(new NoSuchMethodException("Target of " + i).initCause(e));
                     }
-                    operations.add(new MapEntry<>(
+                    operations.add(Pair.of(
                         ni.priority(), () ->
                     {
                         MethodNode mn = AsmUtil.getMethodNode(cn, AsmUtil.getName(m), AsmUtil.getDesc(m));
@@ -354,10 +352,6 @@ public class NothingRegistration
                                             afterPop.add(AsmUtil.insnVarLoad(stt, temp));
                                         }
                                     }
-                                    if(argTypes[k] == null)
-                                    {
-                                        throw new UnsupportedOperationException("Arg " + k + " of " + i);
-                                    }
                                     loadingVars.add(AsmUtil.insnVarStore(argTypes[k], args[k]));
                                 }
                                 InsnList caller = new InsnList();
@@ -473,7 +467,7 @@ public class NothingRegistration
         }
         while(!operations.isEmpty())
         {
-            operations.poll().getValue().run();
+            operations.poll().getSecond().run();
         }
         defineMetafactory(callSites.toArray(new CallSite[0]));
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);

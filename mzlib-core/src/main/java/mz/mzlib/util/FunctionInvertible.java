@@ -2,11 +2,12 @@ package mz.mzlib.util;
 
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;
 
-public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T>> implements ThrowableFunction<T, U, RuntimeException>
+public class FunctionInvertible<T extends @Nullable Object, U extends @Nullable Object> extends Invertible<FunctionInvertible<U, T>> implements ThrowableFunction<T, U, RuntimeException>
 {
     protected Function<? super T, ? extends U> forward;
     protected Function<? super U, ? extends T> backward;
@@ -16,7 +17,7 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
         this.backward = backward;
     }
 
-    public static <T, U> FunctionInvertible<T, U> of(
+    public static <T extends @Nullable Object, U extends @Nullable Object> FunctionInvertible<T, U> of(
         Function<? super T, ? extends U> forward,
         Function<? super U, ? extends T> backward)
     {
@@ -61,7 +62,7 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
         return of(RefStrong::new, Ref::get);
     }
 
-    public static <T> FunctionInvertible<T, Option<T>> option()
+    public static <T> FunctionInvertible<@Nullable T, Option<T>> option()
     {
         return of(Option::fromNullable, Option::toNullable);
     }
@@ -74,7 +75,7 @@ public class FunctionInvertible<T, U> extends Invertible<FunctionInvertible<U, T
         return of(Option::fromWrapper, it -> it.unwrapOrGet(() -> type.create(null)));
     }
 
-    public static <T> FunctionInvertible<T, Optional<T>> optional()
+    public static <T extends @Nullable Object> FunctionInvertible<T, Optional<T>> optional()
     {
         return of(Optional::ofNullable, RuntimeUtil::orNull);
     }

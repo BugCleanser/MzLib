@@ -1,11 +1,13 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class Editor<T> implements AutoCompletable<T, Object>
+public class Editor<T extends @Nullable Object> implements AutoCompletable<T, Object>
 {
     AutoCompletable<T, Object> delegate;
 
@@ -60,7 +62,7 @@ public class Editor<T> implements AutoCompletable<T, Object>
         return this.delegate.start();
     }
     @Override
-    public void complete(T element, Object data)
+    public void complete(T element, @SuppressWarnings("NullableProblems") Object data)
     {
         this.delegate.complete(element, data);
     }

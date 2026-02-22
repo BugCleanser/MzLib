@@ -4,9 +4,11 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.DelegateField;
 import mz.mzlib.util.wrapper.*;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Objects;
 
+@ApiStatus.Experimental
 public interface TypedMapClass extends TypedMap<TypedMapClass.Key<?>>
 {
     static TypedMapClass of(TypedMap<TypedMapClass.Key<?>> delegate)

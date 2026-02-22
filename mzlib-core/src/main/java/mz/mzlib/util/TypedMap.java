@@ -1,10 +1,13 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.*;
 
 /**
  * @see TypedMapClass
  */
+@ApiStatus.Experimental
 public interface TypedMap<K0 extends TypedMap.Key<?, K0>>
 {
     Map<K0, Object> asMap();

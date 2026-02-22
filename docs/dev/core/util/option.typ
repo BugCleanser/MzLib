@@ -1,12 +1,15 @@
 #import "/lib/lib.typ": *;
+#set raw(lang: "java");
 #let title = [Option类];
 #show: template.with(title: title);
 
 
 
-表示一个可空对象，类似J8+的`Optional`，并且可与`Optional`相互转换，旨在减少lambda的使用
+在非空环境中表示可选对象，可认为是增强版的`Optional`，但命名更像Rust
 
-命名和用法则更像Rust的`Option`
+#cardAttention[
+    现已不推荐在类型系统中使用此方式实现空安全，详见#link("../null-safety")[“空安全”]
+]
 
 = 基本用法
 

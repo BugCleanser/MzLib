@@ -1,12 +1,15 @@
 package mz.mzlib.util.proxy;
 
-import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
-public class SetProxy<T, U> extends AbstractSet<T> implements CollectionProxy<T, U>
+public class SetProxy<T extends @Nullable Object, U extends @Nullable Object> extends AbstractSet<T> implements CollectionProxy<T, U>
 {
     Set<U> delegate;
     FunctionInvertible<U, T> function;
@@ -73,7 +76,6 @@ public class SetProxy<T, U> extends AbstractSet<T> implements CollectionProxy<T,
         CollectionProxy.super.clear();
     }
     @Override
-    @NotNull
     public Iterator<T> iterator()
     {
         return CollectionProxy.super.iterator();

@@ -1,6 +1,7 @@
 package mz.mzlib.event;
 
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.ConstantCallSite;
@@ -9,9 +10,10 @@ import java.lang.invoke.MethodType;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@ApiStatus.Experimental
 public class ListenerHandler
 {
-    public static Map<Class<? extends Event>, ListenerHandler> handlers = new ConcurrentHashMap<>();
+    static Map<Class<? extends Event>, ListenerHandler> handlers = new ConcurrentHashMap<>();
     public static CallSite getCallSite(
         MethodHandles.Lookup caller,
         String invokedName,
@@ -23,7 +25,7 @@ public class ListenerHandler
                 .bindTo(handlers.get(eventClass)).asType(invokedType));
     }
 
-    public List<EventListener<?>> sortedListeners = Collections.emptyList();
+    List<EventListener<?>> sortedListeners = Collections.emptyList();
     public void call(Event event)
     {
         for(EventListener<?> listener : this.sortedListeners)
@@ -39,7 +41,8 @@ public class ListenerHandler
         }
     }
 
-    public Set<EventListener<?>> listeners = new HashSet<>();
+    Set<EventListener<?>> listeners = new HashSet<>();
+    @ApiStatus.Experimental
     public synchronized void update()
     {
         this.sortedListeners = Arrays.asList(listeners.stream().sorted((a, b) -> Float.compare(b.priority, a.priority))

@@ -1,7 +1,9 @@
 package mz.mzlib.util;
 
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Experimental
 public interface JsonUtil
 {
     static Editor<JsonObject> addChild(JsonObject parent, String key)

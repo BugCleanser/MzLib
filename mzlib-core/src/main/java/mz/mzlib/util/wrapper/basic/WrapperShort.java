@@ -6,12 +6,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WrapperShort extends WrapperObject
 {
     WrapperFactory<WrapperShort> FACTORY = WrapperFactory.of(WrapperShort.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperShort create(Short wrapped)
-    {
-        return WrapperObject.create(WrapperShort.class, wrapped);
-    }
 
     @Override
     Short getWrapped();

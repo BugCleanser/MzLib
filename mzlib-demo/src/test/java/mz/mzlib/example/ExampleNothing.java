@@ -21,7 +21,7 @@ public class ExampleNothing
         @NothingInject(wrapperMethodName = "toString", wrapperMethodParams = {}, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
         default WrapperString injectionToString()
         {
-            return WrapperString.create("Hello World");
+            return WrapperString.FACTORY.create("Hello World");
         }
     }
 

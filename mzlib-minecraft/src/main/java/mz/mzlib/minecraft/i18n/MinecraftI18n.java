@@ -56,10 +56,10 @@ public class MinecraftI18n extends MzModule
                 Map<String, Map<String, String>> map = new HashMap<>();
                 for(Map.Entry<String, CompletableFuture<byte[]>> task : tasks.entrySet())
                 {
-                    Map.Entry<String, Map<String, String>> result = I18n.load(
+                    Pair<String, Map<String, String>> result = I18n.load(
                         task.getKey(), new ByteArrayInputStream(task.getValue().get()));
                     if(result != null)
-                        map.put(result.getKey(), result.getValue());
+                        map.put(result.getFirst(), result.getSecond());
                 }
                 this.i18nMinecraft.map = map;
                 MinecraftServer.instance.sendMessage(

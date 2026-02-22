@@ -6,12 +6,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WrapperBoolean extends WrapperObject
 {
     WrapperFactory<WrapperBoolean> FACTORY = WrapperFactory.of(WrapperBoolean.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperBoolean create(Boolean wrapped)
-    {
-        return WrapperObject.create(WrapperBoolean.class, wrapped);
-    }
 
     @Override
     Double getWrapped();

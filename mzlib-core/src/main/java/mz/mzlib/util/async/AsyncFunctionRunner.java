@@ -13,7 +13,6 @@ public interface AsyncFunctionRunner extends Executor
     void schedule(Runnable function, BasicAwait await);
 
     @Override
-    @SuppressWarnings("NullableProblems")
     default void execute(Runnable command)
     {
         this.schedule(command);

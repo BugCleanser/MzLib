@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public final class Option<T> implements Iterable<T>
 {
-    public static <T> Option<T> some(@NotNull T value)
+    public static <T> Option<T> some(T value)
     {
         return new Option<>(Objects.requireNonNull(value));
     }
@@ -28,14 +28,13 @@ public final class Option<T> implements Iterable<T>
 
     private static final Option<?> NONE = new Option<>(null);
 
-    T value;
-    private Option(T value)
+    private final @Nullable T value;
+    private Option(@Nullable T value)
     {
         this.value = value;
     }
 
-    @Nullable
-    public T toNullable()
+    public @Nullable T toNullable()
     {
         return this.value;
     }
@@ -47,20 +46,20 @@ public final class Option<T> implements Iterable<T>
     }
     public Optional<T> toOptional()
     {
-        return this.mapNullable(Optional::of).unwrapOrGet(Optional::empty);
+        return this.map(Objects::requireNonNull).map(Optional::of).unwrapOrGet(Optional::empty);
     }
 
     public static <T extends WrapperObject> Option<T> fromWrapper(T wrapper)
     {
-        if(wrapper != null && wrapper.isPresent())
+        if(wrapper.isPresent())
             return some(wrapper);
         else
             return none();
     }
 
-    public Either<T, Void> toEither()
+    public Either<T, @Nullable Void> toEither()
     {
-        return this.mapNullable(Either::<T, Void>first).unwrapOrGet(() -> Either.second(null));
+        return this.mapNullable(Either::<T, Void>first).unwrapOrGet(() -> Either.<T, @Nullable Void>second(null));
     }
 
     public boolean isSome()
@@ -137,12 +136,12 @@ public final class Option<T> implements Iterable<T>
         return this.flatMap(it -> Option.some(mapper.apply(it)));
     }
 
-    public <U, E extends Throwable> Option<U> mapNullable(ThrowableFunction<? super T, ? extends U, E> mapper)
+    public <U, E extends Throwable> Option<U> mapNullable(ThrowableFunction<? super T, ? extends @Nullable U, E> mapper)
         throws E
     {
         return this.flatMap(it -> Option.fromNullable(mapper.applyOrThrow(it)));
     }
-    public <U> Option<U> mapNullable(Function<? super T, ? extends U> mapper)
+    public <U> Option<U> mapNullable(Function<? super T, ? extends @Nullable U> mapper)
     {
         return this.mapNullable(ThrowableFunction.ofFunction(mapper));
     }
@@ -198,7 +197,6 @@ public final class Option<T> implements Iterable<T>
     }
 
     @Override
-    @NotNull
     public Iterator<T> iterator()
     {
         return this.mapNullable(Collections::singleton).mapNullable(Set::iterator).unwrapOrGet(Collections::emptyIterator);

@@ -1,14 +1,17 @@
 package mz.mzlib.module;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.function.BiConsumer;
 
-public class SimpleRegistrar<T> implements IRegistrar<T>
+@ApiStatus.Experimental
+public class RegistrarSimple<T> implements IRegistrar<T>
 {
     public Class<T> type;
     public BiConsumer<MzModule, T> registerMethod;
     public BiConsumer<MzModule, T> unregisterMethod;
 
-    public SimpleRegistrar(
+    public RegistrarSimple(
         Class<T> type,
         BiConsumer<MzModule, T> registerMethod,
         BiConsumer<MzModule, T> unregisterMethod)

@@ -2,15 +2,14 @@ package mz.mzlib.event;
 
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.RuntimeUtil;
 
 public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 {
     public static RegistrarEventListener instance = new RegistrarEventListener();
 
-    public Class<EventListener<?>> getType()
+    public Class<? super EventListener<?>> getType()
     {
-        return RuntimeUtil.castClass(EventListener.class);
+        return EventListener.class;
     }
 
     public void register(MzModule module, EventListener<?> object)

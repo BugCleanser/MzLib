@@ -1,9 +1,12 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@ApiStatus.Experimental
 public class MapUtil
 {
     private MapUtil()

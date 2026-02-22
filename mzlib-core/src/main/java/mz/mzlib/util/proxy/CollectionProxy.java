@@ -1,15 +1,15 @@
 package mz.mzlib.util.proxy;
 
-import org.jetbrains.annotations.NotNull;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.ModifyMonitor;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
-public interface CollectionProxy<T, U> extends Collection<T>
+public interface CollectionProxy<T extends @Nullable Object, U extends @Nullable Object> extends Collection<T>
 {
     Collection<U> getDelegate();
     FunctionInvertible<U, T> getFunction();
@@ -92,21 +92,20 @@ public interface CollectionProxy<T, U> extends Collection<T>
     }
 
     @Override
-    @NotNull
     default Iterator<T> iterator()
     {
         return new IteratorProxy<>(this.getDelegate().iterator(), this.getFunction(), this.getModifyMonitor());
     }
 
-    static <T, U> CollectionProxy<T, U> of(Collection<U> delegate, FunctionInvertible<U, T> function, ModifyMonitor modifyMonitor)
+    static <T extends @Nullable Object, U extends @Nullable Object> CollectionProxy<T, U> of(Collection<U> delegate, FunctionInvertible<U, T> function, ModifyMonitor modifyMonitor)
     {
         return new Impl<>(delegate, function, modifyMonitor);
     }
-    static <T, U> CollectionProxy<T, U> of(Collection<U> delegate, FunctionInvertible<U, T> function)
+    static <T extends @Nullable Object, U extends @Nullable Object> CollectionProxy<T, U> of(Collection<U> delegate, FunctionInvertible<U, T> function)
     {
         return of(delegate, function, ModifyMonitor.Empty.instance);
     }
-    class Impl<T, U> extends AbstractCollection<T> implements CollectionProxy<T, U>
+    class Impl<T extends @Nullable Object, U extends @Nullable Object> extends AbstractCollection<T> implements CollectionProxy<T, U>
     {
         Collection<U> delegate;
         FunctionInvertible<U, T> function;
@@ -163,7 +162,7 @@ public interface CollectionProxy<T, U> extends Collection<T>
             return CollectionProxy.super.remove(o);
         }
         @Override
-        public boolean addAll(@NotNull Collection<? extends T> c)
+        public boolean addAll(Collection<? extends T> c)
         {
             return CollectionProxy.super.addAll(c);
         }
@@ -173,7 +172,6 @@ public interface CollectionProxy<T, U> extends Collection<T>
             CollectionProxy.super.clear();
         }
         @Override
-        @NotNull
         public Iterator<T> iterator()
         {
             return CollectionProxy.super.iterator();

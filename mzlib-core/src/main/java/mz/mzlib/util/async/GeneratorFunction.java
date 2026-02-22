@@ -2,6 +2,7 @@ package mz.mzlib.util.async;
 
 import mz.mzlib.util.Either;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -44,8 +45,8 @@ public abstract class GeneratorFunction<T> extends AsyncFunction<Void>
     }
     class Runner implements AsyncFunctionRunner, Iterator<T>
     {
-        Either<T, Void> result = Either.second(null);
-        Runnable task;
+        Either<T, @Nullable Void> result = Either.second(null);
+        @Nullable Runnable task;
         @Override
         public void schedule(Runnable function)
         {

@@ -3,6 +3,7 @@ package mz.mzlib.data;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.module.Registrable;
 import mz.mzlib.util.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -89,8 +90,8 @@ public class DataHandler<H, T, R> implements Registrable
     {
         DataKey<H, T, ? super R> key;
         Predicate<H> checker;
-        Function<H, T> getter;
-        BiConsumer<H, T> setter;
+        @Nullable Function<H, T> getter;
+        @Nullable BiConsumer<H, T> setter;
         Function<T, R> reviserGetter;
         Function<R, T> reviserApplier;
 
@@ -98,8 +99,8 @@ public class DataHandler<H, T, R> implements Registrable
         {
             this.key = key;
             this.checker = ThrowablePredicate.always();
-            this.reviserGetter = x -> RuntimeUtil.valueThrow(new UnsupportedOperationException());
-            this.reviserApplier = x -> null;
+            this.reviserGetter = it -> RuntimeUtil.valueThrow(new UnsupportedOperationException());
+            this.reviserApplier = it -> RuntimeUtil.valueThrow(new UnsupportedOperationException());
         }
 
         public Builder<H, T, R> checker(Predicate<H> checker)
@@ -130,10 +131,6 @@ public class DataHandler<H, T, R> implements Registrable
 
         public DataHandler<H, T, R> build()
         {
-            if(this.key == null)
-                throw new IllegalStateException("Key is not set");
-            if(this.checker == null)
-                throw new IllegalStateException("Checker is not set");
             if(this.getter == null)
                 throw new IllegalStateException("Getter is not set");
             if(this.setter == null)

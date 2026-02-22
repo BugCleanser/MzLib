@@ -8,6 +8,7 @@ dependencies {
     api(project(":mzlib-core")) {
         exclude("com.google.code.gson", "gson")
     }
+    compileOnly("org.jetbrains:annotations:latest.release")
 
     compileOnly("com.google.code.gson:gson:2.8.9")
 

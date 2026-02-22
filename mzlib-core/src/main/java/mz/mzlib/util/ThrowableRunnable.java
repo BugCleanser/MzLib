@@ -1,5 +1,8 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
+
+@ApiStatus.Experimental
 public interface ThrowableRunnable<E extends Throwable> extends Runnable
 {
     void runOrThrow() throws E;

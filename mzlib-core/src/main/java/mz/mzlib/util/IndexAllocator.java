@@ -1,11 +1,13 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-public class IndexAllocator<T>
+public class IndexAllocator<T extends @Nullable Object>
 {
     List<T> list;
     Queue<Integer> bin;
@@ -16,11 +18,15 @@ public class IndexAllocator<T>
         this.bin = new ArrayDeque<>();
     }
 
-    public synchronized int alloc()
+    public int alloc()
+    {
+        return this.alloc(null);
+    }
+    public synchronized int alloc(T value)
     {
         if(!this.bin.isEmpty())
             return this.bin.poll();
-        this.list.add(null);
+        this.list.add(value);
         return this.list.size() - 1;
     }
 
