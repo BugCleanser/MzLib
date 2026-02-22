@@ -11,7 +11,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -21,13 +24,6 @@ import java.util.UUID;
 public interface GameProfileComponentV2005 extends WrapperObject
 {
     WrapperFactory<GameProfileComponentV2005> FACTORY = WrapperFactory.of(GameProfileComponentV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static GameProfileComponentV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(GameProfileComponentV2005.class, wrapped);
-    }
-
     static GameProfileComponentV2005 newInstance(GameProfile gameProfile)
     {
         return FACTORY.getStatic().static$newInstance(gameProfile);
@@ -164,3 +160,4 @@ public interface GameProfileComponentV2005 extends WrapperObject
         }
     }
 }
+

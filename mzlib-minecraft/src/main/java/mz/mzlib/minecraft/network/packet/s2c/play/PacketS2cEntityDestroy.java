@@ -6,9 +6,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 
@@ -20,13 +18,6 @@ import java.util.List;
 public interface PacketS2cEntityDestroy extends Packet
 {
     WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.of(PacketS2cEntityDestroy.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cEntityDestroy create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cEntityDestroy.class, wrapped);
-    }
-
     int[] getEntityIds();
 
     @SpecificImpl("getEntityIds")
@@ -56,3 +47,4 @@ public interface PacketS2cEntityDestroy extends Packet
         return getEntityIds0V1701().stream().mapToInt(Integer::intValue).toArray();
     }
 }
+

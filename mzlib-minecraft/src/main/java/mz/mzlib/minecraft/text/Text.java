@@ -18,7 +18,6 @@ import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -32,13 +31,6 @@ import java.util.stream.Collectors;
 public interface Text extends WrapperObject
 {
     WrapperFactory<Text> FACTORY = WrapperFactory.of(Text.class);
-    @Deprecated
-    @WrapperCreator
-    static Text create(Object wrapped)
-    {
-        return WrapperObject.create(Text.class, wrapped);
-    }
-
     static Text decode(JsonElement json)
     {
         return FACTORY.getStatic().static$decode(json);
@@ -701,13 +693,6 @@ public interface Text extends WrapperObject
     interface SerializerV_2106 extends WrapperObject
     {
         WrapperFactory<SerializerV_2106> FACTORY = WrapperFactory.of(SerializerV_2106.class);
-        @Deprecated
-        @WrapperCreator
-        static SerializerV_2106 create(Object wrapped)
-        {
-            return WrapperObject.create(SerializerV_2106.class, wrapped);
-        }
-
         static Gson gson()
         {
             return SerializerV_2106.FACTORY.getStatic().static$gson();
@@ -757,7 +742,7 @@ public interface Text extends WrapperObject
         @VersionRange(end = 1300)
         default Text static$decodeV_1300(JsonElement json)
         {
-            return Text.create(gson().fromJson(json, Text.FACTORY.getStatic().static$getWrappedClass()));
+            return Text.FACTORY.create(gson().fromJson(json, Text.FACTORY.getStatic().static$getWrappedClass()));
         }
 
         @SpecificImpl("static$decode")
@@ -884,3 +869,4 @@ public interface Text extends WrapperObject
         return keybindV1200(key).set(prop);
     }
 }
+

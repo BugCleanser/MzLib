@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.bridge.game.GameVersionV1400_1904;
 import mz.mzlib.minecraft.version.MinecraftVersionV1800;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,12 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface GlobalConstants extends WrapperObject
 {
     WrapperFactory<GlobalConstants> FACTORY = WrapperFactory.of(GlobalConstants.class);
-    @Deprecated
-    @WrapperCreator
-    static GlobalConstants create(Object wrapped)
-    {
-        return WrapperObject.create(GlobalConstants.class, wrapped);
-    }
 
     static GameVersionV1400_1904 getMinecraftVersionV1400_1800()
     {

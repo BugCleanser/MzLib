@@ -4,9 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.nbt.NbtInt"),
@@ -16,12 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtInt extends NbtElement
 {
     WrapperFactory<NbtInt> FACTORY = WrapperFactory.of(NbtInt.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtInt create(Object wrapped)
-    {
-        return WrapperObject.create(NbtInt.class, wrapped);
-    }
 
     @WrapConstructor
     NbtInt static$newInstance(int value);

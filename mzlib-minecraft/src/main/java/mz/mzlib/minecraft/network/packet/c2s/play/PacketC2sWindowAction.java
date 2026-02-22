@@ -12,7 +12,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.MapProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
 
@@ -25,13 +28,6 @@ import java.util.Map;
 public interface PacketC2sWindowAction extends Packet
 {
     WrapperFactory<PacketC2sWindowAction> FACTORY = WrapperFactory.of(PacketC2sWindowAction.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sWindowAction create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sWindowAction.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "syncId"))
     int getSyncId();
 
@@ -378,3 +374,4 @@ public interface PacketC2sWindowAction extends Packet
         builder.cursorV2105(this.getCursorV2105());
     }
 }
+

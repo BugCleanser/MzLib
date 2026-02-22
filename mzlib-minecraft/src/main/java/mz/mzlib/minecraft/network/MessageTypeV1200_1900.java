@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -16,13 +15,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface MessageTypeV1200_1900 extends WrapperObject
 {
     WrapperFactory<MessageTypeV1200_1900> FACTORY = WrapperFactory.of(MessageTypeV1200_1900.class);
-    @Deprecated
-    @WrapperCreator
-    static MessageTypeV1200_1900 create(Object wrapped)
-    {
-        return WrapperObject.create(MessageTypeV1200_1900.class, wrapped);
-    }
-
     static MessageTypeV1200_1900 chat()
     {
         return FACTORY.getStatic().static$chat();
@@ -56,3 +48,4 @@ public interface MessageTypeV1200_1900 extends WrapperObject
     })
     MessageTypeV1200_1900 static$actionBar();
 }
+

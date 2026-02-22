@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,12 +12,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface Property extends WrapperObject
 {
     WrapperFactory<Property> FACTORY = WrapperFactory.of(Property.class);
-    @Deprecated
-    @WrapperCreator
-    static Property create(Object wrapped)
-    {
-        return WrapperObject.create(Property.class, wrapped);
-    }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
     String getName();

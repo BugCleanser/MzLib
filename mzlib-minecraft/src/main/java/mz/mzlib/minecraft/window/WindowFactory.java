@@ -2,15 +2,14 @@ package mz.mzlib.minecraft.window;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -25,12 +24,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
 {
     WrapperFactory<WindowFactory> FACTORY = WrapperFactory.of(WindowFactory.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowFactory create(Object wrapped)
-    {
-        return WrapperObject.create(WindowFactory.class, wrapped);
-    }
 
     @WrapMinecraftMethod(@VersionName(name = "getId", end = 1400))
     String getWindowTypeIdV_1400();

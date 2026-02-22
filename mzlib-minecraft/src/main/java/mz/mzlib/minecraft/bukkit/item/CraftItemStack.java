@@ -4,19 +4,16 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.item.ItemStack;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapFieldAccessor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
 @WrapCraftbukkitClass(@VersionName(name = "OBC.inventory.CraftItemStack"))
 public interface CraftItemStack extends WrapperObject
 {
     WrapperFactory<CraftItemStack> FACTORY = WrapperFactory.of(CraftItemStack.class);
-    @Deprecated
-    @WrapperCreator
-    static CraftItemStack create(Object wrapped)
-    {
-        return WrapperObject.create(CraftItemStack.class, wrapped);
-    }
     @Override
     org.bukkit.inventory.ItemStack getWrapped();
 
@@ -36,3 +33,4 @@ public interface CraftItemStack extends WrapperObject
     @WrapFieldAccessor("handle")
     ItemStack getHandle();
 }
+

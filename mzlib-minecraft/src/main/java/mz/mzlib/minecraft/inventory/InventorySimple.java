@@ -4,7 +4,10 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.inventory.SimpleInventory", end = 1400),
@@ -14,13 +17,6 @@ import mz.mzlib.util.wrapper.*;
 public interface InventorySimple extends WrapperObject, Inventory
 {
     WrapperFactory<InventorySimple> FACTORY = WrapperFactory.of(InventorySimple.class);
-    @Deprecated
-    @WrapperCreator
-    static InventorySimple create(Object wrapped)
-    {
-        return WrapperObject.create(InventorySimple.class, wrapped);
-    }
-
     static InventorySimple newInstance(int size)
     {
         return FACTORY.getStatic().static$newInstance(size);
@@ -50,3 +46,4 @@ public interface InventorySimple extends WrapperObject, Inventory
     @WrapConstructor
     InventorySimple static$newInstanceV1400(int size);
 }
+

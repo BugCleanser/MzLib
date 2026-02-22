@@ -4,8 +4,8 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.inventory.BukkitInventoryView;
-import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.incomprehensible.network.WindowSyncHandlerV1700;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowSlotUpdate;
@@ -16,7 +16,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -29,12 +32,6 @@ import java.util.function.Supplier;
 public interface Window extends WrapperObject
 {
     WrapperFactory<Window> FACTORY = WrapperFactory.of(Window.class);
-    @Deprecated
-    @WrapperCreator
-    static Window create(Object wrapped)
-    {
-        return WrapperObject.create(Window.class, wrapped);
-    }
 
     @WrapConstructor
     @VersionRange(end = 1400)

@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.entity.Entity;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -12,15 +11,9 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface DamageSourceEntityV_1904 extends WrapperObject
 {
     WrapperFactory<DamageSourceEntityV_1904> FACTORY = WrapperFactory.of(DamageSourceEntityV_1904.class);
-    @Deprecated
-    @WrapperCreator
-    static DamageSourceEntityV_1904 create(Object wrapped)
-    {
-        return WrapperObject.create(DamageSourceEntityV_1904.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "source"))
     Entity getSource();
     @WrapMinecraftFieldAccessor(@VersionName(name = "source"))
     void setSource(Entity value);
 }
+

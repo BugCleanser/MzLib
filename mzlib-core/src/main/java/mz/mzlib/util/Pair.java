@@ -9,31 +9,31 @@ import java.util.Map;
 import java.util.Objects;
 
 @ApiStatus.NonExtendable
-public class Pair<T0 extends @Nullable Object, T1 extends @Nullable Object>
+public class Pair<T1 extends @Nullable Object, T2 extends @Nullable Object>
 {
-    protected T0 first;
-    protected T1 second;
+    protected T1 first;
+    protected T2 second;
 
-    public Pair(T0 first, T1 second)
+    public Pair(T1 first, T2 second)
     {
         this.first = first;
         this.second = second;
     }
-    public static <T0 extends @Nullable Object, T1 extends @Nullable Object> Pair<T0, T1> of(T0 first, T1 second)
+    public static <T1 extends @Nullable Object, T2 extends @Nullable Object> Pair<T1, T2> of(T1 first, T2 second)
     {
         return new Pair<>(first, second);
     }
 
-    public T0 getFirst()
+    public T1 getFirst()
     {
         return this.first;
     }
-    public T1 getSecond()
+    public T2 getSecond()
     {
         return this.second;
     }
 
-    public Map.Entry<T0, T1> toMapEntry()
+    public Map.Entry<T1, T2> toMapEntry()
     {
         return new AbstractMap.SimpleEntry<>(first, second);
     }
@@ -55,7 +55,7 @@ public class Pair<T0 extends @Nullable Object, T1 extends @Nullable Object>
         return "("+this.getFirst()+", "+this.getSecond()+")";
     }
 
-    public static <T0 extends @Nullable Object, T1 extends @Nullable Object> Comparator<Pair<T0, T1>> comparing(Comparator<T0> comparatorFirst, Comparator<T1> comparatorSecond)
+    public static <T1 extends @Nullable Object, T2 extends @Nullable Object> Comparator<Pair<T1, T2>> comparing(Comparator<T1> comparatorFirst, Comparator<T2> comparatorSecond)
     {
         return (a, b) ->
         {
@@ -65,44 +65,44 @@ public class Pair<T0 extends @Nullable Object, T1 extends @Nullable Object>
             return comparatorSecond.compare(a.second, b.second);
         };
     }
-    public static <T0 extends @Nullable Object, T1 extends @Nullable Object> Comparator<Pair<T0, T1>> comparingByFirst(Comparator<T0> comparator)
+    public static <T1 extends @Nullable Object, T2 extends @Nullable Object> Comparator<Pair<T1, T2>> comparingByFirst(Comparator<T1> comparator)
     {
         return Comparator.comparing(Pair::getFirst, comparator);
     }
-    public static <T0 extends @Nullable Object, T1 extends @Nullable Object> Comparator<Pair<T0, T1>> comparingBySecond(Comparator<T1> comparator)
+    public static <T1 extends @Nullable Object, T2 extends @Nullable Object> Comparator<Pair<T1, T2>> comparingBySecond(Comparator<T2> comparator)
     {
         return Comparator.comparing(Pair::getSecond, comparator);
     }
-    public static <T0 extends Comparable<? super T0>, T1 extends Comparable<? super T1>> Comparator<Pair<T0, T1>> comparing()
+    public static <T1 extends Comparable<? super T1>, T2 extends Comparable<? super T2>> Comparator<Pair<T1, T2>> comparing()
     {
-        return comparing(T0::compareTo, T1::compareTo);
+        return comparing(T1::compareTo, T2::compareTo);
     }
-    public static <T0 extends Comparable<? super T0>, T1> Comparator<Pair<T0, T1>> comparingByFirst()
+    public static <T1 extends Comparable<? super T1>, T2> Comparator<Pair<T1, T2>> comparingByFirst()
     {
-        return comparingByFirst(T0::compareTo);
+        return comparingByFirst(T1::compareTo);
     }
-    public static <T0, T1 extends Comparable<? super T1>> Comparator<Pair<T0, T1>> comparingBySecond()
+    public static <T1, T2 extends Comparable<? super T2>> Comparator<Pair<T1, T2>> comparingBySecond()
     {
-        return comparingBySecond(T1::compareTo);
+        return comparingBySecond(T2::compareTo);
     }
 
     @ApiStatus.NonExtendable
-    public static class Mut<T0 extends @Nullable Object, T1 extends @Nullable Object> extends Pair<T0, T1>
+    public static class Mut<T1 extends @Nullable Object, T2 extends @Nullable Object> extends Pair<T1, T2>
     {
-        public Mut(T0 first, T1 second)
+        public Mut(T1 first, T2 second)
         {
             super(first, second);
         }
-        public static <T0 extends @Nullable Object, T1 extends @Nullable Object> Mut<T0, T1> of(T0 first, T1 second)
+        public static <T1 extends @Nullable Object, T2 extends @Nullable Object> Mut<T1, T2> of(T1 first, T2 second)
         {
             return new Mut<>(first, second);
         }
 
-        public void setFirst(T0 value)
+        public void setFirst(T1 value)
         {
             this.first = value;
         }
-        public void setSecond(T1 value)
+        public void setSecond(T2 value)
         {
             this.second = value;
         }

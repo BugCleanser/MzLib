@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,13 +14,6 @@ import java.util.Objects;
 public interface Inventory extends WrapperObject
 {
     WrapperFactory<Inventory> FACTORY = WrapperFactory.of(Inventory.class);
-    @Deprecated
-    @WrapperCreator
-    static Inventory create(Object wrapped)
-    {
-        return WrapperObject.create(Inventory.class, wrapped);
-    }
-
     @WrapMinecraftMethod({ @VersionName(name = "getInvSize", end = 1600), @VersionName(name = "size", begin = 1600) })
     int size();
 
@@ -135,3 +127,4 @@ public interface Inventory extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "method_11259"))
     int getHeightV1300_1400();
 }
+

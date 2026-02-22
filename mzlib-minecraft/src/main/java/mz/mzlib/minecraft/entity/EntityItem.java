@@ -12,7 +12,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,13 +19,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface EntityItem extends WrapperObject, Entity
 {
     WrapperFactory<EntityItem> FACTORY = WrapperFactory.of(EntityItem.class);
-    @Deprecated
-    @WrapperCreator
-    static EntityItem create(Object wrapped)
-    {
-        return WrapperObject.create(EntityItem.class, wrapped);
-    }
-
     EntityType ENTITY_TYPE = EntityType.fromId(Identifier.minecraft("item"));
 
     /**
@@ -60,3 +52,4 @@ public interface EntityItem extends WrapperObject, Entity
             FunctionInvertible.of(ItemStack::getWrapped, ItemStack.FACTORY::create).thenCast()
     );
 }
+

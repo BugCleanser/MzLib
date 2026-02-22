@@ -5,9 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin = 1200)
 @WrapMinecraftClass({
@@ -18,12 +16,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtLongArrayV1200 extends NbtElement
 {
     WrapperFactory<NbtLongArrayV1200> FACTORY = WrapperFactory.of(NbtLongArrayV1200.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtLongArrayV1200 create(Object wrapped)
-    {
-        return WrapperObject.create(NbtLongArrayV1200.class, wrapped);
-    }
 
     @WrapConstructor
     NbtLongArrayV1200 static$newInstance(long[] value);

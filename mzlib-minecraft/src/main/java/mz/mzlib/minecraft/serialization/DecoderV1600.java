@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -12,12 +11,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface DecoderV1600<T> extends WrapperObject
 {
     WrapperFactory<DecoderV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DecoderV1600.class));
-    @Deprecated
-    @WrapperCreator
-    static DecoderV1600<?> create(Object wrapped)
-    {
-        return WrapperObject.create(DecoderV1600.class, wrapped);
-    }
 
     @WrapMinecraftMethod(@VersionName(name = "parse"))
     <D> DataResultV1600<T> parse(DynamicOpsV1300<D> ops, D data);
@@ -65,3 +58,5 @@ public interface DecoderV1600<T> extends WrapperObject
         }
     }
 }
+
+

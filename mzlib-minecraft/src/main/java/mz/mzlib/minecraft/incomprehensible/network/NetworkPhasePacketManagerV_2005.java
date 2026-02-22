@@ -10,7 +10,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -19,13 +18,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
 {
     WrapperFactory<NetworkPhasePacketManagerV_2005> FACTORY = WrapperFactory.of(NetworkPhasePacketManagerV_2005.class);
-    @Deprecated
-    @WrapperCreator
-    static NetworkPhasePacketManagerV_2005 create(Object wrapped)
-    {
-        return WrapperObject.create(NetworkPhasePacketManagerV_2005.class, wrapped);
-    }
-
     static NetworkPhasePacketManagerV_2005 handshake()
     {
         return FACTORY.getStatic().static$handshake();
@@ -123,13 +115,6 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     interface PacketHandlerV1500 extends WrapperObject
     {
         WrapperFactory<PacketHandlerV1500> FACTORY = WrapperFactory.of(PacketHandlerV1500.class);
-        @Deprecated
-        @WrapperCreator
-        static PacketHandlerV1500 create(Object wrapped)
-        {
-            return WrapperObject.create(PacketHandlerV1500.class, wrapped);
-        }
-
         @VersionRange(begin = 1904, end = 2002)
         @WrapMinecraftMethod(@VersionName(name = "getId"))
         int getId0V1904_2002(Class<?> packetClass0);
@@ -143,3 +128,4 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
         Packet decodePacketV1700(int packetId, ByteBufPacket byteBuf);
     }
 }
+

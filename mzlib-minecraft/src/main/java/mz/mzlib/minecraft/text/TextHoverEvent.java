@@ -13,7 +13,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -22,13 +25,6 @@ import java.util.UUID;
 public interface TextHoverEvent extends WrapperObject
 {
     WrapperFactory<TextHoverEvent> FACTORY = WrapperFactory.of(TextHoverEvent.class);
-    @Deprecated
-    @WrapperCreator
-    static TextHoverEvent create(Object wrapped)
-    {
-        return WrapperObject.create(TextHoverEvent.class, wrapped);
-    }
-
     @WrapConstructor
     @VersionRange(end = 1600)
     TextHoverEvent static$newInstanceV_1600(Action action, Text value);
@@ -182,13 +178,6 @@ public interface TextHoverEvent extends WrapperObject
     interface Action extends WrapperObject
     {
         WrapperFactory<Action> FACTORY = WrapperFactory.of(Action.class);
-        @Deprecated
-        @WrapperCreator
-        static Action create(Object wrapped)
-        {
-            return WrapperObject.create(Action.class, wrapped);
-        }
-
         @WrapMinecraftFieldAccessor({
             @VersionName(name = "SHOW_TEXT", end = 1400),
             @VersionName(name = "field_11762", begin = 1400, end = 1600),
@@ -231,13 +220,6 @@ public interface TextHoverEvent extends WrapperObject
     interface ContentItemStackV1600_2105 extends WrapperObject
     {
         WrapperFactory<ContentItemStackV1600_2105> FACTORY = WrapperFactory.of(ContentItemStackV1600_2105.class);
-        @Deprecated
-        @WrapperCreator
-        static ContentItemStackV1600_2105 create(Object wrapped)
-        {
-            return WrapperObject.create(ContentItemStackV1600_2105.class, wrapped);
-        }
-
         @WrapMinecraftFieldAccessor(@VersionName(name = "item"))
         Item getItem();
 
@@ -315,13 +297,6 @@ public interface TextHoverEvent extends WrapperObject
     interface ContentEntityV1600 extends WrapperObject, TextHoverEvent.Entity
     {
         WrapperFactory<ContentEntityV1600> FACTORY = WrapperFactory.of(ContentEntityV1600.class);
-        @Deprecated
-        @WrapperCreator
-        static ContentEntityV1600 create(Object wrapped)
-        {
-            return WrapperObject.create(ContentEntityV1600.class, wrapped);
-        }
-
         @WrapConstructor
         ContentEntityV1600 static$newInstance(EntityType type, UUID id, Text name);
 
@@ -421,3 +396,4 @@ public interface TextHoverEvent extends WrapperObject
         Text getValue();
     }
 }
+

@@ -6,7 +6,10 @@ import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.screen.ChestScreenHandler", end = 1400),
@@ -16,12 +19,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WindowChest extends WrapperObject, Window
 {
     WrapperFactory<WindowChest> FACTORY = WrapperFactory.of(WindowChest.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowChest create(Object wrapped)
-    {
-        return WrapperObject.create(WindowChest.class, wrapped);
-    }
 
     WindowChest static$newInstance(
         WindowType type,

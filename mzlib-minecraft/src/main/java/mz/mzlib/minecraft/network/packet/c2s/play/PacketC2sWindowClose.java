@@ -5,7 +5,9 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 
 @WrapMinecraftClass({
@@ -15,13 +17,6 @@ import mz.mzlib.util.wrapper.*;
 public interface PacketC2sWindowClose extends Packet
 {
     WrapperFactory<PacketC2sWindowClose> FACTORY = WrapperFactory.of(PacketC2sWindowClose.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sWindowClose create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sWindowClose.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor({ @VersionName(name = "id", end = 1604), @VersionName(name = "syncId", begin = 1604) })
     int getSyncId();
     @WrapMinecraftFieldAccessor({ @VersionName(name = "id", end = 1604), @VersionName(name = "syncId", begin = 1604) })
@@ -48,3 +43,4 @@ public interface PacketC2sWindowClose extends Packet
     @WrapConstructor
     PacketC2sWindowClose static$newInstanceV1700(int syncId);
 }
+

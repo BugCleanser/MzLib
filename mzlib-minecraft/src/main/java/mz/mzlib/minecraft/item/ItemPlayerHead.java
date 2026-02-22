@@ -12,9 +12,7 @@ import mz.mzlib.minecraft.nbt.NbtUtil;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Predicate;
 
@@ -25,13 +23,6 @@ import java.util.function.Predicate;
 public interface ItemPlayerHead extends Item
 {
     WrapperFactory<ItemPlayerHead> FACTORY = WrapperFactory.of(ItemPlayerHead.class);
-    @Deprecated
-    @WrapperCreator
-    static ItemPlayerHead create(Object wrapped)
-    {
-        return WrapperObject.create(ItemPlayerHead.class, wrapped);
-    }
-
     Item PLAYER_HEAD_V1300 = MinecraftPlatform.instance.getVersion() < 1300 ? null : Item.fromId("player_head");
 
     DataKey<ItemStack, Option<GameProfile.Description>, Void> OWNER = new DataKey<>("owner");
@@ -116,3 +107,4 @@ public interface ItemPlayerHead extends Item
         return GameProfile.Description.urlToTextures(url);
     }
 }
+

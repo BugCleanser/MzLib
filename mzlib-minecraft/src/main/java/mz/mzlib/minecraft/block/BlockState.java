@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.block;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -10,10 +9,4 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface BlockState extends WrapperObject
 {
     WrapperFactory<BlockState> FACTORY = WrapperFactory.of(BlockState.class);
-    @Deprecated
-    @WrapperCreator
-    static BlockState create(Object wrapped)
-    {
-        return WrapperObject.create(BlockState.class, wrapped);
-    }
 }

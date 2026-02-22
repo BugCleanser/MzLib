@@ -5,9 +5,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.class_4388", begin = 1300, end = 1400),
@@ -17,13 +15,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface PacketC2sWindowAnvilNameV1300 extends Packet
 {
     WrapperFactory<PacketC2sWindowAnvilNameV1300> FACTORY = WrapperFactory.of(PacketC2sWindowAnvilNameV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sWindowAnvilNameV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sWindowAnvilNameV1300.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_21591", end = 1400),
         @VersionName(name = "itemName", begin = 1400, end = 1600),
@@ -46,3 +37,4 @@ public interface PacketC2sWindowAnvilNameV1300 extends Packet
     @WrapConstructor
     PacketC2sWindowAnvilNameV1300 static$newInstance(String name);
 }
+

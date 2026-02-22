@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.util.wrapper.WrapMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -14,13 +13,7 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CraftServer extends WrapperObject
 {
     WrapperFactory<CraftServer> FACTORY = WrapperFactory.of(CraftServer.class);
-    @Deprecated
-    @WrapperCreator
-    static CraftServer create(Object wrapped)
-    {
-        return WrapperObject.create(CraftServer.class, wrapped);
-    }
-
     @WrapMethod("getServer")
     MinecraftServer getServer();
 }
+

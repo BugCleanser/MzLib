@@ -666,25 +666,6 @@ public class WrapperClassInfo
                 }
                 throw e;
             }
-
-            cn = new ClassNode();
-            new ClassReader(ClassUtil.getByteCode(wrapperClass)).accept(cn, 0);
-            for(Method m : wrapperClass.getDeclaredMethods())
-            {
-                //noinspection deprecation
-                if(!m.isAnnotationPresent(WrapperCreator.class))
-                    continue;
-                mn = AsmUtil.getMethodNode(cn, m.getName(), AsmUtil.getDesc(m));
-                mn.instructions = new InsnList();
-                mn.instructions.add(AsmUtil.insnVarLoad(Object.class, 0));
-                mn.instructions.add(AsmUtil.insnCreateWrapper(wrapperClass));
-                mn.instructions.add(AsmUtil.insnCast(m.getReturnType(), wrapperClass));
-                mn.instructions.add(AsmUtil.insnReturn(m.getReturnType()));
-                mn.visitEnd();
-            }
-            cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-            cn.accept(cw);
-            ClassUtil.defineClass(wrapperClass.getClassLoader(), cn.name, cw.toByteArray());
         }
         catch(Throwable e)
         {

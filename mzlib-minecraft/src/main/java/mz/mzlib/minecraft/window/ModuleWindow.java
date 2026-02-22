@@ -10,9 +10,7 @@ import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 import mz.mzlib.util.wrapper.basic.WrapperBoolean;
 import mz.mzlib.util.wrapper.basic.WrapperString;
 import mz.mzlib.util.wrapper.basic.Wrapper_int;
@@ -53,12 +51,6 @@ public class ModuleWindow extends MzModule
     public interface NothingWindow extends Window, Nothing
     {
         WrapperFactory<NothingWindow> FACTORY = WrapperFactory.of(NothingWindow.class);
-        @Deprecated
-        @WrapperCreator
-        static NothingWindow create(Object wrapped)
-        {
-            return WrapperObject.create(NothingWindow.class, wrapped);
-        }
 
         @NothingInject(wrapperMethodName = "placeIn", wrapperMethodParams = {
             ItemStack.class,

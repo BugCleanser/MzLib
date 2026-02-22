@@ -10,7 +10,6 @@ import mz.mzlib.minecraft.window.WindowTypeV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -22,13 +21,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface RegistriesV1300 extends WrapperObject
 {
     WrapperFactory<RegistriesV1300> FACTORY = WrapperFactory.of(RegistriesV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static RegistriesV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(RegistriesV1300.class, wrapped);
-    }
-
     static Registry<Item> item()
     {
         return FACTORY.getStatic().static$item();
@@ -87,3 +79,4 @@ public interface RegistriesV1300 extends WrapperObject
     })
     Registry<BlockEntityTypeV1300> static$blockEntityType();
 }
+

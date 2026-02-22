@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -43,25 +42,12 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
     interface class_7863 extends WrapperObject
     {
         WrapperFactory<class_7863> FACTORY = WrapperFactory.of(class_7863.class);
-        @Deprecated
-        @WrapperCreator
-        static class_7863 create(Object wrapped)
-        {
-            return WrapperObject.create(class_7863.class, wrapped);
         }
-    }
 
     @WrapMinecraftInnerClass(outer = DynamicOpsWithRegistriesV1903.class, name = @VersionName(name = "CachedRegistryInfoGetter", begin = 2005))
     interface class_9683V2005 extends WrapperObject, class_7863
     {
         WrapperFactory<class_9683V2005> FACTORY = WrapperFactory.of(class_9683V2005.class);
-        @Deprecated
-        @WrapperCreator
-        static class_9683V2005 create(Object wrapped)
-        {
-            return WrapperObject.create(class_9683V2005.class, wrapped);
-        }
-
         static class_9683V2005 newInstance(RegistryWrapperV1903.class_7874 registries)
         {
             return class_9683V2005.FACTORY.getStatic().static$newInstance(registries);
@@ -70,3 +56,4 @@ public interface DynamicOpsWithRegistriesV1903<T> extends WrapperObject, Dynamic
         class_9683V2005 static$newInstance(RegistryWrapperV1903.class_7874 registries);
     }
 }
+

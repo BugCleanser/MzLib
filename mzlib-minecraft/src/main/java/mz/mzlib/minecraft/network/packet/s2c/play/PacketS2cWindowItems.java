@@ -9,7 +9,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,13 +20,6 @@ import java.util.List;
 public interface PacketS2cWindowItems extends Packet
 {
     WrapperFactory<PacketS2cWindowItems> FACTORY = WrapperFactory.of(PacketS2cWindowItems.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cWindowItems create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cWindowItems.class, wrapped);
-    }
-
     /**
      * nameV_1400: screenId
      * nameV1400_1600: guiId
@@ -121,3 +116,4 @@ public interface PacketS2cWindowItems extends Packet
     @WrapConstructor
     PacketS2cWindowItems static$newInstanceV2105(int syncId, int revision, List<Object> contents, ItemStack cursor);
 }
+

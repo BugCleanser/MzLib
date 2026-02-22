@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.bukkit.entity;
 
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.util.wrapper.WrapClassForName;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -11,10 +10,5 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface BukkitHumanEntity extends WrapperObject
 {
     WrapperFactory<BukkitHumanEntity> FACTORY = WrapperFactory.of(BukkitHumanEntity.class);
-    @Deprecated
-    @WrapperCreator
-    static BukkitHumanEntity create(Object wrapped)
-    {
-        return WrapperObject.create(BukkitHumanEntity.class, wrapped);
     }
-}
+

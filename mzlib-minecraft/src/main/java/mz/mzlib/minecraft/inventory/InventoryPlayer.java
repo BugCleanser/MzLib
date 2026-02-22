@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,13 +12,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface InventoryPlayer extends WrapperObject, Inventory
 {
     WrapperFactory<InventoryPlayer> FACTORY = WrapperFactory.of(InventoryPlayer.class);
-    @Deprecated
-    @WrapperCreator
-    static InventoryPlayer create(Object wrapped)
-    {
-        return WrapperObject.create(InventoryPlayer.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "player"))
     EntityPlayerAbstract getPlayer();
 
@@ -31,3 +23,4 @@ public interface InventoryPlayer extends WrapperObject, Inventory
         return this.getItemStack(this.getHandIndex());
     }
 }
+

@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,12 +12,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtUtil extends WrapperObject
 {
     WrapperFactory<NbtUtil> FACTORY = WrapperFactory.of(NbtUtil.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtUtil create(Object wrapped)
-    {
-        return WrapperObject.create(NbtUtil.class, wrapped);
-    }
 
     static GameProfile decodeGameProfileV_2005(NbtCompound nbt)
     {

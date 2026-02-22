@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -17,13 +16,6 @@ import java.util.List;
 public interface LoreComponentV2005 extends WrapperObject
 {
     WrapperFactory<LoreComponentV2005> FACTORY = WrapperFactory.of(LoreComponentV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static LoreComponentV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(LoreComponentV2005.class, wrapped);
-    }
-
     static LoreComponentV2005 newInstance(List<Text> lines)
     {
         return FACTORY.getStatic().static$newInstance(lines);
@@ -43,3 +35,4 @@ public interface LoreComponentV2005 extends WrapperObject
         return new ListProxy<>(this.getLines0(), FunctionInvertible.wrapper(Text.FACTORY));
     }
 }
+

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.command;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -14,10 +13,5 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface RconConsole extends WrapperObject, CommandOutput
 {
     WrapperFactory<RconConsole> FACTORY = WrapperFactory.of(RconConsole.class);
-    @Deprecated
-    @WrapperCreator
-    static RconConsole create(Object wrapped)
-    {
-        return WrapperObject.create(RconConsole.class, wrapped);
     }
-}
+

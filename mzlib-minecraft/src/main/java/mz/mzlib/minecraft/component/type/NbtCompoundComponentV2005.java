@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,13 +12,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtCompoundComponentV2005 extends WrapperObject
 {
     WrapperFactory<NbtCompoundComponentV2005> FACTORY = WrapperFactory.of(NbtCompoundComponentV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtCompoundComponentV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(NbtCompoundComponentV2005.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "nbt"))
     NbtCompound getNbtCompound();
 
@@ -30,3 +22,4 @@ public interface NbtCompoundComponentV2005 extends WrapperObject
         return FACTORY.getStatic().static$newInstance(nbtCompound);
     }
 }
+

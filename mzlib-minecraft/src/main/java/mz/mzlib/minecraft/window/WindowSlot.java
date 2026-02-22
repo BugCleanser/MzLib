@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.inventory.slot.Slot", end = 1400),
@@ -18,12 +21,6 @@ import mz.mzlib.util.wrapper.*;
 public interface WindowSlot extends WrapperObject
 {
     WrapperFactory<WindowSlot> FACTORY = WrapperFactory.of(WindowSlot.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowSlot create(Object wrapped)
-    {
-        return WrapperObject.create(WindowSlot.class, wrapped);
-    }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "inventory"))
     Inventory getInventory();

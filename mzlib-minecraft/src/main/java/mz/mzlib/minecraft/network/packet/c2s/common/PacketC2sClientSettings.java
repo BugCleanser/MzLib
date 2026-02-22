@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,13 +20,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface PacketC2sClientSettings extends WrapperObject, Packet
 {
     WrapperFactory<PacketC2sClientSettings> FACTORY = WrapperFactory.of(PacketC2sClientSettings.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sClientSettings create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sClientSettings.class, wrapped);
-    }
-
     @VersionRange(begin = 2002)
     @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1963"))
     DataV2002 getDataV2002();
@@ -53,14 +45,8 @@ public interface PacketC2sClientSettings extends WrapperObject, Packet
     interface DataV2002 extends WrapperObject
     {
         WrapperFactory<DataV2002> FACTORY = WrapperFactory.of(DataV2002.class);
-        @Deprecated
-        @WrapperCreator
-        static DataV2002 create(Object wrapped)
-        {
-            return WrapperObject.create(DataV2002.class, wrapped);
-        }
-
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1951"))
         String getLanguage();
     }
 }
+

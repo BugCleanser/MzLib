@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 /**
  * It's immutable since 1.16
@@ -21,13 +24,6 @@ import mz.mzlib.util.wrapper.*;
 public interface TextStyle extends WrapperObject
 {
     WrapperFactory<TextStyle> FACTORY = WrapperFactory.of(TextStyle.class);
-    @Deprecated
-    @WrapperCreator
-    static TextStyle create(Object wrapped)
-    {
-        return WrapperObject.create(TextStyle.class, wrapped);
-    }
-
     static TextStyle rootV_1600()
     {
         return FACTORY.getStatic().static$rootV_1600();
@@ -455,3 +451,4 @@ public interface TextStyle extends WrapperObject
         return sb.toString();
     }
 }
+

@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -12,13 +11,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface EncoderV1600<T> extends WrapperObject
 {
     WrapperFactory<WrapperObject> FACTORY = WrapperFactory.of(WrapperObject.class);
-    @Deprecated
-    @WrapperCreator
-    static WrapperObject create(Object wrapped)
-    {
-        return WrapperObject.create(WrapperObject.class, wrapped);
-    }
-
     @WrapMinecraftMethod(@VersionName(name = "encodeStart"))
     <D> DataResultV1600<D> encodeStart(DynamicOpsV1300<D> ops, T object);
     default <D extends WrapperObject> DataResultV1600.Wrapper<D> encodeStart(DynamicOpsV1300.Wrapper<D> ops, T object)
@@ -57,3 +49,4 @@ public interface EncoderV1600<T> extends WrapperObject
         }
     }
 }
+

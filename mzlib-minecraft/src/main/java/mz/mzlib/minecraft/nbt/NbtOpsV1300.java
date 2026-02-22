@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.incomprehensible.registry.DynamicOpsWithRegistriesV190
 import mz.mzlib.minecraft.serialization.DynamicOpsV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -22,12 +21,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtOpsV1300 extends WrapperObject, DynamicOpsV1300<Object>
 {
     WrapperFactory<NbtOpsV1300> FACTORY = WrapperFactory.of(NbtOpsV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtOpsV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(NbtOpsV1300.class, wrapped);
-    }
 
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_21487", end = 1400),

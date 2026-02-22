@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,13 +17,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface PacketC2sCustom extends WrapperObject, Packet
 {
     WrapperFactory<PacketC2sCustom> FACTORY = WrapperFactory.of(PacketC2sCustom.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sCustom create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sCustom.class, wrapped);
-    }
-
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "channel"))
     String getChannelV_1300();
@@ -43,3 +35,4 @@ public interface PacketC2sCustom extends WrapperObject, Packet
         throw new UnsupportedOperationException();
     }
 }
+

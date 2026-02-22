@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.recipe.input.RecipeInputCraftingV2100;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapInnerClass;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(name = "net.minecraft.recipe.RecipeType", end = 1400),

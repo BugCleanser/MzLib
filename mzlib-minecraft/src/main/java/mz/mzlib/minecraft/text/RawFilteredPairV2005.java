@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,13 +14,6 @@ import java.util.Optional;
 public interface RawFilteredPairV2005 extends WrapperObject
 {
     WrapperFactory<RawFilteredPairV2005> FACTORY = WrapperFactory.of(RawFilteredPairV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static RawFilteredPairV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(RawFilteredPairV2005.class, wrapped);
-    }
-
     static RawFilteredPairV2005 newInstance(WrapperObject raw, Option<? extends WrapperObject> filtered)
     {
         return newInstance0(raw.getWrapped(), filtered.mapNullable(WrapperObject::getWrapped).toOptional());
@@ -44,3 +36,4 @@ public interface RawFilteredPairV2005 extends WrapperObject
         return factory.create(this.get0(shouldFilter));
     }
 }
+

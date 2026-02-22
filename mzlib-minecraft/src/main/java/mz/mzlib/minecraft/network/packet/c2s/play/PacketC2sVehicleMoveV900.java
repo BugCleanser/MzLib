@@ -6,22 +6,13 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @VersionRange(begin = 900)
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket"))
 public interface PacketC2sVehicleMoveV900 extends Packet
 {
     WrapperFactory<PacketC2sVehicleMoveV900> FACTORY = WrapperFactory.of(PacketC2sVehicleMoveV900.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketC2sVehicleMoveV900 create(Object wrapped)
-    {
-        return WrapperObject.create(PacketC2sVehicleMoveV900.class, wrapped);
-    }
-
     @VersionRange(end = 2104)
     @WrapMinecraftFieldAccessor(@VersionName(name = "x"))
     double getXV_2104();
@@ -70,3 +61,4 @@ public interface PacketC2sVehicleMoveV900 extends Packet
         this.setZV_2104(value.getZ());
     }
 }
+

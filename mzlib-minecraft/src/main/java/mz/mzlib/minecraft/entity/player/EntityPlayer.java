@@ -13,7 +13,9 @@ import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.entity.player.ServerPlayerEntity"),
@@ -22,13 +24,6 @@ import mz.mzlib.util.wrapper.*;
 public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
 {
     WrapperFactory<EntityPlayer> FACTORY = WrapperFactory.of(EntityPlayer.class);
-    @Deprecated
-    @WrapperCreator
-    static EntityPlayer create(Object wrapped)
-    {
-        return WrapperObject.create(EntityPlayer.class, wrapped);
-    }
-
     default Player toPlayer()
     {
         return Player.of(this.getUuid());
@@ -160,3 +155,4 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     })
     void sendMessageV1300_1600(Text message, MessageTypeV1200_1900 type);
 }
+

@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,13 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface ServerCommonNetworkHandlerV2002 extends WrapperObject, MinecraftPacketListener
 {
     WrapperFactory<ServerCommonNetworkHandlerV2002> FACTORY = WrapperFactory.of(ServerCommonNetworkHandlerV2002.class);
-    @Deprecated
-    @WrapperCreator
-    static ServerCommonNetworkHandlerV2002 create(Object wrapped)
-    {
-        return WrapperObject.create(ServerCommonNetworkHandlerV2002.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "connection"))
     ClientConnection getConnection();
 
@@ -35,3 +27,4 @@ public interface ServerCommonNetworkHandlerV2002 extends WrapperObject, Minecraf
     @WrapMinecraftMethod(@VersionName(name = "sendPacket"))
     void sendPacket(Packet packet);
 }
+

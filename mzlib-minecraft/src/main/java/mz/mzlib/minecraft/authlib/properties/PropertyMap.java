@@ -7,7 +7,10 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
 
@@ -15,13 +18,6 @@ import java.util.Map;
 public interface PropertyMap extends WrapperObject
 {
     WrapperFactory<PropertyMap> FACTORY = WrapperFactory.of(PropertyMap.class);
-    @Deprecated
-    @WrapperCreator
-    static PropertyMap create(Object wrapped)
-    {
-        return WrapperObject.create(PropertyMap.class, wrapped);
-    }
-
     @Override
     Multimap<String, ?> getWrapped();
 
@@ -86,3 +82,4 @@ public interface PropertyMap extends WrapperObject
         this.putV_2109(key, value, Option.none());
     }
 }
+

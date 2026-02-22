@@ -15,7 +15,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -26,13 +25,6 @@ import java.util.UUID;
 public interface Entity extends WrapperObject
 {
     WrapperFactory<Entity> FACTORY = WrapperFactory.of(Entity.class);
-    @Deprecated
-    @WrapperCreator
-    static Entity create(Object wrapped)
-    {
-        return WrapperObject.create(Entity.class, wrapped);
-    }
-
     /**
      * typeV_1300: {@link String}
      * typeV1300: {@link Optional<mz.mzlib.minecraft.text.Text>}
@@ -157,3 +149,4 @@ public interface Entity extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "z", end = 1600))
     void setZV_1600(double value);
 }
+

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.component;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -10,10 +9,5 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface ComponentKeysV2005 extends WrapperObject
 {
     WrapperFactory<ComponentKeysV2005> FACTORY = WrapperFactory.of(ComponentKeysV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static ComponentKeysV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(ComponentKeysV2005.class, wrapped);
     }
-}
+

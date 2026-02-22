@@ -1,12 +1,12 @@
 package mz.mzlib.minecraft;
 
-import org.jetbrains.annotations.NotNull;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.NotNull;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.util.Identifier"))
 public interface Identifier extends WrapperObject, Comparable<Identifier>

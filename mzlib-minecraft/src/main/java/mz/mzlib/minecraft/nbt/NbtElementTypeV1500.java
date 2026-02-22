@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,12 +17,6 @@ import java.io.DataInput;
 public interface NbtElementTypeV1500 extends WrapperObject
 {
     WrapperFactory<NbtElementTypeV1500> FACTORY = WrapperFactory.of(NbtElementTypeV1500.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtElementTypeV1500 create(Object wrapped)
-    {
-        return WrapperObject.create(NbtElementTypeV1500.class, wrapped);
-    }
 
     NbtElement load(DataInput input, NbtSizeTracker counter);
     @WrapMinecraftMethod(@VersionName(name = "read", end = 2002))

@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.Function;
 
@@ -16,12 +19,6 @@ import java.util.function.Function;
 public interface EntityDataTracker extends WrapperObject
 {
     WrapperFactory<EntityDataTracker> FACTORY = WrapperFactory.of(EntityDataTracker.class);
-    @Deprecated
-    @WrapperCreator
-    static EntityDataTracker create(Object wrapped)
-    {
-        return WrapperObject.create(EntityDataTracker.class, wrapped);
-    }
 
     static EntityDataTracker newInstanceV_1903(Entity entity)
     {
@@ -39,12 +36,6 @@ public interface EntityDataTracker extends WrapperObject
     interface Entry extends WrapperObject, PacketS2cEntityData.Entry
     {
         WrapperFactory<Entry> FACTORY = WrapperFactory.of(Entry.class);
-        @Deprecated
-        @WrapperCreator
-        static Entry create(Object wrapped)
-        {
-            return WrapperObject.create(Entry.class, wrapped);
-        }
 
         @VersionRange(end = 900)
         @WrapMinecraftFieldAccessor(@VersionName(name = "valueType"))
@@ -124,12 +115,6 @@ public interface EntityDataTracker extends WrapperObject
     interface EntityDataV1903 extends WrapperObject, PacketS2cEntityData.Entry
     {
         WrapperFactory<EntityDataV1903> FACTORY = WrapperFactory.of(EntityDataV1903.class);
-        @Deprecated
-        @WrapperCreator
-        static EntityDataV1903 create(Object wrapped)
-        {
-            return WrapperObject.create(EntityDataV1903.class, wrapped);
-        }
 
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1115"))
         int getIndex();

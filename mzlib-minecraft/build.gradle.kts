@@ -40,7 +40,9 @@ dependencies {
     compileOnly("io.netty:netty-all:4.1.76.Final")
     compileOnly("net.luckperms:api:5.4")
     compileOnly("it.unimi.dsi:fastutil:7.1.0")
-    compileOnly("com.mojang:datafixerupper:4.0.26")
+    compileOnly("com.mojang:datafixerupper:4.0.26") {
+        exclude("com.google.code.findbugs", "jsr305")
+    }
 }
 
 tasks.shadowJar {

@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -14,13 +13,6 @@ public interface NetworkConfigurationSidedPacketManagersV2005 extends WrapperObj
 {
     WrapperFactory<NetworkConfigurationSidedPacketManagersV2005> FACTORY = WrapperFactory.of(
         NetworkConfigurationSidedPacketManagersV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static NetworkConfigurationSidedPacketManagersV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(NetworkConfigurationSidedPacketManagersV2005.class, wrapped);
-    }
-
     static NetworkPhaseSidedPacketManagerV2005 c2s()
     {
         return FACTORY.getStatic().static$c2s();
@@ -35,3 +27,4 @@ public interface NetworkConfigurationSidedPacketManagersV2005 extends WrapperObj
     @WrapMinecraftFieldAccessor(@VersionName(name = "S2C"))
     NetworkPhaseSidedPacketManagerV2005 static$s2c();
 }
+

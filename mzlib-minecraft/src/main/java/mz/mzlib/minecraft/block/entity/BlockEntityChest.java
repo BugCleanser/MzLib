@@ -6,18 +6,15 @@ import mz.mzlib.minecraft.block.BlockState;
 import mz.mzlib.minecraft.util.math.BlockPos;
 import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.block.entity.ChestBlockEntity"))
 public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFactory
 {
     WrapperFactory<BlockEntityChest> FACTORY = WrapperFactory.of(BlockEntityChest.class);
-    @Deprecated
-    @WrapperCreator
-    static BlockEntityChest create(Object wrapped)
-    {
-        return WrapperObject.create(BlockEntityChest.class, wrapped);
-    }
 
     BlockEntityChest static$newInstance(BlockPos pos, BlockState state);
     @VersionRange(end = 1700)

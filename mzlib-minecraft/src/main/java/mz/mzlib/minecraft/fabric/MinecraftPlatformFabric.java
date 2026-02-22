@@ -3,7 +3,8 @@ package mz.mzlib.minecraft.fabric;
 import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MzLibMinecraft;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.minecraft.mappings.*;
+import mz.mzlib.minecraft.mappings.Mappings;
+import mz.mzlib.minecraft.mappings.MinecraftMappingsFetcherYarn;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;

@@ -10,9 +10,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.MapInvertible;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.UUID;
 
@@ -20,13 +18,6 @@ import java.util.UUID;
 public interface PacketS2cEntitySpawn extends Packet
 {
     WrapperFactory<PacketS2cEntitySpawn> FACTORY = WrapperFactory.of(PacketS2cEntitySpawn.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cEntitySpawn create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cEntitySpawn.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "id", end = 2100),
         @VersionName(name = "entityId", begin = 2100)
@@ -138,3 +129,4 @@ public interface PacketS2cEntitySpawn extends Packet
         }
     }
 }
+

@@ -19,9 +19,7 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Ref;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +30,6 @@ import java.util.function.Predicate;
 public interface ItemWrittenBook extends Item
 {
     WrapperFactory<ItemWrittenBook> FACTORY = WrapperFactory.of(ItemWrittenBook.class);
-    @Deprecated
-    @WrapperCreator
-    static ItemWrittenBook create(Object wrapped)
-    {
-        return WrapperObject.create(ItemWrittenBook.class, wrapped);
-    }
-
     Item WRITTEN_BOOK = Item.fromId("written_book");
 
     int MAX_PAGE_LINES = 14;
@@ -323,3 +314,4 @@ public interface ItemWrittenBook extends Item
         RESOLVED.set(book, resolved);
     }
 }
+

@@ -2,7 +2,6 @@ package mz.mzlib.minecraft.command;
 
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -10,10 +9,5 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CommandBlockExecutor extends WrapperObject, CommandOutput
 {
     WrapperFactory<CommandBlockExecutor> FACTORY = WrapperFactory.of(CommandBlockExecutor.class);
-    @Deprecated
-    @WrapperCreator
-    static CommandBlockExecutor create(Object wrapped)
-    {
-        return WrapperObject.create(CommandBlockExecutor.class, wrapped);
     }
-}
+

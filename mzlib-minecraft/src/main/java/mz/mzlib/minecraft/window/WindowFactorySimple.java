@@ -9,9 +9,7 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.PropAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -20,12 +18,6 @@ import java.util.function.Consumer;
 public interface WindowFactorySimple extends WindowFactory
 {
     WrapperFactory<WindowFactorySimple> FACTORY = WrapperFactory.of(WindowFactorySimple.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowFactorySimple create(Object wrapped)
-    {
-        return WrapperObject.create(WindowFactorySimple.class, wrapped);
-    }
 
     @WrapConstructor
     WindowFactorySimple static$newInstance();

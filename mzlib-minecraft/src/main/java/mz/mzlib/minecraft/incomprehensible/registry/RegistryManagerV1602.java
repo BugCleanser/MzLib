@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.incomprehensible.registry;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,22 +14,10 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface RegistryManagerV1602 extends WrapperObject
 {
     WrapperFactory<RegistryManagerV1602> FACTORY = WrapperFactory.of(RegistryManagerV1602.class);
-    @Deprecated
-    @WrapperCreator
-    static RegistryManagerV1602 create(Object wrapped)
-    {
-        return WrapperObject.create(RegistryManagerV1602.class, wrapped);
-    }
-
     @WrapMinecraftInnerClass(outer = RegistryManagerV1602.class, name = @VersionName(name = "Immutable", begin = 1802))
     interface Immutable extends RegistryManagerV1602
     {
         WrapperFactory<Immutable> FACTORY = WrapperFactory.of(Immutable.class);
-        @Deprecated
-        @WrapperCreator
-        static Immutable create(Object wrapped)
-        {
-            return WrapperObject.create(Immutable.class, wrapped);
         }
-    }
 }
+

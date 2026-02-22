@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,13 +19,6 @@ public interface WrittenBookContentComponentV2005 extends WrapperObject
 {
     WrapperFactory<WrittenBookContentComponentV2005> FACTORY = WrapperFactory.of(
         WrittenBookContentComponentV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static WrittenBookContentComponentV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(WrittenBookContentComponentV2005.class, wrapped);
-    }
-
     static WrittenBookContentComponentV2005 def()
     {
         return FACTORY.getStatic().static$def();
@@ -120,3 +112,4 @@ public interface WrittenBookContentComponentV2005 extends WrapperObject
         return newInstance0(this.getTitle0(), this.getAuthor(), this.getGeneration(), this.getPages0(), resolved);
     }
 }
+

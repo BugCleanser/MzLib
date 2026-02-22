@@ -12,13 +12,6 @@ import org.bukkit.command.CommandSender;
 public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockExecutor
 {
     WrapperFactory<CommandBlockExecutorBukkit> FACTORY = WrapperFactory.of(CommandBlockExecutorBukkit.class);
-    @Deprecated
-    @WrapperCreator
-    static CommandBlockExecutorBukkit create(Object wrapped)
-    {
-        return WrapperObject.create(CommandBlockExecutorBukkit.class, wrapped);
-    }
-
     @VersionRange(begin = 1200, end = 1300)
     static CommandSender commandSourceToBukkitV1200_1300(CommandSource source)
     {
@@ -32,3 +25,4 @@ public interface CommandBlockExecutorBukkit extends WrapperObject, CommandBlockE
     @WrapFieldAccessor("sender")
     CommandSender getBukkitSenderV_1300();
 }
+

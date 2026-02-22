@@ -14,7 +14,9 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.MapProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.io.DataInput;
 import java.util.Map;
@@ -30,12 +32,6 @@ import java.util.function.Supplier;
 public interface NbtCompound extends NbtElement
 {
     WrapperFactory<NbtCompound> FACTORY = WrapperFactory.of(NbtCompound.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtCompound create(Object wrapped)
-    {
-        return WrapperObject.create(NbtCompound.class, wrapped);
-    }
 
     int TYPE_ID = newInstance().getTypeId();
     NbtElementTypeV1500 TYPE_V1500 =

@@ -7,9 +7,7 @@ import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(
     {
@@ -20,13 +18,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface PacketS2cWindowSlotUpdate extends Packet
 {
     WrapperFactory<PacketS2cWindowSlotUpdate> FACTORY = WrapperFactory.of(PacketS2cWindowSlotUpdate.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cWindowSlotUpdate create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cWindowSlotUpdate.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "syncId", end = 1500),
         @VersionName(name = "id", begin = 1500, end = 1502),
@@ -60,3 +51,4 @@ public interface PacketS2cWindowSlotUpdate extends Packet
     @VersionRange(begin = 1701)
     PacketS2cWindowSlotUpdate static$newInstanceV1701(int syncId, int revision, int slot, ItemStack itemStack);
 }
+

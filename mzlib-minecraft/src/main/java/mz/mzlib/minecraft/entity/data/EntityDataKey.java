@@ -5,7 +5,10 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Objects;
 
@@ -16,12 +19,6 @@ import java.util.Objects;
 public interface EntityDataKey<T> extends WrapperObject
 {
     WrapperFactory<EntityDataKey<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(EntityDataKey.class));
-    @Deprecated
-    @WrapperCreator
-    static EntityDataKey<?> create(Object wrapped)
-    {
-        return WrapperObject.create(EntityDataKey.class, wrapped);
-    }
 
     int getIndex();
 

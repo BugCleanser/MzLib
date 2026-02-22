@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -14,13 +13,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface TextColorV1600 extends WrapperObject
 {
     WrapperFactory<TextColorV1600> FACTORY = WrapperFactory.of(TextColorV1600.class);
-    @Deprecated
-    @WrapperCreator
-    static TextColorV1600 create(Object wrapped)
-    {
-        return WrapperObject.create(TextColorV1600.class, wrapped);
-    }
-
     static TextColorV1600 fromRgb(int rgb)
     {
         return FACTORY.getStatic().static$fromRgb(rgb);
@@ -38,3 +30,4 @@ public interface TextColorV1600 extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "fromFormatting"))
     TextColorV1600 static$fromLegacy(TextFormatLegacy format);
 }
+

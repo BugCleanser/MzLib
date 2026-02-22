@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,13 +19,6 @@ import java.util.UUID;
 public interface CommandOutput extends WrapperObject
 {
     WrapperFactory<CommandOutput> FACTORY = WrapperFactory.of(CommandOutput.class);
-    @Deprecated
-    @WrapperCreator
-    static CommandOutput create(Object wrapped)
-    {
-        return WrapperObject.create(CommandOutput.class, wrapped);
-    }
-
     void sendMessage(Text msg);
 
     @SpecificImpl("sendMessage")
@@ -50,3 +42,4 @@ public interface CommandOutput extends WrapperObject
         sendMessageV1600_1900(msg, new UUID(0L, 0L));
     }
 }
+

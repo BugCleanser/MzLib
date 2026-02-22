@@ -4,9 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.nbt.NbtShort"),
@@ -16,12 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtShort extends NbtElement
 {
     WrapperFactory<NbtShort> FACTORY = WrapperFactory.of(NbtShort.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtShort create(Object wrapped)
-    {
-        return WrapperObject.create(NbtShort.class, wrapped);
-    }
 
     @WrapConstructor
     NbtShort static$newInstance(short value);

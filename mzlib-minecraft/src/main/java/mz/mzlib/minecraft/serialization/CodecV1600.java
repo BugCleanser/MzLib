@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.serialization;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -11,12 +10,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CodecV1600<T> extends WrapperObject, EncoderV1600<T>, DecoderV1600<T>
 {
     WrapperFactory<CodecV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(CodecV1600.class));
-    @Deprecated
-    @WrapperCreator
-    static CodecV1600<?> create(Object wrapped)
-    {
-        return WrapperObject.create(CodecV1600.class, wrapped);
-    }
 
     interface IWrapper<T extends WrapperObject> extends EncoderV1600.IWrapper<T>, DecoderV1600.IWrapper<T>
     {
@@ -47,3 +40,5 @@ public interface CodecV1600<T> extends WrapperObject, EncoderV1600<T>, DecoderV1
         }
     }
 }
+
+

@@ -8,7 +8,10 @@ import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.command.RconConsole;
 import mz.mzlib.minecraft.entity.Entity;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapSameClass;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
@@ -17,13 +20,6 @@ import org.bukkit.command.CommandSender;
 public interface CommandSourceBukkit extends CommandSource
 {
     WrapperFactory<CommandSourceBukkit> FACTORY = WrapperFactory.of(CommandSourceBukkit.class);
-    @Deprecated
-    @WrapperCreator
-    static CommandSourceBukkit create(Object wrapped)
-    {
-        return WrapperObject.create(CommandSourceBukkit.class, wrapped);
-    }
-
     CommandSender getBukkitSender();
 
     @SpecificImpl("getBukkitSender")
@@ -55,3 +51,4 @@ public interface CommandSourceBukkit extends CommandSource
     @WrapMethod("getBukkitSender")
     CommandSender getBukkitSenderV1300();
 }
+

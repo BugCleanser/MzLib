@@ -11,7 +11,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -19,13 +18,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacketListener
 {
     WrapperFactory<ServerPlayNetworkHandler> FACTORY = WrapperFactory.of(ServerPlayNetworkHandler.class);
-    @Deprecated
-    @WrapperCreator
-    static ServerPlayNetworkHandler create(Object wrapped)
-    {
-        return WrapperObject.create(ServerPlayNetworkHandler.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "player"))
     EntityPlayer getPlayer();
 
@@ -69,3 +61,4 @@ public interface ServerPlayNetworkHandler extends WrapperObject, MinecraftPacket
         this.sendPacketV1901_2002(packet, PacketCallbacksV1901.FACTORY.getStatic());
     }
 }
+

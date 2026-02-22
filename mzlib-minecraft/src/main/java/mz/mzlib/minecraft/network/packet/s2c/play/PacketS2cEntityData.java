@@ -14,7 +14,9 @@ import mz.mzlib.util.Box;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -25,13 +27,6 @@ import java.util.function.BiConsumer;
 public interface PacketS2cEntityData extends Packet, EntityDataHolder
 {
     WrapperFactory<PacketS2cEntityData> FACTORY = WrapperFactory.of(PacketS2cEntityData.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cEntityData create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cEntityData.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
     int getEntityId();
 
@@ -174,3 +169,4 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
         return Option.fromNullable(result.get());
     }
 }
+

@@ -4,9 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass({
     @VersionName(end = 1400, name = "net.minecraft.nbt.NbtIntArray"),
@@ -16,12 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface NbtIntArray extends NbtElement
 {
     WrapperFactory<NbtIntArray> FACTORY = WrapperFactory.of(NbtIntArray.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtIntArray create(Object wrapped)
-    {
-        return WrapperObject.create(NbtIntArray.class, wrapped);
-    }
 
     @WrapConstructor
     NbtIntArray static$newInstance(int[] value);

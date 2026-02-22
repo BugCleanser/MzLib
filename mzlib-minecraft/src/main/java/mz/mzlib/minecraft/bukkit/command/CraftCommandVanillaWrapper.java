@@ -7,7 +7,10 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 import org.bukkit.command.CommandSender;
 
 @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
@@ -15,15 +18,8 @@ import org.bukkit.command.CommandSender;
 public interface CraftCommandVanillaWrapper extends WrapperObject
 {
     WrapperFactory<CraftCommandVanillaWrapper> FACTORY = WrapperFactory.of(CraftCommandVanillaWrapper.class);
-    @Deprecated
-    @WrapperCreator
-    static CraftCommandVanillaWrapper create(Object wrapped)
-    {
-        return WrapperObject.create(CraftCommandVanillaWrapper.class, wrapped);
-    }
-
     CraftCommandVanillaWrapper unsafe = RuntimeUtil.sneakilyRun(
-        () -> create(Unsafe.getUnsafe().allocateInstance(FACTORY.getStatic().static$getWrappedClass())));
+        () -> FACTORY.create(Unsafe.getUnsafe().allocateInstance(FACTORY.getStatic().static$getWrappedClass())));
 
     static CommandSource toCommandSource(CommandSender object)
     {
@@ -48,3 +44,4 @@ public interface CraftCommandVanillaWrapper extends WrapperObject
     @WrapMethod("getListener")
     CommandSource static$toCommandSourceV1300(CommandSender object);
 }
+

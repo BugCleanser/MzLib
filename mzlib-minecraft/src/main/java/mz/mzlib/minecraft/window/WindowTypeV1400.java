@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,12 +17,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface WindowTypeV1400 extends WrapperObject
 {
     WrapperFactory<WindowTypeV1400> FACTORY = WrapperFactory.of(WindowTypeV1400.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowTypeV1400 create(Object wrapped)
-    {
-        return WrapperObject.create(WindowTypeV1400.class, wrapped);
-    }
 
     static Registry getRegistry()
     {

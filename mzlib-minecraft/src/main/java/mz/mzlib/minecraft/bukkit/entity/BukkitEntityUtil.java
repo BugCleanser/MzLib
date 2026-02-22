@@ -6,11 +6,11 @@ public class BukkitEntityUtil
 {
     public static org.bukkit.entity.Entity toBukkit(Entity entity)
     {
-        return EntityBukkit.create(entity.getWrapped()).getBukkitEntity().getWrapped();
+        return EntityBukkit.FACTORY.create(entity.getWrapped()).getBukkitEntity().getWrapped();
     }
 
     public static Entity fromBukkit(org.bukkit.entity.Entity entity)
     {
-        return CraftEntity.create(entity).getHandle();
+        return CraftEntity.FACTORY.create(entity).getHandle();
     }
 }

@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.math.Quaternion;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -13,13 +12,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface Vec3d extends WrapperObject
 {
     WrapperFactory<Vec3d> FACTORY = WrapperFactory.of(Vec3d.class);
-    @Deprecated
-    @WrapperCreator
-    static Vec3d create(Object wrapped)
-    {
-        return WrapperObject.create(Vec3d.class, wrapped);
-    }
-
     @WrapConstructor
     Vec3d static$newInstance(double x, double y, double z);
     static Vec3d newInstance(double x, double y, double z)
@@ -112,3 +104,4 @@ public interface Vec3d extends WrapperObject
         return this.rotateNormSquared(rotation).scale(1. / rotation.normSquared());
     }
 }
+

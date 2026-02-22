@@ -9,7 +9,10 @@ import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.*;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -19,12 +22,6 @@ import java.util.UUID;
 public interface GameProfile extends WrapperObject
 {
     WrapperFactory<GameProfile> FACTORY = WrapperFactory.of(GameProfile.class);
-    @Deprecated
-    @WrapperCreator
-    static GameProfile create(Object wrapped)
-    {
-        return WrapperObject.create(GameProfile.class, wrapped);
-    }
 
     UUID NIL_UUID_V2002 = new UUID(0L, 0L);
 

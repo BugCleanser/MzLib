@@ -1,8 +1,8 @@
 package mz.mzlib.minecraft.ui.window;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
+import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.window.*;
@@ -10,19 +10,14 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.compound.PropAccessor;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 @Compound
 public interface WindowUiWindow extends WindowAbstract
 {
     WrapperFactory<WindowUiWindow> FACTORY = WrapperFactory.of(WindowUiWindow.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowUiWindow create(Object wrapped)
-    {
-        return WrapperObject.create(WindowUiWindow.class, wrapped);
-    }
-
     WindowUiWindow static$newInstance0(WindowType type, int syncId);
 
     @WrapConstructor
@@ -107,3 +102,4 @@ public interface WindowUiWindow extends WindowAbstract
         this.getUi().onClosed(this, player.castTo(EntityPlayer.FACTORY));
     }
 }
+

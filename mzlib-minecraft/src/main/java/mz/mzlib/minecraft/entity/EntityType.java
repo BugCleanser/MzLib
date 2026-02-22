@@ -18,7 +18,6 @@ import mz.mzlib.util.MapInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableFunction;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -35,13 +34,6 @@ import java.util.function.Function;
 public interface EntityType extends WrapperObject
 {
     WrapperFactory<EntityType> FACTORY = WrapperFactory.of(EntityType.class);
-    @Deprecated
-    @WrapperCreator
-    static EntityType create(Object wrapped)
-    {
-        return WrapperObject.create(EntityType.class, wrapped);
-    }
-
     static EntityType fromId(String id)
     {
         return fromId(Identifier.of(id));
@@ -59,7 +51,7 @@ public interface EntityType extends WrapperObject
     default EntityType static$fromIdV_1100(Identifier id)
     {
         if(id.equals(Identifier.minecraft("fishing_bobber")))
-            return create(EntityFishingBobber.FACTORY.getWrappedClass());
+            return FACTORY.create(EntityFishingBobber.FACTORY.getWrappedClass());
         return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
 
@@ -68,7 +60,7 @@ public interface EntityType extends WrapperObject
     default EntityType static$fromIdV1100_1300(Identifier id)
     {
         if(id.equals(Identifier.minecraft("fishing_bobber")))
-            return create(EntityFishingBobber.FACTORY.getWrappedClass());
+            return FACTORY.create(EntityFishingBobber.FACTORY.getWrappedClass());
         return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
 
@@ -114,7 +106,7 @@ public interface EntityType extends WrapperObject
     {
         try
         {
-            return Entity.create((Object) cacheV_1300.computeIfAbsent(
+            return Entity.FACTORY.create((Object) cacheV_1300.computeIfAbsent(
                     (Class<?>) this.getWrapped(), ThrowableFunction.of(c -> //
                         ClassUtil.findConstructor(c, World.FACTORY.getStatic().static$getWrappedClass())
                             .asType(MethodType.methodType(Object.class, Object.class)))
@@ -135,7 +127,7 @@ public interface EntityType extends WrapperObject
     @VersionRange(begin = 1300, end = 1400)
     default Entity newEntityV1300_1400(World world)
     {
-        return Entity.create(this.getFactoryV1300_1400().apply(world.getWrapped()));
+        return Entity.FACTORY.create(this.getFactoryV1300_1400().apply(world.getWrapped()));
     }
 
     @VersionRange(begin = 1400)
@@ -154,13 +146,6 @@ public interface EntityType extends WrapperObject
     interface EntityFactoryV1400 extends WrapperObject
     {
         WrapperFactory<EntityFactoryV1400> FACTORY = WrapperFactory.of(EntityFactoryV1400.class);
-        @Deprecated
-        @WrapperCreator
-        static EntityFactoryV1400 create(Object wrapped)
-        {
-            return WrapperObject.create(EntityFactoryV1400.class, wrapped);
-        }
-
         @WrapMinecraftMethod(@VersionName(name = "create"))
         Entity create(EntityType type, World world);
     }
@@ -250,3 +235,4 @@ public interface EntityType extends WrapperObject
         }
     }
 }
+

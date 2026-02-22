@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -23,12 +22,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface WindowFactoryAbstract extends WrapperObject
 {
     WrapperFactory<WindowFactoryAbstract> FACTORY = WrapperFactory.of(WindowFactoryAbstract.class);
-    @Deprecated
-    @WrapperCreator
-    static WindowFactoryAbstract create(Object wrapped)
-    {
-        return WrapperObject.create(WindowFactoryAbstract.class, wrapped);
-    }
 
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "method_15540"))

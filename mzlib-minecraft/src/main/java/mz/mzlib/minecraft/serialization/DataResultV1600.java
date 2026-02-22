@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.*;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -17,12 +16,6 @@ import java.util.function.Consumer;
 public interface DataResultV1600<T> extends WrapperObject
 {
     WrapperFactory<DataResultV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DataResultV1600.class));
-    @Deprecated
-    @WrapperCreator
-    static DataResultV1600<?> create(Object wrapped)
-    {
-        return WrapperObject.create(DataResultV1600.class, wrapped);
-    }
 
     default Option<T> resultOrPartial(Consumer<String> onError)
     {
@@ -67,3 +60,5 @@ public interface DataResultV1600<T> extends WrapperObject
         }
     }
 }
+
+

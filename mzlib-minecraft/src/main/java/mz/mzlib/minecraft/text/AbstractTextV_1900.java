@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,13 +17,6 @@ import java.util.List;
 public interface AbstractTextV_1900 extends WrapperObject, Text
 {
     WrapperFactory<AbstractTextV_1900> FACTORY = WrapperFactory.of(AbstractTextV_1900.class);
-    @Deprecated
-    @WrapperCreator
-    static AbstractTextV_1900 create(Object wrapped)
-    {
-        return WrapperObject.create(AbstractTextV_1900.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "siblings"))
     void setExtra0(List<Object> value);
 
@@ -41,3 +33,4 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
     @WrapMinecraftFieldAccessor(@VersionName(name = "style"))
     void setStyleV_1900(TextStyle style);
 }
+

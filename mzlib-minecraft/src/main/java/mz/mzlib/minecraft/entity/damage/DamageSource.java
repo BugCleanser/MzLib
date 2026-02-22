@@ -7,19 +7,15 @@ import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.damage.DamageSource"))
 public interface DamageSource extends WrapperObject
 {
     WrapperFactory<DamageSource> FACTORY = WrapperFactory.of(DamageSource.class);
-    @Deprecated
-    @WrapperCreator
-    static DamageSource create(Object wrapped)
-    {
-        return WrapperObject.create(DamageSource.class, wrapped);
-    }
-
     @VersionRange(begin = 1904)
     @WrapConstructor
     DamageSource static$newInstanceV1904(RegistryEntryV1802 type, Entity source, Entity attacker, Vec3d location);
@@ -76,3 +72,4 @@ public interface DamageSource extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "position", begin = 1904))
     void setLocationV1904(Vec3d value);
 }
+

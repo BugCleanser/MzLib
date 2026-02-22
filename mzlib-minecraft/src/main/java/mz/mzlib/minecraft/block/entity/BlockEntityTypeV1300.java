@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.registry.Registry;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -15,12 +14,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface BlockEntityTypeV1300 extends WrapperObject
 {
     WrapperFactory<BlockEntityTypeV1300> FACTORY = WrapperFactory.of(BlockEntityTypeV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static BlockEntityTypeV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(BlockEntityTypeV1300.class, wrapped);
-    }
 
     static Registry getRegistry()
     {

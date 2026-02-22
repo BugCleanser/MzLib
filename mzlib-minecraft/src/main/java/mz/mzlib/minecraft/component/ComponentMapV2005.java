@@ -8,7 +8,6 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.IteratorProxy;
 import mz.mzlib.util.wrapper.SpecificImpl;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,13 +17,6 @@ import java.util.Iterator;
 public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV2005.Entry>
 {
     WrapperFactory<ComponentMapV2005> FACTORY = WrapperFactory.of(ComponentMapV2005.class);
-    @Deprecated
-    @WrapperCreator
-    static ComponentMapV2005 create(Object wrapped)
-    {
-        return WrapperObject.create(ComponentMapV2005.class, wrapped);
-    }
-
     @Override
     Iterable<Object> getWrapped();
 
@@ -67,16 +59,10 @@ public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV
     interface Entry extends WrapperObject
     {
         WrapperFactory<Entry> FACTORY = WrapperFactory.of(Entry.class);
-        @Deprecated
-        @WrapperCreator
-        static Entry create(Object wrapped)
-        {
-            return WrapperObject.create(Entry.class, wrapped);
-        }
-
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_2443"))
         ComponentKeyV2005<?> getType();
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_2444"))
         Object getValue();
     }
 }
+

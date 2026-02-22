@@ -7,7 +7,6 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.window.ModuleWindow;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,14 +19,8 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface PacketS2cWindowOpen extends WrapperObject, Packet
 {
     WrapperFactory<PacketS2cWindowOpen> FACTORY = WrapperFactory.of(PacketS2cWindowOpen.class);
-    @Deprecated
-    @WrapperCreator
-    static PacketS2cWindowOpen create(Object wrapped)
-    {
-        return WrapperObject.create(PacketS2cWindowOpen.class, wrapped);
-    }
-
     @VersionRange(end = 1400)
     @WrapConstructor
     ModuleWindow.NothingPacketS2cWindowOpen static$newInstanceV_1400(int syncId, String typeId, Text title, int size);
 }
+

@@ -1,7 +1,10 @@
 package mz.mzlib.minecraft.command.brigadier;
 
 import mz.mzlib.minecraft.VersionRange;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.WrapClassForName;
+import mz.mzlib.util.wrapper.WrapFieldAccessor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.Map;
 
@@ -10,13 +13,6 @@ import java.util.Map;
 public interface CommandNodeV1300 extends WrapperObject
 {
     WrapperFactory<CommandNodeV1300> FACTORY = WrapperFactory.of(CommandNodeV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static CommandNodeV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(CommandNodeV1300.class, wrapped);
-    }
-
     @WrapFieldAccessor("children")
     Map<String, ?> getChildren();
     @WrapFieldAccessor("literals")
@@ -31,3 +27,4 @@ public interface CommandNodeV1300 extends WrapperObject
         this.getArguments().remove(childName);
     }
 }
+

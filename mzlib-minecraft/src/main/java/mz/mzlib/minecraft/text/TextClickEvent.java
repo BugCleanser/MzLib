@@ -6,7 +6,10 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.net.URI;
 
@@ -14,13 +17,6 @@ import java.net.URI;
 public interface TextClickEvent extends WrapperObject
 {
     WrapperFactory<TextClickEvent> FACTORY = WrapperFactory.of(TextClickEvent.class);
-    @Deprecated
-    @WrapperCreator
-    static TextClickEvent create(Object wrapped)
-    {
-        return WrapperObject.create(TextClickEvent.class, wrapped);
-    }
-
     @WrapMinecraftMethod(@VersionName(name = "getAction"))
     Action getAction();
 
@@ -79,13 +75,6 @@ public interface TextClickEvent extends WrapperObject
     interface Action extends WrapperObject
     {
         WrapperFactory<Action> FACTORY = WrapperFactory.of(Action.class);
-        @Deprecated
-        @WrapperCreator
-        static Action create(Object wrapped)
-        {
-            return WrapperObject.create(Action.class, wrapped);
-        }
-
         @WrapMinecraftFieldAccessor({
             @VersionName(name = "OPEN_URL", end = 1400),
             @VersionName(name = "field_11749", begin = 1400)
@@ -158,3 +147,4 @@ public interface TextClickEvent extends WrapperObject
         RunCommandV2105 static$newInstance(String command);
     }
 }
+

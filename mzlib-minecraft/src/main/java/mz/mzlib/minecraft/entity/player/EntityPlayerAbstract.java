@@ -14,7 +14,10 @@ import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapMethod;
+import mz.mzlib.util.wrapper.WrapperFactory;
+import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.OptionalInt;
 
@@ -22,13 +25,6 @@ import java.util.OptionalInt;
 public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
 {
     WrapperFactory<EntityPlayerAbstract> FACTORY = WrapperFactory.of(EntityPlayerAbstract.class);
-    @Deprecated
-    @WrapperCreator
-    static EntityPlayerAbstract create(Object wrapped)
-    {
-        return WrapperObject.create(EntityPlayerAbstract.class, wrapped);
-    }
-
     @WrapMinecraftMethod(@VersionName(name = "getGameProfile"))
     GameProfile getGameProfile();
 
@@ -155,3 +151,4 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
         return this.getInventory().getHandItemStack();
     }
 }
+

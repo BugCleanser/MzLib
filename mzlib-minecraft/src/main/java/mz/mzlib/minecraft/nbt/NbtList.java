@@ -7,7 +7,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.AutoCompletable;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,12 +23,6 @@ import java.util.stream.Collectors;
 public interface NbtList extends NbtElement
 {
     WrapperFactory<NbtList> FACTORY = WrapperFactory.of(NbtList.class);
-    @Deprecated
-    @WrapperCreator
-    static NbtList create(Object wrapped)
-    {
-        return WrapperObject.create(NbtList.class, wrapped);
-    }
 
     @WrapConstructor
     NbtList static$newInstance();

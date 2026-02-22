@@ -9,7 +9,10 @@ import mz.mzlib.minecraft.recipe.smelting.SmeltingManagerV_1300;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @VersionRange(end = 1300)
 public abstract class RegistrarRecipeVanillaV_1300 extends RegistrarRecipeVanilla

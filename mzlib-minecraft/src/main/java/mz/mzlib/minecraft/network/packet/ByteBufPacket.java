@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -16,13 +15,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface ByteBufPacket extends WrapperObject
 {
     WrapperFactory<ByteBufPacket> FACTORY = WrapperFactory.of(ByteBufPacket.class);
-    @Deprecated
-    @WrapperCreator
-    static ByteBufPacket create(Object wrapped)
-    {
-        return WrapperObject.create(ByteBufPacket.class, wrapped);
-    }
-
     @Override
     ByteBuf getWrapped();
 
@@ -40,3 +32,4 @@ public interface ByteBufPacket extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "writeString"))
     ByteBufPacket writeString(String str);
 }
+

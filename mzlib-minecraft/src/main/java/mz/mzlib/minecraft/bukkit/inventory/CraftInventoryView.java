@@ -9,7 +9,6 @@ import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.util.wrapper.WrapConstructor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,13 +17,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
 {
     WrapperFactory<CraftInventoryView> FACTORY = WrapperFactory.of(CraftInventoryView.class);
-    @Deprecated
-    @WrapperCreator
-    static CraftInventoryView create(Object wrapped)
-    {
-        return WrapperObject.create(CraftInventoryView.class, wrapped);
-    }
-
     @WrapConstructor
     CraftInventoryView static$newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window);
     static CraftInventoryView newInstance(BukkitHumanEntity player, BukkitInventory inventory, Window window)
@@ -39,3 +31,4 @@ public interface CraftInventoryView extends WrapperObject, BukkitInventoryView
         return newInstance(BukkitHumanEntity.FACTORY.create(BukkitEntityUtil.toBukkit(player)), bukkitInventory, window);
     }
 }
+

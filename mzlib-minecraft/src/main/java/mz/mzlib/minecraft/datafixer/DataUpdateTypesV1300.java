@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -18,13 +17,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeReference
 {
     WrapperFactory<DataUpdateTypesV1300> FACTORY = WrapperFactory.of(DataUpdateTypesV1300.class);
-    @Deprecated
-    @WrapperCreator
-    static DataUpdateTypesV1300 create(Object wrapped)
-    {
-        return WrapperObject.create(DataUpdateTypesV1300.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_16592", end = 1400),
         @VersionName(name = "ITEM_STACK", begin = 1400)
@@ -35,3 +27,4 @@ public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeRefere
         return FACTORY.getStatic().static$itemStack();
     }
 }
+

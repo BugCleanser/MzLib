@@ -4,7 +4,6 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.WrapperCreator;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -12,13 +11,6 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface TextFormatLegacy extends WrapperObject
 {
     WrapperFactory<TextFormatLegacy> FACTORY = WrapperFactory.of(TextFormatLegacy.class);
-    @Deprecated
-    @WrapperCreator
-    static TextFormatLegacy create(Object wrapped)
-    {
-        return WrapperObject.create(TextFormatLegacy.class, wrapped);
-    }
-
     TextFormatLegacy BLACK = fromName("BLACK");
     TextFormatLegacy DARK_BLUE = fromName("DARK_BLUE");
     TextFormatLegacy DARK_GREEN = fromName("DARK_GREEN");
@@ -53,3 +45,4 @@ public interface TextFormatLegacy extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "byName"))
     TextFormatLegacy static$fromName(String name);
 }
+

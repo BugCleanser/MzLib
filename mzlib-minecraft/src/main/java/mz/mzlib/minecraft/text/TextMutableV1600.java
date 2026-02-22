@@ -7,7 +7,9 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.*;
+import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.WrapConstructor;
+import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +18,6 @@ import java.util.List;
 public interface TextMutableV1600 extends Text
 {
     WrapperFactory<TextMutableV1600> FACTORY = WrapperFactory.of(TextMutableV1600.class);
-    @Deprecated
-    @WrapperCreator
-    static TextMutableV1600 create(Object wrapped)
-    {
-        return WrapperObject.create(TextMutableV1600.class, wrapped);
-    }
-
     @WrapMinecraftFieldAccessor(@VersionName(name = "siblings", begin = 1900))
     void setExtra0V1900(List<Object> value);
 
@@ -58,3 +53,4 @@ public interface TextMutableV1600 extends Text
         this.setStyleV1600(style);
     }
 }
+
