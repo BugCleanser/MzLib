@@ -10,6 +10,8 @@ import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntitySpawn;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class DisplayEntity implements EntityDataHolder
 {
     public EntityPlayer player;
     public int id;
-    public UUID uuidV900;
+    public @UnknownNullability UUID uuidV900;
     public EntityType type;
     public Vec3d position;
 
@@ -39,24 +41,24 @@ public class DisplayEntity implements EntityDataHolder
     public EntityDataHolder unsynced = EntityDataHolder.of(new HashMap<>());
 
     @Override
-    public Option<Object> getData(EntityDataKey key)
+    public <T> @Nullable T getData(EntityDataKey<T> key)
     {
         return this.dataHolder.getData(key);
     }
     @Override
-    public Option<Object> putData(EntityDataKey key, Object value)
+    public <T> @Nullable T putData(EntityDataKey<T> key, T value)
     {
         this.unsynced.putData(key, value);
         return this.dataHolder.putData(key, value);
     }
     @Override
-    public Option<Object> removeData(EntityDataKey key)
+    public <T> @Nullable T removeData(EntityDataKey<T> key)
     {
         this.unsynced.removeData(key);
         return this.dataHolder.removeData(key);
     }
     @Override
-    public void forEachData(BiConsumer<EntityDataKey, Object> action)
+    public void forEachData(BiConsumer<EntityDataKey<?>, Object> action)
     {
         this.dataHolder.forEachData(action);
     }

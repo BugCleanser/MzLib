@@ -9,5 +9,4 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CommandBlockExecutor extends WrapperObject, CommandOutput
 {
     WrapperFactory<CommandBlockExecutor> FACTORY = WrapperFactory.of(CommandBlockExecutor.class);
-    }
-
+}

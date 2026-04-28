@@ -14,6 +14,7 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.Option;
+import org.jetbrains.annotations.UnknownNullability;
 
 public class CommandMzLibGive extends MzModule
 {
@@ -21,7 +22,7 @@ public class CommandMzLibGive extends MzModule
 
     public Permission permission = new Permission("mzlib.command.mzlib.give");
 
-    public Command command;
+    @UnknownNullability public Command command;
 
     @Override
     public void onLoad()

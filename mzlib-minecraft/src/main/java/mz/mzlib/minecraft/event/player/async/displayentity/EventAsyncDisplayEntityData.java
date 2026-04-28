@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.entity.display.DisplayEntity;
 import mz.mzlib.minecraft.event.player.async.EventAsyncByPacket;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
-import mz.mzlib.util.Option;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,30 +24,29 @@ public class EventAsyncDisplayEntityData extends EventAsyncDisplayEntity<PacketS
     // TODO
 
     @Override
-    public Option<Object> getData(EntityDataKey key)
+    public <T> @Nullable T getData(EntityDataKey<T> key)
     {
-        for(Object result : EventAsyncDisplayEntityData.this.getPacket().getData(key))
-        {
-            return Option.some(result);
-        }
+        @Nullable T result = EventAsyncDisplayEntityData.this.getPacket().getData(key);
+        if(result != null)
+            return result;
         return EventAsyncDisplayEntityData.this.getDisplayEntity().getData(key);
     }
     @Override
-    public Option<Object> putData(EntityDataKey key, Object value)
+    public <T> @Nullable T putData(EntityDataKey<T> key, T value)
     {
         this.getPacketEvent().ensureCopied();
         return EventAsyncDisplayEntityData.this.getPacket().putData(key, value);
     }
     @Override
-    public Option<Object> removeData(EntityDataKey key)
+    public <T> T removeData(EntityDataKey<T> key)
     {
         this.getPacketEvent().ensureCopied();
         return EventAsyncDisplayEntityData.this.getPacket().removeData(key);
     }
     @Override
-    public void forEachData(BiConsumer<EntityDataKey, Object> action)
+    public void forEachData(BiConsumer<EntityDataKey<?>, Object> action)
     {
-        Set<EntityDataKey> set = new HashSet<>();
+        Set<EntityDataKey<?>> set = new HashSet<>();
         EventAsyncDisplayEntityData.this.getPacket().forEachData((k, v) ->
         {
             set.add(k);

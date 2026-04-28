@@ -1,26 +1,27 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public class MapInvertible<K extends @Nullable Object, V extends @Nullable Object> extends Invertible<MapInvertible<V, K>> implements Map<K, V>
+@ApiStatus.Experimental
+public class MapInvertible<K extends @Nullable Object, V extends @Nullable Object> extends Invertible.Abstract<MapInvertible<V, K>> implements Map<K, V>
 {
+    @ApiStatus.Internal
     protected Map<K, V> delegate;
+    private final Supplier<? extends Map<V, K>> generator;
 
-    MapInvertible(MapInvertible<V, K> inverse, Map<K, V> delegate)
+    public MapInvertible(Map<K, V> delegate, Supplier<? extends Map<V, K>> generator)
     {
-        this.inverse = inverse;
         this.delegate = delegate;
+        this.generator = generator;
     }
-    public MapInvertible(Supplier<Map<?, ?>> generator)
+    public MapInvertible(Supplier<? extends Map<Void, Void>> generator)
     {
-        this.delegate = RuntimeUtil.cast(generator.get());
-        this.inverse = new MapInvertible<>(this, RuntimeUtil.cast(generator.get()));
-        if(!this.isEmpty() || !this.inverse.isEmpty())
-            throw new IllegalArgumentException("The generated map is not empty");
+        this(RuntimeUtil.cast(generator.get()), RuntimeUtil.cast(generator));
     }
     public MapInvertible()
     {
@@ -30,7 +31,12 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
     @Override
     protected MapInvertible<V, K> invert()
     {
-        throw new UnsupportedOperationException();
+        Map<V, K> result = this.generator.get();
+        for(Entry<K, V> entry : this.entrySet())
+        {
+            result.put(entry.getValue(), entry.getKey());
+        }
+        return new MapInvertible<>(result, () -> RuntimeUtil.valueThrow(new IllegalStateException()));
     }
 
     @Override
@@ -51,7 +57,8 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
     @Override
     public boolean containsValue(Object value)
     {
-        return this.inverse().containsKey(RuntimeUtil.<V>cast(value));
+        //noinspection SuspiciousMethodCalls
+        return this.inverse().containsKey(value);
     }
     @Override
     public V get(@Nullable Object key)
@@ -61,9 +68,12 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
     @Override
     public V put(K key, V value)
     {
-        if(this.containsKey(key))
-            this.inverse().delegate.remove(this.get(key));
-        this.inverse().delegate.put(value, key);
+        if(this.inverse != null)
+        {
+            if(this.containsKey(key))
+                this.inverse.delegate.remove(this.get(key));
+            this.inverse.delegate.put(value, key);
+        }
         return this.delegate.put(key, value);
     }
     @Override
@@ -72,7 +82,8 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
         if(!this.containsKey(key))
             return null;
         V v = this.delegate.remove(key);
-        this.inverse().delegate.remove(v);
+        if(this.inverse != null)
+            this.inverse.delegate.remove(v);
         return v;
     }
     @Override
@@ -87,7 +98,8 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
     public void clear()
     {
         this.delegate.clear();
-        this.inverse().delegate.clear();
+        if(this.inverse != null)
+            this.inverse.delegate.clear();
     }
     @SuppressWarnings("EqualsDoesntCheckParameterClass")
     @Override
@@ -113,10 +125,11 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
     @Override
     public boolean remove(Object key, Object value)
     {
-        this.inverse().delegate.remove(value, key);
+        if(this.inverse != null)
+            this.inverse.delegate.remove(value, key);
         return this.delegate.remove(key, value);
     }
-    public class Itr
+    class Itr
     {
         Iterator<Entry<K, V>> delegate = MapInvertible.this.delegate.entrySet().iterator();
         @Nullable Entry<K, V> current;
@@ -142,8 +155,11 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
                 @Override
                 public V setValue(V value)
                 {
-                    MapInvertible.this.inverse().delegate.remove(e.getValue());
-                    MapInvertible.this.inverse().delegate.put(value, e.getKey());
+                    if(MapInvertible.this.inverse != null)
+                    {
+                        MapInvertible.this.inverse.delegate.remove(e.getValue());
+                        MapInvertible.this.inverse.delegate.put(value, e.getKey());
+                    }
                     return e.setValue(value);
                 }
             };
@@ -152,7 +168,8 @@ public class MapInvertible<K extends @Nullable Object, V extends @Nullable Objec
         {
             if(current == null)
                 throw new IllegalStateException();
-            MapInvertible.this.inverse().delegate.remove(current.getValue());
+            if(MapInvertible.this.inverse != null)
+                MapInvertible.this.inverse.delegate.remove(current.getValue());
             this.delegate.remove();
         }
     }

@@ -1,6 +1,7 @@
 package mz.mzlib.util;
 
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import javax.management.ListenerNotFoundException;
 import javax.management.NotificationEmitter;
@@ -33,13 +34,13 @@ public class RuntimeUtil
     {
     }
 
-    public static <T> @Nullable T nul()
+    public static <T> @UnknownNullability T nul()
     {
         return RuntimeUtil.cast(null);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends @Nullable Object> T cast(@Nullable Object object)
+    public static <T extends @UnknownNullability Object> T cast(@UnknownNullability Object object)
     {
         return (T) object;
     }

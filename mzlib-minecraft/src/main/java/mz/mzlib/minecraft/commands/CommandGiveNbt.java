@@ -10,8 +10,8 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.Collections;
 
@@ -21,7 +21,7 @@ public class CommandGiveNbt extends MzModule
 
     public Permission permission = new Permission("mzlib.command.givenbt");
 
-    public Command command;
+    public @UnknownNullability Command command;
 
     @Override
     public void onLoad()
@@ -59,12 +59,12 @@ public class CommandGiveNbt extends MzModule
         }
         if(!context.successful || !context.doExecute)
             return;
-        Result<Option<ItemStack>, String> decode = ItemStack.decode(nbt);
-        for(ItemStack itemStack : decode.getValue())
+        Result<ItemStack, String> decode = ItemStack.decode(nbt);
+        for(ItemStack itemStack : decode.getPossibleValue())
         {
             player.give(itemStack);
         }
-        for(String err : decode.getError())
+        for(String err : decode.getPossibleError())
         {
             context.successful = false;
             context.getSource().sendMessage(MinecraftI18n.resolveText(

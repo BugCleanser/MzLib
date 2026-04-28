@@ -76,7 +76,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
             width, height, DefaultedListV1100.fromWrapper(
                 ingredients.stream().map(IngredientVanilla::fromOptionV_2102).collect(Collectors.toList()),
                 IngredientVanilla.EMPTY_V_2102
-            ), data.mapNullable(Data::getWrapped).toOptional()
+            ), Option.toOptional(data.mapNullable(Data::getWrapped))
         );
     }
     @VersionRange(end = 2102)
@@ -97,8 +97,8 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     {
         return this.static$ofV2102(
             width, height,
-            ingredients.stream().map(it -> it.mapNullable(IngredientVanilla::getWrapped).toOptional())
-                .collect(Collectors.toList()), data.mapNullable(Data::getWrapped).toOptional()
+            ingredients.stream().map(it -> Option.toOptional(it.mapNullable(IngredientVanilla::getWrapped)))
+                .collect(Collectors.toList()), Option.toOptional(data.mapNullable(Data::getWrapped))
         );
     }
     @VersionRange(begin = 2102)

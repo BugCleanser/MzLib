@@ -4,10 +4,16 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.*;
+import mz.mzlib.util.Box;
+import mz.mzlib.util.Functional;
+import mz.mzlib.util.Option;
+import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -15,29 +21,33 @@ import java.util.function.Consumer;
 @WrapMinecraftClass(@VersionName(name = "com.mojang.serialization.DataResult"))
 public interface DataResultV1600<T> extends WrapperObject
 {
-    WrapperFactory<DataResultV1600<?>> FACTORY = RuntimeUtil.cast(WrapperFactory.of(DataResultV1600.class));
+    WrapperFactory<DataResultV1600<?>> FACTORY = WrapperFactory.of(DataResultV1600.class);
 
-    default Option<T> resultOrPartial(Consumer<String> onError)
+    @ApiStatus.Experimental
+    default @Nullable T resultOrPartial(Consumer<String> onError)
     {
-        return Option.fromOptional(this.resultOrPartial0(onError));
+        return this.resultOrPartial0(onError).orElse(null);
     }
+
+    @ApiStatus.Internal
     @WrapMinecraftMethod(@VersionName(name = "resultOrPartial"))
     Optional<T> resultOrPartial0(Consumer<String> onError);
 
+    @ApiStatus.Experimental
     default Option<String> getErrorMessage() // FIXME
     {
-        Ref<String> error = new RefStrong<>(null);
-        Option<T> ignored = this.resultOrPartial(error::set);
+        Box.Mut<@Nullable String> error = Box.of(null);
+        this.resultOrPartial(error::set);
         return Option.fromNullable(error.get());
     }
 
-    default Result<Option<T>, String> toResult() // FIXME
+    default Result<T, String> toResult()
     {
         for(String msg : this.getErrorMessage())
         {
-            return Result.failure(Option.none(), msg);
+            return Result.failure(Option.fromNullable(this.resultOrPartial(Functional.nothing1())), msg);
         }
-        return Result.success(this.resultOrPartial(ThrowableConsumer.nothing()));
+        return Result.success(Objects.requireNonNull(this.resultOrPartial(Functional.nothing1())));
     }
 
     class Wrapper<T extends WrapperObject>
@@ -50,13 +60,9 @@ public interface DataResultV1600<T> extends WrapperObject
             this.type = type;
         }
 
-        public Result<Option<T>, String> toResult() // FIXME
+        public Result<T, String> toResult()
         {
-            for(String msg : this.base.getErrorMessage())
-            {
-                return Result.failure(Option.none(), msg);
-            }
-            return Result.success(this.base.resultOrPartial(ThrowableConsumer.nothing()).mapNullable(type::create));
+            return this.base.toResult().mapValue(type::create);
         }
     }
 }

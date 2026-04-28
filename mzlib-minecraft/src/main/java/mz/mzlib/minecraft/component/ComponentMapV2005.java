@@ -48,7 +48,6 @@ public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV
         return this.get(key).mapNullable(key::copy);
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     default Iterator<Entry> iterator()
     {

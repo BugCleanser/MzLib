@@ -47,10 +47,10 @@ public interface EntityDataKey<T> extends WrapperObject
      */
     static <T> EntityDataKey<T> newInstanceV_900(int index, byte typeId)
     {
-        return newInstance(index, RuntimeUtil.cast(EntityDataHandler.FACTORY.create(typeId)));
+        return of(index, RuntimeUtil.cast(EntityDataHandler.FACTORY.create(typeId)));
     }
 
-    static <T> EntityDataKey<T> newInstance(int index, EntityDataHandler<T> handler)
+    static <T> EntityDataKey<T> of(int index, EntityDataHandler<T> handler)
     {
         return FACTORY.getStatic().static$newInstance(index, handler);
     }

@@ -14,9 +14,9 @@ public interface DataFixerV1300 extends WrapperObject
 {
     WrapperFactory<DataFixerV1300> FACTORY = WrapperFactory.of(DataFixerV1300.class);
     @WrapMinecraftMethod(@VersionName(name = "update"))
-    <T> DynamicV1300<T> update(DSLV1300.TypeReference type, DynamicV1300<T> data, int from, int to);
+    <T> DynamicV1300<T> update(DSL_V1300.TypeReference type, DynamicV1300<T> data, int from, int to);
     default <T extends WrapperObject> DynamicV1300.Wrapper<T> update(
-        DSLV1300.TypeReference type,
+        DSL_V1300.TypeReference type,
         DynamicV1300.Wrapper<T> data,
         int from,
         int to)

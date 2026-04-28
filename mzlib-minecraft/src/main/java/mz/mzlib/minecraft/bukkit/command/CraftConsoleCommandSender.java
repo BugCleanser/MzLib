@@ -11,5 +11,4 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface CraftConsoleCommandSender extends WrapperObject
 {
     WrapperFactory<CraftConsoleCommandSender> FACTORY = WrapperFactory.of(CraftConsoleCommandSender.class);
-    }
-
+}

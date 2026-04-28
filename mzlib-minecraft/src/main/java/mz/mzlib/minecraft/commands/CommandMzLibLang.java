@@ -13,6 +13,7 @@ import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.UiStack;
 import mz.mzlib.module.MzModule;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,7 +23,7 @@ public class CommandMzLibLang extends MzModule
 
     public Permission permission = new Permission("mzlib.command.mzlib.lang");
 
-    public Command command;
+    public @UnknownNullability Command command;
 
     @Override
     public void onLoad()

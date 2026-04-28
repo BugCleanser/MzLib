@@ -6,6 +6,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+@SuppressWarnings("unused")
 @WrapMinecraftClass({
     @VersionName(name = "byte", remap = false, end = 900),
     @VersionName(name = "net.minecraft.entity.data.TrackedDataHandler", begin = 900)

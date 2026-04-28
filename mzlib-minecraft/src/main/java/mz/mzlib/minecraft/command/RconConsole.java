@@ -13,5 +13,4 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface RconConsole extends WrapperObject, CommandOutput
 {
     WrapperFactory<RconConsole> FACTORY = WrapperFactory.of(RconConsole.class);
-    }
-
+}

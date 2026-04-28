@@ -14,8 +14,10 @@ import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityDestroy;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntitySpawn;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.RuntimeUtil;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DisplayEntityTracker
@@ -48,11 +50,11 @@ public class DisplayEntityTracker
             this.register(new PacketListener<>(
                 PacketS2cEntitySpawn.FACTORY, Priority.LOW, packetEvent ->
             {
-                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap().toPlayer());
+                DisplayEntityTracker displayEntityTracker = get(Objects.requireNonNull(packetEvent.getPlayer()).toPlayer());
                 synchronized(displayEntityTracker)
                 {
                     DisplayEntity displayEntity = new DisplayEntity(
-                        packetEvent.getPlayer().unwrap(), packetEvent.getPacket());
+                        packetEvent.getPlayer(), packetEvent.getPacket());
                     EventAsyncDisplayEntitySpawn event = new EventAsyncDisplayEntitySpawn(displayEntity, packetEvent);
                     event.call();
                     if(!event.isCancelled())
@@ -64,7 +66,7 @@ public class DisplayEntityTracker
             this.register(new PacketListener<>(
                 PacketS2cEntityDestroy.FACTORY, Priority.LOW, packetEvent ->
             {
-                DisplayEntityTracker tracker = get(packetEvent.getPlayer().unwrap().toPlayer());
+                DisplayEntityTracker tracker = get(packetEvent.getPlayer().toPlayer());
                 synchronized(tracker)
                 {
                     for(int entityId : packetEvent.getPacket().getEntityIds())
@@ -85,7 +87,7 @@ public class DisplayEntityTracker
             this.register(new PacketListener<>(
                 PacketS2cEntityData.FACTORY, Priority.LOW, packetEvent ->
             {
-                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().unwrap().toPlayer());
+                DisplayEntityTracker displayEntityTracker = get(packetEvent.getPlayer().toPlayer());
                 synchronized(displayEntityTracker)
                 {
                     DisplayEntity displayEntity = displayEntityTracker.entities.get(
@@ -95,7 +97,7 @@ public class DisplayEntityTracker
                     EventAsyncDisplayEntityData event = new EventAsyncDisplayEntityData(displayEntity, packetEvent);
                     event.call();
                     if(!packetEvent.isCancelled())
-                        packetEvent.getPacket().forEachData(displayEntity.dataHolder::putData);
+                        packetEvent.getPacket().forEachData((k, v) -> displayEntity.dataHolder.putData(k, RuntimeUtil.cast(v)));
                     event.finish();
                 }
             }

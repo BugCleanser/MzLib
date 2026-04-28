@@ -2,10 +2,12 @@ package mz.mzlib.minecraft.command.argument;
 
 import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.Collections;
 
-public abstract class ArgumentParser<T>
+public abstract class ArgumentParser<T extends @Nullable Object>
 {
     public String name;
     public ArgumentParser(String name)
@@ -13,8 +15,8 @@ public abstract class ArgumentParser<T>
         this.name = name;
     }
 
-    public abstract T parse(CommandContext context);
-    public T handle(CommandContext context)
+    public abstract T parse(CommandContext context) throws Throwable;
+    public @UnknownNullability T handle(CommandContext context)
     {
         context.argNames.add(this.name);
         if(!context.argsReader.hasNext())

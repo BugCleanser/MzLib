@@ -19,11 +19,11 @@
 
 = 空安全
 
-Java不像Kotlin一样原生在类型上区分*可空*和*非空*，需要使用空安全注解或`Option`/`Optional`，详见#link("null-safety")[“空安全”]
+Java不像Kotlin一样原生在类型上区分*可空*和*非空*，需要使用空安全注解或`Optional`，详见#link("null-safety")[“空安全”]
 
 = 可变性
 
-Java/Kotlin没有像Cpp/Rust中```cpp const``` / ```rust mut```的类型修饰符，这是个问题
+Java/Kotlin没有像Cpp/Rust中```cpp const```/```rust mut```的类型修饰符，这是个问题
 
 例如，当被要求提供一个数据对象时，我们经常会纠结于是否应当*事先拷贝*。
 或者说，我们难以知道消费者是否需要*修改*我们提供的对象，如果是，我们可能需要*提供副本*以免我们持有的源数据被修改
@@ -43,7 +43,7 @@ public class MyData
     {
         return this.value;
     }
-    // TODO: equals, toString,
+    // TODO: hashCode, equals, toString
 
     public static class Mut extends MyData
     {

@@ -11,6 +11,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.JsUtil;
+import org.jetbrains.annotations.UnknownNullability;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.RhinoException;
@@ -24,7 +25,7 @@ public class CommandMzLibJs extends MzModule
 
     public Permission permission = new Permission("mzlib.command.mzlib.js");
 
-    public Command command;
+    public @UnknownNullability Command command;
 
     @Override
     public void onLoad()

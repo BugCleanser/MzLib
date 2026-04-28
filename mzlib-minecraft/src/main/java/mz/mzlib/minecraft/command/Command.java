@@ -6,6 +6,7 @@ import mz.mzlib.minecraft.permission.PermissionHelp;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.MapBuilder;
+import mz.mzlib.util.ThrowableSupplier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -19,13 +20,14 @@ public class Command
     public String namespace = "minecraft";
     public String name;
     public String[] aliases;
-    public Function<CommandSource, Text> permissionChecker;
-    public Consumer<CommandContext> handler;
+    public Function<CommandSource, @Nullable Text> permissionChecker;
+    public @Nullable Consumer<CommandContext> handler;
 
     public Command(String name, String... aliases)
     {
         this.name = name;
         this.aliases = aliases;
+        this.permissionChecker = ThrowableSupplier.<@Nullable Text>constant(null).ignore();
     }
 
     public Command setNamespace(String value)
@@ -47,20 +49,20 @@ public class Command
         this.children.remove(child);
     }
 
-    public Command setPermissionChecker(Function<CommandSource, Text> value)
+    public Command setPermissionChecker(Function<CommandSource, @Nullable Text> value)
     {
         this.permissionChecker = value;
         return this;
     }
 
     @SafeVarargs
-    public final Command setPermissionCheckers(Function<CommandSource, Text>... value)
+    public final Command setPermissionCheckers(Function<CommandSource, @Nullable Text>... value)
     {
         return this.setPermissionChecker(source ->
         {
-            for(Function<CommandSource, Text> i : value)
+            for(Function<CommandSource, @Nullable Text> i : value)
             {
-                Text result = i.apply(source);
+                @Nullable Text result = i.apply(source);
                 if(result != null)
                     return result;
             }
@@ -68,24 +70,14 @@ public class Command
         });
     }
 
-    public static Text checkPermissionAnd(Text... permissionCheckInfos)
-    {
-        for(Text i : permissionCheckInfos)
-        {
-            if(i != null)
-                return i;
-        }
-        return null;
-    }
-
-    public static Text checkPermissionSenderPlayer(CommandSource source)
+    public static @Nullable Text checkPermissionSenderPlayer(CommandSource source)
     {
         if(!source.getPlayer().isSome())
             return MinecraftI18n.resolveText(source, "mzlib.command.permission.not_player");
         return null;
     }
 
-    public static Text checkPermission(CommandSource source, Permission permission)
+    public static @Nullable Text checkPermission(CommandSource source, Permission permission)
     {
         if(PermissionHelp.instance.check(source, permission))
             return null;
@@ -93,7 +85,7 @@ public class Command
             source, "mzlib.command.permission.lack", Collections.singletonMap("permission", permission.id));
     }
 
-    public static Function<CommandSource, Text> permissionChecker(Permission permission)
+    public static Function<CommandSource, @Nullable Text> permissionChecker(Permission permission)
     {
         return source -> checkPermission(source, permission);
     }
@@ -106,7 +98,7 @@ public class Command
 
     public List<String> suggest(CommandSource source, String command, String args)
     {
-        Text permissionCheckInfo = this.permissionChecker != null ? this.permissionChecker.apply(source) : null;
+        Text permissionCheckInfo = this.permissionChecker.apply(source);
         if(permissionCheckInfo != null)
             return CollectionUtil.newArrayList(permissionCheckInfo.toLegacy());
         String[] argv2 = args.split("\\s+", 2);
@@ -146,7 +138,7 @@ public class Command
     {
         try
         {
-            Text permissionCheckInfo = this.permissionChecker != null ? this.permissionChecker.apply(source) : null;
+            Text permissionCheckInfo = this.permissionChecker.apply(source);
             if(permissionCheckInfo != null)
             {
                 source.sendMessage(permissionCheckInfo);

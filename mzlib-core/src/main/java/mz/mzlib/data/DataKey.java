@@ -8,20 +8,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataKey<H, T, R> implements TypedMap.Key<T, DataKey<H, ?, ?>>
+public class DataKey<H, T, R> extends TypedMap.Key<String, T>
 {
-    String name;
-    public DataKey(String name)
+    public DataKey(String id)
     {
-        this.name = name;
+        super(id);
     }
     List<DataHandler<H, T, ? extends R>> handlers = new ArrayList<>();
     @Nullable DataHandler<H, T, ? extends R> handler;
-
+    
     DataHandler<H, T, ? extends R> getHandler()
     {
-        if(this.handler == null)
-            throw new IllegalStateException("This key has no handler registered: " + this.name);
+        if(this.handler==null)
+            throw new IllegalStateException("This key has no handler registered: "+this.getData());
         return this.handler;
     }
     public boolean check(H holder)

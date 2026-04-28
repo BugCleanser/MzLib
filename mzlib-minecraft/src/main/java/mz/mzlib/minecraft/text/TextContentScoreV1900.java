@@ -6,7 +6,6 @@ import mz.mzlib.minecraft.util.EitherV1300;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.Either;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
@@ -34,9 +33,9 @@ public interface TextContentScoreV1900 extends WrapperObject, TextContentV1900
     @VersionRange(begin = 2102)
     default TextContentScoreV1900 static$newInstanceV2102(String name, String objective)
     {
-        Result<Option<ParsedSelectorV2102>, String> parse = ParsedSelectorV2102.parse(name);
+        Result<ParsedSelectorV2102, String> parse = ParsedSelectorV2102.parse(name);
         return newInstanceV2102(
-            parse.isSuccess() ? Either.first(parse.getValue().unwrap()) : Either.second(name), objective);
+            parse.isSuccess() ? Either.first(parse.getValue()) : Either.second(name), objective);
     }
     @VersionRange(begin = 2102)
     static TextContentScoreV1900 newInstanceV2102(Either<ParsedSelectorV2102, String> name, String objective)

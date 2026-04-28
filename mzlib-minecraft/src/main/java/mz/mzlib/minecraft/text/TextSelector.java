@@ -49,7 +49,7 @@ public interface TextSelector extends WrapperObject, Text
     @VersionRange(begin = 1700, end = 1900)
     default TextSelector static$newInstanceV1700_1900(String selector, Option<Text> separator)
     {
-        return this.static$newInstance0V1700_1900(selector, separator.mapNullable(Text::getWrapped).toOptional());
+        return this.static$newInstance0V1700_1900(selector, Option.toOptional(separator.mapNullable(Text::getWrapped)));
     }
     @VersionRange(begin = 1700, end = 1900)
     @WrapConstructor

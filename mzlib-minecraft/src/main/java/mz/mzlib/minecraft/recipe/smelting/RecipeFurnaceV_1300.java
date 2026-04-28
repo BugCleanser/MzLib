@@ -55,7 +55,7 @@ public class RecipeFurnaceV_1300 implements RecipeFurnace
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try(DataOutputStream dataOutput = new DataOutputStream(stream))
         {
-            NbtIo.write(this.ingredient.encode().getOrThrow(IllegalStateException::new).unwrap(), dataOutput);
+            NbtIo.write(this.ingredient.encode().getOrThrow(IllegalStateException::new), dataOutput);
             dataOutput.writeFloat(this.experience);
         }
         catch(IOException e)

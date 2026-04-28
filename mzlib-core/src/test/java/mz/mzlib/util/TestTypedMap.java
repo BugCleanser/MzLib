@@ -1,7 +1,5 @@
 package mz.mzlib.util;
 
-import mz.mzlib.util.TypedMap;
-import mz.mzlib.util.TypedMapClass;
 import org.junit.jupiter.api.Test;
 
 public class TestTypedMap
@@ -9,32 +7,25 @@ public class TestTypedMap
     @Test
     public void test()
     {
-        TypedMap<TestKey<?>> map = TypedMap.of();
-        TestKey<String> ks = new TestKey<>();
-        TestKey1<String> ks1 = new TestKey1<>();
-        TestKey1<Integer> ki1 = new TestKey1<>();
+        TypedMap<Object, Object> map = new TypedMap<>();
+        TypedMap.KeySafe<Object, String> ks = new TypedMap.KeySafe<>(String.class, new Object());
+        TypedMap.KeySafe<Object, String> ks1 = new TypedMap.KeySafe<>(String.class, new Object());
+        TypedMap.KeySafe<Object, Integer> ki = new TypedMap.KeySafe<>(Integer.class, new Object());
         map.put(ks, "string");
         map.put(ks1, "string1");
-        map.put(ki1, 1);
-        System.out.println(map.get(ks).unwrap());
-        System.out.println(map.get(ks1).unwrap());
-        System.out.println(map.get(ki1).unwrap());
+        map.put(ki, 1);
+        System.out.println(map.get(ks));
+        System.out.println(map.get(ks1));
+        System.out.println(map.get(ki));
     }
 
     @Test
     public void testClass()
     {
-        TypedMapClass map = TypedMapClass.of();
-        map.put(String.class, "string");
-        map.put(Integer.class, 1);
-        System.out.println(map.get(String.class).unwrap());
-        System.out.println(map.get(Integer.class).unwrap());
-    }
-
-    static class TestKey<T> implements TypedMap.Key<T, TestKey<?>>
-    {
-    }
-    static class TestKey1<T> extends TestKey<T>
-    {
+        TypedMap<Unit, Object> map = new TypedMap<>();
+        map.put(new TypedMap.KeySafe<>(String.class, Unit.INSTANCE), "string");
+        map.put(new TypedMap.KeySafe<>(Integer.class, Unit.INSTANCE), 1);
+        System.out.println(map.get(new TypedMap.KeySafe<>(String.class, Unit.INSTANCE)));
+        System.out.println(map.get(new TypedMap.KeySafe<>(Integer.class, Unit.INSTANCE)));
     }
 }

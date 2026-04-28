@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class FunctionInvertible<T extends @Nullable Object, U extends @Nullable Object> extends Invertible<FunctionInvertible<U, T>> implements ThrowableFunction<T, U, RuntimeException>
+public class FunctionInvertible<T extends @Nullable Object, U extends @Nullable Object> implements Invertible<FunctionInvertible<U, T>>, Function<T, U>
 {
     protected Function<? super T, ? extends U> forward;
     protected Function<? super U, ? extends T> backward;
@@ -25,13 +25,13 @@ public class FunctionInvertible<T extends @Nullable Object, U extends @Nullable 
     }
 
     @Override
-    protected FunctionInvertible<U, T> invert()
+    public FunctionInvertible<U, T> inverse()
     {
         return of(this.backward, this.forward);
     }
 
     @Override
-    public U applyOrThrow(T t)
+    public U apply(T t)
     {
         return this.forward.apply(t);
     }

@@ -61,7 +61,7 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
             PacketEvent.Specialized<PacketS2cWindowSlotUpdate> packetEvent,
             ItemStack original)
         {
-            super(packetEvent.getPlayer().unwrap(), original, packetEvent.getPacket().getSlotIndex());
+            super(Objects.requireNonNull(packetEvent.getPlayer()), original, packetEvent.getPacket().getSlotIndex());
             this.packetEvent = packetEvent;
         }
 
@@ -102,7 +102,7 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
             ItemStack original,
             int slotIndex)
         {
-            super(packetEvent.getPlayer().unwrap(), original, slotIndex);
+            super(Objects.requireNonNull(packetEvent.getPlayer()), original, slotIndex);
             this.packetEvent = packetEvent;
         }
 
@@ -274,14 +274,14 @@ public abstract class EventAsyncPlayerDisplayItemInWindow extends EventAsyncPlay
                     {
                         if(packetEvent.getPacket().getSyncId() > 0)
                             if(!Objects.equals(
-                                this.cacheSyncId.get(packetEvent.getPlayer().unwrap()),
+                                this.cacheSyncId.get(packetEvent.getPlayer()),
                                 packetEvent.getPacket().getSyncId()
                             ))
                                 return;
-                        Handler handler = handlerFactory.apply(packetEvent.getPlayer().unwrap());
+                        Handler handler = handlerFactory.apply(Objects.requireNonNull(packetEvent.getPlayer()));
                         Set<Integer> set = (packetEvent.getPacket().getSyncId() > 0 ?
                             this.cache :
-                            this.cachePlayer).get(packetEvent.getPlayer().unwrap());
+                            this.cachePlayer).get(packetEvent.getPlayer());
                         if(set == null)
                             return;
                         BiFunction<Integer, WrapperObject, WrapperObject> compute = (i, value) ->

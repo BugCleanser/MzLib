@@ -14,15 +14,15 @@ import mz.mzlib.util.wrapper.WrapperObject;
     @VersionName(name = "net.minecraft.datafixers.TypeReferences", begin = 1500, end = 1501),
     @VersionName(name = "net.minecraft.datafixer.TypeReferences", begin = 1501)
 })
-public interface DataUpdateTypesV1300 extends WrapperObject, DSLV1300.TypeReference
+public interface DataUpdateTypesV1300 extends WrapperObject, DSL_V1300.TypeReference
 {
     WrapperFactory<DataUpdateTypesV1300> FACTORY = WrapperFactory.of(DataUpdateTypesV1300.class);
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_16592", end = 1400),
         @VersionName(name = "ITEM_STACK", begin = 1400)
     })
-    DSLV1300.TypeReference static$itemStack();
-    static DSLV1300.TypeReference itemStack()
+    DSL_V1300.TypeReference static$itemStack();
+    static DSL_V1300.TypeReference itemStack()
     {
         return FACTORY.getStatic().static$itemStack();
     }

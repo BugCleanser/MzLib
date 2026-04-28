@@ -5,6 +5,7 @@ import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.authlib.GameProfile;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -41,13 +42,13 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
         ItemPlayerHead.OWNER.set(result.result, Option.some(description));
         return result;
     }
-    public static ItemStackBuilder playerHead0(Option<String> name, Option<UUID> uuid, String textures)
+    public static ItemStackBuilder playerHead0(@Nullable String name, @Nullable UUID uuid, String textures)
     {
         return playerHead(GameProfile.Description.textures(name, uuid, textures));
     }
     public static ItemStackBuilder playerHead0(UUID uuid, String textures)
     {
-        return playerHead0(Option.none(), Option.some(uuid), textures);
+        return playerHead0(null, uuid, textures);
     }
     public static ItemStackBuilder playerHead0(String textures)
     {
@@ -55,7 +56,7 @@ public class ItemStackBuilder implements Copyable<ItemStackBuilder>
     }
     public static ItemStackBuilder playerHead(UUID uuid, String texturesUrl)
     {
-        return playerHead(GameProfile.Description.texturesUrl(Option.none(), Option.some(uuid), texturesUrl));
+        return playerHead(GameProfile.Description.texturesUrl(null, uuid, texturesUrl));
     }
     public static ItemStackBuilder playerHead(String texturesUrl)
     {

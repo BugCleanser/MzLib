@@ -15,6 +15,7 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,72 +25,72 @@ import java.util.UUID;
 public interface GameProfileComponentV2005 extends WrapperObject
 {
     WrapperFactory<GameProfileComponentV2005> FACTORY = WrapperFactory.of(GameProfileComponentV2005.class);
-    static GameProfileComponentV2005 newInstance(GameProfile gameProfile)
+    static GameProfileComponentV2005 of(GameProfile gameProfile)
     {
-        return FACTORY.getStatic().static$newInstance(gameProfile);
+        return FACTORY.getStatic().static$of(gameProfile);
     }
 
-    GameProfileComponentV2005 static$newInstance(GameProfile gameProfile);
-    @SpecificImpl("static$newInstance")
+    GameProfileComponentV2005 static$of(GameProfile gameProfile);
+    @SpecificImpl("static$of")
     @VersionRange(end = 2109)
-    default GameProfileComponentV2005 static$newInstanceV_2109(GameProfile gameProfile)
+    default GameProfileComponentV2005 static$ofV_2109(GameProfile gameProfile)
     {
-        return newInstanceV_2109(gameProfile.getName(), gameProfile.getId(), gameProfile.getProperties());
+        return ofV_2109(gameProfile.getName(), gameProfile.getId(), gameProfile.getProperties());
     }
-    static GameProfileComponentV2005 newInstanceV_2109(Option<String> name, Option<UUID> id, PropertyMap properties)
+    static GameProfileComponentV2005 ofV_2109(@Nullable String name, @Nullable UUID id, PropertyMap properties)
     {
-        return FACTORY.getStatic().static$newInstance0V_2109(name.toOptional(), id.toOptional(), properties);
+        return FACTORY.getStatic().static$of0V_2109(Optional.ofNullable(name), Optional.ofNullable(id), properties);
     }
     @WrapConstructor
     @VersionRange(end = 2109)
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    GameProfileComponentV2005 static$newInstance0V_2109(
+    GameProfileComponentV2005 static$of0V_2109(
         Optional<String> name,
         Optional<UUID> id,
         PropertyMap properties);
-    @SpecificImpl("static$newInstance")
+    @SpecificImpl("static$of")
     @VersionRange(begin = 2109)
     @WrapMinecraftMethod(@VersionName(name = "ofStatic"))
-    GameProfileComponentV2005 static$newInstanceV2109(GameProfile gameProfile);
+    GameProfileComponentV2005 static$ofV2109(GameProfile gameProfile);
 
-    static GameProfileComponentV2005 newInstance(GameProfile.Description description)
+    static GameProfileComponentV2005 of(GameProfile.Description description)
     {
-        return FACTORY.getStatic().static$newInstance(description);
+        return FACTORY.getStatic().static$of(description);
     }
-    GameProfileComponentV2005 static$newInstance(GameProfile.Description description);
-    @SpecificImpl("static$newInstance")
+    GameProfileComponentV2005 static$of(GameProfile.Description description);
+    @SpecificImpl("static$of")
     @VersionRange(end = 2109)
-    default GameProfileComponentV2005 static$newInstanceV_2109(GameProfile.Description description)
+    default GameProfileComponentV2005 static$ofV_2109(GameProfile.Description description)
     {
-        return newInstanceV_2109(
+        return ofV_2109(
             description.getName(), description.getId(),
-            description.getProperties().unwrapOrGet(PropertyMap::newInstance)
+            Option.fromNullable(description.getProperties()).unwrapOrGet(PropertyMap::of)
         );
     }
-    @SpecificImpl("static$newInstance")
+    @SpecificImpl("static$of")
     @VersionRange(begin = 2109)
-    default GameProfileComponentV2005 static$newInstanceV2109(GameProfile.Description description)
+    default GameProfileComponentV2005 static$ofV2109(GameProfile.Description description)
     {
-        return newInstanceV2109(description, SkinTexturesV2109.SkinOverride.empty());
+        return ofV2109(description, SkinTexturesV2109.SkinOverride.empty());
     }
 
-    static GameProfileComponentV2005 newInstanceV2109(
+    static GameProfileComponentV2005 ofV2109(
         GameProfile.Description description,
         SkinTexturesV2109.SkinOverride override)
     {
-        if(description.getId().isSome() && description.getName().isSome() && description.getProperties().isSome())
-            return newInstanceV2109(EitherV1300.first(GameProfile.fromDescription(description)), override);
-        return newInstanceV2109(EitherV1300.second(DataV2109.fromDescription(description)), override);
+        if(description.getId() != null && description.getName() != null && description.getProperties() != null)
+            return ofV2109(EitherV1300.first(GameProfile.fromDescription(description)), override);
+        return ofV2109(EitherV1300.second(DataV2109.fromDescription(description)), override);
     }
-    static GameProfileComponentV2005 newInstanceV2109(
+    static GameProfileComponentV2005 ofV2109(
         EitherV1300<GameProfile, DataV2109> profileOrData,
         SkinTexturesV2109.SkinOverride override)
     {
-        return FACTORY.getStatic().static$newInstance0V2109(EitherV1300.fromWrapper(profileOrData), override);
+        return FACTORY.getStatic().static$of0V2109(EitherV1300.fromWrapper(profileOrData), override);
     }
     @WrapMinecraftMethod(@VersionName(name = "ofDispatched"))
     @VersionRange(begin = 2109)
-    GameProfileComponentV2005 static$newInstance0V2109(
+    GameProfileComponentV2005 static$of0V2109(
         EitherV1300<?, ?> profileOrData,
         SkinTexturesV2109.SkinOverride override);
 
@@ -119,13 +120,13 @@ public interface GameProfileComponentV2005 extends WrapperObject
     {
         WrapperFactory<DataV2109> FACTORY = WrapperFactory.of(DataV2109.class);
 
-        static DataV2109 newInstance(Option<String> name, Option<UUID> id, PropertyMap properties)
+        static DataV2109 of(@Nullable String name, @Nullable UUID id, PropertyMap properties)
         {
-            return FACTORY.getStatic().static$newInstance0(name.toOptional(), id.toOptional(), properties);
+            return FACTORY.getStatic().static$of0(Optional.ofNullable(name), Optional.ofNullable(id), properties);
         }
         @WrapConstructor
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        DataV2109 static$newInstance0(Optional<String> name, Optional<UUID> id, PropertyMap properties);
+        DataV2109 static$of0(Optional<String> name, Optional<UUID> id, PropertyMap properties);
 
         @WrapMinecraftMethod(@VersionName(name = "comp_4625")) // Mojang: name
         Optional<String> getName0();
@@ -134,20 +135,20 @@ public interface GameProfileComponentV2005 extends WrapperObject
         @WrapMinecraftMethod(@VersionName(name = "comp_4627")) // Mojang: properties
         PropertyMap getProperties();
 
-        default Option<String> getName()
+        default @Nullable String getName()
         {
-            return Option.fromOptional(this.getName0());
+            return this.getName0().orElse(null);
         }
-        default Option<UUID> getId()
+        default @Nullable UUID getId()
         {
-            return Option.fromOptional(this.getId0());
+            return this.getId0().orElse(null);
         }
 
         static DataV2109 fromDescription(GameProfile.Description description)
         {
-            return newInstance(
+            return of(
                 description.getName(), description.getId(),
-                description.getProperties().unwrapOrGet(PropertyMap::newInstance)
+                Option.fromNullable(description.getProperties()).unwrapOrGet(PropertyMap::of)
             );
         }
 
@@ -155,7 +156,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
         {
             return new GameProfile.Description(
                 this.getName(), this.getId(),
-                this.getProperties().getWrapped().isEmpty() ? Option.none() : Option.some(this.getProperties())
+                this.getProperties().getWrapped().isEmpty() ? null : this.getProperties()
             );
         }
     }

@@ -1,150 +1,237 @@
 package mz.mzlib.util;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-/**
- * @see TypedMapClass
- */
 @ApiStatus.Experimental
-public interface TypedMap<K0 extends TypedMap.Key<?, K0>>
+public class TypedMap<K, V>
 {
-    Map<K0, Object> asMap();
-    default <T, K extends Key<T, K0>> Option<T> get(K key)
+    Map<Key<K, ? extends V>, V> delegate;
+    
+    TypedMap(Map<Key<K, ? extends V>, V> delegate)
     {
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().get(RuntimeUtil.<K0>cast(key))));
+        this.delegate = delegate;
     }
-    default <T, K extends Key<T, K0>> Option<T> put(K key, T value)
+    public TypedMap(Supplier<Map<Key<K, ? extends V>, V>> delegateBuilder)
     {
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().put(RuntimeUtil.cast(key), RuntimeUtil.cast(value))));
+        this(RuntimeUtil.require(delegateBuilder.get(), Map::isEmpty));
     }
-    default <T, K extends Key<T, K0>> Option<T> remove(K key)
+    public TypedMap()
     {
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().remove(RuntimeUtil.<K0>cast(key))));
+        this(HashMap::new);
     }
-    default <T, K extends Key<T, K0>> T getOr(K key, T defaultValue)
+    
+    public int size()
     {
-        return RuntimeUtil.cast(this.asMap().getOrDefault(RuntimeUtil.<K0>cast(key), defaultValue));
+        return this.delegate.size();
     }
-    default int size()
+    
+    public boolean isEmpty()
     {
-        return this.asMap().size();
+        return this.delegate.isEmpty();
     }
-    default boolean isEmpty()
+    
+    public boolean containsKey(Key<?, ?> key)
     {
-        return this.asMap().isEmpty();
+        return this.delegate.containsKey(key);
     }
-    default boolean containsKey(K0 key)
+    
+    public boolean containsValue(Object value)
     {
-        return this.asMap().containsKey(key);
+        //noinspection SuspiciousMethodCalls
+        return this.delegate.containsValue(value);
     }
-    default boolean containsValue(Object value)
+    
+    public <V1 extends V> @Nullable V1 get(Key<K, V1> key)
     {
-        return this.asMap().containsValue(value);
+        //noinspection unchecked
+        return (@Nullable V1) this.delegate.get(key);
     }
-    default void putAll(TypedMap<K0> m)
+    
+    public <V1 extends V> @Nullable V1 put(Key<K, V1> key, V1 value)
     {
-        this.asMap().putAll(m.asMap());
+        //noinspection unchecked
+        return (@Nullable V1) this.delegate.put(key, value);
     }
-    default void clear()
+    
+    public <V1 extends V> @Nullable V1 remove(Key<K, V1> key)
     {
-        this.asMap().clear();
+        //noinspection unchecked
+        return (@Nullable V1) this.delegate.remove(key);
     }
-    default Set<K0> keySet()
+    
+    public void putAll(TypedMap<K, ? extends V> m)
     {
-        return this.asMap().keySet();
+        this.delegate.putAll(m.delegate);
     }
-    default Collection<Object> values()
+    
+    public void clear()
     {
-        return this.asMap().values();
+        this.delegate.clear();
     }
-    default <T, K extends Key<T, K0>> Option<T> putIfAbstract(K key, T value)
+    
+    public Set<Key<K, ? extends V>> keySet()
     {
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().putIfAbsent(RuntimeUtil.cast(key), value)));
+        return this.delegate.keySet();
     }
-    default <T, K extends Key<T, K0>> boolean remove(K key, T value)
+    
+    public Collection<V> values()
     {
-        return this.asMap().remove(RuntimeUtil.<K0>cast(key), value);
+        return this.delegate.values();
     }
-    default <T, K extends Key<T, K0>> boolean replace(K key, T value, T newValue)
+    
+    public Set<Map.Entry<Key<K, ? extends V>, V>> entrySet()
     {
-        return this.asMap().replace(RuntimeUtil.cast(key), value, newValue);
+        return this.delegate.entrySet();
     }
-    default <T, K extends Key<T, K0>> Option<T> replace(K key, T value)
+    
+    @Override
+    public boolean equals(Object obj)
     {
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().replace(RuntimeUtil.cast(key), value)));
+        if(this == obj)
+            return true;
+        if(!(obj instanceof TypedMap))
+            return false;
+        TypedMap<?, ?> other = (TypedMap<?, ?>) obj;
+        return this.delegate.equals(other.delegate);
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> T computeIfAbsent(
-        K key,
-        ThrowableFunction<? super K, ? extends T, E> action) throws E
+    
+    @Override
+    public int hashCode()
     {
-        return RuntimeUtil.cast(this.asMap().computeIfAbsent(RuntimeUtil.cast(key), RuntimeUtil.cast(action)));
+        return this.delegate.hashCode();
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> T computeIfAbsent(
-        K key,
-        ThrowableSupplier<? extends T, E> action) throws E
+    
+    public <V1 extends V> V1 getOrDefault(Key<K, V1> key, V1 defaultValue)
     {
-        return this.computeIfAbsent(key, k -> action.getOrThrow());
+        //noinspection unchecked
+        return (V1) this.delegate.getOrDefault(key, defaultValue);
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> Option<T> computeIfPresent(
-        K key,
-        ThrowableBiFunction<? super K, ? super T, ? extends Option<? extends T>, E> action) throws E
+    
+    public void forEach(BiConsumer<? super Key<K, ? extends V>, ? super V> action)
     {
-        RuntimeUtil.<E>declaredlyThrow();
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().computeIfPresent(
-            RuntimeUtil.cast(key),
-            (k, v) -> action.apply(RuntimeUtil.cast(k), RuntimeUtil.cast(v)).toNullable()
-        )));
+        this.delegate.forEach(action);
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> Option<T> computeIfPresent(
-        K key,
-        ThrowableFunction<? super T, ? extends Option<? extends T>, E> action) throws E
+    
+    public <V1 extends V> V1 putIfAbsent(Key<K, V1> key, V1 value)
     {
-        return this.computeIfPresent(key, (k, v) -> action.applyOrThrow(v));
+        //noinspection unchecked
+        return (V1) this.delegate.putIfAbsent(key, value);
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> Option<T> compute(
-        K key,
-        ThrowableBiFunction<? super K, ? super T, ? extends Option<? extends T>, E> action) throws E
+    
+    public <V1> boolean remove(Key<?, V1> key, V1 value)
     {
-        RuntimeUtil.<E>declaredlyThrow();
-        return Option.fromNullable(RuntimeUtil.cast(this.asMap().compute(
-            RuntimeUtil.cast(key),
-            (k, v) -> action.apply(RuntimeUtil.cast(k), RuntimeUtil.cast(v)).toNullable()
-        )));
+        //noinspection SuspiciousMethodCalls
+        return this.delegate.remove(key, value);
     }
-    default <T, K extends Key<T, K0>, E extends Throwable> Option<T> compute(
-        K key,
-        ThrowableFunction<? super T, ? extends Option<? extends T>, E> action) throws E
+    
+    public <V1 extends V> boolean replace(Key<K, V1> key, V1 oldValue, V1 newValue)
     {
-        return this.compute(key, (k, v) -> action.applyOrThrow(v));
+        return this.delegate.replace(key, oldValue, newValue);
     }
-
-
-    interface Key<T, K0 extends Key<?, K0>>
+    
+    public <V1 extends V> V1 replace(Key<K, V1> key, V1 value)
     {
+        //noinspection unchecked
+        return (V1) this.delegate.replace(key, value);
     }
-
-    static <K0 extends TypedMap.Key<?, K0>> TypedMap<K0> of()
+    
+    public <V1 extends V> V1 computeIfAbsent(Key<K, V1> key, Function<? super K, ? extends V1> mappingFunction)
     {
-        //noinspection Convert2Diamond: fuck javac
-        return of(new HashMap<K0, Object>());
+        //noinspection unchecked
+        return (V1) this.delegate.computeIfAbsent(key, it -> mappingFunction.apply(it.getData()));
     }
-    static <K0 extends TypedMap.Key<?, K0>> TypedMap<K0> of(Map<K0, Object> map)
+    
+    public <V1 extends V> @Nullable V1 computeIfPresent(Key<K, V1> key, BiFunction<? super K, ? super V1, ? extends @Nullable V1> mappingFunction)
     {
-        return new OfMap<>(map);
+        //noinspection unchecked
+        return (@Nullable V1) this.delegate.computeIfPresent(key, (k, v) -> mappingFunction.apply(k.getData(), (V1) v));
     }
-    class OfMap<K0 extends TypedMap.Key<?, K0>> implements TypedMap<K0>
+    
+    public <V1 extends V> @Nullable V1 compute(Key<K, V1> key, BiFunction<? super K, ? super @Nullable V1, ? extends @Nullable V1> mappingFunction)
     {
-        Map<K0, Object> delegate;
-        public OfMap(Map<K0, Object> delegate)
+        //noinspection unchecked
+        return (@Nullable V1) this.delegate.compute(key, (k, v) -> mappingFunction.apply(k.getData(), (V1) v));
+    }
+    
+    public <V1 extends V> @Nullable V1 merge(Key<K, V1> key, V1 value, BiFunction<? super V1, ? super V1, @Nullable V1> remappingFunction)
+    {
+        //noinspection unchecked
+        return (V1) this.delegate.merge(key, value, (a, b) -> remappingFunction.apply((V1) a, (V1) b));
+    }
+    
+    @SuppressWarnings("unused")
+    public static class Key<K, V1> implements Comparable<Key<K, ?>>
+    {
+        protected K data;
+        
+        public Key(K data)
         {
-            this.delegate = delegate;
+            this.data = data;
+        }
+        public static <K, V1> Key<K, V1> of(K data)
+        {
+            return new Key<>(data);
+        }
+        
+        public K getData()
+        {
+            return this.data;
+        }
+        
+        @Override
+        public int hashCode()
+        {
+            return this.data.hashCode();
         }
         @Override
-        public Map<K0, Object> asMap()
+        public boolean equals(Object obj)
         {
-            return this.delegate;
+            if(!(obj instanceof Key))
+                return false;
+            return this.data.equals(((Key<?, ?>)obj).data);
+        }
+        @Override
+        public int compareTo(Key<K, ?> o)
+        {
+            return RuntimeUtil.<Comparable<K>>cast(this.data).compareTo(o.data);
+        }
+    }
+    
+    public static class KeySafe<K, V1> extends Key<K, V1>
+    {
+        protected Class<V1> type;
+        
+        public KeySafe(Class<V1> type, K data)
+        {
+            super(data);
+            this.type = type;
+        }
+        
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(this.type, this.data);
+        }
+        @Override
+        public boolean equals(Object obj)
+        {
+            if(!(obj instanceof KeySafe))
+                return false;
+            KeySafe<?, ?> that = (KeySafe<?, ?>)obj;
+            return this.type.equals(that.type) && this.data.equals(that.data);
+        }
+        @ApiStatus.Experimental
+        @Override
+        public int compareTo(Key<K, ?> o)
+        {
+            throw new UnsupportedOperationException();
         }
     }
 }

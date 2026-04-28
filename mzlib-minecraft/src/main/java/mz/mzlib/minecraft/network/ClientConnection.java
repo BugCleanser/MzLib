@@ -15,10 +15,10 @@ import mz.mzlib.minecraft.network.packet.PacketHandler;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.Nullable;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.network.ClientConnection"))
 public interface ClientConnection extends WrapperObject
@@ -34,10 +34,10 @@ public interface ClientConnection extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "channel"))
     Channel getChannel();
 
-    default Option<EntityPlayer> getPlayer()
+    default @Nullable EntityPlayer getPlayer()
     {
         return this.getPacketListener().asOption(ServerPlayNetworkHandler.FACTORY)
-            .map(ServerPlayNetworkHandler::getPlayer);
+            .map(ServerPlayNetworkHandler::getPlayer).toNullable();
     }
 
     @WrapMinecraftMethod(@VersionName(name = "send"))

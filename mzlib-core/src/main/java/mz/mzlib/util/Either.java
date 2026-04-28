@@ -1,10 +1,12 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
-public abstract class Either<F extends @Nullable Object, S extends @Nullable Object> extends Invertible<Either<S, F>>
+@ApiStatus.NonExtendable
+public abstract class Either<F extends @Nullable Object, S extends @Nullable Object> implements Invertible<Either<S, F>>
 {
     public abstract boolean isFirst();
     public abstract boolean isSecond();
@@ -12,7 +14,7 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
     public abstract Option<S> getSecond();
 
     @Override
-    public abstract Either<S, F> invert();
+    public abstract Either<S, F> inverse();
 
     public abstract <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action);
     public abstract <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action);
@@ -39,13 +41,19 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
             return second(second);
     }
 
-    static class First<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
+    @ApiStatus.NonExtendable
+    public static class First<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
     {
         protected F value;
         public First(F value)
         {
             this.value = value;
         }
+        public F get()
+        {
+            return this.value;
+        }
+
         public boolean isFirst()
         {
             return true;
@@ -54,23 +62,25 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
         {
             return false;
         }
+
         public Option<F> getFirst()
         {
-            return Option.some(this.value);
+            return Option.some(this.get());
         }
         public Option<S> getSecond()
         {
             return Option.none();
         }
+
         @Override
-        public Either<S, F> invert()
+        public Either<S, F> inverse()
         {
-            return second(this.value);
+            return second(this.get());
         }
         @Override
         public <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action)
         {
-            return first(action.apply(this.value));
+            return first(action.apply(this.get()));
         }
         @Override
         public <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action)
@@ -80,17 +90,23 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
         @Override
         public <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
         {
-            return actionFirst.apply(this.value);
+            return actionFirst.apply(this.get());
         }
     }
 
-    static class Second<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
+    @ApiStatus.NonExtendable
+    public static class Second<F extends @Nullable Object, S extends @Nullable Object> extends Either<F, S>
     {
         protected S value;
         public Second(S value)
         {
             this.value = value;
         }
+        public S get()
+        {
+            return this.value;
+        }
+
         public boolean isFirst()
         {
             return false;
@@ -99,18 +115,20 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
         {
             return true;
         }
+
         public Option<F> getFirst()
         {
             return Option.none();
         }
         public Option<S> getSecond()
         {
-            return Option.some(value);
+            return Option.some(this.get());
         }
+
         @Override
-        public Either<S, F> invert()
+        public Either<S, F> inverse()
         {
-            return new First<>(value);
+            return first(this.get());
         }
         @Override
         public <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action)
@@ -120,12 +138,12 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
         @Override
         public <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action)
         {
-            return second(action.apply(this.value));
+            return second(action.apply(this.get()));
         }
         @Override
         public <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
         {
-            return actionSecond.apply(this.value);
+            return actionSecond.apply(this.get());
         }
     }
 }

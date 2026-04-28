@@ -1,18 +1,28 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class Invertible<U extends Invertible<? extends Invertible<U>>>
+public interface Invertible<U extends Invertible<? extends Invertible<U>>>
 {
-    protected @Nullable U inverse;
+    U inverse();
 
-    protected abstract U invert();
-    public U inverse()
+    @ApiStatus.Experimental
+    abstract class Abstract<U extends Abstract<? extends Invertible<U>>> implements Invertible<U>
     {
-        if(this.inverse != null)
+        @ApiStatus.Internal
+        protected @Nullable U inverse;
+
+        @ApiStatus.OverrideOnly
+        protected abstract U invert();
+        @Override
+        public U inverse()
+        {
+            if(this.inverse != null)
+                return this.inverse;
+            this.inverse = this.invert();
+            this.inverse.inverse = RuntimeUtil.cast(this);
             return this.inverse;
-        this.inverse = this.invert();
-        this.inverse.inverse = RuntimeUtil.cast(this);
-        return this.inverse;
+        }
     }
 }

@@ -20,11 +20,7 @@ class OptionTest {
         assertTrue(option.isSome());
         assertEquals("test", option.toNullable());
         assertEquals("test", option.unwrap());
-        assertEquals(Optional.of("test"), option.toOptional());
-
-        // Test edge case: null input should throw NullPointerException
-        //noinspection DataFlowIssue
-        assertThrows(NullPointerException.class, () -> Option.some(null));
+        assertEquals(Optional.of("test"), Option.toOptional(option));
     }
 
     @Test
@@ -33,7 +29,7 @@ class OptionTest {
         Option<String> option = Option.none();
         assertTrue(option.isNone());
         assertNull(option.toNullable());
-        assertEquals(Optional.empty(), option.toOptional());
+        assertEquals(Optional.empty(), Option.toOptional(option));
 
         // Test edge case: should not throw any exception
         assertDoesNotThrow(() -> Option.none().unwrapOr("default"));
@@ -46,13 +42,13 @@ class OptionTest {
         assertTrue(option.isSome());
         assertEquals("test", option.toNullable());
         assertEquals("test", option.unwrap());
-        assertEquals(Optional.of("test"), option.toOptional());
+        assertEquals(Optional.of("test"), Option.toOptional(option));
 
         // Test edge case with null value
         Option<String> noneOption = Option.fromNullable(null);
         assertTrue(noneOption.isNone());
         assertNull(noneOption.toNullable());
-        assertEquals(Optional.empty(), noneOption.toOptional());
+        assertEquals(Optional.empty(), Option.toOptional(noneOption));
     }
 
     @Test
@@ -63,14 +59,14 @@ class OptionTest {
         assertTrue(option.isSome());
         assertEquals("test", option.toNullable());
         assertEquals("test", option.unwrap());
-        assertEquals(Optional.of("test"), option.toOptional());
+        assertEquals(Optional.of("test"), Option.toOptional(option));
 
         // Test edge case with empty optional
         Optional<String> emptyOptional = Optional.empty();
         Option<String> noneOption = Option.fromOptional(emptyOptional);
         assertTrue(noneOption.isNone());
         assertNull(noneOption.toNullable());
-        assertEquals(Optional.empty(), noneOption.toOptional());
+        assertEquals(Optional.empty(), Option.toOptional(noneOption));
     }
 
     @Test

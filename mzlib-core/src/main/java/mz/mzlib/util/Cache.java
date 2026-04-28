@@ -2,10 +2,10 @@ package mz.mzlib.util;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.ref.SoftReference;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -66,20 +66,23 @@ public interface Cache<K, V extends @Nullable Object>
         @Override
         public V get(K key, Supplier<V> supplier)
         {
-            Box.Mut<@Nullable Box<V>> result = Box.Mut.of(null);
+            Box.Mut<@UnknownNullability V> result = Box.Mut.of(null);
             this.data.compute(key, (k, v) ->
             {
                 if(v != null)
                 {
-                    result.set(v.get());
-                    if(result.get() != null)
+                    @Nullable Box<V> value = v.get();
+                    if(value != null)
+                    {
+                        result.set(value.get());
                         return v;
+                    }
                 }
-                Box<V> value = Box.of(supplier.get());
+                V value = supplier.get();
                 result.set(value);
-                return new SoftReference<>(value);
+                return new SoftReference<>(Box.of(value));
             });
-            return Objects.requireNonNull(result.get()).get();
+            return result.get();
         }
 
         @Override

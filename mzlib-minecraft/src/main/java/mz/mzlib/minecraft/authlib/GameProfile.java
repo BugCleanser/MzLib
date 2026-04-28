@@ -13,9 +13,12 @@ import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Objects;
 import java.util.UUID;
 
 @WrapMinecraftClass(@VersionName(name = "com.mojang.authlib.GameProfile"))
@@ -23,81 +26,22 @@ public interface GameProfile extends WrapperObject
 {
     WrapperFactory<GameProfile> FACTORY = WrapperFactory.of(GameProfile.class);
 
-    UUID NIL_UUID_V2002 = new UUID(0L, 0L);
-
     /**
      * id and name cannot be null at the same time.
      */
-    static GameProfile newInstance(Option<UUID> id, Option<String> name)
+    static GameProfile of(@Nullable UUID id, @Nullable String name)
     {
-        return FACTORY.getStatic().static$newInstance(id, name);
+        return FACTORY.getStatic().static$of(id, name);
     }
 
-    @WrapConstructor
-    GameProfile static$newInstance0(UUID id, String name);
-
-    GameProfile static$newInstance(Option<UUID> id, Option<String> name);
-
-    @SpecificImpl("static$newInstance")
-    @VersionRange(end = 2002)
-    default GameProfile static$newInstanceV_2002(Option<UUID> id, Option<String> name)
+    @ApiStatus.Experimental
+    static GameProfile ofV2109(UUID id, String name, PropertyMap properties)
     {
-        return this.static$newInstance0(id.toNullable(), name.toNullable());
+        return FACTORY.getStatic().static$ofV2109(id, name, properties);
     }
 
-    @SpecificImpl("static$newInstance")
-    @VersionRange(begin = 2002)
-    default GameProfile static$newInstanceV2002(Option<UUID> id, Option<String> name)
-    {
-        return this.static$newInstance0(id.unwrapOr(NIL_UUID_V2002), name.unwrapOr(""));
-    }
-
-    static GameProfile newInstanceV2109(UUID id, String name, PropertyMap properties)
-    {
-        return FACTORY.getStatic().static$newInstanceV2109(id, name, properties);
-    }
-    @WrapConstructor
-    @VersionRange(begin = 2109)
-    GameProfile static$newInstanceV2109(UUID id, String name, PropertyMap properties);
-
-    @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
-    UUID getId0();
-
-    Option<UUID> getId();
-
-    @SpecificImpl("getId")
-    @VersionRange(end = 2002)
-    default Option<UUID> getIdV_2002()
-    {
-        return Option.fromNullable(getId0());
-    }
-
-    @SpecificImpl("getId")
-    @VersionRange(begin = 2002)
-    default Option<UUID> getIdV2002()
-    {
-        return Option.some(getId0()).then(
-            ThrowableFunction.switcher(NIL_UUID_V2002::equals, ThrowableSupplier.<UUID>nul().ignore())
-                .thenApply(FunctionInvertible.option()));
-    }
-
-    @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
-    String getName0();
-    Option<String> getName();
-    @SpecificImpl("getName")
-    @VersionRange(end = 2002)
-    default Option<String> getNameV_2002()
-    {
-        return Option.fromNullable(getName0());
-    }
-    @SpecificImpl("getName")
-    @VersionRange(begin = 2002)
-    default Option<String> getNameV2002()
-    {
-        return Option.some(getName0()).then(
-            ThrowableFunction.switcher(String::isEmpty, ThrowableSupplier.<String>nul().ignore())
-                .thenApply(FunctionInvertible.option()));
-    }
+    @Nullable UUID getId();
+    @Nullable String getName();
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "properties"))
     PropertyMap getProperties();
@@ -106,100 +50,77 @@ public interface GameProfile extends WrapperObject
 
     static GameProfile fromDescription(Description description)
     {
-        GameProfile result = newInstance(description.getId(), description.getName());
-        for(PropertyMap p : description.getProperties())
-        {
+        GameProfile result = of(description.getId(), description.getName());
+        PropertyMap p = description.getProperties();
+        if(p != null)
             result.setProperties(p);
-        }
         return result;
     }
 
     GameProfile.Description toDescription();
-    @SpecificImpl("toDescription")
-    @VersionRange(end = 2002)
-    @VersionRange(begin = 2005)
-    default GameProfile.Description toDescriptionV_2002__2005()
-    {
-        return new Description(
-            this.getName(), this.getId(),
-            this.getProperties().getWrapped().isEmpty() ? Option.none() : Option.some(this.getProperties())
-        );
-    }
-    @SpecificImpl("toDescription")
-    @VersionRange(begin = 2002, end = 2005)
-    default GameProfile.Description toDescriptionV2002_2005()
-    {
-        return new Description(
-            this.getName().mapNullable(name -> name.isEmpty() ? null : name),
-            this.getId().mapNullable(id -> id.equals(NIL_UUID_V2002) ? null : id), this.getProperties()
-        );
-    }
 
     /**
      * 指定 properties，或由 id 或 name 得到
      * id 比 name 优先
      * 在低版本，至少要有 name 或 id
      */
+    @ApiStatus.Experimental
     class Description
     {
-        Option<String> name;
-        Option<UUID> id;
-        Option<PropertyMap> properties;
+        @Nullable String name;
+        @Nullable UUID id;
+        @Nullable PropertyMap properties;
 
-        public Description(Option<String> name, Option<UUID> id, Option<PropertyMap> properties)
+        public Description(@Nullable String name, @Nullable UUID id, @Nullable PropertyMap properties)
         {
-            if(id.isNone() && name.isNone() && properties.isNone())
+            if(id == null && name == null && properties == null)
                 throw new IllegalArgumentException();
             this.id = id;
             this.name = name;
             this.properties = properties;
         }
-        public Description(Option<String> name, Option<UUID> id, PropertyMap properties)
-        {
-            this(name, id, Option.some(properties));
-        }
         public Description(PropertyMap properties)
         {
-            this(Option.none(), Option.none(), properties);
+            this(null, null, properties);
         }
         public Description(UUID id)
         {
-            this(Option.none(), Option.some(id), Option.none());
+            this(null, id, null);
         }
         public Description(String name)
         {
-            this(Option.some(name), Option.none(), Option.none());
+            this(name, null, null);
         }
 
-        public Option<String> getName()
+        public @Nullable String getName()
         {
             return this.name;
         }
-        public Option<UUID> getId()
+        public @Nullable UUID getId()
         {
             return this.id;
         }
-        public Option<PropertyMap> getProperties()
+        public @Nullable PropertyMap getProperties()
         {
             return this.properties;
         }
 
-        public static Description textures(Option<String> name, Option<UUID> uuid, String textures)
+        public static Description textures(@Nullable String name, @Nullable UUID uuid, String textures)
         {
             String keyTextures = "textures";
             LinkedHashMultimap<String, Property> properties = LinkedHashMultimap.create();
-            properties.put(keyTextures, Property.newInstance(keyTextures, textures, Option.none()));
-            return new Description(name, uuid, PropertyMap.newInstance(properties));
+            properties.put(keyTextures, Property.of(keyTextures, textures));
+            return new Description(name, uuid, PropertyMap.of(properties));
         }
         public static Description textures(String textures)
         {
             return textures(
-                Option.none(), Option.some(UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8))),
+                null, UUID.nameUUIDFromBytes(textures.getBytes(StandardCharsets.UTF_8)),
                 textures
             );
         }
 
-        public static Description texturesUrl(Option<String> name, Option<UUID> uuid, String texturesUrl)
+        public static Description texturesUrl(@Nullable String name, @Nullable UUID uuid, String texturesUrl)
         {
             return textures(name, uuid, urlToTextures(texturesUrl));
         }
@@ -220,5 +141,78 @@ public interface GameProfile extends WrapperObject
             }
             return Base64.getEncoder().encodeToString(textures.toString().getBytes(StandardCharsets.UTF_8));
         }
+    }
+
+
+    @ApiStatus.Internal
+    UUID NIL_UUID_V2002 = new UUID(0L, 0L);
+
+    GameProfile static$of(@Nullable UUID id, @Nullable String name);
+    @SpecificImpl("static$of")
+    @VersionRange(end = 2002)
+    default GameProfile static$of$implV_2002(@Nullable UUID id, @Nullable String name)
+    {
+        return this.static$of0(id, name);
+    }
+    @SpecificImpl("static$of")
+    @VersionRange(begin = 2002)
+    default GameProfile static$of$implV2002(@Nullable UUID id, @Nullable String name)
+    {
+        return this.static$of0(Option.fromNullable(id).unwrapOr(NIL_UUID_V2002), Option.fromNullable(name).unwrapOr(""));
+    }
+    @WrapConstructor
+    GameProfile static$of0(@Nullable UUID id, @Nullable String name);
+
+    @WrapConstructor
+    @VersionRange(begin = 2109)
+    GameProfile static$ofV2109(UUID id, String name, PropertyMap properties);
+
+    @SpecificImpl("getId")
+    @VersionRange(end = 2002)
+    default @Nullable UUID getId$implV_2002()
+    {
+        return this.getId0();
+    }
+    @SpecificImpl("getId")
+    @VersionRange(begin = 2002)
+    default @Nullable UUID getId$implV2002()
+    {
+        UUID result = Objects.requireNonNull(this.getId0());
+        return result.equals(NIL_UUID_V2002) ? null : result;
+    }
+    @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
+    @Nullable UUID getId0();
+
+    @SpecificImpl("getName")
+    @VersionRange(end = 2002)
+    default @Nullable String getName$implV_2002()
+    {
+        return this.getName0();
+    }
+    @SpecificImpl("getName")
+    @VersionRange(begin = 2002)
+    default @Nullable String getName$implV2002()
+    {
+        String result = Objects.requireNonNull(this.getName0());
+        return result.isEmpty() ? null : result;
+    }
+    @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
+    @Nullable String getName0();
+
+    @SpecificImpl("toDescription")
+    @VersionRange(end = 2002)
+    @VersionRange(begin = 2005)
+    default GameProfile.Description toDescription$implV_2002__2005()
+    {
+        return new Description(
+            this.getName(), this.getId(),
+            this.getProperties().getWrapped().isEmpty() ? null : this.getProperties()
+        );
+    }
+    @SpecificImpl("toDescription")
+    @VersionRange(begin = 2002, end = 2005)
+    default GameProfile.Description toDescription$implV2002_2005()
+    {
+        return new Description(this.getName(), this.getId(), this.getProperties());
     }
 }

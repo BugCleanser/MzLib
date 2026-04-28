@@ -5,9 +5,11 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.util.Instance;
 import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.UnknownNullability;
 
 public interface PermissionHelp extends Instance, IRegistrar<Permission>
 {
+    @UnknownNullability
     PermissionHelp instance = RuntimeUtil.nul();
     default boolean check(CommandSource commandSource, String permission)
     {

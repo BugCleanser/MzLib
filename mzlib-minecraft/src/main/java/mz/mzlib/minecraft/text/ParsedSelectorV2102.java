@@ -5,7 +5,6 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.serialization.DataResultV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -19,7 +18,7 @@ public interface ParsedSelectorV2102 extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "comp_3067"))
     String getUnparsed();
 
-    static Result<Option<ParsedSelectorV2102>, String> parse(String selector)
+    static Result<ParsedSelectorV2102, String> parse(String selector)
     {
         return new DataResultV1600.Wrapper<>(FACTORY.getStatic().static$parse0(selector), FACTORY).toResult();
     }

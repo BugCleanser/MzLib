@@ -2,24 +2,24 @@ package mz.mzlib.minecraft.network.packet;
 
 import io.netty.channel.Channel;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.TaskQueue;
 import mz.mzlib.util.wrapper.WrapperFactory;
+import org.jetbrains.annotations.Nullable;
 
 public class PacketEvent
 {
     public Channel channel;
-    public Option<EntityPlayer> player;
+    public @Nullable EntityPlayer player;
     final Packet packet; // ref
     public boolean isCancelled = false;
-    public PacketEvent(Channel channel, Option<EntityPlayer> player, final Packet packet)
+    public PacketEvent(Channel channel, @Nullable EntityPlayer player, final Packet packet)
     {
         this.channel = channel;
         this.player = player;
         this.packet = packet;
     }
 
-    public Option<EntityPlayer> getPlayer()
+    public @Nullable EntityPlayer getPlayer()
     {
         return this.player;
     }
@@ -93,7 +93,7 @@ public class PacketEvent
             return this.type;
         }
 
-        public Option<EntityPlayer> getPlayer()
+        public @Nullable EntityPlayer getPlayer()
         {
             return this.getBase().getPlayer();
         }

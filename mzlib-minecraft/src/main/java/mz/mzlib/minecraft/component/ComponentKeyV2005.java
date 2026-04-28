@@ -9,7 +9,6 @@ import mz.mzlib.minecraft.registry.RegistriesV1300;
 import mz.mzlib.minecraft.serialization.CodecV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -70,27 +69,27 @@ public interface ComponentKeyV2005<T> extends WrapperObject
             return new CodecV1600.Wrapper<>(this.base.getCodec(), this.type);
         }
 
-        public Result<Option<T>, String> decode(NbtCompound nbt)
+        public Result<T, String> decode(NbtCompound nbt)
         {
             return this.getCodec().parse(NbtOpsV1300.withRegistriesV1903(), nbt).toResult();
         }
-        public Result<Option<NbtCompound>, String> encode(T value)
+        public Result<NbtCompound, String> encode(T value)
         {
             return this.getCodec().encodeStart(NbtOpsV1300.withRegistriesV1903(), value).toResult();
         }
         public T copy(T value)
         {
-            Result<Option<NbtCompound>, String> encode = this.encode(value);
-            for(String err : encode.getError())
+            Result<NbtCompound, String> encode = this.encode(value);
+            for(String err : encode.getPossibleError())
             {
                 throw new RuntimeException(err);
             }
-            Result<Option<T>, String> decode = this.decode(encode.getValue().unwrap());
-            for(String err : decode.getError())
+            Result<T, String> decode = this.decode(encode.getPossibleValue().unwrap());
+            for(String err : decode.getPossibleError())
             {
                 throw new RuntimeException(err);
             }
-            return decode.getValue().unwrap();
+            return decode.getPossibleValue().unwrap();
         }
     }
 }

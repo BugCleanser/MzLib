@@ -13,7 +13,7 @@ public class EventAsyncDisplayEntity<P extends Packet> extends EventPlayer imple
     PacketEvent.Specialized<P> packetEvent;
     public EventAsyncDisplayEntity(DisplayEntity displayEntity, PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent.getPlayer().unwrap());
+        super(packetEvent.getPlayer());
         this.displayEntity = displayEntity;
         this.packetEvent = packetEvent;
     }

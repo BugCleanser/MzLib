@@ -1,77 +1,86 @@
 package mz.mzlib.minecraft.entity.data;
 
-import mz.mzlib.util.Option;
+import mz.mzlib.util.RuntimeUtil;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+// TODO
+@ApiStatus.Experimental
 public interface EntityDataHolder
 {
-    Option<Object> getData(EntityDataKey key);
-
-    Option<Object> putData(EntityDataKey key, Object value);
-
-    Option<Object> removeData(EntityDataKey key);
-
-    void forEachData(BiConsumer<EntityDataKey, Object> action);
-
-    default boolean hasData(EntityDataKey key)
+    <T> @Nullable T getData(EntityDataKey<T> key);
+    
+    <T> @Nullable T putData(EntityDataKey<T> key, T value);
+    
+    <T> @Nullable T removeData(EntityDataKey<T> key);
+    
+    @ApiStatus.Experimental
+    void forEachData(BiConsumer<EntityDataKey<?>, Object> action);
+    
+    default boolean hasData(EntityDataKey<?> key)
     {
-        return getData(key) != null;
+        return this.getData(key)!=null;
     }
-
-    default <T> Option<T> getData(EntityDataAdapter<T> adapter)
+    
+    default <T> @Nullable T getData(EntityDataAdapter<T> adapter)
     {
         return adapter.get(this);
     }
+    
     @SuppressWarnings("UnusedReturnValue")
-    default <T> Option<T> putData(EntityDataAdapter<T> adapter, T value)
+    default <T> @Nullable T putData(EntityDataAdapter<T> adapter, T value)
     {
         return adapter.put(this, value);
     }
-    default <T> Option<T> removeData(EntityDataAdapter<T> adapter)
+    
+    default <T> @Nullable T removeData(EntityDataAdapter<T> adapter)
     {
         return adapter.remove(this);
     }
+    
     default boolean hasData(EntityDataAdapter<?> adapter)
     {
         return this.hasData(adapter.getKey());
     }
-
-    static EntityDataHolder of(Map<EntityDataKey, Object> map)
+    
+    @ApiStatus.Experimental
+    static EntityDataHolder of(Map<EntityDataKey<?>, Object> map)
     {
         return new ByMap(map);
     }
-
+    
     class ByMap implements EntityDataHolder
     {
-        Map<EntityDataKey, Object> map;
-        public ByMap(Map<EntityDataKey, Object> map)
+        private final Map<EntityDataKey<?>, Object> map;
+        public ByMap(Map<EntityDataKey<?>, Object> map)
         {
             this.map = map;
         }
         @Override
-        public Option<Object> getData(EntityDataKey key)
+        public <T> @Nullable T getData(EntityDataKey<T> key)
         {
-            return Option.fromNullable(this.map.get(key));
+            return RuntimeUtil.<@Nullable T>cast(this.map.get(key));
         }
         @Override
-        public Option<Object> putData(EntityDataKey key, Object value)
+        public <T> @Nullable T putData(EntityDataKey<T> key, T value)
         {
-            return Option.fromNullable(this.map.put(key, value));
+            return RuntimeUtil.<@Nullable T>cast(this.map.put(key, value));
         }
         @Override
-        public Option<Object> removeData(EntityDataKey key)
+        public <T> @Nullable T removeData(EntityDataKey<T> key)
         {
-            return Option.fromNullable(this.map.remove(key));
+            return RuntimeUtil.<@Nullable T>cast(this.map.remove(key));
         }
         @Override
-        public boolean hasData(EntityDataKey key)
+        public boolean hasData(EntityDataKey<?> key)
         {
             return this.map.containsKey(key);
         }
         @Override
-        public void forEachData(BiConsumer<EntityDataKey, Object> action)
+        public void forEachData(BiConsumer<EntityDataKey<?>, Object> action)
         {
             this.map.forEach(action);
         }

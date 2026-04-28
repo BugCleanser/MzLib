@@ -37,9 +37,8 @@ public class WrapperFactory<T extends WrapperObject>
         return wrapper.as(this);
     }
 
-    public static <T extends WrapperObject> WrapperFactory<T> of(Class<T> wrapperClass)
+    public static <T0 extends WrapperObject, T extends T0> WrapperFactory<T> of(Class<T0> wrapperClass)
     {
-        //noinspection deprecation
         return of(WrapperObject.create(wrapperClass, null));
     }
     public static <T extends WrapperObject> WrapperFactory<T> of(T value)

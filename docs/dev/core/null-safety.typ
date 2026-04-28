@@ -4,23 +4,23 @@
 #show: template.with(title: title);
 
 #cardTip[
-    如果你是Kotlin用户，则无需阅读此文档
+    Kotlin用户*无需阅读*此文档
 ]
 
 Java的类型系统并不原生区分`null`，在Java中实现空安全一般有两种方式：
 
-+ 类似Rust：`Optional`或#link("util/option")[`Option`]
++ 类似Rust：`Optional`
 
 + 类似Kotlin的`T?`：使用空安全注解如`@Nullable T`
 
-若你想使用第一种方式可参见#link("util/option")[`Option`]，但我们现在更推荐第二种方式
+我们现在更推荐第二种方式
 
-= 为什么不使用`Optional`/`Option`
+= 为什么不使用`Optional`
 
 - Java标准库早已大量使用`null`且将来不会更改，例如`Map#get`
-  而`Optional`无法良好兼容空安全注解：例如将可空泛型`T`置于`Optional<T>`是不严谨的
+  而`Optional`无法良好兼容空安全注解：例如将可空泛型`T`置于`Optional<T>`是不正确的
 
-- 由于JVM的方法重载基于泛型擦除，这会导致你的`Option<T1>`和`Option<T2>`在描述符上完全相同，容易导致冲突。
+- 由于JVM的方法重载基于泛型擦除，这会导致你的`Optional<T1>`和`Optional<T2>`在描述符上完全相同，容易导致冲突。
   这也就是为什么当你把`Optional`作为参数类型时会得到Idea的警告
 
 - Kotlin是非常常用的JVM语言，其与空安全注解的适配性更佳
@@ -54,13 +54,21 @@ dependencies {
 
 对于可空泛型`<T extends @Nullable Object>`，表示其可选值则不能使用`@Nullable T`，否则无法区分不存在和存在空值
 
-此时应该多包一层为`@Nullable Box<T>`，避免`@Nullable`直接应用于`T`
+你可以包一层为`@Nullable Box<T>`，避免`@Nullable`直接应用于`T`
 
 ```
 // 假设T为@Nullable Object
 @Nullable Box<@Nullable Object> opt1 = null; // 不存在
 @Nullable Box<@Nullable Object> opt2 = Box.of(null); // 存在null
 ```
+
+但这个类型可能看着意义不明，所以我们提供了`Option`来代替`@Nullable Box`（注意不能换成`Optional`）：
+```java
+// 假设T为@Nullable Object
+Option<@Nullable Object> opt1 = Option.none(); // 不存在
+Option<@Nullable Object> opt2 = Option.some(null); // 存在null
+```
+详见#link("util/option")[`Option`]
 
 对于`Map<K, V>`，其`get`返回的`null`有特殊含义，所以`V`应当非空，可空泛型也可用`Box`包一层
 ```
@@ -74,16 +82,17 @@ static <K, V extends @Nullable Object> V getPresent(Map<K, Box<V>> map, K key)
         throw new NoSuchElementException();
 }
 ```
-当然若`T`一定是`@Nullable V`，您可以使用`Option<V>`代替`Box<T>`（不推荐）：
+当然若`T`一定是`@Nullable V`，您可以使用`Optional<V>`代替`Box<T>`（不推荐）：
 ```
 // 这样返回值就必须可空了
-static <K, V> @Nullable V getPresent(Map<K, Option<V>> map, K key)
+static <K, V> @Nullable V getPresent(Map<K, Optional<V>> map, K key)
 {
-    @Nullable Option<V> result = map.get(key);
+    // 非常不推荐的类型
+    @Nullable Optional<V> result = map.get(key);
     if(result != null) // 如果存在
         return result.orElse(null);
     else
         throw new NoSuchElementException();
 }
 ```
-总之混用`@Nullable`和`Option`/`Optional`是非常不推荐的，建议全面使用空安全注解
+总之混用`@Nullable`和`Optional`是非常不推荐的，建议全面使用空安全注解

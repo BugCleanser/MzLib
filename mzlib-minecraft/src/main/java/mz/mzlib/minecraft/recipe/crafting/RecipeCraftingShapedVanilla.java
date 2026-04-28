@@ -69,7 +69,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
             {
                 NbtIo.write(
                     ingredient.mapNullable(i -> i.as(ItemStack.FACTORY)).unwrapOrGet(() -> ItemStack.EMPTY).encode()
-                        .getOrThrow(IllegalStateException::new).unwrap(),
+                        .getOrThrow(IllegalStateException::new),
                     dataOutput
                 );
             }

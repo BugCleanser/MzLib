@@ -4,6 +4,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 @ApiStatus.NonExtendable
 public class Box<T extends @Nullable Object>
@@ -14,14 +15,19 @@ public class Box<T extends @Nullable Object>
         this.value = value;
     }
 
-    public static <T extends @Nullable Object> Box<T> of(T value)
+    public static <T extends @Nullable Object> Mut<T> of(T value)
     {
-        return new Box<>(value);
+        return new Mut<>(value);
     }
 
     public T get()
     {
         return this.value;
+    }
+
+    public <R extends @Nullable Object> Mut<R> map(Function<? super T, ? extends R> action)
+    {
+        return of(action.apply(this.get()));
     }
 
     @Override
@@ -49,10 +55,6 @@ public class Box<T extends @Nullable Object>
         public Mut(T value)
         {
             super(value);
-        }
-        public static <T extends @Nullable Object> Mut<T> of(T value)
-        {
-            return new Mut<>(value);
         }
 
         public void set(T value)

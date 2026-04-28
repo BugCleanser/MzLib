@@ -4,6 +4,7 @@ import mz.mzlib.minecraft.command.CommandContext;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.i18n.MinecraftI18n;
 import mz.mzlib.util.MapBuilder;
+import org.jetbrains.annotations.UnknownNullability;
 
 public class ArgumentParserString extends ArgumentParser<String>
 {
@@ -25,7 +26,7 @@ public class ArgumentParserString extends ArgumentParser<String>
     }
 
     @Override
-    public String parse(CommandContext context)
+    public @UnknownNullability String parse(CommandContext context)
     {
         StringBuilder result = new StringBuilder();
         result.append(context.argsReader.readString());

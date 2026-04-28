@@ -9,8 +9,8 @@ import mz.mzlib.minecraft.permission.Permission;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.text.TextColor;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
+import org.jetbrains.annotations.UnknownNullability;
 
 public class CommandMzLibItemInfo extends MzModule
 {
@@ -18,7 +18,7 @@ public class CommandMzLibItemInfo extends MzModule
 
     public Permission permission = new Permission("mzlib.command.mzlib.iteminfo");
 
-    public Command command;
+    public @UnknownNullability Command command;
 
     @Override
     public void onLoad()
@@ -41,13 +41,13 @@ public class CommandMzLibItemInfo extends MzModule
             return;
         if(context.doExecute)
         {
-            Result<Option<NbtCompound>, String> encode = context.getSource().getPlayer().unwrap().getHandItemStack()
+            Result<NbtCompound, String> encode = context.getSource().getPlayer().unwrap().getHandItemStack()
                 .encode();
-            for(NbtCompound nbt : encode.getValue())
+            for(NbtCompound nbt : encode.getPossibleValue())
             {
                 context.getSource().sendMessage(Text.literal(nbt.toString()));
             }
-            for(String err : encode.getError())
+            for(String err : encode.getPossibleError())
             {
                 context.getSource().sendMessage(Text.literal(err).setColor(TextColor.RED));
             }

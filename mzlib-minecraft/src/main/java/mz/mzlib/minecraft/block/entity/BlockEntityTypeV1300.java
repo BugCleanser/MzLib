@@ -15,7 +15,7 @@ public interface BlockEntityTypeV1300 extends WrapperObject
 {
     WrapperFactory<BlockEntityTypeV1300> FACTORY = WrapperFactory.of(BlockEntityTypeV1300.class);
 
-    static Registry getRegistry()
+    static Registry<BlockEntityTypeV1300> getRegistry()
     {
         return RegistriesV1300.blockEntityType();
     }

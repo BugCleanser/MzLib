@@ -5,11 +5,17 @@
 
 
 
-在非空环境中表示可选对象，可认为是增强版的`Optional`，但命名更像Rust
+表示一个可选对象，类似Rust
 
 #cardAttention[
-    现已不推荐在类型系统中使用此方式实现空安全，详见#link("../null-safety")[“空安全”]
+    此类并不是`Optional`的直接代替品
+
+    有*注解*和`Optional`两种方式实现空安全，若您选择前者则请优先使用`@Nullable`来表示可选
+
+    详见#link("../null-safety")[“空安全”]
 ]
+
+此类兼容*可空*，而不像`Optional<T>`只能直接代替`@Nullable T`，其中`T`非空
 
 = 基本用法
 
@@ -38,6 +44,10 @@ if(s.isNone()) // s为空时执行
 
 = 与可空对象转换
 
+#cardAttention[
+    仅当`T`非空时你才可以这样做，等效于`Optional<T>`
+]
+
 ```java
 @Nullable String str = awa;
 Option<String> opt = Option.fromNullable(str);
@@ -52,13 +62,17 @@ String s2 = opt.toNullable(); // 等价于unwrapOr(null)
 
 = 与Optional获得
 
+#cardAttention[
+    仅当`T`非空时你才可以这样做
+]
+
 ```java
 Optional<String> opt = Optional.of("Hello, world!");
 Option<String> op = Option.fromOptional(opt);
 ```
 
 ```java
-Optional<String> opt = op.toOptional();
+Optional<String> opt = Option.toOptional(op);
 ```
 
 = 从wrapper转换

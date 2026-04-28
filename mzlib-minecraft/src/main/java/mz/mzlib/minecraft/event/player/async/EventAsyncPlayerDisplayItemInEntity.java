@@ -8,13 +8,16 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.PacketEvent;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cEntityData;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
+
+import java.util.Objects;
 
 public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlayerDisplayItem implements EventAsyncByPacket<PacketS2cEntityData>
 {
     public EventAsyncDisplayEntityData eventDisplayEntityData;
     public EventAsyncPlayerDisplayItemInEntity(EventAsyncDisplayEntityData eventDisplayEntityData, ItemStack original)
     {
-        super(eventDisplayEntityData.getPacketEvent().getPlayer().unwrap(), original);
+        super(Objects.requireNonNull(eventDisplayEntityData.getPacketEvent().getPlayer()), original);
         this.eventDisplayEntityData = eventDisplayEntityData;
     }
 
@@ -61,7 +64,7 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
         @Override
         public ItemStack getItemStack()
         {
-            return this.eventDisplayEntityData.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM).unwrap();
+            return Objects.requireNonNull(this.eventDisplayEntityData.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM)); // FIXME
         }
         @Override
         public void setItemStack(ItemStack value)
@@ -91,7 +94,7 @@ public abstract class EventAsyncPlayerDisplayItemInEntity extends EventAsyncPlay
                 {
                     if(!EntityItem.ENTITY_TYPE.equals(event.getDisplayEntity().type))
                         return;
-                    for(ItemStack original : event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM))
+                    for(ItemStack original : Option.fromNullable(event.getPacket().getData(EntityItem.DATA_ADAPTER_ITEM)))
                     {
                         synchronized(event.getDisplayEntity())
                         {

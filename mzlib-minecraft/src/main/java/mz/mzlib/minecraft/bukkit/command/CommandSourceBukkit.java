@@ -35,7 +35,7 @@ public interface CommandSourceBukkit extends CommandSource
         if(this.isInstanceOf(CommandBlockExecutorBukkit.FACTORY))
             return this.castTo(CommandBlockExecutorBukkit.FACTORY).getBukkitSenderV_1300();
         if(this.isInstanceOf(RconConsole.FACTORY))
-            return MinecraftServer.instance.castTo(MinecraftServerBukkit.FACTORY).getRemoteConsoleV_2002();
+            return MinecraftServer.instance.as(MinecraftServerBukkit.FACTORY).getRemoteConsoleV_2002();
         throw new UnsupportedOperationException();
     }
 

@@ -2,6 +2,7 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.util.Option;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
  * A persistent representation of a player.
  * unlike EntityPlayer which can vary when the player is offline or dies on some servers.
  */
+@ApiStatus.Experimental
 public class Player
 {
     public UUID uuid;

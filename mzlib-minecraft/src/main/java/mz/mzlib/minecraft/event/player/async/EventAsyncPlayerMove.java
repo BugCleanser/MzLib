@@ -15,7 +15,7 @@ public abstract class EventAsyncPlayerMove<P extends Packet> extends EventPlayer
     PacketEvent.Specialized<? extends P> packetEvent;
     public EventAsyncPlayerMove(PacketEvent.Specialized<? extends P> packetEvent)
     {
-        super(packetEvent.getPlayer().unwrap());
+        super(packetEvent.getPlayer());
         this.packetEvent = packetEvent;
     }
 

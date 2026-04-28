@@ -46,12 +46,12 @@ public interface Text extends WrapperObject
     @VersionRange(begin = 2106)
     default Text static$decodeV2106(JsonElement json)
     {
-        Result<Option<Text>, String> result = TextCodecsV2003.codec().parse(JsonOpsV1300.instance(), json).toResult();
-        for(String err : result.getError())
+        Result<Text, String> result = TextCodecsV2003.codec().parse(JsonOpsV1300.instance(), json).toResult();
+        for(String err : result.getPossibleError())
         {
             throw new JsonParseException(err);
         }
-        return result.getValue().unwrap();
+        return result.getPossibleValue().unwrap();
     }
 
     Gson GSON = new Gson();
@@ -71,13 +71,13 @@ public interface Text extends WrapperObject
     @VersionRange(begin = 2106)
     default JsonElement encodeV2106()
     {
-        Result<Option<JsonElement>, String> result = TextCodecsV2003.codec().encodeStart(JsonOpsV1300.instance(), this)
+        Result<JsonElement, String> result = TextCodecsV2003.codec().encodeStart(JsonOpsV1300.instance(), this)
             .toResult();
-        for(String err : result.getError())
+        for(String err : result.getPossibleError())
         {
             throw new JsonParseException(err);
         }
-        return result.getValue().unwrap();
+        return result.getPossibleValue().unwrap();
     }
 
     static Text fromLegacy(String legacy)

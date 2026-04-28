@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.event.player;
 import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.module.MzModule;
+import mz.mzlib.util.Option;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
@@ -41,7 +42,7 @@ public class EventPlayerQuit extends EventPlayer
             {
                 if(this.getChannel() == null || this.getChannel().isOpen())
                     return Nothing.notReturn();
-                for(EntityPlayer player : this.getPlayer())
+                for(EntityPlayer player : Option.fromNullable(this.getPlayer()))
                 {
                     new EventPlayerQuit(player).call();
                 }

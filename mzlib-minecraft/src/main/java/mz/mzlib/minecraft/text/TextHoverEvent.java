@@ -76,7 +76,7 @@ public interface TextHoverEvent extends WrapperObject
     @VersionRange(end = 1600)
     default TextHoverEvent static$showItemV_1600(ItemStack is)
     {
-        return newInstanceV_1600(Action.showItem(), Text.literal(is.encode().getValue().unwrap().toString()));
+        return newInstanceV_1600(Action.showItem(), Text.literal(is.encode().getPossibleValue().unwrap().toString()));
     }
     @SpecificImpl("static$showItem")
     @VersionRange(begin = 1600, end = 2105)

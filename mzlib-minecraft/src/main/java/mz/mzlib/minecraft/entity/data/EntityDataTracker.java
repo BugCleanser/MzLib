@@ -8,12 +8,12 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
+import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
-
-import java.util.function.Function;
+import org.jetbrains.annotations.ApiStatus;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.data.DataTracker"))
 public interface EntityDataTracker extends WrapperObject
@@ -33,9 +33,9 @@ public interface EntityDataTracker extends WrapperObject
         @VersionName(name = "DataEntry", end = 1400),
         @VersionName(name = "Entry", begin = 1400)
     })
-    interface Entry extends WrapperObject, PacketS2cEntityData.Entry
+    interface Entry<T> extends WrapperObject, PacketS2cEntityData.Entry<T>
     {
-        WrapperFactory<Entry> FACTORY = WrapperFactory.of(Entry.class);
+        WrapperFactory<Entry<?>> FACTORY = WrapperFactory.of(Entry.class);
 
         @VersionRange(end = 900)
         @WrapMinecraftFieldAccessor(@VersionName(name = "valueType"))
@@ -45,25 +45,25 @@ public interface EntityDataTracker extends WrapperObject
         @WrapMinecraftFieldAccessor(@VersionName(name = "field_3424"))
         int getIndexV_900();
 
-        static Entry newInstance(EntityDataKey type, WrapperObject value)
+        static <T> Entry<T> of(EntityDataKey<T> type, WrapperObject value)
         {
-            return newInstance0(type, value.getWrapped());
+            return newInstance0(type, RuntimeUtil.cast(value.getWrapped()));
         }
 
-        static Entry newInstance0(EntityDataKey type, Object value)
+        static <T> Entry<T> newInstance0(EntityDataKey<T> type, T value)
         {
-            return Entry.FACTORY.getStatic().static$newInstance0(type, value);
+            return FACTORY.getStatic().static$newInstance0(type, value);
         }
 
-        Entry static$newInstance0(EntityDataKey type, Object value);
+        <T1> Entry<T1> static$newInstance0(EntityDataKey<T1> type, T1 value);
 
         @VersionRange(end = 900)
         @WrapConstructor
-        Entry static$newInstance0V_900(int typeId, int index, Object value);
+        <T1> Entry<T1> static$newInstance0V_900(int typeId, int index, T1 value);
 
         @SpecificImpl("static$newInstance0")
         @VersionRange(end = 900)
-        default Entry static$newInstance0V_900(EntityDataKey type, Object value)
+        default <T1> Entry<T1> static$newInstance0V_900(EntityDataKey<T1> type, T1 value)
         {
             return this.static$newInstance0V_900(type.getTypeIdV_900(), type.getIndexV_900(), value);
         }
@@ -71,14 +71,14 @@ public interface EntityDataTracker extends WrapperObject
         @SpecificImpl("static$newInstance0")
         @VersionRange(begin = 900)
         @WrapConstructor
-        Entry static$newInstance0V900(EntityDataKey type, Object value);
+        <T1> Entry<T1> static$newInstance0V900(EntityDataKey<T1> type, T1 value);
 
         @Override
-        EntityDataKey getKey();
+        EntityDataKey<T> getKey();
 
         @SpecificImpl("getKey")
         @VersionRange(end = 900)
-        default EntityDataKey getKeyV_900()
+        default EntityDataKey<T> getKeyV_900()
         {
             return EntityDataKey.newInstanceV_900(this.getIndexV_900(), (byte) this.getTypeIdV_900());
         }
@@ -89,19 +89,19 @@ public interface EntityDataTracker extends WrapperObject
             @VersionName(name = "method_12758", end = 1400),
             @VersionName(name = "getData", begin = 1400)
         })
-        EntityDataKey getKeyV900();
+        EntityDataKey<T> getKeyV900();
 
         @Override
         @WrapMinecraftMethod({ @VersionName(name = "getValue", end = 1400), @VersionName(name = "get", begin = 1400) })
-        Object getValue();
+        T getValue();
 
         @Override
         @WrapMinecraftMethod({ @VersionName(name = "setValue", end = 1400), @VersionName(name = "set", begin = 1400) })
-        void setValue(Object value);
+        void setValue(T value);
 
         @VersionRange(begin = 1903)
         @WrapMinecraftMethod(@VersionName(name = "toSerialized"))
-        EntityDataV1903 toDataV1903();
+        EntityDataV1903<T> toDataV1903();
 
         @Override
         default String toString0()
@@ -112,38 +112,34 @@ public interface EntityDataTracker extends WrapperObject
 
     @VersionRange(begin = 1903)
     @WrapMinecraftInnerClass(outer = EntityDataTracker.class, name = @VersionName(name = "SerializedEntry"))
-    interface EntityDataV1903 extends WrapperObject, PacketS2cEntityData.Entry
+    interface EntityDataV1903<T> extends WrapperObject, PacketS2cEntityData.Entry<T>
     {
-        WrapperFactory<EntityDataV1903> FACTORY = WrapperFactory.of(EntityDataV1903.class);
+        WrapperFactory<EntityDataV1903<?>> FACTORY = WrapperFactory.of(EntityDataV1903.class);
 
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1115"))
         int getIndex();
 
         @WrapMinecraftFieldAccessor(@VersionName(name = "handler"))
-        EntityDataHandler getHandler();
+        EntityDataHandler<T> getHandler();
 
         @Override
-        default EntityDataKey getKey()
+        default EntityDataKey<T> getKey()
         {
-            return EntityDataKey.newInstance(this.getIndex(), this.getHandler());
+            return EntityDataKey.of(this.getIndex(), this.getHandler());
         }
 
         @Override
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1117"))
-        Object getValue();
+        T getValue();
 
         @Override
         @WrapMinecraftFieldAccessor(@VersionName(name = "comp_1117"))
         void setValue(Object value);
 
-        default <T extends WrapperObject> T getValue(WrapperFactory<T> factory)
+        @ApiStatus.Experimental
+        default <T1 extends WrapperObject> T1 getValue(WrapperFactory<T1> factory)
         {
             return factory.create(this.getValue());
-        }
-        @Deprecated
-        default <T extends WrapperObject> T getValue(Function<Object, T> creator)
-        {
-            return creator.apply(this.getValue());
         }
 
         @Override

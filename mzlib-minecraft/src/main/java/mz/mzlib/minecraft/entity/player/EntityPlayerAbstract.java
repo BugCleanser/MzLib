@@ -19,6 +19,7 @@ import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+import java.util.Objects;
 import java.util.OptionalInt;
 
 @WrapMinecraftClass(@VersionName(name = "net.minecraft.entity.player.PlayerEntity"))
@@ -34,7 +35,7 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
 
     default String getName()
     {
-        return this.getGameProfile().getName().unwrap();
+        return Objects.requireNonNull(this.getGameProfile().getName());
     }
 
     @WrapMinecraftFieldAccessor(@VersionName(name = "inventory"))

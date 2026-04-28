@@ -30,6 +30,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.Result;
 import mz.mzlib.util.wrapper.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -145,13 +146,13 @@ public interface ItemStack extends WrapperObject
         interface StepPlayerHead
         {
             Builder gameProfile(GameProfile.Description description);
-            default Builder textures(Option<String> name, Option<UUID> uuid, String textures)
+            default Builder textures(@Nullable String name, @Nullable UUID uuid, String textures)
             {
                 return this.gameProfile(GameProfile.Description.textures(name, uuid, textures));
             }
             default Builder texturesUrl(UUID uuid, String value)
             {
-                return this.gameProfile(GameProfile.Description.texturesUrl(Option.none(), Option.some(uuid), value));
+                return this.gameProfile(GameProfile.Description.texturesUrl(null, uuid, value));
             }
             default Builder texturesUrl(String value)
             {
@@ -159,7 +160,7 @@ public interface ItemStack extends WrapperObject
             }
             default Builder textures(UUID uuid, String value)
             {
-                return this.gameProfile(GameProfile.Description.textures(Option.none(), Option.some(uuid), value));
+                return this.gameProfile(GameProfile.Description.textures(null, uuid, value));
             }
             default Builder textures(String value)
             {
@@ -250,7 +251,7 @@ public interface ItemStack extends WrapperObject
         return FACTORY.getStatic().static$newInstanceV_2005(nbt);
     }
 
-    static Result<Option<ItemStack>, String> decode0(NbtCompound nbt)
+    static Result<ItemStack, String> decode0(NbtCompound nbt)
     {
         return FACTORY.getStatic().static$decode0(nbt);
     }
@@ -258,28 +259,28 @@ public interface ItemStack extends WrapperObject
     /**
      * Decode and convert version
      */
-    static Result<Option<ItemStack>, String> decode(NbtCompound nbt)
+    static Result<ItemStack, String> decode(NbtCompound nbt)
     {
         for(String id : nbt.getString("id"))
         {
             if(!Identifier.of(id).equals(Identifier.ofMinecraft("air"))) // legacy
                 return decode0(upgrade(nbt));
         }
-        return Result.success(Option.some(EMPTY));
+        return Result.success(EMPTY);
     }
 
-    default Result<Option<NbtCompound>, String> encode()
+    default Result<NbtCompound, String> encode()
     {
         if(this.isEmpty())
-            return Result.success(Option.some(NbtCompound.newInstance()));
-        Result<Option<NbtCompound>, String> result = encode0();
-        for(NbtCompound nbt : result.getValue())
+            return Result.success(NbtCompound.newInstance());
+        Result<NbtCompound, String> result = encode0();
+        for(NbtCompound nbt : result.getPossibleValue())
         {
             nbt.put("DataVersion", NbtInt.newInstance(MinecraftServer.instance.getDataVersion()));
         }
         return result;
     }
-    Result<Option<NbtCompound>, String> encode0();
+    Result<NbtCompound, String> encode0();
 
     @WrapMinecraftMethod(@VersionName(name = "getItem"))
     Item getItem();
@@ -560,14 +561,14 @@ public interface ItemStack extends WrapperObject
     @WrapConstructor
     ItemStack static$newInstanceV1100_2005(NbtCompound nbt);
 
-    Result<Option<ItemStack>, String> static$decode0(NbtCompound nbt);
+    Result<ItemStack, String> static$decode0(NbtCompound nbt);
     @SpecificImpl("static$decode0")
     @VersionRange(end = 2005)
-    default Result<Option<ItemStack>, String> static$decode0V_2005(NbtCompound nbt)
+    default Result<ItemStack, String> static$decode0V_2005(NbtCompound nbt)
     {
         try
         {
-            return Result.success(Option.some(newInstanceV_2005(nbt)));
+            return Result.success(newInstanceV_2005(nbt));
         }
         catch(Throwable e)
         {
@@ -576,18 +577,18 @@ public interface ItemStack extends WrapperObject
     }
     @SpecificImpl("static$decode0")
     @VersionRange(begin = 2005)
-    default Result<Option<ItemStack>, String> static$decode0V2005(NbtCompound nbt)
+    default Result<ItemStack, String> static$decode0V2005(NbtCompound nbt)
     {
         return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt).toResult();
     }
 
     @SpecificImpl("encode0")
     @VersionRange(end = 2005)
-    default Result<Option<NbtCompound>, String> encode0V_2005()
+    default Result<NbtCompound, String> encode0V_2005()
     {
         try
         {
-            return Result.success(Option.some(this.encode0V_2005(NbtCompound.newInstance())));
+            return Result.success(this.encode0V_2005(NbtCompound.newInstance()));
         }
         catch(Throwable e)
         {
@@ -602,7 +603,7 @@ public interface ItemStack extends WrapperObject
     NbtCompound encode0V_2005(NbtCompound nbt);
     @SpecificImpl("encode0")
     @VersionRange(begin = 2005)
-    default Result<Option<NbtCompound>, String> encode0V2005()
+    default Result<NbtCompound, String> encode0V2005()
     {
         return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this).toResult();
     }
@@ -793,7 +794,7 @@ public interface ItemStack extends WrapperObject
     }
 
     @SpecificImpl("equals")
-    default boolean equals$impl(Object object)
+    default boolean equals$impl(@Nullable Object object)
     {
         if(this == object)
             return true;

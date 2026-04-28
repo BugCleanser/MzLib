@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.TypedMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +16,10 @@ import java.util.Map;
 
 class ItemStackBuilderImpl implements ItemStack.Builder
 {
-    ItemStack from;
-    Item item;
-    Integer count;
-    TypedMap<DataKey<ItemStack, ?, ?>> data = TypedMap.of();
+    @Nullable ItemStack from;
+    @Nullable Item item;
+    @Nullable Integer count;
+    TypedMap<String, Object> data = new TypedMap<>();
 
     public ItemStackBuilderImpl()
     {
@@ -171,16 +172,16 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         }
         if(this.count != null)
             result.setCount(this.count);
-        for(Map.Entry<DataKey<ItemStack, ?,?>, ?> entry : this.data.asMap().entrySet())
+        for(Map.Entry<TypedMap.Key<String, ?>, ?> entry : this.data.entrySet())
         {
-            entry.getKey().set(result, RuntimeUtil.cast(entry.getValue()));
+            ((DataKey<ItemStack, ?, ?>)entry.getKey()).set(result, RuntimeUtil.cast(entry.getValue()));
         }
         return result;
     }
 
     static class V_1300 extends ItemStackBuilderImpl
     {
-        Integer damage;
+        @Nullable Integer damage;
 
         public V_1300()
         {
@@ -221,7 +222,7 @@ class ItemStackBuilderImpl implements ItemStack.Builder
         public StepLore(ItemStackBuilderImpl base)
         {
             this.base = base;
-            for(Option<List<Text>> lore : base.data.get(Item.LORE))
+            for(Option<List<Text>> lore : Option.fromNullable(base.data.get(Item.LORE)))
             {
                 this.lines = lore.mapNullable(ArrayList::new).unwrapOrGet(ArrayList::new);
                 return;

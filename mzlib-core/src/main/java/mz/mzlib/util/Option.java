@@ -2,7 +2,7 @@ package mz.mzlib.util;
 
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -11,42 +11,33 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public final class Option<T> implements Iterable<T>
+@ApiStatus.NonExtendable
+public abstract class Option<T extends @Nullable Object> implements Iterable<T>
 {
-    public static <T> Option<T> some(T value)
+    public static <T extends @Nullable Object> Option<T> some(T value)
     {
-        return new Option<>(Objects.requireNonNull(value));
+        return new Some<>(value);
     }
-    public static <T> Option<T> none()
+    public static <T extends @Nullable Object> Option<T> none()
     {
-        return RuntimeUtil.cast(NONE);
+        return RuntimeUtil.cast(None.INSTANCE);
     }
+
     public static <T> Option<T> fromNullable(@Nullable T value)
     {
-        return value != null ? some(value) : none();
+        return value != null ? some(RuntimeUtil.cast(value)) : none();
     }
-
-    private static final Option<?> NONE = new Option<>(null);
-
-    private final @Nullable T value;
-    private Option(@Nullable T value)
-    {
-        this.value = value;
-    }
-
-    public @Nullable T toNullable()
-    {
-        return this.value;
-    }
+    public abstract @Nullable T toNullable();
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <T> Option<T> fromOptional(Optional<T> optional)
     {
         return optional.map(Option::some).orElseGet(Option::none);
     }
-    public Optional<T> toOptional()
+    public static <T> Optional<T> toOptional(Option<T> option)
     {
-        return this.map(Objects::requireNonNull).map(Optional::of).unwrapOrGet(Optional::empty);
+        //noinspection RedundantTypeArguments
+        return option.<Optional<T>>map(Optional::of).unwrapOrGet(Optional::empty);
     }
 
     public static <T extends WrapperObject> Option<T> fromWrapper(T wrapper)
@@ -62,32 +53,16 @@ public final class Option<T> implements Iterable<T>
         return this.mapNullable(Either::<T, Void>first).unwrapOrGet(() -> Either.<T, @Nullable Void>second(null));
     }
 
-    public boolean isSome()
-    {
-        return this.toNullable() != null;
-    }
+    public abstract boolean isSome();
+    public abstract boolean isNone();
+    public abstract boolean isSome(Object value);
 
-    public boolean isSome(Object value)
-    {
-        T v = this.toNullable();
-        return v != null && v.equals(value);
-    }
-
-    public boolean isNone()
-    {
-        return this.toNullable() == null;
-    }
-
-    @NotNull
     public T unwrap() throws NoSuchElementException
     {
         return this.unwrap(NoSuchElementException::new);
     }
-    @NotNull
-    public <E extends Throwable> T unwrap(Supplier<E> supplier) throws E
-    {
-        return this.unwrapOrGet(() -> RuntimeUtil.valueThrow(supplier.get()));
-    }
+    public abstract <E extends Throwable> T unwrap(Supplier<? extends E> supplier) throws E;
+
     public T unwrapOr(T defaultValue)
     {
         return this.unwrapOrGet(ThrowableSupplier.constant(defaultValue));
@@ -99,7 +74,7 @@ public final class Option<T> implements Iterable<T>
             result = supplier.getOrThrow();
         return result;
     }
-    public <E extends Throwable> T unwrapOrGet(Supplier<? extends T> supplier)
+    public T unwrapOrGet(Supplier<? extends T> supplier)
     {
         return this.unwrapOrGet(ThrowableSupplier.ofSupplier(supplier));
     }
@@ -119,69 +94,17 @@ public final class Option<T> implements Iterable<T>
             return other;
     }
 
-    public <U, E extends Throwable> Option<U> flatMap(ThrowableFunction<? super T, ? extends Option<? extends U>, E> mapper)
-        throws E
+    public abstract <U extends @Nullable Object> Option<U> flatMap(Function<? super T, ? extends Option<U>> mapper);
+    public <U extends @Nullable Object> Option<U> map(Function<? super T, ? extends U> mapper)
     {
-        if(this.isSome())
-            return upcast(mapper.applyOrThrow(this.unwrap()));
-        return none();
-    }
-    public <U> Option<U> flatMap(Function<? super T, ? extends Option<? extends U>> mapper)
-    {
-        return this.flatMap(ThrowableFunction.ofFunction(mapper));
-    }
-
-    public <U> Option<U> map(Function<? super T, ? extends U> mapper)
-    {
-        return this.flatMap(it -> Option.some(mapper.apply(it)));
-    }
-
-    public <U, E extends Throwable> Option<U> mapNullable(ThrowableFunction<? super T, ? extends @Nullable U, E> mapper)
-        throws E
-    {
-        return this.flatMap(it -> Option.fromNullable(mapper.applyOrThrow(it)));
+        return this.flatMap(mapper.andThen(Option::some));
     }
     public <U> Option<U> mapNullable(Function<? super T, ? extends @Nullable U> mapper)
     {
-        return this.mapNullable(ThrowableFunction.ofFunction(mapper));
+        return this.flatMap(mapper.andThen(Option::fromNullable));
     }
 
-    public static <T extends U, U> Option<U> upcast(Option<T> value)
-    {
-        return RuntimeUtil.cast(value);
-    }
-
-    /**
-     * @see #flatMap(ThrowableFunction)
-     */
-    @Deprecated
-    public <U, E extends Throwable> Option<U> then(ThrowableFunction<? super T, Option<U>, E> mapper) throws E
-    {
-        return this.flatMap(mapper);
-    }
-    /**
-     * @see #flatMap(Function)
-     */
-    @Deprecated
-    public <U> Option<U> then(Function<? super T, Option<U>> mapper)
-    {
-        return this.then(ThrowableFunction.ofFunction(mapper));
-    }
-
-    public <E extends Throwable> Option<T> filter(ThrowablePredicate<? super T, E> predicate) throws E
-    {
-        for(T v : this)
-        {
-            if(predicate.testOrThrow(v))
-                return this;
-        }
-        return none();
-    }
-    public Option<T> filter(Predicate<? super T> predicate)
-    {
-        return this.filter(ThrowablePredicate.ofPredicate(predicate));
-    }
-
+    public abstract Option<T> filter(Predicate<? super T> predicate);
     public <U> Option<U> filter(Class<U> type)
     {
         return this.filter(type::isInstance).mapNullable(type::cast);
@@ -193,28 +116,163 @@ public final class Option<T> implements Iterable<T>
 
     public Stream<T> stream()
     {
-        return this.mapNullable(Stream::of).unwrapOrGet(Stream::empty);
+        //noinspection RedundantTypeArguments
+        return this.<Stream<T>>map(Stream::of).unwrapOrGet(Stream::empty);
     }
 
     @Override
     public Iterator<T> iterator()
     {
-        return this.mapNullable(Collections::singleton).mapNullable(Set::iterator).unwrapOrGet(Collections::emptyIterator);
+        //noinspection RedundantTypeArguments
+        return this.<Set<T>>map(Collections::singleton).<Iterator<T>>map(Set::iterator).unwrapOrGet(Collections::emptyIterator);
     }
 
     @Override
-    public int hashCode()
-    {
-        return Objects.hashCode(this.value);
-    }
+    public abstract int hashCode();
     @Override
-    public boolean equals(Object obj)
+    public abstract boolean equals(Object obj);
+    @Override
+    public abstract String toString();
+
+    @ApiStatus.NonExtendable
+    public static class Some<T extends @Nullable Object> extends Option<T>
     {
-        if(obj == this)
+        private final T value;
+        private Some(T value)
+        {
+            this.value = value;
+        }
+
+        public T get()
+        {
+            return this.value;
+        }
+
+        @Override
+        public boolean isSome()
+        {
             return true;
-        if(!(obj instanceof Option))
+        }
+        @Override
+        public boolean isNone()
+        {
             return false;
-        Option<?> that = (Option<?>) obj;
-        return Objects.equals(this.value, that.value);
+        }
+        @Override
+        public boolean isSome(Object value)
+        {
+            return Objects.equals(this.get(), value);
+        }
+
+        @Override
+        public T toNullable()
+        {
+            return this.get();
+        }
+
+        @Override
+        public <E extends Throwable> T unwrap(Supplier<? extends E> supplier) throws E
+        {
+            return this.get();
+        }
+        public <U extends @Nullable Object> Option<U> flatMap(Function<? super T, ? extends Option<U>> mapper)
+        {
+            return mapper.apply(this.get());
+        }
+        @Override
+        public Option<T> filter(Predicate<? super T> predicate)
+        {
+            if(predicate.test(this.get()))
+                return this;
+            else
+                return none();
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return Objects.hashCode(this.value);
+        }
+        @Override
+        public boolean equals(Object obj)
+        {
+            if(this == obj)
+                return true;
+            if(!(obj instanceof Some))
+                return false;
+            Some<?> that = (Some<?>) obj;
+            return Objects.equals(this.get(), that.get());
+        }
+        @Override
+        public String toString()
+        {
+            return "Some(" + this.get() + ")";
+        }
+    }
+
+    @ApiStatus.NonExtendable
+    public static class None<T extends @Nullable Object> extends Option<T>
+    {
+        private static final None<?> INSTANCE = new None<>();
+        private None()
+        {
+        }
+
+        @Override
+        public boolean isSome()
+        {
+            return false;
+        }
+        @Override
+        public boolean isNone()
+        {
+            return true;
+        }
+        @Override
+        public boolean isSome(Object value)
+        {
+            return false;
+        }
+
+        @Override
+        public @Nullable T toNullable()
+        {
+            return null;
+        }
+
+        @Override
+        public <E extends Throwable> T unwrap(Supplier<? extends E> supplier) throws E
+        {
+            throw supplier.get();
+        }
+        public <U extends @Nullable Object> Option<U> flatMap(Function<? super T, ? extends Option<U>> mapper)
+        {
+            return none();
+        }
+        @Override
+        public Option<T> filter(Predicate<? super T> predicate)
+        {
+            return this;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return 0;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if(this == obj)
+                return true;
+            return obj instanceof None;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "None";
+        }
     }
 }

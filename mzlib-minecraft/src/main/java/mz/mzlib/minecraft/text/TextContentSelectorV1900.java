@@ -29,7 +29,9 @@ public interface TextContentSelectorV1900 extends WrapperObject, TextContentV190
     @VersionRange(end = 2102)
     default TextContentSelectorV1900 static$newInstanceV_2102(String selector, Option<Text> separator)
     {
-        return FACTORY.getStatic().static$newInstance0V_2102(selector, separator.mapNullable(Text::getWrapped).toOptional());
+        return FACTORY.getStatic().static$newInstance0V_2102(selector,
+            Option.toOptional(separator.mapNullable(Text::getWrapped))
+        );
     }
     @VersionRange(end = 2102)
     @WrapConstructor
@@ -40,17 +42,19 @@ public interface TextContentSelectorV1900 extends WrapperObject, TextContentV190
     @VersionRange(begin = 2102)
     default TextContentSelectorV1900 static$newInstanceV2102(String selector, Option<Text> separator)
     {
-        Result<Option<ParsedSelectorV2102>, String> parse = ParsedSelectorV2102.parse(selector);
-        for(String err : parse.getError())
+        Result<ParsedSelectorV2102, String> parse = ParsedSelectorV2102.parse(selector);
+        for(String err : parse.getPossibleError())
         {
             throw new IllegalArgumentException(err);
         }
-        return newInstanceV2102(parse.getValue().unwrap(), separator);
+        return newInstanceV2102(parse.getValue(), separator);
     }
 
     static TextContentSelectorV1900 newInstanceV2102(ParsedSelectorV2102 selector, Option<Text> separator)
     {
-        return FACTORY.getStatic().static$newInstance0V2102(selector, separator.mapNullable(Text::getWrapped).toOptional());
+        return FACTORY.getStatic().static$newInstance0V2102(selector,
+            Option.toOptional(separator.mapNullable(Text::getWrapped))
+        );
     }
     @VersionRange(begin = 2102)
     @WrapConstructor

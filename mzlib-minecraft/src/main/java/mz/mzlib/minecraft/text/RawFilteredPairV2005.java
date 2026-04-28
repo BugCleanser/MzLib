@@ -16,7 +16,7 @@ public interface RawFilteredPairV2005 extends WrapperObject
     WrapperFactory<RawFilteredPairV2005> FACTORY = WrapperFactory.of(RawFilteredPairV2005.class);
     static RawFilteredPairV2005 newInstance(WrapperObject raw, Option<? extends WrapperObject> filtered)
     {
-        return newInstance0(raw.getWrapped(), filtered.mapNullable(WrapperObject::getWrapped).toOptional());
+        return newInstance0(raw.getWrapped(), Option.toOptional(filtered.mapNullable(WrapperObject::getWrapped)));
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

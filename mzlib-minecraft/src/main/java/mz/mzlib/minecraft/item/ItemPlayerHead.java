@@ -79,7 +79,7 @@ public interface ItemPlayerHead extends Item
                     .getter(is -> is.getComponentsV2005().get(COMPONENT_KEY_PROFILE_V2005)
                             .mapNullable(GameProfileComponentV2005::toDescription))
                     .setter((is, value) -> is.getComponentsV2005()
-                        .set(COMPONENT_KEY_PROFILE_V2005, value.mapNullable(GameProfileComponentV2005::newInstance)))
+                        .set(COMPONENT_KEY_PROFILE_V2005, value.mapNullable(GameProfileComponentV2005::of)))
                     .register(this);
         }
     }

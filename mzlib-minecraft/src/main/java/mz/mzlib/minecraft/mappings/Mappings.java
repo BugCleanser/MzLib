@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.mappings;
 
 import mz.mzlib.util.Invertible;
 
-public abstract class Mappings<U extends Mappings<? extends Mappings<U>>> extends Invertible<U>
+public abstract class Mappings<U extends Mappings<? extends Mappings<U>>> extends Invertible.Abstract<U>
 {
     public abstract String mapClass0(String from);
     public String mapClass(String from)

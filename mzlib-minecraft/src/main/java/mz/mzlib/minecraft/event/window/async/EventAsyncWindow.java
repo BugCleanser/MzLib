@@ -11,7 +11,7 @@ public abstract class EventAsyncWindow<P extends Packet> extends EventPlayer imp
     PacketEvent.Specialized<P> packetEvent;
     public EventAsyncWindow(PacketEvent.Specialized<P> packetEvent)
     {
-        super(packetEvent.getPlayer().unwrap());
+        super(packetEvent.getPlayer());
         this.packetEvent = packetEvent;
     }
 

@@ -7,6 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.wrapper.SpecificImpl;
 import mz.mzlib.util.wrapper.WrapperFactory;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 })
 public interface PacketS2cEntityDestroy extends Packet
 {
+    @UnknownNullability
     WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.of(PacketS2cEntityDestroy.class);
     int[] getEntityIds();
 

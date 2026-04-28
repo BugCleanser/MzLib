@@ -9,5 +9,4 @@ import mz.mzlib.util.wrapper.WrapperObject;
 public interface ComponentKeysV2005 extends WrapperObject
 {
     WrapperFactory<ComponentKeysV2005> FACTORY = WrapperFactory.of(ComponentKeysV2005.class);
-    }
-
+}

@@ -17,6 +17,7 @@ import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.basic.Wrapper_void;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,13 +28,13 @@ public class ModulePacketListener extends MzModule
 {
     public static ModulePacketListener instance = new ModulePacketListener();
 
-    public boolean handle(Channel channel, Option<EntityPlayer> player, Packet packet, Consumer<Packet> rehandler)
+    public boolean handle(Channel channel, @Nullable EntityPlayer player, Packet packet, Consumer<Packet> rehandler)
     {
         return handle(channel, player, packet, rehandler, MinecraftServer.instance::schedule);
     }
     public boolean handle(
         Channel channel,
-        Option<EntityPlayer> player,
+        @Nullable EntityPlayer player,
         final Packet packet,
         Consumer<Packet> rehandler,
         Consumer<Runnable> syncer)

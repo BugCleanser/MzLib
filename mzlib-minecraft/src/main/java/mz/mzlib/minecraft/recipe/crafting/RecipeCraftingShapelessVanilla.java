@@ -42,7 +42,7 @@ public interface RecipeCraftingShapelessVanilla extends RecipeMojang, RecipeCraf
             for(IngredientVanilla ingredient : this.getIngredientsV_1200())
             {
                 NbtIo.write(
-                    ingredient.as(ItemStack.FACTORY).encode().getOrThrow(IllegalStateException::new).unwrap(),
+                    ingredient.as(ItemStack.FACTORY).encode().getOrThrow(IllegalStateException::new),
                     dataOutput
                 );
             }

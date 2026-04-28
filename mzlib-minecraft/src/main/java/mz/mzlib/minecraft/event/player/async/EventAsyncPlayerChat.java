@@ -11,7 +11,7 @@ public class EventAsyncPlayerChat extends EventPlayer implements EventAsyncByPac
     PacketEvent.Specialized<PacketC2sChatMessage> packetEvent;
     public EventAsyncPlayerChat(PacketEvent.Specialized<PacketC2sChatMessage> packetEvent)
     {
-        super(packetEvent.getPlayer().unwrap());
+        super(packetEvent.getPlayer());
         this.packetEvent = packetEvent;
     }
 

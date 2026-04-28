@@ -54,7 +54,7 @@ public class JsUtil
     }
 
     static Cache<String, Script> cache = Cache.<String, Script>builder().weakKey().build();
-    public static Object eval(Settings settings, Object scope, String script)
+    public static @Nullable Object eval(Settings settings, Object scope, String script)
     {
         try(Context context = settings.enterContext())
         {
@@ -69,7 +69,7 @@ public class JsUtil
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-    public static Object eval(Object scope, String script)
+    public static @Nullable Object eval(Object scope, String script)
     {
         return eval(Settings.def, scope, script);
     }

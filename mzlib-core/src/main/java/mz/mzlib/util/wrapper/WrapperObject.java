@@ -7,6 +7,7 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.compound.ICompoundImpl;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -60,8 +61,8 @@ public interface WrapperObject
     /**
      * slow
      */
-    @Deprecated
-    static <T extends WrapperObject> T create(Class<T> type, @Nullable Object wrapped)
+    @ApiStatus.Internal
+    static <T0 extends WrapperObject, T extends T0> T create(Class<T0> type, @Nullable Object wrapped)
     {
         try
         {
