@@ -8,7 +8,7 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 import org.jetbrains.annotations.UnknownNullability;
@@ -159,11 +159,10 @@ public class NothingRegistration
                     try
                     {
                         if(ni.wrapperMethodName().equals("<init>"))
-                            m = WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedClass()
-                                .getConstructor(WrapperClassInfo.toUnwrappedClasses(ni.wrapperMethodParams()));
+                            m = WrapperClassData.get(RuntimeUtil.cast(nothing)).getWrappedClass()
+                                .getConstructor(WrapperClassData.toUnwrappedClasses(ni.wrapperMethodParams()));
                         else
-                            m = (Executable) WrapperClassInfo.get(RuntimeUtil.cast(nothing)).getWrappedMembers()
-                                .get(nothing.getMethod(ni.wrapperMethodName(), ni.wrapperMethodParams()));
+                            m = (Executable) WrapperClassData.get(RuntimeUtil.cast(nothing)).getMember(nothing.getMethod(ni.wrapperMethodName(), ni.wrapperMethodParams())).getTarget();
                         if(m == null)
                             throw new NullPointerException();
                     }

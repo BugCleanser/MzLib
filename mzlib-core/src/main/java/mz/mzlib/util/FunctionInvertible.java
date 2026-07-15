@@ -35,7 +35,18 @@ public class FunctionInvertible<T extends @Nullable Object, U extends @Nullable 
     {
         return this.forward.apply(t);
     }
-
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj == this)
+            return true;
+        if(!(obj instanceof FunctionInvertible))
+            return false;
+        FunctionInvertible<?, ?> other = (FunctionInvertible<?, ?>) obj;
+        return this.forward.equals(other.forward) && this.backward.equals(other.backward);
+    }
+    
     public <V> FunctionInvertible<T, V> thenApply(FunctionInvertible<U, V> after)
     {
         return of(this.andThen(after), after.inverse().andThen(this.inverse()));

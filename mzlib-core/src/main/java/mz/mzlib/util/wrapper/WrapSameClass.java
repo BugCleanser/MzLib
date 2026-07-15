@@ -28,7 +28,7 @@ public @interface WrapSameClass
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, WrapSameClass annotation)
         {
-            return WrapperClassInfo.get(annotation.value()).getWrappedClass();
+            return WrapperClassData.get(annotation.value()).getWrappedClass();
         }
     }
 }

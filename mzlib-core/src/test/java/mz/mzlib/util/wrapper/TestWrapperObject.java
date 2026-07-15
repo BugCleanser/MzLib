@@ -4,7 +4,7 @@ import mz.mzlib.util.SimpleCloneable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TestWrapper
+public class TestWrapperObject
 {
     @Test
     public void test()
@@ -13,7 +13,7 @@ public class TestWrapper
         System.out.println(Foo.FACTORY.create(this).equals((Object)null));
     }
 
-    @WrapClass(TestWrapper.class)
+    @WrapClass(TestWrapperObject.class)
     public interface Foo extends WrapperObject
     {
         WrapperFactory<Foo> FACTORY = WrapperFactory.of(Foo.class);
@@ -43,5 +43,24 @@ public class TestWrapper
     public interface WrapperACloneable extends WrapperObject
     {
         WrapperFactory<WrapperACloneable> FACTORY = WrapperFactory.of(WrapperACloneable.class);
+    }
+    
+    public static class TestGeneric
+    {
+        static class Foo
+        {
+            int value = 114514;
+        }
+        @WrapClass(Foo.class)
+        public interface WrapperFoo extends WrapperObject.Generic<Foo>
+        {
+            WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.of(WrapperFoo.class);
+        }
+        
+        @Test
+        public void test()
+        {
+            Assertions.assertEquals(114514, WrapperFoo.FACTORY.create(new Foo()).getWrapped().value);
+        }
     }
 }

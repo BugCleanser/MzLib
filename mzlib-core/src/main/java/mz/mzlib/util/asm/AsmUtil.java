@@ -8,9 +8,10 @@ import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.AbsWrapper;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
@@ -59,7 +60,7 @@ public class AsmUtil
         }
     }
 
-    public static FieldNode getFieldNode(ClassNode cn, String name)
+    public static @Nullable FieldNode getFieldNode(ClassNode cn, String name)
     {
         for(FieldNode f : cn.fields)
         {
@@ -71,7 +72,7 @@ public class AsmUtil
         return null;
     }
 
-    public static MethodNode getMethodNode(ClassNode clazz, String name, String desc)
+    public static @Nullable MethodNode getMethodNode(ClassNode clazz, String name, String desc)
     {
         for(MethodNode m : clazz.methods)
         {
@@ -81,7 +82,7 @@ public class AsmUtil
         return RuntimeUtil.nul();
     }
 
-    public static boolean equals(AbstractInsnNode a, AbstractInsnNode b)
+    public static boolean equals(@Nullable AbstractInsnNode a, @Nullable AbstractInsnNode b)
     {
         if(a == b)
             return true;
@@ -275,30 +276,18 @@ public class AsmUtil
     public static VarInsnNode insnVarLoad(Class<?> type, int index)
     {
         if(!type.isPrimitive())
-        {
             return new VarInsnNode(Opcodes.ALOAD, index);
-        }
         else if(type == boolean.class || type == byte.class || type == short.class || type == int.class ||
             type == char.class)
-        {
             return new VarInsnNode(Opcodes.ILOAD, index);
-        }
         else if(type == long.class)
-        {
             return new VarInsnNode(Opcodes.LLOAD, index);
-        }
         else if(type == float.class)
-        {
             return new VarInsnNode(Opcodes.FLOAD, index);
-        }
         else if(type == double.class)
-        {
             return new VarInsnNode(Opcodes.DLOAD, index);
-        }
         else
-        {
             throw new IllegalArgumentException("type: " + type);
-        }
     }
 
     public static InsnList insnDup(Class<?> type)
@@ -316,16 +305,12 @@ public class AsmUtil
         }
     }
 
-    public static AbstractInsnNode insnConst(Object obj)
+    public static AbstractInsnNode insnConst(@Nullable Object obj)
     {
         if(obj == null)
-        {
             return new InsnNode(Opcodes.ACONST_NULL);
-        }
         else if(obj instanceof Boolean)
-        {
             return new InsnNode(((Boolean) obj) ? Opcodes.ICONST_1 : Opcodes.ICONST_0);
-        }
         else if(obj instanceof Integer || obj instanceof Byte || obj instanceof Short)
         {
             switch(((Number) obj).intValue())
@@ -392,10 +377,6 @@ public class AsmUtil
 
     public static int getCategory(Type type)
     {
-        if(type == null)
-        {
-            return 1;
-        }
         switch(type.getSort())
         {
             case Type.VOID:
@@ -410,18 +391,12 @@ public class AsmUtil
 
     public static int getCategory(Class<?> clazz)
     {
-        if(clazz == null || clazz == void.class)
-        {
+        if(clazz == void.class)
             return 0;
-        }
         else if(clazz == long.class || clazz == double.class)
-        {
             return 2;
-        }
         else
-        {
             return 1;
-        }
     }
 
     public static InsnList insnArrayLoad(Class<?> type, InsnList index)
@@ -918,8 +893,7 @@ public class AsmUtil
         try
         {
             return isVisiting(
-                insn, WrapperClassInfo.get(wrapperClass).getWrappedMembers()
-                    .get(wrapperClass.getMethod(wrapperMethodName, wrapperMethodParams))
+                insn, WrapperClassData.get(wrapperClass).getMember(wrapperClass.getMethod(wrapperMethodName, wrapperMethodParams)).getTarget()
             );
         }
         catch(Throwable e)

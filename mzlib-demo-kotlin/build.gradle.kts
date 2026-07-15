@@ -1,4 +1,6 @@
 dependencies {
+    compileOnly("org.jetbrains:annotations:latest.release")
+
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:latest.release")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:latest.release")
 

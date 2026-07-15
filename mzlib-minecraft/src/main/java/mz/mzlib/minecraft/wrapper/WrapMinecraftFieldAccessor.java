@@ -122,7 +122,7 @@ public @interface WrapMinecraftFieldAccessor
             }
             if(lastException != null)
                 throw lastException;
-            return null;
+            throw new NoSuchFieldException();
         }
     }
 }

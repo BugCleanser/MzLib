@@ -14,8 +14,8 @@ public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 
     public void register(MzModule module, EventListener<?> object)
     {
-        ListenerHandler.handlers.get(object.eventClass).addListener(object);
-        for(Class<? extends Event> clazz: RegistrarEventClass.instance.subEvents.get(object.eventClass))
+        ListenerHandler.handlers.get(object.type).addListener(object);
+        for(Class<? extends Event> clazz: RegistrarEventClass.instance.subEvents.get(object.type))
         {
             ListenerHandler.handlers.get(clazz).addListener(object);
         }
@@ -23,8 +23,8 @@ public class RegistrarEventListener implements IRegistrar<EventListener<?>>
 
     public void unregister(MzModule module, EventListener<?> object)
     {
-        ListenerHandler.handlers.get(object.eventClass).removeListener(object);
-        for(Class<? extends Event> clazz: RegistrarEventClass.instance.subEvents.get(object.eventClass))
+        ListenerHandler.handlers.get(object.type).removeListener(object);
+        for(Class<? extends Event> clazz: RegistrarEventClass.instance.subEvents.get(object.type))
         {
             ListenerHandler.handlers.get(clazz).removeListener(object);
         }

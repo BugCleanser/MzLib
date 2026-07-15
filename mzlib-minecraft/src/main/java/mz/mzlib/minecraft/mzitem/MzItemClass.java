@@ -2,7 +2,7 @@ package mz.mzlib.minecraft.mzitem;
 
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.ElementType;
@@ -20,7 +20,7 @@ public @interface MzItemClass
         @Override
         public Class<?> find(Class<? extends WrapperObject> wrapperClass, MzItemClass annotation)
         {
-            return WrapperClassInfo.get(MzItem.class).getWrappedClass();
+            return WrapperClassData.get(MzItem.class).getWrappedClass();
         }
     }
 }

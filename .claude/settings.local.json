@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew :mzlib-core:test)",
+      "Bash(./gradlew :mzlib-core:test --stacktrace)",
+      "Bash(java *)",
+      "Bash(export JAVA_HOME=\"D:/jdk/zulu21\")",
+      "Bash(./gradlew :mzlib-core:test --offline)",
+      "Bash(./gradlew :mzlib-core:cleanTest :mzlib-core:test)",
+      "Bash(./gradlew :mzlib-core:compileJava)"
+    ]
+  }
+}

@@ -135,7 +135,7 @@ public @interface WrapMinecraftMethod
             }
             if(lastException != null)
                 throw lastException;
-            return null;
+            throw new NoSuchMethodException();
         }
     }
 }

@@ -7,20 +7,18 @@ import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.tree.ClassNode;
 import mz.mzlib.asm.tree.MethodNode;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperObject;
 import net.bytebuddy.agent.ByteBuddyAgent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileOutputStream;
+import java.lang.annotation.Annotation;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.invoke.*;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.security.ProtectionDomain;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,6 +32,11 @@ public class ClassUtil
 
     public static ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
     public static ClassLoader extClassLoader = sysClassLoader.getParent();
+    
+    public static Class<?> arrayClass(Class<?> type)
+    {
+        return Array.newInstance(type, 0).getClass();
+    }
 
     @Deprecated
     public static String getName(Class<?> clazz)
@@ -661,6 +664,26 @@ public class ClassUtil
             return src;
         }
     }
+    
+    public static <A extends Annotation> A findAnnotation(Class<?> type, Class<A> annotationType)
+    {
+        @Nullable A result = type.getDeclaredAnnotation(annotationType);
+        if(result != null)
+            return result;
+        if(type != Object.class)
+        {
+            result = findAnnotation(type.getSuperclass(), annotationType);
+            if(result != null)
+                return result;
+        }
+        for(Class<?> i: type.getInterfaces())
+        {
+            result = findAnnotation(i, annotationType);
+            if(result != null)
+                return result;
+        }
+        return null;
+    }
 
     public static MethodHandle defineMethod(ClassLoader cl, MethodNode mn)
     {
@@ -747,7 +770,7 @@ public class ClassUtil
     public static Class<?> toWrappedClass(Class<?> wrapperClass)
     {
         if(WrapperObject.class.isAssignableFrom(wrapperClass))
-            return WrapperClassInfo.get(RuntimeUtil.cast(wrapperClass)).getWrappedClass();
+            return WrapperClassData.get(RuntimeUtil.cast(wrapperClass)).getWrappedClass();
         return wrapperClass;
     }
     public static MethodType getWrappedType(MethodType wrapperType)

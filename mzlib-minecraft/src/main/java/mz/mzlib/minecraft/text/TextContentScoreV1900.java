@@ -59,7 +59,7 @@ public interface TextContentScoreV1900 extends WrapperObject, TextContentV1900
     @VersionRange(begin = 2102)
     default String getName1V2102()
     {
-        return this.getNameV2102().map(ParsedSelectorV2102::getUnparsed, Function.identity());
+        return this.getNameV2102().fold(ParsedSelectorV2102::getUnparsed, Function.identity());
     }
     @VersionRange(begin = 2102)
     default Either<ParsedSelectorV2102, String> getNameV2102()

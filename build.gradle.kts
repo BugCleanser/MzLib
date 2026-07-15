@@ -266,8 +266,10 @@ subprojects {
     tasks.test {
         useJUnitPlatform()
     }
-
     tasks {
+        withType<Javadoc> {
+            isFailOnError = false;
+        }
         register<Copy>("copyBinaryResources") {
             from("src/main/resources") {
                 include("**/*.js")

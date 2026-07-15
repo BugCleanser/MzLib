@@ -5,14 +5,17 @@ import mz.mzlib.asm.tree.MethodInsnNode;
 import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
+import mz.mzlib.util.TypeUtil;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.compound.ICompoundImpl;
+import mz.mzlib.util.adapter.Adapter;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
 import java.lang.invoke.*;
 import java.lang.reflect.*;
+import java.util.Objects;
 
 @WrapClass(Object.class)
 public interface WrapperObject
@@ -39,7 +42,7 @@ public interface WrapperObject
         MethodType invokedType,
         Class<? extends WrapperObject> wrapperClass)
     {
-        return new ConstantCallSite(WrapperClassInfo.get(wrapperClass).getConstructor().asType(invokedType));
+        return new ConstantCallSite(WrapperClassData.get(wrapperClass).getConstructor().asType(invokedType));
     }
     static CallSite callSiteFactory(
         MethodHandles.Lookup caller,
@@ -55,7 +58,7 @@ public interface WrapperObject
      */
     static Class<?> getWrappedClass(Class<? extends WrapperObject> wrapperClass)
     {
-        return WrapperClassInfo.get(wrapperClass).getWrappedClass();
+        return WrapperClassData.get(wrapperClass).getWrappedClass();
     }
 
     /**
@@ -67,7 +70,7 @@ public interface WrapperObject
         try
         {
             return RuntimeUtil.cast(
-                (WrapperObject) WrapperClassInfo.get(type).getConstructor().invokeExact((Object) wrapped));
+                (WrapperObject) WrapperClassData.get(type).getConstructor().invokeExact((Object) wrapped));
         }
         catch(Throwable e)
         {
@@ -154,7 +157,7 @@ public interface WrapperObject
     static FieldInsnNode insnField(int opcode, Class<? extends WrapperObject> owner, String getterName)
         throws NoSuchMethodException
     {
-        Field target = (Field) WrapperClassInfo.get(owner).getWrappedMembers().get(owner.getMethod(getterName));
+        Field target = (Field) WrapperClassData.get(owner).getMember(owner.getMethod(getterName)).getTarget();
         return new FieldInsnNode(
             opcode, AsmUtil.getType(target.getDeclaringClass()), target.getName(), AsmUtil.getDesc(target.getType()));
     }
@@ -166,8 +169,7 @@ public interface WrapperObject
         MethodType methodType,
         boolean isInterface) throws NoSuchMethodException
     {
-        Executable target = (Executable) WrapperClassInfo.get(owner).getWrappedMembers()
-            .get(owner.getMethod(name, methodType.parameterArray()));
+        Executable target = (Executable) WrapperClassData.get(owner).getMember(owner.getMethod(name, methodType.parameterArray())).getTarget();
         return new MethodInsnNode(
             opcode, AsmUtil.getType(target.getDeclaringClass()),
             target instanceof Constructor ? "<init>" : target.getName(), AsmUtil.getDesc(target), isInterface
@@ -187,8 +189,7 @@ public interface WrapperObject
             Class<? extends WrapperObject> wrapperClass,
             MethodType wrapperMethodType) throws NoSuchMethodException, NoSuchFieldException
         {
-            Member member = WrapperClassInfo.get(wrapperClass).getWrappedMembers()
-                .get(wrapperClass.getMethod(wrapperMethodName, wrapperMethodType.parameterArray()));
+            Member member = WrapperClassData.get(wrapperClass).getMember(wrapperClass.getMethod(wrapperMethodName, wrapperMethodType.parameterArray())).getTarget();
             MethodHandle result;
             if(member instanceof Method)
             {
@@ -224,6 +225,7 @@ public interface WrapperObject
         }
     }
 
+    @Adapter(Generic.AdapterProcessor.class)
     @WrapSameClass(WrapperObject.class)
     interface Generic<T> extends WrapperObject
     {
@@ -241,6 +243,36 @@ public interface WrapperObject
         default void setWrappedFrom(WrapperObject wrapper)
         {
             WrapperObject.super.setWrappedFrom(wrapper);
+        }
+        
+        @ApiStatus.Internal
+        class AdapterProcessor<T> implements Adapter.Processor<Generic<T>, T>
+        {
+            @UnknownNullability Class<T> type;
+            
+            @Override
+            public void init(AnnotatedType type)
+            {
+                if(!(type instanceof AnnotatedParameterizedType))
+                    throw new IllegalArgumentException("The WrapperObject.Generic has no type args:" + type);
+                //noinspection unchecked
+                this.type = Objects.requireNonNull((Class<T>) TypeUtil.toClass(((AnnotatedParameterizedType) type).getAnnotatedActualTypeArguments()[0].getType()));
+            }
+            @Override
+            public Class<? super T> getSourceClass()
+            {
+                return this.type;
+            }
+            @Override
+            public Generic<T> adapt(T value)
+            {
+                return Generic.<T>factory().create(value);
+            }
+            @Override
+            public T revert(Generic<T> value)
+            {
+                return value.getWrapped();
+            }
         }
     }
 }

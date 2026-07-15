@@ -18,9 +18,16 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
 
     public abstract <F1> Either<F1, S> mapFirst(Function<? super F, ? extends F1> action);
     public abstract <S1> Either<F, S1> mapSecond(Function<? super S, ? extends S1> action);
-    public abstract <T> T map(
+    public abstract <T> T fold(
         Function<? super F, ? extends T> actionFirst,
         Function<? super S, ? extends T> actionSecond);
+    @Deprecated
+    public <T> T map(
+            Function<? super F, ? extends T> actionFirst,
+            Function<? super S, ? extends T> actionSecond)
+    {
+        return this.fold(actionFirst, actionSecond);
+    }
 
     public static <F extends @Nullable Object, S extends @Nullable Object> Either<F, S> first(F value)
     {
@@ -88,7 +95,7 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
             return first(this.value);
         }
         @Override
-        public <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
+        public <T> T fold(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
         {
             return actionFirst.apply(this.get());
         }
@@ -141,7 +148,7 @@ public abstract class Either<F extends @Nullable Object, S extends @Nullable Obj
             return second(action.apply(this.get()));
         }
         @Override
-        public <T> T map(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
+        public <T> T fold(Function<? super F, ? extends T> actionFirst, Function<? super S, ? extends T> actionSecond)
         {
             return actionSecond.apply(this.get());
         }

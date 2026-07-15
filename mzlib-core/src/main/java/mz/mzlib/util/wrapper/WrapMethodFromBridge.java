@@ -37,8 +37,8 @@ public @interface WrapMethodFromBridge
             Class<?> returnType,
             Class<?>[] argTypes) throws NoSuchMethodException
         {
-            Method bridge = (Method) WrapperClassInfo.get(wrapperClass)
-                .analyseWrappedMember(wrapperClass.getMethod(annotation.name(), annotation.params())).getFirst();
+            Method bridge = (Method) WrapperClassData.get(wrapperClass)
+                .analyseMember(wrapperClass.getMethod(annotation.name(), annotation.params())).getTarget();
             ClassNode cn = new ClassNode();
             new ClassReader(ClassUtil.getByteCode(wrappedClass)).accept(cn, 0);
             for(AbstractInsnNode insn : AsmUtil.getMethodNode(

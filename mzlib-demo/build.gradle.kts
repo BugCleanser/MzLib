@@ -1,4 +1,6 @@
 dependencies {
+    compileOnly("org.jetbrains:annotations:latest.release")
+
     compileOnlyApi("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     compileOnlyApi("net.fabricmc:fabric-loader:0.16.10")
     compileOnlyApi("io.github.karlatemp:unsafe-accessor:1.6.0")

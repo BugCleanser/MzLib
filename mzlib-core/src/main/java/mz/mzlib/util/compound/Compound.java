@@ -8,7 +8,7 @@ import mz.mzlib.util.*;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.wrapper.WrappedClassFinder;
 import mz.mzlib.util.wrapper.WrappedClassFinderClass;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.annotation.ElementType;
@@ -127,7 +127,7 @@ public @interface Compound
                         if(!ElementSwitcher.isEnabled(wrapper))
                             continue;
                         Method tar = Objects.requireNonNull(
-                            (Method) WrapperClassInfo.get(anno.parent()).getWrappedMembers().get(wrapper),
+                            (Method) WrapperClassData.get(anno.parent()).getMember(wrapper).getTarget(),
                             "Wrapped method of " + wrapper
                         );
                         MethodNode mn = new MethodNode(
@@ -165,8 +165,8 @@ public @interface Compound
                         if(!ElementSwitcher.isEnabled(wrapper))
                             continue;
                         wrapper = Objects.requireNonNull(
-                            (Method) WrapperClassInfo.get(RuntimeUtil.cast(wrapper.getDeclaringClass()))
-                                .getWrappedMembers().get(wrapper), "Wrapped method of " + wrapper
+                            (Method) WrapperClassData.get(RuntimeUtil.cast(wrapper.getDeclaringClass()))
+                                .getMember(wrapper).getTarget(), "Wrapped method of " + wrapper
                         );
                         MethodNode mn = new MethodNode(
                             Opcodes.ACC_PUBLIC, wrapper.getName(), AsmUtil.getDesc(wrapper), null, null);

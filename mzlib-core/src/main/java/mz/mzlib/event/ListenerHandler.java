@@ -25,14 +25,14 @@ public class ListenerHandler
                 .bindTo(handlers.get(eventClass)).asType(invokedType));
     }
 
-    List<EventListener<?>> sortedListeners = Collections.emptyList();
+    volatile List<EventListener<?>> sortedListeners = Collections.emptyList();
     public void call(Event event)
     {
         for(EventListener<?> listener : this.sortedListeners)
         {
             try
             {
-                listener.handler.accept(RuntimeUtil.cast(event));
+                listener.run(RuntimeUtil.cast(event));
             }
             catch(Throwable e)
             {
@@ -42,8 +42,7 @@ public class ListenerHandler
     }
 
     Set<EventListener<?>> listeners = new HashSet<>();
-    @ApiStatus.Experimental
-    public synchronized void update()
+    synchronized void update()
     {
         this.sortedListeners = Arrays.asList(listeners.stream().sorted((a, b) -> Float.compare(b.priority, a.priority))
             .toArray(EventListener<?>[]::new));

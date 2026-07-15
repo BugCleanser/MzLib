@@ -8,28 +8,51 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
-public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1 extends @Nullable Object, V1 extends @Nullable Object> extends AbstractMap<K, V>
+public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
 {
     Map<K1, V1> delegate;
     FunctionInvertible<K1, K> functionKey;
     FunctionInvertible<V1, V> functionValue;
+    @Nullable Class<K> typeKey;
+    @Nullable Class<V> typeValue;
     ModifyMonitor modifyMonitor;
-
+    
     public MapProxy(
-        Map<K1, V1> delegate,
-        FunctionInvertible<K1, K> functionKey,
-        FunctionInvertible<V1, V> functionValue,
-        ModifyMonitor modifyMonitor)
+            Map<K1, V1> delegate,
+            FunctionInvertible<K1, K> functionKey,
+            FunctionInvertible<V1, V> functionValue,
+            @Nullable Class<K> typeKey,
+            @Nullable Class<V> typeValue,
+            ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
         this.functionKey = functionKey;
         this.functionValue = functionValue;
         this.modifyMonitor = modifyMonitor;
+        this.typeKey = typeKey;
+        this.typeValue = typeValue;
     }
     public MapProxy(
-        Map<K1, V1> delegate,
-        FunctionInvertible<K1, K> functionKey,
-        FunctionInvertible<V1, V> functionValue)
+            Map<K1, V1> delegate,
+            FunctionInvertible<K1, K> functionKey,
+            FunctionInvertible<V1, V> functionValue,
+            @Nullable Class<K> typeKey,
+            @Nullable Class<V> typeValue)
+    {
+        this(delegate, functionKey, functionValue, typeKey, typeValue, ModifyMonitor.Empty.instance);
+    }
+    public MapProxy(
+            Map<K1, V1> delegate,
+            FunctionInvertible<K1, K> functionKey,
+            FunctionInvertible<V1, V> functionValue,
+            ModifyMonitor modifyMonitor)
+    {
+        this(delegate, functionKey, functionValue, null, null, modifyMonitor);
+    }
+    public MapProxy(
+            Map<K1, V1> delegate,
+            FunctionInvertible<K1, K> functionKey,
+            FunctionInvertible<V1, V> functionValue)
     {
         this(delegate, functionKey, functionValue, ModifyMonitor.Empty.instance);
     }
@@ -37,7 +60,20 @@ public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1
     {
         return new MapProxy<>(delegate, FunctionInvertible.identity(), FunctionInvertible.identity(), modifyMonitor);
     }
-
+    
+    public Map<K1, V1> getDelegate()
+    {
+        return this.delegate;
+    }
+    public FunctionInvertible<K1, K> getFunctionKey()
+    {
+        return this.functionKey;
+    }
+    public FunctionInvertible<V1, V> getFunctionValue()
+    {
+        return this.functionValue;
+    }
+    
     @Override
     public int size()
     {
@@ -54,13 +90,23 @@ public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1
     public boolean containsKey(Object key)
     {
         K1 k1;
-        try
+        if(this.typeKey != null)
         {
-            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            if(this.typeKey.isInstance(key))
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            else
+                return false;
         }
-        catch(ClassCastException e)
+        else
         {
-            return false;
+            try
+            {
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            }
+            catch(ClassCastException e)
+            {
+                return false;
+            }
         }
         return this.delegate.containsKey(k1);
     }
@@ -69,28 +115,48 @@ public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1
     public boolean containsValue(Object value)
     {
         V1 v1;
-        try
+        if(this.typeValue != null)
         {
-            v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
+            if(this.typeValue.isInstance(value))
+                v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
+            else
+                return false;
         }
-        catch(ClassCastException e)
+        else
         {
-            return false;
+            try
+            {
+                v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
+            }
+            catch(ClassCastException e)
+            {
+                return false;
+            }
         }
         return this.delegate.containsValue(v1);
     }
 
     @Override
-    public V get(Object key)
+    public @Nullable V get(Object key)
     {
         K1 k1;
-        try
+        if(this.typeKey != null)
         {
-            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            if(this.typeKey.isInstance(key))
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            else
+                return null;
         }
-        catch(ClassCastException e)
+        else
         {
-            return null;
+            try
+            {
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            }
+            catch(ClassCastException e)
+            {
+                return null;
+            }
         }
         V1 v1 = this.delegate.get(k1);
         if(v1 == null)
@@ -99,7 +165,7 @@ public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1
     }
 
     @Override
-    public V put(K key, V value)
+    public @Nullable V put(K key, V value)
     {
         this.modifyMonitor.onModify();
         V1 result = this.delegate.put(functionKey.inverse().apply(key), functionValue.inverse().apply(value));
@@ -110,16 +176,26 @@ public class MapProxy<K extends @Nullable Object, V extends @Nullable Object, K1
     }
 
     @Override
-    public V remove(Object key)
+    public @Nullable V remove(Object key)
     {
         K1 k1;
-        try
+        if(this.typeKey != null)
         {
-            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            if(this.typeKey.isInstance(key))
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            else
+                return null;
         }
-        catch(ClassCastException e)
+        else
         {
-            return null;
+            try
+            {
+                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+            }
+            catch(ClassCastException e)
+            {
+                return null;
+            }
         }
         this.modifyMonitor.onModify();
         V1 result = this.delegate.remove(k1);

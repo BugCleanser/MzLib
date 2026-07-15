@@ -2,6 +2,7 @@ package mz.mzlib.util;
 
 import mz.mzlib.module.IRegistrar;
 import mz.mzlib.module.MzModule;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.invoke.MethodType;
 import java.util.List;
@@ -22,7 +23,7 @@ public interface Instance
             return Instance.class;
         }
 
-        public <T extends Instance> void setInstance(Class<T> type, T instance)
+        private <T extends Instance> void setInstance(Class<T> type, @Nullable T instance)
             throws NoSuchFieldException, IllegalAccessException
         {
             try
@@ -48,7 +49,7 @@ public interface Instance
                     if(Instance.class.isAssignableFrom(c))
                     {
                         instances.computeIfAbsent(RuntimeUtil.cast(c), k -> new CopyOnWriteArrayList<>())
-                            .add(0, object);
+                            .add(object);
                         try
                         {
                             setInstance(RuntimeUtil.cast(c), object);
@@ -74,23 +75,24 @@ public interface Instance
                         instances.computeIfPresent(
                             RuntimeUtil.cast(c), (k, v) ->
                             {
-                                v.remove(object);
-                                if(v.isEmpty())
+                                try
                                 {
-                                    return null;
+                                    v.remove(object);
+                                    if(v.isEmpty())
+                                    {
+                                        setInstance(RuntimeUtil.cast(k), null);
+                                        return null;
+                                    }
+                                    else
+                                    {
+                                        setInstance(RuntimeUtil.cast(k), v.get(v.size() - 1));
+                                        return v;
+                                    }
                                 }
-                                else
+                                catch(NoSuchFieldException |
+                                    IllegalAccessException e)
                                 {
-                                    try
-                                    {
-                                        setInstance(RuntimeUtil.cast(k), v.get(0));
-                                    }
-                                    catch(NoSuchFieldException |
-                                          IllegalAccessException e)
-                                    {
-                                        throw RuntimeUtil.sneakilyThrow(e);
-                                    }
-                                    return v;
+                                    throw RuntimeUtil.sneakilyThrow(e);
                                 }
                             }
                         );

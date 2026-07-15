@@ -25,7 +25,11 @@ public class IndexAllocator<T extends @Nullable Object>
     public synchronized int alloc(T value)
     {
         if(!this.bin.isEmpty())
-            return this.bin.poll();
+        {
+            int result = this.bin.poll();
+            this.list.set(result, value);
+            return result;
+        }
         this.list.add(value);
         return this.list.size() - 1;
     }

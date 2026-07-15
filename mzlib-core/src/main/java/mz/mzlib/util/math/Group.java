@@ -13,7 +13,7 @@ public interface Group<T> extends Monoid<T>
     Group<Float> FLOAT_ADDITION = build(0.f, Float::sum, f -> -f);
     Group<Float> FLOAT_MULTIPLICATION = build(1.f, (a, b) -> a * b, f -> 1.f / f);
     Group<Double> DOUBLE_ADDITION = build(0., Double::sum, d -> -d);
-    Group<Double> DOUBLE_MULTIPLICATION = build(1., (a, b) -> a * b, d -> 1.f / d);
+    Group<Double> DOUBLE_MULTIPLICATION = build(1., (a, b) -> a * b, d -> 1. / d);
 
     T inverse(T element);
 

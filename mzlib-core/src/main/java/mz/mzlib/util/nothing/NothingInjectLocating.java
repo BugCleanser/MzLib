@@ -7,7 +7,7 @@ import mz.mzlib.asm.tree.VarInsnNode;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.asm.AsmUtil;
-import mz.mzlib.util.wrapper.WrapperClassInfo;
+import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.lang.invoke.MethodType;
@@ -48,8 +48,7 @@ public class NothingInjectLocating
     {
         try
         {
-            this.nextAccess(WrapperClassInfo.get(ownerWrapper).getWrappedMembers()
-                .get(ownerWrapper.getDeclaredMethod(name, parameterTypes)));
+            this.nextAccess(WrapperClassData.get(ownerWrapper).getMember(ownerWrapper.getDeclaredMethod(name, parameterTypes)).getTarget());
         }
         catch(NoSuchMethodException e)
         {

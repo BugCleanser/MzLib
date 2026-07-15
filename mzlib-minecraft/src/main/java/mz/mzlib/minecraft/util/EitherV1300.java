@@ -49,7 +49,7 @@ public interface EitherV1300<F, S> extends WrapperObject
 
     static <F, S> EitherV1300<F, S> fromEither(Either<F, S> either)
     {
-        return either.map(EitherV1300::first, EitherV1300::second);
+        return either.fold(EitherV1300::first, EitherV1300::second);
     }
     default Either<F, S> toEither()
     {
