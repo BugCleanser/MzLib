@@ -53,7 +53,7 @@ public interface SimpleProxy
                         for(int i = 0, loc = 1; i < pts.length; i++)
                         {
                             mn.instructions.add(AsmUtil.insnVarLoad(pts[i], loc));
-                            loc += AsmUtil.getCategory(pts[i]);
+                            loc += AsmUtil.getSize(pts[i]);
                         }
                         mn.visitMethodInsn(
                             Opcodes.INVOKEVIRTUAL, AsmUtil.getType(target.getClass()), m.getName(), AsmUtil.getDesc(m),

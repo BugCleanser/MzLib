@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.AutoCompletable;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -91,14 +91,14 @@ public interface NbtList extends NbtElement
 
     void add(NbtElement value);
     @VersionRange(end = 2105)
-    @SpecificImpl("add")
+    @Impl("add")
     default void addV_2105(NbtElement value)
     {
         this.setElementTypeIdV_2105(value.getTypeId());
         this.addV2105(value);
     }
     @VersionRange(begin = 2105)
-    @SpecificImpl("add")
+    @Impl("add")
     default void addV2105(NbtElement value)
     {
         this.getValue0().add(value.getWrapped());
@@ -205,7 +205,7 @@ public interface NbtList extends NbtElement
 
 
     NbtList static$newInstance0(List<Object> elements0);
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(end = 2105)
     default NbtList static$newInstance0V_2105(List<Object> elements0)
     {
@@ -215,7 +215,7 @@ public interface NbtList extends NbtElement
             result.setElementTypeIdV_2105(NbtElement.FACTORY.create(elements0.get(0)).getTypeId());
         return result;
     }
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(begin = 2105)
     default NbtList static$newInstance0V2105(List<Object> elements0)
     {

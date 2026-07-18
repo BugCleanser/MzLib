@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -27,11 +27,11 @@ public interface TextSelector extends WrapperObject, Text
         return FACTORY.getStatic().static$newInstance(selector);
     }
     TextSelector static$newInstance(String selector);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1700)
     @WrapConstructor
     TextSelector static$newInstanceV_1700(String selector);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1700)
     default TextSelector static$newInstanceV1700(String selector)
     {
@@ -45,7 +45,7 @@ public interface TextSelector extends WrapperObject, Text
     }
     @VersionRange(begin = 1700)
     TextSelector static$newInstanceV1700(String selector, Option<Text> separator);
-    @SpecificImpl("static$newInstanceV1700")
+    @Impl("static$newInstanceV1700")
     @VersionRange(begin = 1700, end = 1900)
     default TextSelector static$newInstanceV1700_1900(String selector, Option<Text> separator)
     {
@@ -56,7 +56,7 @@ public interface TextSelector extends WrapperObject, Text
     TextSelector static$newInstance0V1700_1900(
         String selector,
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType") Optional<?> separator0);
-    @SpecificImpl("static$newInstanceV1700")
+    @Impl("static$newInstanceV1700")
     @VersionRange(begin = 1900)
     default TextSelector static$newInstanceV1900(String selector, Option<Text> separator)
     {
@@ -71,11 +71,11 @@ public interface TextSelector extends WrapperObject, Text
     }
 
     String getSelector();
-    @SpecificImpl("getSelector")
+    @Impl("getSelector")
     @VersionRange(end = 1900)
     @WrapMinecraftMethod(@VersionName(name = "getPattern"))
     String getSelectorV_1900();
-    @SpecificImpl("getSelector")
+    @Impl("getSelector")
     @VersionRange(begin = 1900)
     default String getSelectorV1900()
     {
@@ -89,7 +89,7 @@ public interface TextSelector extends WrapperObject, Text
 
     @VersionRange(begin = 1700)
     Option<Text> getSeparatorV1700();
-    @SpecificImpl("getSeparatorV1700")
+    @Impl("getSeparatorV1700")
     @VersionRange(begin = 1700, end = 1900)
     default Option<Text> getSeparatorV1700_1900()
     {
@@ -98,7 +98,7 @@ public interface TextSelector extends WrapperObject, Text
     @VersionRange(begin = 1700, end = 1900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "separator"))
     Optional<?> getSeparator0V1700_1900();
-    @SpecificImpl("getSeparatorV1700")
+    @Impl("getSeparatorV1700")
     @VersionRange(begin = 1900)
     default Option<Text> getSeparatorV1900()
     {

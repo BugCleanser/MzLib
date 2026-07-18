@@ -16,7 +16,7 @@ import mz.mzlib.util.*;
 import mz.mzlib.util.async.AsyncFunctionRunner;
 import mz.mzlib.util.async.BasicAwait;
 import mz.mzlib.util.proxy.IteratorProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -126,41 +126,41 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
      */
     int getDataVersion();
 
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(end = 900)
     default int getDataVersionV_900()
     {
         return 0;
     }
 
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(begin = 900, end = 1300)
     default int getDataVersionV900_1300()
     {
         return this.getDataUpdaterV900_1300().getDataVersion();
     }
 
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(begin = 1300, end = 1302)
     default int getDataVersionUnsupported()
     {
         throw new UnsupportedOperationException();
     }
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(begin = 1302, end = 1400)
     default int getDataVersionV1302_1400()
     {
         return 1631;
     }
 
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(begin = 1400, end = 1800)
     default int getDataVersionV1400_1800()
     {
         return GlobalConstants.getMinecraftVersionV1400_1800().getDataVersion();
     }
 
-    @SpecificImpl("getDataVersion")
+    @Impl("getDataVersion")
     @VersionRange(begin = 1800)
     default int getDataVersionV1800()
     {
@@ -170,11 +170,11 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(begin = 1602)
     RegistryManagerV1602 getRegistriesV1602();
 
-    @SpecificImpl("getRegistriesV1602")
+    @Impl("getRegistriesV1602")
     @WrapMinecraftMethod(@VersionName(name = "getRegistryManager", begin = 1602, end = 1802))
     RegistryManagerV1602 getRegistriesV1602_1802();
 
-    @SpecificImpl("getRegistriesV1602")
+    @Impl("getRegistriesV1602")
     @WrapMinecraftMethod({
         @VersionName(name = "getRegistryManager", begin = 1802, end = 2610),
         @VersionName(name = "registryAccess", remap = false, begin = 2610)
@@ -227,7 +227,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     void onStop();
 
 
-    @SpecificImpl("getWorlds")
+    @Impl("getWorlds")
     @VersionRange(end = 1300)
     default Iterable<WorldServer> getWorlds$implV_1300()
     {
@@ -236,7 +236,7 @@ public interface MinecraftServer extends WrapperObject, CommandOutput, Instance,
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "worlds"))
     WorldServer.Array getWorldsV_1300();
-    @SpecificImpl("getWorlds")
+    @Impl("getWorlds")
     @VersionRange(begin = 1300)
     default Iterable<WorldServer> getWorldsV1300()
     {

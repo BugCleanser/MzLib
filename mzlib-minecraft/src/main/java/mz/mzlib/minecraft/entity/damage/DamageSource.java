@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.registry.entry.RegistryEntryV1802;
 import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -27,7 +27,7 @@ public interface DamageSource extends WrapperObject
     }
 
     @Nullable Entity getSource();
-    @SpecificImpl("getSource")
+    @Impl("getSource")
     @VersionRange(end = 1904)
     default @Nullable Entity getSourceV_1904()
     {
@@ -36,12 +36,12 @@ public interface DamageSource extends WrapperObject
         else
             return null;
     }
-    @SpecificImpl("getSource")
+    @Impl("getSource")
     @WrapMinecraftFieldAccessor(@VersionName(name = "source", begin = 1904))
     Entity getSourceV1904(); // FIXME: null
 
     @Nullable Entity getAttacker();
-    @SpecificImpl("getAttacker")
+    @Impl("getAttacker")
     @VersionRange(end = 1904)
     default @Nullable Entity getAttackerV_1904()
     {
@@ -50,7 +50,7 @@ public interface DamageSource extends WrapperObject
         else
             return null;
     }
-    @SpecificImpl("getAttacker")
+    @Impl("getAttacker")
     @WrapMinecraftFieldAccessor(@VersionName(name = "attacker", begin = 1904))
     Entity getAttackerV1904(); // FIXME: null
 

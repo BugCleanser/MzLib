@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.block.BlockState;
 import mz.mzlib.minecraft.util.math.BlockPos;
 import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -20,13 +20,13 @@ public interface BlockEntityChest extends WrapperObject, BlockEntity, WindowFact
     @VersionRange(end = 1700)
     @WrapConstructor
     BlockEntityChest static$newInstanceV_1700();
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1700)
     default BlockEntityChest static$newInstanceV_1700(BlockPos pos, BlockState state)
     {
         return static$newInstanceV_1700();
     }
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1700)
     @WrapConstructor
     BlockEntityChest static$newInstanceV1700(BlockPos pos, BlockState state);

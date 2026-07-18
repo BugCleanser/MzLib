@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.entity.player.EntityPlayerAbstract;
 import mz.mzlib.minecraft.inventory.Inventory;
 import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -29,7 +29,7 @@ public interface WindowChest extends WrapperObject, Window
     @WrapConstructor
     @VersionRange(end = 1400)
     WindowChest static$newInstanceV_1400(Inventory inventoryPlayer, Inventory inventory, EntityPlayerAbstract player);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1400)
     default WindowChest static$newInstanceV_1400(
         WindowType type,
@@ -50,7 +50,7 @@ public interface WindowChest extends WrapperObject, Window
         InventoryPlayer inventoryPlayer,
         Inventory inventory,
         int rows);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1400)
     default WindowChest static$newInstanceV1400(
         WindowType type,

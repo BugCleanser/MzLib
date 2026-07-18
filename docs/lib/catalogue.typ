@@ -24,7 +24,7 @@
 #context {
     let result = ();
     let path = ();
-    for i in headings.final()+(heading(level: 1, "EOF"),) {
+    for i in headings.final() + (heading(level: 1, "EOF"),) {
         path = path.slice(0, i.level -1);
         path.push(contentToString(i.body));
         while result.len()>1 and result.first().at(0) < result.last().at(0) and result.last().at(0) >= i.level {
@@ -44,5 +44,7 @@
             #f(c.slice(2));
         ]));
     };
-    return html_elem("nav", attrs: (class: "catalogue"), f(result));
+    return html_elem("nav", attrs: (class: "catalogue"), 
+        html_elem("button", attrs: (class: "catalogue-close"))[✕] + f(result));
 };
+#html_elem("button", attrs: (class: "catalogue-toggle"))[☰];

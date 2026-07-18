@@ -1,0 +1,82 @@
+math {
+    math-style: compact;
+    math-depth: auto-add;
+    /* &:not([display="block"]) {
+        &:is(p > span > *) {
+            margin-left: 2pt;
+            margin-right: 2pt;
+            &:has(> :last-child:is(mi)) {
+                margin-right: 3pt;
+            }
+        }
+    } */
+    &[display="block"] {
+    }
+    .space {
+        display: none;
+        mtext + &, &:has(+ mtext) {
+            white-space: pre-wrap;
+        }
+    }
+    mtd {
+        padding: 0.5ex 0;
+    }
+    mtd:nth-child(odd) {
+        text-align: right;
+        text-align: -webkit-right;
+        text-align: -moz-right;
+    }
+    mtd:nth-child(even), .cases mtd {
+        text-align: left;
+        text-align: -webkit-left;
+        text-align: -moz-left;
+    }
+    &[dir="rtl"] {
+        mtd:nth-child(odd) {
+            text-align: left;
+            text-align: -webkit-left;
+            text-align: -moz-left;
+        }
+        mtd:nth-child(even), .cases mtd {
+            text-align: right;
+            text-align: -webkit-right;
+            text-align: -moz-right;
+        }
+    }
+    msqrt, mroot {
+        & > * {
+            margin-top: 1pt;
+        }
+    }
+    mo[fence="true"] {
+        &[form="prefix"] {
+            margin-inline-start: -2pt;
+            margin-inline-end: -3pt;
+        }
+        &[form="postfix"] {
+            margin-inline-start: -3pt;
+            margin-inline-end: -2pt;
+        }
+        &:is(mrow.abs > *) {
+            margin-left: unset;
+            margin-right: unset;
+        }
+    }
+    mrow.cases {
+        & > mo:first-child {
+            margin-inline-end: 2pt;
+        }
+    }
+}
+
+.equation {
+    position: relative;
+    display: block;
+    margin: 1em 0;
+    
+    & > .number {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}

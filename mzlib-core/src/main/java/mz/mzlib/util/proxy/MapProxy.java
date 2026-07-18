@@ -13,16 +13,16 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     Map<K1, V1> delegate;
     FunctionInvertible<K1, K> functionKey;
     FunctionInvertible<V1, V> functionValue;
-    @Nullable Class<K> typeKey;
-    @Nullable Class<V> typeValue;
+    @Nullable Class<? super K> typeKey;
+    @Nullable Class<? super V> typeValue;
     ModifyMonitor modifyMonitor;
     
     public MapProxy(
             Map<K1, V1> delegate,
             FunctionInvertible<K1, K> functionKey,
             FunctionInvertible<V1, V> functionValue,
-            @Nullable Class<K> typeKey,
-            @Nullable Class<V> typeValue,
+            @Nullable Class<? super K> typeKey,
+            @Nullable Class<? super V> typeValue,
             ModifyMonitor modifyMonitor)
     {
         this.delegate = delegate;
@@ -36,8 +36,8 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
             Map<K1, V1> delegate,
             FunctionInvertible<K1, K> functionKey,
             FunctionInvertible<V1, V> functionValue,
-            @Nullable Class<K> typeKey,
-            @Nullable Class<V> typeValue)
+            @Nullable Class<? super K> typeKey,
+            @Nullable Class<? super V> typeValue)
     {
         this(delegate, functionKey, functionValue, typeKey, typeValue, ModifyMonitor.Empty.instance);
     }
@@ -89,24 +89,19 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     @Override
     public boolean containsKey(Object key)
     {
-        K1 k1;
         if(this.typeKey != null)
         {
-            if(this.typeKey.isInstance(key))
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            else
+            if(!this.typeKey.isInstance(key))
                 return false;
         }
-        else
+        K1 k1;
+        try
         {
-            try
-            {
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            }
-            catch(ClassCastException e)
-            {
-                return false;
-            }
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+        }
+        catch(ClassCastException e)
+        {
+            return false;
         }
         return this.delegate.containsKey(k1);
     }
@@ -114,24 +109,19 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     @Override
     public boolean containsValue(Object value)
     {
-        V1 v1;
         if(this.typeValue != null)
         {
-            if(this.typeValue.isInstance(value))
-                v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
-            else
+            if(!this.typeValue.isInstance(value))
                 return false;
         }
-        else
+        V1 v1;
+        try
         {
-            try
-            {
-                v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
-            }
-            catch(ClassCastException e)
-            {
-                return false;
-            }
+            v1 = functionValue.inverse().apply(RuntimeUtil.cast(value));
+        }
+        catch(ClassCastException e)
+        {
+            return false;
         }
         return this.delegate.containsValue(v1);
     }
@@ -139,24 +129,19 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     @Override
     public @Nullable V get(Object key)
     {
-        K1 k1;
         if(this.typeKey != null)
         {
-            if(this.typeKey.isInstance(key))
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            else
+            if(!this.typeKey.isInstance(key))
                 return null;
         }
-        else
+        K1 k1;
+        try
         {
-            try
-            {
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            }
-            catch(ClassCastException e)
-            {
-                return null;
-            }
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+        }
+        catch(ClassCastException e)
+        {
+            return null;
         }
         V1 v1 = this.delegate.get(k1);
         if(v1 == null)
@@ -178,24 +163,19 @@ public class MapProxy<K, V, K1, V1> extends AbstractMap<K, V>
     @Override
     public @Nullable V remove(Object key)
     {
-        K1 k1;
         if(this.typeKey != null)
         {
-            if(this.typeKey.isInstance(key))
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            else
+            if(!this.typeKey.isInstance(key))
                 return null;
         }
-        else
+        K1 k1;
+        try
         {
-            try
-            {
-                k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
-            }
-            catch(ClassCastException e)
-            {
-                return null;
-            }
+            k1 = functionKey.inverse().apply(RuntimeUtil.cast(key));
+        }
+        catch(ClassCastException e)
+        {
+            return null;
         }
         this.modifyMonitor.onModify();
         V1 result = this.delegate.remove(k1);

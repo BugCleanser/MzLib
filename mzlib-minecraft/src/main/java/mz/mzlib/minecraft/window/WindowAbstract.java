@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 @Compound
@@ -95,7 +95,7 @@ public interface WindowAbstract extends Window
 
     void onAction$super(WindowAction action);
 
-    @SpecificImpl("onAction$super")
+    @Impl("onAction$super")
     @VersionRange(end = 1700)
     default void onAction$superV_1700(WindowAction action)
     {
@@ -104,7 +104,7 @@ public interface WindowAbstract extends Window
     @CompoundSuper(parent = Window.class, method = "onActionV_1700")
     ItemStack onAction$superV_1700(int index, int data, WindowActionType actionType, EntityPlayerAbstract player);
 
-    @SpecificImpl("onAction$super")
+    @Impl("onAction$super")
     @VersionRange(begin = 1700)
     default void onAction$superV1700(WindowAction action)
     {

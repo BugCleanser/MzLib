@@ -2,6 +2,10 @@
 #let title = [数学工具];
 #show: template.with(title: title);
 
+#cardAttention[
+    此程序包目前是实验性的
+]
+
 数学工具包提供了各种数学运算和数据结构。
 
 = Complex

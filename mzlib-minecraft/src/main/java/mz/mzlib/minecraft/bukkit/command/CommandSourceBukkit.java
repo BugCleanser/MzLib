@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.bukkit.entity.BukkitEntityUtil;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.minecraft.command.RconConsole;
 import mz.mzlib.minecraft.entity.Entity;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -22,7 +22,7 @@ public interface CommandSourceBukkit extends CommandSource
     WrapperFactory<CommandSourceBukkit> FACTORY = WrapperFactory.of(CommandSourceBukkit.class);
     CommandSender getBukkitSender();
 
-    @SpecificImpl("getBukkitSender")
+    @Impl("getBukkitSender")
     @VersionRange(end = 1200)
     default CommandSender getBukkitSenderV_1200()
     {
@@ -39,14 +39,14 @@ public interface CommandSourceBukkit extends CommandSource
         throw new UnsupportedOperationException();
     }
 
-    @SpecificImpl("getBukkitSender")
+    @Impl("getBukkitSender")
     @VersionRange(begin = 1200, end = 1300)
     default CommandSender getBukkitSenderV1200_1300()
     {
         return CommandBlockExecutorBukkit.commandSourceToBukkitV1200_1300(this);
     }
 
-    @SpecificImpl("getBukkitSender")
+    @Impl("getBukkitSender")
     @VersionRange(begin = 1300)
     @WrapMethod("getBukkitSender")
     CommandSender getBukkitSenderV1300();

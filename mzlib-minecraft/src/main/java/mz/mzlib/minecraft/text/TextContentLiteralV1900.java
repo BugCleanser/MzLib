@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -23,11 +23,11 @@ public interface TextContentLiteralV1900 extends TextContentV1900
         return FACTORY.getStatic().static$newInstance(literal);
     }
     TextContentLiteralV1900 static$newInstance(String literal);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @WrapConstructor
     @VersionRange(end = 2003)
     TextContentLiteralV1900 static$newInstanceV_2003(String literal);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @WrapConstructor
     @VersionRange(begin = 2003)
     default TextContentLiteralV1900 static$newInstanceV2003(String literal)

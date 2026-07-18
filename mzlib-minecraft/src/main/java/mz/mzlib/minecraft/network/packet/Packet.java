@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.incomprehensible.registry.ByteBufWithRegistriesV2005;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -31,14 +31,14 @@ public interface Packet extends WrapperObject
     boolean isBundle();
 
     @VersionRange(end = 1904)
-    @SpecificImpl("isBundle")
+    @Impl("isBundle")
     default boolean isBundleV_1904()
     {
         return false;
     }
 
     @VersionRange(begin = 1904)
-    @SpecificImpl("isBundle")
+    @Impl("isBundle")
     default boolean isBundleV1904()
     {
         return this.isInstanceOf(PacketBundleV1904.FACTORY);
@@ -64,7 +64,7 @@ public interface Packet extends WrapperObject
                 NetworkPhasePacketManagerV_2005.query() //
             ) : null;
 
-    @SpecificImpl("copy")
+    @Impl("copy")
     @VersionRange(end = 1700)
     default Packet copyV_1700(ByteBufAllocator byteBufAllocator)
     {
@@ -108,7 +108,7 @@ public interface Packet extends WrapperObject
         }
     }
 
-    @SpecificImpl("copy")
+    @Impl("copy")
     @VersionRange(begin = 1700, end = 2005)
     default Packet copyV1700_2005(ByteBufAllocator byteBufAllocator)
     {
@@ -173,7 +173,7 @@ public interface Packet extends WrapperObject
                 NetworkLoginSidedPacketManagersV2005.c2s() //
             );
 
-    @SpecificImpl("copy")
+    @Impl("copy")
     @VersionRange(begin = 2005)
     default Packet copyV2005(ByteBufAllocator byteBufAllocator) // TODO optimize
     {

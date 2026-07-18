@@ -30,6 +30,7 @@ package mz.mzlib.asm.tree.analysis;
 import mz.mzlib.asm.Opcodes;
 import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +116,7 @@ public class Analyzer<V extends Value> implements Opcodes
      * @throws AnalyzerException if a problem occurs during the analysis.
      */
     @SuppressWarnings("unchecked")
-    public Frame<V>[] analyze(final String owner, final MethodNode method) throws AnalyzerException
+    public @Nullable Frame<V>[] analyze(final String owner, final MethodNode method) throws AnalyzerException
     {
         if ((method.access & (ACC_ABSTRACT | ACC_NATIVE)) != 0)
         {

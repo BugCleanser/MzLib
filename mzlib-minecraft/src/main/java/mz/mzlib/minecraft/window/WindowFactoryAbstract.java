@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.inventory.InventoryPlayer;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -35,7 +35,7 @@ public interface WindowFactoryAbstract extends WrapperObject
     @VersionRange(end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "hasCustomName"))
     boolean hasCustomNameV_1400();
-    @SpecificImpl("getDisplayNameV_1400")
+    @Impl("getDisplayNameV_1400")
     @VersionRange(end = 1300)
     default Text getDisplayNameV_1300()
     {
@@ -50,7 +50,7 @@ public interface WindowFactoryAbstract extends WrapperObject
         @VersionName(name = "method_15541", begin = 1300)
     })
     Text getCustomNameV_1400();
-    @SpecificImpl("getDisplayNameV_1400")
+    @Impl("getDisplayNameV_1400")
     @VersionRange(begin = 1300, end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getName"))
     Text getDisplayNameV1300_1400();

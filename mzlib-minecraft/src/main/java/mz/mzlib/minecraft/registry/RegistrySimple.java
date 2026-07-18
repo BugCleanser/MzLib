@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -40,13 +40,13 @@ public interface RegistrySimple<T> extends Registry<T>
     @WrapConstructor
     <T1> RegistrySimple<T1> static$ofV_1600();
 
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(end = 1300)
     default Identifier getIdV_1300(WrapperObject value)
     {
         return this.getKeyV_1300(value, Identifier.FACTORY);
     }
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(begin = 1300)
     default Identifier getId$implV1300(WrapperObject value)
     {

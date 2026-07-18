@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -20,7 +20,7 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
     @WrapMinecraftFieldAccessor(@VersionName(name = "siblings"))
     void setExtra0(List<Object> value);
 
-    @SpecificImpl("setExtra")
+    @Impl("setExtra")
     @Override
     default Text setExtraV_1900(List<Text> value)
     {
@@ -28,7 +28,7 @@ public interface AbstractTextV_1900 extends WrapperObject, Text
         return this;
     }
 
-    @SpecificImpl("setStyle")
+    @Impl("setStyle")
     @Override
     @WrapMinecraftFieldAccessor(@VersionName(name = "style"))
     void setStyleV_1900(TextStyle style);

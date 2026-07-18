@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -46,11 +46,11 @@ public interface NbtIo extends WrapperObject
     void static$write(NbtElement nbt, DataOutput output) throws IOException;
 
     NbtCompound static$readCompoundCompressed(InputStream stream) throws IOException;
-    @SpecificImpl("static$readCompoundCompressed")
+    @Impl("static$readCompoundCompressed")
     @VersionRange(end = 2003)
     @WrapMinecraftMethod(@VersionName(name = "readCompressed"))
     NbtCompound static$readCompoundCompressedV_2003(InputStream stream) throws IOException;
-    @SpecificImpl("static$readCompoundCompressed")
+    @Impl("static$readCompoundCompressed")
     @VersionRange(begin = 2003)
     default NbtCompound static$readCompoundCompressedV2003(InputStream stream) throws IOException
     {

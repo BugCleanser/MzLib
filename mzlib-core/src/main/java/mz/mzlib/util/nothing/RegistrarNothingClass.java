@@ -12,7 +12,7 @@ public class RegistrarNothingClass implements IRegistrar<Class<? extends Nothing
 {
     public static RegistrarNothingClass instance = new RegistrarNothingClass();
 
-    public Map<Class<?>, NothingRegistration> registrations = new ConcurrentHashMap<>();
+    Map<Class<?>, NothingTargetData> targets = new ConcurrentHashMap<>();
 
     @Override
     public Class<Class<? extends Nothing>> getType()
@@ -30,34 +30,25 @@ public class RegistrarNothingClass implements IRegistrar<Class<? extends Nothing
     public void register(MzModule module, Class<? extends Nothing> object)
     {
         if(!WrapperObject.class.isAssignableFrom(object))
-        {
             throw new IllegalArgumentException("Nothing class must extends WrapperObject.");
-        }
         if(!WrapperObject.class.isInterface())
-        {
             throw new IllegalArgumentException("Nothing class must be an interface.");
-        }
-        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.cast(object));
-        registrations.computeIfAbsent(wrappedClass, k -> new NothingRegistration(wrappedClass)).add(object);
+        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.castClass(object));
+        targets.computeIfAbsent(wrappedClass, NothingTargetData::new).add(object);
     }
 
     @Override
     public void unregister(MzModule module, Class<? extends Nothing> object)
     {
-        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.<Class<WrapperObject>>cast(object));
-        registrations.compute(
+        Class<?> wrappedClass = WrapperObject.getWrappedClass(RuntimeUtil.castClass(object));
+        targets.compute(
             wrappedClass, (k, v) ->
             {
                 if(v == null)
-                {
-                    throw new IllegalArgumentException(
-                        "Try to unregister a nothing class which has not been registered: " + object);
-                }
+                    throw new IllegalArgumentException("Try to unregister a nothing class which has not been registered: " + object);
                 v.remove(object);
                 if(v.isEmpty())
-                {
                     return null;
-                }
                 return v;
             }
         );

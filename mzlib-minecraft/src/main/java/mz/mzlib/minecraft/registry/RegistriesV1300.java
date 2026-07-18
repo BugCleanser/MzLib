@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.item.Item;
 import mz.mzlib.minecraft.window.WindowTypeV1400;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -28,12 +28,12 @@ public interface RegistriesV1300 extends WrapperObject
 
     Registry<Item> static$item();
 
-    @SpecificImpl("static$item")
+    @Impl("static$item")
     @VersionRange(end = 1903)
     @WrapMinecraftFieldAccessor(@VersionName(name = "ITEM"))
     RegistrySimple<Item> static$itemV_1903();
 
-    @SpecificImpl("static$item")
+    @Impl("static$item")
     @VersionRange(begin = 1903)
     @WrapMinecraftFieldAccessor(@VersionName(name = "ITEM"))
     Registry<Item> static$itemV1903();

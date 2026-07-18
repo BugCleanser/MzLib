@@ -14,7 +14,7 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.MapProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -50,7 +50,7 @@ public interface NbtCompound extends NbtElement
 
     NbtCompound static$load(DataInput input);
 
-    @SpecificImpl("static$load")
+    @Impl("static$load")
     @VersionRange(end = 1500)
     default NbtCompound static$loadV_1500(DataInput input)
     {
@@ -59,7 +59,7 @@ public interface NbtCompound extends NbtElement
         return result;
     }
 
-    @SpecificImpl("static$load")
+    @Impl("static$load")
     @VersionRange(begin = 1500)
     default NbtCompound static$loadV1500(DataInput input)
     {

@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.Either;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -24,11 +24,11 @@ public interface TextScore extends WrapperObject, Text
         return FACTORY.getStatic().static$newInstance(name, objective);
     }
     TextScore static$newInstance(String name, String objective);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1900)
     @WrapConstructor
     TextScore static$newInstanceV_1900(String name, String objective);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1900)
     default TextScore static$newInstanceV1900(String name, String objective)
     {
@@ -41,11 +41,11 @@ public interface TextScore extends WrapperObject, Text
     }
 
     String getName();
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(end = 1900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
     String getNameV_1900();
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(begin = 1900)
     default String getNameV1900()
     {
@@ -58,11 +58,11 @@ public interface TextScore extends WrapperObject, Text
     }
 
     String getObjective();
-    @SpecificImpl("getObjective")
+    @Impl("getObjective")
     @VersionRange(end = 1900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "objective"))
     String getObjectiveV_1900();
-    @SpecificImpl("getObjective")
+    @Impl("getObjective")
     @VersionRange(begin = 1900)
     default String getObjectiveV1900()
     {

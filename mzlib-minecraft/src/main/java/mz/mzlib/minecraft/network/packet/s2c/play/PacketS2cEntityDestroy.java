@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -22,7 +22,7 @@ public interface PacketS2cEntityDestroy extends Packet
     WrapperFactory<PacketS2cEntityDestroy> FACTORY = WrapperFactory.of(PacketS2cEntityDestroy.class);
     int[] getEntityIds();
 
-    @SpecificImpl("getEntityIds")
+    @Impl("getEntityIds")
     @VersionRange(end = 1700)
     @WrapMinecraftFieldAccessor(@VersionName(name = "entityIds"))
     int[] getEntityIdsV_1700();
@@ -31,7 +31,7 @@ public interface PacketS2cEntityDestroy extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name = "entityId"))
     int getEntityIdV1700_1701();
 
-    @SpecificImpl("getEntityIds")
+    @Impl("getEntityIds")
     @VersionRange(begin = 1700, end = 1701)
     default int[] getEntityIdsV1700_1701()
     {
@@ -42,7 +42,7 @@ public interface PacketS2cEntityDestroy extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name = "entityIds"))
     List<Integer> getEntityIds0V1701();
 
-    @SpecificImpl("getEntityIds")
+    @Impl("getEntityIds")
     @VersionRange(begin = 1701)
     default int[] getEntityIdsV1701()
     {

@@ -36,7 +36,7 @@ public @interface AdapterCollection
             return new Activated<>(this.delegate.activate());
         }
         @Override
-        public Class<? super Collection<U>> getSourceClass()
+        public Class<? super Collection<U>> getAdapteeClass()
         {
             return Collection.class;
         }
@@ -68,7 +68,7 @@ public @interface AdapterCollection
             }
             
             @Override
-            public Class<? super Collection<U>> getSourceClass()
+            public Class<? super Collection<U>> getAdapteeClass()
             {
                 return Collection.class;
             }

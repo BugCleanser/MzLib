@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.bukkit.wrapper.WrapCraftbukkitClass;
 import mz.mzlib.minecraft.command.CommandSource;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -32,14 +32,14 @@ public interface CraftCommandVanillaWrapper extends WrapperObject
     @WrapMethod("getListener")
     CommandSource toCommandSourceV_1300(CommandSender object);
 
-    @SpecificImpl("static$toCommandSource")
+    @Impl("static$toCommandSource")
     @VersionRange(end = 1300)
     default CommandSource static$toCommandSourceV_1300(CommandSender object)
     {
         return unsafe.toCommandSourceV_1300(object);
     }
 
-    @SpecificImpl("static$toCommandSource")
+    @Impl("static$toCommandSource")
     @VersionRange(begin = 1300)
     @WrapMethod("getListener")
     CommandSource static$toCommandSourceV1300(CommandSender object);

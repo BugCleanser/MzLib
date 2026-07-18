@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.authlib.properties.PropertyMap;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.*;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -148,13 +148,13 @@ public interface GameProfile extends WrapperObject
     UUID NIL_UUID_V2002 = new UUID(0L, 0L);
 
     GameProfile static$of(@Nullable UUID id, @Nullable String name);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 2002)
     default GameProfile static$of$implV_2002(@Nullable UUID id, @Nullable String name)
     {
         return this.static$of0(id, name);
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2002)
     default GameProfile static$of$implV2002(@Nullable UUID id, @Nullable String name)
     {
@@ -167,13 +167,13 @@ public interface GameProfile extends WrapperObject
     @VersionRange(begin = 2109)
     GameProfile static$ofV2109(UUID id, String name, PropertyMap properties);
 
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(end = 2002)
     default @Nullable UUID getId$implV_2002()
     {
         return this.getId0();
     }
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(begin = 2002)
     default @Nullable UUID getId$implV2002()
     {
@@ -183,13 +183,13 @@ public interface GameProfile extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
     @Nullable UUID getId0();
 
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(end = 2002)
     default @Nullable String getName$implV_2002()
     {
         return this.getName0();
     }
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(begin = 2002)
     default @Nullable String getName$implV2002()
     {
@@ -199,7 +199,7 @@ public interface GameProfile extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "name"))
     @Nullable String getName0();
 
-    @SpecificImpl("toDescription")
+    @Impl("toDescription")
     @VersionRange(end = 2002)
     @VersionRange(begin = 2005)
     default GameProfile.Description toDescription$implV_2002__2005()
@@ -209,7 +209,7 @@ public interface GameProfile extends WrapperObject
             this.getProperties().getWrapped().isEmpty() ? null : this.getProperties()
         );
     }
-    @SpecificImpl("toDescription")
+    @Impl("toDescription")
     @VersionRange(begin = 2002, end = 2005)
     default GameProfile.Description toDescription$implV2002_2005()
     {

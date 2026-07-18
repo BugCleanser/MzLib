@@ -13,7 +13,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
 import mz.mzlib.util.proxy.MapProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -37,19 +37,19 @@ public interface RecipeManager extends WrapperObject
 
 
     RecipeManager static$getInstance();
-    @SpecificImpl("static$getInstance")
+    @Impl("static$getInstance")
     @VersionRange(end = 1200)
     default RecipeManager static$getInstance$implV_1200()
     {
         return getInstanceV_1200();
     }
-    @SpecificImpl("static$getInstance")
+    @Impl("static$getInstance")
     @VersionRange(begin = 1200, end = 1300)
     default RecipeManager static$getInstance$implV1200_1300()
     {
         return FACTORY.getStatic();
     }
-    @SpecificImpl("static$getInstance")
+    @Impl("static$getInstance")
     @VersionRange(begin = 1300)
     default RecipeManager static$getInstance$implV1300()
     {

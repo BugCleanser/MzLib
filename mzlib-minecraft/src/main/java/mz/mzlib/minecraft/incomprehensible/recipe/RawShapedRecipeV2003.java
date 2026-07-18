@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -64,7 +64,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
         int height,
         List<Option<IngredientVanilla>> ingredients,
         Option<Data> data);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 2102)
     default RawShapedRecipeV2003 static$ofV_2102(
         int width,
@@ -87,7 +87,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
         int height,
         DefaultedListV1100<?> ingredients,
         Optional<?> data);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2102)
     default RawShapedRecipeV2003 static$ofV2102(
         int width,
@@ -116,7 +116,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
         WrapperFactory<Data> FACTORY = WrapperFactory.of(Data.class);
     }
 
-    @SpecificImpl("getIngredients")
+    @Impl("getIngredients")
     @VersionRange(end = 2102)
     default List<Option<IngredientVanilla>> getIngredientsV_2102()
     {
@@ -135,7 +135,7 @@ public interface RawShapedRecipeV2003 extends WrapperObject
     )
     DefaultedListV1100<Object> getIngredients0V_2102();
 
-    @SpecificImpl("getIngredients")
+    @Impl("getIngredients")
     @VersionRange(begin = 2102)
     default List<Option<IngredientVanilla>> getIngredientsV2102()
     {

@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -24,14 +24,14 @@ public interface CommandSource extends WrapperObject
 
     boolean isSilent();
 
-    @SpecificImpl("isSilent")
+    @Impl("isSilent")
     @VersionRange(end = 1300)
     default boolean isSilentV_1300()
     {
         return false;
     }
 
-    @SpecificImpl("isSilent")
+    @Impl("isSilent")
     @VersionRange(begin = 1300)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_19283", end = 1400),
@@ -41,14 +41,14 @@ public interface CommandSource extends WrapperObject
 
     CommandOutput getOutput();
 
-    @SpecificImpl("getOutput")
+    @Impl("getOutput")
     @VersionRange(end = 1300)
     default CommandOutput getOutputV_1300()
     {
         return this.castTo(CommandOutput.FACTORY);
     }
 
-    @SpecificImpl("getOutput")
+    @Impl("getOutput")
     @VersionRange(begin = 1300)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_19276", end = 1400),
@@ -59,7 +59,7 @@ public interface CommandSource extends WrapperObject
     void sendMessage(Text message);
 
     @VersionRange(end = 1901)
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     default void sendMessageV_1901(Text message)
     {
         if(this.isSilent())
@@ -68,7 +68,7 @@ public interface CommandSource extends WrapperObject
     }
 
     @VersionRange(begin = 1901)
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @WrapMinecraftMethod(@VersionName(name = "sendMessage"))
     void sendMessageV1901(Text message);
 

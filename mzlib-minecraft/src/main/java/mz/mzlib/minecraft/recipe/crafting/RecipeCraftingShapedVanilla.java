@@ -19,7 +19,7 @@ import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.ThrowablePredicate;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperArray;
 import mz.mzlib.util.wrapper.WrapperFactory;
@@ -86,7 +86,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     {
         return RecipeCraftingShaped.super.getGroup();
     }
-    @SpecificImpl("getGroup")
+    @Impl("getGroup")
     @VersionRange(begin = 1200)
     default Option<String> getGroup$implV1200()
     {
@@ -106,7 +106,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
 
     RecipeCraftingShapedVanilla static$of(Builder builder);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1200)
     default RecipeCraftingShapedVanilla static$ofV_1200(Builder builder)
     {
@@ -120,7 +120,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     @WrapConstructor
     RecipeCraftingShapedVanilla static$ofV_1200(int width, int height, ItemStack.Array ingredients, ItemStack result);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1200, end = 1300)
     default RecipeCraftingShapedVanilla static$ofV1200_1300(Builder builder)
     {
@@ -136,7 +136,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         DefaultedListV1100<?> ingredients,
         ItemStack result);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1300, end = 1903)
     default RecipeCraftingShapedVanilla static$ofV1300_1903(Builder builder)
     {
@@ -155,7 +155,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         DefaultedListV1100<?> ingredients,
         ItemStack result);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1903, end = 1904)
     default RecipeCraftingShapedVanilla static$ofV1903_1904(Builder builder)
     {
@@ -176,7 +176,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         ItemStack result
     );
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1904, end = 2002)
     default RecipeCraftingShapedVanilla static$ofV1904_2002(Builder builder)
     {
@@ -198,7 +198,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         boolean showNotification
     );
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2002, end = 2003)
     default RecipeCraftingShapedVanilla static$ofV2002_2003(Builder builder)
     {
@@ -218,7 +218,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         ItemStack result,
         boolean showNotification);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2003, end = 2610)
     default RecipeCraftingShapedVanilla static$ofV2003_2610(Builder builder)
     {
@@ -237,7 +237,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         ItemStack result,
         boolean showNotification);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2610)
     default RecipeCraftingShapedVanilla static$ofV2610(Builder builder)
     {
@@ -256,29 +256,29 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
         RawShapedRecipeV2003 raw,
         ItemStackTemplateV2610 result);
 
-    @SpecificImpl("getWidth")
+    @Impl("getWidth")
     @VersionRange(end = 2003)
     @WrapMinecraftFieldAccessor(@VersionName(name = "width"))
     int getWidthV_2003();
-    @SpecificImpl("getHeight")
+    @Impl("getHeight")
     @VersionRange(end = 2003)
     @WrapMinecraftFieldAccessor(@VersionName(name = "height"))
     int getHeightV_2003();
 
-    @SpecificImpl("getWidth")
+    @Impl("getWidth")
     @VersionRange(begin = 2003)
     default int getWidthV2003()
     {
         return this.getRawV2003().getWidth();
     }
-    @SpecificImpl("getHeight")
+    @Impl("getHeight")
     @VersionRange(begin = 2003)
     default int getHeightV2003()
     {
         return this.getRawV2003().getHeight();
     }
 
-    @SpecificImpl("getIngredients")
+    @Impl("getIngredients")
     @VersionRange(end = 1200)
     default List<Option<IngredientVanilla>> getIngredientsV_1200()
     {
@@ -291,7 +291,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     @WrapMinecraftFieldAccessor(@VersionName(name = "ingredients"))
     IngredientVanilla.Array getIngredients0V_1200();
 
-    @SpecificImpl("getIngredients")
+    @Impl("getIngredients")
     @VersionRange(begin = 1200, end = 2003)
     default List<Option<IngredientVanilla>> getIngredientsV1200_2003()
     {
@@ -310,7 +310,7 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     )
     DefaultedListV1100<Object> getIngredients0V1200_2003();
 
-    @SpecificImpl("getIngredients")
+    @Impl("getIngredients")
     @VersionRange(begin = 2003)
     default List<Option<IngredientVanilla>> getIngredientsV2003()
     {
@@ -321,14 +321,14 @@ public interface RecipeCraftingShapedVanilla extends RecipeMojang, RecipeCraftin
     String getGroup0V1200();
 
 
-    @SpecificImpl("getGroup0V1200")
+    @Impl("getGroup0V1200")
     @VersionRange(begin = 1200, end = 2610)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_15687", end = 1400),
         @VersionName(name = "group", begin = 1400)
     })
     String getGroup0V1200$implV_2610();
-    @SpecificImpl("getGroup0V1200")
+    @Impl("getGroup0V1200")
     @VersionRange(begin = 2610)
     default String getGroup0V1200$implV2610()
     {

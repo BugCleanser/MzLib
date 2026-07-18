@@ -99,13 +99,13 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     }
 
 
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(end = 1300)
     default RecipeType getTypeV_1300()
     {
         return RecipeType.CRAFTING;
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 1300, end = 1400)
     default RecipeType getTypeV1300_1400()
     {
@@ -113,13 +113,13 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
             return RecipeType.FURNACE;
         return RecipeType.CRAFTING;
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getType"))
     RecipeTypeV1400 getTypeV1400();
 
     // TODO
-    @SpecificImpl("autoCast")
+    @Impl("autoCast")
     @VersionRange(end = 1300)
     default RecipeMojang autoCastV_1300()
     {
@@ -131,7 +131,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
             return this.as(RecipeCraftingShapelessVanilla.FACTORY);
         return this;
     }
-    @SpecificImpl("autoCast")
+    @Impl("autoCast")
     @VersionRange(begin = 1300, end = 1400)
     default RecipeMojang autoCastV1300_1400()
     {
@@ -139,7 +139,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
             return this.as(RecipeFurnaceV1300.FACTORY);
         return this.autoCastV_1300();
     }
-    @SpecificImpl("autoCast")
+    @Impl("autoCast")
     @VersionRange(begin = 1400)
     default RecipeMojang autoCastV1400()
     {
@@ -149,7 +149,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
         return result.autoCastV1300_1400();
     }
 
-    @SpecificImpl("getIcons")
+    @Impl("getIcons")
     @VersionRange(end = 2102)
     default List<ItemStack> getIconsV_2102()
     {
@@ -158,7 +158,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     }
     @VersionRange(end = 2102)
     ItemStack getIconV_2102();
-    @SpecificImpl("getIconV_2102")
+    @Impl("getIconV_2102")
     @VersionRange(end = 1904)
     default ItemStack getIconV_2102$implV_1904()
     {
@@ -172,7 +172,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
         }
     )
     ItemStack getIconV_1904();
-    @SpecificImpl("getIconV_2102")
+    @Impl("getIconV_2102")
     @VersionRange(begin = 1904, end = 2005)
     default ItemStack getIconV1904_2005()
     {
@@ -181,7 +181,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(begin = 1904, end = 2005)
     @WrapMinecraftMethod(@VersionName(name = "method_8110"))
     ItemStack getIconV1904_2005(RegistryManagerV1602 registryManager);
-    @SpecificImpl("getIconV_2102")
+    @Impl("getIconV_2102")
     @VersionRange(begin = 2005, end = 2102)
     default ItemStack getIconV2005_2102()
     {
@@ -191,7 +191,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @VersionRange(begin = 2005, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "method_8110"))
     ItemStack getIconV2005_2102(RegistryWrapperV1903.class_7874 registriesLookup);
-    @SpecificImpl("getIcons")
+    @Impl("getIcons")
     @VersionRange(begin = 2102)
     default List<ItemStack> getIconsV2102()
     {
@@ -284,7 +284,7 @@ public interface RecipeMojang extends WrapperObject, RecipeVanilla
     @WrapMinecraftMethod(@VersionName(name = "showNotification"))
     boolean isNotificationEnabledV1904();
 
-    @SpecificImpl("getGroup")
+    @Impl("getGroup")
     @VersionRange(begin = 1700)
     default Option<String> getGroup$implV1700()
     {

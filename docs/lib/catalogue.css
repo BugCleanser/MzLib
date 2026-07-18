@@ -1,15 +1,107 @@
+body {
+    background-color: #fdfdfd;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 0 minmax(0, 600pt);
+    gap: 50pt;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.catalogue-toggle {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .catalogue {
-    position: sticky;
-    top: 18pt;
+    background-color: white;
+    position: fixed;
     padding-inline-start: 3pt;
     font-size: 12pt;
-    margin-top: 48pt;
     color: #565565;
     font-weight: 600;
     align-self: start;
     box-sizing: border-box;
     overflow: hidden auto;
+    padding-left: 20px;
+    padding-right: 40px;
+    max-width: 240pt;
+
+    top: 0;
+    height: 100vh;
+    right: -300px;
+    z-index: 1002;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+
+    &.open {
+        right: 0;
+    }
 }
+.catalogue-close {
+    position: sticky;
+    float: right;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.catalogue-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
+
+    &.open {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    body {
+        grid-template-columns: minmax(0, 160pt) minmax(0, 600pt) minmax(0, auto);
+        gap: 50pt;
+    }
+    .catalogue-toggle, .catalogue-close {
+        display: none;
+    }
+    .catalogue {
+        position: sticky;
+        top: 32px;
+        height: calc(100vh - 64px);
+    }
+    .catalogue-overlay {
+        display: none !important;
+    }
+}
+
 .catalogue a {
     color: inherit;
     text-decoration: none;

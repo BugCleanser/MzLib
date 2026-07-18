@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.MapProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -81,19 +81,19 @@ public interface PacketC2sWindowAction extends Packet
 
     WrapperObject getCursorV1700();
 
-    @SpecificImpl("getCursorV1700")
+    @Impl("getCursorV1700")
     @VersionRange(begin = 1700, end = 2105)
     @WrapMinecraftMethod(@VersionName(name = "method_12190"/*getStack*/))
     ItemStack getCursorV1700_2105();
 
-    @SpecificImpl("getModifiedV1700")
+    @Impl("getModifiedV1700")
     @VersionRange(begin = 1700, end = 2105)
     default Map<Integer, ItemStack> getModifiedV1700_2105()
     {
         return new MapProxy<>(
             this.getModified0V1700().getWrapped(), FunctionInvertible.identity(), FunctionInvertible.wrapper(ItemStack.FACTORY));
     }
-    @SpecificImpl("getModifiedV1700")
+    @Impl("getModifiedV1700")
     @VersionRange(begin = 2105)
     default Map<Integer, ItemStackHashV2105> getModifiedV2105()
     {
@@ -108,7 +108,7 @@ public interface PacketC2sWindowAction extends Packet
     )
     Int2ObjectMapV900<Object> getModified0V1700();
 
-    @SpecificImpl("getCursorV1700")
+    @Impl("getCursorV1700")
     @VersionRange(begin = 2105)
     @WrapMinecraftMethod(@VersionName(name = "cursor"))
     ItemStackHashV2105 getCursorV2105();
@@ -214,7 +214,7 @@ public interface PacketC2sWindowAction extends Packet
 
     PacketC2sWindowAction static$of(Builder builder); // TODO
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1700)
     default PacketC2sWindowAction static$ofV_1700(Builder builder)
     {
@@ -268,7 +268,7 @@ public interface PacketC2sWindowAction extends Packet
         @VersionName(name = "stack", begin = 1400)
     })
     void setItemStackV_1700(ItemStack value);
-    @SpecificImpl("accept")
+    @Impl("accept")
     @VersionRange(end = 1700)
     default void acceptV_1700(Builder builder)
     {
@@ -280,7 +280,7 @@ public interface PacketC2sWindowAction extends Packet
         builder.itemStackV_1700 = this.getItemStackV_1700();
     }
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1700, end = 1701)
     default PacketC2sWindowAction static$ofV1700_1701(Builder builder)
     {
@@ -298,7 +298,7 @@ public interface PacketC2sWindowAction extends Packet
         WindowActionType actionType,
         ItemStack cursor,
         Int2ObjectMapV900<Object> modified0);
-    @SpecificImpl("accept")
+    @Impl("accept")
     @VersionRange(begin = 1700, end = 1701)
     default void acceptV1700_1701(Builder builder)
     {
@@ -310,7 +310,7 @@ public interface PacketC2sWindowAction extends Packet
         builder.cursorV1700_2105(this.getCursorV1700_2105());
     }
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1701, end = 2105)
     default PacketC2sWindowAction static$ofV1701_2105(Builder builder)
     {
@@ -329,7 +329,7 @@ public interface PacketC2sWindowAction extends Packet
         WindowActionType actionType,
         ItemStack cursor,
         Int2ObjectMapV900<Object> modified0);
-    @SpecificImpl("accept")
+    @Impl("accept")
     @VersionRange(begin = 1701, end = 2105)
     default void acceptV1701_2105(Builder builder)
     {
@@ -342,7 +342,7 @@ public interface PacketC2sWindowAction extends Packet
         builder.cursorV1700_2105(this.getCursorV1700_2105());
     }
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2105)
     default PacketC2sWindowAction static$ofV2105(Builder builder)
     {
@@ -361,7 +361,7 @@ public interface PacketC2sWindowAction extends Packet
         WindowActionType actionType,
         Int2ObjectMapV900<Object> modified0,
         ItemStackHashV2105 cursor);
-    @SpecificImpl("accept")
+    @Impl("accept")
     @VersionRange(begin = 2105)
     default void acceptV2105(Builder builder)
     {

@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -22,13 +22,13 @@ public interface Hand extends WrapperObject
         return FACTORY.getStatic().static$mainHand();
     }
     Hand static$mainHand();
-    @SpecificImpl("static$mainHand")
+    @Impl("static$mainHand")
     @VersionRange(end = 900)
     default Hand static$mainHandV_900()
     {
         return FACTORY.create(true);
     }
-    @SpecificImpl("static$mainHand")
+    @Impl("static$mainHand")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_14436", end = 1400),
@@ -41,13 +41,13 @@ public interface Hand extends WrapperObject
         return FACTORY.getStatic().static$offHand();
     }
     Hand static$offHand();
-    @SpecificImpl("static$offHand")
+    @Impl("static$offHand")
     @VersionRange(end = 900)
     default Hand static$offHandV_900()
     {
         return FACTORY.create(false);
     }
-    @SpecificImpl("static$offHand")
+    @Impl("static$offHand")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_14437", end = 1400),

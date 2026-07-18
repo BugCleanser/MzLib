@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -28,11 +28,11 @@ public interface PropertyMap extends WrapperObject
         return FACTORY.getStatic().static$of();
     }
     PropertyMap static$of();
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @WrapConstructor
     @VersionRange(end = 2109)
     PropertyMap static$ofV_2109();
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2109)
     default PropertyMap static$ofV2109()
     {
@@ -54,7 +54,7 @@ public interface PropertyMap extends WrapperObject
         return FACTORY.getStatic().static$of0(properties);
     }
     PropertyMap static$of0(Multimap<String, ?> properties);
-    @SpecificImpl("static$of0")
+    @Impl("static$of0")
     @WrapConstructor
     @VersionRange(end = 2109)
     default PropertyMap static$of0V_2109(Multimap<String, ?> properties)
@@ -66,7 +66,7 @@ public interface PropertyMap extends WrapperObject
         }
         return result;
     }
-    @SpecificImpl("static$of0")
+    @Impl("static$of0")
     @WrapConstructor
     @VersionRange(begin = 2109)
     PropertyMap static$of0V2109(Multimap<String, ?> properties);

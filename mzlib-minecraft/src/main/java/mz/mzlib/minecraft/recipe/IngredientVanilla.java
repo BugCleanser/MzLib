@@ -134,13 +134,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
 
 
     IngredientVanilla static$emptyV_2102();
-    @SpecificImpl("static$emptyV_2102")
+    @Impl("static$emptyV_2102")
     @VersionRange(end = 1200)
     default IngredientVanilla static$emptyV_1200()
     {
         return ItemStack.EMPTY.as(FACTORY);
     }
-    @SpecificImpl("static$emptyV_2102")
+    @Impl("static$emptyV_2102")
     @VersionRange(begin = 1200, end = 2102)
     @WrapMinecraftFieldAccessor(
         {
@@ -150,7 +150,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     )
     IngredientVanilla static$emptyV1200_2102();
 
-    @SpecificImpl("test")
+    @Impl("test")
     @VersionRange(end = 1200)
     default boolean testV_1200(ItemStack itemStack)
     {
@@ -174,19 +174,19 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         }
     )
     boolean testV1200$bridge(Object itemStack);
-    @SpecificImpl("test")
+    @Impl("test")
     @VersionRange(begin = 1200)
     @WrapMethodFromBridge(name = "testV1200$bridge", params = { Object.class })
     boolean testV1200(ItemStack itemStack);
 
     IngredientVanilla static$of(ItemStack itemStack);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1200)
     default IngredientVanilla static$ofV_1200(ItemStack itemStack)
     {
         return itemStack.as(FACTORY);
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1200)
     default IngredientVanilla static$ofV1200(ItemStack itemStack)
     {
@@ -195,14 +195,14 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
 
     @VersionRange(begin = 1200)
     IngredientVanilla static$ofV1200(List<ItemStack> itemStacks);
-    @SpecificImpl("static$ofV1200")
+    @Impl("static$ofV1200")
     @VersionRange(begin = 1200, end = 1300)
     default IngredientVanilla static$ofV1200_1300(List<ItemStack> itemStacks)
     {
         return FACTORY.getStatic().static$ofV1200_1300(
             itemStacks.stream().collect(WrapperArray.collector(ItemStack.Array.FACTORY)));
     }
-    @SpecificImpl("static$ofV1200")
+    @Impl("static$ofV1200")
     @VersionRange(begin = 1300)
     default IngredientVanilla static$ofV1300(List<ItemStack> itemStacks)
     {
@@ -210,13 +210,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     }
 
     IngredientVanilla static$ofV1200(Item... items);
-    @SpecificImpl("static$ofV1200")
+    @Impl("static$ofV1200")
     @VersionRange(begin = 1200, end = 1300)
     default IngredientVanilla static$ofV1200_1300(Item... items)
     {
         return ofV1200(Arrays.stream(items).map(ItemStack::newInstance).toArray(ItemStack[]::new));
     }
-    @SpecificImpl("static$ofV1200")
+    @Impl("static$ofV1200")
     @VersionRange(begin = 1300)
     default IngredientVanilla static$ofV1300(Item... items)
     {
@@ -233,13 +233,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     IngredientVanilla static$ofV1300(ItemConvertibleV1300.Array items);
 
     IngredientVanilla static$ofCategory(Identifier itemV_1300, Identifier tagV1300);
-    @SpecificImpl("static$ofCategory")
+    @Impl("static$ofCategory")
     @VersionRange(end = 1300)
     default IngredientVanilla static$ofCategoryV_1300(Identifier itemV_1300, Identifier tagV1300)
     {
         return of(ItemStack.builder().fromId(itemV_1300).damageV_1300(32767).build());
     }
-    @SpecificImpl("static$ofCategory")
+    @Impl("static$ofCategory")
     @VersionRange(begin = 1300)
     default IngredientVanilla static$ofCategoryV1300(Identifier itemV_1300, Identifier tagV1300)
     {
@@ -247,11 +247,11 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     }
 
     IngredientVanilla static$ofV1300(TagV1300<Item> tag);
-    @SpecificImpl("static$ofV1300")
+    @Impl("static$ofV1300")
     @VersionRange(begin = 1300, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "fromTag"))
     IngredientVanilla static$ofV1300_2102(TagV1300<Item> tag);
-    @SpecificImpl("static$ofV1300")
+    @Impl("static$ofV1300")
     @VersionRange(begin = 2102)
     default IngredientVanilla static$ofV2102(TagV1300<Item> tag)
     {
@@ -266,7 +266,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @WrapConstructor
     IngredientVanilla static$ofV2102(RegistryEntryListV1903 list);
 
-    @SpecificImpl("getMatchingStacksV1300")
+    @Impl("getMatchingStacksV1300")
     @VersionRange(begin = 1300, end = 1701)
     default List<ItemStack> getMatchingStacksV1300_1701()
     {
@@ -274,7 +274,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
         return this.getCachedMatchingStacks0V1300_2102().asList();
     }
 
-    @SpecificImpl("getMatchingStacksV1300")
+    @Impl("getMatchingStacksV1300")
     @VersionRange(begin = 1701, end = 2102)
     default List<ItemStack> getMatchingStacksV1701_2102()
     {
@@ -284,7 +284,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @WrapMinecraftMethod(@VersionName(name = "getMatchingStacks"))
     ItemStack.Array getMatchingStacks0V1701_2102();
 
-    @SpecificImpl("getMatchingStacksV1300")
+    @Impl("getMatchingStacksV1300")
     @VersionRange(begin = 2102)
     default List<ItemStack> getMatchingStacksV2102()
     {
@@ -297,7 +297,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             .thenApply(it -> new RegistryEntryV1802.Wrapper<>(it, Item.FACTORY), RegistryEntryV1802.Wrapper::getBase));
     }
     Stream<Object> getMatchingItems0V2102();
-    @SpecificImpl("getMatchingItems0V2102")
+    @Impl("getMatchingItems0V2102")
     @VersionRange(begin = 2102, end = 2104)
     default Stream<Object> getMatchingItems0V2102_2104()
     {
@@ -306,12 +306,12 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @VersionRange(begin = 2102, end = 2104)
     @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
     List<Object> getMatchingItems00V2102_2104();
-    @SpecificImpl("getMatchingItems0V2102")
+    @Impl("getMatchingItems0V2102")
     @VersionRange(begin = 2104)
     @WrapMinecraftMethod(@VersionName(name = "getMatchingItems"))
     Stream<Object> getMatchingItems0V2104();
 
-    @SpecificImpl("getExamples")
+    @Impl("getExamples")
     @VersionRange(end = 1200)
     default Collection<ItemStack> getExamplesV_1200()
     {
@@ -321,7 +321,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             result.setDamageV_1300(0);
         return Collections.singletonList(result);
     }
-    @SpecificImpl("getExamples")
+    @Impl("getExamples")
     @VersionRange(begin = 1200, end = 1300)
     default Collection<ItemStack> getExamplesV1200_1300()
     {
@@ -334,7 +334,7 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             return is;
         }, is -> RuntimeUtil.valueThrow(new UnsupportedOperationException())));
     }
-    @SpecificImpl("getExamples")
+    @Impl("getExamples")
     @VersionRange(begin = 1300)
     default Collection<ItemStack> getExamplesV1300()
     {
@@ -366,13 +366,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
     @Override
     boolean equals(Object object);
 
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(end = 1200)
     default int hashCodeV_1200()
     {
         return this.asItemStackV_1200().hashCode();
     }
-    @SpecificImpl("equals")
+    @Impl("equals")
     @VersionRange(end = 1200)
     default boolean equalsV_1200(Object object)
     {
@@ -382,13 +382,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             return false;
         return Objects.equals(this.asItemStackV_1200(), ((IngredientVanilla) object).asItemStackV_1200());
     }
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(begin = 1200, end = 1300)
     default int hashCodeV1200_1300()
     {
         return this.getDataV1200_1300().hashCode();
     }
-    @SpecificImpl("equals")
+    @Impl("equals")
     @VersionRange(begin = 1200, end = 1300)
     default boolean equalsV1200_1300(Object object)
     {
@@ -401,13 +401,13 @@ public interface IngredientVanilla extends WrapperObject, Ingredient
             return true;
         return Objects.equals(this.getDataV1200_1300(), o.getDataV1200_1300());
     }
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(begin = 1300)
     default int hashCodeV1300()
     {
         return this.getMatchingStacksV1300().hashCode();
     }
-    @SpecificImpl("equals")
+    @Impl("equals")
     @VersionRange(begin = 1300)
     default boolean equalsV1300(Object object)
     {

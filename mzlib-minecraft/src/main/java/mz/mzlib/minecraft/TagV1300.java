@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -24,11 +24,11 @@ public interface TagV1300<T extends WrapperObject> extends WrapperObject
     WrapperFactory<TagV1300<?>> FACTORY = WrapperFactory.of(RuntimeUtil.castClass(TagV1300.class));
 
     Identifier getIdV_1802();
-    @SpecificImpl("getIdV_1802")
+    @Impl("getIdV_1802")
     @VersionRange(end = 1600)
     @WrapMinecraftMethod(@VersionName(name = "getId"))
     Identifier getIdV_1600();
-    @SpecificImpl("getIdV_1802")
+    @Impl("getIdV_1802")
     @VersionRange(begin = 1600, end = 1802)
     default Identifier getIdV1600_1802()
     {

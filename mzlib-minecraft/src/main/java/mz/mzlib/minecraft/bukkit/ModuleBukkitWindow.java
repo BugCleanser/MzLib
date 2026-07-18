@@ -14,7 +14,7 @@ import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
-import mz.mzlib.util.wrapper.basic.WrapperBoolean;
+import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 
 public class ModuleBukkitWindow extends MzModule
 {
@@ -44,14 +44,14 @@ public class ModuleBukkitWindow extends MzModule
             boolean.class,
             boolean.class
         }, type = NothingInjectType.INSERT_BEFORE, locateMethod = "")
-        default WrapperBoolean placeInOrCheckOverwriteV1701(
+        default Wrapper_boolean placeInOrCheckOverwriteV1701(
             @LocalVar(1) ItemStack itemStack,
             @LocalVar(2) int begin,
             @LocalVar(3) int end,
             @LocalVar(4) boolean inverted,
             @LocalVar(5) boolean doCheck)
         {
-            return WrapperBoolean.FACTORY.create(this.castTo(ModuleWindow.NothingWindow.FACTORY)
+            return Wrapper_boolean.FACTORY.create(this.castTo(ModuleWindow.NothingWindow.FACTORY)
                 .placeInOrCheck(itemStack, begin, end, inverted, doCheck));
         }
     }

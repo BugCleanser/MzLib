@@ -12,7 +12,7 @@ import mz.mzlib.minecraft.recipe.input.RecipeInputV2100;
 import mz.mzlib.minecraft.util.collection.DefaultedListV1100;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 @Compound
@@ -36,13 +36,13 @@ public interface RecipeCraftingAbstract extends RecipeMojangAbstract<RecipeCraft
     @Override
     @VersionRange(end = 2100)
     Input inputV_2100(Inventory inventory);
-    @SpecificImpl("inputV_2100")
+    @Impl("inputV_2100")
     @VersionRange(end = 2000)
     default Input inputV_2000(Inventory inventory)
     {
         return new InputAdapted(new InputV_2000(inventory.as(InventoryCrafting.FACTORY)));
     }
-    @SpecificImpl("inputV_2100")
+    @Impl("inputV_2100")
     @VersionRange(begin = 2000, end = 2100)
     default Input inputV2000_2100(Inventory inventory)
     {

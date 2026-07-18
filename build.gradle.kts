@@ -261,14 +261,15 @@ subprojects {
 
     dependencies {
         testImplementation(kotlin("test"))
-        testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+        testImplementation("org.junit.jupiter:junit-jupiter:5.13.2")
     }
     tasks.test {
         useJUnitPlatform()
     }
     tasks {
-        withType<Javadoc> {
+        javadoc {
             isFailOnError = false;
+            (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:-missing", true)
         }
         register<Copy>("copyBinaryResources") {
             from("src/main/resources") {

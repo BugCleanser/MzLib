@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.util.math.Vec3d;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.MapInvertible;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 import java.util.UUID;
@@ -34,14 +34,14 @@ public interface PacketS2cEntitySpawn extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name = "type"))
     int getEntityTypeIdV_1400();
 
-    @SpecificImpl("getEntityType")
+    @Impl("getEntityType")
     @VersionRange(end = 1400)
     default EntityType getEntityTypeV_1400()
     {
         return V_1400.fromId(this.getEntityTypeIdV_1400());
     }
 
-    @SpecificImpl("getEntityType")
+    @Impl("getEntityType")
     @VersionRange(begin = 1400)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "entityTypeId", end = 1903),

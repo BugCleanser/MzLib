@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -25,13 +25,13 @@ public interface ActionResult extends WrapperObject
         return FACTORY.getStatic().static$pass();
     }
     ActionResult static$pass();
-    @SpecificImpl("static$pass")
+    @Impl("static$pass")
     @VersionRange(end = 900)
     default ActionResult static$passV_900()
     {
         return FACTORY.create(false);
     }
-    @SpecificImpl("static$pass")
+    @Impl("static$pass")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "PASS", end = 1400),
@@ -44,13 +44,13 @@ public interface ActionResult extends WrapperObject
         return FACTORY.getStatic().static$success();
     }
     ActionResult static$success();
-    @SpecificImpl("static$success")
+    @Impl("static$success")
     @VersionRange(end = 900)
     default ActionResult static$successV_900()
     {
         return FACTORY.create(true);
     }
-    @SpecificImpl("static$success")
+    @Impl("static$success")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor(
         {
@@ -88,13 +88,13 @@ public interface ActionResult extends WrapperObject
         return FACTORY.getStatic().static$isAccepted();
     }
     boolean static$isAccepted();
-    @SpecificImpl("static$isAccepted")
+    @Impl("static$isAccepted")
     @VersionRange(end = 1500)
     default boolean static$isAcceptedV_1500()
     {
         return this.equals(success());
     }
-    @SpecificImpl("static$isAccepted")
+    @Impl("static$isAccepted")
     @VersionRange(begin = 1500)
     @WrapMinecraftMethod(@VersionName(name = "isAccepted"))
     boolean static$isAcceptedV1500();

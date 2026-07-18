@@ -13,7 +13,7 @@ import mz.mzlib.minecraft.window.Window;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -30,13 +30,13 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     }
 
     boolean isOp();
-    @SpecificImpl("isOp")
+    @Impl("isOp")
     @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.BUKKIT)
     default boolean isOp0()
     {
         return MinecraftServer.instance.getPlayerManager().isOp(this);
     }
-    @SpecificImpl("isOp")
+    @Impl("isOp")
     @MinecraftPlatform.Enabled(MinecraftPlatform.Tag.BUKKIT)
     default boolean isOpBukkit()
     {
@@ -64,14 +64,14 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
 
     void sendPacket(Packet packet);
 
-    @SpecificImpl("sendPacket")
+    @Impl("sendPacket")
     @VersionRange(end = 2002)
     default void sendPacketV_2002(Packet packet)
     {
         this.getNetworkHandler().sendPacketV_2002(packet);
     }
 
-    @SpecificImpl("sendPacket")
+    @Impl("sendPacket")
     @VersionRange(begin = 2002)
     default void sendPacketV2002(Packet packet)
     {
@@ -101,13 +101,13 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
         @VersionName(name = "refreshScreenHandler", begin = 1604)
     })
     void updateWindowV_1700(Window window);
-    @SpecificImpl("updateWindow")
+    @Impl("updateWindow")
     @VersionRange(end = 1700)
     default void updateWindowV_1700()
     {
         this.updateWindowV_1700(this.getCurrentWindow());
     }
-    @SpecificImpl("updateWindow")
+    @Impl("updateWindow")
     @VersionRange(begin = 1700)
     default void updateWindowV1700()
     {
@@ -119,26 +119,26 @@ public interface EntityPlayer extends WrapperObject, EntityPlayerAbstract
     WindowSyncHandlerV1700 getWindowSyncHandlerV1700();
 
 
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(end = 1100)
     default void sendMessage$implV_1100(Text message)
     {
         sendMessageV_1100(message);
     }
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(begin = 1100, end = 1300)
     @VersionRange(begin = 1600, end = 2610)
     default void sendMessage$implV1100_1300__1600_2610(Text message)
     {
         this.sendMessageV1100_1300__1600_2610(message, false);
     }
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(begin = 1300, end = 1600)
     default void sendMessage$implV1300_1600(Text message)
     {
         this.sendMessageV1300_1600(message, MessageTypeV1200_1900.system());
     }
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(begin = 2610)
     default void sendMessage$implV2610(Text message)
     {

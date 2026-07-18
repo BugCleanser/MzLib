@@ -17,7 +17,7 @@ import mz.mzlib.tester.SimpleTester;
 import mz.mzlib.tester.TesterContext;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -36,13 +36,13 @@ public interface Text extends WrapperObject
         return FACTORY.getStatic().static$decode(json);
     }
     Text static$decode(JsonElement json);
-    @SpecificImpl("static$decode")
+    @Impl("static$decode")
     @VersionRange(end = 2106)
     default Text static$decodeV_2106(JsonElement json)
     {
         return SerializerV_2106.decode(json);
     }
-    @SpecificImpl("static$decode")
+    @Impl("static$decode")
     @VersionRange(begin = 2106)
     default Text static$decodeV2106(JsonElement json)
     {
@@ -61,13 +61,13 @@ public interface Text extends WrapperObject
     }
 
     JsonElement encode();
-    @SpecificImpl("encode")
+    @Impl("encode")
     @VersionRange(end = 2106)
     default JsonElement encodeV_2106()
     {
         return SerializerV_2106.encode(this);
     }
-    @SpecificImpl("encode")
+    @Impl("encode")
     @VersionRange(begin = 2106)
     default JsonElement encodeV2106()
     {
@@ -172,14 +172,14 @@ public interface Text extends WrapperObject
 
     void setStyle(TextStyle style);
 
-    @SpecificImpl("setStyle")
+    @Impl("setStyle")
     @VersionRange(end = 1900)
     default void setStyleV_1900(TextStyle style)
     {
         this.castTo(AbstractTextV_1900.FACTORY).setStyleV_1900(style);
     }
 
-    @SpecificImpl("setStyle")
+    @Impl("setStyle")
     @VersionRange(begin = 1900)
     default void setStyleV1900(TextStyle style)
     {
@@ -207,14 +207,14 @@ public interface Text extends WrapperObject
 
     Text setExtra(List<Text> value);
 
-    @SpecificImpl("setExtra")
+    @Impl("setExtra")
     @VersionRange(end = 1900)
     default Text setExtraV_1900(List<Text> value)
     {
         return this.castTo(AbstractTextV_1900.FACTORY).setExtraV_1900(value);
     }
 
-    @SpecificImpl("setExtra")
+    @Impl("setExtra")
     @VersionRange(begin = 1900)
     default Text setExtraV1900(List<Text> value)
     {
@@ -240,7 +240,7 @@ public interface Text extends WrapperObject
 
     Text setColor(TextColor value);
 
-    @SpecificImpl("setColor")
+    @Impl("setColor")
     @VersionRange(end = 1600)
     default Text setColorV_1600(TextColor value)
     {
@@ -248,7 +248,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setColor")
+    @Impl("setColor")
     @VersionRange(begin = 1600)
     default Text setColorV1600(TextColor value)
     {
@@ -263,7 +263,7 @@ public interface Text extends WrapperObject
 
     Text setBold(Boolean bold);
 
-    @SpecificImpl("setBold")
+    @Impl("setBold")
     @VersionRange(end = 1600)
     default Text setBoldV_1600(Boolean bold)
     {
@@ -271,7 +271,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setBold")
+    @Impl("setBold")
     @VersionRange(begin = 1600)
     default Text setBoldV1600(Boolean bold)
     {
@@ -286,7 +286,7 @@ public interface Text extends WrapperObject
 
     Text setItalic(Boolean italic);
 
-    @SpecificImpl("setItalic")
+    @Impl("setItalic")
     @VersionRange(end = 1600)
     default Text setItalicV_1600(Boolean italic)
     {
@@ -294,7 +294,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setItalic")
+    @Impl("setItalic")
     @VersionRange(begin = 1600)
     default Text setItalicV1600(Boolean italic)
     {
@@ -309,7 +309,7 @@ public interface Text extends WrapperObject
 
     Text setUnderlined(Boolean underlined);
 
-    @SpecificImpl("setUnderlined")
+    @Impl("setUnderlined")
     @VersionRange(end = 1600)
     default Text setUnderlinedV_1600(Boolean underlined)
     {
@@ -317,7 +317,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setUnderlined")
+    @Impl("setUnderlined")
     @VersionRange(begin = 1600)
     default Text setUnderlinedV1600(Boolean underlined)
     {
@@ -332,7 +332,7 @@ public interface Text extends WrapperObject
 
     Text setStrikethrough(Boolean strikethrough);
 
-    @SpecificImpl("setStrikethrough")
+    @Impl("setStrikethrough")
     @VersionRange(end = 1600)
     default Text setStrikethroughV_1600(Boolean strikethrough)
     {
@@ -340,7 +340,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setStrikethrough")
+    @Impl("setStrikethrough")
     @VersionRange(begin = 1600)
     default Text setStrikethroughV1600(Boolean strikethrough)
     {
@@ -355,7 +355,7 @@ public interface Text extends WrapperObject
 
     Text setObfuscated(Boolean obfuscated);
 
-    @SpecificImpl("setObfuscated")
+    @Impl("setObfuscated")
     @VersionRange(end = 1600)
     default Text setObfuscatedV_1600(Boolean obfuscated)
     {
@@ -363,7 +363,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setObfuscated")
+    @Impl("setObfuscated")
     @VersionRange(begin = 1600)
     default Text setObfuscatedV1600(Boolean obfuscated)
     {
@@ -378,7 +378,7 @@ public interface Text extends WrapperObject
 
     Text setClickEvent(TextClickEvent event);
 
-    @SpecificImpl("setClickEvent")
+    @Impl("setClickEvent")
     @VersionRange(end = 1600)
     default Text setClickEventV_1600(TextClickEvent event)
     {
@@ -386,7 +386,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setClickEvent")
+    @Impl("setClickEvent")
     @VersionRange(begin = 1600)
     default Text setClickEventV1600(TextClickEvent event)
     {
@@ -401,7 +401,7 @@ public interface Text extends WrapperObject
 
     Text setHoverEvent(TextHoverEvent event);
 
-    @SpecificImpl("setHoverEvent")
+    @Impl("setHoverEvent")
     @VersionRange(end = 1600)
     default Text setHoverEventV_1600(TextHoverEvent event)
     {
@@ -409,7 +409,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setHoverEvent")
+    @Impl("setHoverEvent")
     @VersionRange(begin = 1600)
     default Text setHoverEventV1600(TextHoverEvent event)
     {
@@ -424,7 +424,7 @@ public interface Text extends WrapperObject
 
     Text setInsertion(String insertion);
 
-    @SpecificImpl("setInsertion")
+    @Impl("setInsertion")
     @VersionRange(end = 1600)
     default Text setInsertionV_1600(String insertion)
     {
@@ -432,7 +432,7 @@ public interface Text extends WrapperObject
         return this;
     }
 
-    @SpecificImpl("setInsertion")
+    @Impl("setInsertion")
     @VersionRange(begin = 1600)
     default Text setInsertionV1600(String insertion)
     {
@@ -505,7 +505,7 @@ public interface Text extends WrapperObject
     }
 
     Type getType();
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(end = 1200)
     default Type getTypeV_1200()
     {
@@ -519,7 +519,7 @@ public interface Text extends WrapperObject
             return Type.SELECTOR;
         return Type.UNKNOWN;
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 1200, end = 1400)
     default Type getTypeV1200_1400()
     {
@@ -527,7 +527,7 @@ public interface Text extends WrapperObject
             return Type.KEYBIND_V1200;
         return this.getTypeV_1200();
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 1400, end = 1900)
     default Type getTypeV1400_1900()
     {
@@ -535,7 +535,7 @@ public interface Text extends WrapperObject
             return Type.NBT_V1400;
         return this.getTypeV1200_1400();
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 1900, end = 2109)
     default Type getTypeV1900_2109()
     {
@@ -554,7 +554,7 @@ public interface Text extends WrapperObject
             return Type.NBT_V1400;
         return Type.UNKNOWN;
     }
-    @SpecificImpl("getType")
+    @Impl("getType")
     @VersionRange(begin = 2109)
     default Type getTypeV2109()
     {
@@ -708,14 +708,14 @@ public interface Text extends WrapperObject
 
         JsonElement static$encode(Text text);
 
-        @SpecificImpl("static$encode")
+        @Impl("static$encode")
         @VersionRange(end = 1400)
         default JsonElement static$encodeV_1400(Text text)
         {
             return gson().toJsonTree(text.getWrapped());
         }
 
-        @SpecificImpl("static$encode")
+        @Impl("static$encode")
         @VersionRange(begin = 1400, end = 2005)
         @WrapMinecraftMethod(@VersionName(name = "toJsonTree"))
         JsonElement static$encodeV1400_2005(Text text);
@@ -724,7 +724,7 @@ public interface Text extends WrapperObject
         @WrapMinecraftMethod(@VersionName(name = "toJson"))
         JsonElement static$encodeV2005(Text text, RegistryWrapperV1903.class_7874 registries);
 
-        @SpecificImpl("static$encode")
+        @Impl("static$encode")
         @VersionRange(begin = 2005)
         default JsonElement static$encodeV2005(Text text)
         {
@@ -738,14 +738,14 @@ public interface Text extends WrapperObject
 
         Text static$decode(JsonElement json);
 
-        @SpecificImpl("static$decode")
+        @Impl("static$decode")
         @VersionRange(end = 1300)
         default Text static$decodeV_1300(JsonElement json)
         {
             return Text.FACTORY.create(gson().fromJson(json, Text.FACTORY.getStatic().static$getWrappedClass()));
         }
 
-        @SpecificImpl("static$decode")
+        @Impl("static$decode")
         @VersionRange(begin = 1300, end = 1600)
         @WrapMinecraftMethod({
             @VersionName(name = "method_20179", end = 1400),
@@ -753,7 +753,7 @@ public interface Text extends WrapperObject
         })
         Text static$decodeV1300_1600(JsonElement json);
 
-        @SpecificImpl("static$decode")
+        @Impl("static$decode")
         @VersionRange(begin = 1600, end = 2005)
         @WrapMinecraftMethod(@VersionName(name = "fromJson"))
         TextMutableV1600 static$decodeV1600_2005(JsonElement json);
@@ -762,7 +762,7 @@ public interface Text extends WrapperObject
         @WrapMinecraftMethod(@VersionName(name = "fromJson"))
         TextMutableV1600 static$decodeV2005(JsonElement json, RegistryWrapperV1903.class_7874 registries);
 
-        @SpecificImpl("static$decode")
+        @Impl("static$decode")
         @VersionRange(begin = 2005)
         default Text static$decodeV2005(JsonElement json)
         {

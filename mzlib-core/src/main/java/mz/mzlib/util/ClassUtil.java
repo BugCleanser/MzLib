@@ -37,7 +37,27 @@ public class ClassUtil
     {
         return Array.newInstance(type, 0).getClass();
     }
-
+    
+    public static List<Class<?>> PRIMITIVES = Arrays.asList(
+            void.class,
+            byte.class,
+            short.class,
+            int.class,
+            long.class,
+            float.class,
+            double.class,
+            char.class,
+            boolean.class
+    );
+    
+    public static Class<?> erase(Class<?> type)
+    {
+        if(type.isPrimitive())
+            return type;
+        else
+            return Object.class;
+    }
+    
     @Deprecated
     public static String getName(Class<?> clazz)
     {
@@ -69,7 +89,7 @@ public class ClassUtil
                 return Class.forName(name, false, cl);
         }
     }
-
+    
     public static MethodType methodType(Method method)
     {
         return MethodType.methodType(method.getReturnType(), method.getParameterTypes());
@@ -186,58 +206,78 @@ public class ClassUtil
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
-
-    public static MethodHandle findConstructor(Class<?> declaringClass, Class<?>... parameterTypes)
-        throws NoSuchMethodException
+    
+    public static MethodHandle findConstructor(Class<?> declaringClass, MethodType type)
+            throws NoSuchMethodException
     {
         try
         {
             return RootAccess.getTrustedLookupIn(declaringClass)
-                .findConstructor(declaringClass, MethodType.methodType(void.class, parameterTypes));
+                    .findConstructor(declaringClass, type);
         }
         catch(IllegalAccessException e)
         {
             throw new AssertionError(e);
         }
     }
-
+    public static MethodHandle findConstructor(Class<?> declaringClass, Class<?>... parameterTypes)
+            throws NoSuchMethodException
+    {
+        return findConstructor(declaringClass, MethodType.methodType(void.class, parameterTypes));
+    }
+    
     public static MethodHandle findMethod(
-        Class<?> declaringClass,
-        boolean isStatic,
-        String name,
-        Class<?> returnType,
-        Class<?>... parameterTypes) throws NoSuchMethodException
+            Class<?> declaringClass,
+            boolean isStatic,
+            String name,
+            MethodType type) throws NoSuchMethodException
     {
         try
         {
             if(isStatic)
                 return RootAccess.getTrustedLookupIn(declaringClass)
-                    .findStatic(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
+                        .findStatic(declaringClass, name, type);
             else
                 return RootAccess.getTrustedLookupIn(declaringClass)
-                    .findVirtual(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
+                        .findVirtual(declaringClass, name, type);
         }
         catch(IllegalAccessException e)
         {
             throw new AssertionError(e);
         }
     }
-
+    public static MethodHandle findMethod(
+            Class<?> declaringClass,
+            boolean isStatic,
+            String name,
+            Class<?> returnType,
+            Class<?>... parameterTypes) throws NoSuchMethodException
+    {
+        return findMethod(declaringClass, isStatic, name, MethodType.methodType(returnType, parameterTypes));
+    }
+    
     public static MethodHandle findMethodSpecial(
-        Class<?> declaringClass,
-        String name,
-        Class<?> returnType,
-        Class<?>... parameterTypes) throws NoSuchMethodException
+            Class<?> declaringClass,
+            String name,
+            MethodType type) throws NoSuchMethodException
     {
         try
         {
             return RootAccess.getTrustedLookupIn(declaringClass)
-                .findSpecial(declaringClass, name, MethodType.methodType(returnType, parameterTypes), declaringClass);
+                    .findSpecial(declaringClass, name, type, declaringClass);
         }
         catch(IllegalAccessException e)
         {
             throw new AssertionError(e);
         }
+    }
+    public static MethodHandle findMethodSpecial(
+            Class<?> declaringClass,
+            String name,
+            Class<?> returnType,
+            Class<?>... parameterTypes) throws NoSuchMethodException
+    {
+        return findMethodSpecial(declaringClass, name, MethodType.methodType(returnType, parameterTypes));
     }
 
     public static MethodHandle findFieldGetter(Class<?> declaringClass, boolean isStatic, String name, Class<?> type)
@@ -290,9 +330,9 @@ public class ClassUtil
     {
         try
         {
-            return RootAccess.getTrustedLookupIn(constructor.getDeclaringClass()).unreflectConstructor(constructor);
+            return findConstructor(constructor.getDeclaringClass(), methodType(constructor));
         }
-        catch(IllegalAccessException e)
+        catch(NoSuchMethodException e)
         {
             throw new AssertionError(e);
         }
@@ -302,9 +342,9 @@ public class ClassUtil
     {
         try
         {
-            return RootAccess.getTrustedLookupIn(field.getDeclaringClass()).unreflectGetter(field);
+            return findFieldGetter(field.getDeclaringClass(), Modifier.isStatic(field.getModifiers()), field.getName(), field.getType());
         }
-        catch(IllegalAccessException e)
+        catch(NoSuchFieldException e)
         {
             throw new AssertionError(e);
         }
@@ -314,9 +354,9 @@ public class ClassUtil
     {
         try
         {
-            return RootAccess.getTrustedLookupIn(field.getDeclaringClass()).unreflectSetter(field);
+            return findFieldSetter(field.getDeclaringClass(), Modifier.isStatic(field.getModifiers()), field.getName(), field.getType());
         }
-        catch(IllegalAccessException e)
+        catch(NoSuchFieldException e)
         {
             throw new AssertionError(e);
         }
@@ -326,9 +366,9 @@ public class ClassUtil
     {
         try
         {
-            return RootAccess.getTrustedLookupIn(method.getDeclaringClass()).unreflect(method);
+            return findMethod(method.getDeclaringClass(), Modifier.isStatic(method.getModifiers()), method.getName(), methodType(method));
         }
-        catch(IllegalAccessException e)
+        catch(NoSuchMethodException e)
         {
             throw new AssertionError(e);
         }
@@ -338,9 +378,9 @@ public class ClassUtil
     {
         try
         {
-            return RootAccess.getTrustedLookupIn(method.getDeclaringClass()).unreflectSpecial(method, method.getDeclaringClass());
+            return findMethodSpecial(method.getDeclaringClass(), method.getName(), methodType(method));
         }
-        catch(IllegalAccessException e)
+        catch(NoSuchMethodException e)
         {
             throw new AssertionError(e);
         }
@@ -495,9 +535,9 @@ public class ClassUtil
                 {
                     try
                     {
-                        getInstrumentation().redefineClasses(
-                            new ClassDefinition(Class.forName(name.replace('/', '.'), false, classLoader), byteCode));
-                        return Class.forName(name.replace('/', '.'), false, classLoader);
+                        Class<?> clazz = Class.forName(name.replace('/', '.'), false, classLoader);
+                        getInstrumentation().redefineClasses(new ClassDefinition(clazz, byteCode));
+                        return clazz;
                     }
                     catch(Throwable e)
                     {
@@ -580,89 +620,49 @@ public class ClassUtil
     public static <T> Class<T> getPrimitive(Class<T> src)
     {
         if(src == Character.class)
-        {
             return RuntimeUtil.castClass(char.class);
-        }
         else if(src == Boolean.class)
-        {
             return RuntimeUtil.castClass(boolean.class);
-        }
         else if(src == Byte.class)
-        {
             return RuntimeUtil.castClass(byte.class);
-        }
         else if(src == Short.class)
-        {
             return RuntimeUtil.castClass(short.class);
-        }
         else if(src == Integer.class)
-        {
             return RuntimeUtil.castClass(int.class);
-        }
         else if(src == Long.class)
-        {
             return RuntimeUtil.castClass(long.class);
-        }
         else if(src == Float.class)
-        {
             return RuntimeUtil.castClass(float.class);
-        }
         else if(src == Double.class)
-        {
             return RuntimeUtil.castClass(double.class);
-        }
         else if(src == Void.class)
-        {
             return RuntimeUtil.castClass(void.class);
-        }
         else
-        {
             return src;
-        }
     }
 
     public static <T> Class<T> getWrapper(Class<T> src)
     {
         if(src == char.class)
-        {
             return RuntimeUtil.castClass(Character.class);
-        }
         else if(src == boolean.class)
-        {
             return RuntimeUtil.castClass(Boolean.class);
-        }
         else if(src == byte.class)
-        {
             return RuntimeUtil.castClass(Byte.class);
-        }
         else if(src == short.class)
-        {
             return RuntimeUtil.castClass(Short.class);
-        }
         else if(src == int.class)
-        {
             return RuntimeUtil.castClass(Integer.class);
-        }
         else if(src == long.class)
-        {
             return RuntimeUtil.castClass(Long.class);
-        }
         else if(src == float.class)
-        {
             return RuntimeUtil.castClass(Float.class);
-        }
         else if(src == double.class)
-        {
             return RuntimeUtil.castClass(Double.class);
-        }
         else if(src == void.class)
-        {
             return RuntimeUtil.castClass(Void.class);
-        }
         else
-        {
             return src;
-        }
     }
     
     public static <A extends Annotation> A findAnnotation(Class<?> type, Class<A> annotationType)
@@ -767,12 +767,14 @@ public class ClassUtil
             ).asType(invokedType));
     }
 
+    @Deprecated
     public static Class<?> toWrappedClass(Class<?> wrapperClass)
     {
         if(WrapperObject.class.isAssignableFrom(wrapperClass))
             return WrapperClassData.get(RuntimeUtil.cast(wrapperClass)).getWrappedClass();
         return wrapperClass;
     }
+    @Deprecated
     public static MethodType getWrappedType(MethodType wrapperType)
     {
         return MethodType.methodType(

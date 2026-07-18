@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -43,14 +43,14 @@ public interface PacketS2cWindowItems extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name = "stacks"))
     Object[] getContents0V_1100();
 
-    @SpecificImpl("getContents0")
+    @Impl("getContents0")
     @VersionRange(end = 1100)
     default List<?> getContentsV_1100()
     {
         return Arrays.asList(this.getContents0V_1100());
     }
 
-    @SpecificImpl("getContents0")
+    @Impl("getContents0")
     @VersionRange(begin = 1100)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_15348", end = 1400),
@@ -65,14 +65,14 @@ public interface PacketS2cWindowItems extends Packet
     @WrapMinecraftFieldAccessor(@VersionName(name = "stacks"))
     void setContents0V_1100(Object[] value);
 
-    @SpecificImpl("setContents0")
+    @Impl("setContents0")
     @VersionRange(end = 1100)
     default void setContents0V_1100(List<?> value)
     {
         this.setContents0V_1100(value.toArray());
     }
 
-    @SpecificImpl("setContents0")
+    @Impl("setContents0")
     @VersionRange(begin = 1100)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_15348", end = 1400),

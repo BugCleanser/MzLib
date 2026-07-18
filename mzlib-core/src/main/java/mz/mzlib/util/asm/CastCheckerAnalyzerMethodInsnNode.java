@@ -23,7 +23,7 @@ public class CastCheckerAnalyzerMethodInsnNode extends CastCheckerAnalyzer<Metho
         for(Type t : argTypes)
         {
             args.add(0, context.pop());
-            if(AsmUtil.getCategory(t) == 2)
+            if(AsmUtil.getSize(t) == 2)
             {
                 args.add(0, context.pop());
             }
@@ -39,12 +39,12 @@ public class CastCheckerAnalyzerMethodInsnNode extends CastCheckerAnalyzer<Metho
         for(int i = 0, j = 0; i < argTypes.length; i++, j++)
         {
             caster.cast(args.get(j), argTypes[i]);
-            if(AsmUtil.getCategory(argTypes[i]) == 2)
+            if(AsmUtil.getSize(argTypes[i]) == 2)
             {
                 j++;
             }
         }
-        for(int n = AsmUtil.getCategory(methodType.getReturnType()), i = 0; i < n; i++)
+        for(int n = AsmUtil.getSize(methodType.getReturnType()), i = 0; i < n; i++)
         {
             context.push(new CastChecker.OperandVisitor());
         }

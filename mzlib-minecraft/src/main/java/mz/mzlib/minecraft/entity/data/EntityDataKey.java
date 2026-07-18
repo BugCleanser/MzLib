@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -22,14 +22,14 @@ public interface EntityDataKey<T> extends WrapperObject
 
     int getIndex();
 
-    @SpecificImpl("getIndex")
+    @Impl("getIndex")
     @VersionRange(end = 900)
     default int getIndexV_900()
     {
         return ((WrappedV_900) this.getWrapped()).index;
     }
 
-    @SpecificImpl("getIndex")
+    @Impl("getIndex")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_13816", end = 1400),

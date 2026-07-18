@@ -36,7 +36,7 @@ public @interface AdapterSet
             return new Activated<>(this.delegate.activate());
         }
         @Override
-        public Class<? super Set<U>> getSourceClass()
+        public Class<? super Set<U>> getAdapteeClass()
         {
             return Set.class;
         }
@@ -68,7 +68,7 @@ public @interface AdapterSet
             }
             
             @Override
-            public Class<? super Set<U>> getSourceClass()
+            public Class<? super Set<U>> getAdapteeClass()
             {
                 return Set.class;
             }

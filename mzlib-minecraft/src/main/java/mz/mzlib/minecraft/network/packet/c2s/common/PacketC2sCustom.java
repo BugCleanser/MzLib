@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.network.packet.ByteBufPacket;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -23,12 +23,12 @@ public interface PacketC2sCustom extends WrapperObject, Packet
 
     ByteBufPacket getPayload();
 
-    @SpecificImpl("getPayload")
+    @Impl("getPayload")
     @VersionRange(end = 1400)
     @WrapMinecraftFieldAccessor(@VersionName(name = "payload"))
     ByteBufPacket getPayloadV_1400();
 
-    @SpecificImpl("getPayload")
+    @Impl("getPayload")
     @VersionRange(begin = 1400)
     default ByteBufPacket getPayloadV1400()
     {

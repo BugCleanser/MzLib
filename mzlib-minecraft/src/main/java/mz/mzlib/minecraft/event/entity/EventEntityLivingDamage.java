@@ -102,8 +102,8 @@ public class EventEntityLivingDamage extends EventEntity implements Cancellable
 
             static void locateDamageAfter(NothingInjectLocating locating)
             {
-                locating.allLater(AsmUtil.insnReturn(boolean.class).getOpcode());
-                assert !locating.locations.isEmpty();
+                locating.following(AsmUtil.insnReturn(boolean.class).getOpcode());
+                assert !locating.getLocations().isEmpty();
             }
 
             @VersionRange(end = 2102)

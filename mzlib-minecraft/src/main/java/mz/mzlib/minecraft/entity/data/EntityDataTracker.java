@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -61,14 +61,14 @@ public interface EntityDataTracker extends WrapperObject
         @WrapConstructor
         <T1> Entry<T1> static$newInstance0V_900(int typeId, int index, T1 value);
 
-        @SpecificImpl("static$newInstance0")
+        @Impl("static$newInstance0")
         @VersionRange(end = 900)
         default <T1> Entry<T1> static$newInstance0V_900(EntityDataKey<T1> type, T1 value)
         {
             return this.static$newInstance0V_900(type.getTypeIdV_900(), type.getIndexV_900(), value);
         }
 
-        @SpecificImpl("static$newInstance0")
+        @Impl("static$newInstance0")
         @VersionRange(begin = 900)
         @WrapConstructor
         <T1> Entry<T1> static$newInstance0V900(EntityDataKey<T1> type, T1 value);
@@ -76,14 +76,14 @@ public interface EntityDataTracker extends WrapperObject
         @Override
         EntityDataKey<T> getKey();
 
-        @SpecificImpl("getKey")
+        @Impl("getKey")
         @VersionRange(end = 900)
         default EntityDataKey<T> getKeyV_900()
         {
             return EntityDataKey.newInstanceV_900(this.getIndexV_900(), (byte) this.getTypeIdV_900());
         }
 
-        @SpecificImpl("getKey")
+        @Impl("getKey")
         @VersionRange(begin = 900)
         @WrapMinecraftMethod({
             @VersionName(name = "method_12758", end = 1400),

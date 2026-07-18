@@ -10,7 +10,7 @@ import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
 import mz.mzlib.util.compound.PropAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -24,7 +24,7 @@ public interface WindowUiWindow extends WindowAbstract
     @VersionRange(end = 1400)
     WindowUiWindow static$newInstance0V_1400();
 
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(end = 1400)
     default WindowUiWindow static$newInstance0V_1400(WindowType type, int syncId)
     {
@@ -34,7 +34,7 @@ public interface WindowUiWindow extends WindowAbstract
     @WrapConstructor
     @VersionRange(begin = 1400)
     WindowUiWindow static$newInstance0V1400(WindowTypeV1400 type, int syncId);
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(begin = 1400)
     default WindowUiWindow static$newInstance0V1400(WindowType type, int syncId)
     {

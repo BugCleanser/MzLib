@@ -14,7 +14,7 @@ import mz.mzlib.minecraft.window.WindowFactory;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapMethod;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -87,7 +87,7 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
 
     void openWindow(WindowFactory windowFactory);
 
-    @SpecificImpl("openWindow")
+    @Impl("openWindow")
     @VersionRange(end = 1400)
     @WrapMinecraftMethod(@VersionName(name = "openHandledScreen"))
     void openWindowV_1400(WindowFactory windowFactory);
@@ -99,7 +99,7 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
     })
     OptionalInt openWindowV1400(WindowFactory windowFactory);
 
-    @SpecificImpl("openWindow")
+    @Impl("openWindow")
     @VersionRange(begin = 1400)
     default void openWindowSpecificImplV1400(WindowFactory windowFactory)
     {
@@ -127,7 +127,7 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
 
     void openBook0(ItemStack book);
 
-    @SpecificImpl("openBook0")
+    @Impl("openBook0")
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "openBookEditScreen"))
     void openBook0V_900(ItemStack book);
@@ -140,7 +140,7 @@ public interface EntityPlayerAbstract extends WrapperObject, EntityLiving
     })
     void openBook0V900(ItemStack book, Hand hand);
 
-    @SpecificImpl("openBook0")
+    @Impl("openBook0")
     @VersionRange(begin = 900)
     default void openBook0V900(ItemStack book)
     {

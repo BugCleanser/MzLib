@@ -67,7 +67,7 @@ public class EventServer extends Event
                 {
                     locating.next(
                         i -> AsmUtil.isVisitingWrapped(
-                            locating.insns[i], MinecraftServer.class, "setFaviconV_1904",
+                            locating.getInsnNode(i), MinecraftServer.class, "setFaviconV_1904",
                             ServerMetadata.class
                         ));
                     locating.offset(1);
@@ -75,12 +75,13 @@ public class EventServer extends Event
                 else
                 {
                     locating.next(i -> AsmUtil.isVisitingWrapped(
-                        locating.insns[i], MinecraftServer.class,
+                        locating.getInsnNode(i), MinecraftServer.class,
                         "createMetadataV1904"
                     ));
                     locating.offset(2);
                 }
-                assert locating.locations.size() == 1;
+                if(locating.getLocations().size() != 1)
+                    throw new IllegalStateException();
             }
 
             @NothingInject(wrapperMethodName = "run", wrapperMethodParams = {}, locateMethod = "locateRunSuccess", type = NothingInjectType.INSERT_BEFORE)

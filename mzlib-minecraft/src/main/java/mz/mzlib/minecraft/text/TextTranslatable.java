@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -32,11 +32,11 @@ public interface TextTranslatable extends WrapperObject, Text
         return FACTORY.getStatic().static$newInstance0(key, args.stream().map(FUNCTION_ARGS0.inverse()).toArray());
     }
     TextTranslatable static$newInstance0(String key, Object[] args);
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(end = 1900)
     @WrapConstructor
     TextTranslatable static$newInstance0V_1900(String key, Object[] args);
-    @SpecificImpl("static$newInstance0")
+    @Impl("static$newInstance0")
     @VersionRange(begin = 1900)
     default TextTranslatable static$newInstance0V1900(String key, Object[] args)
     {
@@ -58,11 +58,11 @@ public interface TextTranslatable extends WrapperObject, Text
     }
 
     String getKey();
-    @SpecificImpl("getKey")
+    @Impl("getKey")
     @VersionRange(end = 1900)
     @WrapMinecraftMethod(@VersionName(name = "getKey"))
     String getKeyV_1900();
-    @SpecificImpl("getKey")
+    @Impl("getKey")
     @VersionRange(begin = 1900)
     default String getKeyV1900()
     {
@@ -87,11 +87,11 @@ public interface TextTranslatable extends WrapperObject, Text
         return new ListProxy<>(Arrays.asList(this.getArgs0()), FUNCTION_ARGS0);
     }
     Object[] getArgs0();
-    @SpecificImpl("getArgs0")
+    @Impl("getArgs0")
     @VersionRange(end = 1900)
     @WrapMinecraftMethod(@VersionName(name = "getArgs"))
     Object[] getArgs0V_1900();
-    @SpecificImpl("getArgs0")
+    @Impl("getArgs0")
     @VersionRange(begin = 1900)
     default Object[] getArgs0V1900()
     {

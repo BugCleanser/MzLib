@@ -2,7 +2,7 @@ package mz.mzlib.minecraft;
 
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -59,7 +59,7 @@ public interface Identifier extends WrapperObject, Comparable<Identifier>
     }
 
     Identifier static$of(String namespace, String name);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 900)
     default Identifier static$ofV_900(String namespace, String name)
     {
@@ -71,7 +71,7 @@ public interface Identifier extends WrapperObject, Comparable<Identifier>
     @VersionRange(end = 900)
     @WrapConstructor
     Identifier static$ofV_900(String name);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 900)
     @WrapConstructor
     Identifier static$ofV900(String namespace, String name);

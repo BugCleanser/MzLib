@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.recipe.IngredientVanilla;
 import mz.mzlib.minecraft.recipe.RecipeMojang;
 import mz.mzlib.minecraft.recipe.book.RecipeCookingCategoryV1903;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -46,7 +46,7 @@ public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
 
     RecipeFurnaceV1300 static$of(Builder builder);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1903)
     default RecipeFurnaceV1300 static$ofV_1903(Builder builder)
     {
@@ -65,7 +65,7 @@ public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
         float experience,
         int cookingTime);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1903, end = 2002)
     default RecipeFurnaceV1300 static$ofV1903_2002(Builder builder)
     {
@@ -85,7 +85,7 @@ public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
         float experience,
         int cookingTime);
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2002, end = 2610)
     default RecipeFurnaceV1300 static$ofV2002_2610(Builder builder)
     {
@@ -105,7 +105,7 @@ public interface RecipeFurnaceV1300 extends RecipeMojang, RecipeFurnace
         int cookingTime);
 
 
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2610)
     default RecipeFurnaceV1300 static$ofV2610(Builder builder)
     {

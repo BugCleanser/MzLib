@@ -13,7 +13,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -48,19 +48,19 @@ public interface TextHoverEvent extends WrapperObject
         return FACTORY.getStatic().static$showText(text);
     }
     TextHoverEvent static$showText(Text text);
-    @SpecificImpl("static$showText")
+    @Impl("static$showText")
     @VersionRange(end = 1600)
     default TextHoverEvent static$showTextV_1600(Text text)
     {
         return newInstanceV_1600(Action.showText(), text);
     }
-    @SpecificImpl("static$showText")
+    @Impl("static$showText")
     @VersionRange(begin = 1600, end = 2105)
     default TextHoverEvent static$showTextV1600_2105(Text text)
     {
         return newInstanceV1600_2105(Action.showText(), text);
     }
-    @SpecificImpl("static$showText")
+    @Impl("static$showText")
     @VersionRange(begin = 2105)
     default TextHoverEvent static$showTextV2105(Text text)
     {
@@ -72,19 +72,19 @@ public interface TextHoverEvent extends WrapperObject
         return FACTORY.getStatic().static$showItem(is);
     }
     TextHoverEvent static$showItem(ItemStack is);
-    @SpecificImpl("static$showItem")
+    @Impl("static$showItem")
     @VersionRange(end = 1600)
     default TextHoverEvent static$showItemV_1600(ItemStack is)
     {
         return newInstanceV_1600(Action.showItem(), Text.literal(is.encode().getPossibleValue().unwrap().toString()));
     }
-    @SpecificImpl("static$showItem")
+    @Impl("static$showItem")
     @VersionRange(begin = 1600, end = 2105)
     default TextHoverEvent static$showItemV1600_2105(ItemStack is)
     {
         return newInstanceV1600_2105(Action.showItem(), ContentItemStackV1600_2105.newInstance(is));
     }
-    @SpecificImpl("static$showItem")
+    @Impl("static$showItem")
     @VersionRange(begin = 2105)
     default TextHoverEvent static$showItemV2105(ItemStack is)
     {
@@ -114,20 +114,20 @@ public interface TextHoverEvent extends WrapperObject
     }
 
     TextHoverEvent.Entity getShowEntity();
-    @SpecificImpl("getShowEntity")
+    @Impl("getShowEntity")
     @VersionRange(end = 1600)
     default TextHoverEvent.Entity getShowEntityV_1600()
     {
         return new TextHoverEvent.EntityV_1600(
             NbtCompound.parse(this.getValueV_1600().castTo(TextLiteral.FACTORY).getLiteral()));
     }
-    @SpecificImpl("getShowEntity")
+    @Impl("getShowEntity")
     @VersionRange(begin = 1600, end = 2105)
     default TextHoverEvent.Entity getShowEntityV1600_2105()
     {
         return this.getContentV1600_2105().castTo(ContentEntityV1600.FACTORY);
     }
-    @SpecificImpl("getShowEntity")
+    @Impl("getShowEntity")
     @VersionRange(begin = 2105)
     default TextHoverEvent.Entity getShowEntityV2105()
     {
@@ -135,19 +135,19 @@ public interface TextHoverEvent extends WrapperObject
     }
 
     ItemStack getShowItem();
-    @SpecificImpl("getShowItem")
+    @Impl("getShowItem")
     @VersionRange(end = 1600)
     default ItemStack getShowItemV_1600()
     {
         throw new UnsupportedOperationException(); // TODO
     }
-    @SpecificImpl("getShowItem")
+    @Impl("getShowItem")
     @VersionRange(begin = 1600, end = 2105)
     default ItemStack getShowItemV1600_2105()
     {
         return this.getContentV1600_2105().castTo(ContentItemStackV1600_2105.FACTORY).getItemStack();
     }
-    @SpecificImpl("getShowItem")
+    @Impl("getShowItem")
     @VersionRange(begin = 2105)
     default ItemStack getShowItemV2105()
     {
@@ -155,19 +155,19 @@ public interface TextHoverEvent extends WrapperObject
     }
 
     Text getShowText();
-    @SpecificImpl("getShowText")
+    @Impl("getShowText")
     @VersionRange(end = 1600)
     default Text getShowTextV_1600()
     {
         return this.getValueV_1600();
     }
-    @SpecificImpl("getShowText")
+    @Impl("getShowText")
     @VersionRange(begin = 1600, end = 2105)
     default Text getShowTextV1600_2105()
     {
         return this.getContentV1600_2105().castTo(Text.FACTORY);
     }
-    @SpecificImpl("getShowText")
+    @Impl("getShowText")
     @VersionRange(begin = 2105)
     default Text getShowTextV2105()
     {
@@ -246,7 +246,7 @@ public interface TextHoverEvent extends WrapperObject
 
         ItemStack getItemStack();
 
-        @SpecificImpl("getItemStack")
+        @Impl("getItemStack")
         @VersionRange(end = 1700)
         default ItemStack getItemStackV_1700()
         {
@@ -255,7 +255,7 @@ public interface TextHoverEvent extends WrapperObject
             return result;
         }
 
-        @SpecificImpl("getItemStack")
+        @Impl("getItemStack")
         @WrapMinecraftMethod(@VersionName(name = "asStack", begin = 1700))
         ItemStack getItemStackV1700();
     }
@@ -363,11 +363,11 @@ public interface TextHoverEvent extends WrapperObject
 
 
         ShowItem2105 static$of(ItemStack value);
-        @SpecificImpl("static$of")
+        @Impl("static$of")
         @VersionRange(end = 2610)
         @WrapConstructor
         ShowItem2105 static$of$implV_2610(ItemStack value);
-        @SpecificImpl("static$of")
+        @Impl("static$of")
         @VersionRange(begin = 2610)
         default ShowItem2105 static$of$implV2610(ItemStack value)
         {

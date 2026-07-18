@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -23,11 +23,11 @@ public interface TextLiteral extends WrapperObject, Text
         return FACTORY.getStatic().static$newInstance(literal);
     }
     TextLiteral static$newInstance(String literal);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1900)
     @WrapConstructor
     TextLiteral static$newInstanceV_1900(String literal);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1900)
     default TextLiteral static$newInstanceV1900(String literal)
     {
@@ -36,11 +36,11 @@ public interface TextLiteral extends WrapperObject, Text
 
     @SuppressWarnings("deprecation")
     String getLiteral();
-    @SpecificImpl("getLiteral")
+    @Impl("getLiteral")
     @VersionRange(end = 1900)
     @WrapMinecraftMethod(@VersionName(name = "getRawString"))
     String getLiteralV_1900();
-    @SpecificImpl("getLiteral")
+    @Impl("getLiteral")
     @VersionRange(begin = 1900)
     default String getLiteralV1900()
     {

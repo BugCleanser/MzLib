@@ -10,7 +10,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -56,13 +56,13 @@ public interface PlayerManager extends WrapperObject
     })
     EntityPlayer getPlayer0(String name);
 
-    @SpecificImpl("isOp")
+    @Impl("isOp")
     @VersionRange(end = 2109)
     default boolean isOpV_2109(EntityPlayer player)
     {
         return this.isOpV_2109(player.getGameProfile());
     }
-    @SpecificImpl("isOp")
+    @Impl("isOp")
     @VersionRange(begin = 2109)
     default boolean isOpV2109(EntityPlayer player)
     {

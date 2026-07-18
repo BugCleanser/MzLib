@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.IteratorProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,11 +21,11 @@ public interface ComponentMapV2005 extends WrapperObject, Iterable<ComponentMapV
     Iterable<Object> getWrapped();
 
     <T> T get0(ComponentKeyV2005<T> key);
-    @SpecificImpl("get0")
+    @Impl("get0")
     @VersionRange(end = 2105)
     @WrapMinecraftMethod(@VersionName(name = "get"))
     <T> T get0V_2105(ComponentKeyV2005<T> key);
-    @SpecificImpl("get0")
+    @Impl("get0")
     @VersionRange(begin = 2105)
     default <T> T get0V2105(ComponentKeyV2005<T> key)
     {

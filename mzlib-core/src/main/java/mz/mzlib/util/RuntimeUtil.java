@@ -1,5 +1,6 @@
 package mz.mzlib.util;
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -38,7 +39,8 @@ public class RuntimeUtil
     {
         return RuntimeUtil.cast(null);
     }
-
+    
+    @Contract(value = "_ -> _", pure = true)
     @SuppressWarnings("unchecked")
     public static <T extends @UnknownNullability Object> T cast(@UnknownNullability Object object)
     {
@@ -48,11 +50,13 @@ public class RuntimeUtil
     {
         return cast(clazz);
     }
-
+    
+    @Contract(pure = true)
     public static byte castBooleanToByte(boolean value)
     {
         return (byte) (value ? 1 : 0);
     }
+    @Contract(pure = true)
     public static boolean castByteToBoolean(byte value)
     {
         return value != 0;
@@ -98,16 +102,24 @@ public class RuntimeUtil
     {
         throw throwable;
     }
+    
+    @SuppressWarnings("RedundantThrows")
+    public static <T extends Throwable> void declareThrowing() throws T
+    {
+    }
 
+    @Deprecated
     @SuppressWarnings("RedundantThrows")
     public static <T extends Throwable> void declaredlyThrow() throws T
     {
     }
-
+    
+    @Deprecated
     @SuppressWarnings("RedundantThrows")
     public static <T extends Throwable> void declaredlyThrow(Class<T> clazz) throws T
     {
     }
+    
     public static void addGcListener(NotificationListener listener)
     {
         for(GarbageCollectorMXBean gcBean : ManagementFactory.getGarbageCollectorMXBeans())

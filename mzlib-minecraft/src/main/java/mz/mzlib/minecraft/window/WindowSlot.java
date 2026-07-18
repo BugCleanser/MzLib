@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -137,7 +137,7 @@ public interface WindowSlot extends WrapperObject
     {
         this.setItemStack(itemStack);
     }
-    @SpecificImpl("setItemStackByPlayer")
+    @Impl("setItemStackByPlayer")
     @WrapMinecraftMethod(@VersionName(name = "setStack", begin = 1900))
     void setItemStackByPlayerV1900(ItemStack itemStack);
 

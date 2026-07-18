@@ -6,21 +6,20 @@ import mz.mzlib.asm.Type;
 import mz.mzlib.asm.tree.*;
 import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.CollectionUtil;
+import mz.mzlib.util.MethodKey;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.wrapper.AbsWrapper;
 import mz.mzlib.util.wrapper.WrapperClassData;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.*;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class AsmUtil
 {
@@ -59,6 +58,23 @@ public class AsmUtil
                 throw new ClassNotFoundException(desc);
         }
     }
+    
+    @ApiStatus.Experimental
+    public static InsnList clone(InsnList insns)
+    {
+        Map<LabelNode, LabelNode> labels = new HashMap<>();
+        for(AbstractInsnNode i: insns)
+        {
+            if(i instanceof LabelNode)
+                labels.put((LabelNode) i, new LabelNode());
+        }
+        InsnList result = new InsnList();
+        for(AbstractInsnNode i: insns)
+        {
+            result.add(i.clone(labels));
+        }
+        return result;
+    }
 
     public static @Nullable FieldNode getFieldNode(ClassNode cn, String name)
     {
@@ -72,11 +88,21 @@ public class AsmUtil
         return null;
     }
 
-    public static @Nullable MethodNode getMethodNode(ClassNode clazz, String name, String desc)
+    public static @Nullable MethodNode getMethodNode(ClassNode cn, String name, String desc)
     {
-        for(MethodNode m : clazz.methods)
+        for(MethodNode m : cn.methods)
         {
             if(Objects.equals(m.name, name) && Objects.equals(m.desc, desc))
+                return m;
+        }
+        return RuntimeUtil.nul();
+    }
+    
+    public static @Nullable MethodNode getMethodNode(ClassNode cn, MethodKey key)
+    {
+        for(MethodNode m : cn.methods)
+        {
+            if(Objects.equals(m.name, key.getName()) && Arrays.equals(Type.getArgumentTypes(m.desc), Arrays.stream(key.getParameterTypes()).map(Type::getType).toArray()))
                 return m;
         }
         return RuntimeUtil.nul();
@@ -180,9 +206,9 @@ public class AsmUtil
     public static InsnList insnSwap(Class<?> stackTop, Class<?> belowTop)
     {
         InsnList result = new InsnList();
-        if(getCategory(stackTop) == 1)
+        if(getSize(stackTop) == 1)
         {
-            if(getCategory(belowTop) == 1)
+            if(getSize(belowTop) == 1)
             {
                 result.add(new InsnNode(Opcodes.SWAP));
             }
@@ -194,7 +220,7 @@ public class AsmUtil
         }
         else
         {
-            if(getCategory(belowTop) == 1)
+            if(getSize(belowTop) == 1)
             {
                 result.add(new InsnNode(Opcodes.DUP2_X1));
             }
@@ -206,12 +232,13 @@ public class AsmUtil
         }
         return result;
     }
-
+    
+    @ApiStatus.Internal
     public static AbstractInsnNode insnCreateWrapper(Class<? extends WrapperObject> type)
     {
         return insnCreateWrapper(Type.getType(type));
     }
-
+    @ApiStatus.Internal
     public static AbstractInsnNode insnCreateWrapper(Type type)
     {
         return new InvokeDynamicInsnNode(
@@ -222,10 +249,12 @@ public class AsmUtil
             ), type
         );
     }
+    @ApiStatus.Internal
     public static AbstractInsnNode insnWrapperFactory(Class<? extends WrapperObject> type)
     {
         return insnWrapperFactory(Type.getType(type));
     }
+    @ApiStatus.Internal
     public static AbstractInsnNode insnWrapperFactory(Type type)
     {
         return new InvokeDynamicInsnNode(
@@ -292,7 +321,7 @@ public class AsmUtil
 
     public static InsnList insnDup(Class<?> type)
     {
-        switch(getCategory(type))
+        switch(getSize(type))
         {
             case 0:
                 return new InsnList();
@@ -375,7 +404,7 @@ public class AsmUtil
         return new LdcInsnNode(obj);
     }
 
-    public static int getCategory(Type type)
+    public static int getSize(Type type)
     {
         switch(type.getSort())
         {
@@ -389,7 +418,7 @@ public class AsmUtil
         }
     }
 
-    public static int getCategory(Class<?> clazz)
+    public static int getSize(Class<?> clazz)
     {
         if(clazz == void.class)
             return 0;
@@ -397,6 +426,17 @@ public class AsmUtil
             return 2;
         else
             return 1;
+    }
+    
+    @Deprecated
+    public static int getCategory(Type type)
+    {
+        return getSize(type);
+    }
+    @Deprecated
+    public static int getCategory(Class<?> type)
+    {
+        return getSize(type);
     }
 
     public static InsnList insnArrayLoad(Class<?> type, InsnList index)
@@ -607,7 +647,7 @@ public class AsmUtil
 
     public static InsnList insnPop(Class<?> type)
     {
-        switch(getCategory(type))
+        switch(getSize(type))
         {
             case 0:
                 return new InsnList();

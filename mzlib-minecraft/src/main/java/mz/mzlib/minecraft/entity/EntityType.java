@@ -17,7 +17,7 @@ import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.MapInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.ThrowableFunction;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -46,7 +46,7 @@ public interface EntityType extends WrapperObject
 
     EntityType static$fromId(Identifier id);
 
-    @SpecificImpl("static$fromId")
+    @Impl("static$fromId")
     @VersionRange(end = 1100)
     default EntityType static$fromIdV_1100(Identifier id)
     {
@@ -55,7 +55,7 @@ public interface EntityType extends WrapperObject
         return EntityTypesV_1300.getByNameV_1100(V_1100.names.get(id));
     }
 
-    @SpecificImpl("static$fromId")
+    @Impl("static$fromId")
     @VersionRange(begin = 1100, end = 1300)
     default EntityType static$fromIdV1100_1300(Identifier id)
     {
@@ -64,7 +64,7 @@ public interface EntityType extends WrapperObject
         return getRegistry1100().get(id).castTo(EntityType.FACTORY);
     }
 
-    @SpecificImpl("static$fromId")
+    @Impl("static$fromId")
     @VersionRange(begin = 1300)
     default EntityType static$fromIdV1300(Identifier id)
     {
@@ -84,14 +84,14 @@ public interface EntityType extends WrapperObject
     Registry static$getRegistryV1100();
 
     @VersionRange(begin = 1100, end = 1300)
-    @SpecificImpl("static$getRegistryV1100")
+    @Impl("static$getRegistryV1100")
     default Registry static$registryV1100_1300()
     {
         return EntityTypesV_1300.registryV1100();
     }
 
     @VersionRange(begin = 1300)
-    @SpecificImpl("static$getRegistryV1100")
+    @Impl("static$getRegistryV1100")
     default Registry static$registryV1300()
     {
         return RegistriesV1300.entityType();
@@ -100,7 +100,7 @@ public interface EntityType extends WrapperObject
     Entity newEntity(World world);
 
     Map<Class<?>, MethodHandle> cacheV_1300 = MinecraftPlatform.instance.getVersion() < 1300 ? new HashMap<>() : null;
-    @SpecificImpl("newEntity")
+    @Impl("newEntity")
     @VersionRange(end = 1300)
     default Entity newEntityV_1300(World world)
     {
@@ -123,7 +123,7 @@ public interface EntityType extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "entityFactory"))
     Function<Object, ?> getFactoryV1300_1400();
 
-    @SpecificImpl("newEntity")
+    @Impl("newEntity")
     @VersionRange(begin = 1300, end = 1400)
     default Entity newEntityV1300_1400(World world)
     {
@@ -134,7 +134,7 @@ public interface EntityType extends WrapperObject
     @WrapMinecraftFieldAccessor(@VersionName(name = "factory"))
     EntityFactoryV1400 getFactoryV1400();
 
-    @SpecificImpl("newEntity")
+    @Impl("newEntity")
     @VersionRange(begin = 1400)
     default Entity newEntityV1400(World world)
     {

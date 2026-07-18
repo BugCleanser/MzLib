@@ -14,7 +14,7 @@ import mz.mzlib.util.Box;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +47,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @WrapConstructor
     PacketS2cEntityData static$newInstanceV_1903(int entityId, EntityDataTracker dataTracker, boolean updateAll);
 
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1903)
     default PacketS2cEntityData static$newInstanceV_1903(int entityId)
     {
@@ -61,7 +61,7 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
     @WrapConstructor
     PacketS2cEntityData static$newInstance0V1903(int entityId, List<?> dataList0);
 
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1903)
     default PacketS2cEntityData static$newInstanceV1903(int entityId)
     {
@@ -89,14 +89,14 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
 
     <T> Entry<T> static$newEntry(EntityDataKey<T> type, T value);
 
-    @SpecificImpl("static$newEntry")
+    @Impl("static$newEntry")
     @VersionRange(end = 1903)
     default <T> EntityDataTracker.Entry<T> static$newEntryV_1903(EntityDataKey<T> type, T value)
     {
         return EntityDataTracker.Entry.newInstance0(type, value);
     }
 
-    @SpecificImpl("static$newEntry")
+    @Impl("static$newEntry")
     @VersionRange(begin = 1903)
     default <T> EntityDataTracker.EntityDataV1903<T> static$newEntryV1903(EntityDataKey<T> type, T value)
     {
@@ -105,14 +105,14 @@ public interface PacketS2cEntityData extends Packet, EntityDataHolder
 
     List<Entry<?>> getDataList();
 
-    @SpecificImpl("getDataList")
+    @Impl("getDataList")
     @VersionRange(end = 1903)
     default List<EntityDataTracker.Entry<?>> getDataListV_1903()
     {
         return new ListProxy<>(getDataList0(), FunctionInvertible.wrapper(EntityDataTracker.Entry.FACTORY));
     }
 
-    @SpecificImpl("getDataList")
+    @Impl("getDataList")
     @VersionRange(begin = 1903)
     default List<EntityDataTracker.EntityDataV1903<?>> getDataListV1903()
     {

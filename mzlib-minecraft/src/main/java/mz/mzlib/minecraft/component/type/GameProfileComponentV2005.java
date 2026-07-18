@@ -11,7 +11,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -31,7 +31,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
     }
 
     GameProfileComponentV2005 static$of(GameProfile gameProfile);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 2109)
     default GameProfileComponentV2005 static$ofV_2109(GameProfile gameProfile)
     {
@@ -48,7 +48,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
         Optional<String> name,
         Optional<UUID> id,
         PropertyMap properties);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2109)
     @WrapMinecraftMethod(@VersionName(name = "ofStatic"))
     GameProfileComponentV2005 static$ofV2109(GameProfile gameProfile);
@@ -58,7 +58,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
         return FACTORY.getStatic().static$of(description);
     }
     GameProfileComponentV2005 static$of(GameProfile.Description description);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 2109)
     default GameProfileComponentV2005 static$ofV_2109(GameProfile.Description description)
     {
@@ -67,7 +67,7 @@ public interface GameProfileComponentV2005 extends WrapperObject
             Option.fromNullable(description.getProperties()).unwrapOrGet(PropertyMap::of)
         );
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2109)
     default GameProfileComponentV2005 static$ofV2109(GameProfile.Description description)
     {

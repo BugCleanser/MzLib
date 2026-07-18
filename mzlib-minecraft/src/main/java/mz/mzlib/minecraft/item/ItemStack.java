@@ -383,7 +383,7 @@ public interface ItemStack extends WrapperObject
      */
     @Deprecated
     String getTranslationKey();
-    @SpecificImpl("getTranslationKey")
+    @Impl("getTranslationKey")
     @VersionRange(end = 2102)
     default String getTranslationKeyV_2102()
     {
@@ -414,7 +414,7 @@ public interface ItemStack extends WrapperObject
      * Shadow clone
      */
     ItemStack clone();
-    @SpecificImpl("clone")
+    @Impl("clone")
     default ItemStack clone$impl()
     {
         if(this.isEmpty())
@@ -489,13 +489,13 @@ public interface ItemStack extends WrapperObject
 
 
     ItemStack static$empty();
-    @SpecificImpl("static$empty")
+    @Impl("static$empty")
     @VersionRange(end = 1100)
     default ItemStack static$emptyV_1100()
     {
         return FACTORY.create(null);
     }
-    @SpecificImpl("static$empty")
+    @Impl("static$empty")
     @VersionRange(begin = 1100)
     @WrapMinecraftFieldAccessor(@VersionName(name = "EMPTY"))
     ItemStack static$emptyV1100();
@@ -503,12 +503,12 @@ public interface ItemStack extends WrapperObject
     ItemStack static$newInstance(Item item);
     @WrapConstructor
     @VersionRange(end = 1300)
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     ItemStack static$newInstanceV_1300(Item item);
     @WrapConstructor
     @VersionRange(begin = 1300)
     ItemStack static$newInstanceV1300(ItemConvertibleV1300 item);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1300)
     default ItemStack static$newInstanceV1300(Item item)
     {
@@ -516,13 +516,13 @@ public interface ItemStack extends WrapperObject
     }
 
     ItemStack.Builder static$builder();
-    @SpecificImpl("static$builder")
+    @Impl("static$builder")
     @VersionRange(end = 1300)
     default ItemStack.Builder static$builderV_1300()
     {
         return new ItemStackBuilderImpl.V_1300();
     }
-    @SpecificImpl("static$builder")
+    @Impl("static$builder")
     @VersionRange(begin = 1300)
     default ItemStack.Builder static$builderV1300()
     {
@@ -530,13 +530,13 @@ public interface ItemStack extends WrapperObject
     }
 
     ItemStack.Builder static$builder(ItemStack from);
-    @SpecificImpl("static$builder")
+    @Impl("static$builder")
     @VersionRange(end = 1300)
     default ItemStack.Builder static$builderV_1300(ItemStack from)
     {
         return new ItemStackBuilderImpl.V_1300(from);
     }
-    @SpecificImpl("static$builder")
+    @Impl("static$builder")
     @VersionRange(begin = 1300)
     default ItemStack.Builder static$builderV1300(ItemStack from)
     {
@@ -552,17 +552,17 @@ public interface ItemStack extends WrapperObject
     CodecV1600<?> static$codec0V1600();
 
     ItemStack static$newInstanceV_2005(NbtCompound nbt);
-    @SpecificImpl("static$newInstanceV_2005")
+    @Impl("static$newInstanceV_2005")
     @VersionRange(end = 1100)
     @WrapMinecraftMethod(@VersionName(name = "fromNbt"))
     ItemStack static$newInstanceV_1100(NbtCompound nbt);
-    @SpecificImpl("static$newInstanceV_2005")
+    @Impl("static$newInstanceV_2005")
     @VersionRange(begin = 1100, end = 2005)
     @WrapConstructor
     ItemStack static$newInstanceV1100_2005(NbtCompound nbt);
 
     Result<ItemStack, String> static$decode0(NbtCompound nbt);
-    @SpecificImpl("static$decode0")
+    @Impl("static$decode0")
     @VersionRange(end = 2005)
     default Result<ItemStack, String> static$decode0V_2005(NbtCompound nbt)
     {
@@ -575,14 +575,14 @@ public interface ItemStack extends WrapperObject
             return Result.failure(Option.none(), e.toString());
         }
     }
-    @SpecificImpl("static$decode0")
+    @Impl("static$decode0")
     @VersionRange(begin = 2005)
     default Result<ItemStack, String> static$decode0V2005(NbtCompound nbt)
     {
         return codecV1600().parse(NbtOpsV1300.withRegistriesV1903(), nbt).toResult();
     }
 
-    @SpecificImpl("encode0")
+    @Impl("encode0")
     @VersionRange(end = 2005)
     default Result<NbtCompound, String> encode0V_2005()
     {
@@ -601,14 +601,14 @@ public interface ItemStack extends WrapperObject
         @VersionName(name = "method_7953", begin = 1400)
     })
     NbtCompound encode0V_2005(NbtCompound nbt);
-    @SpecificImpl("encode0")
+    @Impl("encode0")
     @VersionRange(begin = 2005)
     default Result<NbtCompound, String> encode0V2005()
     {
         return codecV1600().encodeStart(NbtOpsV1300.withRegistriesV1903(), this).toResult();
     }
 
-    @SpecificImpl("getCount")
+    @Impl("getCount")
     @VersionRange(end = 1100)
     default int getCount_V1100()
     {
@@ -619,16 +619,16 @@ public interface ItemStack extends WrapperObject
     @VersionRange(end = 1100)
     @WrapMinecraftFieldAccessor(@VersionName(name = "count"))
     int getCount0_V1100();
-    @SpecificImpl("getCount")
+    @Impl("getCount")
     @VersionRange(begin = 1100)
     @WrapMinecraftMethod(@VersionName(name = "getCount"))
     int getCountV1100();
 
-    @SpecificImpl("setCount")
+    @Impl("setCount")
     @VersionRange(end = 1100)
     @WrapMinecraftFieldAccessor(@VersionName(name = "count"))
     void setCountV_1100(int count);
-    @SpecificImpl("setCount")
+    @Impl("setCount")
     @VersionRange(begin = 1100)
     @WrapMinecraftMethod(@VersionName(name = "setCount"))
     void setCountV1100(int count);
@@ -647,18 +647,18 @@ public interface ItemStack extends WrapperObject
     })
     void setTag0V_2005(NbtCompound value);
 
-    @SpecificImpl("isEmpty")
+    @Impl("isEmpty")
     @VersionRange(end = 1100)
     default boolean isEmptyV_1100()
     {
         return !this.isPresent() || this.getCount() <= 0;
     }
-    @SpecificImpl("isEmpty")
+    @Impl("isEmpty")
     @VersionRange(begin = 1100)
     @WrapMinecraftMethod(@VersionName(name = "isEmpty"))
     boolean isEmptyV1100();
 
-    @SpecificImpl("copy")
+    @Impl("copy")
     @VersionRange(end = 1100)
     default ItemStack copyV_1100()
     {
@@ -666,7 +666,7 @@ public interface ItemStack extends WrapperObject
             return EMPTY;
         return this.copy0();
     }
-    @SpecificImpl("copy")
+    @Impl("copy")
     @VersionRange(begin = 1100)
     default ItemStack copyV1100()
     {
@@ -675,13 +675,13 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "copy"))
     ItemStack copy0();
 
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(end = 1300)
     default Text getNameV_1300()
     {
         return TextTranslatable.newInstance(this.getTranslationKeyV_2102());
     }
-    @SpecificImpl("getName")
+    @Impl("getName")
     @VersionRange(begin = 1300)
     default Text getNameV1300()
     {
@@ -689,20 +689,20 @@ public interface ItemStack extends WrapperObject
     }
 
     @Deprecated
-    @SpecificImpl("getTranslationKey")
+    @Impl("getTranslationKey")
     @VersionRange(begin = 2102)
     default String getTranslationKeyV2102()
     {
         return this.getItem().getNameV1300(this).castTo(TextTranslatable.FACTORY).getKey();
     }
 
-    @SpecificImpl("getMaxStackCount")
+    @Impl("getMaxStackCount")
     @VersionRange(end = 2610)
     default int getMaxStackCount$implV_2610()
     {
         return this.getMaxStackCountV_2610();
     }
-    @SpecificImpl("getMaxStackCount")
+    @Impl("getMaxStackCount")
     @VersionRange(begin = 2610)
     default int getMaxStackCount$implV2610()
     {
@@ -710,7 +710,7 @@ public interface ItemStack extends WrapperObject
     }
 
     boolean static$isStackable(ItemStack a, ItemStack b);
-    @SpecificImpl("static$isStackable")
+    @Impl("static$isStackable")
     @VersionRange(end = 1300)
     default boolean static$isStackableV_1300(ItemStack a, ItemStack b)
     {
@@ -721,7 +721,7 @@ public interface ItemStack extends WrapperObject
         return a.getItem().equals(b.getItem()) && a.getDamageV_1300() == b.getDamageV_1300() &&
             a.getTagV_2005().equals(b.getTagV_2005());
     }
-    @SpecificImpl("static$isStackable")
+    @Impl("static$isStackable")
     @VersionRange(begin = 1300, end = 1700)
     default boolean static$isStackableV1300_1700(ItemStack a, ItemStack b)
     {
@@ -732,7 +732,7 @@ public interface ItemStack extends WrapperObject
         return a.getItem().equals(b.getItem()) && a.getTagV_2005().equals(b.getTagV_2005());
     }
 
-    @SpecificImpl("static$isStackable")
+    @Impl("static$isStackable")
     @VersionRange(begin = 1700)
     @WrapMinecraftMethod({
         @VersionName(name = "canCombine", end = 2005),
@@ -740,7 +740,7 @@ public interface ItemStack extends WrapperObject
     })
     boolean static$isStackableV1700(ItemStack a, ItemStack b);
 
-    @SpecificImpl("clone")
+    @Impl("clone")
     @VersionRange(end = 1100)
     default ItemStack cloneV_1100(Item newItem)
     {
@@ -748,7 +748,7 @@ public interface ItemStack extends WrapperObject
             return EMPTY;
         return this.cloneV1100_1300(newItem);
     }
-    @SpecificImpl("clone")
+    @Impl("clone")
     @VersionRange(begin = 1100, end = 1300)
     default ItemStack cloneV1100_1300(Item newItem)
     {
@@ -756,7 +756,7 @@ public interface ItemStack extends WrapperObject
         result.setDamageV_1300(this.getDamageV_1300());
         return result;
     }
-    @SpecificImpl("clone")
+    @Impl("clone")
     @VersionRange(begin = 1300, end = 2005)
     default ItemStack cloneV1300_2005(Item newItem)
     {
@@ -764,7 +764,7 @@ public interface ItemStack extends WrapperObject
         result.setTagV_2005(this.getTagV_2005());
         return result;
     }
-    @SpecificImpl("clone")
+    @Impl("clone")
     @VersionRange(begin = 2005)
     default ItemStack cloneV2005(Item newItem)
     {
@@ -774,26 +774,26 @@ public interface ItemStack extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "method_56701"))
     ItemStack cloneV2005(ItemConvertibleV1300 newItem, int count);
 
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(end = 1300)
     default int hashCodeV_1300()
     {
         return Objects.hash(this.hashCodeV1300_2005(), this.getDamageV_1300());
     }
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(begin = 1300, end = 2005)
     default int hashCodeV1300_2005()
     {
         return Objects.hash(this.getItem(), this.getCount(), this.getTagV_2005());
     }
-    @SpecificImpl("hashCode")
+    @Impl("hashCode")
     @VersionRange(begin = 2005)
     default int hashCodeV2005()
     {
         return Objects.hash(this.getItem(), this.getCount(), this.getComponentsV2005());
     }
 
-    @SpecificImpl("equals")
+    @Impl("equals")
     default boolean equals$impl(@Nullable Object object)
     {
         if(this == object)
@@ -811,20 +811,20 @@ public interface ItemStack extends WrapperObject
     }
 
     NbtCompound static$upgrade(NbtCompound nbt, int from);
-    @SpecificImpl("static$upgrade")
+    @Impl("static$upgrade")
     @VersionRange(end = 900)
     default NbtCompound static$upgradeV_900(NbtCompound nbt, int from)
     {
         return nbt;
     }
-    @SpecificImpl("static$upgrade")
+    @Impl("static$upgrade")
     @VersionRange(begin = 900, end = 1300)
     default NbtCompound static$upgradeV900_1300(NbtCompound nbt, int from)
     {
         return MinecraftServer.instance.getDataUpdaterV900_1300()
             .update(DataUpdateTypesV900_1300.itemStack(), nbt, from);
     }
-    @SpecificImpl("static$upgrade")
+    @Impl("static$upgrade")
     @VersionRange(begin = 1300)
     default NbtCompound static$upgradeV1300(NbtCompound nbt, int from)
     {

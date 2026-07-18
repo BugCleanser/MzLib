@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.ui.Ui;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -29,11 +29,11 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
     String getWindowTypeIdV_1400();
 
     Text getDisplayName();
-    @SpecificImpl("getDisplayName")
+    @Impl("getDisplayName")
     @VersionRange(end = 1400)
     @Override
     Text getDisplayNameV_1400();
-    @SpecificImpl("getDisplayName")
+    @Impl("getDisplayName")
     @VersionRange(begin = 1400)
     @WrapMinecraftMethod(@VersionName(name = "getDisplayName"))
     Text getDisplayNameV1400();
@@ -41,13 +41,13 @@ public interface WindowFactory extends WrapperObject, WindowFactoryAbstract, Ui
     Window createWindow(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
     @WrapMinecraftMethod(@VersionName(name = "createScreenHandler", end = 1400))
     Window createWindowV_1400(InventoryPlayer inventoryPlayer, EntityPlayerAbstract player);
-    @SpecificImpl("createWindow")
+    @Impl("createWindow")
     @VersionRange(end = 1400)
     default Window createWindowV_1400(int syncId, InventoryPlayer inventoryPlayer, EntityPlayerAbstract player)
     {
         return createWindowV_1400(inventoryPlayer, player);
     }
-    @SpecificImpl("createWindow")
+    @Impl("createWindow")
     @VersionRange(begin = 1400)
     default Window createWindowSpecificImplV1400(
         int syncId,

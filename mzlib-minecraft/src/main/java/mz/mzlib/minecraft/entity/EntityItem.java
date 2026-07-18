@@ -11,7 +11,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.util.FunctionInvertible;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -32,14 +32,14 @@ public interface EntityItem extends WrapperObject, Entity
 
     EntityDataKey<?> static$dataTypeItem();
 
-    @SpecificImpl("static$dataTypeItem")
+    @Impl("static$dataTypeItem")
     @VersionRange(end = 900)
     default EntityDataKey<?> static$dataTypeItemV_900()
     {
         return EntityDataKey.newInstanceV_900(10, (byte) 5);
     }
 
-    @SpecificImpl("static$dataTypeItem")
+    @Impl("static$dataTypeItem")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "STACK"))
     EntityDataKey<?> static$dataTypeItemV900();

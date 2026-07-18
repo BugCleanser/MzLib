@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,7 +21,7 @@ public interface CommandOutput extends WrapperObject
     WrapperFactory<CommandOutput> FACTORY = WrapperFactory.of(CommandOutput.class);
     void sendMessage(Text msg);
 
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(end = 1600)
     @VersionRange(begin = 1900)
     @WrapMinecraftMethod({
@@ -35,7 +35,7 @@ public interface CommandOutput extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "sendSystemMessage"))
     void sendMessageV1600_1900(Text msg, UUID sender);
 
-    @SpecificImpl("sendMessage")
+    @Impl("sendMessage")
     @VersionRange(begin = 1600, end = 1900)
     default void sendMessageV1600_1900(Text msg)
     {

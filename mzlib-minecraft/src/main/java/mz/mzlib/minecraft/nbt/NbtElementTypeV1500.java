@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -21,13 +21,13 @@ public interface NbtElementTypeV1500 extends WrapperObject
     NbtElement load(DataInput input, NbtSizeTracker counter);
     @WrapMinecraftMethod(@VersionName(name = "read", end = 2002))
     NbtElement loadV_2002(DataInput input, int depth, NbtSizeTracker counter);
-    @SpecificImpl("load")
+    @Impl("load")
     @VersionRange(end = 2002)
     default NbtElement loadV_2002(DataInput input, NbtSizeTracker counter)
     {
         return loadV_2002(input, 0, counter);
     }
-    @SpecificImpl("load")
+    @Impl("load")
     @WrapMinecraftMethod(@VersionName(name = "read", begin = 2002))
     NbtElement loadV2002(DataInput input, NbtSizeTracker counter);
 }

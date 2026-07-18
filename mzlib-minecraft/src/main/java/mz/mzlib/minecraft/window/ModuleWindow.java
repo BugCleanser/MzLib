@@ -3,7 +3,6 @@ package mz.mzlib.minecraft.window;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.minecraft.network.packet.s2c.play.PacketS2cWindowOpen;
-import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.nothing.LocalVar;
 import mz.mzlib.util.nothing.Nothing;
@@ -11,8 +10,8 @@ import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
-import mz.mzlib.util.wrapper.basic.WrapperBoolean;
 import mz.mzlib.util.wrapper.basic.WrapperString;
+import mz.mzlib.util.wrapper.basic.Wrapper_boolean;
 import mz.mzlib.util.wrapper.basic.Wrapper_int;
 
 import java.util.List;
@@ -31,13 +30,8 @@ public class ModuleWindow extends MzModule
     public interface NothingPacketS2cWindowOpen extends PacketS2cWindowOpen, Nothing
     {
         @VersionRange(end = 1400)
-        @NothingInject(wrapperMethodName = "<init>", wrapperMethodParams = {
-            int.class,
-            String.class,
-            Text.class,
-            int.class
-        }, locateMethod = "", type = NothingInjectType.INSERT_BEFORE)
-        static void initBeforeV_1400(@LocalVar(2) WrapperString typeId, @LocalVar(4) Wrapper_int size)
+        @NothingInject(name = "static$ofV_1400", locator = "stay", type = NothingInjectType.INSERT_BEFORE)
+        static void static$of$beginV_1400(@LocalVar(2) WrapperString typeId, @LocalVar(4) Wrapper_int size)
         {
             int i = typeId.getWrapped().indexOf('*');
             if(i == -1)
@@ -52,19 +46,14 @@ public class ModuleWindow extends MzModule
     {
         WrapperFactory<NothingWindow> FACTORY = WrapperFactory.of(NothingWindow.class);
 
-        @NothingInject(wrapperMethodName = "placeIn", wrapperMethodParams = {
-            ItemStack.class,
-            int.class,
-            int.class,
-            boolean.class
-        }, type = NothingInjectType.INSERT_BEFORE, locateMethod = "")
-        default WrapperBoolean placeInOverwrite(
-            @LocalVar(1) ItemStack itemStack,
-            @LocalVar(2) int begin,
-            @LocalVar(3) int end,
-            @LocalVar(4) boolean inverted)
+        @NothingInject(name = "placeIn", params = { ItemStack.class, int.class, int.class, boolean.class }, type = NothingInjectType.INSERT_BEFORE, locator = "stay")
+        default Wrapper_boolean placeIn$overwrite(
+                @LocalVar(1) ItemStack itemStack,
+                @LocalVar(2) int begin,
+                @LocalVar(3) int end,
+                @LocalVar(4) boolean inverted)
         {
-            return WrapperBoolean.FACTORY.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
+            return Wrapper_boolean.FACTORY.create(this.placeInOrCheck(itemStack, begin, end, inverted, false));
         }
 
         default boolean placeInOrCheck(ItemStack itemStack, int begin, int end, boolean inverted, boolean doCheck)

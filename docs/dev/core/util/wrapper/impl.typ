@@ -1,22 +1,22 @@
 #import "/lib/lib.typ": *;
 #set raw(lang: "java");
-#let title = [版本特定实现];
+#let title = [实现];
 #show: template.with(title: title);
 
 
 
-使用 `@SpecificImpl` 注解可以为同一个方法声明提供多个特定实现，根据运行时条件（如版本、平台）自动选择合适的实现。
+使用 `@Impl` 注解可以为同一个方法声明提供多个特定实现，根据运行时条件（如版本、平台）自动选择合适的实现。
 
 = 基本用法
 
-当同一个方法在不同版本或平台有不同的实现时，可以使用 `@SpecificImpl` 来标记这些特定实现的方法。
+当同一个方法在不同版本或平台有不同的实现时，可以使用 `@Impl` 来标记这些特定实现的方法。
 
 ```java
 // 方法声明（不能使用 @WrapMethod 等实现注解）
 void setColor(TextColor value);
 
 // 1.16 以下的特定实现
-@SpecificImpl("setColor")
+@Impl("setColor")
 @VersionRange(end = 1600)
 default Text setColorV_1600(TextColor value)
 {
@@ -25,7 +25,7 @@ default Text setColorV_1600(TextColor value)
 }
 
 // 1.16 及以上的特定实现
-@SpecificImpl("setColor")
+@Impl("setColor")
 @VersionRange(begin = 1600)
 default Text setColorV1600(TextColor value)
 {
@@ -34,7 +34,7 @@ default Text setColorV1600(TextColor value)
 }
 ```
 
-**使用方式**：
+*使用方式*：
 
 ```java
 Text text = ...;
@@ -46,10 +46,10 @@ text.setColor(color);  // 1.16 以下调用 setColorV_1600，1.16+ 调用 setCol
 
 = 工作原理
 
-1. **方法声明**：在接口中声明一个方法（可以是纯声明或带 default 实现）
-2. **特定实现**：创建特定实现的方法，使用 `@SpecificImpl("声明方法名")` 标记
-3. **自动选择**：Wrapper 系统根据 `ElementSwitcher` 机制（如 `@VersionRange`）自动选择启用的实现
-4. **调用方式**：使用时只需调用原声明的方法，系统会自动路由到正确的实现
+1. *方法声明*：在接口中声明一个方法（可以是纯声明或带 default 实现）
+2. *特定实现*：创建特定实现的方法，使用 `@Impl("声明方法名")` 标记
+3. *自动选择*：Wrapper 系统根据 `ElementSwitcher` 机制（如 `@VersionRange`）自动选择启用的实现
+4. *调用方式*：使用时只需调用原声明的方法，系统会自动路由到正确的实现
 
 = 命名规范
 
@@ -65,4 +65,4 @@ text.setColor(color);  // 1.16 以下调用 setColorV_1600，1.16+ 调用 setCol
 
 Java 的 interface 默认方法不能覆写 `Object` 的方法（如 `equals`、`hashCode`、`toString`）。WrapperObject 使用了巧妙的三层实现方式来解决这个问题。
 
-详见 #link("wrapper_object_equals")[WrapperObject.equals 的巧妙实现]。
+详见 #link("wrapper-object-equals")[WrapperObject.equals 的巧妙实现]。

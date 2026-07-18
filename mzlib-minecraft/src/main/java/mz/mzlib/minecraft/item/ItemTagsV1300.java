@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.ClassUtil;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -44,13 +44,13 @@ public interface ItemTagsV1300 extends WrapperObject
 
 
     TagV1300<Item> static$of(Identifier id);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1802)
     default TagV1300<Item> static$ofV_1802(Identifier id)
     {
         return Option.fromNullable(Private.cacheV_1802.get(id)).unwrap(() -> new IllegalArgumentException(Objects.toString(id)));
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1802)
     @WrapMinecraftMethod(@VersionName(name = "method_15102"))
     default TagV1300<Item> static$ofV1802(Identifier id)

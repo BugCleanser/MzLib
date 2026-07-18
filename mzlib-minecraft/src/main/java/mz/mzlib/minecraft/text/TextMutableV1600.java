@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -21,7 +21,7 @@ public interface TextMutableV1600 extends Text
     @WrapMinecraftFieldAccessor(@VersionName(name = "siblings", begin = 1900))
     void setExtra0V1900(List<Object> value);
 
-    @SpecificImpl("setExtra")
+    @Impl("setExtra")
     @VersionRange(begin = 1900)
     @Override
     default Text setExtraV1900(List<Text> value)
@@ -45,7 +45,7 @@ public interface TextMutableV1600 extends Text
     @WrapMinecraftMethod(@VersionName(name = "setStyle"))
     void setStyleV1600(TextStyle style);
 
-    @SpecificImpl("setStyle")
+    @Impl("setStyle")
     @VersionRange(begin = 1900)
     @Override
     default void setStyleV1900(TextStyle style)

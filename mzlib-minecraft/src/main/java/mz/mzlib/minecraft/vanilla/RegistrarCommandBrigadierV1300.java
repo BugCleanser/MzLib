@@ -3,6 +3,7 @@ package mz.mzlib.minecraft.vanilla;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import mz.mzlib.minecraft.MinecraftPlatform;
 import mz.mzlib.minecraft.MinecraftServer;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
@@ -20,6 +21,7 @@ import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.nothing.Nothing;
 import mz.mzlib.util.nothing.NothingInject;
 import mz.mzlib.util.nothing.NothingInjectType;
+import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -29,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@MinecraftPlatform.Disabled(MinecraftPlatform.Tag.BUKKIT)
 public class RegistrarCommandBrigadierV1300 extends MzModule implements IRegistrar<Command>
 {
     public static RegistrarCommandBrigadierV1300 instance = new RegistrarCommandBrigadierV1300();
@@ -113,7 +116,8 @@ public class RegistrarCommandBrigadierV1300 extends MzModule implements IRegistr
     {
         this.register(NothingCommandManager.class);
     }
-
+    
+    @MinecraftPlatform.Disabled(MinecraftPlatform.Tag.BUKKIT)
     @WrapSameClass(CommandManager.class)
     public interface NothingCommandManager extends Nothing, CommandManager
     {
@@ -124,48 +128,68 @@ public class RegistrarCommandBrigadierV1300 extends MzModule implements IRegistr
                 RegistrarCommandBrigadierV1300.instance.register(this, command);
             }
         }
+        
+        @VersionRange(end = 900)
+        @WrapConstructor
+        NothingCommandManager static$ofV_900();
         @VersionRange(end = 900)
         @NothingInject(
-            wrapperMethodName = "<init>", wrapperMethodParams = {},
-            locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
+                name = "static$ofV_900",
+                locator = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
         )
-        default void of$endV_900()
+        default void static$of$endV_900()
         {
             this.handle();
         }
+        
+        @VersionRange(begin = 900, end = 1300)
+        @WrapConstructor
+        NothingCommandManager static$ofV900_1300(MinecraftServer server);
         @VersionRange(begin = 900, end = 1300)
         @NothingInject(
-            wrapperMethodName = "<init>", wrapperMethodParams = { MinecraftServer.class },
-            locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
+                name = "static$ofV900_1300",
+                locator = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
         )
-        default void of$endV900_1300()
+        default void static$of$endV900_1300()
         {
             this.handle();
         }
+        
+        @VersionRange(begin = 1300, end = 1600)
+        @WrapConstructor
+        NothingCommandManager static$ofV1300_1600(boolean isDedicatedServer);
         @VersionRange(begin = 1300, end = 1600)
         @NothingInject(
-            wrapperMethodName = "<init>", wrapperMethodParams = { boolean.class }, // isDedicatedServer
-            locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
+                name = "static$ofV1300_1600",
+                locator = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
         )
-        default void of$endV1300_1600()
+        default void static$of$endV1300_1600()
         {
             this.handle();
         }
+        
+        @VersionRange(begin = 1600, end = 1900)
+        @WrapConstructor
+        NothingCommandManager static$ofV1600_1900(RegistrationEnvironmentV1600 environment);
         @VersionRange(begin = 1600, end = 1900)
         @NothingInject(
-            wrapperMethodName = "<init>", wrapperMethodParams = { RegistrationEnvironmentV1600.class },
-            locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
+                name = "static$ofV1600_1900",
+                locator = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
         )
-        default void of$endV1600_1900()
+        default void static$of$endV1600_1900()
         {
             this.handle();
         }
+        
+        @VersionRange(begin = 1900)
+        @WrapConstructor
+        NothingCommandManager static$ofV1900(RegistrationEnvironmentV1600 environment, CommandRegistryAccessV1900 access);
         @VersionRange(begin = 1900)
         @NothingInject(
-            wrapperMethodName = "<init>", wrapperMethodParams = { RegistrationEnvironmentV1600.class, CommandRegistryAccessV1900.class },
-            locateMethod = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
+                name = "static$ofV1900",
+                locator = "locateAllReturn", type = NothingInjectType.INSERT_BEFORE
         )
-        default void of$endV1900()
+        default void static$of$endV1900()
         {
             this.handle();
         }

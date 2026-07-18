@@ -11,7 +11,6 @@ import mz.mzlib.minecraft.entity.player.EntityPlayer;
 import mz.mzlib.minecraft.network.ClientConnection;
 import mz.mzlib.minecraft.network.packet.s2c.PacketBundleS2cV1904;
 import mz.mzlib.module.MzModule;
-import mz.mzlib.util.Option;
 import mz.mzlib.util.TaskQueue;
 import mz.mzlib.util.asm.AsmUtil;
 import mz.mzlib.util.nothing.*;
@@ -131,11 +130,12 @@ public class ModulePacketListener extends MzModule
         static void channelRead0BeginLocate(NothingInjectLocating locating)
         {
             if(MinecraftPlatform.instance.getVersion() >= 1300)
-                locating.allLater(i -> AsmUtil.isVisitingWrapped(
-                    locating.insns[i], ClientConnection.class,
+                locating.following(i -> AsmUtil.isVisitingWrapped(
+                    locating.getInsnNode(i), ClientConnection.class,
                     "static$handlePacketV1300", Packet.class, PacketHandler.class
                 ));
-            assert !locating.locations.isEmpty();
+            if(locating.getLocations().isEmpty())
+                throw new IllegalStateException();
         }
 
         @NothingInject(wrapperMethodName = "channelRead0", wrapperMethodParams = {

@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -30,7 +30,7 @@ public interface PacketC2sWindowClose extends Packet
     @VersionRange(end = 1700)
     @WrapConstructor
     PacketC2sWindowClose static$newInstanceV_1700();
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1700)
     default PacketC2sWindowClose static$newInstanceV_1700(int syncId)
     {
@@ -38,7 +38,7 @@ public interface PacketC2sWindowClose extends Packet
         result.setSyncId(syncId);
         return result;
     }
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1700)
     @WrapConstructor
     PacketC2sWindowClose static$newInstanceV1700(int syncId);

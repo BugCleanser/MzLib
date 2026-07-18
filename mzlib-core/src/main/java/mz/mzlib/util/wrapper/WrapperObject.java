@@ -24,8 +24,9 @@ public interface WrapperObject
 
     @UnknownNullability Object getWrapped();
 
+    @Deprecated
     void setWrapped(@Nullable Object wrapped);
-
+    @Deprecated
     default void setWrappedFrom(WrapperObject wrapper)
     {
         this.setWrapped(wrapper.getWrapped());
@@ -35,20 +36,22 @@ public interface WrapperObject
     {
         return wrapper.getClass().getName() + "{" + wrapper.getWrapped() + "}";
     }
-
+    
+    @ApiStatus.Internal
     static CallSite getConstructorCallSite(
-        MethodHandles.Lookup caller,
-        String invokedName,
-        MethodType invokedType,
-        Class<? extends WrapperObject> wrapperClass)
+            MethodHandles.Lookup caller,
+            String invokedName,
+            MethodType invokedType,
+            Class<? extends WrapperObject> wrapperClass)
     {
         return new ConstantCallSite(WrapperClassData.get(wrapperClass).getConstructor().asType(invokedType));
     }
+    @ApiStatus.Internal
     static CallSite callSiteFactory(
-        MethodHandles.Lookup caller,
-        String invokedName,
-        MethodType invokedType,
-        Class<? extends WrapperObject> wrapperClass)
+            MethodHandles.Lookup caller,
+            String invokedName,
+            MethodType invokedType,
+            Class<? extends WrapperObject> wrapperClass)
     {
         return new ConstantCallSite(MethodHandles.constant(WrapperFactory.class, WrapperFactory.of(wrapperClass)).asType(invokedType));
     }
@@ -77,6 +80,8 @@ public interface WrapperObject
             throw RuntimeUtil.sneakilyThrow(e);
         }
     }
+    
+    // TODO: getWrapperClass?
 
     Class<?> static$getWrappedClass();
 
@@ -91,26 +96,33 @@ public interface WrapperObject
     {
         return factory.isInstance(this);
     }
-    default <T extends WrapperObject> T as(WrapperFactory<T> factory)
+    default <T extends WrapperObject> T as(WrapperFactory<T> type)
     {
-        if(this.isPresent() && !this.is(factory))
+        if(this.isPresent() && !this.is(type))
             throw new ClassCastException("Try to cast an object of " + this.getWrapped() + " to " +
-                factory.getStatic().static$getWrappedClass());
-        return factory.create(this.getWrapped());
+                type.getStatic().static$getWrappedClass());
+        return type.create(this.getWrapped());
     }
-    default <T extends WrapperObject> Option<T> asOption(WrapperFactory<T> factory)
+    default <T extends WrapperObject> Option<T> asOption(WrapperFactory<T> type)
     {
-        if(this.is(factory))
-            return Option.some(this.as(factory));
+        if(this.is(type))
+            return Option.some(this.as(type));
         else
             return Option.none();
     }
+    default <T extends WrapperObject> @Nullable T safeAs(WrapperFactory<T> type)
+    {
+        if(this.is(type))
+            return this.as(type);
+        else
+            return null;
+    }
 
-    default Option<WrapperObject> asCompound()
+    default @Nullable WrapperObject asCompound()
     {
         if(!(this.getWrapped() instanceof ICompoundImpl))
-            return Option.none();
-        return Option.some(((ICompoundImpl) this.getWrapped()).compound$getWrapper());
+            return null;
+        return ((ICompoundImpl) this.getWrapped()).compound$getWrapper();
     }
 
 
@@ -140,7 +152,7 @@ public interface WrapperObject
     int hashCode();
     @Override
     boolean equals(@Nullable Object object);
-    @SpecificImpl("equals")
+    @Impl("equals")
     default boolean equals$impl(@Nullable Object object)
     {
         if(this == object)
@@ -238,12 +250,6 @@ public interface WrapperObject
 
         @Override
         T getWrapped();
-
-        @Override
-        default void setWrappedFrom(WrapperObject wrapper)
-        {
-            WrapperObject.super.setWrappedFrom(wrapper);
-        }
         
         @ApiStatus.Internal
         class AdapterProcessor<T> implements Adapter.Processor<Generic<T>, T>
@@ -259,7 +265,7 @@ public interface WrapperObject
                 this.type = Objects.requireNonNull((Class<T>) TypeUtil.toClass(((AnnotatedParameterizedType) type).getAnnotatedActualTypeArguments()[0].getType()));
             }
             @Override
-            public Class<? super T> getSourceClass()
+            public Class<? super T> getAdapteeClass()
             {
                 return this.type;
             }

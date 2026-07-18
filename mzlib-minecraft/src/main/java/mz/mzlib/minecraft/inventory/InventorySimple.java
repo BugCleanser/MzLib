@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.text.Text;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -26,7 +26,7 @@ public interface InventorySimple extends WrapperObject, Inventory
     @VersionRange(end = 1300)
     @WrapConstructor
     InventorySimple static$newInstanceV_1300(String name, boolean hasCustomName, int size);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1300)
     default InventorySimple static$newInstanceV_1300(int size)
     {
@@ -35,13 +35,13 @@ public interface InventorySimple extends WrapperObject, Inventory
     @VersionRange(begin = 1300, end = 1400)
     @WrapConstructor
     InventorySimple static$newInstanceV1300_1400(Text name, int size);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1300, end = 1400)
     default InventorySimple static$newInstanceV1300_1400(int size)
     {
         return this.static$newInstanceV1300_1400(Text.FACTORY.getStatic(), size);
     }
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1400)
     @WrapConstructor
     InventorySimple static$newInstanceV1400(int size);

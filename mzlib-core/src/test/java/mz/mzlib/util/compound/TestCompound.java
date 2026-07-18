@@ -12,7 +12,7 @@ public class TestCompound
     public void test()
     {
         WrapperObject bar = Bar.of().as(WrapperObject.FACTORY);
-        Assertions.assertInstanceOf(Foo.class, bar.asCompound().unwrap());
+        Assertions.assertInstanceOf(Foo.class, bar.asCompound());
     }
 
     @Compound

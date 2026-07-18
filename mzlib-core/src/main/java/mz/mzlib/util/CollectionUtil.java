@@ -139,7 +139,11 @@ public class CollectionUtil
         result.add(current);
         return result;
     }
-
+    
+    /**
+     * @see ListArray
+     */
+    @Deprecated
     public static Object[] toObjectArray(Object array)
     {
         if(array instanceof Object[])
@@ -156,5 +160,10 @@ public class CollectionUtil
     public static <T> Iterable<T> asIterable(Iterator<T> iterator)
     {
         return () -> iterator;
+    }
+    
+    public static <T> Iterable<T> toIterable(Stream<T> stream)
+    {
+        return asIterable(stream.iterator());
     }
 }

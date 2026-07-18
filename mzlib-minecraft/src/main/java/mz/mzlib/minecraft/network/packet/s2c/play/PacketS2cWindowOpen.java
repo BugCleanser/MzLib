@@ -21,6 +21,6 @@ public interface PacketS2cWindowOpen extends WrapperObject, Packet
     WrapperFactory<PacketS2cWindowOpen> FACTORY = WrapperFactory.of(PacketS2cWindowOpen.class);
     @VersionRange(end = 1400)
     @WrapConstructor
-    ModuleWindow.NothingPacketS2cWindowOpen static$newInstanceV_1400(int syncId, String typeId, Text title, int size);
+    ModuleWindow.NothingPacketS2cWindowOpen static$ofV_1400(int syncId, String typeId, Text title, int size);
 }
 

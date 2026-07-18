@@ -20,9 +20,9 @@ public interface BridgeAdapter<T>
             this.target = Adapter.Processor.of(args[0]);
         }
         @Override
-        public Class<? super U> getSourceClass()
+        public Class<? super U> getAdapteeClass()
         {
-            return this.target.getSourceClass();
+            return this.target.getAdapteeClass();
         }
         @Override
         public Adapter.Processor<A, U> activate()

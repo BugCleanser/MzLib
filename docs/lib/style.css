@@ -6,15 +6,49 @@ dd {
     margin-inline-start: 18pt;
 }
 
-.box {
-    display: inline-block;
+* {
+    line-height: 0.8;
+}
+p {
+    line-height: normal;
+}
+*:has(.place) {
+    position: relative;
+}
+.place {
+    position: absolute;
+}
+.block {
+    display: flex;
+    width: fit-content;
+}
+.inline-flex {
+    display: inline-flex;
+}
+.box, .place{
+    display: inline-flex;
+    align-items: baseline;
     box-sizing: border-box;
 }
 
 .stack {
-    display: flex;
+    display: inline-flex;
 
     & > * {
         flex: 1;
     }
+}
+
+table {
+    border-collapse: collapse;
+    --inset: 5pt;
+
+    td, th {
+        padding: var(--inset);
+    }
+}
+
+hr {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
 }

@@ -21,7 +21,7 @@ public class TestWrapperObject
         @Override
         boolean equals(Object object);
 
-        @SpecificImpl("equals")
+        @Impl("equals")
         default boolean equals$impl$test(Object object)
         {
             return true;

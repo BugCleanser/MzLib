@@ -23,7 +23,7 @@ public @interface Adapter
     {
         void init(AnnotatedType type);
         
-        Class<? super S> getSourceClass();
+        Class<? super S> getAdapteeClass();
         
         default Processor<T, S> activate()
         {
@@ -33,6 +33,12 @@ public @interface Adapter
         T adapt(S value);
         
         S revert(T value);
+        
+        @ApiStatus.Experimental
+        default boolean isIdentity()
+        {
+            return false;
+        }
         
         default FunctionInvertible<S, T> toFunction()
         {
@@ -104,16 +110,16 @@ public @interface Adapter
                 this.data = WrapperClassData.get(type);
             }
             @Override
+            public Class<? super S> getAdapteeClass()
+            {
+                //noinspection unchecked
+                return (Class<? super S>) this.data.getWrappedClass();
+            }
+            @Override
             public Processor<T, S> activate()
             {
                 //noinspection unchecked
                 return new Activated<>((WrapperFactory<T>) WrapperFactory.of(this.data.getWrapperClass()));
-            }
-            @Override
-            public Class<? super S> getSourceClass()
-            {
-                //noinspection unchecked
-                return (Class<? super S>) this.data.getWrappedClass();
             }
             @Override
             public T adapt(S value)
@@ -139,7 +145,7 @@ public @interface Adapter
                     throw new IllegalStateException();
                 }
                 @Override
-                public Class<? super S> getSourceClass()
+                public Class<? super S> getAdapteeClass()
                 {
                     //noinspection unchecked
                     return (Class<? super S>) factory.getWrappedClass();
@@ -184,7 +190,7 @@ public @interface Adapter
                 this.init((Class<T>) TypeUtil.toClass(type.getType()));
             }
             @Override
-            public Class<? super T> getSourceClass()
+            public Class<? super T> getAdapteeClass()
             {
                 return this.type;
             }
@@ -197,6 +203,11 @@ public @interface Adapter
             public T revert(T value)
             {
                 return value;
+            }
+            @Override
+            public boolean isIdentity()
+            {
+                return true;
             }
         }
     }

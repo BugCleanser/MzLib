@@ -16,7 +16,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.Option;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -48,12 +48,12 @@ public interface Window extends WrapperObject
     void updateV1700();
 
     List<Object> getSlots0();
-    @SpecificImpl("getSlots0")
+    @Impl("getSlots0")
     @WrapMinecraftFieldAccessor(@VersionName(name = "slots", end = 1700))
     List<Object> getSlots0V_1700();
     @WrapMinecraftFieldAccessor(@VersionName(name = "slots", begin = 1700))
     DefaultedListV1100<?> getSlots00V1700();
-    @SpecificImpl("getSlots0")
+    @Impl("getSlots0")
     @VersionRange(begin = 1700)
     default List<?> getSlots0V1700()
     {
@@ -123,13 +123,13 @@ public interface Window extends WrapperObject
         this.sendSlotUpdate(player, index, this.getSlot(index).getItemStack());
     }
     void sendSlotUpdate(EntityPlayer player, int slot, ItemStack itemStack);
-    @SpecificImpl("sendSlotUpdate")
+    @Impl("sendSlotUpdate")
     @VersionRange(end = 1701)
     default void sendSlotUpdateV_1701(EntityPlayer player, int slot, ItemStack itemStack)
     {
         player.sendPacket(PacketS2cWindowSlotUpdate.newInstanceV_1701(this.getSyncId(), slot, itemStack));
     }
-    @SpecificImpl("sendSlotUpdate")
+    @Impl("sendSlotUpdate")
     @VersionRange(begin = 1701)
     default void sendSlotUpdateV1701(EntityPlayer player, int slot, ItemStack itemStack)
     {

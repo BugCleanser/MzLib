@@ -2,6 +2,7 @@ package mz.mzlib.util.wrapper.basic;
 
 import mz.mzlib.util.wrapper.*;
 
+@Deprecated
 @WrapClass(Long.class)
 public interface WrapperLong extends WrapperObject
 {

@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperObject;
 
 import java.util.List;
@@ -23,14 +23,14 @@ public interface CommandV_1300 extends WrapperObject
     String getUsageTranslationKey(CommandSource source);
 
     boolean canExecute(CommandSource source);
-    @SpecificImpl("canExecute")
+    @Impl("canExecute")
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "isAccessible"))
     boolean canExecuteV_900(CommandSource source);
     @VersionRange(begin = 900)
     @WrapMinecraftMethod(@VersionName(name = "method_3278"))
     boolean canExecuteV900(MinecraftServer server, CommandSource source);
-    @SpecificImpl("canExecute")
+    @Impl("canExecute")
     @VersionRange(begin = 900)
     default boolean canExecuteV900(CommandSource source)
     {
@@ -38,14 +38,14 @@ public interface CommandV_1300 extends WrapperObject
     }
 
     void execute(CommandSource source, String[] args);
-    @SpecificImpl("execute")
+    @Impl("execute")
     @VersionRange(end = 900)
     @WrapMinecraftMethod(@VersionName(name = "execute"))
     void executeV_900(CommandSource source, String[] args);
     @VersionRange(begin = 900)
     @WrapMinecraftMethod(@VersionName(name = "method_3279"))
     void executeV900(MinecraftServer server, CommandSource source, String[] args);
-    @SpecificImpl("execute")
+    @Impl("execute")
     @VersionRange(begin = 900)
     default void executeSpecificImplV900(CommandSource source, String[] args)
     {

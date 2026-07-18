@@ -69,8 +69,8 @@ public class EventPlayerJoin extends EventPlayer implements Cancellable
 
             static void addPlayerEndLocate(NothingInjectLocating locating)
             {
-                locating.allLater(AsmUtil.insnReturn(void.class).getOpcode());
-                assert !locating.locations.isEmpty();
+                locating.following(AsmUtil.insnReturn(void.class).getOpcode());
+                assert !locating.getLocations().isEmpty();
             }
 
             @VersionRange(end = 2002)

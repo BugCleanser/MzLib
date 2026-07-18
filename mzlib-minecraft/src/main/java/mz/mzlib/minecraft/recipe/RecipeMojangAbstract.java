@@ -233,7 +233,7 @@ public interface RecipeMojangAbstract<I extends RecipeMojangAbstract.Input> exte
     }
     @Override
     @VersionRange(begin = 2100, end = 2610)
-    @CompoundOverride(parent = RecipeMojang.class, method = "getResultV2100")
+    @CompoundOverride(parent = RecipeMojang.class, method = "getResultV2100_2610")
     default ItemStack getResultV2100_2610(RecipeInputV2100 input, RegistryWrapperV1903.class_7874 lookup)
     {
         return this.getResult(this.inputV2100(input));
@@ -345,13 +345,13 @@ public interface RecipeMojangAbstract<I extends RecipeMojangAbstract.Input> exte
             )
             void of$end();
 
-            @SpecificImpl("of$end")
+            @Impl("of$end")
             @VersionRange(end = 2002)
             default void of$endV_2002()
             {
                 this.setRecipes0(this.getRecipesV_2002().stream().map(this::handle).map(WrapperObject::getWrapped).collect(Collectors.toList()));
             }
-            @SpecificImpl("of$end")
+            @Impl("of$end")
             @VersionRange(begin = 2002)
             default void of$endV2002()
             {
@@ -362,7 +362,7 @@ public interface RecipeMojangAbstract<I extends RecipeMojangAbstract.Input> exte
 
             default RecipeMojang handle(RecipeMojang recipe)
             {
-                for(RecipeMojangAbstract<?> recipeMojangAbstract : recipe.asCompound().filter(RecipeMojangAbstract.class))
+                for(RecipeMojangAbstract<?> recipeMojangAbstract : Option.fromNullable(recipe.asCompound()).filter(RecipeMojangAbstract.class))
                 {
                     return recipeMojangAbstract.getDisplay();
                 }

@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.item.ItemStack;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.CompoundSuper;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
 @Compound
@@ -21,7 +21,7 @@ public interface WindowSlotAbstract extends WindowSlot
 
     void onTakeSuper(EntityPlayerAbstract player, ItemStack itemStack);
 
-    @SpecificImpl("onTakeSuper")
+    @Impl("onTakeSuper")
     @VersionRange(end = 1100)
     @VersionRange(begin = 1700)
     @CompoundSuper(parent = WindowSlot.class, method = "onTakeV_1100__1700")
@@ -31,7 +31,7 @@ public interface WindowSlotAbstract extends WindowSlot
     @CompoundSuper(parent = WindowSlot.class, method = "onTakeV1100_1700")
     ItemStack onTakeSuper0V1100_1700(EntityPlayerAbstract player, ItemStack itemStack);
 
-    @SpecificImpl("onTakeSuper")
+    @Impl("onTakeSuper")
     @VersionRange(begin = 1100, end = 1700)
     default void onTakeSuperV1100_1700(EntityPlayerAbstract player, ItemStack itemStack)
     {

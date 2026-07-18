@@ -139,7 +139,7 @@ public @interface Compound
                         for(int i = 0, j = 1; i < tarParams.length; i++)
                         {
                             mn.instructions.add(AsmUtil.insnVarLoad(tarParams[i], j));
-                            j += AsmUtil.getCategory(tarParams[i]);
+                            j += AsmUtil.getSize(tarParams[i]);
                         }
                         mn.visitMethodInsn(
                             Opcodes.INVOKESPECIAL, AsmUtil.getType(tar.getDeclaringClass()), tar.getName(),
@@ -184,7 +184,7 @@ public @interface Compound
                             }
                             else
                                 mn.instructions.add(AsmUtil.insnCast(srcParams[i], tarParams[i]));
-                            j += AsmUtil.getCategory(tarParams[i]);
+                            j += AsmUtil.getSize(tarParams[i]);
                         }
                         mn.visitMethodInsn(
                             Opcodes.INVOKEINTERFACE, AsmUtil.getType(wrapperClass), method.getName(),
@@ -225,7 +225,7 @@ public @interface Compound
                     for(Class<?> param : constructor.getParameterTypes())
                     {
                         mn.instructions.add(AsmUtil.insnVarLoad(param, i));
-                        i += AsmUtil.getCategory(param);
+                        i += AsmUtil.getSize(param);
                     }
                     mn.visitMethodInsn(
                         Opcodes.INVOKESPECIAL, AsmUtil.getType(superclass), "<init>", AsmUtil.getDesc(constructor),
@@ -235,8 +235,9 @@ public @interface Compound
                     mn.visitEnd();
                     cn.methods.add(mn);
                 }
-                for(Pair<DelegateField, Class<?>> delegate : delegates)
+                while(!delegates.isEmpty())
                 {
+                    Pair<DelegateField, Class<?>> delegate = delegates.poll();
                     for(Method method : delegate.getSecond().getMethods())
                     {
                         String desc = AsmUtil.getDesc(method);
@@ -255,7 +256,7 @@ public @interface Compound
                         for(Class<?> param : method.getParameterTypes())
                         {
                             mn.instructions.add(AsmUtil.insnVarLoad(param, i));
-                            i += AsmUtil.getCategory(param);
+                            i += AsmUtil.getSize(param);
                         }
                         boolean isInterface = Modifier.isInterface(delegate.getSecond().getModifiers());
                         mn.visitMethodInsn(
@@ -312,7 +313,7 @@ public @interface Compound
                         for(Class<?> param : method.getParameterTypes())
                         {
                             mn.instructions.add(AsmUtil.insnVarLoad(param, i));
-                            i += AsmUtil.getCategory(param);
+                            i += AsmUtil.getSize(param);
                         }
                         mn.visitMethodInsn(
                             Modifier.isInterface(method.getDeclaringClass().getModifiers()) ? Opcodes.INVOKEINTERFACE :

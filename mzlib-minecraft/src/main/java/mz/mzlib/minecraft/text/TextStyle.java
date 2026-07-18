@@ -8,7 +8,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.Option;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -36,11 +36,11 @@ public interface TextStyle extends WrapperObject
         return FACTORY.getStatic().static$empty();
     }
     TextStyle static$empty();
-    @SpecificImpl("static$empty")
+    @Impl("static$empty")
     @VersionRange(end = 1600)
     @WrapConstructor
     TextStyle static$newInstanceV_1600();
-    @SpecificImpl("static$empty")
+    @Impl("static$empty")
     @WrapMinecraftFieldAccessor(@VersionName(name = "EMPTY", begin = 1600))
     TextStyle static$emptyV1600();
 
@@ -91,7 +91,7 @@ public interface TextStyle extends WrapperObject
         String insertion,
         Identifier font);
     @VersionRange(begin = 1600, end = 2104)
-    @SpecificImpl("static$newInstanceV1600")
+    @Impl("static$newInstanceV1600")
     default TextStyle static$newInstanceV1600_2104(
         TextColorV1600 color,
         Integer shadowColorV2104,
@@ -108,7 +108,7 @@ public interface TextStyle extends WrapperObject
         return this.static$newInstanceV1600_2104(
             color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
-    @SpecificImpl("static$newInstanceV1600")
+    @Impl("static$newInstanceV1600")
     @VersionRange(begin = 2104, end = 2109)
     @WrapConstructor
     TextStyle static$newInstanceV2104_2109(
@@ -123,7 +123,7 @@ public interface TextStyle extends WrapperObject
         TextHoverEvent hoverEvent,
         String insertion,
         Identifier font);
-    @SpecificImpl("static$newInstanceV1600")
+    @Impl("static$newInstanceV1600")
     @VersionRange(begin = 2109)
     default TextStyle static$newInstanceV2109(
         TextColorV1600 color,
@@ -160,13 +160,13 @@ public interface TextStyle extends WrapperObject
         FontDescriptionV2109 font);
 
     Integer getShadowColor();
-    @SpecificImpl("getShadowColor")
+    @Impl("getShadowColor")
     @VersionRange(end = 2104)
     default Integer getShadowColorV_2104()
     {
         return null;
     }
-    @SpecificImpl("getShadowColor")
+    @Impl("getShadowColor")
     @VersionRange(begin = 2104)
     @WrapMinecraftFieldAccessor(@VersionName(name = "shadowColor"))
     Integer getShadowColorV2104();
@@ -242,11 +242,11 @@ public interface TextStyle extends WrapperObject
 
     @VersionRange(begin = 1600)
     Identifier getFontV1600();
-    @SpecificImpl("getFontV1600")
+    @Impl("getFontV1600")
     @VersionRange(begin = 1600, end = 2109)
     @WrapMinecraftFieldAccessor(@VersionName(name = "font"))
     Identifier getFontV1600_2109();
-    @SpecificImpl("getFontV1600")
+    @Impl("getFontV1600")
     @VersionRange(begin = 2109)
     default Identifier getFontV2109()
     {
@@ -261,7 +261,7 @@ public interface TextStyle extends WrapperObject
     FontDescriptionV2109 getFontDescriptionV2109();
 
     TextColor getColor();
-    @SpecificImpl("getColor")
+    @Impl("getColor")
     @VersionRange(end = 1600)
     default TextColor getColorV_1600()
     {
@@ -271,7 +271,7 @@ public interface TextStyle extends WrapperObject
         return new TextColor(result);
     }
 
-    @SpecificImpl("getColor")
+    @Impl("getColor")
     @VersionRange(begin = 1600)
     default TextColor getColorV1600()
     {
@@ -407,7 +407,7 @@ public interface TextStyle extends WrapperObject
     }
 
     TextStyle withParent(TextStyle parent);
-    @SpecificImpl("withParent")
+    @Impl("withParent")
     @VersionRange(end = 1600)
     default TextStyle withParentV_1600(TextStyle parent)
     {
@@ -424,7 +424,7 @@ public interface TextStyle extends WrapperObject
         result.setItalicV_1600(this.getItalic() != null ? this.getItalic() : parent.getItalic());
         return result;
     }
-    @SpecificImpl("withParent")
+    @Impl("withParent")
     @VersionRange(begin = 1600)
     @WrapMinecraftMethod(@VersionName(name = "withParent"))
     TextStyle withParentV1600(TextStyle parent);

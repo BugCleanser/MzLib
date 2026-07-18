@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -68,7 +68,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
 
     Integer getPacketId(PacketDirection direction, Packet packet);
 
-    @SpecificImpl("getPacketId")
+    @Impl("getPacketId")
     @VersionRange(end = 2002)
     @WrapMinecraftMethod({
         @VersionName(name = "getRawId", end = 1400),
@@ -76,7 +76,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     })
     Integer getPacketIdV_2002(PacketDirection direction, Packet packet);
 
-    @SpecificImpl("getPacketId")
+    @Impl("getPacketId")
     @VersionRange(begin = 2002)
     default Integer getPacketIdV2002(PacketDirection direction, Packet packet)
     {
@@ -94,7 +94,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     @VersionRange(begin = 1700)
     Packet decodePacketV1700(PacketDirection direction, int packetId, ByteBufPacket byteBuf);
 
-    @SpecificImpl("decodePacketV1700")
+    @Impl("decodePacketV1700")
     @VersionRange(begin = 1700, end = 2002)
     @WrapMinecraftMethod(@VersionName(name = "method_10783"))
     Packet decodePacketV1700_2002(PacketDirection direction, int packetId, ByteBufPacket byteBuf);
@@ -103,7 +103,7 @@ public interface NetworkPhasePacketManagerV_2005 extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "getHandler"))
     PacketHandlerV1500 getHandlerV2002(PacketDirection direction);
 
-    @SpecificImpl("decodePacketV1700")
+    @Impl("decodePacketV1700")
     @VersionRange(begin = 2002)
     default Packet decodePacketV2002(PacketDirection direction, int packetId, ByteBufPacket byteBuf)
     {

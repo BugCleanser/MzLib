@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.registry.RegistryKeyV1600;
 import mz.mzlib.minecraft.registry.RegistryKeysV1600;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -28,11 +28,11 @@ public interface RecipeEntryV2002 extends WrapperObject
     }
 
     Identifier getId();
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(end = 2102)
     @WrapMinecraftFieldAccessor(@VersionName(name = "id"))
     Identifier getKeyV_2102();
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(begin = 2102)
     default Identifier getIdV2102()
     {
@@ -48,11 +48,11 @@ public interface RecipeEntryV2002 extends WrapperObject
 
 
     RecipeEntryV2002 static$of(Identifier key, RecipeMojang value);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 2102)
     @WrapConstructor
     RecipeEntryV2002 static$ofV_2102(Identifier key, RecipeMojang value);
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2102)
     default RecipeEntryV2002 static$ofV2102(Identifier key, RecipeMojang value)
     {

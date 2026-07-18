@@ -4,6 +4,7 @@ import mz.mzlib.util.wrapper.WrapClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
+@Deprecated
 @WrapClass(String.class)
 public interface WrapperString extends WrapperObject
 {

@@ -6,14 +6,16 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestWrapper
 {
-    public static class TestClass
+    public static class Foo
     {
         private final double var = 114.514;
-        private final TestClass thiz = this;
+        private final Foo thiz = this;
 
-        private TestClass()
+        private Foo()
         {
         }
 
@@ -28,10 +30,10 @@ public class TestWrapper
         }
     }
 
-    @WrapClass(TestClass.class)
-    public interface WrapperTest extends WrapperObject
+    @WrapClass(Foo.class)
+    public interface WrapperFoo extends WrapperObject
     {
-        WrapperFactory<WrapperTest> FACTORY = WrapperFactory.of(WrapperTest.class);
+        WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.of(WrapperFoo.class);
 
         @WrapMethod("m")
         void m();
@@ -44,8 +46,8 @@ public class TestWrapper
         }
 
         @WrapConstructor
-        WrapperTest static$newInstance();
-        static WrapperTest newInstance()
+        WrapperFoo static$newInstance();
+        static WrapperFoo newInstance()
         {
             return FACTORY.getStatic().static$newInstance();
         }
@@ -59,12 +61,18 @@ public class TestWrapper
     @Test
     public void test()
     {
-        WrapperTest.m1();
-        WrapperTest test = WrapperTest.newInstance();
+        WrapperFoo.m1();
+        WrapperFoo test = WrapperFoo.newInstance();
         test.m();
         System.out.println("Debug: " + test.getVar());
         test.setVar(1919810);
         test.m();
+    }
+    
+    @Test
+    public void test$getWrappedClass()
+    {
+        assertEquals(Foo.class, WrapperFoo.FACTORY.getWrappedClass());
     }
 
     @WrapSameClass(WrapperObject.class)
@@ -76,7 +84,6 @@ public class TestWrapper
             l.add(A.class);
         }
     }
-
     @WrapSameClass(A.class)
     public interface B extends A
     {
@@ -86,7 +93,6 @@ public class TestWrapper
             l.add(B.class);
         }
     }
-
     @WrapSameClass(A.class)
     public interface C extends A
     {
@@ -96,7 +102,6 @@ public class TestWrapper
             l.add(C.class);
         }
     }
-
     @WrapSameClass(A.class)
     public interface D extends B, C
     {
@@ -106,9 +111,8 @@ public class TestWrapper
             l.add(D.class);
         }
     }
-
     @Test
-    public void test2()
+    public void testCallOnce()
     {
         List<Class<?>> l = new ArrayList<>();
         WrapperFactory.of(D.class).getStatic().f(l);

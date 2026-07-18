@@ -66,7 +66,7 @@ public class ModuleRecipe extends MzModule
     public interface NothingSmeltingManagerV_1300 extends Nothing, SmeltingManagerV_1300
     {
         @NothingInject(
-            wrapperMethodName = "<init>",
+            wrapperMethodName = "static$of",
             wrapperMethodParams = {},
             locateMethod = "locateAllReturn",
             type = NothingInjectType.INSERT_BEFORE
@@ -84,12 +84,12 @@ public class ModuleRecipe extends MzModule
         {
             locating.nextAccessWrapped(RecipeManager.class, "setRecipes0V_1200", List.class);
             locating.offset(1);
-            if(locating.locations.size() != 1)
+            if(locating.getLocations().size() != 1)
                 throw new IllegalStateException();
         }
         @VersionRange(end = 1200)
         @NothingInject(
-            wrapperMethodName = "<init>",
+            wrapperMethodName = "static$ofV_1200",
             wrapperMethodParams = {},
             locateMethod = "locateAllReturn",
             type = NothingInjectType.INSERT_BEFORE

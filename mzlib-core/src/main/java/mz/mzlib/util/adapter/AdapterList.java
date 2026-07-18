@@ -36,7 +36,7 @@ public @interface AdapterList
             return new Activated<>(this.delegate.activate());
         }
         @Override
-        public Class<? super List<U>> getSourceClass()
+        public Class<? super List<U>> getAdapteeClass()
         {
             return List.class;
         }
@@ -68,7 +68,7 @@ public @interface AdapterList
             }
             
             @Override
-            public Class<? super List<U>> getSourceClass()
+            public Class<? super List<U>> getAdapteeClass()
             {
                 return List.class;
             }
@@ -92,7 +92,7 @@ public @interface AdapterList
             {
                 if(value instanceof ListProxy)
                 {
-                    ListProxy<?, ?> it = (ListProxy<?, ?>)value;
+                    ListProxy<?, ?> it = (ListProxy<?, ?>) value;
                     if(it.getFunction().equals(this.function))
                     {
                         //noinspection unchecked

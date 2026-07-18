@@ -4,7 +4,7 @@ import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -74,13 +74,13 @@ public interface WindowActionType extends WrapperObject
 
 
     WindowActionType static$DRAG();
-    @SpecificImpl("static$DRAG")
+    @Impl("static$DRAG")
     @VersionRange(end = 900)
     default WindowActionType static$DRAG_V_900()
     {
         return FACTORY.create(5);
     }
-    @SpecificImpl("static$DRAG")
+    @Impl("static$DRAG")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12268", end = 1400),
@@ -90,13 +90,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$DRAG_V900();
 
     WindowActionType static$CLICK();
-    @SpecificImpl("static$CLICK")
+    @Impl("static$CLICK")
     @VersionRange(end = 900)
     default WindowActionType static$CLICK_V_900()
     {
         return FACTORY.create(0);
     }
-    @SpecificImpl("static$CLICK")
+    @Impl("static$CLICK")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12263", end = 1400),
@@ -106,13 +106,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$CLICK_V900();
 
     WindowActionType static$SWAP();
-    @SpecificImpl("static$SWAP")
+    @Impl("static$SWAP")
     @VersionRange(end = 900)
     default WindowActionType static$SWAP_V_900()
     {
         return FACTORY.create(2);
     }
-    @SpecificImpl("static$SWAP")
+    @Impl("static$SWAP")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12265", end = 1400),
@@ -122,13 +122,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$SWAP_V900();
 
     WindowActionType static$PICKUP_ALL();
-    @SpecificImpl("static$PICKUP_ALL")
+    @Impl("static$PICKUP_ALL")
     @VersionRange(end = 900)
     default WindowActionType static$PICKUP_ALL_V_900()
     {
         return FACTORY.create(6);
     }
-    @SpecificImpl("static$PICKUP_ALL")
+    @Impl("static$PICKUP_ALL")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12269", end = 1400),
@@ -138,13 +138,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$PICKUP_ALL_V900();
 
     WindowActionType static$SHIFT_CLICK();
-    @SpecificImpl("static$SHIFT_CLICK")
+    @Impl("static$SHIFT_CLICK")
     @VersionRange(end = 900)
     default WindowActionType static$SHIFT_CLICK_V_900()
     {
         return FACTORY.create(1);
     }
-    @SpecificImpl("static$SHIFT_CLICK")
+    @Impl("static$SHIFT_CLICK")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12264", end = 1400),
@@ -154,13 +154,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$SHIFT_CLICK_V900();
 
     WindowActionType static$DROP();
-    @SpecificImpl("static$DROP")
+    @Impl("static$DROP")
     @VersionRange(end = 900)
     default WindowActionType static$DROP_V_900()
     {
         return FACTORY.create(4);
     }
-    @SpecificImpl("static$DROP")
+    @Impl("static$DROP")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12267", end = 1400),
@@ -170,13 +170,13 @@ public interface WindowActionType extends WrapperObject
     WindowActionType static$DROP_V900();
 
     WindowActionType static$CLONE();
-    @SpecificImpl("static$CLONE")
+    @Impl("static$CLONE")
     @VersionRange(end = 900)
     default WindowActionType static$CLONE_V_900()
     {
         return FACTORY.create(3);
     }
-    @SpecificImpl("static$CLONE")
+    @Impl("static$CLONE")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "field_12266", end = 1400),
@@ -185,7 +185,7 @@ public interface WindowActionType extends WrapperObject
     })
     WindowActionType static$CLONE_V900();
 
-    @SpecificImpl("toString")
+    @Impl("toString")
     default String toString$impl()
     {
         if(this.equals(DRAG))

@@ -3,7 +3,7 @@ package mz.mzlib.minecraft.nbt;
 import mz.mzlib.minecraft.VersionName;
 import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -29,14 +29,14 @@ public interface NbtSizeTracker extends WrapperObject
     {
         return FACTORY.getStatic().static$newInstance(maxBytes);
     }
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @WrapConstructor
     @VersionRange(end = 2002)
     NbtSizeTracker static$newInstanceV_2002(long maxBytes);
     @WrapConstructor
     @VersionRange(begin = 2002)
     NbtSizeTracker static$newInstanceV2002(long maxBytes, int maxDepth);
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 2002)
     default NbtSizeTracker static$newInstanceV2002(long maxBytes)
     {

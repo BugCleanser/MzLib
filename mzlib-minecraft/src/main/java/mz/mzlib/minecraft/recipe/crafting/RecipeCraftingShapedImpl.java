@@ -13,7 +13,7 @@ import mz.mzlib.util.Option;
 import mz.mzlib.util.compound.Compound;
 import mz.mzlib.util.compound.CompoundOverride;
 import mz.mzlib.util.compound.PropAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -203,19 +203,19 @@ public interface RecipeCraftingShapedImpl extends RecipeCraftingAbstract, Recipe
         result.setCategoryV1903(builder.categoryV1903);
         return result;
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(end = 1200)
     default RecipeCraftingShapedImpl static$ofV_1200(Builder builder)
     {
         return static$of$common(builder);
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1200, end = 1300)
     default RecipeCraftingShapedImpl static$ofV1200_1300(Builder builder)
     {
         return this.static$of$common(builder);
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1300, end = 1903)
     default RecipeCraftingShapedImpl static$ofV1300_1903(Builder builder)
     {
@@ -223,7 +223,7 @@ public interface RecipeCraftingShapedImpl extends RecipeCraftingAbstract, Recipe
         result.setIdV1300_2002(builder.getId());
         return result;
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1903, end = 1904)
     default RecipeCraftingShapedImpl static$ofV1903_1904(Builder builder)
     {
@@ -231,7 +231,7 @@ public interface RecipeCraftingShapedImpl extends RecipeCraftingAbstract, Recipe
         result.setIdV1300_2002(builder.getId());
         return result;
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 1904, end = 2002)
     default RecipeCraftingShapedImpl static$ofV1904_2002(Builder builder)
     {
@@ -240,7 +240,7 @@ public interface RecipeCraftingShapedImpl extends RecipeCraftingAbstract, Recipe
         result.setNotificationEnabledV1904(builder.notificationEnabledV1904);
         return result;
     }
-    @SpecificImpl("static$of")
+    @Impl("static$of")
     @VersionRange(begin = 2002)
     default RecipeCraftingShapedImpl static$ofV2002(Builder builder)
     {

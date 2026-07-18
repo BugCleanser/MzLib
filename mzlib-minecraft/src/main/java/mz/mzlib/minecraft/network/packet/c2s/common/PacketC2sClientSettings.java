@@ -5,7 +5,7 @@ import mz.mzlib.minecraft.VersionRange;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -25,7 +25,7 @@ public interface PacketC2sClientSettings extends WrapperObject, Packet
     DataV2002 getDataV2002();
 
     String getLanguage();
-    @SpecificImpl("getLanguage")
+    @Impl("getLanguage")
     @VersionRange(end = 2002)
     @WrapMinecraftFieldAccessor({
         @VersionName(name = "language", end = 1400),
@@ -33,7 +33,7 @@ public interface PacketC2sClientSettings extends WrapperObject, Packet
         @VersionName(name = "comp_266", begin = 1800)
     })
     String getLanguageV_2002();
-    @SpecificImpl("getLanguage")
+    @Impl("getLanguage")
     @VersionRange(begin = 2002)
     default String getLanguageV2002()
     {

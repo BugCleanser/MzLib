@@ -14,7 +14,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
 
@@ -36,14 +36,14 @@ public interface Entity extends WrapperObject
 
     EntityDataKey<?> static$dataKeyCustomName();
 
-    @SpecificImpl("static$dataKeyCustomName")
+    @Impl("static$dataKeyCustomName")
     @VersionRange(end = 900)
     default EntityDataKey<String> static$dataKeyCustomNameV_900()
     {
         return EntityDataKey.newInstanceV_900(2, (byte) 4);
     }
 
-    @SpecificImpl("static$dataKeyCustomName")
+    @Impl("static$dataKeyCustomName")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "CUSTOM_NAME"))
     EntityDataKey<?> static$dataKeyCustomNameV900();
@@ -66,14 +66,14 @@ public interface Entity extends WrapperObject
 
     EntityDataKey<?> static$dataKeyCustomNameVisible();
 
-    @SpecificImpl("static$dataKeyCustomNameVisible")
+    @Impl("static$dataKeyCustomNameVisible")
     @VersionRange(end = 900)
     default EntityDataKey<Byte> static$dataKeyCustomNameVisibleV_900()
     {
         return EntityDataKey.newInstanceV_900(3, (byte) 0);
     }
 
-    @SpecificImpl("static$dataKeyCustomNameVisible")
+    @Impl("static$dataKeyCustomNameVisible")
     @VersionRange(begin = 900)
     @WrapMinecraftFieldAccessor(@VersionName(name = "NAME_VISIBLE"))
     EntityDataKey<Boolean> static$dataKeyCustomNameVisibleV900();
@@ -93,20 +93,20 @@ public interface Entity extends WrapperObject
 
     Vec3d getPosition();
 
-    @SpecificImpl("getPosition")
+    @Impl("getPosition")
     @VersionRange(end = 1600)
     default Vec3d getPositionV_1600()
     {
         return Vec3d.newInstance(this.getXV_1600(), this.getYV_1600(), this.getZV_1600());
     }
 
-    @SpecificImpl("getPosition")
+    @Impl("getPosition")
     @WrapMinecraftFieldAccessor(@VersionName(name = "pos", begin = 1600))
     Vec3d getPositionV1600();
 
     void setPosition(Vec3d value);
 
-    @SpecificImpl("setPosition")
+    @Impl("setPosition")
     @VersionRange(end = 1600)
     default void setPositionV_1600(Vec3d value)
     {
@@ -115,11 +115,11 @@ public interface Entity extends WrapperObject
         this.setYV_1600(value.getY());
     }
 
-    @SpecificImpl("setPosition")
+    @Impl("setPosition")
     @WrapMinecraftFieldAccessor(@VersionName(name = "pos", begin = 1600, end = 1700))
     void setPositionV1600_1700(Vec3d value);
 
-    @SpecificImpl("setPosition")
+    @Impl("setPosition")
     @WrapMinecraftMethod(@VersionName(name = "setPosition", begin = 1700))
     void setPositionV1700(Vec3d value);
 

@@ -21,6 +21,8 @@ public @interface AdapterMap
     {
         Adapter.Processor<K, K1> delegateKey;
         Adapter.Processor<V, V1> delegateValue;
+        Class<? super K> keyType;
+        Class<? super V> valueType;
         @Override
         public void init(AnnotatedType type)
         {
@@ -31,14 +33,18 @@ public @interface AdapterMap
             AnnotatedType[] args = ((AnnotatedParameterizedType) type).getAnnotatedActualTypeArguments();
             this.delegateKey = Adapter.Processor.of(args[0]);
             this.delegateValue = Adapter.Processor.of(args[1]);
+            //noinspection unchecked
+            this.keyType = (Class<? super K>) TypeUtil.toClass(args[0].getType());
+            //noinspection unchecked
+            this.valueType = (Class<? super V>) TypeUtil.toClass(args[1].getType());
         }
         @Override
         public Adapter.Processor<Map<K, V>, Map<K1, V1>> activate()
         {
-            return new Activated<>(this.delegateKey.activate(), this.delegateValue.activate());
+            return new Activated<>(this.keyType, this.valueType, this.delegateKey.activate(), this.delegateValue.activate());
         }
         @Override
-        public Class<? super Map<K1, V1>> getSourceClass()
+        public Class<? super Map<K1, V1>> getAdapteeClass()
         {
             return Map.class;
         }
@@ -55,21 +61,24 @@ public @interface AdapterMap
         
         static class Activated<K, V, K1, V1> implements Adapter.Processor<Map<K, V>, Map<K1, V1>>
         {
-            Class<K1> keyType;
-            Class<V1> valueType;
+            Class<? super K> keyType;
+            Class<? super V> valueType;
+            Class<? super K1> key1Type;
+            Class<? super V1> value1Type;
             FunctionInvertible<K1, K> functionKey;
             FunctionInvertible<K, K1> functionKeyInverse;
             FunctionInvertible<V1, V> functionValue;
             FunctionInvertible<V, V1> functionValueInverse;
-            public Activated(Adapter.Processor<K, K1> delegateKey, Adapter.Processor<V, V1> delegateValue)
+            public Activated(Class<? super K> keyType, Class<? super V> valueType, Adapter.Processor<K, K1> delegateKey, Adapter.Processor<V, V1> delegateValue)
             {
-                //noinspection unchecked
-                this.keyType = (Class<K1>) delegateKey.getSourceClass();
+                this.keyType = keyType;
+                this.valueType = valueType;
+                
+                this.key1Type = delegateKey.getAdapteeClass();
                 this.functionKey = delegateKey.toFunction();
                 this.functionKeyInverse = this.functionKey.inverse();
                 
-                //noinspection unchecked
-                this.valueType = (Class<V1>) delegateValue.getSourceClass();
+                this.value1Type = delegateValue.getAdapteeClass();
                 this.functionValue = delegateValue.toFunction();
                 this.functionValueInverse = this.functionValue.inverse();
             }
@@ -81,7 +90,7 @@ public @interface AdapterMap
             }
             
             @Override
-            public Class<? super Map<K1, V1>> getSourceClass()
+            public Class<? super Map<K1, V1>> getAdapteeClass()
             {
                 return Map.class;
             }
@@ -98,7 +107,7 @@ public @interface AdapterMap
                         return (Map<K, V>) it.getDelegate();
                     }
                 }
-                return new MapProxy<>(value, this.functionKey, this.functionValue);
+                return new MapProxy<>(value, this.functionKey, this.functionValue, this.keyType, this.valueType);
             }
             @Override
             public Map<K1, V1> revert(Map<K, V> value)
@@ -112,7 +121,7 @@ public @interface AdapterMap
                         return (Map<K1, V1>) it.getDelegate();
                     }
                 }
-                return new MapProxy<>(value, this.functionKeyInverse, this.functionValueInverse, this.keyType, this.valueType);
+                return new MapProxy<>(value, this.functionKeyInverse, this.functionValueInverse, this.key1Type, this.value1Type);
             }
         }
     }

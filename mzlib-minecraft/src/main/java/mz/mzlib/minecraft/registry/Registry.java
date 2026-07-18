@@ -9,7 +9,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.util.FunctionInvertible;
 import mz.mzlib.util.RuntimeUtil;
 import mz.mzlib.util.proxy.SetProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -41,13 +41,13 @@ public interface Registry<T> extends WrapperObject
     @WrapMinecraftMethod(@VersionName(name = "get"))
     Object get0V_1300(Object id);
 
-    @SpecificImpl("get")
+    @Impl("get")
     @VersionRange(end = 1300)
     default WrapperObject getV_1300(Identifier id)
     {
         return WrapperObject.FACTORY.create(this.get0V_1300(id.getWrapped()));
     }
-    @SpecificImpl("get")
+    @Impl("get")
     @VersionRange(begin = 1300)
     @WrapMinecraftMethod(
         {
@@ -58,13 +58,13 @@ public interface Registry<T> extends WrapperObject
     WrapperObject getV1300(Identifier id);
 
     WrapperObject get(int rawId);
-    @SpecificImpl("get")
+    @Impl("get")
     @VersionRange(end = 1400)
     default WrapperObject getV_1400(int rawId)
     {
         return this.castTo(RegistrySimple.FACTORY).get(rawId);
     }
-    @SpecificImpl("get")
+    @Impl("get")
     @VersionRange(begin = 1400)
     default WrapperObject getV1400(int rawId)
     {

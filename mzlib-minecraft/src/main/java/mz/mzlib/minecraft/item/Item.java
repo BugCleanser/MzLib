@@ -24,7 +24,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
 import mz.mzlib.module.MzModule;
 import mz.mzlib.util.*;
 import mz.mzlib.util.proxy.ListProxy;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapSameClass;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -114,13 +114,13 @@ public interface Item extends WrapperObject
     }
 
 
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(end = 1300)
     default Identifier getIdV_1300()
     {
         return getRegistryV_1300().getId(this);
     }
-    @SpecificImpl("getId")
+    @Impl("getId")
     @VersionRange(begin = 1300)
     default Identifier getIdV1300()
     {
@@ -128,7 +128,7 @@ public interface Item extends WrapperObject
     }
 
     Registry<Item> static$getRegistry();
-    @SpecificImpl("static$getRegistry")
+    @Impl("static$getRegistry")
     @VersionRange(end = 1300)
     @WrapMinecraftFieldAccessor(@VersionName(name = "REGISTRY"))
     RegistrySimple<Item> static$getRegistryV_1300();
@@ -136,14 +136,14 @@ public interface Item extends WrapperObject
     {
         return FACTORY.getStatic().static$getRegistryV1300();
     }
-    @SpecificImpl("static$getRegistry")
+    @Impl("static$getRegistry")
     @VersionRange(begin = 1300)
     default Registry<Item> static$getRegistryV1300()
     {
         return RegistriesV1300.item();
     }
 
-    @SpecificImpl("getTranslationKeyV_2102")
+    @Impl("getTranslationKeyV_2102")
     @VersionRange(end = 1300)
     default String getTranslationKeyV_1300(ItemStack itemStack)
     {
@@ -158,13 +158,13 @@ public interface Item extends WrapperObject
             VanillaI18nV_1300.lastKey.remove();
         }
     }
-    @SpecificImpl("getTranslationKeyV_2102")
+    @Impl("getTranslationKeyV_2102")
     @VersionRange(begin = 1300, end = 2102)
     @WrapMinecraftMethod(@VersionName(name = "getTranslationKey"))
     String getTranslationKeyV1300_2102(ItemStack itemStack);
 
     void static$makeEnchantmentGlint(ItemStack is);
-    @SpecificImpl("static$makeEnchantmentGlint")
+    @Impl("static$makeEnchantmentGlint")
     @VersionRange(end = 2005)
     default void static$makeEnchantmentGlintV_2005(ItemStack is)
     {
@@ -188,7 +188,7 @@ public interface Item extends WrapperObject
             tag.put(TAG_KEY_HIDE_FLAGS_V_2005, tag.getInt(TAG_KEY_HIDE_FLAGS_V_2005).unwrapOr(0) | 1);
         }
     }
-    @SpecificImpl("static$makeEnchantmentGlint")
+    @Impl("static$makeEnchantmentGlint")
     @VersionRange(begin = 2005)
     default void static$makeEnchantmentGlintV2005(ItemStack is)
     {
@@ -397,13 +397,13 @@ public interface Item extends WrapperObject
         return FACTORY.getStatic().static$editCustomData(itemStack);
     }
     Editor<Ref<Option<NbtCompound>>> static$editCustomData(ItemStack itemStack);
-    @SpecificImpl("static$editCustomData")
+    @Impl("static$editCustomData")
     @VersionRange(end = 2005)
     default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV_2005(ItemStack itemStack)
     {
         return Editor.ofRef(itemStack, CUSTOM_DATA::get, CUSTOM_DATA::set);
     }
-    @SpecificImpl("static$editCustomData")
+    @Impl("static$editCustomData")
     @VersionRange(begin = 2005)
     default Editor<Ref<Option<NbtCompound>>> static$editCustomDataV2005(ItemStack itemStack)
     {
@@ -470,13 +470,13 @@ public interface Item extends WrapperObject
         return FACTORY.getStatic().static$copyLore(itemStack);
     }
     Option<List<Text>> static$copyLore(ItemStack itemStack);
-    @SpecificImpl("static$copyLore")
+    @Impl("static$copyLore")
     @VersionRange(end = 2005)
     default Option<List<Text>> static$copyLoreV_2005(ItemStack itemStack)
     {
         return LORE.get(itemStack);
     }
-    @SpecificImpl("static$copyLore")
+    @Impl("static$copyLore")
     @VersionRange(begin = 2005)
     default Option<List<Text>> static$copyLoreV2005(ItemStack itemStack)
     {

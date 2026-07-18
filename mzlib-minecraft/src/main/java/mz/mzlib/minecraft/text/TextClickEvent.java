@@ -6,7 +6,7 @@ import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftFieldAccessor;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftInnerClass;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftMethod;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 import mz.mzlib.util.wrapper.WrapperObject;
@@ -26,13 +26,13 @@ public interface TextClickEvent extends WrapperObject
     }
     TextClickEvent static$runCommand(String command);
     @VersionRange(end = 2105)
-    @SpecificImpl("static$runCommand")
+    @Impl("static$runCommand")
     default TextClickEvent static$runCommandV_2105(String command)
     {
         return newInstanceV_2105(Action.runCommand(), command);
     }
     @VersionRange(begin = 2105)
-    @SpecificImpl("static$runCommand")
+    @Impl("static$runCommand")
     default TextClickEvent static$runCommandV2105(String command)
     {
         return RunCommandV2105.newInstance(command);

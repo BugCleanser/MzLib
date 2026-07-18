@@ -7,7 +7,7 @@ import mz.mzlib.minecraft.nbt.NbtCompound;
 import mz.mzlib.minecraft.network.packet.Packet;
 import mz.mzlib.minecraft.util.math.BlockPos;
 import mz.mzlib.minecraft.wrapper.WrapMinecraftClass;
-import mz.mzlib.util.wrapper.SpecificImpl;
+import mz.mzlib.util.wrapper.Impl;
 import mz.mzlib.util.wrapper.WrapConstructor;
 import mz.mzlib.util.wrapper.WrapperFactory;
 
@@ -26,7 +26,7 @@ public interface PacketS2cBlockEntityData extends Packet
     @WrapConstructor
     PacketS2cBlockEntityData static$newInstanceV_1800(BlockPos pos, int typeId, NbtCompound data);
 
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(end = 1800)
     default PacketS2cBlockEntityData static$newInstanceV_1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data)
     {
@@ -34,7 +34,7 @@ public interface PacketS2cBlockEntityData extends Packet
         throw new UnsupportedOperationException();
     }
 
-    @SpecificImpl("static$newInstance")
+    @Impl("static$newInstance")
     @VersionRange(begin = 1800)
     @WrapConstructor
     PacketS2cBlockEntityData static$newInstanceV1800(BlockPos pos, BlockEntityTypeV1300 type, NbtCompound data);

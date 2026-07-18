@@ -12,6 +12,10 @@ import java.lang.annotation.Target;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 
+/**
+ * @see mz.mzlib.util.adapter.AdapterArray
+ */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @WrappedClassFinderClass(WrapArrayClass.Handler.class)

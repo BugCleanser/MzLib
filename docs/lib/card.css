@@ -1,108 +1,94 @@
-:host {
-    display: block;
+ui-card {
     margin: 1rem 0;
-}
-
-.card-info {
+    transition: all 0.3s ease;
     display: flex;
     align-items: flex-start;
     gap: 12px;
     padding: 16px;
-    background-color: #D1ECF1;
-    border: 1px solid #BEE5EB;
     border-radius: 8px;
-    color: #0C5460;
     font-size: 16px;
     line-height: 1.5;
-    transition: all 0.3s ease;
 
-    & .icon-container {
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    &::part(icon) {
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 24px;
         height: 24px;
+    }
+    &::part(icon)::before {
+        content: "";
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-color: currentColor;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+    }
+        
+    &::part(content) {
+        flex: 1;
+    }
+
+    & > [slot="content"] {
+        * {
+            margin: 0;
+        }
+        p {
+            margin-top: 0 !important;
+            margin-bottom: 0.5rem !important;
+        }
+        p:last-child {
+            margin-bottom: 0 !important;
+        }
+        ul, ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.25rem;
+        }
+    }
+
+    &[type="info"] {
+        background-color: #D1ECF1;
+        border: 1px solid #BEE5EB;
+        color: #0C5460;
+    }
+    &[type="info"]::part(icon) {
         color: #17A2B8;
     }
-}
+    &[type="info"]::part(icon)::before {
+        mask-image: url("data:image/svg+xml,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V11H13V17ZM13 9H11V7H13V9Z' fill='currentColor'/></svg>");
+    }
 
-.card-tip {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
-    background-color: #D4EDDA;
-    border: 1px solid #C3E6CB;
-    border-radius: 8px;
-    color: #155724;
-    font-size: 16px;
-    line-height: 1.5;
-    transition: all 0.3s ease;
-
-    & .icon-container {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
+    &[type="tip"] {
+        background-color: #D4EDDA;
+        border: 1px solid #C3E6CB;
+        color: #155724;
+    }
+    &[type="tip"]::part(icon) {
         color: #28A745;
     }
-}
+    &[type="tip"]::part(icon)::before {
+        mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z'/%3E%3C/svg%3E");
+    }
 
-.card-attention {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
-    background-color: #FFF3CD;
-    border: 1px solid #FFEEBA;
-    border-radius: 8px;
-    color: #856404;
-    font-size: 16px;
-    line-height: 1.5;
-    transition: all 0.3s ease;
-
-    & .icon-container {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 24px;
-        height: 24px;
+    &[type="attention"] {
+        background-color: #FFF3CD;
+        border: 1px solid #FFEEBA;
+        color: #856404;
+    }
+    &[type="attention"]::part(icon) {
         color: #FFC107;
     }
-}
-
-:host > :hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-
-.content {
-    flex: 1;
-}
-
-.content ::slotted(*) {
-    margin: 0;
-}
-
-.content ::slotted(p) {
-    margin-top: 0 !important;
-    margin-bottom: 0.5rem !important;
-}
-
-.content ::slotted(p:last-child) {
-    margin-bottom: 0 !important;
-}
-
-.content ::slotted(ul),
-.content ::slotted(ol) {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
-}
-
-.content ::slotted(li) {
-    margin-bottom: 0.25rem;
+    &[type="attention"]::part(icon)::before {
+        mask-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z'/%3E%3C/svg%3E");
+    }
 }
