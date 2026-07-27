@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.utils.extendsFrom
 import java.net.HttpURLConnection
 import java.net.URI
 import java.util.*
@@ -249,6 +250,10 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_1_8
         withSourcesJar()
         withJavadocJar()
+    }
+
+    configurations {
+        testCompileOnly.extendsFrom(compileOnly)
     }
 
     components {

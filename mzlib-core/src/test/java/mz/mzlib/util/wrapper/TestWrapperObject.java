@@ -4,13 +4,15 @@ import mz.mzlib.util.SimpleCloneable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class TestWrapperObject
 {
     @Test
     public void test()
     {
-        //noinspection ConstantValue
-        System.out.println(Foo.FACTORY.create(this).equals((Object)null));
+        //noinspection all
+        assertTrue(Foo.FACTORY.create(this).equals(null));
     }
 
     @WrapClass(TestWrapperObject.class)
@@ -60,7 +62,7 @@ public class TestWrapperObject
         @Test
         public void test()
         {
-            Assertions.assertEquals(114514, WrapperFoo.FACTORY.create(new Foo()).getWrapped().value);
+            assertEquals(114514, WrapperFoo.FACTORY.create(new Foo()).getWrapped().value);
         }
     }
 }

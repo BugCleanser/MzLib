@@ -138,7 +138,11 @@ public interface WrapperObject
     {
         return this.asOption(factory);
     }
-
+    
+    /**
+     * @see NullableWrapper
+     */
+    @Deprecated
     default boolean isPresent()
     {
         return this.getWrapped() != null;

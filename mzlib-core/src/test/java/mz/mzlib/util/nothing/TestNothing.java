@@ -17,6 +17,7 @@ import java.util.PriorityQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("unused")
 public class TestNothing
 {
     static List<String> order = new ArrayList<>();
@@ -174,7 +175,7 @@ public class TestNothing
     interface testStackTop$Nothing extends Nothing, WrapperFoo
     {
         @NothingInject(name = "func2", type = NothingInjectType.INSERT_BEFORE, locator = "followingReturn")
-        default void func2$begin(@StackTop Box.Mut<@AdapterPrimitive Integer> returnValue)
+        default void func2$return(@StackTop Box.Mut<@AdapterPrimitive Integer> returnValue)
         {
             assertEquals(114, returnValue.get());
             returnValue.set(514);
@@ -189,10 +190,34 @@ public class TestNothing
     }
     
     @WrapSameClass(WrapperFoo.class)
+    interface testStackTop2$Nothing extends Nothing, WrapperFoo
+    {
+        static void locateAdd(NothingInjectLocating locating) throws NoSuchMethodException
+        {
+            locating.nextAccess(List.class.getMethod("add", Object.class));
+        }
+        @NothingInject(name = "func1", type = NothingInjectType.INSERT_BEFORE, locator = "locateAdd")
+        default void func1$add(@StackTop Box.Mut<Object> value, @StackTop Box.Mut<List<String>> list)
+        {
+            assertSame(order, list.get());
+            assertSame("func1", value.get());
+            value.set("func1$add");
+        }
+    }
+    @Test
+    void testStackTop2()
+    {
+        MzLib.instance.register(testStackTop2$Nothing.class);
+        new Foo().func1();
+        assertEquals("func1$add", order.get(order.size() - 1));
+        MzLib.instance.unregister(testStackTop2$Nothing.class);
+    }
+    
+    @WrapSameClass(WrapperFoo.class)
     interface testBrTrue$Nothing extends Nothing, WrapperFoo
     {
         @NothingInject(name = "func3", type = NothingInjectType.BRTRUE, locator = { "followingThrow", "followingReturn" })
-        default boolean func3$inject(@StackTop Box.Mut<Throwable> exception)
+        default boolean func3$branch(@StackTop Box.Mut<Throwable> exception)
         {
             assertInstanceOf(Error.class, exception.get());
             return true;
@@ -211,7 +236,7 @@ public class TestNothing
     interface testGoto$Nothing extends Nothing, WrapperFoo
     {
         @NothingInject(name = "func3", type = NothingInjectType.BRTRUE, locator = { "followingThrow", "followingReturn" })
-        default void func3$inject(@StackTop Box.Mut<Throwable> exception)
+        default void func3$branch(@StackTop Box.Mut<Throwable> exception)
         {
             assertInstanceOf(Error.class, exception.get());
         }
@@ -234,7 +259,7 @@ public class TestNothing
             locating.offset(1);
         }
         @NothingInject(name = "func3", type = NothingInjectType.CATCH, locator = { "followingThrow", "afterThrow" })
-        default void func3$inject(@StackTop Box.Mut<Throwable> exception)
+        default void func3$catch(@StackTop Box.Mut<Throwable> exception)
         {
             assertInstanceOf(Error.class, exception.get());
         }

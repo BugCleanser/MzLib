@@ -742,9 +742,9 @@ public class NothingTargetData
                         insnsCatch.add(AsmUtil.insnPop(Throwable.class));
                         insnsCatch.add(end);
                         mn.instructions.insertBefore(locating1.getInsnNode(locating1.getLocations().iterator().next()), insnsCatch);
-                        from.getLabel().info = from;
-                        to.getLabel().info = to;
-                        mn.visitTryCatchBlock(from.getLabel(), to.getLabel(), to.getLabel(), AsmUtil.getType(Throwable.class));
+                        if(mn.tryCatchBlocks == null)
+                            mn.tryCatchBlocks = new ArrayList<>(1);
+                        mn.tryCatchBlocks.add(0, new TryCatchBlockNode(from, to, to, AsmUtil.getType(Throwable.class)));
                         break;
                 }
             }
