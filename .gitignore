@@ -70,7 +70,6 @@ local.properties
 ### Intellij ###
 *.iml
 *.eml
-.idea/
 
 
 ### NetBeans ###

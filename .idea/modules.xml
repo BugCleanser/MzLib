@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-core/mzlib.mzlib-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-core/mzlib.mzlib-core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-core/mzlib.mzlib-core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-core/mzlib.mzlib-core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-demo-kotlin/mzlib.mzlib-demo-kotlin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-demo-kotlin/mzlib.mzlib-demo-kotlin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-demo-kotlin/mzlib.mzlib-demo-kotlin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-demo-kotlin/mzlib.mzlib-demo-kotlin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-demo/mzlib.mzlib-demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-demo/mzlib.mzlib-demo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-demo/mzlib.mzlib-demo.test.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-demo/mzlib.mzlib-demo.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-minecraft/mzlib.mzlib-minecraft.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-minecraft/mzlib.mzlib-minecraft.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mzlib-minecraft/mzlib.mzlib-minecraft.test.iml" filepath="$PROJECT_DIR$/.idea/modules/mzlib-minecraft/mzlib.mzlib-minecraft.test.iml" />
+    </modules>
+  </component>
+</project>

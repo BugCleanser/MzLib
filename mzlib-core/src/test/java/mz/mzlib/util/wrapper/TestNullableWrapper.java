@@ -29,10 +29,10 @@ public class TestNullableWrapper
         WrapperFactory<WrapperFoo> FACTORY = WrapperFactory.of(WrapperFoo.class);
         
         @WrapMethod("requireNonNull")
-        @Nullable @NullableWrapper WrapperFoo requireNonNull(@Nullable @NullableWrapper WrapperFoo foo);
+        @NullableWrapper WrapperFoo requireNonNull(@NullableWrapper WrapperFoo foo);
         
         @WrapMethod("requireNull")
-        @Nullable @NullableWrapper WrapperFoo requireNull(@NullableWrapper WrapperFoo foo);
+        @NullableWrapper WrapperFoo requireNull(@NullableWrapper WrapperFoo foo);
     }
     
     @Test
